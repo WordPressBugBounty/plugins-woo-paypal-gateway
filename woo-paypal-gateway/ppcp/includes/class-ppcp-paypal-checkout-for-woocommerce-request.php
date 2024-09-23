@@ -725,6 +725,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         }
                     }
                 }
+                $name = wp_strip_all_tags($name);
+                if (strlen($name) > 127) {
+                    $name = substr($name, 0, 124) . '...';
+                }
+                $desc = !empty($desc) ? $desc : '';
+                if (strlen($desc) > 127) {
+                    $desc = substr($desc, 0, 124) . '...';
+                }
+                $desc = strip_shortcodes($desc);
+                $desc = str_replace("\n", " ", $desc);
+                $desc = preg_replace('/\s+/', ' ', $desc);
                 $item = array(
                     'name' => $name,
                     'description' => $desc,

@@ -5,7 +5,7 @@
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
  * Description:       Easily enable PayPal payment methods for WooCommerce.
- * Version:           8.0.5
+ * Version:           9.0.0
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
@@ -15,15 +15,15 @@
  * Requires at least: 5.3
  * Requires PHP: 7.2
  * Requires Plugins: woocommerce
- * Tested up to: 6.6.1
+ * Tested up to: 6.6.2
  * WC requires at least: 3.9
- * WC tested up to: 9.2.3
+ * WC tested up to: 9.3.2
  */
 if (!defined('WPINC')) {
     die;
 }
 
-define('WPG_PLUGIN_VERSION', '8.0.5');
+define('WPG_PLUGIN_VERSION', '9.0.0');
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
 }
