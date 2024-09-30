@@ -1104,6 +1104,13 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     ),
                     'label' => __('Require Instant Payment', 'woo-paypal-gateway'),
                 ),
+                'send_items' => array(
+                    'title' => __('Send Item Details', 'woo-paypal-gateway'),
+                    'label' => __('Send line item details to PayPal', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'description' => __('Include all line item details in the payment request to PayPal so that they can be seen from the PayPal transaction details page.', 'woo-paypal-gateway'),
+                    'default' => 'yes'
+                ),
                 'enable_advanced_card_payments' => array(
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'type' => 'checkbox',

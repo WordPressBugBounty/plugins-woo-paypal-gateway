@@ -60,12 +60,10 @@ jQuery(function ($) {
                 paypal.Buttons({
                     style: ppcp_style,
                     createOrder: function (data, actions) {
-                        console.log('63');
                         var data;
                         let topCheckoutSelectors = ['#ppcp_checkout_top'];
                         if (is_from_checkout) {
                             data = $(ppcp_button_selector).closest('form').serialize();
-                            console.log('68');
                         } else if (is_from_product) {
                             var add_to_cart = $("[name='add-to-cart']").val();
                             $('<input>', {
@@ -74,13 +72,10 @@ jQuery(function ($) {
                                 value: add_to_cart
                             }).appendTo('form.cart');
                             data = $('form.cart').serialize();
-                            console.log('77');
                         } else {
                             data = $('form.woocommerce-cart-form').serialize();
-                            console.log('80');
                         }
                         if( topCheckoutSelectors.indexOf(ppcp_button_selector) > -1 ) {
-                            console.log('83');
                             console.log(ppcp_button_selector);
                             data = '';
                         }

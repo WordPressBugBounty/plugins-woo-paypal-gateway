@@ -119,7 +119,6 @@ var {registerExpressPaymentMethod, registerPaymentMethod} = wc.wcBlocksRegistry;
                 const {is_order_confirm_page, is_paylater_enable_incart_page, page} = wpg_paypal_checkout_manager_block;
 
                 console.log(wpg_paypal_checkout_manager_block);
-                console.log('129');
                 if (page === 'checkout' && is_order_confirm_page === 'no' && ppcp_settings && ppcp_settings.enable_checkout_button_top === 'yes') {
                     const commonExpressPaymentMethodConfig = {
                         name: "wpg_paypal_checkout_top",

@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.0';
+            $this->version = '9.0.3';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -79,6 +79,9 @@ class Woo_Paypal_Gateway {
         add_action('admin_notices', array($this, 'cpp_admin_notice'));
         add_action('wp_ajax_ppcp_admin_notice_action', array($this, 'ppcp_admin_notice_action'), 10);
         add_action('wp_ajax_ppcp_dismiss_notice', array($this, 'ppcp_dismiss_notice'), 10);
+        add_action('admin_notices', array($this, 'display_google_reviews_notice'));
+        add_action('wp_ajax_hide_google_reviews_notice', array($this, 'hide_google_reviews_notice'));
+        add_action('wp_ajax_remind_me_later_google_reviews_notice', array($this, 'remind_me_later_google_reviews_notice'));
     }
 
     /**
@@ -351,5 +354,188 @@ class Woo_Paypal_Gateway {
             }
         }
     }
+    
+    public function display_google_reviews_notice() {
+        $user_id = get_current_user_id();
+        $hide_notice = get_user_meta($user_id, 'dismiss_google_reviews_promo', true);
+        $remind_me_later = get_user_meta($user_id, 'remind_me_later_google_reviews_notice', true);
+        if ($hide_notice || ($remind_me_later && time() < $remind_me_later)) {
+            return;
+        }
+        $plugin_slug = 'widgets-for-google-reviews-and-ratings/widgets-for-google-reviews-and-ratings.php';
+        $plugin_installed = file_exists(WP_PLUGIN_DIR . '/' . $plugin_slug);
+        if ($plugin_installed) {
+            return;
+        }
+        if (isset($_GET['action']) && $_GET['action'] === 'install-plugin') {
+            return;
+        }
+        ?>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Material+Icons&display=swap');
+            .google-reviews-promo {
+                width: calc(100% - 20px);
+                background: linear-gradient(135deg, #fff, #f1f3f4);
+                padding: 30px;
+                border-left: 10px solid #4285F4;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                color: #333;
+                font-family: 'Roboto', sans-serif;
+                box-sizing: border-box;
+            }
+            .google-reviews-promo .promo-icon {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-right: 20px;
+                flex-shrink: 0;
+            }
+            .google-reviews-promo .promo-icon img {
+                width: 100px;
+                margin-bottom: 10px;
+            }
+            .google-reviews-promo .promo-icon .star-rating {
+                display: flex;
+                justify-content: center;
+                margin-top: 5px;
+            }
+            .google-reviews-promo .star-rating .material-icons {
+                font-size: 24px;
+                color: #F4B400;
+            }
+            .google-reviews-promo .promo-content {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .google-reviews-promo h2 {
+                font-size: 26px;
+                margin: 0 0 10px;
+                color: #34A853;
+                font-weight: 700;
+                letter-spacing: 0.5px;
+            }
+            .google-reviews-promo p {
+                font-size: 16px;
+                margin: 0 0 15px;
+                line-height: 1.6;
+                color: #555;
+            }
+            .google-reviews-promo .highlight-free {
+                color: #EA4335;
+                font-weight: bold;
+            }
+            .google-reviews-promo .highlight-apikey {
+                color: #4285F4; 
+                font-weight: bold;
+            }
+            .google-reviews-promo .button-container {
+                display: flex;
+                gap: 15px;
+            }
+            .google-reviews-promo a.button-install {
+                padding: 15px 30px;
+                text-decoration: none;
+                border-radius: 6px;
+                font-weight: bold;
+                font-size: 14px;
+                letter-spacing: 1px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+                background-color: #4285F4;
+                color: #fff;
+                display: inline-block;
+                text-align: center;
+            }
+            .google-reviews-promo a.button-remind-later {
+                padding: 15px 30px;
+                text-decoration: none;
+                border-radius: 6px;
+                font-weight: bold;
+                font-size: 14px;
+                letter-spacing: 1px;
+                background-color: #f7f7f7;
+                color: #666;
+                display: inline-block;
+                text-align: center;
+                border: 1px solid #ddd;
+                cursor: pointer;
+            }
+            .google-reviews-promo .google-dismiss-promo {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+                font-size: 22px;
+                color: #EA4335;
+                opacity: 0.8;
+            }
+            .google-reviews-promo .google-dismiss-promo:hover {
+                opacity: 1;
+            }
+            @media (max-width: 768px) {
+                .google-reviews-promo {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    padding: 20px;
+                }
+                .google-reviews-promo .promo-icon img {
+                    width: 90px;
+                }
+                .google-reviews-promo h2 {
+                    font-size: 22px;
+                }
+                .google-reviews-promo p {
+                    font-size: 14px;
+                }
+                .google-reviews-promo .button-container {
+                    flex-direction: column;
+                }
+                .google-reviews-promo a.button-remind-later, .google-reviews-promo a.button-install {
+                    padding: 12px 25px;
+                    font-size: 13px;
+                }
+            }
+        </style>
+        <div class="google-reviews-promo" id="google-reviews-promo">
+            <div class="promo-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google Logo">
+                <div class="star-rating">
+                    <span class="material-icons">star</span>
+                    <span class="material-icons">star</span>
+                    <span class="material-icons">star</span>
+                    <span class="material-icons">star</span>
+                    <span class="material-icons">star</span>
+                </div>
+            </div>
+            <div class="promo-content">
+                <h2>Boost Your Website with Google Reviews!</h2>
+                <p>Quickly and easily embed Google reviews into your WordPress site <span class="highlight-free">Free</span> and <span class="highlight-apikey">without API key</span>. Boost SEO, build trust, and increase sales with Google reviews. Trusted by thousands of users, integrate reviews seamlessly and grow your business!</p>
+                <div class="button-container">
+                    <a class="button-remind-later" href="#" id="remind-me-later">Remind Me Later</a>
+                    <a class="button-install" href="<?php echo wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=widgets-for-google-reviews-and-ratings'), 'install-plugin_widgets-for-google-reviews-and-ratings'); ?>">Install the Widgets for Google Business Reviews and Ratings plugin</a>
+                </div>
+            </div>
+            <span class="google-dismiss-promo dashicons dashicons-dismiss" title="Dismiss"></span>
+        </div>
+        <?php
+    }
 
+    public function hide_google_reviews_notice() {
+        $user_id = get_current_user_id();
+        update_user_meta($user_id, 'hide_google_reviews_notice', true);
+        wp_send_json_success();
+    }
+
+    public function remind_me_later_google_reviews_notice() {
+        $user_id = get_current_user_id();
+        $remind_me_time = strtotime('+7 days');
+        update_user_meta($user_id, 'remind_me_later_google_reviews_notice', $remind_me_time);
+        wp_send_json_success();
+    }
 }

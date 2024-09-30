@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal Express Checkout, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
 Tested up to: 6.6.2  
-Stable tag: 9.0.0  
+Stable tag: 9.0.3  
 Requires PHP: 7.2  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -77,6 +77,15 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Currently, the plugin supports one-time payments. For recurring payments in "PayPal For WooCommerce," consider integrating with WooCommerce Subscriptions or other plugins.
 
 == Changelog ==
+
+= 9.0.3 = 
+* Adds Send Item Details option.
+
+= 9.0.2 = 
+* Fix - Resolved access token not found in cache.
+
+= 9.0.1 = 
+* Fix - Checkout failed: Payment error due to field length being either too long or too short.
 
 = 9.0.0 = 
 * Fix - Checkout failed: Payment error due to field length being either too long or too short.

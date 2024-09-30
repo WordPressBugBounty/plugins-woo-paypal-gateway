@@ -100,6 +100,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->landing_page = $this->get_option('landing_page', 'NO_PREFERENCE');
             $this->advanced_card_payments = 'yes' === $this->get_option('enable_advanced_card_payments', 'no');
             $this->decimals = $this->ppcp_get_number_of_decimal_digits();
+            $this->send_items = 'yes' === $this->get_option('send_items', 'no');
             if (ppcp_is_advanced_cards_available() === false) {
                 $this->advanced_card_payments = false;
             }
@@ -197,9 +198,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $this->ppcp_log('Response Body: ' . wc_print_r($api_response, true));
                     if (!empty($api_response['client_token'])) {
                         if ($this->is_sandbox) {
-                            set_transient('ppcp_sandbox_client_token', $api_response['client_token'], 3000);
+                            set_transient('ppcp_sandbox_client_token', $api_response['client_token'], 2500);
                         } else {
-                            set_transient('ppcp_client_token', $api_response['client_token'], 3000);
+                            set_transient('ppcp_client_token', $api_response['client_token'], 2500);
                         }
                         $this->client_token = $api_response['client_token'];
                     }
@@ -277,54 +278,56 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         )
                 );
             }
-            if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {
-                $body_request['purchase_units'][0]['amount']['breakdown']['item_total'] = array(
-                    'currency_code' => get_woocommerce_currency(),
-                    'value' => ppcp_round($cart['total_item_amount'], $this->decimals)
-                );
-            }
-            if (isset($cart['shipping']) && $cart['shipping'] > 0) {
-                $body_request['purchase_units'][0]['amount']['breakdown']['shipping'] = array(
-                    'currency_code' => get_woocommerce_currency(),
-                    'value' => ppcp_round($cart['shipping'], $this->decimals)
-                );
-            }
-            if (isset($cart['ship_discount_amount']) && $cart['ship_discount_amount'] > 0) {
-                $body_request['purchase_units'][0]['amount']['breakdown']['shipping_discount'] = array(
-                    'currency_code' => get_woocommerce_currency(),
-                    'value' => ppcp_round($cart['ship_discount_amount'], $this->decimals),
-                );
-            }
-            if (isset($cart['order_tax']) && $cart['order_tax'] > 0) {
-                $body_request['purchase_units'][0]['amount']['breakdown']['tax_total'] = array(
-                    'currency_code' => get_woocommerce_currency(),
-                    'value' => ppcp_round($cart['order_tax'], $this->decimals)
-                );
-            }
-            if (isset($cart['discount']) && $cart['discount'] > 0) {
-                $body_request['purchase_units'][0]['amount']['breakdown']['discount'] = array(
-                    'currency_code' => get_woocommerce_currency(),
-                    'value' => ppcp_round($cart['discount'], $this->decimals)
-                );
-            }
-            if (isset($cart['items']) && !empty($cart['items'])) {
-                foreach ($cart['items'] as $key => $order_items) {
-                    $description = !empty($order_items['description']) ? $order_items['description'] : '';
-                    if (strlen($description) > 127) {
-                        $description = substr($description, 0, 124) . '...';
-                    }
-                    $body_request['purchase_units'][0]['items'][$key] = array(
-                        'name' => $order_items['name'],
-                        'description' => html_entity_decode($description, ENT_NOQUOTES, 'UTF-8'),
-                        'sku' => $order_items['sku'],
-                        'category' => $order_items['category'],
-                        'quantity' => $order_items['quantity'],
-                        'unit_amount' =>
-                        array(
-                            'currency_code' => get_woocommerce_currency(),
-                            'value' => ppcp_round($order_items['amount'], $this->decimals)
-                        ),
+            if ($this->send_items === true) {
+                if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {
+                    $body_request['purchase_units'][0]['amount']['breakdown']['item_total'] = array(
+                        'currency_code' => get_woocommerce_currency(),
+                        'value' => ppcp_round($cart['total_item_amount'], $this->decimals)
                     );
+                }
+                if (isset($cart['shipping']) && $cart['shipping'] > 0) {
+                    $body_request['purchase_units'][0]['amount']['breakdown']['shipping'] = array(
+                        'currency_code' => get_woocommerce_currency(),
+                        'value' => ppcp_round($cart['shipping'], $this->decimals)
+                    );
+                }
+                if (isset($cart['ship_discount_amount']) && $cart['ship_discount_amount'] > 0) {
+                    $body_request['purchase_units'][0]['amount']['breakdown']['shipping_discount'] = array(
+                        'currency_code' => get_woocommerce_currency(),
+                        'value' => ppcp_round($cart['ship_discount_amount'], $this->decimals),
+                    );
+                }
+                if (isset($cart['order_tax']) && $cart['order_tax'] > 0) {
+                    $body_request['purchase_units'][0]['amount']['breakdown']['tax_total'] = array(
+                        'currency_code' => get_woocommerce_currency(),
+                        'value' => ppcp_round($cart['order_tax'], $this->decimals)
+                    );
+                }
+                if (isset($cart['discount']) && $cart['discount'] > 0) {
+                    $body_request['purchase_units'][0]['amount']['breakdown']['discount'] = array(
+                        'currency_code' => get_woocommerce_currency(),
+                        'value' => ppcp_round($cart['discount'], $this->decimals)
+                    );
+                }
+                if (isset($cart['items']) && !empty($cart['items'])) {
+                    foreach ($cart['items'] as $key => $order_items) {
+                        $description = !empty($order_items['description']) ? $order_items['description'] : '';
+                        if (strlen($description) > 127) {
+                            $description = substr($description, 0, 124) . '...';
+                        }
+                        $body_request['purchase_units'][0]['items'][$key] = array(
+                            'name' => substr($order_items['name'], 0, 124) . '...',
+                            'description' => html_entity_decode($description, ENT_NOQUOTES, 'UTF-8'),
+                            'sku' => $order_items['sku'],
+                            'category' => $order_items['category'],
+                            'quantity' => $order_items['quantity'],
+                            'unit_amount' =>
+                            array(
+                                'currency_code' => get_woocommerce_currency(),
+                                'value' => ppcp_round($order_items['amount'], $this->decimals)
+                            ),
+                        );
+                    }
                 }
             }
             if ($woo_order_id != null) {
@@ -472,9 +475,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->ppcp_log('Response Body: ' . wc_print_r($api_response, true));
                 if (!empty($api_response['access_token'])) {
                     if ($this->is_sandbox) {
-                        set_transient('ppcp_sandbox_access_token', $api_response['access_token'], 29000);
+                        set_transient('ppcp_sandbox_access_token', $api_response['access_token'], 20000);
                     } else {
-                        set_transient('ppcp_access_token', $api_response['access_token'], 29000);
+                        set_transient('ppcp_access_token', $api_response['access_token'], 20000);
                     }
                     $this->access_token = $api_response['access_token'];
                 }
@@ -1019,35 +1022,37 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'postal_code' => $shipping_postcode,
                 'country_code' => $shipping_country,
             );
-            if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {
-                $update_amount_request['item_total'] = array(
-                    'currency_code' => get_woocommerce_currency(),
-                    'value' => ppcp_round($cart['total_item_amount'], $this->decimals)
-                );
-            }
-            if (isset($cart['discount']) && $cart['discount'] > 0) {
-                $update_amount_request['discount'] = array(
-                    'currency_code' => get_woocommerce_currency(),
-                    'value' => ppcp_round($cart['discount'], $this->decimals)
-                );
-            }
-            if (isset($cart['shipping']) && $cart['shipping'] > 0) {
-                $update_amount_request['shipping'] = array(
-                    'currency_code' => get_woocommerce_currency(),
-                    'value' => ppcp_round($cart['shipping'], $this->decimals)
-                );
-            }
-            if (isset($cart['ship_discount_amount']) && $cart['ship_discount_amount'] > 0) {
-                $update_amount_request['shipping_discount'] = array(
-                    'currency_code' => get_woocommerce_currency(),
-                    'value' => ppcp_round($cart['ship_discount_amount'], $this->decimals),
-                );
-            }
-            if (isset($cart['order_tax']) && $cart['order_tax'] > 0) {
-                $update_amount_request['tax_total'] = array(
-                    'currency_code' => get_woocommerce_currency(),
-                    'value' => ppcp_round($cart['order_tax'], $this->decimals)
-                );
+            if ($this->send_items === true) {
+                if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {
+                    $update_amount_request['item_total'] = array(
+                        'currency_code' => get_woocommerce_currency(),
+                        'value' => ppcp_round($cart['total_item_amount'], $this->decimals)
+                    );
+                }
+                if (isset($cart['discount']) && $cart['discount'] > 0) {
+                    $update_amount_request['discount'] = array(
+                        'currency_code' => get_woocommerce_currency(),
+                        'value' => ppcp_round($cart['discount'], $this->decimals)
+                    );
+                }
+                if (isset($cart['shipping']) && $cart['shipping'] > 0) {
+                    $update_amount_request['shipping'] = array(
+                        'currency_code' => get_woocommerce_currency(),
+                        'value' => ppcp_round($cart['shipping'], $this->decimals)
+                    );
+                }
+                if (isset($cart['ship_discount_amount']) && $cart['ship_discount_amount'] > 0) {
+                    $update_amount_request['shipping_discount'] = array(
+                        'currency_code' => get_woocommerce_currency(),
+                        'value' => ppcp_round($cart['ship_discount_amount'], $this->decimals),
+                    );
+                }
+                if (isset($cart['order_tax']) && $cart['order_tax'] > 0) {
+                    $update_amount_request['tax_total'] = array(
+                        'currency_code' => get_woocommerce_currency(),
+                        'value' => ppcp_round($cart['order_tax'], $this->decimals)
+                    );
+                }
             }
 
             $patch_request[] = array(
@@ -1056,8 +1061,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'value' =>
                 array(
                     'currency_code' => $order->get_currency(),
-                    'value' => ppcp_round($cart['order_total'], $this->decimals),
-                    'breakdown' => $update_amount_request
+                    'value' => ppcp_round($cart['order_total'], $this->decimals)
                 ),
             );
             $patch_request[] = array(
@@ -1821,6 +1825,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     foreach ($cart['items'] as $key => $order_items) {
                         $description = !empty($order_items['description']) ? strip_shortcodes($order_items['description']) : '';
                         $product_name = !empty($order_items['name']) ? $order_items['name'] : '';
+                        if (strlen($description) > 127) {
+                            $description = substr($description, 0, 124) . '...';
+                        }
+                        if (strlen($product_name) > 127) {
+                            $product_name = substr($product_name, 0, 124) . '...';
+                        }
                         $body_request['purchase_units'][0]['items'][$key] = array(
                             'name' => $product_name,
                             'description' => html_entity_decode($description, ENT_NOQUOTES, 'UTF-8'),
@@ -2015,6 +2025,4 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
         exit();
     }
-    
-    
 }

@@ -124,3 +124,6 @@
   margin-left: 1rem;
   width: 50%;
 }
+#express-payment-method-wpg_paypal_checkout_top {
+  list-style: none;
+}
