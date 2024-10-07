@@ -275,7 +275,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $js_url = add_query_arg($ppcp_js_arg, 'https://www.paypal.com/sdk/js');
         wp_register_script('ppcp-checkout-js', $js_url, array(), null, false);
         wp_register_script('ppcp-paypal-checkout-for-woocommerce-public', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/ppcp-paypal-checkout-for-woocommerce-public.js', array('jquery'), time(), false);
-        $this->style_layout = is_product() ? 'horizontal' : 'vertical';
+        //$this->style_layout = is_product() ? 'horizontal' : 'vertical';
         wp_localize_script('ppcp-paypal-checkout-for-woocommerce-public', 'ppcp_manager', array(
             'style_color' => $this->style_color,
             'style_shape' => $this->style_shape,

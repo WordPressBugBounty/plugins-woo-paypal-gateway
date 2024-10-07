@@ -124,17 +124,16 @@
                 $("#woocommerce_wpg_paypal_rest_rest_secret_id_live").closest('tr').show();
             }
         }).change();
-        $('.google-dismiss-promo').on('click', function(e) {
+        $('#do-not-remind-again').on('click', function (e) {
             e.preventDefault();
-            $.post(ajaxurl, {action: 'hide_google_reviews_notice'}, function() {
-                $('#google-reviews-promo').fadeOut();
+            $.post(ajaxurl, {action: 'hide_google_reviews_notice'}, function () {
+                $('#google-reviews-notice').fadeOut();
             });
         });
-
-        $('#remind-me-later').on('click', function(e) {
+        $('.google-dismiss-promo').on('click', function (e) {
             e.preventDefault();
-            $.post(ajaxurl, {action: 'remind_me_later_google_reviews_notice'}, function() {
-                $('#google-reviews-promo').fadeOut();
+            $.post(ajaxurl, {action: 'remind_me_later_google_reviews_notice'}, function () {
+                $('#google-reviews-notice').fadeOut();
             });
         });
     });
