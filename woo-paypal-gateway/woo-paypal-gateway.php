@@ -4,8 +4,8 @@
  * @wordpress-plugin
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
- * Description:       Easily enable PayPal payment methods for WooCommerce.
- * Version:           9.0.4
+ * Description:       Seamlessly enable PayPal payments for WooCommerce. Accept PayPal, Pay Later, cards, wallets, and bank payments—powered by an official PayPal Partner.
+ * Version:           9.0.5
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
@@ -23,7 +23,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('WPG_PLUGIN_VERSION', '9.0.4');
+define('WPG_PLUGIN_VERSION', '9.0.5');
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
 }
@@ -105,10 +105,12 @@ add_action( 'woocommerce_blocks_loaded', function() {
             return;
         }
         require_once( WPG_PLUGIN_PATH . '/ppcp/checkout-block/ppcp-checkout-block.php' );
+        require_once( WPG_PLUGIN_PATH . '/ppcp/checkout-block/ppcp-cc-block.php' );
         add_action(
                 'woocommerce_blocks_payment_method_type_registration',
                 function (Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry) {
                     $payment_method_registry->register(new PPCP_Checkout_Block);
+                    $payment_method_registry->register(new PPCP_Checkout_CC_Block);
                 }
         );
     } catch (Exception $ex) {

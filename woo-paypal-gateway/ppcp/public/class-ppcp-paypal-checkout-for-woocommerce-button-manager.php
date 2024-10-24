@@ -21,7 +21,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     public $client_id;
     public $secret;
     public $webhook_id;
-    public $access_token;
     public $client_token;
     public $ppcp_currency_list;
     public $ppcp_currency;
@@ -71,7 +70,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         if (empty($this->woocommerce_wpg_paypal_checkout_settings)) {
             $this->woocommerce_wpg_paypal_checkout_settings = get_option('woocommerce_wpg_paypal_checkout_settings', true);
         }
-        if(!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
             include_once WPG_PLUGIN_PATH . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
         }
         $this->request = new PPCP_Paypal_Checkout_For_Woocommerce_Request();
@@ -92,17 +91,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $this->client_id = $this->ppcp_get_settings('rest_client_id_sandbox');
             $this->secret = $this->ppcp_get_settings('rest_secret_id_sandbox');
             $this->webhook_id = 'ppcp_sandbox_webhook_id';
-            $this->access_token = get_transient('ppcp_sandbox_access_token');
             $this->client_token = get_transient('ppcp_sandbox_client_token');
         } else {
             $this->client_id = $this->ppcp_get_settings('rest_client_id_live');
             $this->secret = $this->ppcp_get_settings('rest_secret_id_live');
             $this->webhook_id = 'ppcp_live_webhook_id';
-            $this->access_token = get_transient('ppcp_access_token');
             $this->client_token = get_transient('ppcp_client_token');
-        }
-        if ($this->access_token == false) {
-            $this->access_token = $this->request->ppcp_get_access_token();
         }
         $this->ppcp_currency_list = array('AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'INR', 'ILS', 'JPY', 'MYR', 'MXN', 'TWD', 'NZD', 'NOK', 'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'THB', 'USD');
         $this->ppcp_currency = in_array(get_woocommerce_currency(), $this->ppcp_currency_list) ? get_woocommerce_currency() : 'USD';
@@ -264,7 +258,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $ppcp_js_arg['locale'] = get_button_locale_code();
         $components = array("buttons");
         if (is_checkout() && $this->advanced_card_payments) {
-            array_push($components, "hosted-fields");
+            array_push($components, "card-fields");
         }
         if ($this->enabled_pay_later_messaging) {
             array_push($components, 'messages');
@@ -350,12 +344,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function display_paypal_button_checkout_page() {
-        if (has_active_session() === false) {
+        if (ppcp_has_active_session() === false) {
             if ($this->show_on_checkout_page) {
                 wp_enqueue_script('ppcp-checkout-js');
                 wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
                 wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-                echo '<div class="ppcp-button-container"><div id="ppcp_checkout"></div><div class="ppcp-proceed-to-checkout-button-separator checkout_cc_separator">&mdash;&mdash; ' . __('OR', 'woo-paypal-gateway') . ' &mdash;&mdash;</div></div>';
+                echo '<div class="ppcp-button-container"><div id="ppcp_checkout"></div></div>';
             } elseif ($this->advanced_card_payments) {
                 wp_enqueue_script('ppcp-checkout-js');
                 wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
@@ -367,7 +361,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function display_paypal_button_top_checkout_page() {
-        if (has_active_session() === false) {
+        if (ppcp_has_active_session() === false) {
             wp_enqueue_script('ppcp-checkout-js');
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
             wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
@@ -424,6 +418,29 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                         exit();
                     } elseif (isset($_GET['from']) && 'checkout' === $_GET['from']) {
                         if (isset($_POST) && !empty($_POST)) {
+                            if (isset($_POST['radio-control-wc-payment-method-options'])) {
+                                $address = array();
+                                $address['radio-control-wc-payment-method-options'] = wc_clean($_POST['radio-control-wc-payment-method-options']);
+                                $address['payment_method'] = wc_clean($_POST['radio-control-wc-payment-method-options']);
+                                
+                                $billing_address = json_decode(stripslashes($_POST['billing_address']), true);
+                                foreach ($billing_address as $key => $address_value) {
+                                    $address[$key] = $address_value;
+                                }
+                                $shipping_address = json_decode(stripslashes($_POST['shipping_address']), true);
+                                foreach ($shipping_address as $key => $address_value) {
+                                    $address[$key] = $address_value;
+                                }
+
+                                $_POST = $address;
+                                if (!empty($shipping_address)) {
+                                    add_filter('woocommerce_checkout_fields', function ($fields) {
+                                        $fields['billing']['billing_phone']['required'] = false; // Make phone field optional
+                                        return $fields;
+                                    });
+                                }
+                            }
+
                             add_action('woocommerce_after_checkout_validation', array($this, 'maybe_start_checkout'), 10, 2);
                             WC()->checkout->process_checkout();
                             if (wc_notice_count('error') > 0) {
@@ -601,7 +618,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
         }
     }
-
+    
     public function maybe_disable_other_gateways($gateways) {
         if ($this->show_on_checkout_page === false && $this->advanced_card_payments === false && empty($this->checkout_details)) {
             if (isset($gateways['wpg_paypal_checkout'])) {
@@ -963,7 +980,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
     public function maybe_clear_session_data() {
         try {
-            if (has_active_session()) {
+            if (ppcp_has_active_session()) {
                 unset(WC()->session->ppcp_session);
             }
         } catch (Exception $ex) {
@@ -976,7 +993,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             if (!class_exists('WooCommerce') || WC()->session == null) {
                 return $classes;
             }
-            if (has_active_session()) {
+            if (ppcp_has_active_session()) {
                 $classes[] = 'ppcp-order-review';
             }
         } catch (Exception $ex) {
@@ -986,14 +1003,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function ppcp_woocommerce_coupons_enabled($bool) {
-        if (has_active_session()) {
+        if (ppcp_has_active_session()) {
             return $this->order_review_page_enable_coupons;
         }
         return $bool;
     }
 
     public function ppcp_order_review_page_description() {
-        if ($this->order_review_page_description && has_active_session()) {
+        if ($this->order_review_page_description && ppcp_has_active_session()) {
             ?>
             <div class="order_review_page_description">
                 <p>
@@ -1179,7 +1196,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function ppcp_cancel_button() {
-        if (has_active_session()) {
+        if (ppcp_has_active_session()) {
             $order_button_text = __('Cancel order', 'woo-paypal-gateway');
             $cancel_order_url = add_query_arg(array('ppcp_action' => 'cancel_order', 'utm_nooverride' => '1', 'from' => 'checkout'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager'));
             echo apply_filters('ppcp_review_order_cance_button_html', '<a class="button alt ppcp_cancel" name="woocommerce_checkout_cancel_order" href="' . esc_attr($cancel_order_url) . '" >' . $order_button_text . '</a>');
@@ -1423,7 +1440,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
     public function ppcp_woocommerce_get_checkout_url($checkout_url) {
         try {
-            if (is_checkout() && has_active_session()) {
+            if (is_checkout() && ppcp_has_active_session()) {
                 $checkout_url_parameter = array();
                 if (isset($_GET['paypal_order_id'])) {
                     $checkout_url_parameter['paypal_order_id'] = wc_clean($_GET['paypal_order_id']);

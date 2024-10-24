@@ -12,8 +12,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
     public $is_sandbox;
     public $client_id;
     public $secret;
-    public $access_token;
-    public $client_token;
     public $enabled_pay_later_messaging;
     public $pay_later_messaging_page_type;
     public $pay_later_messaging_cart_shortcode;
@@ -61,13 +59,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
         if ($this->is_sandbox) {
             $this->client_id = $this->setting_obj->get('rest_client_id_sandbox');
             $this->secret = $this->setting_obj->get('rest_secret_id_sandbox');
-            $this->access_token = get_transient('ppcp_sandbox_access_token');
-            $this->client_token = get_transient('ppcp_sandbox_client_token');
         } else {
             $this->client_id = $this->setting_obj->get('rest_client_id_live');
             $this->secret = $this->setting_obj->get('rest_secret_id_live');
-            $this->access_token = get_transient('ppcp_access_token');
-            $this->client_token = get_transient('ppcp_client_token');
         }
         
         $this->enabled_pay_later_messaging = 'yes' === $this->setting_obj->get('enabled_pay_later_messaging', 'no');
@@ -175,7 +169,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
         if (WC()->cart->is_empty()) {
             return false;
         }
-        if (has_active_session()) {
+        if (ppcp_has_active_session()) {
             return false;
         }
         wp_enqueue_script('ppcp-checkout-js');

@@ -3,12 +3,12 @@ Contributors: easypayment
 Tags: PayPal Express Checkout, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
 Tested up to: 6.6.2  
-Stable tag: 9.0.4  
+Stable tag: 9.0.5  
 Requires PHP: 7.2  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
 
-Easily enable PayPal payment methods for WooCommerce. Developed by an official PayPal Partner.
+Seamlessly enable PayPal payments for WooCommerce. Accept PayPal, Pay Later, cards, wallets, and bank payments—powered by an official PayPal Partner.
 
 == Description ==
 
@@ -77,6 +77,13 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Currently, the plugin supports one-time payments. For recurring payments in "PayPal For WooCommerce," consider integrating with WooCommerce Subscriptions or other plugins.
 
 == Changelog ==
+
+= 9.0.5 - 2024-10-24 =
+* Displayed Smart Button in Checkout block.
+* Separated payment methods into PayPal Checkout and Debit & Credit Cards.
+* Added icon for PayPal method in the Checkout block.
+* Resolved jQuery conflict with PayPal JS SDK.
+* Fixed issue where Access Token was not found in cache.
 
 = 9.0.4 =
 * Resolved PayPal IPN warning.

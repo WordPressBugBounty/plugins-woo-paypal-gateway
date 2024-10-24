@@ -37,8 +37,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'));
         add_action('woocommerce_admin_order_totals_after_total', array($this, 'ppcp_display_order_fee'));
-        $this->icon = 'https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png';
-        if (has_active_session()) {
+        
+        if (ppcp_has_active_session()) {
             $this->order_button_text = $this->get_option('order_review_page_button_text', 'Confirm your PayPal order');
         }
     }
@@ -48,6 +48,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         $this->method_title = __('PayPal Checkout', 'woo-paypal-gateway');
         $this->method_description = __('PayPal Checkout with Smart Payment Buttons gives your buyers a simplified and secure checkout experience.', 'woo-paypal-gateway');
         $this->has_fields = true;
+        $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png');
     }
 
     public function get_properties() {
@@ -90,48 +91,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             echo wpautop(wptexturize($description));
         }
         do_action('display_paypal_button_checkout_page');
-        if ($this->advanced_card_payments) {
-            parent::payment_fields();
-            echo '<div id="payments-sdk__contingency-lightbox"></div>';
-        }
-    }
-
-    public function form() {
-        wp_enqueue_script('wc-credit-card-form');
-        $fields = array();
-        $cvc_field = '<div class="form-row form-row-last">
-                        <label for="' . esc_attr($this->id) . '-card-cvc">' . apply_filters('cc_form_label_card_code', __('Card code', 'woo-paypal-gateway'), $this->id) . ' </label>
-                        <div id="' . esc_attr($this->id) . '-card-cvc" class="input-text wc-credit-card-form-card-cvc hosted-field-braintree"></div>
-                    </div>';
-        $default_fields = array(
-            'card-number-field' => '<div class="form-row form-row-wide">
-                        <label for="' . esc_attr($this->id) . '-card-number">' . apply_filters('cc_form_label_card_number', __('Card number', 'woo-paypal-gateway'), $this->id) . '</label>
-                        <div id="' . esc_attr($this->id) . '-card-number"  class="input-text wc-credit-card-form-card-number hosted-field-braintree"></div>
-                    </div>',
-            'card-expiry-field' => '<div class="form-row form-row-first">
-                        <label for="' . esc_attr($this->id) . '-card-expiry">' . apply_filters('cc_form_label_expiry', __('Expiry (MM/YY)', 'woo-paypal-gateway'), $this->id) . ' </label>
-                        <div id="' . esc_attr($this->id) . '-card-expiry" class="input-text wc-credit-card-form-card-expiry hosted-field-braintree"></div>
-                    </div>',
-        );
-        if (!$this->supports('credit_card_form_cvc_on_saved_method')) {
-            $default_fields['card-cvc-field'] = $cvc_field;
-        }
-        $fields = wp_parse_args($fields, apply_filters('woocommerce_credit_card_form_fields', $default_fields, $this->id));
-        ?>
-        <fieldset id="wc-<?php echo esc_attr($this->id); ?>-cc-form" class='wc-credit-card-form wc-payment-form'>
-            <?php do_action('woocommerce_credit_card_form_start', $this->id); ?>
-            <?php
-            foreach ($fields as $field) {
-                echo $field;
-            }
-            ?>
-            <?php do_action('woocommerce_credit_card_form_end', $this->id); ?>
-            <div class="clear"></div>
-        </fieldset>
-        <?php
-        if ($this->supports('credit_card_form_cvc_on_saved_method')) {
-            echo '<fieldset>' . $cvc_field . '</fieldset>';
-        }
     }
 
     public function is_valid_for_use() {
@@ -277,8 +236,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         ?>
         <tr>
             <td class="label stripe-fee">
-                <?php echo wc_help_tip(__('This represents the fee PayPal collects for the transaction.', 'woo-paypal-gateway')); ?>
-                <?php esc_html_e('PayPal Fee:', 'woo-paypal-gateway'); ?>
+        <?php echo wc_help_tip(__('This represents the fee PayPal collects for the transaction.', 'woo-paypal-gateway')); ?>
+        <?php esc_html_e('PayPal Fee:', 'woo-paypal-gateway'); ?>
             </td>
             <td width="1%"></td>
             <td class="total">
@@ -335,9 +294,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             <td class="forminp">
                 <fieldset>
                     <legend class="screen-reader-text"><span><?php echo wp_kses_post($data['title']); ?></span></legend>
-                    <input class="input-text regular-input <?php echo esc_attr($data['class']); ?>" type="text" name="<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>" style="<?php echo esc_attr($data['css']); ?>" value="<?php echo esc_attr($this->get_option($key)); ?>" placeholder="<?php echo esc_attr($data['placeholder']); ?>" <?php disabled($data['disabled'], true); ?> <?php echo $this->get_custom_attribute_html($data); // WPCS: XSS ok.                                     ?> />
+                    <input class="input-text regular-input <?php echo esc_attr($data['class']); ?>" type="text" name="<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>" style="<?php echo esc_attr($data['css']); ?>" value="<?php echo esc_attr($this->get_option($key)); ?>" placeholder="<?php echo esc_attr($data['placeholder']); ?>" <?php disabled($data['disabled'], true); ?> <?php echo $this->get_custom_attribute_html($data); // WPCS: XSS ok.                                      ?> />
                     <button type="button" class="button-secondary <?php echo esc_attr($data['button_class']); ?>" data-tip="Copied!">Copy</button>
-                    <?php echo $this->get_description_html($data); // WPCS: XSS ok.        ?>
+        <?php echo $this->get_description_html($data); // WPCS: XSS ok.         ?>
                 </fieldset>
             </td>
         </tr>

@@ -58,9 +58,9 @@ if (!function_exists('ppcp_unset_session')) {
     }
 
 }
-if (!function_exists('has_active_session')) {
+if (!function_exists('ppcp_has_active_session')) {
 
-    function has_active_session() {
+    function ppcp_has_active_session() {
         $checkout_details = ppcp_get_session('ppcp_paypal_transaction_details');
         $ppcp_paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
         if (!empty($checkout_details) && !empty($ppcp_paypal_order_id) && isset($_GET['paypal_order_id'])) {

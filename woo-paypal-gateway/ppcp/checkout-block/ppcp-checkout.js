@@ -71,39 +71,47 @@ var { addAction } = wp.hooks;
         const p = () => Object(u.decodeEntities)(l.description || "");
         const { useEffect } = wp.element;
 
-        // Added smart button rendering logic
-        const Content_PPCP_Smart_Button = (props) => {
+        const Content_PPCP_Smart_Button_Checkout_Top = (props) => {
             const { billing, shippingData } = props;
-            jQuery(document.body).on("ppcp_checkout_updated", function () {
-                jQuery(document.body).trigger("ppcp_checkout_updated");
-            });
-            return createElement("div", { id: "ppcp_checkout" });
-        };
-
-        const Content_PPCP_Smart_Button_Express = () => {
             useEffect(() => {
-                 jQuery(document.body).trigger("ppcp_checkout_updated");
+                jQuery(document.body).trigger("ppcp_checkout_updated");
             }, []);
             return createElement("div", { id: "ppcp_checkout_top" });
         };
 
-        const content = createElement(
-            "div",
-            { className: "ppcp_checkout_parent" },
-            createElement("input", { type: "hidden", name: "form", value: "checkout" }), // Hidden input moved here
-            createElement(
+        const Content_PPCP_Smart_Button_Cart_Bottom = (props) => {
+            const { billing, shippingData } = props;
+            useEffect(() => {
+                jQuery(document.body).trigger("ppcp_checkout_updated");
+            }, []);
+            return createElement("div", { id: "ppcp_cart" });
+        };
+
+        const ContentPPCPCheckout = (props) => {
+            const { billing, shippingData } = props;
+            return createElement(
                 "div",
-                { id: "ppcp_checkout" }
-            )
-        );
-
-
+                { className: "ppcp_checkout_parent" },
+                createElement("input", { type: "hidden", name: "form", value: 'checkout' }), // Hidden input moved here
+                createElement("div", { id: "ppcp_checkout" })
+            );
+        };
+        
         const s = {
             name: "wpg_paypal_checkout",
-            label: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
-            icons: ["https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png"],
+            label: createElement(
+                            "span",
+                            '',
+                            l.title,
+                            createElement("img", {
+                                src: l.icon,
+                                style: {float: "right", marginLeft: "20px"},
+                            })
+                            ),
+            
+            
             placeOrderButtonLabel: Object(c.__)(wpg_paypal_checkout_manager_block.placeOrderButtonLabel),
-            content: content,
+            content: createElement(ContentPPCPCheckout, null),
             edit: Object(o.createElement)(p, null),
             canMakePayment: () => Promise.resolve(true),
             ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
@@ -122,7 +130,7 @@ var { addAction } = wp.hooks;
             const commonExpressPaymentMethodConfig = {
                 name: "wpg_paypal_checkout_top",
                 label: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
-                content: createElement(Content_PPCP_Smart_Button_Express, null),
+                content: createElement(Content_PPCP_Smart_Button_Checkout_Top, null),
                 edit: Object(o.createElement)(p, null),
                 ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                 canMakePayment: () => true,
@@ -146,7 +154,7 @@ var { addAction } = wp.hooks;
             const commonExpressPaymentMethodConfig = {
                 name: "wpg_paypal_checkout_top",
                 label: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
-                content: createElement(Content_PPCP_Smart_Button_Express, null),
+                content: createElement(Content_PPCP_Smart_Button_Cart_Bottom, null),
                 edit: Object(o.createElement)(p, null),
                 ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                 canMakePayment: () => true,
@@ -170,7 +178,7 @@ var { addAction } = wp.hooks;
 document.addEventListener("DOMContentLoaded", function () {
     setTimeout(function () {
         jQuery(document.body).trigger("ppcp_block_ready");
-    }, 2000);
+    }, 3);
 });
 
 const ppcp_uniqueEvents = new Set([
@@ -183,12 +191,23 @@ const ppcp_uniqueEvents = new Set([
 
 ppcp_uniqueEvents.forEach(function (action) {
     addAction(action, "c", function () {
-        jQuery("#ppcp_checkout").block({
-            message: null,
-            overlayCSS: { background: "#fff", opacity: 0.6 },
-        });
         setTimeout(function () {
             jQuery(document.body).trigger("ppcp_checkout_updated");
-        }, 2000);
+        }, 3);
     });
+});
+
+function showErrorUsingShowNotice(error_message) {
+    wp.data.dispatch('core/notices').createNotice(
+        'error',
+        error_message,
+        {
+            isDismissible: true,
+            context: 'wc/checkout'
+        }
+    );
+}
+
+jQuery(document.body).on('ppcp_checkout_error', function (event, errorMessages) {
+    showErrorUsingShowNotice(errorMessages);
 });
