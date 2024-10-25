@@ -153,13 +153,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
     }
 
     public function ppcp_pay_later_messaging_cart_page() {
-        if (WC()->cart->is_empty()) {
+        if (isset(WC()->cart) && WC()->cart->is_empty()) {
             return false;
         }
         wp_enqueue_script('ppcp-checkout-js');
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
         wp_enqueue_script('ppcp-pay-later-messaging-cart', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/pay-later-messaging/cart.js', array('jquery'), WPG_PLUGIN_VERSION, true);
-        if (WC()->cart->needs_payment()) {
+        if (isset(WC()->cart) && WC()->cart->needs_payment()) {
             $this->ppcp_paypal_pay_later_messaging_js_enqueue($placement = 'cart');
             echo '<div class="ppcp_message_cart"></div>';
         }

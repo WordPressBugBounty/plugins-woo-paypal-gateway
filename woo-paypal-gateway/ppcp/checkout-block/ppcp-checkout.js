@@ -92,24 +92,14 @@ var { addAction } = wp.hooks;
             return createElement(
                 "div",
                 { className: "ppcp_checkout_parent" },
-                createElement("input", { type: "hidden", name: "form", value: 'checkout' }), // Hidden input moved here
+                createElement("input", { type: "hidden", name: "form", value: 'checkout' }),
                 createElement("div", { id: "ppcp_checkout" })
             );
         };
         
         const s = {
             name: "wpg_paypal_checkout",
-            label: createElement(
-                            "span",
-                            '',
-                            l.title,
-                            createElement("img", {
-                                src: l.icon,
-                                style: {float: "right", marginLeft: "20px"},
-                            })
-                            ),
-            
-            
+            label: createElement("span",{style: { width: "100%" }},l.title,createElement("img", {src: l.icon,style: { float: "right", marginLeft: "20px" }})),
             placeOrderButtonLabel: Object(c.__)(wpg_paypal_checkout_manager_block.placeOrderButtonLabel),
             content: createElement(ContentPPCPCheckout, null),
             edit: Object(o.createElement)(p, null),
@@ -118,8 +108,8 @@ var { addAction } = wp.hooks;
             supports: {
                 features: l.supports || [],
                 showSavedCards: false,
-                showSaveOption: false,
-            },
+                showSaveOption: false
+            }
         };
         Object(r.registerPaymentMethod)(s);
 
@@ -135,21 +125,9 @@ var { addAction } = wp.hooks;
                 ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                 canMakePayment: () => true,
                 paymentMethodId: "wpg_paypal_checkout",
-                supports: { features: l.supports || [] },
+                supports: { features: l.supports || [] }
             };
-            registerExpressPaymentMethod(commonExpressPaymentMethodConfig);
             Object(r.registerExpressPaymentMethod)(commonExpressPaymentMethodConfig);
-
-            const render = () => {
-                useEffect(() => {
-                    jQuery(document.body).trigger("ppcp_block_paylater_ready");
-                }, []);
-                const shouldShowDiv = is_paylater_enable_incart_page === "yes";
-                return shouldShowDiv ? (
-                    createElement(ExperimentalOrderMeta, null, createElement("div", { className: "wpg_paypal_checkout_message_cart" }))
-                ) : null;
-            };
-            registerPlugin("wc-ppcp", { render, scope: "woocommerce-checkout" });
         } else if (page === "cart" && ppcp_settings && ppcp_settings.show_on_cart === "yes") {
             const commonExpressPaymentMethodConfig = {
                 name: "wpg_paypal_checkout_top",
@@ -159,20 +137,11 @@ var { addAction } = wp.hooks;
                 ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                 canMakePayment: () => true,
                 paymentMethodId: "wpg_paypal_checkout",
-                supports: { features: l.supports || [] },
+                supports: { features: l.supports || [] }
             };
-            registerExpressPaymentMethod(commonExpressPaymentMethodConfig);
             Object(r.registerExpressPaymentMethod)(commonExpressPaymentMethodConfig);
-
-            const render = () => {
-                const shouldShowDiv = is_paylater_enable_incart_page === "yes";
-                return shouldShowDiv ? (
-                    createElement(ExperimentalOrderMeta, null, createElement("div", { className: "wpg_paypal_checkout_message_cart" }))
-                ) : null;
-            };
-            registerPlugin("wc-ppcp", { render, scope: "woocommerce-checkout" });
         }
-    },
+    }
 ]);
 
 document.addEventListener("DOMContentLoaded", function () {

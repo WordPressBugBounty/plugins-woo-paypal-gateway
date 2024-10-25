@@ -81,6 +81,9 @@ var { registerExpressPaymentMethod, registerPaymentMethod } = wc.wcBlocksRegistr
         var o, r = n(0), c = n(4), i = n(2), u = n(3), a = n(1);
 
         const l = Object(u.getSetting)("wpg_paypal_checkout_cc_data", {});
+        const iconsElements = l.icons.map(icon => (
+                            createElement("img", {src: icon, style: {float: "right", marginRight: "10px"}})
+                            ));
         const p = () => Object(a.decodeEntities)(l.description || "");
         const ppcp_settings = wpg_paypal_checkout_cc_manager_block.settins;
         const { is_order_confirm_page, is_paylater_enable_incart_page, page } = wpg_paypal_checkout_cc_manager_block;
@@ -108,17 +111,7 @@ var { registerExpressPaymentMethod, registerPaymentMethod } = wc.wcBlocksRegistr
             );
         };
         const s = {
-            name: "wpg_paypal_checkout_cc",
-            label: createElement(
-                            "span",
-                            '',
-                            l.cc_title,
-                            createElement("img", {
-                                src: l.icon,
-                                style: {float: "right", marginLeft: "20px"},
-                            })
-                            ),
-            
+            name: "wpg_paypal_checkout_cc",label: createElement("span",{style: {width: "100%"}},l.cc_title,iconsElements),icons: ["https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png"],
             content: createElement(Content_PPCP_CC, null),
             edit: Object(r.createElement)(p, null),
             canMakePayment: () => Promise.resolve(true),
@@ -132,12 +125,7 @@ var { registerExpressPaymentMethod, registerPaymentMethod } = wc.wcBlocksRegistr
 
         Object(c.registerPaymentMethod)(s);
 
-        const render = () => {
-            const shouldShowDiv = is_paylater_enable_incart_page === 'yes';
-            return shouldShowDiv && wp.element.createElement(ExperimentalOrderMeta, null, Object(r.createElement)("div", { className: "ppcp_message_cart" }));
-        };
-
-        registerPlugin('wc-ppcp-cc-checkout', { render, scope: 'woocommerce-checkout' });
+        
     }
 ]);
 

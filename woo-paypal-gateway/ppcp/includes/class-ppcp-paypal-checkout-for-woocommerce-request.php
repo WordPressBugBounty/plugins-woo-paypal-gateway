@@ -90,9 +90,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->generate_token_url = 'https://api.paypal.com/v1/identity/generate-token';
             }
             $this->paymentaction = $this->get_option('paymentaction', 'capture');
-            if ($this->paymentaction === 'authorize' && get_woocommerce_currency() === 'INR') {
-                $this->paymentaction = 'capture';
-            }
             $this->payee_preferred = 'yes' === $this->get_option('payee_preferred', 'no');
             $this->invoice_id_prefix = $this->get_option('invoice_id_prefix', 'WC-PPCP');
             $this->soft_descriptor = $this->get_option('soft_descriptor', '');

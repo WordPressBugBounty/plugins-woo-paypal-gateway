@@ -7,28 +7,31 @@
  * @author     PayPal <mbjwebdevelopment@gmail.com>
  */
 class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checkout_For_Woocommerce_Gateway {
+    
+    public $dcc_applies;
 
     public function __construct() {
         parent::__construct();
         $this->plugin_name = 'ppcp-paypal-checkout-cc';
-        $this->title = 'Debit & Credit Cards';
-        $this->description = __('Accept PayPal, PayPal Credit and alternative payment types.', 'woo-paypal-gateway');
+        $this->title = $this->advanced_card_payments_title;
         $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_cards.png');
         $this->id = 'wpg_paypal_checkout_cc';
-        $this->method_title = __('Debit & Credit Cards', 'woo-paypal-gateway');
+        $this->method_title = __('Credit or Debit Card', 'woo-paypal-gateway');
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate')) {
+            include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-dcc-validate.php');
+        }
+        $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
+        
+        
     }
 
     public function payment_fields() {
-        $description = $this->get_description();
-        if ($description) {
-            echo wpautop(wptexturize($description));
-        }
         if ($this->advanced_card_payments) {
             $this->form();
             echo '<div id="payments-sdk__contingency-lightbox"></div>';
         }
     }
-    
+
     public function form() {
         ?>
         <fieldset id="wc-<?php echo esc_attr($this->id); ?>-cc-form" class='wc-credit-card-form wc-payment-form'>
@@ -40,13 +43,79 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         <?php
     }
 
-    
+    public function get_icon() {
+        $title_options = $this->card_labels();
+        $images = [];
+        $totalIcons = 0;
+        foreach ($title_options as $icon_key => $icon_value) {
+            if (!in_array($icon_key, $this->disable_cards)) {
+                if ($this->dcc_applies->can_process_card($icon_key)) {
+                    $iconUrl = esc_url(WPG_PLUGIN_ASSET_URL) . 'assets/' . esc_attr($icon_key) . '.svg';
+                    $iconTitle = esc_attr($icon_value);
+                    $images[] = sprintf('<img title="%s" src="%s" class="ppcp-card-icon ae-icon-%s" /> ', $iconTitle, $iconUrl, $iconTitle);
+                    $totalIcons++;
+                }
+            }
+        }
+        return implode('', $images) . '<div class="ppcp-clearfix"></div>';
+    }
 
-    public function is_valid_for_use() {
-        return in_array(
-                get_woocommerce_currency(), apply_filters(
-                        'woocommerce_paypal_supported_currencies', array('AUD', 'BRL', 'CAD', 'MXN', 'NZD', 'HKD', 'SGD', 'USD', 'EUR', 'JPY', 'TRY', 'NOK', 'CZK', 'DKK', 'HUF', 'ILS', 'MYR', 'PHP', 'PLN', 'SEK', 'CHF', 'TWD', 'THB', 'GBP', 'RMB', 'RUB', 'INR')
-                ), true
+    public function get_block_icon() {
+        $title_options = $this->card_labels();
+        $images = [];
+        foreach ($title_options as $icon_key => $icon_value) {
+            if (!in_array($icon_key, $this->disable_cards)) {
+                if ($this->dcc_applies->can_process_card($icon_key)) {
+                    $iconUrl = esc_url(WPG_PLUGIN_ASSET_URL) . 'assets/' . esc_attr($icon_key) . '.svg';
+                    $images[] = $iconUrl;
+                }
+            }
+        }
+        return $images;
+    }
+
+    private function card_labels(): array {
+        return array(
+            'visa' => _x(
+                    'Visa',
+                    'Name of credit card',
+                    'woo-paypal-gateway'
+            ),
+            'mastercard' => _x(
+                    'Mastercard',
+                    'Name of credit card',
+                    'woo-paypal-gateway'
+            ),
+            'maestro' => _x(
+                    'Maestro',
+                    'Name of credit card',
+                    'woo-paypal-gateway'
+            ),
+            'amex' => _x(
+                    'American Express',
+                    'Name of credit card',
+                    'woo-paypal-gateway'
+            ),
+            'discover' => _x(
+                    'Discover',
+                    'Name of credit card',
+                    'woo-paypal-gateway'
+            ),
+            'jcb' => _x(
+                    'JCB',
+                    'Name of credit card',
+                    'woo-paypal-gateway'
+            ),
+            'elo' => _x(
+                    'Elo',
+                    'Name of credit card',
+                    'woo-paypal-gateway'
+            ),
+            'hiper' => _x(
+                    'Hiper',
+                    'Name of credit card',
+                    'woo-paypal-gateway'
+            ),
         );
     }
 
@@ -126,13 +195,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         return $bool;
     }
 
-    public function get_icon() {
-        $icon = $this->icon ? '<img src="' . WC_HTTPS::force_https_url($this->icon) . '" alt="' . esc_attr($this->get_title()) . '" />' : '';
-        return apply_filters('woocommerce_gateway_icon', $icon, $this->id);
-    }
-    
     public function is_available() {
-		$this->enabled = true;
-                return true;
-	}
+        $this->enabled = true;
+        return true;
+    }
 }

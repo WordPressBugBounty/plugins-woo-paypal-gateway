@@ -12,9 +12,12 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
     public function initialize() {
         $this->version = WPG_PLUGIN_VERSION;
         $this->settings = get_option('woocommerce_wpg_paypal_checkout_settings', []);
-        $this->gateway = new PPCP_Paypal_Checkout_For_Woocommerce_Gateway();
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC')) {
+            include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php');
+        }
+        $this->gateway = new PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC();
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later')) {
-            include_once ( WPG_PLUGIN_PATH . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-pay-later-messaging.php');
+            include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-pay-later-messaging.php');
         }
         $this->pay_later = PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later::instance();
     }
@@ -73,12 +76,11 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
     }
 
     public function get_payment_method_data() {
-        $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_cards.png');
         return [
-            'cc_title' => 'Debit & Credit Cards',
+            'cc_title' => $this->gateway->title,
             'description' => $this->get_setting('description'),
             'supports' => $this->get_supported_features(),
-            'icon' => $this->icon
+            'icons' => $this->gateway->get_block_icon()
         ];
     }
 }

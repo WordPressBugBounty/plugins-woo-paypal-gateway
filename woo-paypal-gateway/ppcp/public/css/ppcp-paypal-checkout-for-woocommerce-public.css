@@ -152,3 +152,18 @@
 #wc-wpg_paypal_checkout_cc-cc-form {
     gap: 10px;
 }
+#payment ul.payment_methods [class*=payment_method_wpg_paypal_checkout] label img {
+  max-height:25px;
+  display:inline-block
+}
+#payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] img {
+  float:none;
+  vertical-align:middle
+}
+#payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] .ppcp-card-icon {
+  max-height:25px
+}
+.wc-block-components-express-payment__event-buttons {
+    padding-bottom: 2px !important;
+}
+

@@ -25,6 +25,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
     public $advanced_card_payments;
     public $threed_secure_contingency;
     public static $log = false;
+    public $disable_cards;
+    public $advanced_card_payments_title;
+
+
 
     public function __construct() {
         $this->setup_properties();
@@ -33,10 +37,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         $this->get_properties();
         $this->plugin_name = 'ppcp-paypal-checkout';
         $this->title = $this->get_option('title', 'PayPal');
+        $this->disable_cards = $this->get_option('disable_cards', array());
         $this->description = __('Accept PayPal, PayPal Credit and alternative payment types.', 'woo-paypal-gateway');
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'));
         add_action('woocommerce_admin_order_totals_after_total', array($this, 'ppcp_display_order_fee'));
+        $this->advanced_card_payments_title = $this->get_option('advanced_card_payments_title', 'Credit or Debit Card');
         
         if (ppcp_has_active_session()) {
             $this->order_button_text = $this->get_option('order_review_page_button_text', 'Confirm your PayPal order');
@@ -48,7 +54,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         $this->method_title = __('PayPal Checkout', 'woo-paypal-gateway');
         $this->method_description = __('PayPal Checkout with Smart Payment Buttons gives your buyers a simplified and secure checkout experience.', 'woo-paypal-gateway');
         $this->has_fields = true;
-        $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png');
+        
     }
 
     public function get_properties() {
@@ -71,13 +77,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             $this->client_id = $this->live_client_id;
             $this->secret_id = $this->live_secret_id;
         }
-        if (!$this->is_valid_for_use() || !$this->is_credentials_set()) {
+        if (!$this->is_credentials_set()) {
             $this->enabled = 'no';
         }
         $this->paymentaction = $this->get_option('paymentaction', 'capture');
-        if ($this->paymentaction === 'authorize' && get_woocommerce_currency() === 'INR') {
-            $this->paymentaction = 'capture';
-        }
         $this->advanced_card_payments = 'yes' === $this->get_option('enable_advanced_card_payments', 'no');
         if (ppcp_is_advanced_cards_available() === false) {
             $this->advanced_card_payments = false;
@@ -91,14 +94,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             echo wpautop(wptexturize($description));
         }
         do_action('display_paypal_button_checkout_page');
-    }
-
-    public function is_valid_for_use() {
-        return in_array(
-                get_woocommerce_currency(), apply_filters(
-                        'woocommerce_paypal_supported_currencies', array('AUD', 'BRL', 'CAD', 'MXN', 'NZD', 'HKD', 'SGD', 'USD', 'EUR', 'JPY', 'TRY', 'NOK', 'CZK', 'DKK', 'HUF', 'ILS', 'MYR', 'PHP', 'PLN', 'SEK', 'CHF', 'TWD', 'THB', 'GBP', 'RMB', 'RUB', 'INR')
-                ), true
-        );
     }
 
     public function is_credentials_set() {
@@ -125,22 +120,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         delete_option('ppcp_sandbox_webhook_id');
         delete_option('ppcp_live_webhook_id');
         parent::process_admin_options();
-        if ($this->is_valid_for_use()) {
-            if ('yes' !== $this->get_option('debug', 'no')) {
-                if (empty(self::$log)) {
-                    self::$log = wc_get_logger();
-                }
-                self::$log->clear('paypal');
-            }
-        } else {
-            ?>
-            <div class="inline error">
-                <p>
-                    <strong><?php esc_html_e('Gateway disabled', 'woo-paypal-gateway'); ?></strong>: <?php esc_html_e('PayPal does not support your store currency.', 'woo-paypal-gateway'); ?>
-                </p>
-            </div>
-            <?php
-        }
     }
 
     public function admin_options() {

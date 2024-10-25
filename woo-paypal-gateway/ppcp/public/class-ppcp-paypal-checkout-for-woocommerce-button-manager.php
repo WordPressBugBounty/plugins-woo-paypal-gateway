@@ -71,7 +71,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $this->woocommerce_wpg_paypal_checkout_settings = get_option('woocommerce_wpg_paypal_checkout_settings', true);
         }
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
-            include_once WPG_PLUGIN_PATH . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+            include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
         }
         $this->request = new PPCP_Paypal_Checkout_For_Woocommerce_Request();
         $this->get_properties();
@@ -115,9 +115,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
         $this->order_review_page_description = $this->ppcp_get_settings('order_review_page_description', __("<strong>You're almost done!</strong><br>Review your information before you place your order.", 'woo-paypal-gateway'));
         $this->paymentaction = $this->ppcp_get_settings('paymentaction', 'capture');
-        if ($this->paymentaction === 'authorize' && get_woocommerce_currency() === 'INR') {
-            $this->paymentaction = 'capture';
-        }
         $this->advanced_card_payments = 'yes' === $this->ppcp_get_settings('enable_advanced_card_payments', 'no');
         if (ppcp_is_advanced_cards_available() === false) {
             $this->advanced_card_payments = false;
@@ -308,9 +305,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function display_paypal_button_cart_page() {
-        if (get_woocommerce_currency() === 'INR') {
-            return;
-        }
         wp_enqueue_script('ppcp-checkout-js');
         wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
@@ -331,9 +325,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
     public function display_paypal_button_product_page() {
         global $product;
-        if (get_woocommerce_currency() === 'INR') {
-            return;
-        }
         if (!is_product() || !$product->is_in_stock() || $product->is_type('external') || $product->is_type('grouped')) {
             return;
         }

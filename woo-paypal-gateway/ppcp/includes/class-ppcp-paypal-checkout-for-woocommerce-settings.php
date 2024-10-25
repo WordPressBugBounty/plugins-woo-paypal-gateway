@@ -68,10 +68,15 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
         }
 
         public function ppcp_setting_fields() {
-            $payment_action_not_available = '';
-            if (get_woocommerce_currency() === 'INR') {
-                $payment_action_not_available = __('Authorize payment action is not available for INR currency.', 'woo-paypal-gateway');
-            }
+            $cards_list = array(
+                'visa' => _x('Visa', 'Name of credit card', 'woo-paypal-gateway'),
+                'mastercard' => _x('Mastercard', 'Name of credit card', 'woo-paypal-gateway'),
+                'amex' => _x('American Express', 'Name of credit card', 'woo-paypal-gateway'),
+                'discover' => _x('Discover', 'Name of credit card', 'woo-paypal-gateway'),
+                'jcb' => _x('JCB', 'Name of credit card', 'woo-paypal-gateway'),
+                'elo' => _x('Elo', 'Name of credit card', 'woo-paypal-gateway'),
+                'hiper' => _x('Hiper', 'Name of credit card', 'woo-paypal-gateway'),
+            );
             $default_settings = array(
                 'enabled' => array(
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
@@ -639,7 +644,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 ),
                 'pay_later_messaging_home_page_settings' => array(
                     'title' => __('Home Page', 'woo-paypal-gateway'),
-                    'description' => __('Customize the appearance of <a target="_blank" href="https://www.paypal.com/us/business/buy-now-pay-later">Pay Later Messaging</a> on the Home page to promote special financing offers which help increase sales.', 'woo-paypal-gateway'),
+                    'description' => '',
                     'type' => 'title',
                     'class' => 'pay_later_messaging_field pay_later_messaging_home_field',
                 ),
@@ -726,7 +731,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 'pay_later_messaging_category_page_settings' => array(
                     'title' => __('Category Page', 'woo-paypal-gateway'),
                     'class' => '',
-                    'description' => __('Customize the appearance of <a target="_blank" href="https://www.paypal.com/us/business/buy-now-pay-later">Pay Later Messaging</a> on the Category page to promote special financing offers which help increase sales.', 'woo-paypal-gateway'),
+                    'description' => '',
                     'type' => 'title',
                     'class' => 'pay_later_messaging_field pay_later_messaging_category_field',
                 ),
@@ -812,7 +817,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 ),
                 'pay_later_messaging_product_page_settings' => array(
                     'title' => __('Product Page', 'woo-paypal-gateway'),
-                    'description' => __('Customize the appearance of <a target="_blank" href="https://www.paypal.com/us/business/buy-now-pay-later">Pay Later Messaging</a> on the Product page to promote special financing offers which help increase sales.', 'woo-paypal-gateway'),
+                    'description' => '',
                     'type' => 'title',
                     'class' => 'pay_later_messaging_field pay_later_messaging_product_field',
                 ),
@@ -898,7 +903,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 ),
                 'pay_later_messaging_cart_page_settings' => array(
                     'title' => __('Cart Page', 'woo-paypal-gateway'),
-                    'description' => __('Customize the appearance of <a target="_blank" href="https://www.paypal.com/us/business/buy-now-pay-later">Pay Later Messaging</a> on the Cart page to promote special financing offers which help increase sales.', 'woo-paypal-gateway'),
+                    'description' => '',
                     'type' => 'title',
                     'class' => 'pay_later_messaging_field pay_later_messaging_cart_field',
                 ),
@@ -984,7 +989,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 ),
                 'pay_later_messaging_payment_page_settings' => array(
                     'title' => __('Payment Page', 'woo-paypal-gateway'),
-                    'description' => __('Customize the appearance of <a target="_blank" href="https://www.paypal.com/us/business/buy-now-pay-later">Pay Later Messaging</a> on the Payment page to promote special financing offers which help increase sales.', 'woo-paypal-gateway'),
+                    'description' => '',
                     'type' => 'title',
                     'class' => 'pay_later_messaging_field pay_later_messaging_payment_field',
                 ),
@@ -1118,6 +1123,25 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'default' => 'no',
                     'description' => '',
                 ),
+                'advanced_card_payments_title' => array(
+                    'title' => __('Advanced Credit Cards Title', 'woo-paypal-gateway'),
+                    'type' => 'text',
+                    'description' => __('This controls the title which the user sees during checkout.', 'woo-paypal-gateway'),
+                    'default' => __('Credit or Debit Card', 'woo-paypal-gateway'),
+                    'desc_tip' => true
+                ),
+                'disable_cards' => array(
+                    'title' => __('Disable specific credit cards', 'woo-paypal-gateway'),
+                    'type' => 'multiselect',
+                    'class' => 'wc-enhanced-select advanced_cc_fields_group',
+                    'default' => array(),
+                    'desc_tip' => true,
+                    'description' => __(
+                            'By default all possible credit cards will be accepted. You can disable some cards, if you wish.',
+                            'woo-paypal-gateway'
+                    ),
+                    'options' => $cards_list,
+                ),
                 '3d_secure_contingency' => array(
                     'title' => __('Contingency for 3D Secure', 'woo-paypal-gateway'),
                     'type' => 'select',
@@ -1134,7 +1158,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Payment action', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select',
-                    'description' => __('Choose whether you wish to capture funds immediately or authorize payment only.', 'woo-paypal-gateway') . '  ' . $payment_action_not_available,
+                    'description' => __('Choose whether you wish to capture funds immediately or authorize payment only.', 'woo-paypal-gateway'),
                     'default' => 'capture',
                     'desc_tip' => true,
                     'options' => array(
@@ -1178,7 +1202,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             $settings = apply_filters('ppcp_settings', array_merge($default_settings, $button_manager_settings, $pay_later_messaging_settings, $advanced_settings));
             return $settings;
         }
-
     }
 
 }

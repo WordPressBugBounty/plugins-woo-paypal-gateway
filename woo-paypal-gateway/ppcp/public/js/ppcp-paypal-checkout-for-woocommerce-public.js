@@ -121,10 +121,19 @@
         }
 
         update_paypal_checkout() {
+            this.renderSmartButton();
             this.togglePlaceOrderButton();
         }
 
         update_paypal_cc() {
+            if(this.isCardFieldEligible()) {
+                this.renderCardFields();
+                $('#place_order, .wc-block-components-checkout-place-order-button').show();
+            } else {
+                $('.wc_payment_method.payment_method_wpg_paypal_checkout_cc').hide();
+                $('#radio-control-wc-payment-method-options-wpg_paypal_checkout_cc').parent('label').parent('div').hide();
+                if (this.isPpcpCCSelected()) $('#payment_method_wpg_paypal_checkout').prop('checked', true).trigger('click');
+            }
             this.togglePlaceOrderButton();
         }
 
@@ -144,14 +153,16 @@
             const isPpcpSelected = this.isPpcpSelected();
             const isPpcpCCSelected = this.isPpcpCCSelected();
             if (isPpcpSelected) {
-                 this.renderSmartButton();
                  $('#place_order, .wc-block-components-checkout-place-order-button').hide();
             } else {
                 $('#place_order, .wc-block-components-checkout-place-order-button').show();
             }
             if (isPpcpCCSelected) {
-                this.renderCardFields();
-                $('#place_order, .wc-block-components-checkout-place-order-button').show();
+                if(this.isCardFieldEligible()) {
+                    $('#place_order, .wc-block-components-checkout-place-order-button').show();
+                } else {
+                    
+                }
             } 
         }
 
@@ -275,7 +286,6 @@
                 },
                 onError: (err) => { this.hideSpinner(); console.error("Error during card field rendering:", err); this.handleCardFieldsError(err, checkoutSelector); }
             });
-
             if (cardFields.isEligible()) {
                 cardFields.NumberField().render("#wpg_paypal_checkout_cc-card-number");
                 cardFields.ExpiryField().render("#wpg_paypal_checkout_cc-card-expiry");
