@@ -51,18 +51,11 @@
 
         jQuery('#woocommerce_wpg_paypal_checkout_enable_advanced_card_payments').change(function () {
             if (jQuery(this).is(':checked')) {
-                jQuery('#woocommerce_wpg_paypal_checkout_3d_secure_contingency').closest('tr').show();
+                jQuery('#woocommerce_wpg_paypal_checkout_3d_secure_contingency, #woocommerce_wpg_paypal_checkout_disable_cards, #woocommerce_wpg_paypal_checkout_advanced_card_payments_title').closest('tr').show();
             } else {
-                jQuery('#woocommerce_wpg_paypal_checkout_3d_secure_contingency').closest('tr').hide();
+                jQuery('#woocommerce_wpg_paypal_checkout_3d_secure_contingency, #woocommerce_wpg_paypal_checkout_disable_cards, #woocommerce_wpg_paypal_checkout_advanced_card_payments_title').closest('tr').hide();
             }
         }).change();
-
-        var ppcp_available = jQuery('#woocommerce_wpg_paypal_checkout_enable_advanced_card_payments, #woocommerce_wpg_paypal_checkout_3d_secure_contingency').closest('tr');
-        if (ppcp_param.is_advanced_cards_available === 'yes') {
-            ppcp_available.show();
-        } else {
-            ppcp_available.hide();
-        }
 
         var hide_show_home_shortcode = function () {
             jQuery('#woocommerce_wpg_paypal_checkout_pay_later_messaging_home_shortcode').change(function () {

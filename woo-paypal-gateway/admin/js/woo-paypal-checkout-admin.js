@@ -124,6 +124,21 @@
                 $("#woocommerce_wpg_paypal_rest_rest_secret_id_live").closest('tr').show();
             }
         }).change();
+        $('#woocommerce_wpg_paypal_checkout_enable_advanced_card_payments').change(function () {
+            if ($(this).is(':checked')) {
+                $("#woocommerce_wpg_paypal_rest_rest_client_id_sandbox").closest('tr').show();
+                $("#woocommerce_wpg_paypal_rest_rest_secret_id_sandbox").closest('tr').show();
+                $("#woocommerce_wpg_paypal_rest_rest_client_id_live").closest('tr').hide();
+                $("#woocommerce_wpg_paypal_rest_rest_secret_id_live").closest('tr').hide();
+            } else {
+                $("#woocommerce_wpg_paypal_rest_rest_client_id_sandbox").closest('tr').hide();
+                $("#woocommerce_wpg_paypal_rest_rest_secret_id_sandbox").closest('tr').hide();
+                $("#woocommerce_wpg_paypal_rest_rest_client_id_live").closest('tr').show();
+                $("#woocommerce_wpg_paypal_rest_rest_secret_id_live").closest('tr').show();
+            }
+        }).change();
+        
+        
         $('#do-not-remind-again').on('click', function (e) {
             e.preventDefault();
             $.post(ajaxurl, {action: 'hide_google_reviews_notice'}, function () {

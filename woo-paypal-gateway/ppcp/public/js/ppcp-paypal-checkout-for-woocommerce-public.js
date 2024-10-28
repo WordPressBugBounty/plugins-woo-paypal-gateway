@@ -212,6 +212,7 @@
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: data
             }).then(res => res.json()).then(data => {
+                this.hideSpinner();
                 if (data.success !== undefined) {
                     this.showError(data.data.messages);
                     return null;
@@ -221,6 +222,7 @@
         }
 
         onApproveHandler(data, actions) {
+            this.showSpinner();
             if (this.isCheckoutPage()) {
                 $.post(`${this.ppcp_manager.cc_capture}&paypal_order_id=${data.orderID}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`, function (data) {
                     window.location.href = data.data.redirect;
@@ -317,6 +319,7 @@
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: data
             }).then(res => res.json()).then(data => {
+                this.hideSpinner();
                 if (data.success !== undefined) {
                     this.showError(data.data.messages);
                     return '';
@@ -326,6 +329,7 @@
         }
 
         submitCardFields(payload) {
+            this.showSpinner();
             $.post(`${this.ppcp_manager.cc_capture}&paypal_order_id=${payload.orderID}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`, (data) => {
                 window.location.href = data.data.redirect;
             });
