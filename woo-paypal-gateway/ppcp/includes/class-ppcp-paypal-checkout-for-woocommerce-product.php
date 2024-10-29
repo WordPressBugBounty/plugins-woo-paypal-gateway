@@ -71,14 +71,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                     add_action('woocommerce_add_to_cart', array(WC()->cart, 'calculate_totals'), 20, 0);
                 }
                 if (!$was_added_to_cart && !$quantity_set) {
-                    wc_add_notice(__('Please choose the quantity of items you wish to add to your cart&hellip;', 'woo-paypal-gateway'), 'error');
+                    if (function_exists('wc_add_notice')) {
+                        wc_add_notice(__('Please choose the quantity of items you wish to add to your cart&hellip;', 'woo-paypal-gateway'), 'error');
+                    }
                 } elseif ($was_added_to_cart) {
                     wc_add_to_cart_message($added_to_cart);
                     WC()->cart->calculate_totals();
                     return true;
                 }
             } elseif ($product_id) {
-                wc_add_notice(__('Please choose a product to add to your cart&hellip;', 'woo-paypal-gateway'), 'error');
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice(__('Please choose a product to add to your cart&hellip;', 'woo-paypal-gateway'), 'error');
+                }
             }
             return false;
         } catch (Exception $ex) {
@@ -150,7 +154,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                 throw new Exception(sprintf(_n('%s is a required field', '%s are required fields', count($missing_attributes), 'woo-paypal-gateway'), wc_format_list_of_items($missing_attributes)));
             }
         } catch (Exception $e) {
-            wc_add_notice($e->getMessage(), 'error');
+            if (function_exists('wc_add_notice')) {
+                wc_add_notice($e->getMessage(), 'error');
+            }
             return false;
         }
         $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variations);

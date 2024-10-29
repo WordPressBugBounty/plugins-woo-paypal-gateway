@@ -48,7 +48,9 @@ if (class_exists('WC_Checkout')) {
                     $this->process_order_without_payment($order_id);
                 }
             } catch (Exception $e) {
-                wc_add_notice($e->getMessage(), 'error');
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice($e->getMessage(), 'error');
+                }
             }
             $this->send_ajax_failure_response();
         }

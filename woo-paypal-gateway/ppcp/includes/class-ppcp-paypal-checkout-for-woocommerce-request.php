@@ -518,7 +518,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (is_wp_error($response)) {
                 $error_message = $response->get_error_message();
                 $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
-                wc_add_notice($error_message, 'error');
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice($error_message, 'error');
+                }
                 return false;
             } else {
                 $return_response = array();
@@ -581,8 +583,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     }
                     return true;
                 } else {
-                    $error_message = $this->ppcp_get_readable_message($api_response);
-                    wc_add_notice($error_message, 'error');
+                    if (function_exists('wc_add_notice')) {
+                        $error_message = $this->ppcp_get_readable_message($api_response);
+                        wc_add_notice($error_message, 'error');
+                    }
                     return false;
                 }
             }
@@ -612,7 +616,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (is_wp_error($response)) {
                 $error_message = $response->get_error_message();
                 $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
-                wc_add_notice($error_message, 'error');
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice($error_message, 'error');
+                }
                 return false;
             } else {
                 $return_response = array();
@@ -641,8 +647,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     WC()->cart->empty_cart();
                     return true;
                 } else {
-                    $error_message = $this->ppcp_get_readable_message($api_response);
-                    wc_add_notice($error_message, 'error');
+                    if (function_exists('wc_add_notice')) {
+                        $error_message = $this->ppcp_get_readable_message($api_response);
+                        wc_add_notice($error_message, 'error');
+                    }
                     return false;
                 }
             }
@@ -1148,9 +1156,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
             // Handle response errors or log response details
             if (is_wp_error($response)) {
-                $error_message = $response->get_error_message();
-                $this->ppcp_log('Error Message : ' . wc_print_r($response, true));
-                wc_add_notice($error_message, 'error');
+                if (function_exists('wc_add_notice')) {
+                    $error_message = $response->get_error_message();
+                    $this->ppcp_log('Error Message : ' . wc_print_r($response, true));
+                    wc_add_notice($error_message, 'error');
+                }
                 return false;
             } else {
                 $api_response = json_decode(wp_remote_retrieve_body($response), true);
@@ -1160,7 +1170,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
         } catch (Exception $ex) {
             $this->ppcp_log('Exception: ' . $ex->getMessage());
-            wc_add_notice(__('An error occurred while updating the order.', 'woocommerce'), 'error');
+            if (function_exists('wc_add_notice')) {
+                wc_add_notice(__('An error occurred while updating the order.', 'woocommerce'), 'error');
+            }
         }
     }
 
@@ -1233,7 +1245,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (is_wp_error($response)) {
                 $error_message = $response->get_error_message();
                 $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
-                wc_add_notice($error_message, 'error');
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice($error_message, 'error');
+                }
                 return false;
             } else {
                 $return_response = array();
@@ -1296,8 +1310,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $order->set_transaction_id($transaction_id);
                     return true;
                 } else {
-                    $error_message = $this->ppcp_get_readable_message($api_response);
-                    wc_add_notice($error_message, 'error');
+                    if (function_exists('wc_add_notice')) {
+                        $error_message = $this->ppcp_get_readable_message($api_response);
+                        wc_add_notice($error_message, 'error');
+                    }
                     return false;
                 }
             }
@@ -1816,7 +1832,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $return_response = [];
             if ($this->ppcp_get_order_total($woo_order_id) === 0) {
                 $wc_notice = __('Sorry, your session has expired.', 'paypal-for-woocommerce');
-                wc_add_notice($wc_notice);
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice($wc_notice);
+                }
                 wp_send_json_error($wc_notice);
                 exit();
             }
@@ -2017,7 +2035,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     if (!empty(isset($woo_order_id) && !empty($woo_order_id))) {
                         $order->add_order_note($error_message);
                     }
-                    wc_add_notice(__('This payment was unable to be processed successfully. Please try again with another payment method.', 'paypal-for-woocommerce'), 'error');
+                    if (function_exists('wc_add_notice')) {
+                        wc_add_notice(__('This payment was unable to be processed successfully. Please try again with another payment method.', 'paypal-for-woocommerce'), 'error');
+                    }
                     return array(
                         'result' => 'fail',
                         'redirect' => ''

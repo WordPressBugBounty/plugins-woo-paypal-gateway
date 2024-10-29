@@ -1243,10 +1243,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                     $order->save_meta_data();
                 } elseif ($liability_shift_result === 2) {
                     $is_success = false;
-                    wc_add_notice(__('We cannot process your order with the payment information that you provided. Please use an alternate payment method.', 'woo-paypal-gateway'), 'error');
+                    if (function_exists('wc_add_notice')) {
+                        wc_add_notice(__('We cannot process your order with the payment information that you provided. Please use an alternate payment method.', 'woo-paypal-gateway'), 'error');
+                    }
                 } elseif ($liability_shift_result === 3) {
                     $is_success = false;
-                    wc_add_notice(__('Something went wrong. Please try again.', 'woo-paypal-gateway'), 'error');
+                    if (function_exists('wc_add_notice')) {
+                        wc_add_notice(__('Something went wrong. Please try again.', 'woo-paypal-gateway'), 'error');
+                    }
                 }
                 if ($is_success) {
                     WC()->cart->empty_cart();
