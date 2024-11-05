@@ -1171,7 +1171,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         } catch (Exception $ex) {
             $this->ppcp_log('Exception: ' . $ex->getMessage());
             if (function_exists('wc_add_notice')) {
-                wc_add_notice(__('An error occurred while updating the order.', 'woocommerce'), 'error');
+                wc_add_notice(__('An error occurred while updating the order.', 'woo-paypal-gateway'), 'error');
             }
         }
     }
@@ -1831,7 +1831,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $return_response = [];
             if ($this->ppcp_get_order_total($woo_order_id) === 0) {
-                $wc_notice = __('Sorry, your session has expired.', 'paypal-for-woocommerce');
+                $wc_notice = __('Sorry, your session has expired.', 'woo-paypal-gateway');
                 if (function_exists('wc_add_notice')) {
                     wc_add_notice($wc_notice);
                 }
@@ -2036,7 +2036,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $order->add_order_note($error_message);
                     }
                     if (function_exists('wc_add_notice')) {
-                        wc_add_notice(__('This payment was unable to be processed successfully. Please try again with another payment method.', 'paypal-for-woocommerce'), 'error');
+                        wc_add_notice(__('This payment was unable to be processed successfully. Please try again with another payment method.', 'woo-paypal-gateway'), 'error');
                     }
                     return array(
                         'result' => 'fail',

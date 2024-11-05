@@ -20,6 +20,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate')) {
             include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-dcc-validate.php');
         }
+        $this->enable = $this->cc_enable;
         $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
         
         
@@ -34,11 +35,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
 
     public function form() {
         ?>
-        <fieldset id="wc-<?php echo esc_attr($this->id); ?>-cc-form" class='wc-credit-card-form wc-payment-form'>
+        <div id="wc-<?php echo esc_attr($this->id); ?>-cc-form" class='wc-credit-card-form wc-payment-form'>
             <div id='wpg_paypal_checkout_cc-card-number'></div>
             <div id='wpg_paypal_checkout_cc-card-expiry'></div>
             <div id='wpg_paypal_checkout_cc-card-cvc'></div>
-        </fieldset>
+        </div>
 
         <?php
     }
@@ -196,7 +197,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
     }
 
     public function is_available() {
-        $this->enabled = true;
-        return true;
+        if($this->enable === 'yes') {
+            $this->enabled = true;
+        }
+        return false;
     }
 }

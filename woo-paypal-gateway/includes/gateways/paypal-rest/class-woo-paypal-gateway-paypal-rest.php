@@ -109,16 +109,16 @@ class Woo_PayPal_Gateway_PayPal_Rest extends WC_Payment_Gateway_CC {
             }
             $this->card_data = wpg_get_posted_card($this->id);
             if (empty($this->card_data->exp_month) || empty($this->card_data->exp_year)) {
-                throw new Exception(__('Card expiration date is invalid', 'woocommerce-gateway-paypal-pro'));
+                throw new Exception(__('Card expiration date is invalid', 'woo-paypal-gateway'));
             }
             if (!ctype_digit($this->card_data->cvc) && empty($this->card_data->cvc)) {
-                throw new Exception(__('Card security code is invalid (only digits are allowed)', 'woocommerce-gateway-paypal-pro'));
+                throw new Exception(__('Card security code is invalid (only digits are allowed)', 'woo-paypal-gateway'));
             }
             if (!ctype_digit($this->card_data->exp_month) || !ctype_digit($this->card_data->exp_year) || $this->card_data->exp_month > 12 || $this->card_data->exp_month < 1 || $this->card_data->exp_year < date('y')) {
-                throw new Exception(__('Card expiration date is invalid', 'woocommerce-gateway-paypal-pro'));
+                throw new Exception(__('Card expiration date is invalid', 'woo-paypal-gateway'));
             }
             if (empty($this->card_data->number) || !ctype_digit($this->card_data->number)) {
-                throw new Exception(__('Card number is invalid', 'woocommerce-gateway-paypal-pro'));
+                throw new Exception(__('Card number is invalid', 'woo-paypal-gateway'));
             }
             return true;
         } catch (Exception $e) {

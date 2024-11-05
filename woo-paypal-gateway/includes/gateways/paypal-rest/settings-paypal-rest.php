@@ -78,7 +78,7 @@ return $this->form_fields = array(
         'description' => sprintf(__('Log PayPal events, such as Secured Token requests', 'woo-paypal-gateway')),
     ),
     'advanced' => array(
-        'title' => __('Advanced options', 'woocommerce'),
+        'title' => __('Advanced options', 'woo-paypal-gateway'),
         'type' => 'title',
         'description' => '',
     ),

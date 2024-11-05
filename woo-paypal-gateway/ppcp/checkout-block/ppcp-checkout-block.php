@@ -35,7 +35,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         //$this->pay_later->add_pay_later_script_in_frontend();
         wp_register_script('wpg_paypal_checkout-blocks-integration', WPG_PLUGIN_ASSET_URL . 'ppcp/checkout-block/ppcp-checkout.js', array('jquery', 'react', 'wc-blocks-registry', 'wc-settings', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-element', 'wp-plugins'), WPG_PLUGIN_VERSION, true);
         if (ppcp_has_active_session()) {
-            $order_button_text = apply_filters('wpg_paypal_checkout_order_review_page_place_order_button_text', __('Confirm Your PayPal Order', 'paypal-for-woocommerce'));
+            $order_button_text = apply_filters('wpg_paypal_checkout_order_review_page_place_order_button_text', __('Confirm Your PayPal Order', 'woo-paypal-gateway'));
         } else {
             $order_button_text = 'Proceed to PayPal';
         }
@@ -69,7 +69,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         ));
 
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations('wpg_paypal_checkout-blocks-integration', 'paypal-for-woocommerce');
+            wp_set_script_translations('wpg_paypal_checkout-blocks-integration', 'woo-paypal-gateway');
         }
         wp_enqueue_script('wpg_paypal_checkout');
         if (ppcp_has_active_session() === false && $page === 'cart') {

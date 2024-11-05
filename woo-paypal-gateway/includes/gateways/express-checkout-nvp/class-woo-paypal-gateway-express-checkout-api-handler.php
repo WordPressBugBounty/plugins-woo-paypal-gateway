@@ -126,21 +126,21 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                             }
                         }
                         wpg_maybe_clear_session_data();
-                        wc_add_notice(__('Payment method successfully added.', 'woocommerce'));
+                        wc_add_notice(__('Payment method successfully added.', 'woo-paypal-gateway'));
                         wp_redirect(wc_get_account_endpoint_url('payment-methods'));
                         exit();
                     } else {
-                        wc_add_notice(__('Payment method successfully added.', 'woocommerce'));
+                        wc_add_notice(__('Payment method successfully added.', 'woo-paypal-gateway'));
                         wp_redirect(wc_get_account_endpoint_url('payment-methods'));
                         exit();
                     }
                 } else {
-                    wc_add_notice(__('Payment method successfully added.', 'woocommerce'));
+                    wc_add_notice(__('Payment method successfully added.', 'woo-paypal-gateway'));
                     wp_redirect(wc_get_account_endpoint_url('payment-methods'));
                     exit();
                 }
             } else {
-                wc_add_notice(__('Payment method successfully added.', 'woocommerce'));
+                wc_add_notice(__('Payment method successfully added.', 'woo-paypal-gateway'));
                 wp_redirect(wc_get_account_endpoint_url('payment-methods'));
                 exit();
             }

@@ -27,6 +27,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
     public static $log = false;
     public $disable_cards;
     public $advanced_card_payments_title;
+    public $cc_enable;
 
 
 
@@ -59,6 +60,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
 
     public function get_properties() {
         $this->enabled = $this->get_option('enabled', 'no');
+        $this->cc_enable = $this->get_option('enable_advanced_card_payments', 'no');
         $this->supports = array(
             'products',
             'refunds',
@@ -79,6 +81,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         }
         if (!$this->is_credentials_set()) {
             $this->enabled = 'no';
+            $this->cc_enable = 'no';
         }
         $this->paymentaction = $this->get_option('paymentaction', 'capture');
         $this->advanced_card_payments = 'yes' === $this->get_option('enable_advanced_card_payments', 'no');

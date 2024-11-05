@@ -103,7 +103,7 @@ var { registerExpressPaymentMethod, registerPaymentMethod } = wc.wcBlocksRegistr
             }, [onPaymentSetup]);
 
             return createElement(
-                "fieldset",
+                "div",
                 { id: "wc-wpg_paypal_checkout_cc-form", className: "wc-credit-card-form wc-payment-form" },
                 createElement("div", { id: "wpg_paypal_checkout_cc-card-number" }),
                 createElement("div", { id: "wpg_paypal_checkout_cc-card-expiry" }),
