@@ -1,10 +1,46 @@
-h3.wc-settings-sub-title.ppcp_separator_heading {
-    border-bottom: 2px solid #000;
-    font-weight: bold;
-    color: #23282d;
-    font-size: 1.3em;
-    margin: 32px 0px 5px 0px;
-    padding-bottom: 10px;
+.ppcp-collapsible-section {
+    cursor: pointer;
+    padding: 16px 20px;
+    background: #dcdcde;
+    color: #2c3e50;
+    border: 1px solid #d1d5d9;
+    margin-top: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s, color 0.3s, border 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.ppcp-collapsible-section:hover, .ppcp-collapsible-section:focus {
+    background: #f0f0f1;
+    color: #000;
+}
+.ppcp-collapsible-section:after {
+    content: '\25B6';
+    font-size: 16px;
+    transition: transform 0.3s;
+    color: #007cba;
+}
+.ppcp-collapsible-section.active {
+    background: #f0f0f1;
+    color: #000;
+    border-color: #b2bac2;
+}
+.ppcp-collapsible-section.active:after {
+    transform: rotate(90deg);
+}
+.form-table {
+    margin: 0;
+    padding: 25px 30px;
+    background: #ffffff;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.woocommerce table.form-table th {
+    padding-left: 20px;
 }
 .wpg_paypal_checkout_gateway_setting_sepraer {
     margin-left: 10px;
@@ -16,4 +52,7 @@ h3.wc-settings-sub-title.ppcp_separator_heading {
 .list {
     list-style-type: circle;
     margin-left: 42px;
+}
+p.submit {
+    display: block !important;
 }

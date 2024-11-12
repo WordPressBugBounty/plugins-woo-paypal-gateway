@@ -4,7 +4,7 @@
  * @since      1.0.0
  * @package    PPCP_Paypal_Checkout_For_Woocommerce
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce/ppcp/includes
- * @author     PayPal <mbjwebdevelopment@gmail.com>
+ * @author     PayPal <wpeasypayment@gmail.com>
  */
 class PPCP_Paypal_Checkout_For_Woocommerce {
 
@@ -64,13 +64,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
 
     public function ppcp_woocommerce_payment_gateways($methods) {
         include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php';
-        $methods[] = 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway';
         if ((isset($_GET['page']) && 'wc-settings' === $_GET['page']) && isset($_GET['tab']) && 'checkout' === $_GET['tab']) {
             
         } else {
-            include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php';
+            if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC')) {
+                include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php');
+            }
             $methods[] = 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC';
         }
+        $methods[] = 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway';
         $methods = array_reverse($methods);
         return $methods;
     }

@@ -4,11 +4,12 @@
  * @since      1.0.0
  * @package    PPCP_Paypal_Checkout_For_Woocommerce_Gateway
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce_Gateway/includes
- * @author     PayPal <mbjwebdevelopment@gmail.com>
+ * @author     PayPal <wpeasypayment@gmail.com>
  */
 class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checkout_For_Woocommerce_Gateway {
     
     public $dcc_applies;
+    public $enable;
 
     public function __construct() {
         parent::__construct();
@@ -20,10 +21,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate')) {
             include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-dcc-validate.php');
         }
-        $this->enable = $this->cc_enable;
+        if($this->enabled === 'yes') {
+            $this->enable = $this->cc_enable;
+        } 
         $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
-        
-        
     }
 
     public function payment_fields() {
@@ -199,6 +200,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
     public function is_available() {
         if($this->enable === 'yes') {
             $this->enabled = true;
+            return true;
         }
         return false;
     }

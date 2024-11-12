@@ -9,8 +9,7 @@
         }
 
         init() {
-            if (typeof this.ppcp_manager === 'undefined')
-                return false;
+            if (typeof this.ppcp_manager === 'undefined') return false;
             this.setupVariations();
             this.renderSmartButton();
             this.bindCheckoutEvents();
@@ -32,7 +31,7 @@
 
             if (!fields.addressLine1) {
                 const customerData = wp.data.select('wc/store/cart').getCustomerData();
-                const {billingAddress, shippingAddress} = customerData;
+                const { billingAddress, shippingAddress } = customerData;
                 const addressData = (prefix === 'billing') ? billingAddress : shippingAddress;
                 Object.assign(fields, {
                     addressLine1: addressData.address_1,
@@ -113,8 +112,7 @@
 
         handleCheckoutSubmit() {
             if (this.isPpcpCCSelected() && this.isCardFieldEligible()) {
-                if ($('form.checkout').hasClass('paypal_cc_submitting'))
-                    return false;
+                if ($('form.checkout').hasClass('paypal_cc_submitting')) return false;
                 $('form.checkout').addClass('paypal_cc_submitting');
                 $(document.body).trigger('submit_paypal_cc_form');
                 return false;
@@ -128,14 +126,13 @@
         }
 
         update_paypal_cc() {
-            if (this.isCardFieldEligible()) {
+            if(this.isCardFieldEligible()) {
                 this.renderCardFields();
                 $('#place_order, .wc-block-components-checkout-place-order-button').show();
             } else {
                 $('.wc_payment_method.payment_method_wpg_paypal_checkout_cc').hide();
                 $('#radio-control-wc-payment-method-options-wpg_paypal_checkout_cc').parent('label').parent('div').hide();
-                if (this.isPpcpCCSelected())
-                    $('#payment_method_wpg_paypal_checkout').prop('checked', true).trigger('click');
+                if (this.isPpcpCCSelected()) $('#payment_method_wpg_paypal_checkout').prop('checked', true).trigger('click');
             }
             this.togglePlaceOrderButton();
         }
@@ -156,24 +153,23 @@
             const isPpcpSelected = this.isPpcpSelected();
             const isPpcpCCSelected = this.isPpcpCCSelected();
             if (isPpcpSelected) {
-                $('#place_order, .wc-block-components-checkout-place-order-button').hide();
+                 $('#place_order, .wc-block-components-checkout-place-order-button').hide();
             } else {
                 $('#place_order, .wc-block-components-checkout-place-order-button').show();
             }
             if (isPpcpCCSelected) {
-                if (this.isCardFieldEligible()) {
+                if(this.isCardFieldEligible()) {
                     $('#place_order, .wc-block-components-checkout-place-order-button').show();
                 } else {
-
+                    
                 }
-            }
+            } 
         }
 
         renderSmartButton() {
             const selectors = this.ppcp_manager.button_selector;
             $.each(selectors, (key, selector) => {
-                if (!$(selector).length || $(selector).children().length || typeof paypal === 'undefined')
-                    return;
+                if (!$(selector).length || $(selector).children().length || typeof paypal === 'undefined') return;
                 const ppcpStyle = {
                     layout: this.ppcp_manager.style_layout,
                     color: this.ppcp_manager.style_color,
@@ -206,14 +202,14 @@
                     data += `&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
                 }
             } else if (this.isProductPage()) {
-                $('<input>', {type: 'hidden', name: 'ppcp-add-to-cart', value: $("[name='add-to-cart']").val()}).appendTo('form.cart');
+                $('<input>', { type: 'hidden', name: 'ppcp-add-to-cart', value: $("[name='add-to-cart']").val() }).appendTo('form.cart');
                 data = $('form.cart').serialize();
             } else {
                 data = $('form.woocommerce-cart-form').serialize();
             }
             return fetch(this.ppcp_manager.create_order_url, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: data
             }).then(res => res.json()).then(data => {
                 this.hideSpinner();
@@ -238,10 +234,10 @@
 
         showSpinner(containerSelector = '.woocommerce') {
             if (jQuery('.wc-block-checkout__main').length || jQuery('.wp-block-woocommerce-cart').length) {
-                jQuery('.wc-block-checkout__main, .wp-block-woocommerce-cart').block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
+                jQuery('.wc-block-checkout__main, .wp-block-woocommerce-cart').block({ message: null, overlayCSS: { background: '#fff', opacity: 0.6 } });
             } else if (jQuery(containerSelector).length) {
-                jQuery(containerSelector).block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
-        }
+                jQuery(containerSelector).block({ message: null, overlayCSS: { background: '#fff', opacity: 0.6 } });
+            }
         }
 
         hideSpinner(containerSelector = '.woocommerce') {
@@ -249,7 +245,7 @@
                 jQuery('.wc-block-checkout__main, .wp-block-woocommerce-cart').unblock();
             } else if (jQuery(containerSelector).length) {
                 jQuery(containerSelector).unblock();
-        }
+            }
         }
 
         onCancelHandler() {
@@ -264,71 +260,33 @@
             const $checkout_form = $('form.checkout');
             if ($checkout_form.length) {
                 $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
-                if (typeof error_message === 'string') {
-                    error_message = [error_message];
-                }
                 let errorHTML = '<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout"><ul class="woocommerce-error" role="alert">';
-                $.each(error_message, (index, value) => {
-                    errorHTML += `<li>${value}</li>`;
-                });
+                $.each(error_message, (index, value) => { errorHTML += `<li>${value}</li>`; });
                 errorHTML += '</ul></div>';
                 $checkout_form.prepend(errorHTML).removeClass('processing').unblock();
                 $checkout_form.find('.input-text, select, input:checkbox').trigger('validate').trigger('blur');
                 const scrollElement = $('.woocommerce-NoticeGroup-updateOrderReview, .woocommerce-NoticeGroup-checkout').length ? $('.woocommerce-NoticeGroup-updateOrderReview, .woocommerce-NoticeGroup-checkout') : $checkout_form;
-                $('html, body').animate({scrollTop: scrollElement.offset().top - 100}, 1000);
-
+                $('html, body').animate({ scrollTop: scrollElement.offset().top - 100 }, 1000);
                 $(document.body).trigger('checkout_error', [error_message]);
             } else {
-                const errorMessagesString = (typeof error_message === 'string') ? error_message : error_message.join("<br>");
+                const errorMessagesString = error_message.join("<br>");
                 $(document.body).trigger('ppcp_checkout_error', errorMessagesString);
             }
         }
 
         renderCardFields() {
             const checkoutSelector = this.getCheckoutSelectorCss();
-            if ($(checkoutSelector).is('.CardFields') || $('#wpg_paypal_checkout_cc-card-number').length === 0 || typeof paypal === 'undefined')
-                return;
+            if ($(checkoutSelector).is('.CardFields') || $('#wpg_paypal_checkout_cc-card-number').length === 0 || typeof paypal === 'undefined') return;
             $(checkoutSelector).addClass('CardFields');
-            const cardStyle = {
-                'input': {
-                    'font-size': '16px',
-                    'font-family': 'Helvetica, Arial, sans-serif',
-                    'font-weight': '400',
-                    'color': '#32325d',
-                    'padding': '12px 14px',
-                    'border-radius': '4px',
-                    'border': '1px solid #ccd0d5',
-                    'background': '#ffffff',
-                    'box-shadow': 'none',
-                    'transition': 'border-color 0.15s ease, box-shadow 0.15s ease'
-                },
-                '.invalid': {
-                    'color': '#fa755a',
-                    'border': '1px solid #fa755a',
-                    'box-shadow': 'none'
-                },
-                '::placeholder': {
-                    'color': '#aab7c4'
-                },
-                'input:focus': {
-                    'outline': 'none',
-                    'border': '1px solid #4a90e2',
-                    'box-shadow': '0 0 4px rgba(74, 144, 226, 0.3)'
-                },
-                '.valid': {
-                    'border': '1px solid #3ac569',
-                    'color': '#32325d',
-                    'box-shadow': 'none'
-                }
-            };
             const cardFields = paypal.CardFields({
-                style: cardStyle,
                 createOrder: () => this.createCardOrder(checkoutSelector),
                 onApprove: (payload) => payload && payload.orderID ? this.submitCardFields(payload) : console.error("No valid payload returned during onApprove:", payload),
-                onError: (err) => {
-                    this.hideSpinner();
-                    this.handleCardFieldsError(err, checkoutSelector);
-                }
+                fields: {
+                    number: { selector: '#wpg_paypal_checkout_cc-card-number', placeholder: '•••• •••• •••• ••••' },
+                    cvv: { selector: '#wpg_paypal_checkout_cc-card-cvc', placeholder: 'CVC' },
+                    expirationDate: { selector: '#wpg_paypal_checkout_cc-card-expiry', placeholder: 'MM / YY' }
+                },
+                onError: (err) => { this.hideSpinner(); console.error("Error during card field rendering:", err); this.handleCardFieldsError(err, checkoutSelector); }
             });
             if (cardFields.isEligible()) {
                 cardFields.NumberField().render("#wpg_paypal_checkout_cc-card-number");
@@ -336,8 +294,7 @@
                 cardFields.CVVField().render("#wpg_paypal_checkout_cc-card-cvc");
             } else {
                 $('.payment_box.payment_method_wpg_paypal_checkout_cc').hide();
-                if (this.isPpcpCCSelected())
-                    $('#payment_method_wpg_paypal_checkout').prop('checked', true).trigger('click');
+                if (this.isPpcpCCSelected()) $('#payment_method_wpg_paypal_checkout').prop('checked', true).trigger('click');
             }
 
             $(document.body).on('submit_paypal_cc_form', () => cardFields.submit());
@@ -359,11 +316,11 @@
             }
             return fetch(this.ppcp_manager.create_order_url, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: data
             }).then(res => res.json()).then(data => {
+                this.hideSpinner();
                 if (data.success !== undefined) {
-                    this.hideSpinner();
                     this.showError(data.data.messages);
                     return '';
                 }
@@ -378,25 +335,10 @@
             });
         }
 
-        handleCardFieldsError(errorString, checkoutSelector) {
+        handleCardFieldsError(error, checkoutSelector) {
             $('#place_order, #wc-wpg_paypal_checkout-cc-form').unblock();
             $(checkoutSelector).removeClass('processing paypal_cc_submitting CardFields createOrder').unblock();
-            try {
-                if (errorString instanceof Error) {
-                    var messageContent = errorString.message;
-                    var jsonMatch = messageContent.match(/{[\s\S]*}$/);
-                    if (jsonMatch) {
-                        var errorJsonString = jsonMatch[0].trim();
-                        var error = JSON.parse(errorJsonString);
-                        var message = (error.details && Array.isArray(error.details) && error.details.length > 0) ? error.details[0].description : error.message || "An unknown error occurred.";
-                    }
-                } else if (typeof errorString === 'object' && errorString !== null) {
-                    var message = (errorString.details && Array.isArray(errorString.details) && errorString.details.length > 0) ? errorString.details[0].description : errorString.message || "An unknown error occurred.";
-                }
-            } catch (err) {
-                var message = "An unknown error occurred.";
-            }
-            this.showError(message);
+            error.details && error.details[0].description ? error.details[0].description : error.message;
             this.hideSpinner();
         }
 

@@ -3,7 +3,7 @@
 /**
  * @package    PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager/public
- * @author     PayPal <mbjwebdevelopment@gmail.com>
+ * @author     PayPal <wpeasypayment@gmail.com>
  */
 class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
@@ -288,7 +288,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             'button_selector' => $button_selector
                 )
         );
-        if (is_checkout() && !empty($this->checkout_details)) {
+        if (is_checkout() && !empty($this->checkout_details) && !empty($_GET['paypal_order_id'])) {
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-order-capture', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/ppcp-paypal-checkout-for-woocommerce-order-capture.js', array('jquery'), $this->version, false);
         }
     }
@@ -380,7 +380,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function ppcp_endpoint_page_titles($title) {
-        if (!is_admin() && is_main_query() && in_the_loop() && is_page() && is_checkout() && !empty($this->checkout_details)) {
+        if (!is_admin() && is_main_query() && in_the_loop() && is_page() && is_checkout() && !empty($this->checkout_details) && !empty($_GET['paypal_order_id'])) {
             $title = $this->order_review_page_title;
             remove_filter('the_title', array($this, 'ppcp_endpoint_page_titles'));
         }

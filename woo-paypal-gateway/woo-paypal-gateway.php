@@ -5,25 +5,25 @@
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
  * Description:       Seamlessly enable PayPal payments for WooCommerce. Accept PayPal, Pay Later, cards, wallets, and bank payments—powered by an official PayPal Partner.
- * Version:           9.0.10
+ * Version:           9.0.11
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       woo-paypal-gateway
  * Domain Path:       /languages
- * Requires at least: 5.3
- * Requires PHP: 7.2
+ * Requires at least: 4.7
+ * Requires PHP: 7.1
  * Requires Plugins: woocommerce
  * Tested up to: 6.6.2
- * WC requires at least: 3.9
- * WC tested up to: 9.3.3
+ * WC requires at least: 3.4
+ * WC tested up to: 9.4
  */
 if (!defined('WPINC')) {
     die;
 }
 
-define('WPG_PLUGIN_VERSION', '9.0.10');
+define('WPG_PLUGIN_VERSION', '9.0.11');
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
 }
@@ -42,6 +42,7 @@ if (!defined('WPG_PLUGIN_ASSET_URL')) {
  * This action is documented in includes/class-woo-paypal-gateway-activator.php
  */
 function activate_woo_paypal_gateway() {
+    set_transient('woo_paypal_gateway_redirect', true, 30);
     require_once plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-gateway-activator.php';
     Woo_Paypal_Gateway_Activator::activate();
 }
@@ -99,7 +100,7 @@ add_action('before_woocommerce_init', function () {
     }
 });
 
-add_action( 'woocommerce_blocks_loaded', function() {
+add_action('woocommerce_blocks_loaded', function () {
     try {
         if (!class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')) {
             return;
@@ -114,6 +115,22 @@ add_action( 'woocommerce_blocks_loaded', function() {
                 }
         );
     } catch (Exception $ex) {
-
+        
     }
 });
+
+add_action('admin_init', 'woo_paypal_gateway_redirect_to_settings');
+
+function woo_paypal_gateway_redirect_to_settings() {
+    // Check if the transient is set and user has access to the admin panel
+    if (get_transient('woo_paypal_gateway_redirect')) {
+        // Remove the transient so it only redirects once
+        delete_transient('woo_paypal_gateway_redirect');
+
+        // Make sure the redirect only happens for administrators
+        if (is_admin() && current_user_can('manage_options')) {
+            wp_redirect(admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout'));
+            exit;
+        }
+    }
+}

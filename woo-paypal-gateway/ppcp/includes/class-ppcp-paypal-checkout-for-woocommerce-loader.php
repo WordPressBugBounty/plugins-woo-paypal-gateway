@@ -3,7 +3,7 @@
 /**
  * @package    PPCP_Paypal_Checkout_For_Woocommerce
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce/includes
- * @author     PayPal <mbjwebdevelopment@gmail.com>
+ * @author     PayPal <wpeasypayment@gmail.com>
  */
 class PPCP_Paypal_Checkout_For_Woocommerce_Loader {
 

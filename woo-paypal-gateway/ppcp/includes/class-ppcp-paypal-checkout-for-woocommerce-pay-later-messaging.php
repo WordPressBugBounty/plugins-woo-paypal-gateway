@@ -183,6 +183,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
         if (empty($page)) {
             return false;
         }
+        if(empty($this->pay_later_messaging_page_type)) {
+            return false;
+        }
         if (in_array($page, $this->pay_later_messaging_page_type)) {
             return true;
         }

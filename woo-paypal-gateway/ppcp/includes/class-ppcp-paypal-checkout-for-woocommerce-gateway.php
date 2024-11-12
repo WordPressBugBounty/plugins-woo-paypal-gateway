@@ -4,7 +4,7 @@
  * @since      1.0.0
  * @package    PPCP_Paypal_Checkout_For_Woocommerce_Gateway
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce_Gateway/includes
- * @author     PayPal <mbjwebdevelopment@gmail.com>
+ * @author     PayPal <wpeasypayment@gmail.com>
  */
 class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC {
 
@@ -28,6 +28,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
     public $disable_cards;
     public $advanced_card_payments_title;
     public $cc_enable;
+    static $ppcp_display_order_fee = 0;
 
 
 
@@ -42,7 +43,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         $this->description = __('Accept PayPal, PayPal Credit and alternative payment types.', 'woo-paypal-gateway');
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'));
-        add_action('woocommerce_admin_order_totals_after_total', array($this, 'ppcp_display_order_fee'));
+        if (!has_action('woocommerce_admin_order_totals_after_total', array('PPCP_Paypal_Checkout_For_Woocommerce_Gateway', 'ppcp_display_order_fee'))) {
+            add_action('woocommerce_admin_order_totals_after_total', array($this, 'ppcp_display_order_fee'));
+        }
+        
         $this->advanced_card_payments_title = $this->get_option('advanced_card_payments_title', 'Credit or Debit Card');
         
         if (ppcp_has_active_session()) {
@@ -209,8 +213,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
     }
 
     public function ppcp_display_order_fee($order_id) {
+        if(self::$ppcp_display_order_fee > 0) {
+            return;
+        }
+        self::$ppcp_display_order_fee = 1;
         $order = wc_get_order($order_id);
         $fee = $order->get_meta('_paypal_fee');
+        $payment_method = $order->get_payment_method();
+        if ('wpg_paypal_checkout' !== $payment_method) {
+            return false;
+        }
         $currency = $order->get_meta('_paypal_fee_currency_code');
         if ($order->get_status() == 'refunded') {
             return true;
