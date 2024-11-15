@@ -2,19 +2,21 @@
 Contributors: easypayment  
 Tags: PayPal Express Checkout, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
-Tested up to: 6.6.2  
-Stable tag: 9.0.11  
+Tested up to: 6.7
+Stable tag: 9.0.12  
 Requires PHP: 7.2  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
 
-Seamlessly enable PayPal payments for WooCommerce. Accept PayPal, Pay Later, cards, wallets, and bank payments—powered by an official PayPal Partner.
+Accept Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more — powered by an official PayPal Partner.
 
 == Description ==
 
 **Payment Gateway for PayPal on WooCommerce** is the ideal solution for adding PayPal payment options to your WooCommerce store. This comprehensive plugin integrates all major PayPal payment methods, providing a complete "PayPal For WooCommerce" experience. Enhance your checkout with PayPal Express Checkout, PayPal Pro, and Braintree, ensuring secure and efficient transactions for your customers.
 
 ### Key Features:
+- **Advanced credit and debit card payments**: Accept credit card payments directly on your site.
+- **PayPal Checkout**: Provide PayPal Smart Buttons and alternative payment methods.
 - **PayPal Express Checkout / PayPal Credit**: Enable fast and secure payments with or without a PayPal account.
 - **PayPal Pro**: Accept credit card payments directly on your site, ensuring a seamless "PayPal For WooCommerce" experience.
 - **Braintree Payments**: Use an integrated drop-in UI for card payments, PayPal, and PayPal Credit.
@@ -27,6 +29,25 @@ Seamlessly enable PayPal payments for WooCommerce. Accept PayPal, Pay Later, car
 - **Enhanced Security**: Leverages PayPal’s secure payment processing, building customer trust.
 - **Easy Integration**: Set up quickly and manage directly from your WooCommerce dashboard.
 - **Comprehensive PayPal Integration**: Supports all major PayPal methods, making it the best "PayPal For WooCommerce" plugin.
+
+### List of Methods
+
+* **PayPal** - The world's most trusted online payment service, offering secure transactions with global reach.
+* **Pay Later** - This service, offered by providers like PayPal, lets customers defer payments, popular in the U.S. and Europe for flexible purchasing.
+* **Venmo** - A major mobile payment service in the U.S. with over 70 million users, ideal for peer-to-peer and e-commerce transactions.
+* **Bancontact** - The most widely used payment method in Belgium, processing millions of secure transactions annually.
+* **BLIK** - A leading payment option in Poland, widely used for online and mobile transactions, with millions of users.
+* **Discover** - A popular credit card option in the U.S., serving millions of cardholders and accepted by numerous merchants nationwide.
+* **eps** - An Austrian online bank transfer system supported by major banks, handling millions of secure transactions annually.
+* **giropay** - Common in Germany, giropay is widely accepted among German merchants, providing millions of secure online transactions.
+* **iDEAL** - Dominant in the Netherlands, iDEAL is used for over half of online transactions, offering trusted bank-based payments.
+* **MyBank** - A secure online payment method in several European countries, including Italy and France, serving millions of users.
+* **Mastercard** - A globally recognized and trusted credit card option, accepted by merchants worldwide.
+* **Przelewy24** - A leading payment method in Poland, connecting with numerous banks to facilitate millions of transactions.
+* **Sofort** - Available across Europe, especially in Germany and Austria, preferred for secure, direct bank transfers.
+* **Mercado Pago** - A major digital payment platform in Latin America with tens of millions of users across countries like Brazil and Argentina.
+* **SEPA-Lastschrift** - Covering over 36 European countries, SEPA enables euro-denominated bank transfers for hundreds of millions of users.
+
 
 ### Coming Soon:
 - **Fastlane**: A faster checkout experience.
@@ -77,6 +98,10 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Currently, the plugin supports one-time payments. For recurring payments in "PayPal For WooCommerce," consider integrating with WooCommerce Subscriptions or other plugins.
 
 == Changelog ==
+
+= 9.0.12 - 2024-11-15 =
+* Resolved the issue with sending line item details to PayPal.
+* Resolved the issue with the "Leaving Site" popup.
 
 = 9.0.11 - 2024-11-12 =
 * Added language files for improved localization.

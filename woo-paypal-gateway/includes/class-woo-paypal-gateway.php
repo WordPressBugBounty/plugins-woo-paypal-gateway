@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.11';
+            $this->version = '9.0.12';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -82,6 +82,9 @@ class Woo_Paypal_Gateway {
         add_action('admin_notices', array($this, 'display_google_reviews_notice'), 999999);
         add_action('wp_ajax_hide_google_reviews_notice', array($this, 'hide_google_reviews_notice'));
         add_action('wp_ajax_remind_me_later_google_reviews_notice', array($this, 'remind_me_later_google_reviews_notice'));
+        add_action('admin_footer', array($this, 'wpg_add_deactivation_feedback_form'));
+        add_action('admin_enqueue_scripts', array($this, 'wpg_add_deactivation_feedback_form_scripts'));
+        add_action('wp_ajax_wpg_send_deactivation', array($this, 'wpg_handle_plugin_deactivation_request'));
     }
 
     /**
@@ -255,6 +258,9 @@ class Woo_Paypal_Gateway {
             'support' => sprintf('<a href="%s" target="_blank">%s</a>', 'https://wordpress.org/support/plugin/woo-paypal-gateway/', __('Support', 'woo-paypal-gateway')),
             'review' => sprintf('<a href="%s" target="_blank">%s</a>', 'https://wordpress.org/support/plugin/woo-paypal-gateway/reviews/', __('Write a Review', 'woo-paypal-gateway')),
         );
+        if (array_key_exists('deactivate', $actions)) {
+            $actions['deactivate'] = str_replace('<a', '<a class="woo-paypal-gateway-deactivate-link"', $actions['deactivate']);
+        }
         return array_merge($custom_actions, $actions);
     }
 
@@ -477,5 +483,70 @@ class Woo_Paypal_Gateway {
         $remind_me_time = strtotime('+7 days');
         update_user_meta($user_id, 'remind_me_later_google_reviews_notice', $remind_me_time);
         wp_send_json_success();
+    }
+
+    public function wpg_add_deactivation_feedback_form() {
+        global $pagenow;
+        if ('plugins.php' != $pagenow) {
+            return;
+        }
+        include_once(WPG_PLUGIN_DIR . '/admin/feedback/deactivation-feedback-form.php');
+    }
+
+    public function wpg_add_deactivation_feedback_form_scripts() {
+        global $pagenow;
+        if ('plugins.php' != $pagenow) {
+            return;
+        }
+        wp_enqueue_style('deactivation-feedback-modal', WPG_PLUGIN_ASSET_URL . 'admin/feedback/css/deactivation-feedback-modal.css', null, WPG_PLUGIN_VERSION);
+        wp_enqueue_script('deactivation-feedback-modal', WPG_PLUGIN_ASSET_URL . 'admin/feedback/js/deactivation-feedback-modal.js', null, WPG_PLUGIN_VERSION, true);
+        wp_localize_script('deactivation-feedback-modal', 'wpg_feedback_form_ajax_data', array('nonce' => wp_create_nonce('wpg-ajax')));
+    }
+
+    public function wpg_handle_plugin_deactivation_request() {
+        $reason = isset($_POST['reason']) ? sanitize_text_field($_POST['reason']) : '';
+        $reason_details = isset($_POST['reason_details']) ? sanitize_text_field($_POST['reason_details']) : '';
+        $url = 'https://api.airtable.com/v0/appxxiU87VQWG6rOO/Sheet1';
+        $api_key = 'patgeqj8DJfPjqZbS.9223810d432db4efccf27354c08513a7725e4a08d11a85fba75de07a539c8aeb';
+        $data = array(
+            'reason' => $reason . ' : ' . $reason_details,
+            'plugin' => 'woo-paypal-gateway',
+            'php_version' => phpversion(),
+            'wp_version' => get_bloginfo('version'),
+            'wc_version' => (!defined('WC_VERSION') ) ? '' : WC_VERSION,
+            'locale' => get_locale(),
+            'theme' => wp_get_theme()->get('Name'),
+            'multisite' => is_multisite() ? 'Yes' : 'No',
+            'plugin_version' => WPG_PLUGIN_VERSION,
+        );
+        $args = array(
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $api_key,
+                'Content-Type' => 'application/json',
+            ),
+            'body' => json_encode(array(
+                'records' => array(
+                    array(
+                        'fields' => array(
+                            'reason' => json_encode($data),
+                            'date' => date('M d, Y h:i:s A')
+                        ),
+                    ),
+                ),
+            )),
+            'method' => 'POST'
+        );
+        $response = wp_remote_post($url, $args);
+        if (is_wp_error($response)) {
+            wp_send_json_error(array(
+                'message' => 'Error communicating with Airtable',
+                'error' => $response->get_error_message()
+            ));
+        } else {
+            wp_send_json_success(array(
+                'message' => 'Deactivation feedback submitted successfully',
+                'response' => json_decode(wp_remote_retrieve_body($response), true)
+            ));
+        }
     }
 }

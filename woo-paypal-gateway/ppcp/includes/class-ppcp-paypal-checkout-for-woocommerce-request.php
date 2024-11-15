@@ -97,7 +97,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->landing_page = $this->get_option('landing_page', 'NO_PREFERENCE');
             $this->advanced_card_payments = 'yes' === $this->get_option('enable_advanced_card_payments', 'no');
             $this->decimals = $this->ppcp_get_number_of_decimal_digits();
-            $this->send_items = 'yes' === $this->get_option('send_items', 'no');
+            $this->send_items = 'yes' === $this->get_option('send_items', 'yes');
             if (ppcp_is_advanced_cards_available() === false) {
                 $this->advanced_card_payments = false;
             }

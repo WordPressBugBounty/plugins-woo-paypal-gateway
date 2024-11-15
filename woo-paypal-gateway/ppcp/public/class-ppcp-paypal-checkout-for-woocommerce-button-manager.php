@@ -215,7 +215,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $ppcp_js_arg['client-id'] = $this->client_id;
         $ppcp_js_arg['currency'] = $this->ppcp_currency;
         if (!isset($this->disable_funding['venmo'])) {
-            $ppcp_js_arg['enable-funding'] = 'venmo';
+            //$ppcp_js_arg['enable-funding'] = '';
         }
         if ($this->disable_funding !== false && count($this->disable_funding) > 0) {
             $ppcp_js_arg['disable-funding'] = implode(',', $this->disable_funding);
