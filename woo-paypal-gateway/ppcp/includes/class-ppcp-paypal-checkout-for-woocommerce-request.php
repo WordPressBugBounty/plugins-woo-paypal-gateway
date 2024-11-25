@@ -95,12 +95,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->soft_descriptor = $this->get_option('soft_descriptor', '');
             $this->brand_name = $this->get_option('brand_name', get_bloginfo('name'));
             $this->landing_page = $this->get_option('landing_page', 'NO_PREFERENCE');
-            $this->advanced_card_payments = 'yes' === $this->get_option('enable_advanced_card_payments', 'no');
+            $this->advanced_card_payments = 'yes' === $this->get_option('enable_advanced_card_payments', 'yes');
             $this->decimals = $this->ppcp_get_number_of_decimal_digits();
             $this->send_items = 'yes' === $this->get_option('send_items', 'yes');
-            if (ppcp_is_advanced_cards_available() === false) {
-                $this->advanced_card_payments = false;
-            }
             $this->AVSCodes = array("A" => "Address Matches Only (No ZIP)",
                 "B" => "Address Matches Only (No ZIP)",
                 "C" => "This tranaction was declined.",

@@ -2,13 +2,13 @@
 Contributors: easypayment  
 Tags: PayPal Express Checkout, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
-Tested up to: 6.7
-Stable tag: 9.0.12  
+Tested up to: 6.7.1
+Stable tag: 9.0.13  
 Requires PHP: 7.2  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
 
-Accept Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more — powered by an official PayPal Partner.
+Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more — powered by an official PayPal Partner.
 
 == Description ==
 
@@ -98,6 +98,11 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Currently, the plugin supports one-time payments. For recurring payments in "PayPal For WooCommerce," consider integrating with WooCommerce Subscriptions or other plugins.
 
 == Changelog ==
+
+= 9.0.13 - 2024-11-25 =
+* Added compatibility with Cookies and Content Security Policy (CSP).
+* Improved the organization and structure of gateway settings fields.
+* Enhanced button layout and design with updated CSS for a more polished user interface.
 
 = 9.0.12 - 2024-11-15 =
 * Resolved the issue with sending line item details to PayPal.

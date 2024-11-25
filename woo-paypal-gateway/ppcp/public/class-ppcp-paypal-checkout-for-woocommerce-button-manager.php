@@ -54,6 +54,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     public $mini_cart_button_shape;
     public $mini_cart_style_label;
     public $mini_cart_style_tagline;
+    public $express_checkout_style_layout;
+    public $express_checkout_style_color;
+    public $express_checkout_style_shape;
+    public $express_checkout_style_label;
+    public $express_checkout_style_tagline;
+    public $is_mobile;
     protected static $_instance = null;
 
     public static function instance() {
@@ -85,7 +91,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
     public function get_properties() {
         $this->title = __('PayPal Checkout', 'woo-paypal-gateway');
-        $this->enabled = 'yes' === $this->ppcp_get_settings('enabled', 'no');
+        $this->enabled = 'yes' === $this->ppcp_get_settings('enabled', 'yes');
         $this->sandbox = 'yes' === $this->ppcp_get_settings('sandbox', 'no');
         if ($this->sandbox) {
             $this->client_id = $this->ppcp_get_settings('rest_client_id_sandbox');
@@ -100,7 +106,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
         $this->ppcp_currency_list = array('AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'INR', 'ILS', 'JPY', 'MYR', 'MXN', 'TWD', 'NZD', 'NOK', 'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'THB', 'USD');
         $this->ppcp_currency = in_array(get_woocommerce_currency(), $this->ppcp_currency_list) ? get_woocommerce_currency() : 'USD';
-        $this->show_on_product_page = 'yes' === $this->ppcp_get_settings('show_on_product_page', 'yes');
+        $this->show_on_product_page = 'yes' === $this->ppcp_get_settings('show_on_product_page', 'no');
         $this->show_on_cart = 'yes' === $this->ppcp_get_settings('show_on_cart', 'yes');
         $this->show_on_checkout_page = 'yes' === $this->ppcp_get_settings('show_on_checkout_page', 'yes');
         $this->enable_checkout_button_top = 'yes' === $this->ppcp_get_settings('enable_checkout_button_top', 'no');
@@ -112,13 +118,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         } else {
             $this->order_review_page_enable_coupons = false;
         }
-
+        $this->is_mobile = wp_is_mobile();
         $this->order_review_page_description = $this->ppcp_get_settings('order_review_page_description', __("<strong>You're almost done!</strong><br>Review your information before you place your order.", 'woo-paypal-gateway'));
         $this->paymentaction = $this->ppcp_get_settings('paymentaction', 'capture');
-        $this->advanced_card_payments = 'yes' === $this->ppcp_get_settings('enable_advanced_card_payments', 'no');
-        if (ppcp_is_advanced_cards_available() === false) {
-            $this->advanced_card_payments = false;
-        }
+        $this->advanced_card_payments = 'yes' === $this->ppcp_get_settings('enable_advanced_card_payments', 'yes');
         $this->threed_secure_contingency = $this->ppcp_get_settings('3d_secure_contingency', 'SCA_WHEN_REQUIRED');
         $this->enabled_pay_later_messaging = 'yes' === $this->ppcp_get_settings('enabled_pay_later_messaging', 'no');
         $this->pay_later_messaging_page_type = $this->ppcp_get_settings('pay_later_messaging_page_type', array('home', 'category', 'product', 'cart', 'payment'));
@@ -198,9 +201,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         add_action('wp_loaded', array($this, 'ppcp_prevent_add_to_cart_woo_action'), 1);
         add_action('woocommerce_get_checkout_url', array($this, 'ppcp_woocommerce_get_checkout_url'), 9999, 1);
         if ($this->show_on_checkout_page === true && $this->enable_checkout_button_top === true) {
-            add_action('woocommerce_before_checkout_form', array($this, 'display_paypal_button_top_checkout_page'), 5);
+            add_action('woocommerce_before_checkout_form', array($this, 'display_paypal_button_top_checkout_page'), 10);
         }
         add_action('wp_loaded', array($this, 'ppcp_block_set_address'), 999);
+        add_action('admin_init', array($this, 'ppcp_admin_init'), 100);
     }
 
     public function enqueue_scripts() {
@@ -215,7 +219,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $ppcp_js_arg['client-id'] = $this->client_id;
         $ppcp_js_arg['currency'] = $this->ppcp_currency;
         if (!isset($this->disable_funding['venmo'])) {
-            //$ppcp_js_arg['enable-funding'] = '';
+            $ppcp_js_arg['enable-funding'] = 'venmo';
         }
         if ($this->disable_funding !== false && count($this->disable_funding) > 0) {
             $ppcp_js_arg['disable-funding'] = implode(',', $this->disable_funding);
@@ -263,6 +267,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         if (!empty($components)) {
             $ppcp_js_arg['components'] = implode(',', $components);
         }
+        if (wp_is_mobile()) {
+            $this->express_checkout_style_layout = 'vertical';
+        }
         $js_url = add_query_arg($ppcp_js_arg, 'https://www.paypal.com/sdk/js');
         wp_register_script('ppcp-checkout-js', $js_url, array(), null, false);
         wp_register_script('ppcp-paypal-checkout-for-woocommerce-public', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/ppcp-paypal-checkout-for-woocommerce-public.js', array('jquery'), WPG_PLUGIN_VERSION, false);
@@ -272,7 +279,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             'style_shape' => $this->style_shape,
             'style_label' => $this->style_label,
             'style_layout' => $this->style_layout,
-            'style_tagline' => $this->style_tagline,
+            'style_tagline' => ($this->style_tagline === 'no') ? 'false' : 'true',
+            'express_checkout_style_color' => $this->express_checkout_style_color,
+            'express_checkout_style_shape' => $this->express_checkout_style_shape,
+            'express_checkout_style_label' => $this->express_checkout_style_label,
+            'express_checkout_style_layout' => $this->express_checkout_style_layout,
+            'express_checkout_style_tagline' => ($this->express_checkout_style_tagline === 'no') ? 'false' : 'true',
             'page' => $page,
             'is_pay_page' => $is_pay_page,
             'checkout_url' => wc_get_checkout_url(),
@@ -298,7 +310,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function is_valid_for_use() {
-        if (!empty($this->client_id) && !empty($this->secret) && $this->enabled) {
+        if (!empty($this->client_id) && !empty($this->secret) && ($this->enabled || $this->advanced_card_payments)) {
             return true;
         }
         return false;
@@ -308,7 +320,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         wp_enqueue_script('ppcp-checkout-js');
         wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-        echo '<div class="ppcp-button-container"><div id="ppcp_cart"></div><div class="ppcp-proceed-to-checkout-button-separator">&mdash; ' . __('OR', 'woo-paypal-gateway') . ' &mdash;</div></div>';
+        echo '<div class="ppcp-button-container ppcp_cart"><div id="ppcp_cart"></div><div class="ppcp-proceed-to-checkout-button-separator">&mdash; ' . __('or', 'woo-paypal-gateway') . ' &mdash;</div></div>';
     }
 
     public function display_paypal_button_cart_page_top() {
@@ -319,7 +331,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             wp_enqueue_script('ppcp-checkout-js');
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
             wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-            echo '<div class="ppcp-button-container"><div id="ppcp_cart_top"></div></div>';
+            echo '<div class="ppcp-button-container">';
+            echo '<div id="ppcp_cart_top" class="' . ($this->is_mobile ? 'mobile' : '') . '"></div>';
+            echo '</div>';
         }
     }
 
@@ -331,7 +345,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         wp_enqueue_script('ppcp-checkout-js');
         wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-        echo '<div class="ppcp-button-container"><div id="ppcp_product"></div></div>';
+        echo '<div class="ppcp-button-container">';
+        echo '<div id="ppcp_product" class="' . ($this->is_mobile ? 'mobile' : 'desktop') . '"></div>';
+        echo '</div>';
     }
 
     public function display_paypal_button_checkout_page() {
@@ -356,7 +372,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             wp_enqueue_script('ppcp-checkout-js');
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
             wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-            echo apply_filters('ppcp_checkout_top_html', '<div class="ppcp-button-container"><fieldset><legend class="express-title">' . __('PayPal Checkout', 'woo-paypal-gateway') . '</legend><div class="wc_ppcp_express_checkout_gateways"><div class="express_payment_method_ppcp"><div id="ppcp_checkout_top"></div></div></div></fieldset><span class="express-divider">OR</span></div>');
+            echo apply_filters('ppcp_checkout_top_html', '<div class="ppcp-button-container"><fieldset><legend class="express-title">' . __('Express Checkout', 'woo-paypal-gateway') . '</legend><div class="wc_ppcp_express_checkout_gateways"><div class="express_payment_method_ppcp"><div id="ppcp_checkout_top"></div></div></div></fieldset><span class="express-divider">OR</span></div>');
         }
     }
 
@@ -413,7 +429,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                                 $address = array();
                                 $address['radio-control-wc-payment-method-options'] = wc_clean($_POST['radio-control-wc-payment-method-options']);
                                 $address['payment_method'] = wc_clean($_POST['radio-control-wc-payment-method-options']);
-                                
+
                                 $billing_address = json_decode(stripslashes($_POST['billing_address']), true);
                                 foreach ($billing_address as $key => $address_value) {
                                     $address[$key] = $address_value;
@@ -609,7 +625,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
         }
     }
-    
+
     public function maybe_disable_other_gateways($gateways) {
         if ($this->show_on_checkout_page === false && $this->advanced_card_payments === false && empty($this->checkout_details)) {
             if (isset($gateways['wpg_paypal_checkout'])) {
@@ -1370,6 +1386,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $this->style_label = $this->ppcp_get_settings('checkout_button_label', 'paypal');
             $this->style_tagline = $this->ppcp_get_settings('checkout_button_tagline', 'yes');
         }
+
+        $this->express_checkout_style_layout = $this->ppcp_get_settings('express_checkout_button_layout', 'horizontal');
+        $this->express_checkout_style_color = $this->ppcp_get_settings('express_checkout_button_color', 'gold');
+        $this->express_checkout_style_shape = $this->ppcp_get_settings('express_checkout_button_shape', 'rect');
+        $this->express_checkout_style_label = $this->ppcp_get_settings('express_checkout_button_label', 'paypal');
+        $this->express_checkout_style_tagline = $this->ppcp_get_settings('express_checkout_button_tagline', 'no');
+
         $this->mini_cart_disable_funding = $this->ppcp_get_settings('mini_cart_disallowed_funding_methods', array());
         $this->mini_cart_style_layout = $this->ppcp_get_settings('mini_cart_button_layout', 'vertical');
         $this->mini_cart_button_color = $this->ppcp_get_settings('mini_cart_button_color', 'gold');
@@ -1472,5 +1495,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $shipping_details = $this->get_mapped_shipping_address($this->checkout_details);
         $billing_details = $this->get_mapped_billing_address($this->checkout_details);
         $this->update_customer_addresses_from_paypal($shipping_details, $billing_details);
+    }
+
+    public function ppcp_admin_init() {
+        if (!function_exists('cacsp_load_textdomain')) {
+            return;
+        }
+        $cacsp_option_always_scripts = get_option('cacsp_option_always_scripts', '');
+        if (empty($cacsp_option_always_scripts)) {
+            update_option('cacsp_option_always_scripts', 'https://www.paypal.com/');
+            return;
+        }
+        if (strpos($cacsp_option_always_scripts, 'https://www.paypal.com/') === false) {
+            $cacsp_option_always_scripts .= 'https://www.paypal.com/';
+            update_option('cacsp_option_always_scripts', $cacsp_option_always_scripts, true);
+        }
     }
 }

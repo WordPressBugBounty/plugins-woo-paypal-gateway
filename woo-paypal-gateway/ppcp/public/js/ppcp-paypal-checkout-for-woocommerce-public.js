@@ -6,6 +6,7 @@
             this.lastApiResponse = null;
             this.ppcp_address = [];
             this.init();
+            this.ppcp_cart_css();
         }
 
         init() {
@@ -123,8 +124,10 @@
         }
 
         update_paypal_checkout() {
+            this.ppcp_cart_css();
             this.renderSmartButton();
             this.togglePlaceOrderButton();
+
         }
 
         update_paypal_cc() {
@@ -172,14 +175,20 @@
         renderSmartButton() {
             const selectors = this.ppcp_manager.button_selector;
             $.each(selectors, (key, selector) => {
-                if (!$(selector).length || $(selector).children().length || typeof paypal === 'undefined')
+                if (!$(selector).length || $(selector).children().length || typeof paypal === 'undefined') {
                     return;
+                }
+                const isExpressCheckout = selector === '#ppcp_checkout_top';
                 const ppcpStyle = {
-                    layout: this.ppcp_manager.style_layout,
-                    color: this.ppcp_manager.style_color,
-                    shape: this.ppcp_manager.style_shape,
-                    label: this.ppcp_manager.style_label
+                    layout: isExpressCheckout ? this.ppcp_manager.express_checkout_style_layout : this.ppcp_manager.style_layout,
+                    color: isExpressCheckout ? this.ppcp_manager.express_checkout_style_color : this.ppcp_manager.style_color,
+                    shape: isExpressCheckout ? this.ppcp_manager.express_checkout_style_shape : this.ppcp_manager.style_shape,
+                    label: isExpressCheckout ? this.ppcp_manager.express_checkout_style_label : this.ppcp_manager.style_label
                 };
+                if (ppcpStyle.layout === 'horizontal') {
+                    ppcpStyle.tagline = isExpressCheckout ? this.ppcp_manager.express_checkout_style_tagline : this.ppcp_manager.style_tagline;
+                }
+                console.log(ppcpStyle);
                 paypal.Buttons({
                     style: ppcpStyle,
                     createOrder: () => this.createOrder(selector),
@@ -188,6 +197,7 @@
                     onError: (err) => this.onErrorHandler(err)
                 }).render(selector);
             });
+
         }
 
         createOrder(selector) {
@@ -218,7 +228,8 @@
             }).then(res => res.json()).then(data => {
                 this.hideSpinner();
                 if (data.success !== undefined) {
-                    this.showError(data.data.messages);
+                    const messages = data.data.messages ?? data.data; // Use messages if it exists, otherwise use data
+                    this.showError(messages);
                     return null;
                 }
                 return data.orderID;
@@ -261,25 +272,47 @@
         }
 
         showError(error_message) {
-            const $checkout_form = $('form.checkout');
-            if ($checkout_form.length) {
+            console.log(error_message);
+            let $checkout_form;
+            if ($('form.checkout').length) {
+                $checkout_form = $('form.checkout');
+            } else if ($('.woocommerce-notices-wrapper').length) {
+                $checkout_form = $('.woocommerce-notices-wrapper');
+            } else if ($('.woocommerce').length) {
+                $checkout_form = $('.woocommerce');
+            } else if ($('.wc-block-components-notices').length) {
+                $checkout_form = $('.wc-block-components-notices').first();
+            }
+            if ($checkout_form && $checkout_form.length) {
                 $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
-                if (typeof error_message === 'string') {
+                if (!error_message || (typeof error_message !== 'string' && !Array.isArray(error_message))) {
+                    error_message = ['An unknown error occurred.'];
+                } else if (typeof error_message === 'string') {
                     error_message = [error_message];
                 }
-                let errorHTML = '<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout"><ul class="woocommerce-error" role="alert">';
+                let errorHTML = '<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout" role="alert" aria-live="assertive"><ul class="woocommerce-error">';
                 $.each(error_message, (index, value) => {
                     errorHTML += `<li>${value}</li>`;
                 });
                 errorHTML += '</ul></div>';
                 $checkout_form.prepend(errorHTML).removeClass('processing').unblock();
                 $checkout_form.find('.input-text, select, input:checkbox').trigger('validate').trigger('blur');
-                const scrollElement = $('.woocommerce-NoticeGroup-updateOrderReview, .woocommerce-NoticeGroup-checkout').length ? $('.woocommerce-NoticeGroup-updateOrderReview, .woocommerce-NoticeGroup-checkout') : $checkout_form;
-                $('html, body').animate({scrollTop: scrollElement.offset().top - 100}, 1000);
-
+                const scrollElement = $('.woocommerce-NoticeGroup-updateOrderReview, .woocommerce-NoticeGroup-checkout').filter(function () {
+                    return $(this).is(':visible') && $(this).offset() !== undefined;
+                }).first();
+                if (scrollElement.length) {
+                    const offset = scrollElement.offset(); // Get offset safely
+                    if (offset) {
+                        $('html, body').animate({scrollTop: offset.top - 100}, 1000);
+                    }
+                }
                 $(document.body).trigger('checkout_error', [error_message]);
             } else {
-                const errorMessagesString = (typeof error_message === 'string') ? error_message : error_message.join("<br>");
+                const errorMessagesString = Array.isArray(error_message)
+                        ? error_message.join('<br>')
+                        : typeof error_message === 'string'
+                        ? error_message
+                        : 'An unknown error occurred.';
                 $(document.body).trigger('ppcp_checkout_error', errorMessagesString);
             }
         }
@@ -410,6 +443,17 @@
 
         getSelectedPaymentMethod() {
             return $('input[name="payment_method"]:checked').val();
+        }
+
+        ppcp_cart_css() {
+            const $button = $('.checkout-button');
+            const width = $button.outerWidth();
+            if (width && $('.ppcp-button-container.ppcp_cart').length) {
+                $('.ppcp-button-container.ppcp_cart').width(width);
+            }
+            if ($button.css('float') !== 'none') {
+                $('.ppcp-button-container.ppcp_cart').css('float', $button.css('float'));
+            }
         }
     }
 

@@ -54,7 +54,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
 
     public function ppcp_get_properties() {
         $this->title = $this->setting_obj->get('title', 'PayPal');
-        $this->enabled = 'yes' === $this->setting_obj->get('enabled', 'no');
+        $this->enabled = 'yes' === $this->setting_obj->get('enabled', 'yes');
         $this->is_sandbox = 'yes' === $this->setting_obj->get('sandbox', 'no');
         if ($this->is_sandbox) {
             $this->client_id = $this->setting_obj->get('rest_client_id_sandbox');

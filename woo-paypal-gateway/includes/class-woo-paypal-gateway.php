@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.12';
+            $this->version = '9.0.13';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -73,6 +73,7 @@ class Woo_Paypal_Gateway {
         add_action('http_api_curl', array($this, 'wpg_http_api_curl_ec_add_curl_parameter'), 10, 3);
         $prefix = is_network_admin() ? 'network_admin_' : '';
         add_filter("{$prefix}plugin_action_links_" . WPG_PLUGIN_BASENAME, array($this, 'wpg_plugin_action_links'), 10, 4);
+        add_filter('plugin_row_meta', array($this, 'add_wpg_plugin_meta_links'), 10, 2);
         add_action('woocommerce_cart_emptied', array($this, 'wpg_clear_session'), 1);
         add_action('woocommerce_cart_item_removed', array($this, 'wpg_clear_session'), 1);
         add_action('woocommerce_update_cart_action_cart_updated', array($this, 'wpg_clear_session'), 1);
@@ -254,14 +255,19 @@ class Woo_Paypal_Gateway {
     public function wpg_plugin_action_links($actions, $plugin_file, $plugin_data, $context) {
         $custom_actions = array(
             'configure' => sprintf('<a href="%s">%s</a>', admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout'), __('Settings', 'woo-paypal-gateway')),
-            'docs' => sprintf('<a href="%s" target="_blank">%s</a>', 'https://wordpress.org/plugins/woo-paypal-gateway/', __('Docs', 'woo-paypal-gateway')),
-            'support' => sprintf('<a href="%s" target="_blank">%s</a>', 'https://wordpress.org/support/plugin/woo-paypal-gateway/', __('Support', 'woo-paypal-gateway')),
-            'review' => sprintf('<a href="%s" target="_blank">%s</a>', 'https://wordpress.org/support/plugin/woo-paypal-gateway/reviews/', __('Write a Review', 'woo-paypal-gateway')),
         );
         if (array_key_exists('deactivate', $actions)) {
             $actions['deactivate'] = str_replace('<a', '<a class="woo-paypal-gateway-deactivate-link"', $actions['deactivate']);
         }
-        return array_merge($custom_actions, $actions);
+        return array_merge($actions, $custom_actions);
+    }
+
+    public function add_wpg_plugin_meta_links($meta, $file) {
+        if (basename($file) === basename(WPG_PLUGIN_FILE)) {
+            $meta[] = '<a href="https://wordpress.org/support/plugin/woo-paypal-gateway/">' . __('Community support', 'widgets-for-google-reviews-and-ratings') . '</a>';
+            $meta[] = '<a href="https://wordpress.org/support/plugin/woo-paypal-gateway/reviews/#new-post" target="_blank" rel="noopener noreferrer">' . __('Rate our plugin', 'widgets-for-google-reviews-and-ratings') . '</a>';
+        }
+        return $meta;
     }
 
     public function wpg_clear_session() {

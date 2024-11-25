@@ -12,19 +12,24 @@ $deactivation_url = wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . r
     </div>
     <div class="deactivation-Modal-content">
         <div class="deactivation-Modal-question deactivation-isOpen">
-            <h3><?php _e('We\'d love to know the reason for your deactivation.', 'woo-paypal-gateway'); ?></h3>
+            <h3><?php _e('We’re sorry to see you go! 💔', 'woo-paypal-gateway'); ?></h3>
+            <p>Please take a moment to share the reason for deactivating the PayPal Plugin. Your feedback is invaluable in helping us improve and serve you better.</p>
             <ul>
                 <li>
                     <input type="radio" name="reason" id="reason-temporary" value="Temporary Deactivation">
-                    <label for="reason-temporary"><?php _e('<strong>This is a temporary deactivation.</strong> I’m troubleshooting an issue.', 'woo-paypal-gateway'); ?></label>
+                    <label for="reason-temporary"><?php _e('This is a <strong>temporary deactivation</strong>; I’m troubleshooting an issue.', 'woo-paypal-gateway'); ?></label>
                 </li>
                 <li>
                     <input type="radio" name="reason" id="reason-broke" value="Broken Layout">
-                    <label for="reason-broke"><?php _e('The plugin <strong>caused issues with my layout</strong> or affected functionality.', 'woo-paypal-gateway'); ?></label>
+                    <label for="reason-broke"><?php _e('The plugin caused issues with my site’s <strong>layout</strong> or <strong>functionality</strong>.', 'woo-paypal-gateway'); ?></label>
                 </li>
                 <li>
                     <input type="radio" name="reason" id="reason-complicated" value="Complicated">
-                    <label for="reason-complicated"><?php _e('The plugin is <strong>difficult to set up.</strong>', 'woo-paypal-gateway'); ?></label>
+                    <label for="reason-complicated"><?php _e('I found the plugin <strong>difficult to set up</strong>.', 'woo-paypal-gateway'); ?></label>
+                </li>
+                <li>
+                    <input type="radio" name="reason" id="not-provided" value="features not provided">
+                    <label for="not-provided"><?php _e('The plugin doesn’t offer the <strong>features I need</strong>.', 'woo-paypal-gateway'); ?></label>
                 </li>
                 <li>
                     <input type="radio" name="reason" id="reason-other" value="Other">

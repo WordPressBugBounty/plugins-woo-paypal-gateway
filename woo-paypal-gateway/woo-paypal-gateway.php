@@ -4,8 +4,8 @@
  * @wordpress-plugin
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
- * Description:       Accept Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more — powered by an official PayPal Partner.
- * Version:           9.0.12
+ * Description:       Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more — powered by an official PayPal Partner.
+ * Version:           9.0.13
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
@@ -15,15 +15,15 @@
  * Requires at least: 4.7
  * Requires PHP: 7.1
  * Requires Plugins: woocommerce
- * Tested up to: 6.7
+ * Tested up to: 6.7.1
  * WC requires at least: 3.4
- * WC tested up to: 9.4.1
+ * WC tested up to: 9.4.2
  */
 if (!defined('WPINC')) {
     die;
 }
 
-define('WPG_PLUGIN_VERSION', '9.0.12');
+define('WPG_PLUGIN_VERSION', '9.0.13');
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
 }
@@ -36,7 +36,9 @@ if (!defined('WPG_PLUGIN_BASENAME')) {
 if (!defined('WPG_PLUGIN_ASSET_URL')) {
     define('WPG_PLUGIN_ASSET_URL', plugin_dir_url(__FILE__));
 }
-
+if (!defined('WPG_PLUGIN_FILE')) {
+    define('WPG_PLUGIN_FILE',  __FILE__);
+}
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-woo-paypal-gateway-activator.php
