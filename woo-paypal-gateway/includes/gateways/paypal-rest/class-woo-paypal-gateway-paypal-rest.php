@@ -122,7 +122,7 @@ class Woo_PayPal_Gateway_PayPal_Rest extends WC_Payment_Gateway_CC {
             }
             return true;
         } catch (Exception $e) {
-            self::log($ex->getMessage());
+            self::log($e->getMessage());
             wc_add_notice($e->getMessage(), 'error');
             return false;
         }

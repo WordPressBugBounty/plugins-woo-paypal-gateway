@@ -95,7 +95,6 @@ var { registerExpressPaymentMethod, registerPaymentMethod } = wc.wcBlocksRegistr
             useEffect(() => {
                 jQuery(document.body).trigger('ppcp_cc_block_ready');
                 const unsubscribe = onPaymentSetup(async () => {
-                    wp.data.dispatch(wc.wcBlocksData.CHECKOUT_STORE_KEY).__internalSetIdle();
                     jQuery(document.body).trigger('submit_paypal_cc_form');
                     jQuery('.wc-block-components-checkout-place-order-button').append('<span class="wc-block-components-spinner" aria-hidden="true"></span>');
                     jQuery('.wc-block-components-checkout-place-order-button, .wp-block-woocommerce-checkout-fields-block #contact-fields, .wp-block-woocommerce-checkout-fields-block #billing-fields, .wp-block-woocommerce-checkout-fields-block #payment-method').block({ message: null, overlayCSS: { background: '#fff', opacity: 0.6 } });

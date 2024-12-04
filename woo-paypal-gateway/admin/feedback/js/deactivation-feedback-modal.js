@@ -6,18 +6,25 @@ $(document).ready(function () {
     }
     $("#mixpanel-send-deactivation").on("click", function (e) {
         e.preventDefault();
+        const $button = $('#mixpanel-send-deactivation');
+        $button.prop('disabled', true);
+        $button.css({
+            cursor: 'not-allowed',
+            opacity: '0.6'
+        });
+        $button.attr('title', 'This button is read-only and cannot be clicked.');
         var data = {
             action: 'wpg_send_deactivation',
             reason_details: $("#reason-other-details").val(),
             reason: $("input[name='reason']:checked").val()
         };
         $.post(ajaxurl, data)
-            .done(function (response) {
-                window.location.replace($('#mixpanel-send-deactivation').attr("href"));
-            })
-            .fail(function (response) {
-                window.location.replace($('#mixpanel-send-deactivation').attr("href"));
-            });
+                .done(function (response) {
+                    window.location.replace($('#mixpanel-send-deactivation').attr("href"));
+                })
+                .fail(function (response) {
+                    window.location.replace($('#mixpanel-send-deactivation').attr("href"));
+                });
     });
 });
 

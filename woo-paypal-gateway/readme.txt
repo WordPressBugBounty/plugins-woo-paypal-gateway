@@ -1,9 +1,9 @@
 === Payment Gateway for PayPal on WooCommerce ===
 Contributors: easypayment  
-Tags: PayPal Express Checkout, PayPal Pro, Braintree, PayPal Checkout  
+Tags: PayPal, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
 Tested up to: 6.7.1
-Stable tag: 9.0.13  
+Stable tag: 9.0.14  
 Requires PHP: 7.2  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -32,26 +32,38 @@ Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Banc
 
 ### List of Methods
 
-* **PayPal** - The world's most trusted online payment service, offering secure transactions with global reach.
-* **Pay Later** - This service, offered by providers like PayPal, lets customers defer payments, popular in the U.S. and Europe for flexible purchasing.
-* **Venmo** - A major mobile payment service in the U.S. with over 70 million users, ideal for peer-to-peer and e-commerce transactions.
-* **Bancontact** - The most widely used payment method in Belgium, processing millions of secure transactions annually.
-* **BLIK** - A leading payment option in Poland, widely used for online and mobile transactions, with millions of users.
-* **Discover** - A popular credit card option in the U.S., serving millions of cardholders and accepted by numerous merchants nationwide.
-* **eps** - An Austrian online bank transfer system supported by major banks, handling millions of secure transactions annually.
-* **giropay** - Common in Germany, giropay is widely accepted among German merchants, providing millions of secure online transactions.
-* **iDEAL** - Dominant in the Netherlands, iDEAL is used for over half of online transactions, offering trusted bank-based payments.
-* **MyBank** - A secure online payment method in several European countries, including Italy and France, serving millions of users.
-* **Mastercard** - A globally recognized and trusted credit card option, accepted by merchants worldwide.
-* **Przelewy24** - A leading payment method in Poland, connecting with numerous banks to facilitate millions of transactions.
-* **Sofort** - Available across Europe, especially in Germany and Austria, preferred for secure, direct bank transfers.
-* **Mercado Pago** - A major digital payment platform in Latin America with tens of millions of users across countries like Brazil and Argentina.
-* **SEPA-Lastschrift** - Covering over 36 European countries, SEPA enables euro-denominated bank transfers for hundreds of millions of users.
+* **PayPal** - The world's most trusted online payment service, offering secure transactions with global reach.  
+* **Google Pay** - A fast, simple, and secure payment method, available globally, enabling users to pay with their saved cards through their Android devices or web browsers.  
+* **Pay Later** - This service, offered by providers like PayPal, lets customers defer payments, popular in the U.S. and Europe for flexible purchasing.  
+* **Venmo** - A major mobile payment service in the U.S. with over 70 million users, ideal for peer-to-peer and e-commerce transactions.  
+* **Bancontact** - The most widely used payment method in Belgium, processing millions of secure transactions annually.  
+* **BLIK** - A leading payment option in Poland, widely used for online and mobile transactions, with millions of users.  
+* **Discover** - A popular credit card option in the U.S., serving millions of cardholders and accepted by numerous merchants nationwide.  
+* **eps** - An Austrian online bank transfer system supported by major banks, handling millions of secure transactions annually.  
+* **giropay** - Common in Germany, giropay is widely accepted among German merchants, providing millions of secure online transactions.  
+* **iDEAL** - Dominant in the Netherlands, iDEAL is used for over half of online transactions, offering trusted bank-based payments.  
+* **MyBank** - A secure online payment method in several European countries, including Italy and France, serving millions of users.  
+* **Mastercard** - A globally recognized and trusted credit card option, accepted by merchants worldwide.  
+* **Przelewy24** - A leading payment method in Poland, connecting with numerous banks to facilitate millions of transactions.  
+* **Sofort** - Available across Europe, especially in Germany and Austria, preferred for secure, direct bank transfers.  
+* **Mercado Pago** - A major digital payment platform in Latin America with tens of millions of users across countries like Brazil and Argentina.  
+* **SEPA-Lastschrift** - Covering over 36 European countries, SEPA enables euro-denominated bank transfers for hundreds of millions of users.  
+
+
+
+### Seamless integration with popular WooCommerce Side Cart and Mini Cart plugins:
+
+* Side Cart WooCommerce | WooCommerce Cart
+* WooCommerce Cart & Floating Cart
+* XT Floating Cart for WooCommerce
+* WPC Fly Cart for WooCommerce
+* Addonify Floating Cart for WooCommerce
+* All In One Woo Cart
+* WooCommerce Fast Cart
 
 
 ### Coming Soon:
 - **Fastlane**: A faster checkout experience.
-- **Google Pay**: Easy, secure payments directly from Google.
 - **Apple Pay**: Streamlined payments using Apple’s secure payment platform.
 
 == Installation ==
@@ -98,6 +110,9 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Currently, the plugin supports one-time payments. For recurring payments in "PayPal For WooCommerce," consider integrating with WooCommerce Subscriptions or other plugins.
 
 == Changelog ==
+
+= 9.0.14 - 2024-12-04 =
+* Feature: Added Google Pay support for seamless and secure payments.
 
 = 9.0.13 - 2024-11-25 =
 * Added compatibility with Cookies and Content Security Policy (CSP).

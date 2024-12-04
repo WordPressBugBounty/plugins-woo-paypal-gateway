@@ -90,3 +90,6 @@ table tr:first-child th {
     display: block;
     margin: 0px 1px 11px 7px;
 }
+.select2-search__field {
+  min-width: 400px !important;
+}

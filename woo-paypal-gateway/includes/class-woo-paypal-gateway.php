@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.13';
+            $this->version = '9.0.14';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -80,9 +80,6 @@ class Woo_Paypal_Gateway {
         add_action('admin_notices', array($this, 'cpp_admin_notice'));
         add_action('wp_ajax_ppcp_admin_notice_action', array($this, 'ppcp_admin_notice_action'), 10);
         add_action('wp_ajax_ppcp_dismiss_notice', array($this, 'ppcp_dismiss_notice'), 10);
-        add_action('admin_notices', array($this, 'display_google_reviews_notice'), 999999);
-        add_action('wp_ajax_hide_google_reviews_notice', array($this, 'hide_google_reviews_notice'));
-        add_action('wp_ajax_remind_me_later_google_reviews_notice', array($this, 'remind_me_later_google_reviews_notice'));
         add_action('admin_footer', array($this, 'wpg_add_deactivation_feedback_form'));
         add_action('admin_enqueue_scripts', array($this, 'wpg_add_deactivation_feedback_form_scripts'));
         add_action('wp_ajax_wpg_send_deactivation', array($this, 'wpg_handle_plugin_deactivation_request'));
@@ -259,13 +256,13 @@ class Woo_Paypal_Gateway {
         if (array_key_exists('deactivate', $actions)) {
             $actions['deactivate'] = str_replace('<a', '<a class="woo-paypal-gateway-deactivate-link"', $actions['deactivate']);
         }
-        return array_merge($actions, $custom_actions);
+        return array_merge($custom_actions, $actions);
     }
 
     public function add_wpg_plugin_meta_links($meta, $file) {
         if (basename($file) === basename(WPG_PLUGIN_FILE)) {
-            $meta[] = '<a href="https://wordpress.org/support/plugin/woo-paypal-gateway/">' . __('Community support', 'widgets-for-google-reviews-and-ratings') . '</a>';
-            $meta[] = '<a href="https://wordpress.org/support/plugin/woo-paypal-gateway/reviews/#new-post" target="_blank" rel="noopener noreferrer">' . __('Rate our plugin', 'widgets-for-google-reviews-and-ratings') . '</a>';
+            $meta[] = '<a href="https://wordpress.org/support/plugin/woo-paypal-gateway/">' . __('Community support', 'woo-paypal-gateway') . '</a>';
+            $meta[] = '<a href="https://wordpress.org/support/plugin/woo-paypal-gateway/reviews/#new-post" target="_blank" rel="noopener noreferrer">' . __('Rate our plugin', 'woo-paypal-gateway') . '</a>';
         }
         return $meta;
     }
@@ -364,131 +361,6 @@ class Woo_Paypal_Gateway {
                 wp_send_json_success();
             }
         }
-    }
-
-    public function display_google_reviews_notice() {
-        $user_id = get_current_user_id();
-        $hide_notice = get_user_meta($user_id, 'hide_google_reviews_notice', true);
-        $remind_me_later = get_user_meta($user_id, 'remind_me_later_google_reviews_notice', true);
-
-        if ($hide_notice || ($remind_me_later && time() < $remind_me_later)) {
-            return;
-        }
-
-        $plugin_slug = 'widgets-for-google-reviews-and-ratings/widgets-for-google-reviews-and-ratings.php';
-        $plugin_installed = file_exists(WP_PLUGIN_DIR . '/' . $plugin_slug);
-
-        if ($plugin_installed || (isset($_GET['action']) && $_GET['action'] === 'install-plugin')) {
-            return;
-        }
-        ?>
-        <style>
-            .google-reviews-notice {
-                background-color: #f5f5f5;
-                border-left: 4px solid #34A853;
-                padding: 20px;
-                border-radius: 5px;
-                position: relative;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                box-sizing: border-box;
-            }
-            .google-reviews-notice .content {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-            }
-            .google-reviews-notice .icon {
-                margin-right: 15px;
-            }
-            .google-reviews-notice .icon img {
-                width: 100px;
-            }
-            .google-reviews-notice .message {
-                flex-grow: 1;
-            }
-            .google-reviews-notice h2 {
-                font-size: 18px;
-                margin: 0 0 5px;
-                font-weight: bold;
-                color: #333;
-            }
-            .google-reviews-notice p {
-                margin: 0;
-                font-size: 14px;
-                color: #666;
-            }
-            .google-reviews-notice .buttons {
-                display: flex;
-                gap: 10px;
-            }
-            .google-reviews-notice a.button-do-not-remind {
-                padding: 10px 20px;
-                background-color: #ddd;
-                color: #333;
-                text-decoration: none;
-                border-radius: 4px;
-                font-size: 14px;
-            }
-            .google-reviews-notice a.button-do-not-remind:hover {
-                background-color: #ccc;
-            }
-            .google-reviews-notice a.button-install {
-                padding: 10px 20px;
-                background-color: #4285F4;
-                color: #fff;
-                text-decoration: none;
-                border-radius: 4px;
-                font-size: 14px;
-            }
-            .google-reviews-notice a.button-install:hover {
-                background-color: #3367D6;
-            }
-            .google-reviews-notice .dismiss {
-                position: absolute;
-                top: -2px;
-                right: -2px;
-                font-size: 18px;
-                color: #888;
-                cursor: pointer;
-                display: block;
-            }
-            .google-reviews-notice .dismiss:hover {
-                color: #555;
-            }
-        </style>
-        <div class="notice google-reviews-notice" id="google-reviews-notice">
-            <div class="content">
-                <div class="icon">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google Logo">
-                </div>
-                <div class="message">
-                    <h2>Boost Your Site with Google Reviews</h2>
-                    <p>Increase sales and build trust by displaying real customer reviews. Improve your SEO rankings and boost credibility—all for free and with no API key required!</p>
-                </div>
-                <div class="buttons">
-                    <a class="button-do-not-remind" href="#" id="do-not-remind-again">Do not remind me again</a>
-                    <a class="button-install" href="<?php echo wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=widgets-for-google-reviews-and-ratings'), 'install-plugin_widgets-for-google-reviews-and-ratings'); ?>">Install Now</a>
-                </div>
-            </div>
-            <span class="dismiss dashicons dashicons-dismiss google-dismiss-promo" title="Dismiss"></span>
-        </div>
-        <?php
-    }
-
-    public function hide_google_reviews_notice() {
-        $user_id = get_current_user_id();
-        update_user_meta($user_id, 'hide_google_reviews_notice', true);
-        wp_send_json_success();
-    }
-
-    public function remind_me_later_google_reviews_notice() {
-        $user_id = get_current_user_id();
-        $remind_me_time = strtotime('+7 days');
-        update_user_meta($user_id, 'remind_me_later_google_reviews_notice', $remind_me_time);
-        wp_send_json_success();
     }
 
     public function wpg_add_deactivation_feedback_form() {

@@ -19,7 +19,7 @@ return $this->form_fields = array(
         'title' => __('Title', 'woo-paypal-gateway'),
         'type' => 'text',
         'description' => __('This controls the title which the user sees during checkout.', 'woo-paypal-gateway'),
-        'default' => __('Braintree (Credit / PayPal / PayPal Credit)', 'woo-paypal-gateway'),
+        'default' => __('Credit / PayPal / PayPal Credit', 'woo-paypal-gateway'),
         'desc_tip' => true
     ),
     'description' => array(

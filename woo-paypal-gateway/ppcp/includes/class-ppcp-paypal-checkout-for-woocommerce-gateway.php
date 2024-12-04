@@ -179,11 +179,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
 
     public function output_tabs($current_tab) {
         $tabs = array(
-            'wpg_api_settings' => __('API Settings', 'your-plugin-domain'),
-            'wpg_paypal_checkout' => __('PayPal Checkout', 'your-plugin-domain'),
-            'wpg_advanced_cc' => __('Advanced Card Payments', 'your-plugin-domain'),
-            'wpg_ppcp_paylater' => __('Pay Later Messaging', 'your-plugin-domain'),
-            'wpg_advanced_settings' => __('Additional Settings', 'your-plugin-domain'),
+            'wpg_api_settings' => __('API Settings', 'woo-paypal-gateway'),
+            'wpg_paypal_checkout' => __('PayPal Checkout', 'woo-paypal-gateway'),
+            'wpg_advanced_cc' => __('Advanced Card Payments', 'woo-paypal-gateway'),
+            'wpg_google_pay' => __('Google Pay', 'woo-paypal-gateway'),
+            'wpg_ppcp_paylater' => __('Pay Later Messaging', 'woo-paypal-gateway'),
+            'wpg_advanced_settings' => __('Additional Settings', 'woo-paypal-gateway'),
         );
         echo '<h2 class="nav-tab-wrapper">';
         foreach ($tabs as $key => $label) {
@@ -218,6 +219,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         } elseif ($this->wpg_section === 'wpg_advanced_settings') {
             $wpg_advanced_settings = $this->settings_obj->wpg_advanced_settings();
             return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_advanced_settings));
+        } elseif ($this->wpg_section === 'wpg_google_pay') {
+            $wpg_google_pay_settings = $this->settings_obj->wpg_ppcp_google_pay_settings();
+            return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_google_pay_settings));
         } else {
             $this->form_fields = $this->settings_obj->ppcp_setting_fields();
             return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $this->form_fields));

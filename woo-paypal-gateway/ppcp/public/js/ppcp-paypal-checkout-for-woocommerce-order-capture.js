@@ -8,6 +8,14 @@
             $('html, body').animate({
                 scrollTop: ($('#place_order').offset().top - 500)
             }, 1000);
+
         }
+
+        setTimeout(function () {
+            $('#place_order').show();
+        }, 1200);
+
+
+
     });
 })(jQuery);

@@ -5,7 +5,7 @@
 .ppcp-proceed-to-checkout-button-separator {
     display: inline-block;
     opacity: .8;
-    margin: 0 0 1em;
+    margin: 5px 0 1em;
     text-align: center;
 }
 .ppcp-order-review .woocommerce-checkout #payment ul.payment_methods {
@@ -110,7 +110,6 @@
 }
 #ppcp_checkout_top {
     max-width: 490px;
-    margin: 0 auto;
 }
 #wc-wpg_paypal_checkout_cc-cc-form {
     display: flex;
@@ -152,9 +151,67 @@
     margin-bottom: 20px;
 }
 #ppcp_product.mobile {
-  max-width: 350px;
-  margin: 0 auto;
+    max-width: 350px;
+    margin: 0 auto;
 }
 #ppcp_product.desktop {
     width: 350px;
+}
+#google-pay-container.product.desktop {
+    width: 350px;
+}
+#google-pay-container.product.mobile {
+    max-width: 350px;
+    margin: 0 auto;
+}
+.ppcp-button-container.ppcp_mini_cart {
+    margin-top: 12px;
+}
+.ppcp-button-container #ppcp_mini_cart {
+    max-width: 350px;
+    margin: 0 auto;
+}
+.express_payment_method_ppcp.desktop {
+    display: flex;
+    justify-content: center; /* Align sections horizontally */
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between the two sections */
+}
+
+#ppcp_checkout_top.desktop {
+    display: flex;
+    gap: 10px; /* Space between PayPal and Venmo buttons */
+    width: 480px
+}
+
+
+
+.express_payment_method_ppcp.mobile {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#ppcp_checkout_top.mobile {
+    width: 100%;
+    max-width: 240px;
+    margin: 0 auto;
+}
+
+#google-pay-container.mobile {
+    width: 100%;
+    margin: 5px auto;
+}
+#google-pay-container.desktop {
+    display: flex;
+    justify-content: center; /* Center the Google Pay button */
+    align-items: center; /* Align the Google Pay button vertically */
+}
+#google-pay-container.cart {
+  margin-bottom: 10px;
+}
+#google-pay-container.checkout {
+  max-width: 400px;
+}
+#google-pay-container.cart, #google-pay-container.product, #google-pay-container.mini_cart, #google-pay-container.checkout  {
+    margin-top: 12px;
 }

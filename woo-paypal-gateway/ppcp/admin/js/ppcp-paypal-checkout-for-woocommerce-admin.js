@@ -64,6 +64,13 @@
                 $('.wpg_paypal_checkout_checkout_button_settings, .ppcp_checkout_button_settings').closest('tr').hide();
             }
         }).change();
+        $('#woocommerce_wpg_paypal_checkout_enable_checkout_button_top').change(function () {
+            if ($(this).is(':checked')) {
+                $('.wpg_paypal_checkout_checkout_button_settings, .ppcp_express_checkout_button_settings').closest('tr').show();
+            } else {
+                $('.wpg_paypal_checkout_checkout_button_settings, .ppcp_express_checkout_button_settings').closest('tr').hide();
+            }
+        }).change();
         $('#woocommerce_wpg_paypal_checkout_show_on_mini_cart').change(function () {
             if ($(this).is(':checked')) {
                 $('.wpg_paypal_checkout_mini_cart_button_settings, .ppcp_mini_cart_button_settings').closest('tr').show();
@@ -181,8 +188,11 @@
                             .nextUntil('h3.ppcp-collapsible-section')
                             .slideUp(1);
                 }
-                // Toggle the clicked section
-                $(this).toggleClass('active').nextUntil('h3.ppcp-collapsible-section').slideToggle(1);
+                //$(this).toggleClass('active').next('table').css('display', 'block').find('tr').css('display', 'block');
+                //$(this).toggleClass('active').nextUntil('h3.ppcp-collapsible-section').slideToggle(1);
+
+                $(this).toggleClass('active').next('table').slideToggle(1).find('tr').css('display', 'block');
+
             });
         };
 

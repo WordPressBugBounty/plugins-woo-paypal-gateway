@@ -1,20 +1,40 @@
 (function ($) {
     class PPCPManager {
         constructor(ppcp_manager) {
-            this.ppcp_manager = ppcp_manager;
-            this.productAddToCart = true;
-            this.lastApiResponse = null;
-            this.ppcp_address = [];
-            this.init();
-            this.ppcp_cart_css();
+            this.ppcp_manager = ppcp_manager; // Configuration object
+            this.productAddToCart = true; // Flag for product cart management
+            this.lastApiResponse = null; // Holds the last API response
+            this.ppcp_address = []; // Holds address details
+            this.paymentsClient = null; // Google Pay PaymentsClient
+            this.allowedPaymentMethods = null; // Google Pay allowed payment methods
+            this.merchantInfo = null; // Google Pay merchant information
+
+            this.init(); // Initialize the class
+            this.ppcp_cart_css(); // Adjust cart button styles
         }
 
         init() {
-            if (typeof this.ppcp_manager === 'undefined')
+            if (typeof this.ppcp_manager === 'undefined') {
+                console.warn("PPCP Manager configuration is undefined.");
                 return false;
-            this.setupVariations();
+            }
+
+            // Manage product variations if applicable
+            this.manageVariations('#ppcp_product');
+
+            // Render PayPal Smart Button
             this.renderSmartButton();
+
+            // Bind WooCommerce checkout events
             this.bindCheckoutEvents();
+
+            // Initialize Google Pay if enabled
+            if (this.ppcp_manager.enabled_google_pay === 'yes') {
+                this.loadGooglePaySdk();
+            }
+
+
+
         }
 
         getAddress(prefix) {
@@ -95,13 +115,6 @@
             return this.ppcp_manager.paymentaction === 'capture';
         }
 
-        setupVariations() {
-            const selector = this.ppcp_manager.button_selector;
-            if ($('.variations_form').length) {
-                $('.variations_form').on('show_variation', () => $(selector).show()).on('hide_variation', () => $(selector).hide());
-            }
-        }
-
         bindCheckoutEvents() {
             $('form.checkout').on('checkout_place_order_wpg_paypal_checkout_cc', (event) => {
                 event.preventDefault();
@@ -109,6 +122,7 @@
             });
             $(document.body).on('updated_cart_totals updated_checkout ppcp_block_ready ppcp_checkout_updated', () => this.update_paypal_checkout());
             $(document.body).on('updated_cart_totals updated_checkout ppcp_cc_block_ready ppcp_cc_updated', () => this.update_paypal_cc());
+            $(document.body).on('updated_cart_totals updated_checkout ppcp_cc_block_ready ppcp_cc_updated', () => this.update_google_pay());
             $('form.checkout').on('click', 'input[name="payment_method"]', () => this.togglePlaceOrderButton());
         }
 
@@ -179,6 +193,7 @@
                     return;
                 }
                 const isExpressCheckout = selector === '#ppcp_checkout_top';
+                const isMiniCart = selector === '#ppcp_mini_cart';
                 const ppcpStyle = {
                     layout: isExpressCheckout ? this.ppcp_manager.express_checkout_style_layout : this.ppcp_manager.style_layout,
                     color: isExpressCheckout ? this.ppcp_manager.express_checkout_style_color : this.ppcp_manager.style_color,
@@ -186,9 +201,15 @@
                     label: isExpressCheckout ? this.ppcp_manager.express_checkout_style_label : this.ppcp_manager.style_label
                 };
                 if (ppcpStyle.layout === 'horizontal') {
-                    ppcpStyle.tagline = isExpressCheckout ? this.ppcp_manager.express_checkout_style_tagline : this.ppcp_manager.style_tagline;
+                    ppcpStyle.tagline = 'false';
                 }
-                console.log(ppcpStyle);
+                if (isExpressCheckout) {
+                    ppcpStyle.height = 40;
+                } else if (isMiniCart) {
+                    ppcpStyle.height = 38;
+                } else {
+                    ppcpStyle.height = 48;
+                }
                 paypal.Buttons({
                     style: ppcpStyle,
                     createOrder: () => this.createOrder(selector),
@@ -455,6 +476,217 @@
                 $('.ppcp-button-container.ppcp_cart').css('float', $button.css('float'));
             }
         }
+
+        manageVariations(selector) {
+            if ($('.variations_form').length) {
+                $('.variations_form, .single_variation')
+                        .on('show_variation', function (event, variation) {
+                            if (variation.is_purchasable && variation.is_in_stock) {
+                                $(selector).show();
+                            } else {
+                                $(selector).hide();
+                            }
+                        })
+                        .on('hide_variation', function () {
+                            $(selector).hide();
+                        });
+            }
+        }
+
+        // Load the Google Pay SDK
+        loadGooglePaySdk() {
+            const sdkUrl = "https://pay.google.com/gp/p/js/pay.js";
+            const script = document.createElement("script");
+            script.src = sdkUrl;
+            script.onload = () => this.onGooglePayLoaded();
+            script.onerror = () => {
+                $('#google-pay-container').remove();
+            };
+            document.head.appendChild(script);
+        }
+
+// Handle Google Pay SDK loaded
+        async onGooglePayLoaded() {
+            if (typeof paypal === "undefined" || typeof paypal.Googlepay === "undefined") {
+                $('#google-pay-container').remove();
+                return;
+            }
+
+            const paymentsClient = this.getGooglePaymentsClient();
+            const {allowedPaymentMethods} = await this.getGooglePayConfig();
+
+            paymentsClient
+                    .isReadyToPay(this.getGoogleIsReadyToPayRequest(allowedPaymentMethods))
+                    .then((response) => {
+                        if (response.result) {
+                            this.addGooglePayButton();
+                        } else {
+                            console.warn("Google Pay is not available for this configuration");
+                        }
+                    })
+                    .catch((err) => {
+                        $('#google-pay-container').remove();
+                    });
+        }
+
+// Get Google Pay Payments Client
+        getGooglePaymentsClient() {
+            if (this.paymentsClient === null) {
+                this.paymentsClient = new google.payments.api.PaymentsClient({
+                    environment: this.ppcp_manager.google_pay_environment || "TEST",
+                    paymentDataCallbacks: {
+                        onPaymentAuthorized: this.onPaymentAuthorized.bind(this),
+                    },
+                });
+            }
+            return this.paymentsClient;
+        }
+
+// Fetch Google Pay configuration from PayPal
+        async getGooglePayConfig() {
+            try {
+                if (this.allowedPaymentMethods == null || this.merchantInfo == null) {
+                    const googlePayConfig = await paypal.Googlepay().config();
+                    this.allowedPaymentMethods = googlePayConfig.allowedPaymentMethods || [];
+                    this.merchantInfo = googlePayConfig.merchantInfo || {};
+                }
+                return {allowedPaymentMethods: this.allowedPaymentMethods, merchantInfo: this.merchantInfo};
+            } catch (error) {
+                console.error("Failed to fetch Google Pay configuration:", error);
+                return {allowedPaymentMethods: [], merchantInfo: {}};
+            }
+        }
+
+// Google Pay readiness request
+        getGoogleIsReadyToPayRequest(allowedPaymentMethods) {
+            return Object.assign({}, {
+                apiVersion: 2,
+                apiVersionMinor: 0,
+                allowedPaymentMethods,
+            });
+        }
+
+// Add Google Pay Button
+        addGooglePayButton() {
+            if(this.isCheckoutPage()) {
+                return;
+            }
+            const paymentsClient = this.getGooglePaymentsClient();
+            const button = paymentsClient.createButton({
+                buttonSizeMode: 'fill',
+                onClick: this.onGooglePaymentButtonClicked.bind(this),
+            });
+            const container = document.getElementById("google-pay-container");
+            if (container) {
+                container.appendChild(button);
+            }
+        }
+
+        update_google_pay() {
+            console.log('584');
+            const containerSelector = '#google-pay-container';
+            $('#google-pay-container').empty();
+            $('#google-pay-container').html('');
+
+            const $container = $(containerSelector);
+            if ($container.length) {
+                console.log('590');
+                if ($container.children().length === 0) {
+                    console.log('593');
+                    const paymentsClient = this.getGooglePaymentsClient(); // Reuse the method from the class
+                    const button = paymentsClient.createButton({
+                        buttonSizeMode: 'fill',
+                        onClick: this.onGooglePaymentButtonClicked.bind(this),
+                    });
+
+                    $container.append(button);
+                } else {
+                    console.log('603');
+                    // If the container already has child elements, skip rendering
+                    console.log('Google Pay button already rendered. Skipping update.');
+                }
+            }
+        }
+
+// Handle Google Pay button click
+        async onGooglePaymentButtonClicked() {
+            const paymentDataRequest = await this.getGooglePaymentDataRequest();
+            const paymentsClient = this.getGooglePaymentsClient();
+
+            paymentsClient
+                    .loadPaymentData(paymentDataRequest)
+                    .then((paymentData) => this.processGooglePayPayment(paymentData))
+                    .catch((err) => {
+                        console.error("Google Pay Payment Error:", err);
+                    });
+        }
+
+// Google Pay payment data request
+        async getGooglePaymentDataRequest() {
+            const {allowedPaymentMethods, merchantInfo} = await this.getGooglePayConfig();
+            return Object.assign({}, {
+                apiVersion: 2,
+                apiVersionMinor: 0,
+                allowedPaymentMethods,
+                transactionInfo: this.getGoogleTransactionInfo(),
+                merchantInfo,
+                callbackIntents: ["PAYMENT_AUTHORIZATION"],
+            });
+        }
+
+// Google Pay transaction info
+        getGoogleTransactionInfo() {
+            if (!this.ppcp_manager.cart_total) {
+                console.warn("Order total is missing; defaulting to 0.00");
+            }
+            return {
+                currencyCode: this.ppcp_manager.currency || "USD",
+                totalPriceStatus: "FINAL",
+                totalPrice: this.ppcp_manager.cart_total || "0.00",
+            };
+        }
+
+// Handle Google Pay payment authorization
+        onPaymentAuthorized(paymentData) {
+            return new Promise((resolve) => {
+                this.processGooglePayPayment(paymentData)
+                        .then(() => resolve({transactionState: "SUCCESS"}))
+                        .catch((err) => {
+                            console.error("Payment Authorization Error:", err);
+                            resolve({
+                                transactionState: "ERROR",
+                                error: {
+                                    intent: "PAYMENT_AUTHORIZATION",
+                                    message: err.message,
+                                },
+                            });
+                        });
+            });
+        }
+
+// Process Google Pay Payment
+        async processGooglePayPayment(paymentData) {
+            try {
+                const orderID = await this.createOrder('#google-pay-container'); // Reuse existing createOrder method
+                if (!orderID) {
+                    throw new Error("Order creation failed.");
+                }
+
+                const {status} = await paypal.Googlepay().confirmOrder({
+                    orderId: orderID,
+                    paymentMethodData: paymentData.paymentMethodData,
+                });
+
+                if (status === "APPROVED") {
+                    this.onApproveHandler({orderID}, null); // Reuse existing onApproveHandler
+                } else {
+                    throw new Error("Google Pay order confirmation failed.");
+                }
+            } catch (error) {
+                console.error("Google Pay Processing Error:", error);
+            }
+        }
+
     }
 
     $(function () {

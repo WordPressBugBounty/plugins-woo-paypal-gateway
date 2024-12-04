@@ -5,7 +5,7 @@
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
  * Description:       Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more — powered by an official PayPal Partner.
- * Version:           9.0.13
+ * Version:           9.0.14
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
@@ -17,13 +17,13 @@
  * Requires Plugins: woocommerce
  * Tested up to: 6.7.1
  * WC requires at least: 3.4
- * WC tested up to: 9.4.2
+ * WC tested up to: 9.4.3
  */
 if (!defined('WPINC')) {
     die;
 }
 
-define('WPG_PLUGIN_VERSION', '9.0.13');
+define('WPG_PLUGIN_VERSION', time());
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
 }
@@ -91,6 +91,9 @@ if (!function_exists('run_ppcp_paypal_checkout_for_woocommerce')) {
 }
 
 function run_ppcp_paypal_checkout_for_woocommerce() {
+    if(!class_exists('PPCP_Paypal_Checkout_For_Woocommerce')) {
+        require plugin_dir_path(__FILE__) . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce.php';
+    }
     $plugin = new PPCP_Paypal_Checkout_For_Woocommerce();
     $plugin->run();
 }
@@ -109,11 +112,13 @@ add_action('woocommerce_blocks_loaded', function () {
         }
         require_once( WPG_PLUGIN_DIR . '/ppcp/checkout-block/ppcp-checkout-block.php' );
         require_once( WPG_PLUGIN_DIR . '/ppcp/checkout-block/ppcp-cc-block.php' );
+        //require_once( WPG_PLUGIN_DIR . '/checkout-block/braintree-block.php' );
         add_action(
                 'woocommerce_blocks_payment_method_type_registration',
                 function (Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry) {
                     $payment_method_registry->register(new PPCP_Checkout_Block);
                     $payment_method_registry->register(new PPCP_Checkout_CC_Block);
+                    //$payment_method_registry->register(new Braintree_Block);
                 }
         );
     } catch (Exception $ex) {

@@ -498,7 +498,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->access_token = $this->ppcp_get_access_token();
             }
             $order = wc_get_order($woo_order_id);
-            if ($need_to_update_order) {
+            if ($need_to_update_order && is_object($order)) {
                 $this->ppcp_update_order($order);
             }
             $paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
@@ -598,7 +598,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->access_token = $this->ppcp_get_access_token();
             }
             $order = wc_get_order($woo_order_id);
-            $this->ppcp_update_order($order);
+            if(is_object($order)) {
+                $this->ppcp_update_order($order);
+            }
             $paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
             $this->ppcp_add_log_details('Authorize payment for order');
             $this->ppcp_log('Request : ' . wc_print_r($this->paypal_order_api . $paypal_order_id . '/authorize', true));
