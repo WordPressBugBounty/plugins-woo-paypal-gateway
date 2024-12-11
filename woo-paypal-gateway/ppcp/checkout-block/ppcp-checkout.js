@@ -67,6 +67,10 @@ var { addAction } = wp.hooks;
             c = n(2),
             i = n(3),
             u = n(1);
+    
+        if (typeof wpg_paypal_checkout_manager_block === 'undefined') {
+            return false;
+        }
         const l = Object(i.getSetting)("wpg_paypal_checkout_data", {});
         const p = () => Object(u.decodeEntities)(l.description || "");
         const { useEffect } = wp.element;
@@ -96,10 +100,9 @@ var { addAction } = wp.hooks;
                 createElement("div", { id: "ppcp_checkout" })
             );
         };
-        
         const s = {
             name: "wpg_paypal_checkout",
-            label: createElement("span",{style: { width: "100%" }},l.title,createElement("img", {src: l.icon,style: { float: "right", marginLeft: "20px" }})),
+            label: createElement("span",{style: { width: "100%" }},l.title,createElement("img", {src: l.icons,style: { float: "right", marginLeft: "20px" }})),
             placeOrderButtonLabel: Object(c.__)(wpg_paypal_checkout_manager_block.placeOrderButtonLabel),
             content: createElement(ContentPPCPCheckout, null),
             edit: Object(o.createElement)(p, null),

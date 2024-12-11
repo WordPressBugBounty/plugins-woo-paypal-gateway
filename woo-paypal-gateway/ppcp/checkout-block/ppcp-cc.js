@@ -79,10 +79,12 @@ var { registerExpressPaymentMethod, registerPaymentMethod } = wc.wcBlocksRegistr
         "use strict";
         n.r(t);
         var o, r = n(0), c = n(4), i = n(2), u = n(3), a = n(1);
-
+        if (typeof wpg_paypal_checkout_cc_manager_block === 'undefined') {
+            return false;
+        }
         const l = Object(u.getSetting)("wpg_paypal_checkout_cc_data", {});
         const iconsElements = l.icons.map(icon => (
-                            createElement("img", {src: icon, style: {float: "right", marginRight: "10px"}})
+                            createElement("img", {src: icon, style: {float: "right", marginRight: "3px"}})
                             ));
         const p = () => Object(a.decodeEntities)(l.description || "");
         const ppcp_settings = wpg_paypal_checkout_cc_manager_block.settins;

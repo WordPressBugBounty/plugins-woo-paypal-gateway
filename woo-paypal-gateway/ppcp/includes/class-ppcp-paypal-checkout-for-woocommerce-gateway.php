@@ -31,6 +31,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
     static $ppcp_display_order_fee = 0;
     static $notice_shown = false;
     public $wpg_section;
+    public $is_live_seller_onboarding_done;
+    public $is_sandbox_seller_onboarding_done;
+    public $seller_onboarding;
+    public $icon;
 
     public function __construct() {
         $this->setup_properties();
@@ -59,6 +63,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         $this->method_title = __('PayPal Checkout', 'woo-paypal-gateway');
         $this->method_description = __('Effortlessly integrate PayPal with your WooCommerce store! Enter your Client ID and Secret, enable payment methods, and customize settings—all backed by an Official PayPal Partner.', 'woo-paypal-gateway');
         $this->has_fields = true;
+        $this->icon = 'https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png';
     }
 
     public function get_properties() {
@@ -80,6 +85,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             $this->client_id = $this->live_client_id;
             $this->secret_id = $this->live_secret_id;
         }
+        if (!empty($this->rest_client_id_sandbox) && !empty($this->sandbox_secret_id)) {
+            $this->is_sandbox_seller_onboarding_done = true;
+        } else {
+            $this->is_sandbox_seller_onboarding_done = false;
+        }
+
+        if (!empty($this->live_client_id) && !empty($this->live_secret_id)) {
+            $this->is_live_seller_onboarding_done = true;
+        } else {
+            $this->is_live_seller_onboarding_done = false;
+        }
         if (!$this->is_credentials_set()) {
             $this->enabled = 'no';
             $this->cc_enable = 'no';
@@ -90,8 +106,39 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         $this->wpg_section = isset($_GET['wpg_section']) ? sanitize_text_field($_GET['wpg_section']) : 'wpg_api_settings';
     }
 
-    function display_paypal_admin_notice() {
-
+    public function display_paypal_admin_notice() {
+        $is_saller_onboarding_done = false;
+        $is_saller_onboarding_failed = false;
+        if (false !== get_transient('wpg_primary_email_not_confirmed')) {
+            echo '<div class="notice notice-error is-dismissible"><p>'
+            . __('Please verify the PayPal account to receive the payments.', 'smart-paypal-checkout-for-woocommerce')
+            . '</p></div>';
+        }
+        if (false !== get_transient('wpg_sandbox_seller_onboarding_process_done')) {
+            $is_saller_onboarding_done = true;
+            delete_transient('wpg_sandbox_seller_onboarding_process_done');
+        } elseif (false !== get_transient('wpg_live_seller_onboarding_process_done')) {
+            $is_saller_onboarding_done = true;
+            delete_transient('wpg_live_seller_onboarding_process_done');
+        }
+        if ($is_saller_onboarding_done) {
+            echo '<div class="notice notice-success is-dismissible"><p>'
+            . __('PayPal onboarding process successfully completed.', 'smart-paypal-checkout-for-woocommerce')
+            . '</p></div>';
+        } else {
+            if (false !== get_transient('wpg_sandbox_seller_onboarding_process_failed')) {
+                $is_saller_onboarding_failed = true;
+                delete_transient('wpg_sandbox_seller_onboarding_process_failed');
+            } elseif (false !== get_transient('wpg_live_seller_onboarding_process_failed')) {
+                $is_saller_onboarding_failed = true;
+                delete_transient('wpg_live_seller_onboarding_process_failed');
+            }
+            if ($is_saller_onboarding_failed) {
+                echo '<div class="notice notice-error is-dismissible">'
+                . '<p>We could not properly connect to PayPal. Please reload the page to continue.</p>'
+                . '</div>';
+            }
+        }
         $error_message = get_transient('wpg_invalid_client_secret_message');
         if ($error_message) {
             echo '<div class="notice notice-error is-dismissible">';
@@ -109,7 +156,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                 $wpg_section = (isset($_GET['section']) && $_GET['section'] === 'wpg_paypal_checkout') ? 'wpg_api_settings' : '';
             }
             if ($wpg_section !== 'wpg_api_settings') {
-                $message = sprintf(__('<strong>PayPal Payments Setup Required:</strong> Your PayPal integration is almost complete! To start accepting payments, please enter your <strong>PayPal Client ID</strong> and <strong>Secret Key</strong> in the <a href="%1$s">API Settings tab</a>.', 'woo-paypal-gateway'), admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout'));
+                $message = sprintf(
+                        __('<strong>PayPal Setup Required:</strong> Your PayPal integration is almost complete! To start accepting payments, simply connect your PayPal account or enter your PayPal Client ID and Secret Key in the <a href="%1$s">API Settings</a>.', 'woo-paypal-gateway'),
+                        admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout')
+                );
+
                 echo '<div class="notice notice-warning is-dismissible">';
                 echo '<p>' . $message . '</p>';
                 echo '</div>';
@@ -159,9 +210,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         echo '</h2>';
 
         $this->output_tabs($this->wpg_section);
+        $this->admin_option();
         if ($this->wpg_section === 'wpg_api_settings' && !$this->is_credentials_set()) {
             echo '<br/>';
-            echo '<div style="background: #f9f9f9;border-spacing: 2px; border-color: gray; padding: 20px; margin-bottom: 20px;max-width:858px;">
+            echo '<div id="wpg_guide" style="background: #f9f9f9;border-spacing: 2px; border-color: gray; padding: 20px; margin-bottom: 20px;max-width:858px;display:none;">
                  <h4 style="margin: 0 0 15px; font-size: 14px; font-weight: bold; display: flex; align-items: center;">
                     <span style="font-size: 20px; margin-right: 8px;"></span> Here\'s how to get your client ID and client secret:
                  </h4>
@@ -174,7 +226,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                 </ol>
             </div>';
         }
-        $this->admin_option();
     }
 
     public function output_tabs($current_tab) {
@@ -347,7 +398,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             ?>
             <tr valign="top">
                 <th scope="row" class="titledesc">
-                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                 ?></label>
+                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                       ?></label>
                 </th>
                 <td class="forminp" id="<?php echo esc_attr($field_key); ?>">
                     <button type="button" class="button ppcp-disconnect"><?php echo __('Disconnect', ''); ?></button>
@@ -377,14 +428,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         ?>
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                   ?></label>
+                <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                         ?></label>
             </th>
             <td class="forminp">
                 <fieldset>
                     <legend class="screen-reader-text"><span><?php echo wp_kses_post($data['title']); ?></span></legend>
-                    <input class="input-text regular-input <?php echo esc_attr($data['class']); ?>" type="text" name="<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>" style="<?php echo esc_attr($data['css']); ?>" value="<?php echo esc_attr($this->get_option($key)); ?>" placeholder="<?php echo esc_attr($data['placeholder']); ?>" <?php disabled($data['disabled'], true); ?> <?php echo $this->get_custom_attribute_html($data); // WPCS: XSS ok.                                                                     ?> />
+                    <input class="input-text regular-input <?php echo esc_attr($data['class']); ?>" type="text" name="<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>" style="<?php echo esc_attr($data['css']); ?>" value="<?php echo esc_attr($this->get_option($key)); ?>" placeholder="<?php echo esc_attr($data['placeholder']); ?>" <?php disabled($data['disabled'], true); ?> <?php echo $this->get_custom_attribute_html($data); // WPCS: XSS ok.                                                                           ?> />
                     <button type="button" class="button-secondary <?php echo esc_attr($data['button_class']); ?>" data-tip="Copied!">Copy</button>
-                    <?php echo $this->get_description_html($data); // WPCS: XSS ok.               ?>
+                    <?php echo $this->get_description_html($data); // WPCS: XSS ok.                  ?>
                 </fieldset>
             </td>
         </tr>
@@ -402,6 +453,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                 'mode' => $this->sandbox ? 'sandbox' : 'live',
                 'is_sandbox_connected' => (!empty($this->rest_client_id_sandbox) && !empty($this->sandbox_secret_id)) ? 'yes' : 'no',
                 'is_live_connected' => (!empty($this->live_client_id) && !empty($this->live_secret_id)) ? 'yes' : 'no',
+                'wpg_onboarding_endpoint' => WC_AJAX::get_endpoint('wpg_login_seller'),
+                'wpg_onboarding_endpoint_nonce' => wp_create_nonce('wpg_login_seller'),
             ));
         }
     }
@@ -413,7 +466,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             ?>
             <tr valign="top" style="display:none;">
                 <th scope="row" class="titledesc">
-                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                  ?></label>
+                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                        ?></label>
                 </th>
                 <td class="forminp" id="<?php echo esc_attr($field_key); ?>">
                     <div class="wpg_ppcp_paypal_connection_image">
@@ -454,13 +507,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             ?>
             <tr valign="top" style="display:none;">
                 <th scope="row" class="titledesc">
-                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.             ?></label>
+                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                   ?></label>
                 </th>
                 <td class="forminp">
                     <fieldset>
                         <legend class="screen-reader-text"><span><?php echo wp_kses_post($data['title']); ?></span></legend>
-                        <input class="input-text regular-input <?php echo esc_attr($data['class']); ?>" type="<?php echo esc_attr($data['type']); ?>" name="<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>" style="<?php echo esc_attr($data['css']); ?>" value="<?php echo esc_attr($this->get_option($key)); ?>" placeholder="<?php echo esc_attr($data['placeholder']); ?>" <?php disabled($data['disabled'], true); ?> <?php echo $this->get_custom_attribute_html($data); // WPCS: XSS ok.             ?> />
-                        <?php echo $this->get_description_html($data); // WPCS: XSS ok. ?>
+                        <input class="input-text regular-input <?php echo esc_attr($data['class']); ?>" type="<?php echo esc_attr($data['type']); ?>" name="<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>" style="<?php echo esc_attr($data['css']); ?>" value="<?php echo esc_attr($this->get_option($key)); ?>" placeholder="<?php echo esc_attr($data['placeholder']); ?>" <?php disabled($data['disabled'], true); ?> <?php echo $this->get_custom_attribute_html($data); // WPCS: XSS ok.                   ?> />
+                        <?php echo $this->get_description_html($data); // WPCS: XSS ok.    ?>
                     </fieldset>
                 </td>
             </tr>
@@ -520,6 +573,91 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             return false;
         } catch (Exception $ex) {
             return false;
+        }
+    }
+
+    public function generate_wpg_paypal_checkout_onboarding_html($field_key, $data) {
+        if (isset($data['type']) && $data['type'] === 'wpg_paypal_checkout_onboarding') {
+            $testmode = ( $data['mode'] === 'live' ) ? 'no' : 'yes';
+            if ($testmode === 'yes' && $this->is_sandbox_seller_onboarding_done) {
+                return;
+            }
+            if ($testmode === 'no' && $this->is_live_seller_onboarding_done) {
+                return;
+            }
+            $field_key = $this->get_field_key($field_key);
+
+            $args = array(
+                'displayMode' => 'minibrowser',
+            );
+            $id = ($testmode === 'no') ? 'connect-to-production' : 'connect-to-sandbox';
+            $label = ($testmode === 'no') ? __('Click to Connect PayPal', 'woo-paypal-gateway') : __('Click to Connect PayPal Sandbox', 'woo-paypal-gateway');
+            ob_start();
+            ?>
+            <tr valign="top" style="display:none;">
+                <th scope="row" class="titledesc">
+                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                  ?></label>
+                </th>
+                <td class="forminp" id="<?php echo esc_attr($field_key); ?>">
+                    <?php
+                    if ($this->is_live_seller_onboarding_done === false && $testmode === 'no' || $this->is_sandbox_seller_onboarding_done === false && $testmode === 'yes') {
+                        $signup_link = $this->wpg_get_signup_link($testmode);
+                        if ($signup_link) {
+                            $url = add_query_arg($args, $signup_link);
+                            $this->wpg_display_paypal_signup_button($url, $id, $label);
+                            $script_url = 'https://www.paypal.com/webapps/merchantboarding/js/lib/lightbox/partner.js';
+                            ?>
+                            <script type="text/javascript">
+                                document.querySelectorAll('[data-paypal-onboard-complete=onboardingCallback]').forEach((element) => {
+                                    element.addEventListener('click', (e) => {
+                                        if ('undefined' === typeof PAYPAL) {
+                                            e.preventDefault();
+                                            alert('PayPal');
+                                        }
+                                    });
+                                });</script>
+                            <script id="paypal-js" src="<?php echo esc_url($script_url); ?>"></script> <?php
+                        } else {
+                            echo '<div style="display: inline;margin-right: 10px;vertical-align: middle;">' . __('The Connect to PayPal service is temporarily unavailable.', '') . '</div>';
+                            ?>
+                            <a href="#" class="wpg_paypal_checkout_gateway_manual_credential_input"><?php echo __('Toggle to manual credential input', ''); ?></a>
+                            <?php
+                        }
+                    }
+                    ?>
+                </td>
+            </tr>
+            <?php
+            return ob_get_clean();
+        }
+    }
+
+    public function wpg_display_paypal_signup_button($url, $id, $label) {
+        ?><a target="_blank" class="button" id="<?php echo esc_attr($id); ?>" data-paypal-onboard-complete="onboardingCallback" href="<?php echo esc_url($url); ?>" data-paypal-button="true"><?php echo esc_html($label); ?></a>
+        <span class="wpg_paypal_checkout_gateway_setting_sepraer"><?php echo __('OR', ''); ?></span>
+        <a href="#" class="wpg_paypal_checkout_gateway_manual_credential_input"><?php echo __('Toggle to manual credential input', ''); ?></a>
+        <?php
+    }
+
+    public function wpg_get_signup_link($testmode = 'yes') {
+        try {
+            include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php');
+            $this->seller_onboarding = PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding::instance();
+            $seller_onboarding_result = $this->seller_onboarding->wpg_generate_signup_link($testmode);
+            if (isset($seller_onboarding_result['result']) && 'success' === $seller_onboarding_result['result'] && !empty($seller_onboarding_result['body'])) {
+                $json = json_decode($seller_onboarding_result['body']);
+                if (isset($json->links)) {
+                    foreach ($json->links as $link) {
+                        if ('action_url' === $link->rel) {
+                            return (string) $link->href;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            }
+        } catch (Exception $ex) {
+            
         }
     }
 }

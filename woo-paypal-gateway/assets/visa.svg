@@ -1,55 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="750"
-   height="471"
+   width="40"
+   height="25"
    viewBox="0 0 750 471"
-   version="1.1"
-   id="svg14"
-   sodipodi:docname="visa.svg"
-   inkscape:version="0.92.2 5c3e80d, 2017-08-06">
-  <metadata
-     id="metadata18">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1515"
-     inkscape:window-height="928"
-     id="namedview16"
-     showgrid="false"
-     inkscape:zoom="0.384"
-     inkscape:cx="83.333333"
-     inkscape:cy="235.5"
-     inkscape:window-x="2301"
-     inkscape:window-y="293"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="Page-1" />
-  <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
-  <desc
-     id="desc2">Created with Sketch.</desc>
-  <defs
-     id="defs4" />
+   version="1.1">
   <g
      id="Page-1"
      stroke="none"

@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.14';
+            $this->version = '9.0.15';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -83,6 +83,9 @@ class Woo_Paypal_Gateway {
         add_action('admin_footer', array($this, 'wpg_add_deactivation_feedback_form'));
         add_action('admin_enqueue_scripts', array($this, 'wpg_add_deactivation_feedback_form_scripts'));
         add_action('wp_ajax_wpg_send_deactivation', array($this, 'wpg_handle_plugin_deactivation_request'));
+        add_action('admin_notices', array($this, 'leaverev'));
+        add_action('wp_ajax_wpg_handle_review_action', array($this, 'handle_review_action'));
+        add_action('admin_enqueue_scripts', array($this, 'wpg_enqueue_scripts'));
     }
 
     /**
@@ -394,8 +397,10 @@ class Woo_Paypal_Gateway {
             'wc_version' => (!defined('WC_VERSION') ) ? '' : WC_VERSION,
             'locale' => get_locale(),
             'theme' => wp_get_theme()->get('Name'),
+            'theme_version' => wp_get_theme()->get('Version'),
             'multisite' => is_multisite() ? 'Yes' : 'No',
             'plugin_version' => WPG_PLUGIN_VERSION,
+            'is_checkout_block_enable' => is_wpg_checkout_block_enabled(),
         );
         $args = array(
             'headers' => array(
@@ -426,5 +431,70 @@ class Woo_Paypal_Gateway {
                 'response' => json_decode(wp_remote_retrieve_body($response), true)
             ));
         }
+    }
+
+    public function leaverev() {
+        $activation_time = get_option('wpg_activation_time');
+        if ($activation_time == '') {
+            $activation_time = time();
+            update_option('wpg_activation_time', $activation_time);
+        }
+        $rev_notice_hide = get_option('wpg_rev_notice_hide');
+        $next_show_time = get_option('wpg_next_show_time', time());
+        $days_since_activation = (time() - $activation_time) / 86400;
+        if ($rev_notice_hide != 'never' && $days_since_activation >= 10 && time() >= $next_show_time) {
+            $class = 'notice notice-info';
+            $notice = '<div class="wpg-review-notice">' .
+                    '<p style="font-weight:normal;font-size:15px;">' .
+                    '<strong>Hi there,</strong><br>' .
+                    'We’re glad to see you’ve been using <b>PayPal Plugin</b>!<br>' .
+                    'Could you share your experience by leaving a review on WordPress? Your feedback means a lot to us.<br>' .
+                    '<br>Thank you!<br>Team EasyPayment' .
+                    '</p>' .
+                    '<p style="margin-bottom:10px;">' .
+                    '<a href="https://wordpress.org/support/plugin/woo-paypal-gateway/reviews/#new-post" style="text-decoration:none;" target="_blank">' .
+                    '<button class="button button-primary wpg-action-button" data-action="reviewed" style="margin-right:5px;" type="button">OK, you deserve it</button>' .
+                    '</a>' .
+                    '<button class="button button-secondary wpg-action-button" data-action="later" style="margin-right:5px;">Not now, maybe later</button>' .
+                    '<button class="button button-secondary wpg-action-button" data-action="never" style="float:right;">Don’t remind me again</button>' .
+                    '</p>' .
+                    '</div>';
+
+            printf('<div class="%1$s" style="position:fixed;bottom:50px;right:20px;padding-right:30px;z-index:2;margin-left:20px">%2$s</div>', esc_attr($class), $notice);
+        }
+    }
+
+    public function handle_review_action() {
+        check_ajax_referer('wpg_review_nonce', 'nonce');
+
+        $action = isset($_POST['review_action']) ? sanitize_text_field($_POST['review_action']) : '';
+
+        if ($action === 'later') {
+            // Hide the notice for 1 week
+            $next_show_time = time() + (86400 * 7); // 7 days from now
+            update_option('wpg_next_show_time', $next_show_time);
+            update_option('wpg_rev_notice_hide', 'later');
+        } elseif ($action === 'never' || $action === 'reviewed') {
+            // Hide the notice permanently
+            update_option('wpg_rev_notice_hide', 'never');
+        } else {
+            wp_send_json_error('Invalid action');
+        }
+
+        wp_send_json_success();
+    }
+
+    public function wpg_enqueue_scripts() {
+        wp_enqueue_script(
+                'wpg-review-ajax',
+                WPG_PLUGIN_ASSET_URL . '/admin/js/review-ajax.js',
+                array('jquery'),
+                '1.0',
+                true
+        );
+        wp_localize_script('wpg-review-ajax', 'wpgAjax', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('wpg_review_nonce')
+        ));
     }
 }

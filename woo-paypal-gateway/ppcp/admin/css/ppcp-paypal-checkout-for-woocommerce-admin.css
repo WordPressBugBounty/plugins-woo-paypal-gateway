@@ -46,6 +46,7 @@
     margin-right: 10px;
     font-weight: bold;
     font-size: 15px;
+    vertical-align: middle;
 }
 .list {
     list-style-type: circle;
@@ -92,4 +93,13 @@ table tr:first-child th {
 }
 .select2-search__field {
   min-width: 400px !important;
+}
+#connect-to-sandbox {
+  vertical-align: middle;
+}
+#connect-to-production {
+  vertical-align: middle;
+}
+.wpg_paypal_checkout_gateway_manual_credential_input {
+  vertical-align: middle;
 }

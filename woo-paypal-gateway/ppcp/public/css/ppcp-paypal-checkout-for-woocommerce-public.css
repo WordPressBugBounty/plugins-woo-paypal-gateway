@@ -165,7 +165,7 @@
     margin: 0 auto;
 }
 .ppcp-button-container.ppcp_mini_cart {
-    margin-top: 12px;
+    margin-top: 10px;
 }
 .ppcp-button-container #ppcp_mini_cart {
     max-width: 350px;
@@ -207,11 +207,30 @@
     align-items: center; /* Align the Google Pay button vertically */
 }
 #google-pay-container.cart {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 #google-pay-container.checkout {
-  max-width: 400px;
+    max-width: 400px;
 }
 #google-pay-container.cart, #google-pay-container.product, #google-pay-container.mini_cart, #google-pay-container.checkout  {
     margin-top: 12px;
+}
+.ppcp-button-container.ppcp_mini_cart {
+    margin-bottom: 15px;
+}
+@media screen and (max-width: 472px) {
+    #payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] img {
+        display: none;
+    }
+}
+@media screen and (max-width: 452px) {
+    #radio-control-wc-payment-method-options-wpg_paypal_checkout_cc__label img {
+        display:none;
+    }
+}
+.woofc-area-bot .ppcp-button-container #ppcp_mini_cart {
+    max-width: 420px;
+}
+.adfy_woofc-inner .ppcp-button-container #ppcp_mini_cart {
+    max-width: 100%;
 }

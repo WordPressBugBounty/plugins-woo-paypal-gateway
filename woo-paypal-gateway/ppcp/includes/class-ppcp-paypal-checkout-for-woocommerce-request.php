@@ -48,6 +48,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     public $merchant_id;
     public $send_items;
     public $api_response;
+    protected static $_instance = null;
+
+    public static function instance() {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
 
     public function __construct() {
         try {
@@ -130,6 +138,23 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
         } catch (Exception $ex) {
             
+        }
+    }
+
+    public function request($url, $args, $action_name = 'default') {
+        try {
+            $result = wp_remote_get($url, $args);
+            if (is_wp_error($result)) {
+                $error_message = $result->get_error_message();
+                $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
+            } else {
+                $body = wp_remote_retrieve_body($result);
+                $response = !empty($body) ? json_decode($body, true) : '';
+                return $response;
+            }
+        } catch (Exception $ex) {
+            $this->api_log->log("The exception was created on line: " . $ex->getLine(), 'error');
+            $this->api_log->log($ex->getMessage(), 'error');
         }
     }
 
@@ -598,7 +623,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->access_token = $this->ppcp_get_access_token();
             }
             $order = wc_get_order($woo_order_id);
-            if(is_object($order)) {
+            if (is_object($order)) {
                 $this->ppcp_update_order($order);
             }
             $paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');

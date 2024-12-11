@@ -66,7 +66,7 @@ if (!function_exists('ppcp_has_active_session')) {
         if (!empty($checkout_details) && !empty($ppcp_paypal_order_id) && isset($_GET['paypal_order_id'])) {
             return true;
         }
-        if(isset($_GET['paypal_order_id'])) {
+        if (isset($_GET['paypal_order_id'])) {
             return true;
         }
         return false;
@@ -305,17 +305,19 @@ if (!function_exists('ppcp_round')) {
 }
 
 if (!function_exists('ppcp_get_awaiting_payment_order_id')) {
+
     function ppcp_get_awaiting_payment_order_id() {
         try {
-            $order_id = absint( WC()->session->get( 'order_awaiting_payment' ) );
-            if(!$order_id) {
-                $order_id = absint( wc()->session->get( 'store_api_draft_order', 0 ) );
+            $order_id = absint(WC()->session->get('order_awaiting_payment'));
+            if (!$order_id) {
+                $order_id = absint(wc()->session->get('store_api_draft_order', 0));
             }
             return $order_id;
         } catch (Exception $ex) {
-
+            
         }
     }
+
 }
 
 if (!function_exists('ppcp_is_valid_order')) {
@@ -326,6 +328,37 @@ if (!function_exists('ppcp_is_valid_order')) {
             return true;
         }
         return false;
+    }
+
+}
+
+if (!function_exists('wpg_get_raw_data')) {
+
+    function wpg_get_raw_data() {
+        try {
+            if (function_exists('phpversion') && version_compare(phpversion(), '5.6', '>=')) {
+                return file_get_contents('php://input');
+            }
+            global $HTTP_RAW_POST_DATA;
+            if (!isset($HTTP_RAW_POST_DATA)) {
+                $HTTP_RAW_POST_DATA = file_get_contents('php://input');
+            }
+            return $HTTP_RAW_POST_DATA;
+        } catch (Exception $ex) {
+            
+        }
+    }
+
+}
+
+if (!function_exists('is_wpg_checkout_block_enabled')) {
+
+    function is_wpg_checkout_block_enabled() {
+        if (!class_exists('Automattic\WooCommerce\Blocks\Package')) {
+            return false;
+        }
+        $features = \Automattic\WooCommerce\Blocks\Package::container()->get('feature-registry');
+        return $features->is_registered('blockified-checkout') && $features->is_active('blockified-checkout');
     }
 
 }

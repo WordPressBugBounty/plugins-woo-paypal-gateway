@@ -7,7 +7,7 @@
  * @author     PayPal <wpeasypayment@gmail.com>
  */
 class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checkout_For_Woocommerce_Gateway {
-    
+
     public $dcc_applies;
     public $enable;
 
@@ -21,7 +21,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate')) {
             include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-dcc-validate.php');
         }
-        
+
         $this->enable = $this->cc_enable;
         $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
     }
@@ -200,7 +200,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
     }
 
     public function is_available() {
-        if($this->enable === 'yes') {
+        if ($this->enable === 'yes') {
             $this->enabled = true;
             return true;
         }

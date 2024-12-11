@@ -4,8 +4,8 @@
  * @wordpress-plugin
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
- * Description:       Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more — powered by an official PayPal Partner.
- * Version:           9.0.14
+ * Description:       Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more - by an official PayPal Partner
+ * Version:           9.0.15
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
@@ -23,7 +23,8 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('WPG_PLUGIN_VERSION', time());
+define('WPG_PLUGIN_VERSION', '9.0.15');
+
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
 }
@@ -38,6 +39,15 @@ if (!defined('WPG_PLUGIN_ASSET_URL')) {
 }
 if (!defined('WPG_PLUGIN_FILE')) {
     define('WPG_PLUGIN_FILE',  __FILE__);
+}
+if (!defined('WPG_SANDBOX_PARTNER_MERCHANT_ID')) {
+    define('WPG_SANDBOX_PARTNER_MERCHANT_ID', 'K6QLN2LPGQRHL');
+}
+if (!defined('WPG_LIVE_PARTNER_MERCHANT_ID')) {
+    define('WPG_LIVE_PARTNER_MERCHANT_ID', 'GT5R877JNBPLL');
+}
+if (!defined('WPG_ONBOARDING_URL')) {
+    define('WPG_ONBOARDING_URL', 'https://mbjtechnolabs.com/ppcp-seller-onboarding/seller-onboarding.php');
 }
 /**
  * The code that runs during plugin activation.

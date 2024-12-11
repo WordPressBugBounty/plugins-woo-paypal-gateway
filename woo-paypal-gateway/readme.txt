@@ -3,12 +3,12 @@ Contributors: easypayment
 Tags: PayPal, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
 Tested up to: 6.7.1
-Stable tag: 9.0.14  
+Stable tag: 9.0.15  
 Requires PHP: 7.2  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
 
-Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more — powered by an official PayPal Partner.
+Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more - by an official PayPal Partner
 
 == Description ==
 
@@ -48,7 +48,6 @@ Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Banc
 * **Sofort** - Available across Europe, especially in Germany and Austria, preferred for secure, direct bank transfers.  
 * **Mercado Pago** - A major digital payment platform in Latin America with tens of millions of users across countries like Brazil and Argentina.  
 * **SEPA-Lastschrift** - Covering over 36 European countries, SEPA enables euro-denominated bank transfers for hundreds of millions of users.  
-
 
 
 ### Seamless integration with popular WooCommerce Side Cart and Mini Cart plugins:
@@ -110,6 +109,10 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Currently, the plugin supports one-time payments. For recurring payments in "PayPal For WooCommerce," consider integrating with WooCommerce Subscriptions or other plugins.
 
 == Changelog ==
+
+= 9.0.15 - 2024-12-11 =
+* Added PayPal Seller Onboarding functionality.
+* Resolved a minor issue with Google Pay.
 
 = 9.0.14 - 2024-12-04 =
 * Feature: Added Google Pay support for seamless and secure payments.

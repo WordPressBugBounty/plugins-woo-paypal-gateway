@@ -1,16 +1,16 @@
 (function ($) {
     class PPCPManager {
         constructor(ppcp_manager) {
-            this.ppcp_manager = ppcp_manager; // Configuration object
-            this.productAddToCart = true; // Flag for product cart management
-            this.lastApiResponse = null; // Holds the last API response
-            this.ppcp_address = []; // Holds address details
-            this.paymentsClient = null; // Google Pay PaymentsClient
-            this.allowedPaymentMethods = null; // Google Pay allowed payment methods
-            this.merchantInfo = null; // Google Pay merchant information
+            this.ppcp_manager = ppcp_manager;
+            this.productAddToCart = true;
+            this.lastApiResponse = null;
+            this.ppcp_address = [];
+            this.paymentsClient = null;
+            this.allowedPaymentMethods = null;
+            this.merchantInfo = null;
 
-            this.init(); // Initialize the class
-            this.ppcp_cart_css(); // Adjust cart button styles
+            this.init();
+            this.ppcp_cart_css();
         }
 
         init() {
@@ -19,22 +19,16 @@
                 return false;
             }
 
-            // Manage product variations if applicable
             this.manageVariations('#ppcp_product');
-
-            // Render PayPal Smart Button
-            this.renderSmartButton();
-
-            // Bind WooCommerce checkout events
             this.bindCheckoutEvents();
+            this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 300);
+            this.debouncedUpdatePaypalCC = this.debounce(this.update_paypal_cc.bind(this), 300);
+            this.debouncedUpdateGooglePay = this.debounce(this.update_google_pay.bind(this), 300);
+            this.debouncedUpdatePaypalCheckout();
 
-            // Initialize Google Pay if enabled
             if (this.ppcp_manager.enabled_google_pay === 'yes') {
                 this.loadGooglePaySdk();
             }
-
-
-
         }
 
         getAddress(prefix) {
@@ -115,14 +109,33 @@
             return this.ppcp_manager.paymentaction === 'capture';
         }
 
+        throttle(func, limit) {
+            let lastCall = 0;
+            return function (...args) {
+                const now = Date.now();
+                if (now - lastCall >= limit) {
+                    lastCall = now;
+                    func.apply(this, args);
+                }
+            };
+        }
+
+        debounce(func, delay) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
         bindCheckoutEvents() {
             $('form.checkout').on('checkout_place_order_wpg_paypal_checkout_cc', (event) => {
                 event.preventDefault();
                 return this.handleCheckoutSubmit(event);
             });
-            $(document.body).on('updated_cart_totals updated_checkout ppcp_block_ready ppcp_checkout_updated', () => this.update_paypal_checkout());
-            $(document.body).on('updated_cart_totals updated_checkout ppcp_cc_block_ready ppcp_cc_updated', () => this.update_paypal_cc());
-            $(document.body).on('updated_cart_totals updated_checkout ppcp_cc_block_ready ppcp_cc_updated', () => this.update_google_pay());
+            $(document.body).on('updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied', () => this.debouncedUpdatePaypalCheckout());
+            $(document.body).on('updated_cart_totals updated_checkout ppcp_cc_block_ready ppcp_cc_updated', () => this.debouncedUpdatePaypalCC());
+            $(document.body).on('updated_cart_totals updated_checkout ppcp_cc_block_ready ppcp_cc_updated', () => this.debouncedUpdateGooglePay());
             $('form.checkout').on('click', 'input[name="payment_method"]', () => this.togglePlaceOrderButton());
         }
 
@@ -141,7 +154,6 @@
             this.ppcp_cart_css();
             this.renderSmartButton();
             this.togglePlaceOrderButton();
-
         }
 
         update_paypal_cc() {
@@ -172,26 +184,24 @@
         togglePlaceOrderButton() {
             const isPpcpSelected = this.isPpcpSelected();
             const isPpcpCCSelected = this.isPpcpCCSelected();
-            if (isPpcpSelected) {
+            if (isPpcpSelected)
                 $('#place_order, .wc-block-components-checkout-place-order-button').hide();
-            } else {
+            else
                 $('#place_order, .wc-block-components-checkout-place-order-button').show();
-            }
-            if (isPpcpCCSelected) {
-                if (this.isCardFieldEligible()) {
-                    $('#place_order, .wc-block-components-checkout-place-order-button').show();
-                } else {
-
-                }
-            }
+            if (isPpcpCCSelected && this.isCardFieldEligible())
+                $('#place_order, .wc-block-components-checkout-place-order-button').show();
         }
 
         renderSmartButton() {
             const selectors = this.ppcp_manager.button_selector;
             $.each(selectors, (key, selector) => {
-                if (!$(selector).length || $(selector).children().length || typeof paypal === 'undefined') {
-                    return;
+                $(selector).empty();
+                const elements = jQuery(".ppcp-button-container.ppcp_mini_cart");
+                if (elements.length > 1) {
+                    elements.slice(0, -1).remove(); // Removes all except the last one
                 }
+                if (!$(selector).length || $(selector).children().length || typeof paypal === 'undefined')
+                    return;
                 const isExpressCheckout = selector === '#ppcp_checkout_top';
                 const isMiniCart = selector === '#ppcp_mini_cart';
                 const ppcpStyle = {
@@ -200,16 +210,9 @@
                     shape: isExpressCheckout ? this.ppcp_manager.express_checkout_style_shape : this.ppcp_manager.style_shape,
                     label: isExpressCheckout ? this.ppcp_manager.express_checkout_style_label : this.ppcp_manager.style_label
                 };
-                if (ppcpStyle.layout === 'horizontal') {
+                if (ppcpStyle.layout === 'horizontal')
                     ppcpStyle.tagline = 'false';
-                }
-                if (isExpressCheckout) {
-                    ppcpStyle.height = 40;
-                } else if (isMiniCart) {
-                    ppcpStyle.height = 38;
-                } else {
-                    ppcpStyle.height = 48;
-                }
+                ppcpStyle.height = isExpressCheckout ? 40 : isMiniCart ? 38 : 48;
                 paypal.Buttons({
                     style: ppcpStyle,
                     createOrder: () => this.createOrder(selector),
@@ -218,7 +221,6 @@
                     onError: (err) => this.onErrorHandler(err)
                 }).render(selector);
             });
-
         }
 
         createOrder(selector) {
@@ -249,7 +251,7 @@
             }).then(res => res.json()).then(data => {
                 this.hideSpinner();
                 if (data.success !== undefined) {
-                    const messages = data.data.messages ?? data.data; // Use messages if it exists, otherwise use data
+                    const messages = data.data.messages ?? data.data;
                     this.showError(messages);
                     return null;
                 }
@@ -264,7 +266,7 @@
                     window.location.href = data.data.redirect;
                 });
             } else {
-                actions.redirect(`${this.ppcp_manager.checkout_url}?paypal_order_id=${data.orderID}&paypal_payer_id=${data.payerID}&from=${this.ppcp_manager.page}`);
+                window.location.href = `${this.ppcp_manager.checkout_url}?paypal_order_id=${data.orderID}&paypal_payer_id=${data.payerID}&from=${this.ppcp_manager.page}`;
             }
         }
 
@@ -322,18 +324,14 @@
                     return $(this).is(':visible') && $(this).offset() !== undefined;
                 }).first();
                 if (scrollElement.length) {
-                    const offset = scrollElement.offset(); // Get offset safely
+                    const offset = scrollElement.offset();
                     if (offset) {
                         $('html, body').animate({scrollTop: offset.top - 100}, 1000);
                     }
                 }
                 $(document.body).trigger('checkout_error', [error_message]);
             } else {
-                const errorMessagesString = Array.isArray(error_message)
-                        ? error_message.join('<br>')
-                        : typeof error_message === 'string'
-                        ? error_message
-                        : 'An unknown error occurred.';
+                const errorMessagesString = Array.isArray(error_message) ? error_message.join('<br>') : typeof error_message === 'string' ? error_message : 'An unknown error occurred.';
                 $(document.body).trigger('ppcp_checkout_error', errorMessagesString);
             }
         }
@@ -344,36 +342,11 @@
                 return;
             $(checkoutSelector).addClass('CardFields');
             const cardStyle = {
-                'input': {
-                    'font-size': '16px',
-                    'font-family': 'Helvetica, Arial, sans-serif',
-                    'font-weight': '400',
-                    'color': '#32325d',
-                    'padding': '12px 14px',
-                    'border-radius': '4px',
-                    'border': '1px solid #ccd0d5',
-                    'background': '#ffffff',
-                    'box-shadow': 'none',
-                    'transition': 'border-color 0.15s ease, box-shadow 0.15s ease'
-                },
-                '.invalid': {
-                    'color': '#fa755a',
-                    'border': '1px solid #fa755a',
-                    'box-shadow': 'none'
-                },
-                '::placeholder': {
-                    'color': '#aab7c4'
-                },
-                'input:focus': {
-                    'outline': 'none',
-                    'border': '1px solid #4a90e2',
-                    'box-shadow': '0 0 4px rgba(74, 144, 226, 0.3)'
-                },
-                '.valid': {
-                    'border': '1px solid #3ac569',
-                    'color': '#32325d',
-                    'box-shadow': 'none'
-                }
+                input: {fontSize: '16px', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '400', color: '#32325d', padding: '12px 14px', borderRadius: '4px', border: '1px solid #ccd0d5', background: '#ffffff', boxShadow: 'none', transition: 'border-color 0.15s ease, box-shadow 0.15s ease'},
+                '.invalid': {color: '#fa755a', border: '1px solid #fa755a', boxShadow: 'none'},
+                '::placeholder': {color: '#aab7c4'},
+                'input:focus': {outline: 'none', border: '1px solid #4a90e2', boxShadow: '0 0 4px rgba(74, 144, 226, 0.3)'},
+                '.valid': {border: '1px solid #3ac569', color: '#32325d', boxShadow: 'none'}
             };
             const cardFields = paypal.CardFields({
                 style: cardStyle,
@@ -393,7 +366,6 @@
                 if (this.isPpcpCCSelected())
                     $('#payment_method_wpg_paypal_checkout').prop('checked', true).trigger('click');
             }
-
             $(document.body).on('submit_paypal_cc_form', () => cardFields.submit());
         }
 
@@ -411,11 +383,7 @@
             } else {
                 data = $(checkoutSelector).closest('form').serialize();
             }
-            return fetch(this.ppcp_manager.create_order_url, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: data
-            }).then(res => res.json()).then(data => {
+            return fetch(this.ppcp_manager.create_order_url, {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: data}).then(res => res.json()).then(data => {
                 if (data.success !== undefined) {
                     this.hideSpinner();
                     this.showError(data.data.messages);
@@ -479,21 +447,18 @@
 
         manageVariations(selector) {
             if ($('.variations_form').length) {
-                $('.variations_form, .single_variation')
-                        .on('show_variation', function (event, variation) {
-                            if (variation.is_purchasable && variation.is_in_stock) {
-                                $(selector).show();
-                            } else {
-                                $(selector).hide();
-                            }
-                        })
-                        .on('hide_variation', function () {
-                            $(selector).hide();
-                        });
+                $('.variations_form, .single_variation').on('show_variation', function (event, variation) {
+                    if (variation.is_purchasable && variation.is_in_stock) {
+                        $(selector).show();
+                    } else {
+                        $(selector).hide();
+                    }
+                }).on('hide_variation', function () {
+                    $(selector).hide();
+                });
             }
         }
 
-        // Load the Google Pay SDK
         loadGooglePaySdk() {
             const sdkUrl = "https://pay.google.com/gp/p/js/pay.js";
             const script = document.createElement("script");
@@ -505,7 +470,6 @@
             document.head.appendChild(script);
         }
 
-// Handle Google Pay SDK loaded
         async onGooglePayLoaded() {
             if (typeof paypal === "undefined" || typeof paypal.Googlepay === "undefined") {
                 $('#google-pay-container').remove();
@@ -515,34 +479,27 @@
             const paymentsClient = this.getGooglePaymentsClient();
             const {allowedPaymentMethods} = await this.getGooglePayConfig();
 
-            paymentsClient
-                    .isReadyToPay(this.getGoogleIsReadyToPayRequest(allowedPaymentMethods))
-                    .then((response) => {
-                        if (response.result) {
-                            this.addGooglePayButton();
-                        } else {
-                            console.warn("Google Pay is not available for this configuration");
-                        }
-                    })
-                    .catch((err) => {
-                        $('#google-pay-container').remove();
-                    });
+            paymentsClient.isReadyToPay(this.getGoogleIsReadyToPayRequest(allowedPaymentMethods)).then((response) => {
+                if (response.result) {
+                    this.addGooglePayButton();
+                } else {
+                    console.warn("Google Pay is not available for this configuration");
+                }
+            }).catch(() => {
+                $('#google-pay-container').remove();
+            });
         }
 
-// Get Google Pay Payments Client
         getGooglePaymentsClient() {
             if (this.paymentsClient === null) {
                 this.paymentsClient = new google.payments.api.PaymentsClient({
                     environment: this.ppcp_manager.google_pay_environment || "TEST",
-                    paymentDataCallbacks: {
-                        onPaymentAuthorized: this.onPaymentAuthorized.bind(this),
-                    },
+                    paymentDataCallbacks: {onPaymentAuthorized: this.onPaymentAuthorized.bind(this)},
                 });
             }
             return this.paymentsClient;
         }
 
-// Fetch Google Pay configuration from PayPal
         async getGooglePayConfig() {
             try {
                 if (this.allowedPaymentMethods == null || this.merchantInfo == null) {
@@ -557,72 +514,51 @@
             }
         }
 
-// Google Pay readiness request
         getGoogleIsReadyToPayRequest(allowedPaymentMethods) {
-            return Object.assign({}, {
-                apiVersion: 2,
-                apiVersionMinor: 0,
-                allowedPaymentMethods,
-            });
+            return Object.assign({}, {apiVersion: 2, apiVersionMinor: 0, allowedPaymentMethods});
         }
 
-// Add Google Pay Button
         addGooglePayButton() {
-            if(this.isCheckoutPage()) {
+            if (this.isCheckoutPage())
                 return;
-            }
             const paymentsClient = this.getGooglePaymentsClient();
             const button = paymentsClient.createButton({
                 buttonSizeMode: 'fill',
                 onClick: this.onGooglePaymentButtonClicked.bind(this),
             });
             const container = document.getElementById("google-pay-container");
-            if (container) {
+            if (container)
                 container.appendChild(button);
-            }
         }
 
         update_google_pay() {
-            console.log('584');
             const containerSelector = '#google-pay-container';
             $('#google-pay-container').empty();
-            $('#google-pay-container').html('');
-
             const $container = $(containerSelector);
-            if ($container.length) {
-                console.log('590');
-                if ($container.children().length === 0) {
-                    console.log('593');
-                    const paymentsClient = this.getGooglePaymentsClient(); // Reuse the method from the class
-                    const button = paymentsClient.createButton({
-                        buttonSizeMode: 'fill',
-                        onClick: this.onGooglePaymentButtonClicked.bind(this),
-                    });
-
-                    $container.append(button);
-                } else {
-                    console.log('603');
-                    // If the container already has child elements, skip rendering
-                    console.log('Google Pay button already rendered. Skipping update.');
-                }
+            if ($container.length && $container.children().length === 0) {
+                const paymentsClient = this.getGooglePaymentsClient();
+                const button = paymentsClient.createButton({buttonSizeMode: 'fill', onClick: this.onGooglePaymentButtonClicked.bind(this)});
+                $container.append(button);
             }
         }
 
-// Handle Google Pay button click
         async onGooglePaymentButtonClicked() {
+            const response = await this.ppcpGettransactionInfo();
+            if (response && response.success && response.data) {
+                const cart_data = response.data;
+                if (!this.ppcp_manager.cart_total || this.ppcp_manager.cart_total == 0) {
+                    this.ppcp_manager.cart_total = cart_data.cart_total;
+                }
+            }
             const paymentDataRequest = await this.getGooglePaymentDataRequest();
             const paymentsClient = this.getGooglePaymentsClient();
-
-            paymentsClient
-                    .loadPaymentData(paymentDataRequest)
-                    .then((paymentData) => this.processGooglePayPayment(paymentData))
-                    .catch((err) => {
-                        console.error("Google Pay Payment Error:", err);
-                    });
+            paymentsClient.loadPaymentData(paymentDataRequest).then((paymentData) => this.processGooglePayPayment(paymentData)).catch((err) => {
+                console.error("Google Pay Payment Error:", err);
+            });
         }
 
-// Google Pay payment data request
         async getGooglePaymentDataRequest() {
+
             const {allowedPaymentMethods, merchantInfo} = await this.getGooglePayConfig();
             return Object.assign({}, {
                 apiVersion: 2,
@@ -634,51 +570,51 @@
             });
         }
 
-// Google Pay transaction info
-        getGoogleTransactionInfo() {
-            if (!this.ppcp_manager.cart_total) {
-                console.warn("Order total is missing; defaulting to 0.00");
+        ppcpGettransactionInfo() {
+            var data;
+            if (this.isProductPage()) {
+                $('<input>', {type: 'hidden', name: 'ppcp-add-to-cart', value: $("[name='add-to-cart']").val()}).appendTo('form.cart');
+                data = $('form.cart').serialize();
+            } else {
+                data = $('form.woocommerce-cart-form').serialize();
             }
-            return {
-                currencyCode: this.ppcp_manager.currency || "USD",
-                totalPriceStatus: "FINAL",
-                totalPrice: this.ppcp_manager.cart_total || "0.00",
-            };
-        }
-
-// Handle Google Pay payment authorization
-        onPaymentAuthorized(paymentData) {
-            return new Promise((resolve) => {
-                this.processGooglePayPayment(paymentData)
-                        .then(() => resolve({transactionState: "SUCCESS"}))
-                        .catch((err) => {
-                            console.error("Payment Authorization Error:", err);
-                            resolve({
-                                transactionState: "ERROR",
-                                error: {
-                                    intent: "PAYMENT_AUTHORIZATION",
-                                    message: err.message,
-                                },
-                            });
-                        });
+            return fetch(this.ppcp_manager.get_transaction_info_url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: data
+            }).then(res => res.json()).then(data => {
+                return data;
             });
         }
 
-// Process Google Pay Payment
+        getGoogleTransactionInfo() {
+
+            return {
+                currencyCode: this.ppcp_manager.currency || "USD",
+                totalPriceStatus: "FINAL",
+                totalPrice: this.ppcp_manager.cart_total || "0.00"
+            };
+        }
+
+        onPaymentAuthorized(paymentData) {
+            return new Promise((resolve) => {
+                this.processGooglePayPayment(paymentData).then(() => resolve({transactionState: "SUCCESS"})).catch((err) => {
+                    console.error("Payment Authorization Error:", err);
+                    resolve({transactionState: "ERROR", error: {intent: "PAYMENT_AUTHORIZATION", message: err.message}});
+                });
+            });
+        }
+
         async processGooglePayPayment(paymentData) {
             try {
-                const orderID = await this.createOrder('#google-pay-container'); // Reuse existing createOrder method
+                const orderID = await this.createOrder('#google-pay-container');
                 if (!orderID) {
                     throw new Error("Order creation failed.");
                 }
-
-                const {status} = await paypal.Googlepay().confirmOrder({
-                    orderId: orderID,
-                    paymentMethodData: paymentData.paymentMethodData,
-                });
-
+                const {status} = await paypal.Googlepay().confirmOrder({orderId: orderID, paymentMethodData: paymentData.paymentMethodData});
                 if (status === "APPROVED") {
-                    this.onApproveHandler({orderID}, null); // Reuse existing onApproveHandler
+                    this.onApproveHandler({orderID}, null);
+                    return { transactionState: "SUCCESS" };
                 } else {
                     throw new Error("Google Pay order confirmation failed.");
                 }
@@ -686,7 +622,6 @@
                 console.error("Google Pay Processing Error:", error);
             }
         }
-
     }
 
     $(function () {

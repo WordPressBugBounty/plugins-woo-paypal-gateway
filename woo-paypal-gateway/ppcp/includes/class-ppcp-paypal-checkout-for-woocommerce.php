@@ -20,7 +20,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
             $this->version = '5.1.0';
         }
         $this->plugin_name = 'woo-paypal-gateway';
-        add_filter('woocommerce_payment_gateways', array($this, 'ppcp_woocommerce_payment_gateways'),9999);
+        add_filter('woocommerce_payment_gateways', array($this, 'ppcp_woocommerce_payment_gateways'), 9999);
         $this->load_dependencies();
         $this->set_locale();
         $this->define_public_hooks();
@@ -33,6 +33,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
         require_once WPG_PLUGIN_DIR . '/ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-pay-later-messaging.php';
+        include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php');
+
         $this->loader = new PPCP_Paypal_Checkout_For_Woocommerce_Loader();
     }
 
@@ -44,6 +46,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
     private function define_public_hooks() {
         $this->button_manager = PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager::instance();
         PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later::instance();
+        PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding::instance();
     }
 
     public function run() {

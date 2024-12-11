@@ -54,9 +54,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
 
             $defaults = array(
                 'title' => __('PayPal', 'woo-paypal-gateway'),
-                'description' => __(
-                        'Accept PayPal, PayPal Credit and alternative payment types.', 'woo-paypal-gateway'
-                )
+                'description' => ''
             );
             foreach ($defaults as $key => $value) {
                 if (isset($this->settings[$key])) {
@@ -82,21 +80,26 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'no' => __('Production (Live)', 'woo-paypal-gateway'),
                     ),
                 ),
+                 'live_onboarding' => array(
+                    'title' => __('Connect to PayPal', 'smart-paypal-checkout-for-woocommerce'),
+                    'type' => 'wpg_paypal_checkout_onboarding',
+                    'gateway' => 'wpg_paypal_checkout',
+                    'mode' => 'live',
+                    'description' => __('Setup or link an existing PayPal account.', 'smart-paypal-checkout-for-woocommerce'),
+                    'desc_tip' => ''
+                ),
                 'rest_client_id_live' => array(
                     'title' => __('Live Client ID', 'woo-paypal-gateway'),
                     'type' => 'password',
-                    'description' => sprintf(
-                            __('<a href="%s" target="_blank" style="text-decoration: none;">Retrieve your Client ID and Secret key</a>', 'woo-paypal-gateway'),
-                            esc_url('https://developer.paypal.com/dashboard/applications/live')
-                    ),
+                    'description' => __('Enter PayPal Client ID.', 'woo-paypal-gateway'),
                     'default' => '',
                     'gateway' => 'wpg',
-                    'desc_tip' => false,
+                    'desc_tip' => true,
                 ),
                 'rest_secret_id_live' => array(
                     'title' => __('Live Secret key', 'woo-paypal-gateway'),
                     'type' => 'password',
-                    'description' => __('Enter your Secret key.', 'woo-paypal-gateway'),
+                    'description' => __('Enter PayPal Secret key.', 'woo-paypal-gateway'),
                     'default' => '',
                     'gateway' => 'wpg',
                     'desc_tip' => true
@@ -109,21 +112,26 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'gateway' => 'wpg',
                     'desc_tip' => '',
                 ),
+                 'sandbox_onboarding' => array(
+                    'title' => __('Connect to PayPal', 'smart-paypal-checkout-for-woocommerce'),
+                    'type' => 'wpg_paypal_checkout_onboarding',
+                    'gateway' => 'wpg_paypal_checkout',
+                    'mode' => 'sandbox',
+                    'description' => __('Setup or link an existing PayPal account.', 'smart-paypal-checkout-for-woocommerce'),
+                    'desc_tip' => ''
+                ),
                 'rest_client_id_sandbox' => array(
                     'title' => __('Sandbox Client ID', 'woo-paypal-gateway'),
                     'type' => 'password',
-                    'description' => sprintf(
-                            __('<a href="%s" target="_blank" style="text-decoration: none;">Retrieve your Client ID and Secret key</a>', 'woo-paypal-gateway'),
-                            esc_url('https://developer.paypal.com/dashboard/applications/sandbox')
-                    ),
+                    'description' => __('Enter PayPal Client ID.', 'woo-paypal-gateway'),
                     'default' => '',
                     'gateway' => 'wpg',
-                    'desc_tip' => false,
+                    'desc_tip' => true,
                 ),
                 'rest_secret_id_sandbox' => array(
                     'title' => __('Sandbox Secret key', 'woo-paypal-gateway'),
                     'type' => 'password',
-                    'description' => __('Enter your PayPal Secret key.', 'woo-paypal-gateway'),
+                    'description' => __('Enter PayPal Secret key.', 'woo-paypal-gateway'),
                     'default' => '',
                     'gateway' => 'wpg',
                     'desc_tip' => true,
@@ -470,7 +478,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'class' => 'ppcp_express_checkout_button_settings',
                     'type' => 'checkbox',
                     'label' => __('Enable Express Checkout (Display the PayPal button at the top of the checkout page).', 'woo-paypal-gateway'),
-                    'default' => 'no'
+                    'default' => 'yes'
                 ),
                 'express_checkout_button_layout' => array(
                     'title' => __('Button Layout', 'woo-paypal-gateway'),
@@ -1167,6 +1175,18 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
 
         public function wpg_advanced_settings() {
             return array(
+                'paymentaction' => array(
+                    'title' => __('Payment action', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select',
+                    'description' => __('Choose whether you wish to capture funds immediately or authorize payment only.', 'woo-paypal-gateway'),
+                    'default' => 'capture',
+                    'desc_tip' => true,
+                    'options' => array(
+                        'capture' => __('Capture', 'woo-paypal-gateway'),
+                        'authorize' => __('Authorize', 'woo-paypal-gateway'),
+                    ),
+                ),
                 'brand_name' => array(
                     'title' => __('Brand Name', 'woo-paypal-gateway'),
                     'type' => 'text',
@@ -1202,31 +1222,12 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => __('Include all line item details in the payment request to PayPal so that they can be seen from the PayPal transaction details page.', 'woo-paypal-gateway'),
                     'default' => 'yes'
                 ),
-                'paymentaction' => array(
-                    'title' => __('Payment action', 'woo-paypal-gateway'),
-                    'type' => 'select',
-                    'class' => 'wc-enhanced-select',
-                    'description' => __('Choose whether you wish to capture funds immediately or authorize payment only.', 'woo-paypal-gateway'),
-                    'default' => 'capture',
-                    'desc_tip' => true,
-                    'options' => array(
-                        'capture' => __('Capture', 'woo-paypal-gateway'),
-                        'authorize' => __('Authorize', 'woo-paypal-gateway'),
-                    ),
-                ),
                 'invoice_id_prefix' => array(
                     'title' => __('Invoice prefix', 'woo-paypal-gateway'),
                     'type' => 'text',
                     'description' => __('Please enter a prefix for your invoice numbers. If you use your PayPal account for multiple stores ensure this prefix is unique as PayPal will not allow orders with the same invoice number.', 'woo-paypal-gateway'),
                     'default' => 'WC-PPCP',
                     'desc_tip' => true,
-                ),
-                'order_review_page_enable_coupons' => array(
-                    'title' => __('Enable/Disable coupons', 'woo-paypal-gateway'),
-                    'type' => 'checkbox',
-                    'label' => __('Enable the use of coupon codes', 'woo-paypal-gateway'),
-                    'description' => __('Coupons can be applied from the order review.', 'woo-paypal-gateway'),
-                    'default' => 'no',
                 ),
                 'soft_descriptor' => array(
                     'title' => __('Credit Card Statement Name', 'woo-paypal-gateway'),
@@ -1635,7 +1636,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'class' => 'ppcp_checkout_button_settings',
                     'type' => 'checkbox',
                     'label' => __('Enable PayPal Smart Button on the Top of the Checkout page.', 'woo-paypal-gateway'),
-                    'default' => 'no'
+                    'default' => 'yes'
                 ),
                 'express_checkout_button_layout' => array(
                     'title' => __('Button Layout', 'woo-paypal-gateway'),
@@ -2330,6 +2331,18 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => '',
                     'class' => 'ppcp_separator_heading ppcp-collapsible-section',
                 ),
+                'paymentaction' => array(
+                    'title' => __('Payment action', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select',
+                    'description' => __('Choose whether you wish to capture funds immediately or authorize payment only.', 'woo-paypal-gateway'),
+                    'default' => 'capture',
+                    'desc_tip' => true,
+                    'options' => array(
+                        'capture' => __('Capture', 'woo-paypal-gateway'),
+                        'authorize' => __('Authorize', 'woo-paypal-gateway'),
+                    ),
+                ),
                 'brand_name' => array(
                     'title' => __('Brand Name', 'woo-paypal-gateway'),
                     'type' => 'text',
@@ -2365,31 +2378,13 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => __('Include all line item details in the payment request to PayPal so that they can be seen from the PayPal transaction details page.', 'woo-paypal-gateway'),
                     'default' => 'yes'
                 ),
-                'paymentaction' => array(
-                    'title' => __('Payment action', 'woo-paypal-gateway'),
-                    'type' => 'select',
-                    'class' => 'wc-enhanced-select',
-                    'description' => __('Choose whether you wish to capture funds immediately or authorize payment only.', 'woo-paypal-gateway'),
-                    'default' => 'capture',
-                    'desc_tip' => true,
-                    'options' => array(
-                        'capture' => __('Capture', 'woo-paypal-gateway'),
-                        'authorize' => __('Authorize', 'woo-paypal-gateway'),
-                    ),
-                ),
+                
                 'invoice_id_prefix' => array(
                     'title' => __('Invoice prefix', 'woo-paypal-gateway'),
                     'type' => 'text',
                     'description' => __('Please enter a prefix for your invoice numbers. If you use your PayPal account for multiple stores ensure this prefix is unique as PayPal will not allow orders with the same invoice number.', 'woo-paypal-gateway'),
                     'default' => 'WC-PPCP',
                     'desc_tip' => true,
-                ),
-                'order_review_page_enable_coupons' => array(
-                    'title' => __('Enable/Disable coupons', 'woo-paypal-gateway'),
-                    'type' => 'checkbox',
-                    'label' => __('Enable the use of coupon codes', 'woo-paypal-gateway'),
-                    'description' => __('Coupons can be applied from the order review.', 'woo-paypal-gateway'),
-                    'default' => 'no',
                 ),
                 'soft_descriptor' => array(
                     'title' => __('Credit Card Statement Name', 'woo-paypal-gateway'),
@@ -2432,10 +2427,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => __('Set the page(s) to display the Google Pay button. Configure display options below.', 'woo-paypal-gateway'),
                 ),
             );
-
-            if ('yes' === get_option('woocommerce_enable_coupons')) {
-                unset($advanced_settings['order_review_page_enable_coupons']);
-            }
             $settings = apply_filters('ppcp_settings', array_merge($default_settings, $button_manager_settings_product_page, $button_manager_settings_cart_page, $button_manager_settings_express_checkout_page, $button_manager_settings_checkout_page, $advanced_card_processing, $button_manager_settings_mini_cart_page, $pay_later_messaging_settings, $advanced_settings, $google_pay));
             return $settings;
         }

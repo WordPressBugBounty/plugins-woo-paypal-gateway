@@ -81,10 +81,10 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     public function get_payment_method_data() {
         $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png');
         return [
-            'title' => $this->get_setting('title'),
+            'title' => $this->gateway->title,
             'description' => $this->get_setting('description'),
             'supports' => $this->get_supported_features(),
-            'icon' => $this->icon
+            'icons' => $this->gateway->icon
         ];
     }
 }
