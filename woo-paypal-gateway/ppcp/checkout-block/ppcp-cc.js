@@ -87,7 +87,6 @@ var { registerExpressPaymentMethod, registerPaymentMethod } = wc.wcBlocksRegistr
                             createElement("img", {src: icon, style: {float: "right", marginRight: "3px"}})
                             ));
         const p = () => Object(a.decodeEntities)(l.description || "");
-        const ppcp_settings = wpg_paypal_checkout_cc_manager_block.settins;
         const { is_order_confirm_page, is_paylater_enable_incart_page, page } = wpg_paypal_checkout_cc_manager_block;
         const { useEffect } = window.wp.element;
 

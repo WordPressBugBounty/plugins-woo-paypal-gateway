@@ -520,7 +520,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             <?php
             return ob_get_clean();
         } else {
-            parent::generate_text_html($key, $data);
+            return parent::generate_text_html($key, $data);
         }
     }
 

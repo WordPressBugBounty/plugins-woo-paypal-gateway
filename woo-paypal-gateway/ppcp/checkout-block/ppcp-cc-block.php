@@ -61,7 +61,6 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
             'placeOrderButtonLabel' => $order_button_text,
             'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
-            'settins' => $this->settings,
             'page' => $page
         ));
 

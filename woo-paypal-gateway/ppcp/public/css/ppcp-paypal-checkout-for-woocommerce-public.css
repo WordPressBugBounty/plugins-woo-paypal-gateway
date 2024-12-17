@@ -3,10 +3,28 @@
     margin-top: 5px;
 }
 .ppcp-proceed-to-checkout-button-separator {
-    display: inline-block;
-    opacity: .8;
-    margin: 5px 0 1em;
-    text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0; 
+  position: relative;
+}
+.ppcp-proceed-to-checkout-button-separator::before,
+.ppcp-proceed-to-checkout-button-separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 0 12px;
+}
+.ppcp-proceed-to-checkout-button-separator span {
+  font-weight: 500;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background-color: #ffffff;
+  padding: 0 8px;
+  position: relative;
+  z-index: 1;
 }
 .ppcp-order-review .woocommerce-checkout #payment ul.payment_methods {
     display: none;
@@ -78,6 +96,7 @@
     font-weight: 500;
     margin: 0 auto;
     padding: 0 1rem;
+    max-width: 220px;
 }
 .ppcp-button-container .express-divider {
     align-items: center;
@@ -88,7 +107,7 @@
     right: 0;
     top: -13px;
     white-space: nowrap;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 .ppcp-button-container .express-divider::before,
 .ppcp-button-container .express-divider::after {
@@ -126,7 +145,8 @@
 }
 #payment ul.payment_methods [class*=payment_method_wpg_paypal_checkout] label img {
     max-height:25px;
-    display:inline-block
+    display:inline-block;
+    max-width: 100px;
 }
 #payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] img {
     float:none;

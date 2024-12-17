@@ -57,12 +57,14 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         } elseif (is_checkout()) {
             $page = 'checkout';
         }
-        
+        $all_settings = $this->settings;
+        $required_keys = ['enable_checkout_button_top', 'show_on_cart'];
+        $filtered_settings = array_intersect_key($all_settings, array_flip($required_keys));
         wp_localize_script('wpg_paypal_checkout-blocks-integration', 'wpg_paypal_checkout_manager_block', array(
             'placeOrderButtonLabel' => $order_button_text,
             'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
-            'settins' => $this->settings,
+            'settins' => $filtered_settings,
             'page' => $page,
             'is_block_enable' => 'yes'
                 

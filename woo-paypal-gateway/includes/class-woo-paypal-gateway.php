@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.15';
+            $this->version = '9.0.16';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -399,8 +399,7 @@ class Woo_Paypal_Gateway {
             'theme' => wp_get_theme()->get('Name'),
             'theme_version' => wp_get_theme()->get('Version'),
             'multisite' => is_multisite() ? 'Yes' : 'No',
-            'plugin_version' => WPG_PLUGIN_VERSION,
-            'is_checkout_block_enable' => is_wpg_checkout_block_enabled(),
+            'plugin_version' => WPG_PLUGIN_VERSION
         );
         $args = array(
             'headers' => array(

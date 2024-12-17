@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
 Tested up to: 6.7.1
-Stable tag: 9.0.15  
+Stable tag: 9.0.16  
 Requires PHP: 7.2  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -109,6 +109,9 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Currently, the plugin supports one-time payments. For recurring payments in "PayPal For WooCommerce," consider integrating with WooCommerce Subscriptions or other plugins.
 
 == Changelog ==
+
+= 9.0.16 - 2024-12-17 =
+* Optimised CSS and Layout chnages.
 
 = 9.0.15 - 2024-12-11 =
 * Added PayPal Seller Onboarding functionality.
