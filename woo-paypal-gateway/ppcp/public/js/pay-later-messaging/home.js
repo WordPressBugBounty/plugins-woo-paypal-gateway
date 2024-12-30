@@ -18,8 +18,8 @@ jQuery(function ($) {
             home_style_object['color'] = ppcp_pay_later_messaging.pay_later_messaging_home_flex_layout_color;
             home_style_object['ratio'] = ppcp_pay_later_messaging.pay_later_messaging_home_flex_layout_ratio;
         }
-        if (typeof paypal !== 'undefined') {
-            paypal.Messages({
+        if (typeof wpg_paypal_sdk !== 'undefined') {
+            wpg_paypal_sdk.Messages({
                 placement: 'home',
                 style: home_style_object
             }).render('.ppcp_message_home');

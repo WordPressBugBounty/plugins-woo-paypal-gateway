@@ -60,14 +60,22 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         $all_settings = $this->settings;
         $required_keys = ['enable_checkout_button_top', 'show_on_cart'];
         $filtered_settings = array_intersect_key($all_settings, array_flip($required_keys));
+        if(!isset($filtered_settings['enable_checkout_button_top'])) {
+            $filtered_settings['enable_checkout_button_top'] = 'yes';
+        }
+        if(!isset($filtered_settings['show_on_cart'])) {
+            $filtered_settings['show_on_cart'] = 'no';
+        }
         wp_localize_script('wpg_paypal_checkout-blocks-integration', 'wpg_paypal_checkout_manager_block', array(
             'placeOrderButtonLabel' => $order_button_text,
             'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
             'settins' => $filtered_settings,
             'page' => $page,
-            'is_block_enable' => 'yes'
-                
+            'is_block_enable' => 'yes',
+            'is_google_pay_enable_for_cart' => $this->is_google_pay_enable_for_page('cart') ? 'yes' : 'no',
+            'is_google_pay_enable_for_express_checkout' => $this->is_google_pay_enable_for_page('express_checkout') ? 'yes' : 'no',
+            'is_google_pay_enable_for_checkout' => $this->is_google_pay_enable_for_page('checkout') ? 'yes' : 'no'
         ));
 
         if (function_exists('wp_set_script_translations')) {
@@ -78,6 +86,22 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             do_action('wpg_paypal_checkout_woo_cart_block_pay_later_message');
         }
         return ['wpg_paypal_checkout-blocks-integration'];
+    }
+    
+    public function is_google_pay_enable_for_page($page = '') {
+        if (!isset($this->settings['enabled_google_pay'])) {
+            return false;
+        }
+        if (empty($page)) {
+            return false;
+        }
+        if (empty($this->settings['google_pay_pages'])) {
+            return false;
+        }
+        if (in_array($page, $this->settings['google_pay_pages'])) {
+            return true;
+        }
+        return false;
     }
 
     public function get_payment_method_data() {

@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.16';
+            $this->version = '9.0.17';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -77,7 +77,6 @@ class Woo_Paypal_Gateway {
         add_action('woocommerce_cart_emptied', array($this, 'wpg_clear_session'), 1);
         add_action('woocommerce_cart_item_removed', array($this, 'wpg_clear_session'), 1);
         add_action('woocommerce_update_cart_action_cart_updated', array($this, 'wpg_clear_session'), 1);
-        add_action('admin_notices', array($this, 'cpp_admin_notice'));
         add_action('wp_ajax_ppcp_admin_notice_action', array($this, 'ppcp_admin_notice_action'), 10);
         add_action('wp_ajax_ppcp_dismiss_notice', array($this, 'ppcp_dismiss_notice'), 10);
         add_action('admin_footer', array($this, 'wpg_add_deactivation_feedback_form'));
@@ -272,71 +271,6 @@ class Woo_Paypal_Gateway {
 
     public function wpg_clear_session() {
         wpg_clear_session_data();
-    }
-
-    public function cpp_admin_notice() {
-        global $current_user;
-        $user_id = $current_user->ID;
-        if (false === ( $ppcp_wp_review_request = get_transient('ppcp_wp_review_request') ) && !get_user_meta($user_id, 'ppcp_wp_review_request')) :
-            ?>
-            <div class="ppcp_wp_review_request notice notice-info is-dismissible">
-                <h3 style="margin: 10px 0;"><?php _e('Payment Gateway for PayPal on WooCommerce', 'woo-paypal-gateway'); ?></h3>
-                <p><?php esc_html_e('Hey, We would like to thank you for using our plugin. We would appreciate it if you could take a moment to drop a quick review that will inspire us to keep going.', 'woo-paypal-gateway'); ?></p>
-                <p>
-                    <a class="button button-secondary" style="color:#333; border-color:#ccc; background:#efefef;" data-type="later">Remind me later</a>
-                    <a class="button button-primary" data-type="add_review">Review now</a>
-                </p>
-            </div>
-        <?php endif; ?>
-        <script type="text/javascript">
-            (function ($) {
-                "use strict";
-                var data_obj = {
-                    action: 'ppcp_admin_notice_action',
-                    ppcp_admin_notice_action_type: ''
-                };
-                $(document).on('click', '.ppcp_wp_review_request a.button', function (e) {
-                    e.preventDefault();
-                    var elm = $(this);
-                    var btn_type = elm.attr('data-type');
-                    if (btn_type == 'add_review') {
-                        window.open('https://wordpress.org/support/plugin/woo-paypal-gateway/reviews/');
-                    }
-                    elm.parents('.ppcp_wp_review_request').hide();
-
-                    data_obj['ppcp_admin_notice_action_type'] = btn_type;
-                    $.ajax({
-                        url: ajaxurl,
-                        data: data_obj,
-                        type: 'POST'
-                    });
-
-                }).on('click', '.ppcp_wp_review_request .notice-dismiss', function (e) {
-                    e.preventDefault();
-                    var elm = $(this);
-                    elm.parents('.ppcp_wp_review_request').hide();
-                    data_obj['ppcp_admin_notice_action_type'] = 'review_closed';
-                    $.ajax({
-                        url: ajaxurl,
-                        data: data_obj,
-                        type: 'POST'
-                    });
-
-                }).on('click', '.ppcp_wp_billing_phone_notice .notice-dismiss', function (e) {
-                    e.preventDefault();
-                    var elm = $(this);
-                    elm.parents('.ppcp_wp_billing_phone_notice').hide();
-                    data_obj['ppcp_admin_notice_action_type'] = 'ppcp_wp_billing_phone_notice';
-                    $.ajax({
-                        url: ajaxurl,
-                        data: data_obj,
-                        type: 'POST'
-                    });
-
-                });
-            })(jQuery);
-        </script>
-        <?php
     }
 
     public function ppcp_admin_notice_action() {

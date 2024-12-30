@@ -21,7 +21,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate')) {
             include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-dcc-validate.php');
         }
-
         $this->enable = $this->cc_enable;
         $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
     }
@@ -38,7 +37,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
         ?>
-        <div id="wc-<?php echo esc_attr($this->id); ?>-cc-form" class='wc-credit-card-form wc-payment-form'>
+        <div id="wc-<?php echo esc_attr($this->id); ?>-form" class='wc-credit-card-form wc-payment-form'>
             <div id='wpg_paypal_checkout_cc-card-number'></div>
             <div id='wpg_paypal_checkout_cc-card-expiry'></div>
             <div id='wpg_paypal_checkout_cc-card-cvc'></div>
@@ -135,7 +134,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
             include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
         }
-        $this->request = new PPCP_Paypal_Checkout_For_Woocommerce_Request($this);
+        $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
         $is_success = false;
         if (isset($_GET['from']) && 'checkout' === $_GET['from']) {
             ppcp_set_session('ppcp_woo_order_id', $woo_order_id);
@@ -145,7 +144,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             $ppcp_paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
             if (!empty($ppcp_paypal_order_id)) {
                 include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
-                $this->request = new PPCP_Paypal_Checkout_For_Woocommerce_Request();
+                $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
                 $order = wc_get_order($woo_order_id);
                 if ($this->paymentaction === 'capture') {
                     $is_success = $this->request->ppcp_order_capture_request($woo_order_id);
@@ -193,7 +192,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             return new WP_Error('error', __('Refund failed.', 'woo-paypal-gateway'));
         }
         include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
-        $this->request = new PPCP_Paypal_Checkout_For_Woocommerce_Request();
+        $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
         $transaction_id = $order->get_transaction_id();
         $bool = $this->request->ppcp_refund_order($order_id, $amount, $reason, $transaction_id);
         return $bool;
@@ -205,5 +204,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             return true;
         }
         return false;
+    }
+    
+    public function process_subscription_payment($order, $amount_to_charge) {
+        try {
+            if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
+                include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+                $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+            }
+            $order_id = $order->get_id();
+            $this->payment_request->wpg_ppcp_capture_order_using_payment_method_token($order_id);
+        } catch (Exception $ex) {
+
+        }
     }
 }

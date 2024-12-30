@@ -18,8 +18,8 @@ jQuery(function ($) {
             shortcode_style_object['color'] = ppcp_pay_later_messaging.color;
             shortcode_style_object['ratio'] = ppcp_pay_later_messaging.ratio;
         }
-        if (typeof paypal !== 'undefined') {
-            paypal.Messages({
+        if (typeof wpg_paypal_sdk !== 'undefined') {
+            wpg_paypal_sdk.Messages({
                 amount: ppcp_pay_later_messaging.amount,
                 placement: ppcp_pay_later_messaging.placement,
                 style: shortcode_style_object

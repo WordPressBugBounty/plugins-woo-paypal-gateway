@@ -1,7 +1,12 @@
+let onboardingInProgress = false;
 window.onboardingCallback = function (authCode, sharedId) {
+    if (onboardingInProgress) {
+        return; 
+    }
+    onboardingInProgress = true;
     const is_sandbox = document.querySelector('#woocommerce_wpg_paypal_checkout_sandbox');
     window.onbeforeunload = '';
-    jQuery('#wpbody').block({ message: null, overlayCSS: { background: '#fff', opacity: 0.6 } });
+    jQuery('#wpbody').block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
     fetch(ppcp_param.wpg_onboarding_endpoint, {
         method: 'POST',
         headers: {
@@ -13,8 +18,11 @@ window.onboardingCallback = function (authCode, sharedId) {
             nonce: ppcp_param.wpg_onboarding_endpoint_nonce,
             env: is_sandbox && is_sandbox.value === 'yes' ? 'sandbox' : 'production'
         })
+    }).finally(() => {
+        onboardingInProgress = false;
     });
 };
+
 (function ($) {
     'use strict';
     $(function () {
@@ -112,6 +120,13 @@ window.onboardingCallback = function (authCode, sharedId) {
                 jQuery('#woocommerce_wpg_paypal_checkout_3d_secure_contingency, #woocommerce_wpg_paypal_checkout_disable_cards, #woocommerce_wpg_paypal_checkout_advanced_card_payments_title').closest('tr').show();
             } else {
                 jQuery('#woocommerce_wpg_paypal_checkout_3d_secure_contingency, #woocommerce_wpg_paypal_checkout_disable_cards, #woocommerce_wpg_paypal_checkout_advanced_card_payments_title').closest('tr').hide();
+            }
+        }).change();
+        $('#woocommerce_wpg_paypal_checkout_enabled_google_pay').change(function () {
+            if ($(this).is(':checked')) {
+                $('#woocommerce_wpg_paypal_checkout_google_pay_pages').closest('tr').show();
+            } else {
+                $('#woocommerce_wpg_paypal_checkout_google_pay_pages').closest('tr').hide();
             }
         }).change();
 

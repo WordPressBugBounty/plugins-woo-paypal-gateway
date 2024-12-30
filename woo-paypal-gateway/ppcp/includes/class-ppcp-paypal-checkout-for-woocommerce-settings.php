@@ -25,7 +25,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             if (!$this->has($id)) {
                 return $default;
             }
-            return $this->settings[$id];
+            return empty($this->setting_obj[$id]) ? $default : $this->setting_obj[$id];
         }
 
         public function get_load() {
@@ -51,18 +51,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 return false;
             }
             $this->settings = get_option($this->gateway_key, array());
-
-            $defaults = array(
-                'title' => __('PayPal', 'woo-paypal-gateway'),
-                'description' => ''
-            );
-            foreach ($defaults as $key => $value) {
-                if (isset($this->settings[$key])) {
-                    continue;
-                }
-                $this->settings[$key] = $value;
-            }
-            return true;
         }
 
         public function default_api_settings() {
@@ -80,7 +68,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'no' => __('Production (Live)', 'woo-paypal-gateway'),
                     ),
                 ),
-                 'live_onboarding' => array(
+                'live_onboarding' => array(
                     'title' => __('Connect to PayPal', 'smart-paypal-checkout-for-woocommerce'),
                     'type' => 'wpg_paypal_checkout_onboarding',
                     'gateway' => 'wpg_paypal_checkout',
@@ -112,7 +100,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'gateway' => 'wpg',
                     'desc_tip' => '',
                 ),
-                 'sandbox_onboarding' => array(
+                'sandbox_onboarding' => array(
                     'title' => __('Connect to PayPal', 'smart-paypal-checkout-for-woocommerce'),
                     'type' => 'wpg_paypal_checkout_onboarding',
                     'gateway' => 'wpg_paypal_checkout',
@@ -177,6 +165,8 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => __('The description displayed to customers during checkout.', 'woo-paypal-gateway'),
                     'default' => '',
                     'desc_tip' => true,
+                    'placeholder' => __('Optional', 'woo-paypal-gateway'),
+                        
             ));
 
             $button_manager_settings_product_page = array(
@@ -276,7 +266,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'buynow' => __('Buy Now', 'woo-paypal-gateway'),
                         'pay' => __('Pay', 'woo-paypal-gateway'),
                     ),
-                ),
+                )
             );
             $button_manager_settings_cart_page = array(
                 'cart_button_settings' => array(
@@ -294,6 +284,18 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'default' => 'no',
                     'desc_tip' => true,
                     'description' => __('Optionally override global button settings above and configure buttons specific to Cart page.', 'woo-paypal-gateway'),
+                ),
+                'cart_button_location' => array(
+                    'title' => __('Button Location', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_cart_button_settings',
+                    'description' => __('The location of the payment buttons in relation to the Proceed to checkout button.', 'woo-paypal-gateway'),
+                    'default' => 'below',
+                    'desc_tip' => true,
+                    'options' => array(
+                        'below' => __('Below checkout button', 'woo-paypal-gateway'),
+                        'above' => __('Above checkout button', 'woo-paypal-gateway'),
+                    )
                 ),
                 'cart_disallowed_funding_methods' => array(
                     'title' => __('Hide Funding Method(s)', 'woo-paypal-gateway'),
@@ -551,31 +553,16 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'desc_tip' => true,
                     'description' => __('Optionally override global button settings above and configure buttons specific to Mini Cart page.', 'woo-paypal-gateway'),
                 ),
-                'mini_cart_disallowed_funding_methods' => array(
-                    'title' => __('Hide Funding Method(s)', 'woo-paypal-gateway'),
-                    'type' => 'multiselect',
+                'min_cart_button_location' => array(
+                    'title' => __('Button Location', 'woo-paypal-gateway'),
+                    'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
-                    'description' => __('Funding methods selected here will be hidden from buyers during checkout.', 'woo-paypal-gateway'),
-                    'default' => '',
+                    'description' => __('The location of the payment buttons in relation to the Proceed to checkout button.', 'woo-paypal-gateway'),
+                    'default' => 'below',
                     'desc_tip' => true,
                     'options' => array(
-                        'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
-                        'credit' => __('PayPal Credit', 'woo-paypal-gateway'),
-                        'paylater' => __('Pay Later', 'woo-paypal-gateway'),
-                        'bancontact' => __('Bancontact', 'woo-paypal-gateway'),
-                        'blik' => __('BLIK', 'woo-paypal-gateway'),
-                        'eps' => __('eps', 'woo-paypal-gateway'),
-                        'giropay' => __('giropay', 'woo-paypal-gateway'),
-                        'ideal' => __('iDEAL', 'woo-paypal-gateway'),
-                        'mercadopago' => __('Mercado Pago', 'woo-paypal-gateway'),
-                        'mybank' => __('MyBank', 'woo-paypal-gateway'),
-                        'p24' => __('Przelewy24', 'woo-paypal-gateway'),
-                        'sepa' => __('SEPA-Lastschrift', 'woo-paypal-gateway'),
-                        'sofort' => __('Sofort', 'woo-paypal-gateway'),
-                        'venmo' => __('Venmo', 'woo-paypal-gateway')
-                    ),
-                    'custom_attributes' => array(
-                        'data-placeholder' => __('Select funding methods to hide.', 'woo-paypal-gateway'),
+                        'below' => __('Below checkout button', 'woo-paypal-gateway'),
+                        'above' => __('Above checkout button', 'woo-paypal-gateway'),
                     )
                 ),
                 'mini_cart_button_layout' => array(
@@ -583,11 +570,11 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
                     'description' => __('Select Vertical for stacked buttons, and Horizontal for side-by-side buttons.', 'woo-paypal-gateway'),
-                    'default' => 'vertical',
+                    'default' => 'horizontal',
                     'desc_tip' => true,
                     'options' => array(
-                        'vertical' => __('Vertical (Recommended)', 'woo-paypal-gateway'),
-                        'horizontal' => __('Horizontal', 'woo-paypal-gateway'),
+                        'horizontal' => __('Horizontal (Recommended)', 'woo-paypal-gateway'),
+                        'vertical' => __('Vertical', 'woo-paypal-gateway'),
                     ),
                 ),
                 'mini_cart_button_color' => array(
@@ -663,6 +650,18 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'default' => __('Credit or Debit Card', 'woo-paypal-gateway'),
                     'desc_tip' => true
                 ),
+                'advanced_card_payments_display_position' => array(
+                    'title' => __('Advanced Credit/Debit Card Position', 'paypal-for-woocommerce'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select advanced_cc_fields_group',
+                    'options' => array(
+                        'before' => __('Show Before PayPal Smart Buttons', 'paypal-for-woocommerce'),
+                        'after' => __('Show After PayPal Smart Buttons', 'paypal-for-woocommerce'),
+                    ),
+                    'default' => 'before',
+                    'desc_tip' => true,
+                    'description' => __('This setting allows you to control where the advanced credit or debit card payment option is displayed on the checkout page in relation to the PayPal Smart Buttons.', 'paypal-for-woocommerce'),
+                ),
                 'disable_cards' => array(
                     'title' => __('Disable specific credit cards', 'woo-paypal-gateway'),
                     'type' => 'multiselect',
@@ -718,6 +717,14 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
                     ),
                     'description' => __('Set the page(s) to display the Google Pay button. Configure display options below.', 'woo-paypal-gateway'),
+                ),
+            );
+        }
+        
+        public function wpg_foq() {
+            return array(
+                'foq_note' => array(
+                    'type' => 'foq_html'
                 ),
             );
         }
@@ -1241,7 +1248,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Debug log', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
                     'label' => __('Enable logging', 'woo-paypal-gateway'),
-                    'default' => 'no',
+                    'default' => 'yes',
                     'description' => sprintf(__('Log PayPal events, such as Webhook, Payment, Refund inside %s', 'woo-paypal-gateway'), '<code>' . WC_Log_Handler_File::get_log_file_path('wpg_paypal_checkout') . '</code>'),
                 )
             );
@@ -1434,7 +1441,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'buynow' => __('Buy Now', 'woo-paypal-gateway'),
                         'pay' => __('Pay', 'woo-paypal-gateway'),
                     ),
-                ),
+                )
             );
             $button_manager_settings_cart_page = array(
                 'cart_button_settings' => array(
@@ -1452,6 +1459,18 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'default' => 'no',
                     'desc_tip' => true,
                     'description' => __('Optionally override global button settings above and configure buttons specific to Cart page.', 'woo-paypal-gateway'),
+                ),
+                'cart_button_location' => array(
+                    'title' => __('Button Location', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_cart_button_settings',
+                    'description' => __('The location of the payment buttons in relation to the Proceed to checkout button.', 'woo-paypal-gateway'),
+                    'default' => 'below',
+                    'desc_tip' => true,
+                    'options' => array(
+                        'below' => __('Below checkout button', 'woo-paypal-gateway'),
+                        'above' => __('Above checkout button', 'woo-paypal-gateway'),
+                    )
                 ),
                 'cart_disallowed_funding_methods' => array(
                     'title' => __('Hide Funding Method(s)', 'woo-paypal-gateway'),
@@ -1709,31 +1728,16 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'desc_tip' => true,
                     'description' => __('Optionally override global button settings above and configure buttons specific to Mini Cart page.', 'woo-paypal-gateway'),
                 ),
-                'mini_cart_disallowed_funding_methods' => array(
-                    'title' => __('Hide Funding Method(s)', 'woo-paypal-gateway'),
-                    'type' => 'multiselect',
+                'min_cart_button_location' => array(
+                    'title' => __('Button Location', 'woo-paypal-gateway'),
+                    'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
-                    'description' => __('Funding methods selected here will be hidden from buyers during checkout.', 'woo-paypal-gateway'),
-                    'default' => '',
+                    'description' => __('The location of the payment buttons in relation to the Proceed to checkout button.', 'woo-paypal-gateway'),
+                    'default' => 'below',
                     'desc_tip' => true,
                     'options' => array(
-                        'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
-                        'credit' => __('PayPal Credit', 'woo-paypal-gateway'),
-                        'paylater' => __('Pay Later', 'woo-paypal-gateway'),
-                        'bancontact' => __('Bancontact', 'woo-paypal-gateway'),
-                        'blik' => __('BLIK', 'woo-paypal-gateway'),
-                        'eps' => __('eps', 'woo-paypal-gateway'),
-                        'giropay' => __('giropay', 'woo-paypal-gateway'),
-                        'ideal' => __('iDEAL', 'woo-paypal-gateway'),
-                        'mercadopago' => __('Mercado Pago', 'woo-paypal-gateway'),
-                        'mybank' => __('MyBank', 'woo-paypal-gateway'),
-                        'p24' => __('Przelewy24', 'woo-paypal-gateway'),
-                        'sepa' => __('SEPA-Lastschrift', 'woo-paypal-gateway'),
-                        'sofort' => __('Sofort', 'woo-paypal-gateway'),
-                        'venmo' => __('Venmo', 'woo-paypal-gateway')
-                    ),
-                    'custom_attributes' => array(
-                        'data-placeholder' => __('Select funding methods to hide.', 'woo-paypal-gateway'),
+                        'below' => __('Below checkout button', 'woo-paypal-gateway'),
+                        'above' => __('Above checkout button', 'woo-paypal-gateway'),
                     )
                 ),
                 'mini_cart_button_layout' => array(
@@ -1741,11 +1745,11 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
                     'description' => __('Select Vertical for stacked buttons, and Horizontal for side-by-side buttons.', 'woo-paypal-gateway'),
-                    'default' => 'vertical',
+                    'default' => 'horizontal',
                     'desc_tip' => true,
                     'options' => array(
-                        'vertical' => __('Vertical (Recommended)', 'woo-paypal-gateway'),
-                        'horizontal' => __('Horizontal', 'woo-paypal-gateway'),
+                        'horizontal' => __('Horizontal (Recommended)', 'woo-paypal-gateway'),
+                        'vertical' => __('Vertical', 'woo-paypal-gateway'),
                     ),
                 ),
                 'mini_cart_button_color' => array(
@@ -2277,7 +2281,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'default' => '[ppcp_bnpl_message placement="payment"]'
             ));
 
-            $advanced_card_processing = $advanced_settings = array(
+            $advanced_card_processing = array(
                 'advanced_card_processing' => array(
                     'title' => __('Checkout Page Settings - Advanced Credit/Debit Card', 'woo-paypal-gateway'),
                     'type' => 'title',
@@ -2297,6 +2301,18 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => __('This controls the title which the user sees during checkout.', 'woo-paypal-gateway'),
                     'default' => __('Credit or Debit Card', 'woo-paypal-gateway'),
                     'desc_tip' => true
+                ),
+                'advanced_card_payments_display_position' => array(
+                    'title' => __('Advanced Credit/Debit Card Position', 'paypal-for-woocommerce'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select advanced_cc_fields_group',
+                    'options' => array(
+                        'before' => __('Show Before PayPal Smart Buttons', 'paypal-for-woocommerce'),
+                        'after' => __('Show After PayPal Smart Buttons', 'paypal-for-woocommerce'),
+                    ),
+                    'default' => 'before',
+                    'desc_tip' => true,
+                    'description' => __('This setting allows you to control where the advanced credit or debit card payment option is displayed on the checkout page in relation to the PayPal Smart Buttons.', 'paypal-for-woocommerce'),
                 ),
                 'disable_cards' => array(
                     'title' => __('Disable specific credit cards', 'woo-paypal-gateway'),
@@ -2378,7 +2394,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => __('Include all line item details in the payment request to PayPal so that they can be seen from the PayPal transaction details page.', 'woo-paypal-gateway'),
                     'default' => 'yes'
                 ),
-                
                 'invoice_id_prefix' => array(
                     'title' => __('Invoice prefix', 'woo-paypal-gateway'),
                     'type' => 'text',
@@ -2398,7 +2413,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Debug log', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
                     'label' => __('Enable logging', 'woo-paypal-gateway'),
-                    'default' => 'no',
+                    'default' => 'yes',
                     'description' => sprintf(__('Log PayPal events, such as Webhook, Payment, Refund inside %s', 'woo-paypal-gateway'), '<code>' . WC_Log_Handler_File::get_log_file_path('wpg_paypal_checkout') . '</code>'),
                 )
             );

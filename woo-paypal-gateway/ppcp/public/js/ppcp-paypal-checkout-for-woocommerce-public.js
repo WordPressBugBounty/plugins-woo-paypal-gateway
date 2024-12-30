@@ -19,13 +19,14 @@
                 return false;
             }
 
-            this.manageVariations('#ppcp_product');
+            this.manageVariations('#ppcp_product, #google-pay-container');
             this.bindCheckoutEvents();
             this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 300);
             this.debouncedUpdatePaypalCC = this.debounce(this.update_paypal_cc.bind(this), 300);
             this.debouncedUpdateGooglePay = this.debounce(this.update_google_pay.bind(this), 300);
-            this.debouncedUpdatePaypalCheckout();
-
+            if (this.isCheckoutPage() === false) {
+                this.debouncedUpdatePaypalCheckout();
+            }
             if (this.ppcp_manager.enabled_google_pay === 'yes') {
                 this.loadGooglePaySdk();
             }
@@ -170,6 +171,9 @@
         }
 
         isPpcpSelected() {
+            if (this.ppcp_manager.is_wpg_change_payment_method === 'yes') {
+                return false;
+            }
             return $('#payment_method_wpg_paypal_checkout').is(':checked') || $('input[name="radio-control-wc-payment-method-options"]:checked').val() === 'wpg_paypal_checkout';
         }
 
@@ -178,7 +182,7 @@
         }
 
         isCardFieldEligible() {
-            return this.isCheckoutPage() && this.ppcp_manager.advanced_card_payments === 'yes' && typeof paypal !== 'undefined' && paypal.CardFields().isEligible();
+            return this.isCheckoutPage() && this.ppcp_manager.advanced_card_payments === 'yes' && typeof wpg_paypal_sdk !== 'undefined' && wpg_paypal_sdk.CardFields().isEligible();
         }
 
         togglePlaceOrderButton() {
@@ -195,25 +199,33 @@
         renderSmartButton() {
             const selectors = this.ppcp_manager.button_selector;
             $.each(selectors, (key, selector) => {
-                $(selector).empty();
                 const elements = jQuery(".ppcp-button-container.ppcp_mini_cart");
                 if (elements.length > 1) {
                     elements.slice(0, -1).remove(); // Removes all except the last one
                 }
-                if (!$(selector).length || $(selector).children().length || typeof paypal === 'undefined')
+                if (!$(selector).length || $(selector).children().length || typeof wpg_paypal_sdk === 'undefined')
                     return;
                 const isExpressCheckout = selector === '#ppcp_checkout_top';
                 const isMiniCart = selector === '#ppcp_mini_cart';
                 const ppcpStyle = {
-                    layout: isExpressCheckout ? this.ppcp_manager.express_checkout_style_layout : this.ppcp_manager.style_layout,
-                    color: isExpressCheckout ? this.ppcp_manager.express_checkout_style_color : this.ppcp_manager.style_color,
-                    shape: isExpressCheckout ? this.ppcp_manager.express_checkout_style_shape : this.ppcp_manager.style_shape,
-                    label: isExpressCheckout ? this.ppcp_manager.express_checkout_style_label : this.ppcp_manager.style_label
+                    layout: isMiniCart
+                            ? this.ppcp_manager.mini_cart_style_layout
+                            : (isExpressCheckout ? this.ppcp_manager.express_checkout_style_layout : this.ppcp_manager.style_layout),
+                    color: isMiniCart
+                            ? this.ppcp_manager.mini_cart_style_color
+                            : (isExpressCheckout ? this.ppcp_manager.express_checkout_style_color : this.ppcp_manager.style_color),
+                    shape: isMiniCart
+                            ? this.ppcp_manager.mini_cart_style_shape
+                            : (isExpressCheckout ? this.ppcp_manager.express_checkout_style_shape : this.ppcp_manager.style_shape),
+                    label: isMiniCart
+                            ? this.ppcp_manager.mini_cart_style_label
+                            : (isExpressCheckout ? this.ppcp_manager.express_checkout_style_label : this.ppcp_manager.style_label)
                 };
+
                 if (ppcpStyle.layout === 'horizontal')
                     ppcpStyle.tagline = 'false';
                 ppcpStyle.height = isExpressCheckout ? 40 : isMiniCart ? 38 : 48;
-                paypal.Buttons({
+                wpg_paypal_sdk.Buttons({
                     style: ppcpStyle,
                     createOrder: () => this.createOrder(selector),
                     onApprove: (data, actions) => this.onApproveHandler(data, actions),
@@ -244,7 +256,7 @@
             } else {
                 data = $('form.woocommerce-cart-form').serialize();
             }
-            return fetch(this.ppcp_manager.create_order_url, {
+            return fetch(this.ppcp_manager.create_order_url_for_paypal, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 body: data
@@ -338,7 +350,7 @@
 
         renderCardFields() {
             const checkoutSelector = this.getCheckoutSelectorCss();
-            if ($(checkoutSelector).is('.CardFields') || $('#wpg_paypal_checkout_cc-card-number').length === 0 || typeof paypal === 'undefined')
+            if ($(checkoutSelector).is('.CardFields') || $('#wpg_paypal_checkout_cc-card-number').length === 0 || typeof wpg_paypal_sdk === 'undefined')
                 return;
             $(checkoutSelector).addClass('CardFields');
             const cardStyle = {
@@ -348,7 +360,7 @@
                 'input:focus': {outline: 'none', border: '1px solid #4a90e2', boxShadow: '0 0 4px rgba(74, 144, 226, 0.3)'},
                 '.valid': {border: '1px solid #3ac569', color: '#32325d', boxShadow: 'none'}
             };
-            const cardFields = paypal.CardFields({
+            const cardFields = wpg_paypal_sdk.CardFields({
                 style: cardStyle,
                 createOrder: () => this.createCardOrder(checkoutSelector),
                 onApprove: (payload) => payload && payload.orderID ? this.submitCardFields(payload) : console.error("No valid payload returned during onApprove:", payload),
@@ -383,7 +395,7 @@
             } else {
                 data = $(checkoutSelector).closest('form').serialize();
             }
-            return fetch(this.ppcp_manager.create_order_url, {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: data}).then(res => res.json()).then(data => {
+            return fetch(this.ppcp_manager.create_order_url_for_cc, {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: data}).then(res => res.json()).then(data => {
                 if (data.success !== undefined) {
                     this.hideSpinner();
                     this.showError(data.data.messages);
@@ -437,11 +449,12 @@
         ppcp_cart_css() {
             const $button = $('.checkout-button');
             const width = $button.outerWidth();
-            if (width && $('.ppcp-button-container.ppcp_cart').length) {
-                $('.ppcp-button-container.ppcp_cart').width(width);
+            const $container = $('.ppcp-button-container.ppcp_cart');
+            if (width && $container.length) {
+                $container.width(width);
             }
             if ($button.css('float') !== 'none') {
-                $('.ppcp-button-container.ppcp_cart').css('float', $button.css('float'));
+                $container.css('float', $button.css('float'));
             }
         }
 
@@ -460,6 +473,7 @@
         }
 
         loadGooglePaySdk() {
+            console.log('loadGooglePaySdk');
             const sdkUrl = "https://pay.google.com/gp/p/js/pay.js";
             const script = document.createElement("script");
             script.src = sdkUrl;
@@ -471,7 +485,7 @@
         }
 
         async onGooglePayLoaded() {
-            if (typeof paypal === "undefined" || typeof paypal.Googlepay === "undefined") {
+            if (typeof wpg_paypal_sdk === "undefined" || typeof wpg_paypal_sdk.Googlepay === "undefined") {
                 $('#google-pay-container').remove();
                 return;
             }
@@ -503,7 +517,7 @@
         async getGooglePayConfig() {
             try {
                 if (this.allowedPaymentMethods == null || this.merchantInfo == null) {
-                    const googlePayConfig = await paypal.Googlepay().config();
+                    const googlePayConfig = await wpg_paypal_sdk.Googlepay().config();
                     this.allowedPaymentMethods = googlePayConfig.allowedPaymentMethods || [];
                     this.merchantInfo = googlePayConfig.merchantInfo || {};
                 }
@@ -519,11 +533,12 @@
         }
 
         addGooglePayButton() {
-            if (this.isCheckoutPage())
-                return;
             const paymentsClient = this.getGooglePaymentsClient();
             const button = paymentsClient.createButton({
                 buttonSizeMode: 'fill',
+                buttonColor: 'default',
+                buttonRadius: 4,
+                buttonLocale: ppcp_manager.locale,
                 onClick: this.onGooglePaymentButtonClicked.bind(this),
             });
             const container = document.getElementById("google-pay-container");
@@ -532,6 +547,7 @@
         }
 
         update_google_pay() {
+            console.log('update_google_pay');
             const containerSelector = '#google-pay-container';
             $('#google-pay-container').empty();
             const $container = $(containerSelector);
@@ -611,10 +627,10 @@
                 if (!orderID) {
                     throw new Error("Order creation failed.");
                 }
-                const {status} = await paypal.Googlepay().confirmOrder({orderId: orderID, paymentMethodData: paymentData.paymentMethodData});
+                const {status} = await wpg_paypal_sdk.Googlepay().confirmOrder({orderId: orderID, paymentMethodData: paymentData.paymentMethodData});
                 if (status === "APPROVED") {
                     this.onApproveHandler({orderID}, null);
-                    return { transactionState: "SUCCESS" };
+                    return {transactionState: "SUCCESS"};
                 } else {
                     throw new Error("Google Pay order confirmation failed.");
                 }

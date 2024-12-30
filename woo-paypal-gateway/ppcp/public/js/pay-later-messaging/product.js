@@ -25,8 +25,8 @@ jQuery(function ($) {
             product_style_object['color'] = ppcp_pay_later_messaging.pay_later_messaging_product_flex_layout_color;
             product_style_object['ratio'] = ppcp_pay_later_messaging.pay_later_messaging_product_flex_layout_ratio;
         }
-        if (typeof paypal !== 'undefined') {
-            paypal.Messages({
+        if (typeof wpg_paypal_sdk !== 'undefined') {
+            wpg_paypal_sdk.Messages({
                 amount: ppcp_pay_later_messaging.amount,
                 placement: 'product',
                 style: product_style_object

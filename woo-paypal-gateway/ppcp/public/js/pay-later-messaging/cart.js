@@ -19,8 +19,8 @@ jQuery(function ($) {
             cart_style_object['ratio'] = ppcp_pay_later_messaging.pay_later_messaging_cart_flex_layout_ratio;
         }
         $('.ppcp_message_cart').addClass('ppcp_' + ppcp_pay_later_messaging.pay_later_messaging_cart_layout_type);
-        if (typeof paypal !== 'undefined') {
-            paypal.Messages({
+        if (typeof wpg_paypal_sdk !== 'undefined') {
+            wpg_paypal_sdk.Messages({
                 amount: ppcp_pay_later_messaging.amount,
                 placement: 'cart',
                 style: cart_style_object
