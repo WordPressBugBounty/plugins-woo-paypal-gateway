@@ -166,7 +166,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'default' => '',
                     'desc_tip' => true,
                     'placeholder' => __('Optional', 'woo-paypal-gateway'),
-                        
             ));
 
             $button_manager_settings_product_page = array(
@@ -538,7 +537,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             );
             $button_manager_settings_mini_cart_page = array(
                 'mini_cart_button_settings' => array(
-                    'title' => __('Mini Cart Settings', 'woo-paypal-gateway'),
+                    'title' => __('Mini Cart (Side Cart) Settings', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => '',
                     'type' => 'title',
@@ -609,7 +608,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
                     'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'default' => 'mini_cart',
+                    'default' => 'paypal',
                     'desc_tip' => true,
                     'options' => array(
                         'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
@@ -639,28 +638,28 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
                     'label' => __('Enable Advanced Credit/Debit Card in the Payment Gateway List on the Checkout Page', 'woo-paypal-gateway'),
-                    'default' => 'yes',
+                    'default' => 'no',
                     'description' => __('Enable the Advanced Credit/Debit Card payment option as a separate gateway on the checkout page. This gateway typically offers a lower PayPal fee compared to the PayPal Smart Button. The fee is 2.59% + $0.49* per transaction for Advanced Credit/Debit Card payments and 3.49% + $0.49* for PayPal Smart Buttons. It supports major cards like Visa, Mastercard, and American Express, providing a secure and streamlined payment experience.', 'woo-paypal-gateway'),
                     'desc_tip' => true
                 ),
                 'advanced_card_payments_title' => array(
-                    'title' => __('Advanced Credit Cards Title', 'woo-paypal-gateway'),
+                    'title' => __('Title', 'woo-paypal-gateway'),
                     'type' => 'text',
                     'description' => __("Set the title for the Advanced Credit/Debit Card payment method as it will appear on the checkout page (e.g., 'Pay with Credit/Debit Card')..", 'woo-paypal-gateway'),
                     'default' => __('Credit or Debit Card', 'woo-paypal-gateway'),
                     'desc_tip' => true
                 ),
                 'advanced_card_payments_display_position' => array(
-                    'title' => __('Advanced Credit/Debit Card Position', 'paypal-for-woocommerce'),
+                    'title' => __('Position', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select advanced_cc_fields_group',
                     'options' => array(
-                        'before' => __('Show Before PayPal Smart Buttons', 'paypal-for-woocommerce'),
-                        'after' => __('Show After PayPal Smart Buttons', 'paypal-for-woocommerce'),
+                        'before' => __('Show Before PayPal Smart Buttons', 'woo-paypal-gateway'),
+                        'after' => __('Show After PayPal Smart Buttons', 'woo-paypal-gateway'),
                     ),
                     'default' => 'before',
                     'desc_tip' => true,
-                    'description' => __('This setting allows you to control where the advanced credit or debit card payment option is displayed on the checkout page in relation to the PayPal Smart Buttons.', 'paypal-for-woocommerce'),
+                    'description' => __('This setting allows you to control where the advanced credit or debit card payment option is displayed on the checkout page in relation to the PayPal Smart Buttons.', 'woo-paypal-gateway'),
                 ),
                 'disable_cards' => array(
                     'title' => __('Disable specific credit cards', 'woo-paypal-gateway'),
@@ -689,6 +688,16 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             );
         }
 
+        public function wpg_advanced_cc_onboard_settings() {
+            return array(
+                'advanced_card_onboard_note' => array(
+                    'title' => __('Important Note', 'woo-paypal-gateway'),
+                    'type' => 'title', // This adds an informational section
+                    'description' => __('Advanced Credit/Debit Card payments are not enabled in your PayPal account. <br><br><strong>Supported Countries:</strong><br>Australia, Austria, Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, United States, United Kingdom<br><br>','woo-paypal-gateway'),
+                ),
+            );
+        }
+
         public function wpg_ppcp_google_pay_settings() {
             return array(
                 'google_pay_note' => array(
@@ -708,7 +717,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'multiselect',
                     'css' => 'width: 100%;',
                     'class' => 'wc-enhanced-select',
-                    'default' => array(),
+                    'default' => array('express_checkout'),
                     'options' => array(
                         'product' => __('Product', 'woo-paypal-gateway'),
                         'cart' => __('Cart', 'woo-paypal-gateway'),
@@ -720,7 +729,93 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 ),
             );
         }
-        
+
+        public function wpg_google_pay_onboard_settings() {
+            return array(
+                'google_onboard_note' => array(
+                    'title' => __('Important Note', 'woo-paypal-gateway'),
+                    'type' => 'title', // This adds an informational section
+                    'description' => __(
+                            'Google Pay is not enabled in your PayPal account. Click below to enable it.<br><br>' .
+                            '<strong>Supported Countries:</strong><br>' .
+                            'Australia, Austria, Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, United States, United Kingdom<br><br>' .
+                            '<strong>Supported Currencies:</strong><br>' .
+                            'AUD, BRL, CAD, CHF, CZK, DKK, EUR, GBP, HKD, HUF, ILS, JPY, MXN, NOK, NZD, PHP, PLN, SEK, SGD, THB, TWD, USD',
+                            'woo-paypal-gateway'
+                    ),
+                ),
+                'enabled_google_pay_onboard' => array(
+                    'title' => __('Enable Google Pay', 'woo-paypal-gateway'),
+                    'type' => 'google_pay_onboard',
+                    'default' => 'no',
+                    'description' => '',
+                    'desc_tip' => true
+                )
+            );
+        }
+
+        public function wpg_apple_pay_onboard_settings() {
+            return array(
+                'apple_onboard_note' => array(
+                    'title' => __('Important Note', 'woo-paypal-gateway'),
+                    'type' => 'title', // This adds an informational section
+                    'description' => __(
+                            'Apple Pay is not enabled in your PayPal account. Click below to enable it.<br><br>' .
+                            '<strong>Supported Countries:</strong><br>' .
+                            'Australia, Austria, Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, United States, United Kingdom<br><br>' .
+                            '<strong>Supported Currencies:</strong><br>' .
+                            'AUD, BRL, CAD, CHF, CZK, DKK, EUR, GBP, HKD, HUF, ILS, JPY, MXN, NOK, NZD, PHP, PLN, SEK, SGD, THB, TWD, USD',
+                            'woo-paypal-gateway'
+                    ),
+                ),
+                'enabled_apple_pay_onboard' => array(
+                    'title' => __('Enable Apple Pay', 'woo-paypal-gateway'),
+                    'type' => 'apple_pay_onboard',
+                    'default' => 'no',
+                    'description' => '',
+                    'desc_tip' => true
+                )
+            );
+        }
+
+        public function wpg_ppcp_apple_pay_settings() {
+            return array(
+                'apple_pay_note' => array(
+                    'title' => __('Important Note', 'woo-paypal-gateway'),
+                    'type' => 'title', // This adds an informational section
+                    'description' => __('To use apple Pay, ensure it is enabled in your PayPal account. If apple Pay is not enabled, the button will not display. Please refer to <a href="https://developer.paypal.com/docs/checkout/apm/apple-pay/#link-setupyoursandboxaccounttoacceptapplepay" target="_blank">this guide</a> for instructions on how to enable apple Pay in your PayPal account.', 'woo-paypal-gateway'),
+                ),
+                'apple_pay_domain_register' => array(
+                    'title' => __('Domain Registration', 'woo-paypal-gateway'),
+                    'type' => 'apple_pay_domain_register',
+                    'description' => __('Apple requires that the website domain be registered on PayPal. Payments will not be processed if the Apple Pay button is used on an unregistered domain.', 'woo-paypal-gateway'),
+                    'desc_tip' => true,
+                ),
+                'enabled_apple_pay' => array(
+                    'title' => __('Enable Apple Pay', 'woo-paypal-gateway'),
+                    'label' => __('Enable Apple Pay on your store', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'description' => __('Check this box to display the Apple Pay button on selected pages.', 'woo-paypal-gateway'),
+                    'default' => 'no',
+                ),
+                'apple_pay_pages' => array(
+                    'title' => __('Select Page(s)', 'woo-paypal-gateway'),
+                    'type' => 'multiselect',
+                    'css' => 'width: 100%;',
+                    'class' => 'wc-enhanced-select',
+                    'default' => array(),
+                    'options' => array(
+                        'product' => __('Product', 'woo-paypal-gateway'),
+                        'cart' => __('Cart', 'woo-paypal-gateway'),
+                        'mini_cart' => __('Mini Cart', 'woo-paypal-gateway'),
+                        'express_checkout' => __('Express Checkout', 'woo-paypal-gateway'),
+                        'checkout' => __('Checkout', 'woo-paypal-gateway'),
+                    ),
+                    'description' => __('Set the page(s) to display the Apple Pay button. Configure display options below.', 'woo-paypal-gateway'),
+                ),
+            );
+        }
+
         public function wpg_foq() {
             return array(
                 'foq_note' => array(
@@ -1784,7 +1879,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
                     'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'default' => 'mini_cart',
+                    'default' => 'paypal',
                     'desc_tip' => true,
                     'options' => array(
                         'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
@@ -1794,37 +1889,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     ),
                 ),
             );
-
-            $order_review_page_settings = array(
-                'order_review_page' => array(
-                    'title' => __('Order Review Page options', 'woo-paypal-gateway'),
-                    'type' => 'title',
-                    'description' => '',
-                    'class' => 'ppcp_separator_heading ppcp-collapsible-section',
-                ),
-                'order_review_page_title' => array(
-                    'title' => __('Page Title', 'woo-paypal-gateway'),
-                    'type' => 'text',
-                    'description' => __('Set the Page Title value you would like used on the PayPal Checkout order review page.', 'woo-paypal-gateway'),
-                    'default' => __('Confirm your PayPal order', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
-                ),
-                'order_review_page_description' => array(
-                    'title' => __('Description', 'woo-paypal-gateway'),
-                    'type' => 'text',
-                    'desc_tip' => true,
-                    'description' => __('Set the Description you would like used on the PayPal Checkout order review page.', 'woo-paypal-gateway'),
-                    'default' => __("<strong>You're almost done!</strong><br>Review your information before you place your order.", 'woo-paypal-gateway'),
-                ),
-                'order_review_page_button_text' => array(
-                    'title' => __('Button Text', 'woo-paypal-gateway'),
-                    'type' => 'text',
-                    'description' => __('Set the Button Text you would like used on the PayPal Checkout order review page.', 'woo-paypal-gateway'),
-                    'default' => __('Confirm your PayPal order', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
-                )
-            );
-
             $pay_later_messaging_settings = array(
                 'pay_later_messaging_settings' => array(
                     'title' => __('Pay Later Messaging Customization', 'woo-paypal-gateway'),
@@ -2292,27 +2356,27 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
                     'label' => __('Enable advanced credit and debit card payments', 'woo-paypal-gateway'),
-                    'default' => 'yes',
+                    'default' => 'no',
                     'description' => '',
                 ),
                 'advanced_card_payments_title' => array(
-                    'title' => __('Advanced Credit Cards Title', 'woo-paypal-gateway'),
+                    'title' => __('Title', 'woo-paypal-gateway'),
                     'type' => 'text',
                     'description' => __('This controls the title which the user sees during checkout.', 'woo-paypal-gateway'),
                     'default' => __('Credit or Debit Card', 'woo-paypal-gateway'),
                     'desc_tip' => true
                 ),
                 'advanced_card_payments_display_position' => array(
-                    'title' => __('Advanced Credit/Debit Card Position', 'paypal-for-woocommerce'),
+                    'title' => __('Position', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select advanced_cc_fields_group',
                     'options' => array(
-                        'before' => __('Show Before PayPal Smart Buttons', 'paypal-for-woocommerce'),
-                        'after' => __('Show After PayPal Smart Buttons', 'paypal-for-woocommerce'),
+                        'before' => __('Show Before PayPal Smart Buttons', 'woo-paypal-gateway'),
+                        'after' => __('Show After PayPal Smart Buttons', 'woo-paypal-gateway'),
                     ),
                     'default' => 'before',
                     'desc_tip' => true,
-                    'description' => __('This setting allows you to control where the advanced credit or debit card payment option is displayed on the checkout page in relation to the PayPal Smart Buttons.', 'paypal-for-woocommerce'),
+                    'description' => __('This setting allows you to control where the advanced credit or debit card payment option is displayed on the checkout page in relation to the PayPal Smart Buttons.', 'woo-paypal-gateway'),
                 ),
                 'disable_cards' => array(
                     'title' => __('Disable specific credit cards', 'woo-paypal-gateway'),
@@ -2431,7 +2495,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'multiselect',
                     'css' => 'width: 100%;',
                     'class' => 'wc-enhanced-select',
-                    'default' => array(),
+                    'default' => array('express_checkout'),
                     'options' => array(
                         'product' => __('Product', 'woo-paypal-gateway'),
                         'cart' => __('Cart', 'woo-paypal-gateway'),
@@ -2442,7 +2506,46 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => __('Set the page(s) to display the Google Pay button. Configure display options below.', 'woo-paypal-gateway'),
                 ),
             );
-            $settings = apply_filters('ppcp_settings', array_merge($default_settings, $button_manager_settings_product_page, $button_manager_settings_cart_page, $button_manager_settings_express_checkout_page, $button_manager_settings_checkout_page, $advanced_card_processing, $button_manager_settings_mini_cart_page, $pay_later_messaging_settings, $advanced_settings, $google_pay));
+
+            $apple_pay = array(
+                'apple_pay' => array(
+                    'title' => __('Apple Pay', 'woo-paypal-gateway'),
+                    'type' => 'title',
+                    'description' => '',
+                    'class' => 'ppcp_separator_heading',
+                ),
+                'apple_pay_payments_title' => array(
+                    'title' => __('Apple Pay Title', 'woo-paypal-gateway'),
+                    'type' => 'text',
+                    'description' => __('This controls the title which the user sees during checkout.', 'woo-paypal-gateway'),
+                    'default' => __('Apple Pay', 'woo-paypal-gateway'),
+                    'desc_tip' => true,
+                ),
+                'apple_pay_domain_register' => array(
+                    'title' => __('Domain Registration', 'woo-paypal-gateway'),
+                    'type' => 'apple_pay_domain_register',
+                    'description' => __('This controls the title which the user sees during checkout.', 'woo-paypal-gateway'),
+                    'default' => __('Apple Pay', 'woo-paypal-gateway'),
+                    'desc_tip' => true,
+                ),
+                'enabled_apple_pay' => array(
+                    'title' => __('Enable Apple Pay', 'woo-paypal-gateway'),
+                    'label' => __('Enable Apple Pay', 'woo-paypal-gateway'),
+                    'type' => 'checkbox_enable_paypal_apple_pay',
+                    'description' => __('Allow buyers to pay using Apple Pay.', 'woo-paypal-gateway'),
+                    'default' => 'no',
+                    'desc_tip' => true,
+                ),
+                'apple_pay_payments_description' => array(
+                    'title' => __('Apple Pay Payment Description', 'woo-paypal-gateway'),
+                    'type' => 'text',
+                    'description' => __('This controls the description which the user sees when they select Apple Pay payment method during checkout.', 'woo-paypal-gateway'),
+                    'default' => __('Accept payments using Apple Pay.', 'woo-paypal-gateway'),
+                    'desc_tip' => true,
+                ),
+            );
+
+            $settings = apply_filters('ppcp_settings', array_merge($default_settings, $button_manager_settings_product_page, $button_manager_settings_cart_page, $button_manager_settings_express_checkout_page, $button_manager_settings_checkout_page, $advanced_card_processing, $button_manager_settings_mini_cart_page, $pay_later_messaging_settings, $advanced_settings, $google_pay, $apple_pay));
             return $settings;
         }
     }

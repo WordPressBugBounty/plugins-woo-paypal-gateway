@@ -703,3 +703,61 @@ if (!function_exists('wpg_is_acdc_approved')) {
     }
 
 }
+
+
+if (!function_exists('wpg_manage_apple_domain_file')) {
+
+    function wpg_manage_apple_domain_file($isSandbox) {
+        // Define the .well-known directory
+        $fileDir = ABSPATH . '.well-known';
+
+        // Log the target directory path
+        error_log('Target .well-known directory: ' . $fileDir);
+
+        // Create the .well-known directory if it doesn't exist
+        if (!wp_mkdir_p($fileDir)) {
+            error_log('Failed to create .well-known directory at: ' . $fileDir);
+            return false; // Stop execution if the directory couldn't be created
+        }
+        error_log('Successfully created or verified .well-known directory at: ' . $fileDir);
+
+        // Path to the Apple domain association file in .well-known
+        $wellKnownFile = trailingslashit($fileDir) . 'apple-developer-merchantid-domain-association';
+        error_log('Target file path: ' . $wellKnownFile);
+
+        // Remove the existing file if it exists
+        if (file_exists($wellKnownFile)) {
+            if (!unlink($wellKnownFile)) {
+                error_log('Failed to remove existing file at: ' . $wellKnownFile);
+                return false; // Stop execution if the file couldn't be deleted
+            }
+            error_log('Successfully removed existing file at: ' . $wellKnownFile);
+        } else {
+            error_log('No existing file found at: ' . $wellKnownFile);
+        }
+
+        // Determine the source file path based on sandbox or production
+        $sourceFile = WPG_PLUGIN_DIR . '/ppcp/apple-domain/';
+        $sourceFile .= $isSandbox ? 'sandbox/apple-developer-merchantid-domain-association' : 'production/apple-developer-merchantid-domain-association';
+        error_log('Source file path: ' . $sourceFile);
+
+        // Check if the source file exists
+        if (!file_exists($sourceFile)) {
+            error_log('Source file does not exist at: ' . $sourceFile);
+            return false;
+        }
+        error_log('Source file found at: ' . $sourceFile);
+
+        // Copy the correct file to .well-known
+        if (!copy($sourceFile, $wellKnownFile)) {
+            error_log('Failed to copy file from ' . $sourceFile . ' to ' . $wellKnownFile);
+            return false;
+        }
+        error_log('Successfully copied file from ' . $sourceFile . ' to ' . $wellKnownFile);
+
+        return true; // Successfully updated the file
+    }
+}
+
+
+

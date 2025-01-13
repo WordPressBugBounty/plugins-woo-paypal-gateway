@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Pay Button</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
+                const applePayButton = document.getElementById('apple-pay-button');
+                applePayButton.style.display = 'block';
+                applePayButton.addEventListener('click', () => {
+                    const paymentRequest = {
+                        countryCode: 'US',
+                        currencyCode: 'USD',
+                        supportedNetworks: ['visa', 'masterCard', 'amex'],
+                        merchantCapabilities: ['supports3DS'],
+                        total: {
+                            label: 'Your Merchant Name',
+                            amount: '10.00',
+                        },
+                    };
+
+                    const session = new ApplePaySession(3, paymentRequest);
+
+                    session.onvalidatemerchant = (event) => {
+                        fetch('/validate-merchant', {
+                            method: 'POST',
+                            body: JSON.stringify({ validationURL: event.validationURL }),
+                            headers: { 'Content-Type': 'application/json' },
+                        })
+                        .then(response => response.json())
+                        .then(data => session.completeMerchantValidation(data))
+                        .catch(error => console.error('Merchant validation failed:', error));
+                    };
+
+                    session.onpaymentauthorized = (event) => {
+                        // Handle payment authorization
+                        fetch('/process-payment', {
+                            method: 'POST',
+                            body: JSON.stringify(event.payment),
+                            headers: { 'Content-Type': 'application/json' },
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                session.completePayment(ApplePaySession.STATUS_SUCCESS);
+                            } else {
+                                session.completePayment(ApplePaySession.STATUS_FAILURE);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Payment processing failed:', error);
+                            session.completePayment(ApplePaySession.STATUS_FAILURE);
+                        });
+                    };
+
+                    session.begin();
+                });
+            } else {
+                console.warn('Apple Pay is not available on this device or browser.');
+            }
+        });
+    </script>
+    <style>
+        #apple-pay-button {
+            display: none;
+            width: 200px;
+            height: 44px;
+            background-color: black;
+            border-radius: 5px;
+            -webkit-appearance: -apple-pay-button;
+            -apple-pay-button-type: buy;
+            -apple-pay-button-style: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="apple-pay-button"></div>
+</body>
+</html>

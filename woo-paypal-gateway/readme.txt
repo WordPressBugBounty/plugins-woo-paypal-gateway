@@ -3,8 +3,8 @@ Contributors: easypayment
 Tags: PayPal, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
 Tested up to: 6.7.1
-Stable tag: 9.0.17  
-Requires PHP: 7.2  
+Stable tag: 9.0.18  
+Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
 
@@ -49,6 +49,10 @@ Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Banc
 * **Mercado Pago** - A major digital payment platform in Latin America with tens of millions of users across countries like Brazil and Argentina.  
 * **SEPA-Lastschrift** - Covering over 36 European countries, SEPA enables euro-denominated bank transfers for hundreds of millions of users.  
 
+### Supports
+
+* WooCommerce Subscriptions
+* WooCommerce Blocks
 
 ### Seamless integration with popular WooCommerce Side Cart and Mini Cart plugins:
 
@@ -109,6 +113,10 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Currently, the plugin supports one-time payments. For recurring payments in "PayPal For WooCommerce," consider integrating with WooCommerce Subscriptions or other plugins.
 
 == Changelog ==
+
+= 9.0.18 - 2025-01-10 =
+* Add Apple Pay.
+* Resolved a minor issue with Checkout Page.
 
 = 9.0.17 - 2024-12-30 =
 * Added woocommerce subscription compatibility.

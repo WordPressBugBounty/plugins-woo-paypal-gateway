@@ -75,7 +75,10 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             'is_block_enable' => 'yes',
             'is_google_pay_enable_for_cart' => $this->is_google_pay_enable_for_page('cart') ? 'yes' : 'no',
             'is_google_pay_enable_for_express_checkout' => $this->is_google_pay_enable_for_page('express_checkout') ? 'yes' : 'no',
-            'is_google_pay_enable_for_checkout' => $this->is_google_pay_enable_for_page('checkout') ? 'yes' : 'no'
+            'is_google_pay_enable_for_checkout' => $this->is_google_pay_enable_for_page('checkout') ? 'yes' : 'no',
+            'is_apple_pay_enable_for_cart' => $this->is_apple_pay_enable_for_page('cart') ? 'yes' : 'no',
+            'is_apple_pay_enable_for_express_checkout' => $this->is_apple_pay_enable_for_page('express_checkout') ? 'yes' : 'no',
+            'is_apple_pay_enable_for_checkout' => $this->is_apple_pay_enable_for_page('checkout') ? 'yes' : 'no'
         ));
 
         if (function_exists('wp_set_script_translations')) {
@@ -92,13 +95,38 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         if (!isset($this->settings['enabled_google_pay'])) {
             return false;
         }
+        if ($this->settings['enabled_google_pay'] === 'no') {
+            return false;
+        }
         if (empty($page)) {
             return false;
+        }
+        if(!isset($this->settings['google_pay_pages'])) {
+            $this->settings['google_pay_pages'] = array('express_checkout');
         }
         if (empty($this->settings['google_pay_pages'])) {
             return false;
         }
         if (in_array($page, $this->settings['google_pay_pages'])) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function is_apple_pay_enable_for_page($page = '') {
+        if (!isset($this->settings['enabled_apple_pay'])) {
+            return false;
+        }
+        if ($this->settings['enabled_apple_pay'] === 'no') {
+            return false;
+        }
+        if (empty($page)) {
+            return false;
+        }
+        if (empty($this->settings['apple_pay_pages'])) {
+            return false;
+        }
+        if (in_array($page, $this->settings['apple_pay_pages'])) {
             return true;
         }
         return false;

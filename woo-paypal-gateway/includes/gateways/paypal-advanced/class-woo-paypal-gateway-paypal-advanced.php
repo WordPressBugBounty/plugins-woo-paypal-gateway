@@ -26,7 +26,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced extends WC_Payment_Gateway {
     public function __construct() {
         try {
             $this->id = 'wpg_paypal_advanced';
-            $this->method_title = __('PayPal Advanced', 'woo-paypal-gateway');
+            $this->method_title = __('PayPal Advanced (deprecated)', 'woo-paypal-gateway');
             $this->method_description = __('PayPal Advanced works by adding credit card fields on the checkout and then sending the details to PayPal for verification.', 'woo-paypal-gateway');
             $this->has_fields = true;
             $this->supports = array(

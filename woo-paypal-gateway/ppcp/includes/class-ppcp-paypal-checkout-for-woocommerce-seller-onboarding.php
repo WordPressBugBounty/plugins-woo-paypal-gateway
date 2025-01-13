@@ -83,6 +83,30 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
         return $this->api_request->request($host_url, $args, 'generate_signup_link');
     }
 
+    public function wpg_generate_signup_link_for_google_pay($sandbox) {
+        $this->api_request = new PPCP_Paypal_Checkout_For_Woocommerce_Request();
+        $this->is_sandbox = ($sandbox === 'yes') ? true : false;
+        $host_url = $this->on_board_host;
+        $args = array(
+            'method' => 'POST',
+            'body' => $this->google_pay_data(),
+            'headers' => array(),
+        );
+        return $this->api_request->request($host_url, $args, 'generate_signup_link');
+    }
+
+    public function wpg_generate_signup_link_for_apple_pay($sandbox) {
+        $this->api_request = new PPCP_Paypal_Checkout_For_Woocommerce_Request();
+        $this->is_sandbox = ($sandbox === 'yes') ? true : false;
+        $host_url = $this->on_board_host;
+        $args = array(
+            'method' => 'POST',
+            'body' => $this->apple_pay_data(),
+            'headers' => array(),
+        );
+        return $this->api_request->request($host_url, $args, 'generate_signup_link');
+    }
+
     private function default_data() {
         $current_user = wp_get_current_user();
         $user_email = $current_user->user_email;
@@ -90,12 +114,54 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
             'email' => $user_email,
             'sandbox' => ($this->is_sandbox) ? 'yes' : 'no',
             'return_url' => admin_url(
-                    'admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout&sandbox=' . ($this->is_sandbox ? 'yes' : 'no')
+                    'admin.php?page=wc-settings&tab=checkout&section=wpg_api_settings&sandbox=' . ($this->is_sandbox ? 'yes' : 'no')
             ),
             'return_url_description' => __('Return to your shop.', 'woo-paypal-gateway'),
             'products' => array(
                 $this->dcc_applies->for_country_currency() ? 'PPCP' : 'EXPRESS_CHECKOUT',
             ),
+        );
+    }
+
+    private function google_pay_data() {
+        $current_user = wp_get_current_user();
+        $user_email = $current_user->user_email;
+        return array(
+            'email' => $user_email,
+            'sandbox' => ($this->is_sandbox) ? 'yes' : 'no',
+            'return_url' => admin_url(
+                    'admin.php?page=wc-settings&tab=checkout&section=wpg_api_settings&sandbox=' . ($this->is_sandbox ? 'yes' : 'no')
+            ),
+            'return_url_description' => __('Return to your shop.', 'woo-paypal-gateway'),
+            'products' => array(
+                $this->dcc_applies->for_country_currency() ? 'PPCP' : 'EXPRESS_CHECKOUT',
+                'PAYMENT_METHODS'
+            ),
+            'capabilities' => array(
+                'APPLE_PAY',
+                'GOOGLE_PAY'
+            )
+        );
+    }
+
+    private function apple_pay_data() {
+        $current_user = wp_get_current_user();
+        $user_email = $current_user->user_email;
+        return array(
+            'email' => $user_email,
+            'sandbox' => ($this->is_sandbox) ? 'yes' : 'no',
+            'return_url' => admin_url(
+                    'admin.php?page=wc-settings&tab=checkout&section=wpg_api_settings&sandbox=' . ($this->is_sandbox ? 'yes' : 'no')
+            ),
+            'return_url_description' => __('Return to your shop.', 'woo-paypal-gateway'),
+            'products' => array(
+                $this->dcc_applies->for_country_currency() ? 'PPCP' : 'EXPRESS_CHECKOUT',
+                'PAYMENT_METHODS'
+            ),
+            'capabilities' => array(
+                'APPLE_PAY',
+                'GOOGLE_PAY'
+            )
         );
     }
 
@@ -174,7 +240,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
     public function wpg_listen_for_merchant_id() {
         $lock_key = 'wpg_listen_for_merchant_id_lock';
         $proceed = true;
+        $admin_return_url = admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout&wpg_section=wpg_api_settings');
+        if (!empty($_GET['section'])) {
+            $args = array('wpg_section' => $_GET['section']);
+            $admin_return_url = add_query_arg($args, $admin_return_url);
+        }
         try {
+
             if (empty($_GET['merchantIdInPayPal'])) {
                 $proceed = false;
             }
@@ -182,6 +254,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 $proceed = false;
             }
             if ($proceed) {
+                delete_transient('wpg_ppcp_sandbox_onboarding_status');
+                delete_transient('wpg_ppcp_live_onboarding_status');
                 set_transient($lock_key, true, 60);
                 sleep(5);
                 if (!empty($_GET['isEmailConfirmed']) && $_GET['isEmailConfirmed'] === 'false') {
@@ -190,7 +264,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 if (ob_get_length()) {
                     ob_end_clean();
                 }
-                wp_safe_redirect(admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout&wpg_section=wpg_api_settings'), 302);
+                wp_safe_redirect($admin_return_url, 302);
                 exit;
             }
             if (!$proceed && !empty($_GET['merchantIdInPayPal'])) {
@@ -199,14 +273,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 if (ob_get_length()) {
                     ob_end_clean();
                 }
-                wp_safe_redirect(admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout&wpg_section=wpg_api_settings'), 302);
+                wp_safe_redirect($admin_return_url, 302);
                 exit;
             }
         } catch (Exception $ex) {
             if (ob_get_length()) {
                 ob_end_clean();
             }
-            wp_safe_redirect(admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout&wpg_section=wpg_api_settings'), 302);
+            wp_safe_redirect($admin_return_url, 302);
             exit;
         } finally {
             if ($proceed || !empty($_GET['merchantIdInPayPal'])) {
@@ -214,7 +288,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 if (ob_get_length()) {
                     ob_end_clean();
                 }
-                wp_safe_redirect(admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout&wpg_section=wpg_api_settings'), 302);
+                wp_safe_redirect($admin_return_url, 302);
                 exit;
             }
         }

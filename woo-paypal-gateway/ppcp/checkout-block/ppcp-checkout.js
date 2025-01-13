@@ -86,7 +86,6 @@ var {addAction} = wp.hooks;
                 const {useEffect} = wp.element;
                 const ppcp_settings = wpg_paypal_checkout_manager_block.settins;
 
-
                 const Content_PPCP_Smart_Button_Checkout_Top = (props) => {
                     const {billing, shippingData} = props;
 
@@ -95,13 +94,16 @@ var {addAction} = wp.hooks;
                     }, []);
 
                     const isGooglePayEnabled = wpg_paypal_checkout_manager_block.is_google_pay_enable_for_express_checkout === 'yes';
+                    const isApplePayEnabled = wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_express_checkout === 'yes';
                     const isCheckoutButtonTopEnabled = ppcp_settings.enable_checkout_button_top === 'yes';
 
                     return createElement("div", {},
                             isCheckoutButtonTopEnabled && createElement("div", {id: "ppcp_checkout_top"}),
-                            isGooglePayEnabled && createElement("div", {id: "google-pay-container", className: "express_checkout"})
+                            isGooglePayEnabled && createElement("div", {className: "google-pay-container express_checkout", style: {height: "40px"}}),
+                            isApplePayEnabled && createElement("div", {className: "apple-pay-container express_checkout", style: {height: "40px"}})
                             );
                 };
+
 
 
                 const Content_PPCP_Smart_Button_Cart_Bottom = (props) => {
@@ -112,11 +114,13 @@ var {addAction} = wp.hooks;
                     }, []);
 
                     const isGooglePayEnabledForCart = wpg_paypal_checkout_manager_block.is_google_pay_enable_for_cart === 'yes';
+                    const isApplePayEnabledForCart = wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_cart === 'yes';
                     const showCartButton = ppcp_settings.show_on_cart === 'yes';
 
                     return createElement("div", {},
                             showCartButton && createElement("div", {id: "ppcp_cart"}),
-                            isGooglePayEnabledForCart && createElement("div", {id: "google-pay-container", className: "cart"})
+                            isGooglePayEnabledForCart && createElement("div", {className: "google-pay-container cart", style: {height: "48px"}}),
+                            isApplePayEnabledForCart && createElement("div", {className: "apple-pay-container cart", style: {height: "48px"}})
                             );
                 };
 
@@ -126,13 +130,15 @@ var {addAction} = wp.hooks;
 
                     // Check if Google Pay is enabled for checkout
                     const isGooglePayEnabledForCheckout = wpg_paypal_checkout_manager_block.is_google_pay_enable_for_checkout === 'yes';
+                    const isApplePayEnabledForCheckout = wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_checkout === 'yes';
 
                     return createElement(
                             "div",
                             {className: "ppcp_checkout_parent"},
                             createElement("input", {type: "hidden", name: "form", value: "checkout"}),
                             createElement("div", {id: "ppcp_checkout"}),
-                            isGooglePayEnabledForCheckout && createElement("div", {id: "google-pay-container", className: "checkout"})
+                            isGooglePayEnabledForCheckout && createElement("div", {className: "google-pay-container checkout", style: {height: "48px"}}),
+                            isApplePayEnabledForCheckout && createElement("div", {className: "apple-pay-container checkout", style: {height: "48px"}})
                             );
                 };
 
@@ -155,7 +161,7 @@ var {addAction} = wp.hooks;
 
                 const {is_order_confirm_page, is_paylater_enable_incart_page, page} = wpg_paypal_checkout_manager_block;
 
-                if (page === "checkout" && is_order_confirm_page === "no" && ppcp_settings && (ppcp_settings.enable_checkout_button_top === "yes" || wpg_paypal_checkout_manager_block.is_google_pay_enable_for_express_checkout === 'yes')) {
+                if (page === "checkout" && is_order_confirm_page === "no" && ppcp_settings && (ppcp_settings.enable_checkout_button_top === "yes" || wpg_paypal_checkout_manager_block.is_google_pay_enable_for_express_checkout === 'yes' || wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_express_checkout === 'yes')) {
                     const commonExpressPaymentMethodConfig = {
                         name: "wpg_paypal_checkout_top",
                         label: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
@@ -167,7 +173,7 @@ var {addAction} = wp.hooks;
                         supports: {features: l.supports || []}
                     };
                     Object(r.registerExpressPaymentMethod)(commonExpressPaymentMethodConfig);
-                } else if (page === "cart" && ppcp_settings && ppcp_settings.show_on_cart === "yes") {
+                } else if (page === "cart" && ppcp_settings && (ppcp_settings.show_on_cart === "yes" || wpg_paypal_checkout_manager_block.is_google_pay_enable_for_cart === 'yes' || wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_cart === 'yes')) {
                     const commonExpressPaymentMethodConfig = {
                         name: "wpg_paypal_checkout_top",
                         label: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),

@@ -130,6 +130,22 @@ var { registerExpressPaymentMethod, registerPaymentMethod } = wc.wcBlocksRegistr
     }
 ]);
 
+const ppcp_cc_uniqueEvents = new Set([
+    "experimental__woocommerce_blocks-checkout-set-shipping-address",
+    "experimental__woocommerce_blocks-checkout-set-billing-address",
+    "experimental__woocommerce_blocks-checkout-set-email-address",
+    "experimental__woocommerce_blocks-checkout-render-checkout-form",
+    "experimental__woocommerce_blocks-checkout-set-active-payment-method",
+]);
+
+ppcp_cc_uniqueEvents.forEach(function (action) {
+    addAction(action, "c", function () {
+        setTimeout(function () {
+            jQuery(document.body).trigger("ppcp_cc_checkout_updated");
+        }, 3);
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function () {
         jQuery(document.body).trigger('ppcp_cc_block_ready');

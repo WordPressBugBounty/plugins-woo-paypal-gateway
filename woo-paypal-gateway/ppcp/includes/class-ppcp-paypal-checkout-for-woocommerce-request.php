@@ -53,6 +53,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     public $payment_tokens_url;
     public $setup_tokens_url;
     public $ppcp_locale;
+    public $sandbox_merchant_id;
+    public $live_merchant_id;
+    public $partner_client_id;
     protected static $_instance = null;
 
     public static function instance() {
@@ -69,7 +72,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->debug = 'yes' === $this->get_option('debug', 'yes');
             $this->ppcp_currency = array('AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'INR', 'ILS', 'JPY', 'MYR', 'MXN', 'TWD', 'NZD', 'NOK', 'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'THB', 'USD');
             $this->log_enabled = $this->debug;
+            $this->sandbox_merchant_id = $this->get_option('sandbox_merchant_id', '');
+            $this->live_merchant_id = $this->get_option('live_merchant_id', '');
             if ($this->is_sandbox) {
+                $this->partner_client_id = 'AdQrAvT3Oc02ojpanh-4jlZDUP4mDt1H2fauytlXXU91lzSuyPmsHyFDwmwNwNEBcY_XTH9pSIb9Lt66';
                 $this->client_id = $this->get_option('rest_client_id_sandbox');
                 $this->secret = $this->get_option('rest_secret_id_sandbox');
                 $this->token_url = 'https://api.sandbox.paypal.com/v1/oauth2/token';
@@ -88,7 +94,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->id_token_url = 'https://api-m.sandbox.paypal.com/v1/oauth2/token';
                 $this->payment_tokens_url = 'https://api-m.sandbox.paypal.com/v3/vault/payment-tokens';
                 $this->setup_tokens_url = 'https://api-m.sandbox.paypal.com/v3/vault/setup-tokens';
+                $this->merchant_id = $this->sandbox_merchant_id;
             } else {
+                $this->partner_client_id = 'AfEf_pXdoWtQRqLJ_E3B_20i_TvZb6N3gf1M9s9A8FddJcG9yyoL_M1Ob9OqhflggcdGI_7STlYopHmR';
                 $this->client_token = get_transient('ppcp_client_token');
                 $this->client_id = $this->get_option('rest_client_id_live');
                 $this->secret = $this->get_option('rest_secret_id_live');
@@ -107,6 +115,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->id_token_url = 'https://api.paypal.com/v1/oauth2/token';
                 $this->payment_tokens_url = 'https://api-m.paypal.com/v3/vault/payment-tokens';
                 $this->setup_tokens_url = 'https://api-m.paypal.com/v3/vault/setup-tokens';
+                $this->merchant_id = $this->live_merchant_id;
             }
             $this->paymentaction = $this->get_option('paymentaction', 'capture');
             $this->payee_preferred = 'yes' === $this->get_option('payee_preferred', 'no');
@@ -114,7 +123,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->soft_descriptor = $this->get_option('soft_descriptor', '');
             $this->brand_name = $this->get_option('brand_name', get_bloginfo('name'));
             $this->landing_page = $this->get_option('landing_page', 'NO_PREFERENCE');
-            $this->advanced_card_payments = 'yes' === $this->get_option('enable_advanced_card_payments', 'yes');
+            $this->advanced_card_payments = 'yes' === $this->get_option('enable_advanced_card_payments', 'no');
             $this->decimals = $this->ppcp_get_number_of_decimal_digits();
             $this->send_items = 'yes' === $this->get_option('send_items', 'yes');
             $this->AVSCodes = array("A" => "Address Matches Only (No ZIP)",
@@ -272,6 +281,63 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->logger = wc_get_logger();
             }
             $this->logger->log($level, $message, array('source' => 'wpg_paypal_checkout'));
+        }
+    }
+    
+    public function ppcp_paypalauthassertion() {
+        $temp = array(
+            "alg" => "none"
+        );
+        $returnData = base64_encode(json_encode($temp)) . '.';
+        $temp = array(
+            "iss" => WPG_SANDBOX_PARTNER_MERCHANT_ID,
+            "payer_id" => $this->merchant_id,
+            "aud" => "https://api-m.sandbox.paypal.com/v1/customer/wallet-domains"
+        );
+        $returnData .= base64_encode(json_encode($temp)) . '.';
+        return $returnData;
+    }
+    
+    public function wpg_register_apple_domain() {
+        try {
+            $this->get_genrate_token();
+            $body_request = array(
+                'provider_type' => 'APPLE_PAY',
+                'domain' => array('name' => 'blog.googlemapsemailextractor.com')
+            );
+            $wallet_domains = $this->is_sandbox ? 'https://api-m.sandbox.paypal.com/v1/customer/wallet-domains' : 'https://api-m.paypal.com/v1/customer/wallet-domains';
+            $arg = array(
+                'method' => 'POST',
+                'timeout' => 60,
+                'redirection' => 5,
+                'httpversion' => '1.1',
+                'blocking' => true,
+                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id(), 'Paypal-Auth-Assertion' => $this->ppcp_paypalauthassertion()),
+                'body' => array(),
+                'cookies' => array()
+                    );
+            $response = wp_remote_post($wallet_domains, $arg);
+            $this->ppcp_log('Register domain Request URL: ' . wc_print_r($wallet_domains, true));
+            $this->ppcp_log('Register domain Request Header: ' . wc_print_r($arg['headers'], true));
+            $this->ppcp_log('Register domain Request Body: ' . wc_print_r($body_request, true));
+            if (is_wp_error($response)) {
+                $error_message = $response->get_error_message();
+                $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
+            } else {
+                $return_response = array();
+                $api_response = json_decode(wp_remote_retrieve_body($response), true);
+                if (!empty($api_response['status'])) {
+                    $this->ppcp_log('Response Code: ' . wp_remote_retrieve_response_code($response));
+                    $this->ppcp_log('Response Message: ' . wp_remote_retrieve_response_message($response));
+                    $this->ppcp_log('Response Body: ' . wc_print_r($api_response, true));
+                    return $return_response;
+                } else {
+                    $error_message = $this->ppcp_get_readable_message($api_response);
+                    $this->ppcp_log('Error Message : ' . wc_print_r($api_response, true));
+                }
+            }
+        } catch (Exception $ex) {
+            
         }
     }
 

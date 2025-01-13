@@ -31,7 +31,7 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
     public function __construct() {
         $this->id = 'wpg_paypal_pro';
         $this->api_version = '119';
-        $this->method_title = __('PayPal Pro', 'woo-paypal-gateway');
+        $this->method_title = __('PayPal Pro (deprecated)', 'woo-paypal-gateway');
         $this->method_description = __('PayPal Pro works by adding credit card fields on the checkout and then sending the details to PayPal for verification.', 'woo-paypal-gateway');
         $this->has_fields = true;
         $this->supports = array(
