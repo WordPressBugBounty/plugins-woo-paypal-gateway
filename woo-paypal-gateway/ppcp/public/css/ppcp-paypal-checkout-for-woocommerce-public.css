@@ -6,8 +6,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px 0;
+    margin: 20px auto;
     position: relative;
+    width: 450px;
 }
 .ppcp-proceed-to-checkout-button-separator.mobile {
     display: flex;
@@ -15,14 +16,14 @@
     justify-content: center;
     margin: 20px auto;
     position: relative;
-    max-width: 450px;
+    width: 100%;
 }
 .ppcp-proceed-to-checkout-button-separator::before,
 .ppcp-proceed-to-checkout-button-separator::after {
     content: '';
     flex: 1;
     border-bottom: 1px solid #e0e0e0;
-    margin: 0 12px;
+    margin: 0 6px;
 }
 .ppcp-proceed-to-checkout-button-separator span {
     font-weight: 500;
@@ -266,7 +267,8 @@
 }
 .woofc-area-bot .ppcp-button-container #ppcp_mini_cart {
     max-width: 420px;
-    line-height: 0;}
+    line-height: 0;
+}
 .adfy_woofc-inner .ppcp-button-container #ppcp_mini_cart {
     max-width: 100%;
     line-height: 0;
@@ -274,24 +276,24 @@
 /* Mini Cart Page end */
 /* Cart Page */
 #ppcp_cart.desktop {
-    width: 350px;
+    width: 450px;
     line-height: 0;
     margin: 0 auto;
 }
 .google-pay-container.cart.desktop {
-    width: 350px;
+    width: 450px;
     text-align: center;
     line-height: 0;
     margin: 14px auto 0;
 }
 .apple-pay-container.cart.desktop {
-    width: 350px;
+    width: 450px;
     text-align: center;
     margin: 14px auto 0;
     line-height: 0;
 }
 .apple-pay-container.cart.desktop apple-pay-button {
-    --apple-pay-button-width: 350px;
+    --apple-pay-button-width: 450px;
     --apple-pay-button-height: 48px;
 }
 .google-pay-container.cart.mobile {
@@ -346,12 +348,7 @@
     margin: 0 auto 14px;
     line-height: 0;
 }
-.google-pay-container.express_checkout.desktop {
-    max-width: 480px;
-    display: flex;
-    width: 240px;
-    line-height: 0;
-}
+
 .google-pay-container.express_checkout.mobile {
     max-width: 350px;
     display: flex;
@@ -359,25 +356,16 @@
     line-height: 0;
     margin: 0 auto 14px;
 }
-.apple-pay-container.express_checkout.desktop {
-    max-width: 480px;
-    display: flex;
-    width: 240px;
-    line-height: 0;
+.express_payment_method_ppcp .apple-pay-container.express_checkout.mobile apple-pay-button {
+    --apple-pay-button-width: 350px;
 }
-.apple-pay-container.express_checkout.mobile {
-    max-width: 350px;
-    display: flex;
-    width: 100%;
-    line-height: 0;
-    margin: 0 auto 14px;
-}
-.apple-pay-container.express_checkout.desktop apple-pay-button {
+.express_payment_method_ppcp .apple-pay-container.express_checkout.desktop apple-pay-button {
     --apple-pay-button-width: 240px;
 }
-.apple-pay-container.express_checkout.mobile apple-pay-button {
-    --apple-pay-button-width: 100%;
+#express-payment-method-wpg_paypal_checkout_top .apple-pay-container apple-pay-button {
+    --apple-pay-button-width: 450px;
 }
+
 /* End Express Checkout */
 
 
@@ -411,6 +399,14 @@
     max-width: 450px;
     line-height: 0;
     margin-bottom: 14px;
+}
+.ppcp_checkout_parent .apple-pay-container apple-pay-button {
+    --apple-pay-button-width: 450px;
+    --apple-pay-button-height: 48px;
+}
+.apple-pay-container.checkout apple-pay-button {
+    --apple-pay-button-width: 450px;
+    --apple-pay-button-height: 48px;
 }
 /* END Checkout Page CSS */
 

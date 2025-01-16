@@ -78,7 +78,8 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             'is_google_pay_enable_for_checkout' => $this->is_google_pay_enable_for_page('checkout') ? 'yes' : 'no',
             'is_apple_pay_enable_for_cart' => $this->is_apple_pay_enable_for_page('cart') ? 'yes' : 'no',
             'is_apple_pay_enable_for_express_checkout' => $this->is_apple_pay_enable_for_page('express_checkout') ? 'yes' : 'no',
-            'is_apple_pay_enable_for_checkout' => $this->is_apple_pay_enable_for_page('checkout') ? 'yes' : 'no'
+            'is_apple_pay_enable_for_checkout' => $this->is_apple_pay_enable_for_page('checkout') ? 'yes' : 'no',
+            'is_mobile' => wp_is_mobile() ? 'mobile' : 'desktop'
         ));
 
         if (function_exists('wp_set_script_translations')) {

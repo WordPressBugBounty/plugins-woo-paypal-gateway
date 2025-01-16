@@ -20,22 +20,28 @@
                 console.log("PPCP Manager configuration is undefined.");
                 return false;
             }
-
-            this.manageVariations('#ppcp_product, .google-pay-container, .apple-pay-container');
-            this.bindCheckoutEvents();
-            this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 300);
-            this.debouncedUpdatePaypalCC = this.debounce(this.update_paypal_cc.bind(this), 300);
-            this.debouncedUpdateGooglePay = this.debounce(this.update_google_pay.bind(this), 300);
-            this.debouncedUpdateApplePay = this.debounce(this.update_apple_pay.bind(this), 300);
-            if (this.isCheckoutPage() === false) {
-                this.debouncedUpdatePaypalCheckout();
-            }
             if (this.ppcp_manager.enabled_google_pay === 'yes') {
                 this.loadGooglePaySdk();
             }
             if (this.ppcp_manager.enabled_apple_pay === 'yes') {
                 this.loadApplePaySdk();
             }
+            this.manageVariations('#ppcp_product, .google-pay-container, .apple-pay-container');
+            this.bindCheckoutEvents();
+            this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 300);
+            this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 300);
+            this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 300);
+            this.debouncedUpdateApplePay = this.debounce_apple(this.update_apple_pay.bind(this), 300);
+            if (this.isCheckoutPage() === false) {
+                this.debouncedUpdatePaypalCheckout();
+            }
+            if (this.isCheckoutPage() === false) {
+                this.debouncedUpdateGooglePay();
+            }
+            if (this.isCheckoutPage() === false) {
+                this.debouncedUpdateApplePay();
+            }
+
         }
 
         getAddress(prefix) {
@@ -135,26 +141,60 @@
             };
         }
 
+        debounce_google(func, delay) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        debounce_apple(func, delay) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        debounce_cc(func, delay) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
         bindCheckoutEvents() {
             $('form.checkout').on('checkout_place_order_wpg_paypal_checkout_cc', (event) => {
                 event.preventDefault();
                 return this.handleCheckoutSubmit(event);
             });
-            $(document.body).on('updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method', () => this.debouncedUpdatePaypalCheckout());
-            $(document.body).on('updated_cart_totals updated_checkout updated_checkout ppcp_cc_block_ready ppcp_cc_checkout_updated update_checkout', () => this.debouncedUpdatePaypalCC());
-            if (this.ppcp_manager.enabled_google_pay === 'yes') {
-                $(document.body).on('updated_cart_totals updated_checkout updated_checkout ppcp_block_ready wpg_change_method', () => this.debouncedUpdateGooglePay());
-            }
-            if (this.ppcp_manager.enabled_apple_pay === 'yes') {
-                $(document.body).on('updated_cart_totals updated_checkout updated_checkout ppcp_block_ready wpg_change_method', () => this.debouncedUpdateApplePay());
-            }
-            $('form.checkout').on('click', 'input[name="payment_method"]', () => this.togglePlaceOrderButton());
+            const eventSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method';
+            const checkoutSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_cc_block_ready ppcp_cc_checkout_updated update_checkout';
+            $(document.body).on(eventSelectors, (event) => {
+                this.debouncedUpdatePaypalCheckout();
+            });
+            $(document.body).on(checkoutSelectors, () => {
+                this.debouncedUpdatePaypalCC();
+            });
+            $(document.body).on(eventSelectors, () => {
+                this.debouncedUpdateGooglePay();
+            });
+            $(document.body).on(eventSelectors, () => {
+                this.debouncedUpdateApplePay();
+            });
+            $('form.checkout').on('click', 'input[name="payment_method"]', () => {
+                $(document.body).trigger('wpg_change_method');
+                this.togglePlaceOrderButton();
+            });
         }
 
         handleCheckoutSubmit() {
             if (this.isPpcpCCSelected() && this.isCardFieldEligible()) {
-                if ($('form.checkout').hasClass('paypal_cc_submitting'))
+                if ($('form.checkout').hasClass('paypal_cc_submitting')) {
                     return false;
+                }
                 $('form.checkout').addClass('paypal_cc_submitting');
                 $(document.body).trigger('submit_paypal_cc_form');
                 return false;
@@ -208,7 +248,7 @@
             if (isPpcpCCSelected && this.isCardFieldEligible()) {
                 $('#place_order, .wc-block-components-checkout-place-order-button').show();
             }
-            $(document.body).trigger('wpg_change_method');
+
         }
 
         renderSmartButton() {
@@ -388,11 +428,16 @@
                 }
             });
             if (cardFields.isEligible()) {
-                const numberField = cardFields.NumberField();
-                numberField.render("#wpg_paypal_checkout_cc-card-number");
-                numberField.setAttribute("placeholder", "4111 1111 1111 1111");
-                cardFields.ExpiryField().render("#wpg_paypal_checkout_cc-card-expiry");
-                cardFields.CVVField().render("#wpg_paypal_checkout_cc-card-cvc");
+                if ($("#wpg_paypal_checkout_cc-card-number").html().trim() === "") {
+                    const numberField = cardFields.NumberField();
+                    $("#wpg_paypal_checkout_cc-card-number").empty();
+                    $("#wpg_paypal_checkout_cc-card-expiry").empty();
+                    $("#wpg_paypal_checkout_cc-card-cvc").empty();
+                    numberField.render("#wpg_paypal_checkout_cc-card-number");
+                    numberField.setAttribute("placeholder", "4111 1111 1111 1111");
+                    cardFields.ExpiryField().render("#wpg_paypal_checkout_cc-card-expiry");
+                    cardFields.CVVField().render("#wpg_paypal_checkout_cc-card-cvc");
+                }
             } else {
                 $('.payment_box.payment_method_wpg_paypal_checkout_cc').hide();
                 if (this.isPpcpCCSelected())
@@ -582,19 +627,21 @@
         }
 
         update_google_pay() {
-            const $containers = $('.google-pay-container');
-            if ($containers.length) {
-                $containers.each((index, container) => {
-                    $(container).empty();
-                    this.renderGooglePayButton(container);
-                });
+            if (this.ppcp_manager.enabled_google_pay === 'yes') {
+                const $containers = $('.google-pay-container');
+                if ($containers.length) {
+                    $containers.each((index, container) => {
+                        $(container).empty();
+                        this.renderGooglePayButton(container);
+                    });
+                }
             }
         }
 
         renderGooglePayButton(container) {
-            if (!container)
+            if (!container) {
                 return;
-
+            }
             const paymentsClient = this.getGooglePaymentsClient();
             const button = paymentsClient.createButton({
                 buttonColor: 'default',
@@ -604,7 +651,6 @@
                 buttonSizeMode: 'fill',
                 onClick: this.onGooglePaymentButtonClicked.bind(this),
             });
-
             container.innerHTML = ''; // Clear existing content
             container.appendChild(button);
         }
@@ -727,11 +773,9 @@
         }
 
         update_apple_pay() {
-            const containers = document.querySelectorAll('.apple-pay-container');
-            containers.forEach(container => {
-                container.innerHTML = ''; // Clear the content
+            if (this.ppcp_manager.enabled_apple_pay === 'yes') {
                 this.addApplePayButton();
-            });
+            }
         }
 
         removeApplePayContainer() {
@@ -768,17 +812,29 @@
         }
 
         addApplePayButton() {
-            const container = document.getElementById("apple-pay-container");
-            if (!container) {
+            if (!window.ApplePaySession) {
+                console.log("Apple Pay cannot make payments on this device.");
+                this.removeApplePayContainer();
                 return;
             }
-            container.innerHTML = '';
-            const applePayButton = document.createElement('apple-pay-button');
-            applePayButton.setAttribute('buttonstyle', 'black');
-            applePayButton.setAttribute('type', 'plain');
-            container.appendChild(applePayButton);
-            applePayButton.addEventListener('click', () => this.onApplePayButtonClicked());
+            if (!ApplePaySession.canMakePayments()) {
+                console.log("Apple Pay cannot make payments on this device.");
+                this.removeApplePayContainer();
+                return;
+            }
+            const containers = document.querySelectorAll(".apple-pay-container");
+            if (containers.length === 0) {
+                return;
+            }
 
+            containers.forEach(container => {
+                container.innerHTML = ''; // Clear any existing content
+                const applePayButton = document.createElement('apple-pay-button');
+                applePayButton.setAttribute('buttonstyle', 'black');
+                applePayButton.setAttribute('type', 'plain');
+                container.appendChild(applePayButton);
+                applePayButton.addEventListener('click', () => this.onApplePayButtonClicked());
+            });
         }
 
         async onApplePayButtonClicked(container) {

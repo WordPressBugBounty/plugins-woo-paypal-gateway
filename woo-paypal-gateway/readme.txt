@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
 Tested up to: 6.7.1
-Stable tag: 9.0.18  
+Stable tag: 9.0.19  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -34,6 +34,7 @@ Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Banc
 
 * **PayPal** - The world's most trusted online payment service, offering secure transactions with global reach.  
 * **Google Pay** - A fast, simple, and secure payment method, available globally, enabling users to pay with their saved cards through their Android devices or web browsers.  
+* **Apple Pay** - Streamlined payments using Apple’s secure payment platform.
 * **Pay Later** - This service, offered by providers like PayPal, lets customers defer payments, popular in the U.S. and Europe for flexible purchasing.  
 * **Venmo** - A major mobile payment service in the U.S. with over 70 million users, ideal for peer-to-peer and e-commerce transactions.  
 * **Bancontact** - The most widely used payment method in Belgium, processing millions of secure transactions annually.  
@@ -67,7 +68,6 @@ Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Banc
 
 ### Coming Soon:
 - **Fastlane**: A faster checkout experience.
-- **Apple Pay**: Streamlined payments using Apple’s secure payment platform.
 
 == Installation ==
 
@@ -113,6 +113,9 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Currently, the plugin supports one-time payments. For recurring payments in "PayPal For WooCommerce," consider integrating with WooCommerce Subscriptions or other plugins.
 
 == Changelog ==
+
+= 9.0.19 - 2025-01-16 =
+* Fixed a minor issue on the Checkout Page related to Google Pay integration.
 
 = 9.0.18 - 2025-01-10 =
 * Add Apple Pay.

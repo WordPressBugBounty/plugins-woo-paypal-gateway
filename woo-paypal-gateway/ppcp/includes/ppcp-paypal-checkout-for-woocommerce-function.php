@@ -757,7 +757,33 @@ if (!function_exists('wpg_manage_apple_domain_file')) {
 
         return true; // Successfully updated the file
     }
+
 }
+
+if (!function_exists('is_existing_classic_user')) {
+
+    function is_existing_classic_user() {
+        global $wpdb;
+        $classic_payment_option_keys = [
+            'woocommerce_wpg_paypal_express_settings',
+            'woocommerce_wpg_braintree_settings',
+            'woocommerce_wpg_paypal_pro_settings',
+            'woocommerce_wpg_paypal_rest_settings',
+            'woocommerce_wpg_paypal_pro_payflow_settings',
+            'woocommerce_wpg_paypal_advanced_settings',
+        ];
+        $placeholders = implode(',', array_fill(0, count($classic_payment_option_keys), '%s'));
+        $query = $wpdb->prepare(
+                "SELECT option_name FROM {$wpdb->options} WHERE option_name IN ($placeholders) LIMIT 1",
+                $classic_payment_option_keys
+        );
+        $result = $wpdb->get_var($query);
+        return $result !== null;
+    }
+
+}
+
+
 
 
 
