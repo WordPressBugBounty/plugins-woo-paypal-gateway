@@ -5,7 +5,7 @@
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
  * Description:       Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, Przelewy24, eps & more - by an official PayPal Partner
- * Version:           9.0.19
+ * Version:           9.0.20
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
@@ -25,7 +25,7 @@ if (!defined('WPINC')) {
 
 
 if (!defined('WPG_PLUGIN_VERSION')) {
-    define('WPG_PLUGIN_VERSION', '9.0.19');
+    define('WPG_PLUGIN_VERSION', '9.0.20');
 }
 
 

@@ -25,7 +25,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             if (!$this->has($id)) {
                 return $default;
             }
-            return empty($this->setting_obj[$id]) ? $default : $this->setting_obj[$id];
+            return empty($this->settings[$id]) ? $default : $this->settings[$id];
         }
 
         public function get_load() {

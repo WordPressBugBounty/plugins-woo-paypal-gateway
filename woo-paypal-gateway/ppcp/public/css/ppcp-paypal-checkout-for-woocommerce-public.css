@@ -8,7 +8,7 @@
     justify-content: center;
     margin: 20px auto;
     position: relative;
-    width: 450px;
+    max-width: 450px;
 }
 .ppcp-proceed-to-checkout-button-separator.mobile {
     display: flex;
@@ -226,6 +226,7 @@
 .apple-pay-container.product.mobile apple-pay-button {
     --apple-pay-button-width: 100%;
     --apple-pay-button-height: 48px;
+    --apple-pay-button-max-width: 450px;
 }
 /* Product Page end */
 
@@ -276,25 +277,26 @@
 /* Mini Cart Page end */
 /* Cart Page */
 #ppcp_cart.desktop {
-    width: 450px;
+    max-width: 450px;
     line-height: 0;
     margin: 0 auto;
 }
 .google-pay-container.cart.desktop {
-    width: 450px;
+    max-width: 450px;
     text-align: center;
     line-height: 0;
     margin: 14px auto 0;
 }
 .apple-pay-container.cart.desktop {
-    width: 450px;
+    max-width: 450px;
     text-align: center;
     margin: 14px auto 0;
     line-height: 0;
 }
 .apple-pay-container.cart.desktop apple-pay-button {
-    --apple-pay-button-width: 450px;
     --apple-pay-button-height: 48px;
+    --apple-pay-button-max-width: 450px;
+    --apple-pay-button-width: 100%;
 }
 .google-pay-container.cart.mobile {
     max-width: 450px;
@@ -363,7 +365,8 @@
     --apple-pay-button-width: 240px;
 }
 #express-payment-method-wpg_paypal_checkout_top .apple-pay-container apple-pay-button {
-    --apple-pay-button-width: 450px;
+    --apple-pay-button-max-width: 450px;
+    --apple-pay-button-width: 100%;
 }
 
 /* End Express Checkout */
@@ -401,12 +404,14 @@
     margin-bottom: 14px;
 }
 .ppcp_checkout_parent .apple-pay-container apple-pay-button {
-    --apple-pay-button-width: 450px;
     --apple-pay-button-height: 48px;
+    --apple-pay-button-max-width: 450px;
+    --apple-pay-button-width: 100%;
 }
 .apple-pay-container.checkout apple-pay-button {
-    --apple-pay-button-width: 450px;
+    --apple-pay-button-width: 100%;
     --apple-pay-button-height: 48px;
+    --apple-pay-button-max-width: 450px;
 }
 /* END Checkout Page CSS */
 
@@ -435,4 +440,5 @@ apple-pay-button {
     --apple-pay-button-border-radius: 4px;
     --apple-pay-button-padding: 0px 0px;
     --apple-pay-button-box-sizing: border-box;
+    --apple-pay-button-width: 100%;
 }
