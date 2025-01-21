@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
 Tested up to: 6.7.1
-Stable tag: 9.0.20  
+Stable tag: 9.0.21  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -99,20 +99,19 @@ Advanced Credit Cards, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Banc
 2. Click "Applications" in the top menu.
 3. Select "Sandbox Accounts" and click "Create Account" to test "PayPal For WooCommerce" settings.
 
-### Where do I get my API credentials?
-- **Live Credentials**: Obtain them by signing into your PayPal account [here](https://www.paypal.com/us/cgi-bin/webscr?cmd=_login-api-run).
-- **Sandbox Credentials**: Access them via your PayPal Developer account [here](https://www.sandbox.paypal.com/us/cgi-bin/webscr?cmd=_login-api-run).
-
 ### How do I get phone numbers for PayPal Checkout orders?
 To enable phone numbers for "PayPal For WooCommerce," go to your PayPal business account settings and require them for all checkouts.
 
 ### Can I use this plugin with other payment gateways?
 Yes, you can use this plugin alongside other WooCommerce payment methods for flexible checkout options, making it versatile for any "PayPal For WooCommerce" setup.
 
-### Does the plugin support recurring payments?
-Currently, the plugin supports one-time payments. For recurring payments in "PayPal For WooCommerce," consider integrating with WooCommerce Subscriptions or other plugins.
+### Does the plugin support subscription payments?
+Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.21 - 2025-01-21 =
+* Resolved an issue related to the shipping preference in the API.
 
 = 9.0.20 - 2025-01-17 =
 * Fixed a minor issue on the Cart Page related to Button Design.

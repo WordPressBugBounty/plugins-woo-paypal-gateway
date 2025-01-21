@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.20';
+            $this->version = '9.0.21';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -372,7 +372,7 @@ class Woo_Paypal_Gateway {
             $activation_time = time();
             update_option('wpg_activation_time', $activation_time);
         }
-        $rev_notice_hide = get_option('wpg_rev_notice_hide');
+        $rev_notice_hide = get_option('wpg_review_notice_hide');
         $next_show_time = get_option('wpg_next_show_time', time());
         $days_since_activation = (time() - $activation_time) / 86400;
         if ($rev_notice_hide != 'never' && $days_since_activation >= 10 && time() >= $next_show_time) {
@@ -406,10 +406,10 @@ class Woo_Paypal_Gateway {
             // Hide the notice for 1 week
             $next_show_time = time() + (86400 * 7); // 7 days from now
             update_option('wpg_next_show_time', $next_show_time);
-            update_option('wpg_rev_notice_hide', 'later');
+            update_option('wpg_review_notice_hide', 'later');
         } elseif ($action === 'never' || $action === 'reviewed') {
             // Hide the notice permanently
-            update_option('wpg_rev_notice_hide', 'never');
+            update_option('wpg_review_notice_hide', 'never');
         } else {
             wp_send_json_error('Invalid action');
         }

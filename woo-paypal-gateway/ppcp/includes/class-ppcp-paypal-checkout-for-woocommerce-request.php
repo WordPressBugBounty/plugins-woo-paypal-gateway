@@ -210,15 +210,28 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function ppcp_shipping_preference() {
         $shipping_preference = 'GET_FROM_FILE';
-        $is_cart = is_cart() && !WC()->cart->is_empty();
-        $is_checkout = is_checkout();
-        $page = $is_cart ? 'cart' : ( $is_checkout ? 'checkout' : null );
+        $page = null;
+        if (isset($_GET) && !empty($_GET['from'])) {
+            $page = $_GET['from'];
+        } elseif (is_cart() && !WC()->cart->is_empty()) {
+            $page = 'cart';
+        } elseif (is_checkout() || is_checkout_pay_page()) {
+            $page = 'checkout';
+        } elseif (is_product()) {
+            $page = 'product';
+        }
+        if ($page === null) {
+            return $shipping_preference = WC()->cart->needs_shipping() ? 'GET_FROM_FILE' : 'NO_SHIPPING';
+        }
         switch ($page) {
+            case 'product':
+                $shipping_preference = WC()->cart->needs_shipping() ? 'GET_FROM_FILE' : 'NO_SHIPPING';
             case 'cart':
-                $shipping_preference = WC()->cart->needs_shipping_address() ? 'GET_FROM_FILE' : 'NO_SHIPPING';
+                $shipping_preference = WC()->cart->needs_shipping() ? 'GET_FROM_FILE' : 'NO_SHIPPING';
                 break;
             case 'checkout':
-                $shipping_preference = WC()->cart->needs_shipping_address() ? 'SET_PROVIDED_ADDRESS' : 'NO_SHIPPING';
+            case 'pay_page':
+                $shipping_preference = WC()->cart->needs_shipping() ? 'SET_PROVIDED_ADDRESS' : 'NO_SHIPPING';
                 break;
         }
         return $shipping_preference;
