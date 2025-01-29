@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Pro, Braintree, PayPal Checkout  
 Requires at least: 3.3  
 Tested up to: 6.7.1
-Stable tag: 9.0.21  
+Stable tag: 9.0.22  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -109,6 +109,9 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.22 - 2025-01-29 =
+* Resolved an issue related to setting panel.
 
 = 9.0.21 - 2025-01-21 =
 * Resolved an issue related to the shipping preference in the API.
