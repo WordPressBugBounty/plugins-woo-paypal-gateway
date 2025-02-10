@@ -2863,7 +2863,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                                 wp_redirect(ppcp_get_view_sub_order_url($order_id));
                                 exit();
                             } else {
-                                $order->add_order_note('ERROR MESSAGE: ' . __('Invalid or missing payment token fields.', 'paypal-for-woocommerce'));
+                                $order->add_order_note('ERROR MESSAGE: ' . __('Invalid or missing payment token fields.', 'woo-paypal-gateway'));
                             }
                         }
                         wp_redirect(ppcp_get_view_sub_order_url($order_id));

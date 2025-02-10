@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.22';
+            $this->version = '9.0.23';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -165,8 +165,11 @@ class Woo_Paypal_Gateway {
 
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 0);
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
-        $this->loader->add_action('plugins_loaded', $plugin_admin, 'init_wpg_paypal_payment');
-        $this->loader->add_filter('woocommerce_payment_gateways', $plugin_admin, 'wpg_pal_payment_for_woo_add_payment_method_class', 9999, 1);
+        
+        if (is_existing_classic_user() === true) {
+            $this->loader->add_action('plugins_loaded', $plugin_admin, 'init_wpg_paypal_payment');
+            $this->loader->add_filter('woocommerce_payment_gateways', $plugin_admin, 'wpg_pal_payment_for_woo_add_payment_method_class', 9999, 1);
+        }
     }
 
     private function define_public_hooks() {
@@ -393,7 +396,7 @@ class Woo_Paypal_Gateway {
                     '</p>' .
                     '</div>';
 
-            printf('<div class="%1$s" style="position:fixed;bottom:50px;right:20px;padding-right:30px;z-index:2;margin-left:20px">%2$s</div>', esc_attr($class), $notice);
+            printf('<div class="wpg-review-notice %1$s" style="position:fixed;bottom:50px;right:20px;padding-right:30px;z-index:2;margin-left:20px">%2$s</div>', $class, $notice);
         }
     }
 

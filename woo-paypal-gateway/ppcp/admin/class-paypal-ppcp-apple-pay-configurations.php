@@ -54,7 +54,7 @@ class ApplePayConfiguration
     public function register_domain(string $domain): array
     {
         if (!filter_var($domain, FILTER_VALIDATE_DOMAIN)) {
-            throw new InvalidArgumentException(__('Invalid domain name.', 'general'));
+            throw new InvalidArgumentException(__('Invalid domain name.', 'woo-paypal-gateway'));
         }
 
         $url = sprintf('https://%s/v1/customer/wallet-domains', $this->host);
@@ -72,12 +72,12 @@ class ApplePayConfiguration
         if (isset($response['domain'])) {
             return [
                 'status' => true,
-                'message' => __('Domain registered successfully.', 'general'),
+                'message' => __('Domain registered successfully.', 'woo-paypal-gateway'),
                 'domain' => $response['domain'],
             ];
         }
 
-        throw new RuntimeException(__('Domain registration failed.', 'general'));
+        throw new RuntimeException(__('Domain registration failed.', 'woo-paypal-gateway'));
     }
 
     public function remove_domain(string $domain): array
@@ -98,11 +98,11 @@ class ApplePayConfiguration
         if (isset($response['domain'])) {
             return [
                 'status' => true,
-                'message' => __('Domain removed successfully.', 'general'),
+                'message' => __('Domain removed successfully.', 'woo-paypal-gateway'),
             ];
         }
 
-        throw new RuntimeException(__('Domain removal failed.', 'general'));
+        throw new RuntimeException(__('Domain removal failed.', 'woo-paypal-gateway'));
     }
 
     public function register_domain_ajax(): void
@@ -135,7 +135,7 @@ class ApplePayConfiguration
 
         $content = $this->fetch_domain_validation_file();
         if (!file_put_contents($local_path, $content)) {
-            throw new RuntimeException(__('Failed to write domain validation file.', 'general'));
+            throw new RuntimeException(__('Failed to write domain validation file.', 'woo-paypal-gateway'));
         }
     }
 
@@ -143,7 +143,7 @@ class ApplePayConfiguration
     {
         $response = wp_remote_get($this->domainValidationFileUrl);
         if (is_wp_error($response)) {
-            throw new RuntimeException(__('Failed to fetch domain validation file.', 'general'));
+            throw new RuntimeException(__('Failed to fetch domain validation file.', 'woo-paypal-gateway'));
         }
 
         return wp_remote_retrieve_body($response);

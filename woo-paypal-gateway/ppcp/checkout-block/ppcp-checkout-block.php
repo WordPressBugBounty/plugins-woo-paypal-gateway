@@ -8,6 +8,10 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     protected $name = 'wpg_paypal_checkout';
     public $pay_later;
     public $icon;
+    public $button_class;
+    public $button_size;
+    public $is_mobile;
+    public $device_class;
 
     public function initialize() {
         $this->settings = get_option('woocommerce_wpg_paypal_checkout_settings', []);
@@ -45,17 +49,26 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         } else {
             $is_paylater_enable_incart_page = 'no';
         }
+        $this->is_mobile = wp_is_mobile();
+        $this->device_class = $this->is_mobile ? 'mobile' : 'desktop';
         $page = '';
         $is_pay_page = '';
+        $this->button_class = $this->device_class . ' ' . 'responsive';
         if (is_product()) {
             $page = 'product';
         } else if (is_cart() && !WC()->cart->is_empty()) {
             $page = 'cart';
+            $this->button_size = isset($this->settings['cart_button_size']) ? $this->settings['cart_button_size'] : 'responsive';
+            $this->button_class = $this->device_class . ' ' . $this->button_size;
         } elseif (is_checkout_pay_page()) {
             $page = 'checkout';
             $is_pay_page = 'yes';
+            $this->button_size = isset($this->settings['checkout_button_size']) ? $this->settings['checkout_button_size'] : 'responsive';
+            $this->button_class = $this->device_class . ' ' . $this->button_size;
         } elseif (is_checkout()) {
             $page = 'checkout';
+            $this->button_size = isset($this->settings['checkout_button_size']) ? $this->settings['checkout_button_size'] : 'responsive';
+            $this->button_class = $this->device_class . ' ' . $this->button_size;
         }
         $all_settings = $this->settings;
         $required_keys = ['enable_checkout_button_top', 'show_on_cart'];
@@ -79,7 +92,8 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             'is_apple_pay_enable_for_cart' => $this->is_apple_pay_enable_for_page('cart') ? 'yes' : 'no',
             'is_apple_pay_enable_for_express_checkout' => $this->is_apple_pay_enable_for_page('express_checkout') ? 'yes' : 'no',
             'is_apple_pay_enable_for_checkout' => $this->is_apple_pay_enable_for_page('checkout') ? 'yes' : 'no',
-            'is_mobile' => wp_is_mobile() ? 'mobile' : 'desktop'
+            'is_mobile' => wp_is_mobile() ? 'mobile' : 'desktop',
+            'button_class' => $this->button_class
         ));
 
         if (function_exists('wp_set_script_translations')) {

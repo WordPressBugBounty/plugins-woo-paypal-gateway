@@ -49,7 +49,7 @@ $deactivation_url = wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . r
     </div>
     
     <div class="deactivation-Modal-footer">
-        <a href="https://wordpress.org/support/plugin/your_plugin_slug" class="button button-primary" target="_blank" title="<?php _e('Visit our support page for assistance', 'woo-paypal-gateway'); ?>"><?php _e('Get Support', 'woo-paypal-gateway'); ?></a>
+        <a href="https://wordpress.org/support/plugin/woo-paypal-gateway" class="button button-primary" target="_blank" title="<?php _e('Visit our support page for assistance', 'woo-paypal-gateway'); ?>"><?php _e('Get Support', 'woo-paypal-gateway'); ?></a>
         <div>
             <a href="<?php echo esc_attr($deactivation_url); ?>" class="button button-primary deactivation-isDisabled" disabled id="mixpanel-send-deactivation"><?php _e('Send & Deactivate', 'woo-paypal-gateway'); ?></a>
         </div>

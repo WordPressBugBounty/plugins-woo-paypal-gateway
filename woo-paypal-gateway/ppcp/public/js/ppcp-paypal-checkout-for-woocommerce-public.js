@@ -6,7 +6,7 @@
             this.lastApiResponse = null;
             this.ppcp_address = [];
             this.paymentsClient = null;
-            this.allowedPaymentMethods = null;
+            this.allowedPaymentMethods = [];
             this.merchantInfo = null;
 
 
@@ -28,20 +28,15 @@
             }
             this.manageVariations('#ppcp_product, .google-pay-container, .apple-pay-container');
             this.bindCheckoutEvents();
-            this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 300);
-            this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 300);
-            this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 300);
-            this.debouncedUpdateApplePay = this.debounce_apple(this.update_apple_pay.bind(this), 300);
+            this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 500);
+            this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 500);
+            this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 500);
+            this.debouncedUpdateApplePay = this.debounce_apple(this.update_apple_pay.bind(this), 500);
             if (this.isCheckoutPage() === false) {
                 this.debouncedUpdatePaypalCheckout();
-            }
-            if (this.isCheckoutPage() === false) {
                 this.debouncedUpdateGooglePay();
-            }
-            if (this.isCheckoutPage() === false) {
                 this.debouncedUpdateApplePay();
             }
-
         }
 
         getAddress(prefix) {
@@ -170,19 +165,15 @@
                 event.preventDefault();
                 return this.handleCheckoutSubmit(event);
             });
-            const eventSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method';
+            const eventSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragment_refresh wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method';
             const checkoutSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_cc_block_ready ppcp_cc_checkout_updated update_checkout';
             $(document.body).on(eventSelectors, (event) => {
                 this.debouncedUpdatePaypalCheckout();
+                this.debouncedUpdateGooglePay();
+                this.debouncedUpdateApplePay();
             });
             $(document.body).on(checkoutSelectors, () => {
                 this.debouncedUpdatePaypalCC();
-            });
-            $(document.body).on(eventSelectors, () => {
-                this.debouncedUpdateGooglePay();
-            });
-            $(document.body).on(eventSelectors, () => {
-                this.debouncedUpdateApplePay();
             });
             $('form.checkout').on('click', 'input[name="payment_method"]', () => {
                 $(document.body).trigger('wpg_change_method');
@@ -237,12 +228,13 @@
         }
 
         togglePlaceOrderButton() {
-
             const isPpcpSelected = this.isPpcpSelected();
             const isPpcpCCSelected = this.isPpcpCCSelected();
             if (isPpcpSelected) {
+                $('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout').show();
                 $('#place_order, .wc-block-components-checkout-place-order-button').hide();
             } else {
+                $('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout').hide();
                 $('#place_order, .wc-block-components-checkout-place-order-button').show();
             }
             if (isPpcpCCSelected && this.isCardFieldEligible()) {
@@ -277,11 +269,15 @@
                             ? this.ppcp_manager.mini_cart_style_label
                             : (isExpressCheckout ? this.ppcp_manager.express_checkout_style_label : this.ppcp_manager.style_label)
                 };
-
                 if (ppcpStyle.layout === 'horizontal') {
                     ppcpStyle.tagline = 'false';
                 }
-                ppcpStyle.height = isExpressCheckout ? 40 : isMiniCart ? 38 : 48;
+                ppcpStyle.height = ppcpStyle.height = Number(
+                        isExpressCheckout ? this.ppcp_manager?.express_checkout_button_height :
+                        isMiniCart ? this.ppcp_manager?.mini_cart_button_height :
+                        this.ppcp_manager?.button_height
+                        ) || 48;
+
                 wpg_paypal_sdk.Buttons({
                     style: ppcpStyle,
                     createOrder: () => this.createOrder(selector),
@@ -512,7 +508,7 @@
         }
 
         ppcp_cart_css() {
-            const $button = $('.checkout-button');
+            /*const $button = $('.checkout-button');
             const width = $button.outerWidth();
             const $container = $('.ppcp-button-container.ppcp_cart');
             if (width && $container.length) {
@@ -520,7 +516,7 @@
             }
             if ($button.css('float') !== 'none') {
                 $container.css('float', $button.css('float'));
-            }
+            }*/
         }
 
         manageVariations(selector) {
@@ -551,10 +547,13 @@
                 this.removeGooglePayContainer();
                 return;
             }
-
             const paymentsClient = this.getGooglePaymentsClient();
-            const {allowedPaymentMethods} = await this.getGooglePayConfig();
-
+            const googlePayConfig = await this.getGooglePayConfig();
+            if (!googlePayConfig || !googlePayConfig.allowedPaymentMethods || googlePayConfig.allowedPaymentMethods.length === 0) {
+                this.removeGooglePayContainer();
+                return;
+            }
+            const {allowedPaymentMethods} = googlePayConfig;
             try {
                 const response = await paymentsClient.isReadyToPay(this.getGoogleIsReadyToPayRequest(allowedPaymentMethods));
                 if (response.result) {
@@ -626,15 +625,31 @@
             });
         }
 
-        update_google_pay() {
-            if (this.ppcp_manager.enabled_google_pay === 'yes') {
-                const $containers = $('.google-pay-container');
-                if ($containers.length) {
-                    $containers.each((index, container) => {
-                        $(container).empty();
-                        this.renderGooglePayButton(container);
-                    });
+        async update_google_pay() {
+            if (this.ppcp_manager.enabled_google_pay !== 'yes' || !this.isGooglePayAvailable()) {
+                this.removeGooglePayContainer();
+                return;
+            }
+            const paymentsClient = this.getGooglePaymentsClient();
+            const googlePayConfig = await this.getGooglePayConfig();
+            const allowedPaymentMethods = googlePayConfig?.allowedPaymentMethods;
+            if (!allowedPaymentMethods?.length) {
+                this.removeGooglePayContainer();
+                return;
+            }
+            try {
+                const response = await paymentsClient.isReadyToPay(this.getGoogleIsReadyToPayRequest(allowedPaymentMethods));
+                if (!response.result) {
+                    this.removeGooglePayContainer();
+                    return;
                 }
+                $('.google-pay-container').each((_, container) => {
+                    $(container).empty();
+                    this.renderGooglePayButton(container);
+                });
+            } catch (error) {
+                console.error("Google Pay readiness check failed:", error);
+                this.removeGooglePayContainer();
             }
         }
 

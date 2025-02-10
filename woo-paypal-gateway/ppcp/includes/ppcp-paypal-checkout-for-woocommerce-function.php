@@ -632,6 +632,29 @@ if (!function_exists('wpg_ppcp_short_payment_method')) {
 
 }
 
+if (!function_exists('wpg_ppcp_reorder_methods')) {
+
+    function wpg_ppcp_reorder_methods(&$methods, $class1, $class2, $position) {
+        $index1 = array_search($class1, $methods, true);
+        $index2 = array_search($class2, $methods, true);
+        if ($index1 === false || $index2 === false) {
+            return $methods;
+        }
+        unset($methods[$index2]);
+        $methods = array_values($methods);
+        $newIndex1 = array_search($class1, $methods, true);
+        if ($position === 'after') {
+            array_splice($methods, $newIndex1 + 1, 0, [$class2]);
+        } elseif ($position === 'before') {
+            array_splice($methods, $newIndex1, 0, [$class2]);
+        }
+        return $methods;
+    }
+
+}
+
+
+
 if (!function_exists('wpg_is_vaulting_enable')) {
 
     function wpg_is_vaulting_enable($result) {
@@ -782,6 +805,17 @@ if (!function_exists('is_existing_classic_user')) {
     }
 
 }
+
+if (!function_exists('is_ppcp_is_terms_page_published')) {
+
+    function is_ppcp_is_terms_page_published() {
+        $page_id = wc_get_page_id('terms');
+        $page_id = ($page_id > 0) ? absint($page_id) : 0;
+        return ($page_id > 0 && get_post($page_id));
+    }
+
+}
+
 
 
 

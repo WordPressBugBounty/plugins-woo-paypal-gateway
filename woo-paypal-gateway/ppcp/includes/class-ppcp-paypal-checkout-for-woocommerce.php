@@ -21,7 +21,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
             $this->version = '5.1.0';
         }
         $this->plugin_name = 'woo-paypal-gateway';
-        add_filter('woocommerce_payment_gateways', array($this, 'ppcp_woocommerce_payment_gateways'), 9999);
+        add_filter('woocommerce_payment_gateways', array($this, 'ppcp_woocommerce_payment_gateways'), 999);
 
         $this->load_dependencies();
         $seller_onboarding = PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding::instance();
@@ -72,6 +72,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
     }
 
     public function ppcp_woocommerce_payment_gateways($methods) {
+        $advanced_card_position = $this->button_manager->advanced_card_payments_display_position;
         $this->subscription_support_enabled = class_exists('WC_Subscriptions') && function_exists('wcs_create_renewal_order');
         include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php';
         if ($this->subscription_support_enabled) {
@@ -86,6 +87,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
             $methods[] = $this->subscription_support_enabled ? 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions_CC' : 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC';
         }
         $methods[] = $this->subscription_support_enabled ? 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions' : 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway';
-        return array_reverse($methods);
+        array_reverse($methods);
+        if($this->subscription_support_enabled) {
+            $methods = wpg_ppcp_reorder_methods($methods, 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions', 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions_CC', $advanced_card_position);
+        } else {
+            $methods = wpg_ppcp_reorder_methods($methods, 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway', 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC', $advanced_card_position);
+        }
+        return $methods;
     }
 }

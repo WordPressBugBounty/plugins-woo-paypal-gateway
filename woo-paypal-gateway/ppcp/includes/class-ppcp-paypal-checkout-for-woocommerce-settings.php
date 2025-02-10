@@ -69,11 +69,11 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     ),
                 ),
                 'live_onboarding' => array(
-                    'title' => __('Connect to PayPal', 'smart-paypal-checkout-for-woocommerce'),
+                    'title' => __('Connect to PayPal', 'woo-paypal-gateway'),
                     'type' => 'wpg_paypal_checkout_onboarding',
                     'gateway' => 'wpg_paypal_checkout',
                     'mode' => 'live',
-                    'description' => __('Setup or link an existing PayPal account.', 'smart-paypal-checkout-for-woocommerce'),
+                    'description' => __('Setup or link an existing PayPal account.', 'woo-paypal-gateway'),
                     'desc_tip' => ''
                 ),
                 'rest_client_id_live' => array(
@@ -101,11 +101,11 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'desc_tip' => '',
                 ),
                 'sandbox_onboarding' => array(
-                    'title' => __('Connect to PayPal', 'smart-paypal-checkout-for-woocommerce'),
+                    'title' => __('Connect to PayPal', 'woo-paypal-gateway'),
                     'type' => 'wpg_paypal_checkout_onboarding',
                     'gateway' => 'wpg_paypal_checkout',
                     'mode' => 'sandbox',
-                    'description' => __('Setup or link an existing PayPal account.', 'smart-paypal-checkout-for-woocommerce'),
+                    'description' => __('Setup or link an existing PayPal account.', 'woo-paypal-gateway'),
                     'desc_tip' => ''
                 ),
                 'rest_client_id_sandbox' => array(
@@ -136,9 +136,15 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
         }
 
         public function wpg_paypal_checkout_settings() {
+            $button_height = array(
+                '' => __('Select Height', 'woo-paypal-gateway')
+            );
+            for ($i = 25; $i < 56; $i++) {
+                $button_height[$i] = __($i . ' px', 'woo-paypal-gateway');
+            }
             $default_settings = array(
                 'gateway_enable_disable' => array(
-                    'title' => __('PayPal Checkout Settings', 'woo-paypal-gateway'),
+                    'title' => __('PayPal Settings', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => '',
                     'type' => 'title',
@@ -147,8 +153,8 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 'enabled' => array(
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
-                    'label' => __('Enable PayPal Checkout', 'woo-paypal-gateway'),
-                    'description' => __('Enable this option to activate the PayPal Checkout gateway. Uncheck to disable it.', 'woo-paypal-gateway'),
+                    'label' => __('Enable PayPal', 'woo-paypal-gateway'),
+                    'description' => __('Enable this option to activate the PayPal gateway. Uncheck to disable it.', 'woo-paypal-gateway'),
                     'desc_tip' => true,
                     'default' => 'yes',
                 ),
@@ -163,14 +169,13 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Description', 'woo-paypal-gateway'),
                     'type' => 'textarea',
                     'description' => __('The description displayed to customers during checkout.', 'woo-paypal-gateway'),
-                    'default' => '',
-                    'desc_tip' => true,
-                    'placeholder' => __('Optional', 'woo-paypal-gateway'),
+                    'default' => __('Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account','woo-paypal-gateway'),
+                    'desc_tip' => true
             ));
 
             $button_manager_settings_product_page = array(
                 'ppcp_button_header' => array(
-                    'title' => __('Product Page Settings', 'woo-paypal-gateway'),
+                    'title' => __('Product Page', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => __('', 'woo-paypal-gateway'),
                     'type' => 'title',
@@ -181,7 +186,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'class' => '',
                     'type' => 'checkbox',
-                    'label' => __('Enable PayPal Smart Button on the Product Pages.', 'woo-paypal-gateway'),
+                    'label' => __('Enable', 'woo-paypal-gateway'),
                     'default' => 'no',
                     'desc_tip' => true,
                     'description' => __('', 'woo-paypal-gateway'),
@@ -229,8 +234,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Color', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_product_button_settings',
-                    'description' => __('Set the color you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'gold',
                     'options' => array(
                         'gold' => __('Gold (Recommended)', 'woo-paypal-gateway'),
@@ -244,21 +247,36 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Shape', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_product_button_settings',
-                    'description' => __('Set the shape you would like to use for the buttons.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'rect',
                     'options' => array(
                         'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
                         'pill' => __('Pill', 'woo-paypal-gateway')
                     ),
                 ),
+                'product_button_size' => array(
+                    'title' => __('Button Width', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_product_button_settings',
+                    'default' => 'medium',
+                    'options' => array(
+                        'small' => __('Small', 'woo-paypal-gateway'),
+                        'medium' => __('Medium', 'woo-paypal-gateway'),
+                        'large' => __('Large', 'woo-paypal-gateway'),
+                        'responsive' => __('Responsive', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'product_button_height' => array(
+                    'title' => __('Button Height', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_product_button_settings',
+                    'default' => '48',
+                    'options' => $button_height,
+                ),
                 'product_button_label' => array(
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_product_button_settings',
-                    'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
                     'default' => 'paypal',
-                    'desc_tip' => true,
                     'options' => array(
                         'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
@@ -269,7 +287,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             );
             $button_manager_settings_cart_page = array(
                 'cart_button_settings' => array(
-                    'title' => __('Cart Page Settings', 'woo-paypal-gateway'),
+                    'title' => __('Cart Page', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => '',
                     'type' => 'title',
@@ -279,13 +297,11 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'class' => '',
                     'type' => 'checkbox',
-                    'label' => __('Enable PayPal Smart Button on the Cart page.', 'woo-paypal-gateway'),
-                    'default' => 'no',
-                    'desc_tip' => true,
-                    'description' => __('Optionally override global button settings above and configure buttons specific to Cart page.', 'woo-paypal-gateway'),
+                    'label' => __('Enable', 'woo-paypal-gateway'),
+                    'default' => 'no'
                 ),
                 'cart_button_location' => array(
-                    'title' => __('Button Location', 'woo-paypal-gateway'),
+                    'title' => __('Button Location (Classic only)', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_cart_button_settings',
                     'description' => __('The location of the payment buttons in relation to the Proceed to checkout button.', 'woo-paypal-gateway'),
@@ -339,8 +355,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Color', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_cart_button_settings',
-                    'description' => __('Set the color you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'gold',
                     'options' => array(
                         'gold' => __('Gold (Recommended)', 'woo-paypal-gateway'),
@@ -354,21 +368,36 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Shape', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_cart_button_settings',
-                    'description' => __('Set the shape you would like to use for the buttons.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'rect',
                     'options' => array(
                         'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
                         'pill' => __('Pill', 'woo-paypal-gateway')
                     ),
                 ),
+                'cart_button_size' => array(
+                    'title' => __('Button Width', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_cart_button_settings',
+                    'default' => 'responsive',
+                    'options' => array(
+                        'small' => __('Small', 'woo-paypal-gateway'),
+                        'medium' => __('Medium', 'woo-paypal-gateway'),
+                        'large' => __('Large', 'woo-paypal-gateway'),
+                        'responsive' => __('Responsive (Recommended)', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'cart_button_height' => array(
+                    'title' => __('Button Height', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_cart_button_settings',
+                    'default' => '48',
+                    'options' => $button_height,
+                ),
                 'cart_button_label' => array(
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_cart_button_settings',
-                    'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
                     'default' => 'paypal',
-                    'desc_tip' => true,
                     'options' => array(
                         'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
@@ -379,7 +408,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             );
             $button_manager_settings_checkout_page = array(
                 'checkout_button_settings' => array(
-                    'title' => __('Checkout Page Settings', 'woo-paypal-gateway'),
+                    'title' => __('Checkout Page', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => '',
                     'type' => 'title',
@@ -428,8 +457,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Color', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
-                    'description' => __('Set the color you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'gold',
                     'options' => array(
                         'gold' => __('Gold (Recommended)', 'woo-paypal-gateway'),
@@ -443,23 +470,38 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Shape', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
-                    'description' => __('Set the shape you would like to use for the buttons.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'rect',
                     'options' => array(
                         'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
                         'pill' => __('Pill', 'woo-paypal-gateway')
                     ),
                 ),
+                'checkout_button_size' => array(
+                    'title' => __('Button Width', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
+                    'default' => 'responsive',
+                    'options' => array(
+                        'small' => __('Small', 'woo-paypal-gateway'),
+                        'medium' => __('Medium', 'woo-paypal-gateway'),
+                        'large' => __('Large', 'woo-paypal-gateway'),
+                        'responsive' => __('Responsive (Recommended)', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'checkout_button_height' => array(
+                    'title' => __('Button Height', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
+                    'default' => '48',
+                    'options' => $button_height,
+                ),
                 'checkout_button_label' => array(
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
-                    'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
                     'default' => 'paypal',
-                    'desc_tip' => true,
                     'options' => array(
-                        'paypal' => __('PayPal', 'woo-paypal-gateway'),
+                        'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
                         'buynow' => __('Buy Now', 'woo-paypal-gateway'),
                         'pay' => __('Pay', 'woo-paypal-gateway'),
@@ -468,7 +510,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             );
             $button_manager_settings_express_checkout_page = array(
                 'express_checkout_button_settings' => array(
-                    'title' => __('Express Checkout Settings', 'woo-paypal-gateway'),
+                    'title' => __('Express Checkout', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => '',
                     'type' => 'title',
@@ -497,8 +539,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Color', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_express_checkout_button_settings',
-                    'description' => __('Set the color you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'gold',
                     'options' => array(
                         'gold' => __('Gold (Recommended)', 'woo-paypal-gateway'),
@@ -512,23 +552,26 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Shape', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_express_checkout_button_settings',
-                    'description' => __('Set the shape you would like to use for the buttons.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'rect',
                     'options' => array(
                         'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
                         'pill' => __('Pill', 'woo-paypal-gateway')
                     ),
                 ),
+                'express_checkout_button_height' => array(
+                    'title' => __('Button Height', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
+                    'default' => '40',
+                    'options' => $button_height,
+                ),
                 'express_checkout_button_label' => array(
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_express_checkout_button_settings',
-                    'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
                     'default' => 'paypal',
-                    'desc_tip' => true,
                     'options' => array(
-                        'paypal' => __('PayPal', 'woo-paypal-gateway'),
+                        'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
                         'buynow' => __('Buy Now', 'woo-paypal-gateway'),
                         'pay' => __('Pay', 'woo-paypal-gateway'),
@@ -537,7 +580,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             );
             $button_manager_settings_mini_cart_page = array(
                 'mini_cart_button_settings' => array(
-                    'title' => __('Mini Cart (Side Cart) Settings', 'woo-paypal-gateway'),
+                    'title' => __('Mini Cart (Side Cart)', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => '',
                     'type' => 'title',
@@ -547,10 +590,8 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'class' => '',
                     'type' => 'checkbox',
-                    'label' => __('Enable PayPal Smart Button on the Mini Cart page.', 'woo-paypal-gateway'),
-                    'default' => 'yes',
-                    'desc_tip' => true,
-                    'description' => __('Optionally override global button settings above and configure buttons specific to Mini Cart page.', 'woo-paypal-gateway'),
+                    'label' => __('Enable', 'woo-paypal-gateway'),
+                    'default' => 'yes'
                 ),
                 'min_cart_button_location' => array(
                     'title' => __('Button Location', 'woo-paypal-gateway'),
@@ -580,8 +621,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Color', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
-                    'description' => __('Set the color you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'gold',
                     'options' => array(
                         'gold' => __('Gold (Recommended)', 'woo-paypal-gateway'),
@@ -595,21 +634,36 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Shape', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
-                    'description' => __('Set the shape you would like to use for the buttons.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'rect',
                     'options' => array(
                         'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
                         'pill' => __('Pill', 'woo-paypal-gateway')
                     ),
                 ),
+                'mini_cart_button_size' => array(
+                    'title' => __('Button Width', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
+                    'default' => 'medium',
+                    'options' => array(
+                        'small' => __('Small', 'woo-paypal-gateway'),
+                        'medium' => __('Medium', 'woo-paypal-gateway'),
+                        'large' => __('Large', 'woo-paypal-gateway'),
+                        'responsive' => __('Responsive (Recommended)', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'mini_cart_button_height' => array(
+                    'title' => __('Button Height', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
+                    'default' => '38',
+                    'options' => $button_height,
+                ),
                 'mini_cart_button_label' => array(
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
-                    'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
                     'default' => 'paypal',
-                    'desc_tip' => true,
                     'options' => array(
                         'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
@@ -637,7 +691,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 'enable_advanced_card_payments' => array(
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
-                    'label' => __('Enable Advanced Credit/Debit Card in the Payment Gateway List on the Checkout Page', 'woo-paypal-gateway'),
+                    'label' => __('Enable Advanced Credit/Debit Card', 'woo-paypal-gateway'),
                     'default' => 'no',
                     'description' => __('Enable the Advanced Credit/Debit Card payment option as a separate gateway on the checkout page. This gateway typically offers a lower PayPal fee compared to the PayPal Smart Button. The fee is 2.59% + $0.49* per transaction for Advanced Credit/Debit Card payments and 3.49% + $0.49* for PayPal Smart Buttons. It supports major cards like Visa, Mastercard, and American Express, providing a secure and streamlined payment experience.', 'woo-paypal-gateway'),
                     'desc_tip' => true
@@ -693,7 +747,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 'advanced_card_onboard_note' => array(
                     'title' => __('Important Note', 'woo-paypal-gateway'),
                     'type' => 'title', // This adds an informational section
-                    'description' => __('Advanced Credit/Debit Card payments are not enabled in your PayPal account. <br><br><strong>Supported Countries:</strong><br>Australia, Austria, Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, United States, United Kingdom<br><br>','woo-paypal-gateway'),
+                    'description' => __('Advanced Credit/Debit Card payments are not enabled in your PayPal account. <br><br><strong>Supported Countries:</strong><br>Australia, Austria, Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, United States, United Kingdom<br><br>', 'woo-paypal-gateway'),
                 ),
             );
         }
@@ -702,12 +756,12 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             return array(
                 'google_pay_note' => array(
                     'title' => __('Important Note', 'woo-paypal-gateway'),
-                    'type' => 'title', // This adds an informational section
-                    'description' => __('To use Google Pay, ensure it is enabled in your PayPal account. If Google Pay is not enabled, the button will not display. Please refer to <a href="https://developer.paypal.com/docs/checkout/apm/google-pay/#link-setupyoursandboxaccounttoacceptgooglepay" target="_blank">this guide</a> for instructions on how to enable Google Pay in your PayPal account.', 'woo-paypal-gateway'),
+                    'type' => 'gpay_title', // This adds an informational section
+                    'description' => __('Please ensure Google Pay is enabled in your PayPal account; otherwise, the button won’t show. See <a target="_blank" href="https://developer.paypal.com/docs/checkout/apm/google-pay/#link-setupyoursandboxaccounttoacceptgooglepay">this guide</a> for instructions.', 'woo-paypal-gateway'),
                 ),
                 'enabled_google_pay' => array(
                     'title' => __('Enable Google Pay', 'woo-paypal-gateway'),
-                    'label' => __('Enable Google Pay on your store', 'woo-paypal-gateway'),
+                    'label' => __('Enable Google', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
                     'description' => __('Check this box to display the Google Pay button on selected pages.', 'woo-paypal-gateway'),
                     'default' => 'no',
@@ -725,7 +779,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'express_checkout' => __('Express Checkout', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
                     ),
-                    'description' => __('Set the page(s) to display the Google Pay button. Configure display options below.', 'woo-paypal-gateway'),
+                    'description' => __('Set the page(s) to display the Google Pay button.', 'woo-paypal-gateway'),
                 ),
             );
         }
@@ -782,8 +836,8 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             return array(
                 'apple_pay_note' => array(
                     'title' => __('Important Note', 'woo-paypal-gateway'),
-                    'type' => 'title', // This adds an informational section
-                    'description' => __('To use apple Pay, ensure it is enabled in your PayPal account. If apple Pay is not enabled, the button will not display. Please refer to <a href="https://developer.paypal.com/docs/checkout/apm/apple-pay/#link-setupyoursandboxaccounttoacceptapplepay" target="_blank">this guide</a> for instructions on how to enable apple Pay in your PayPal account.', 'woo-paypal-gateway'),
+                    'type' => 'apple_title', // This adds an informational section
+                    'description' => __('Please ensure Apple Pay is enabled in your PayPal account; otherwise, the button won’t show. See <a target="_blank" href="https://developer.paypal.com/docs/checkout/apm/apple-pay/#link-setupyoursandboxaccounttoacceptapplepay">this guide</a> for instructions.', 'woo-paypal-gateway'),
                 ),
                 'apple_pay_domain_register' => array(
                     'title' => __('Domain Registration', 'woo-paypal-gateway'),
@@ -811,7 +865,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'express_checkout' => __('Express Checkout', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
                     ),
-                    'description' => __('Set the page(s) to display the Apple Pay button. Configure display options below.', 'woo-paypal-gateway'),
+                    'description' => __('Set the page(s) to display the Apple Pay button.', 'woo-paypal-gateway'),
                 ),
             );
         }
@@ -830,7 +884,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'label' => __('Enable Pay Later Messaging', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
-                    'description' => '<div style="font-size: smaller">Displays Pay Later messaging for available offers.',
+                    'description' => __('Displays Pay Later messaging for available offers.', 'woo-paypal-gateway'),
                     'default' => 'no'
                 ),
                 'pay_later_messaging_page_type' => array(
@@ -840,7 +894,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'class' => 'wc-enhanced-select pay_later_messaging_field',
                     'default' => '',
                     'options' => array('home' => __('Home', 'woo-paypal-gateway'), 'category' => __('Category', 'woo-paypal-gateway'), 'product' => __('Product', 'woo-paypal-gateway'), 'cart' => __('Cart', 'woo-paypal-gateway'), 'payment' => __('Payment', 'woo-paypal-gateway')),
-                    'description' => '<div style="font-size: smaller;">Set the page(s) you want to display messaging on, and then adjust that page\'s display option below.</div>',
+                    'description' => __('Set the page(s) you want to display messaging on, and then adjust that page\'s display option below.', 'woo-paypal-gateway'),
                 ),
                 'pay_later_messaging_home_page_settings' => array(
                     'title' => __('Home Page', 'woo-paypal-gateway'),
@@ -1335,7 +1389,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Credit Card Statement Name', 'woo-paypal-gateway'),
                     'type' => 'text',
                     'description' => __('The value entered here will be displayed on the buyer\'s credit card statement.', 'woo-paypal-gateway'),
-                    'default' => '',
+                    'default' => substr(get_bloginfo('name'), 0, 21),
                     'desc_tip' => true,
                     'custom_attributes' => array('maxlength' => '22'),
                 ),
@@ -1363,15 +1417,15 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 'enabled' => array(
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
-                    'label' => __('Enable PayPal Checkout', 'woo-paypal-gateway'),
-                    'description' => __('Enable this option to activate the PayPal Checkout gateway. Uncheck to disable it.', 'woo-paypal-gateway'),
+                    'label' => __('Enable PayPal', 'woo-paypal-gateway'),
+                    'description' => __('Enable this option to activate the PayPal gateway. Uncheck to disable it.', 'woo-paypal-gateway'),
                     'desc_tip' => true,
                     'default' => 'yes',
                 ),
                 'title' => array(
                     'title' => __('Title', 'woo-paypal-gateway'),
                     'type' => 'text',
-                    'description' => __('The title displayed to customers during checkout.', 'woo-paypal-gateway'),
+                    'description' => __('Payment method description that the customer will see on your checkout.', 'woo-paypal-gateway'),
                     'default' => __('PayPal', 'woo-paypal-gateway'),
                     'desc_tip' => true,
                 ),
@@ -1379,8 +1433,8 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Description', 'woo-paypal-gateway'),
                     'type' => 'textarea',
                     'description' => __('The description displayed to customers during checkout.', 'woo-paypal-gateway'),
-                    'default' => '',
-                    'desc_tip' => true,
+                    'default' => __('Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account','woo-paypal-gateway'),
+                    'desc_tip' => true
                 ),
                 'api_details' => array(
                     'title' => __('PayPal API Credentials', 'woo-paypal-gateway'),
@@ -1441,7 +1495,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
 
             $button_manager_settings_product_page = array(
                 'ppcp_button_header' => array(
-                    'title' => __('Product Page Settings', 'woo-paypal-gateway'),
+                    'title' => __('Product Page', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => __('', 'woo-paypal-gateway'),
                     'type' => 'title',
@@ -1452,7 +1506,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'class' => '',
                     'type' => 'checkbox',
-                    'label' => __('Enable PayPal Smart Button on the Product Pages.', 'woo-paypal-gateway'),
+                    'label' => __('Enable', 'woo-paypal-gateway'),
                     'default' => 'no',
                     'desc_tip' => true,
                     'description' => __('', 'woo-paypal-gateway'),
@@ -1500,8 +1554,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Color', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_product_button_settings',
-                    'description' => __('Set the color you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'gold',
                     'options' => array(
                         'gold' => __('Gold (Recommended)', 'woo-paypal-gateway'),
@@ -1515,8 +1567,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Shape', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_product_button_settings',
-                    'description' => __('Set the shape you would like to use for the buttons.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'rect',
                     'options' => array(
                         'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
@@ -1527,9 +1577,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_product_button_settings',
-                    'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
                     'default' => 'paypal',
-                    'desc_tip' => true,
                     'options' => array(
                         'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
@@ -1540,7 +1588,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             );
             $button_manager_settings_cart_page = array(
                 'cart_button_settings' => array(
-                    'title' => __('Cart Page Settings', 'woo-paypal-gateway'),
+                    'title' => __('Cart Page', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => __('Enable the Cart-specific button settings to apply these options to the PayPal buttons displayed on your Cart page.', 'woo-paypal-gateway'),
                     'type' => 'title',
@@ -1550,10 +1598,8 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'class' => '',
                     'type' => 'checkbox',
-                    'label' => __('Enable PayPal Smart Button on the Cart page.', 'woo-paypal-gateway'),
+                    'label' => __('Enable', 'woo-paypal-gateway'),
                     'default' => 'no',
-                    'desc_tip' => true,
-                    'description' => __('Optionally override global button settings above and configure buttons specific to Cart page.', 'woo-paypal-gateway'),
                 ),
                 'cart_button_location' => array(
                     'title' => __('Button Location', 'woo-paypal-gateway'),
@@ -1610,8 +1656,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Color', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_cart_button_settings',
-                    'description' => __('Set the color you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'gold',
                     'options' => array(
                         'gold' => __('Gold (Recommended)', 'woo-paypal-gateway'),
@@ -1625,8 +1669,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Shape', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_cart_button_settings',
-                    'description' => __('Set the shape you would like to use for the buttons.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'rect',
                     'options' => array(
                         'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
@@ -1637,9 +1679,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_cart_button_settings',
-                    'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
                     'default' => 'paypal',
-                    'desc_tip' => true,
                     'options' => array(
                         'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
@@ -1650,7 +1690,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             );
             $button_manager_settings_checkout_page = array(
                 'checkout_button_settings' => array(
-                    'title' => __('Checkout Page Settings', 'woo-paypal-gateway'),
+                    'title' => __('Checkout Page', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => '',
                     'type' => 'title',
@@ -1699,8 +1739,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Color', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
-                    'description' => __('Set the color you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'gold',
                     'options' => array(
                         'gold' => __('Gold (Recommended)', 'woo-paypal-gateway'),
@@ -1714,8 +1752,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Shape', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
-                    'description' => __('Set the shape you would like to use for the buttons.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'rect',
                     'options' => array(
                         'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
@@ -1726,9 +1762,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
-                    'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
                     'default' => 'paypal',
-                    'desc_tip' => true,
                     'options' => array(
                         'paypal' => __('PayPal', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
@@ -1739,7 +1773,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             );
             $button_manager_settings_express_checkout_page = array(
                 'express_checkout_button_settings' => array(
-                    'title' => __('Express Checkout Settings', 'woo-paypal-gateway'),
+                    'title' => __('Express Checkout', 'woo-paypal-gateway'),
                     'class' => '',
                     'description' => '',
                     'type' => 'title',
@@ -1749,7 +1783,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'class' => 'ppcp_checkout_button_settings',
                     'type' => 'checkbox',
-                    'label' => __('Enable PayPal Smart Button on the Top of the Checkout page.', 'woo-paypal-gateway'),
+                    'label' => __('Enable', 'woo-paypal-gateway'),
                     'default' => 'yes'
                 ),
                 'express_checkout_button_layout' => array(
@@ -1768,8 +1802,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Color', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
-                    'description' => __('Set the color you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'gold',
                     'options' => array(
                         'gold' => __('Gold (Recommended)', 'woo-paypal-gateway'),
@@ -1783,8 +1815,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Shape', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
-                    'description' => __('Set the shape you would like to use for the buttons.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'rect',
                     'options' => array(
                         'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
@@ -1795,9 +1825,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
-                    'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
                     'default' => 'paypal',
-                    'desc_tip' => true,
                     'options' => array(
                         'paypal' => __('PayPal', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
@@ -1818,10 +1846,8 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Enable/Disable', 'woo-paypal-gateway'),
                     'class' => '',
                     'type' => 'checkbox',
-                    'label' => __('Enable PayPal Smart Button on the Mini Cart page.', 'woo-paypal-gateway'),
-                    'default' => 'yes',
-                    'desc_tip' => true,
-                    'description' => __('Optionally override global button settings above and configure buttons specific to Mini Cart page.', 'woo-paypal-gateway'),
+                    'label' => __('Enable', 'woo-paypal-gateway'),
+                    'default' => 'yes'
                 ),
                 'min_cart_button_location' => array(
                     'title' => __('Button Location', 'woo-paypal-gateway'),
@@ -1851,8 +1877,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Color', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
-                    'description' => __('Set the color you would like to use for the PayPal button.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'gold',
                     'options' => array(
                         'gold' => __('Gold (Recommended)', 'woo-paypal-gateway'),
@@ -1866,8 +1890,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Shape', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
-                    'description' => __('Set the shape you would like to use for the buttons.', 'woo-paypal-gateway'),
-                    'desc_tip' => true,
                     'default' => 'rect',
                     'options' => array(
                         'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
@@ -1878,9 +1900,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select ppcp_mini_cart_button_settings',
-                    'description' => __('Set the label type you would like to use for the PayPal button.', 'woo-paypal-gateway'),
                     'default' => 'paypal',
-                    'desc_tip' => true,
                     'options' => array(
                         'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
@@ -2469,7 +2489,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Credit Card Statement Name', 'woo-paypal-gateway'),
                     'type' => 'text',
                     'description' => __('The value entered here will be displayed on the buyer\'s credit card statement.', 'woo-paypal-gateway'),
-                    'default' => '',
+                    'default' => substr(get_bloginfo('name'), 0, 21),
                     'desc_tip' => true,
                     'custom_attributes' => array('maxlength' => '22'),
                 ),
@@ -2503,7 +2523,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'express_checkout' => __('Express Checkout', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
                     ),
-                    'description' => __('Set the page(s) to display the Google Pay button. Configure display options below.', 'woo-paypal-gateway'),
+                    'description' => __('Set the page(s) to display the Google Pay button.', 'woo-paypal-gateway'),
                 ),
             );
 

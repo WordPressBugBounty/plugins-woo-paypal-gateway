@@ -119,7 +119,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token {
             $token->save();
             update_metadata('payment_token', $token->get_id(), '_wpg_ppcp_used_payment_method', $source);
         } else {
-            $order->add_order_note(__('Invalid or missing payment token fields.', 'paypal-for-woocommerce'));
+            $order->add_order_note(__('Invalid or missing payment token fields.', 'woo-paypal-gateway'));
         }
     }
 
