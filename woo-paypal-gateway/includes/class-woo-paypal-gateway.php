@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.23';
+            $this->version = '9.0.24';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -76,7 +76,7 @@ class Woo_Paypal_Gateway {
         add_filter('plugin_row_meta', array($this, 'add_wpg_plugin_meta_links'), 10, 2);
         add_action('woocommerce_cart_emptied', array($this, 'wpg_clear_session'), 1);
         add_action('woocommerce_cart_item_removed', array($this, 'wpg_clear_session'), 1);
-        add_action('woocommerce_update_cart_action_cart_updated', array($this, 'wpg_clear_session'), 1);
+        add_filter('woocommerce_update_cart_action_cart_updated', array($this, 'wpg_cart_updated'), 10, 1);
         add_action('wp_ajax_ppcp_admin_notice_action', array($this, 'ppcp_admin_notice_action'), 10);
         add_action('wp_ajax_ppcp_dismiss_notice', array($this, 'ppcp_dismiss_notice'), 10);
         add_action('admin_footer', array($this, 'wpg_add_deactivation_feedback_form'));
@@ -270,6 +270,11 @@ class Woo_Paypal_Gateway {
             $meta[] = '<a href="https://wordpress.org/support/plugin/woo-paypal-gateway/reviews/#new-post" target="_blank" rel="noopener noreferrer">' . __('Rate our plugin', 'woo-paypal-gateway') . '</a>';
         }
         return $meta;
+    }
+    
+    public function wpg_cart_updated($cart_updated) {
+        wpg_clear_session_data();
+        return $cart_updated;
     }
 
     public function wpg_clear_session() {

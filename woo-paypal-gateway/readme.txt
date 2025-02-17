@@ -1,9 +1,9 @@
 === Payment Gateway for PayPal on WooCommerce ===
 Contributors: easypayment  
-Tags: PayPal, PayPal Pro, Braintree, PayPal Checkout  
+Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
-Tested up to: 6.7.1
-Stable tag: 9.0.23  
+Tested up to: 6.7.2
+Stable tag: 9.0.24  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -12,12 +12,11 @@ PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Merc
 
 == Description ==
 
-**Payment Gateway for PayPal on WooCommerce** is the ideal solution for adding PayPal payment options to your WooCommerce store. This comprehensive plugin integrates all major PayPal payment methods, providing a complete "PayPal For WooCommerce" experience. Enhance your checkout with PayPal Express Checkout, PayPal Pro, and Braintree, ensuring secure and efficient transactions for your customers.
+**Payment Gateway for PayPal on WooCommerce** is the ideal solution for adding PayPal payment options to your WooCommerce store. This comprehensive plugin integrates all major PayPal payment methods, providing a complete "PayPal For WooCommerce" experience. Enhance your checkout with PayPal Express Checkout ensuring secure and efficient transactions for your customers.
 
 ### Key Features:
 - **Advanced credit and debit card payments**: Accept credit card payments directly on your site.
 - **PayPal Checkout**: Provide PayPal Smart Buttons and alternative payment methods.
-- **PayPal Smart Buttons**: Utilize customizable, responsive payment buttons via Latest PayPal API.
 - **Real-Time Order Status Update**: Stay informed with instant payment notifications (Webhooks).
 
 ### Why Choose PayPal For WooCommerce?
@@ -29,7 +28,7 @@ PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Merc
 ### List of Methods
 
 * **PayPal** - The world's most trusted online payment service, offering secure transactions with global reach.
-* **advanced credit and debit card payments** - Accept credit card payments directly on your site.
+* **Advanced credit and debit card payments** - Accept credit card payments directly on your site.
 * **Google Pay** - A fast, simple, and secure payment method, available globally, enabling users to pay with their saved cards through their Android devices or web browsers.  
 * **Apple Pay** - Streamlined payments using Apple’s secure payment platform.
 * **Pay Later** - This service, offered by providers like PayPal, lets customers defer payments, popular in the U.S. and Europe for flexible purchasing.  
@@ -106,6 +105,9 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.24 - 2025-02-17 =
+* Resolved an issue related to mini cart QTY update.
 
 = 9.0.23 - 2025-02-10 =
 * Added size and position optimization.
