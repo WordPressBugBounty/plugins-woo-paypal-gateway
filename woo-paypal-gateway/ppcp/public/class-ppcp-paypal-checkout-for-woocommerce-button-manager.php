@@ -234,6 +234,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         add_action('wp_loaded', array($this, 'ppcp_block_set_address'), 999);
         add_action('admin_init', array($this, 'ppcp_admin_init'), 100);
         add_action('wpg_ppcp_save_payment_method_details', array($this, 'wpg_ppcp_save_payment_method_details'), 10, 2);
+        add_filter('wpg_ppcp_currency', array($this, 'wpg_ppcp_currency'), 10, 1);
     }
 
     public function enqueue_scripts() {
@@ -250,7 +251,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $this->ppcp_paypal_button_style_properties();
         $ppcp_js_arg = array();
         $ppcp_js_arg['client-id'] = $this->client_id;
-        $ppcp_js_arg['currency'] = $this->ppcp_currency;
+        $ppcp_js_arg['currency'] = apply_filters('wpg_ppcp_currency', $this->ppcp_currency);
         if (!isset($this->disable_funding['venmo'])) {
             $ppcp_js_arg['enable-funding'] = 'venmo,paylater';
         }
@@ -997,6 +998,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 $payment_status_reason = $payment_status_reason = isset($this->checkout_details->purchase_units[0]->payments->authorizations[0]->status_details->reason) ? $this->checkout_details->purchase_units[0]->payments->authorizations[0]->status_details->reason : '';
                 ppcp_update_woo_order_status($order_id, $payment_status, $payment_status_reason);
             }
+            apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $order_id);
             $order->add_order_note(sprintf(__('%s Transaction ID: %s', 'woo-paypal-gateway'), $this->title, $transaction_id));
             $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
         } elseif ($this->paymentaction === 'authorize' && !empty($this->checkout_details->status) && $this->checkout_details->status == 'COMPLETED' && $order !== false) {
@@ -1007,6 +1009,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             if (!empty($payment_status_reason)) {
                 $order->add_order_note(sprintf(__('Payment via %s Pending. PayPal reason: %s.', 'woo-paypal-gateway'), $this->title, $payment_status_reason));
             }
+            apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $order_id);
             $order->update_meta_data('_transaction_id', $transaction_id);
             $order->update_meta_data('_payment_status', $payment_status);
             $order->update_meta_data('_auth_transaction_id', $transaction_id);
@@ -1766,5 +1769,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $methods = wpg_ppcp_short_payment_method($methods, 'wpg_paypal_checkout', 'wpg_paypal_checkout_cc', $this->advanced_card_payments_display_position);
         }
         return $methods;
+    }
+    
+    public function wpg_ppcp_currency($ppcp_currency) {
+        if (class_exists('Yay_Currency\Helpers\YayCurrencyHelper')) {
+            $apply_currency = Yay_Currency\Helpers\YayCurrencyHelper::detect_current_currency();
+            if(isset($apply_currency['currency'])) {
+                return $apply_currency['currency'];
+            }
+        }
+        return $ppcp_currency;
     }
 }

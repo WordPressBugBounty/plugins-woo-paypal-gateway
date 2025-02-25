@@ -28,6 +28,7 @@
             }
             this.manageVariations('#ppcp_product, .google-pay-container, .apple-pay-container');
             this.bindCheckoutEvents();
+            this.update_paypal_checkout();
             this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 500);
             this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 500);
             this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 500);

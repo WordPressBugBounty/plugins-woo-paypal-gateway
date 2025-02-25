@@ -95,6 +95,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->payment_tokens_url = 'https://api-m.sandbox.paypal.com/v3/vault/payment-tokens';
                 $this->setup_tokens_url = 'https://api-m.sandbox.paypal.com/v3/vault/setup-tokens';
                 $this->merchant_id = $this->sandbox_merchant_id;
+                $this->tracking_api_url = 'https://api-m.sandbox.paypal.com/v1/shipping/trackers-batch';
             } else {
                 $this->partner_client_id = 'AfEf_pXdoWtQRqLJ_E3B_20i_TvZb6N3gf1M9s9A8FddJcG9yyoL_M1Ob9OqhflggcdGI_7STlYopHmR';
                 $this->client_token = get_transient('ppcp_client_token');
@@ -116,6 +117,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->payment_tokens_url = 'https://api-m.paypal.com/v3/vault/payment-tokens';
                 $this->setup_tokens_url = 'https://api-m.paypal.com/v3/vault/setup-tokens';
                 $this->merchant_id = $this->live_merchant_id;
+                $this->tracking_api_url = 'https://api-m.paypal.com/v1/shipping/trackers-batch';
             }
             $this->paymentaction = $this->get_option('paymentaction', 'capture');
             $this->payee_preferred = 'yes' === $this->get_option('payee_preferred', 'no');
@@ -296,7 +298,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->logger->log($level, $message, array('source' => 'wpg_paypal_checkout'));
         }
     }
-    
+
     public function ppcp_paypalauthassertion() {
         $temp = array(
             "alg" => "none"
@@ -310,7 +312,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         $returnData .= base64_encode(json_encode($temp)) . '.';
         return $returnData;
     }
-    
+
     public function wpg_register_apple_domain() {
         try {
             $this->get_genrate_token();
@@ -328,7 +330,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id(), 'Paypal-Auth-Assertion' => $this->ppcp_paypalauthassertion()),
                 'body' => array(),
                 'cookies' => array()
-                    );
+            );
             $response = wp_remote_post($wallet_domains, $arg);
             $this->ppcp_log('Register domain Request URL: ' . wc_print_r($wallet_domains, true));
             $this->ppcp_log('Register domain Request Header: ' . wc_print_r($arg['headers'], true));
@@ -709,6 +711,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                             $payment_status_reason = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status_details']['reason']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status_details']['reason'] : '';
                             ppcp_update_woo_order_status($woo_order_id, $payment_status, $payment_status_reason);
                         }
+                        apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $woo_order_id);
                         $order->update_meta_data('_payment_status', $payment_status);
                         $order->save_meta_data();
                         $order->add_order_note(sprintf(__('%s Transaction ID: %s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $transaction_id));
@@ -1443,6 +1446,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         ppcp_update_woo_order_status($woo_order_id, $payment_status, $payment_status_reason);
                     }
                     $order->set_transaction_id($transaction_id);
+                    apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $woo_order_id);
                     return true;
                 } else {
                     if (function_exists('wc_add_notice')) {
@@ -1796,6 +1800,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         if (!$order->has_status(array('processing', 'completed'))) {
             $order->add_order_note($note);
             $order->payment_complete($txn_id);
+            apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $order);
             WC()->cart->empty_cart();
         }
     }
@@ -1870,7 +1875,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         static $addr = -1;
 
         if ($pid == -1) {
-            $pid = getmypid();
+            $pid = substr(time(), -5);
         }
 
         if ($addr == -1) {
@@ -2594,6 +2599,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $payment_status_reason = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status_details']['reason']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status_details']['reason'] : '';
                         ppcp_update_woo_order_status($woo_order_id, $payment_status, $payment_status_reason);
                     }
+                    apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $woo_order_id);
                     $order->update_meta_data('_payment_status', $payment_status);
                     $order->save_meta_data();
                     $order->add_order_note(sprintf(__('%s Transaction ID: %s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $transaction_id));
@@ -2917,5 +2923,46 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
         }
         return 'en';
+    }
+
+    public function ppcp_add_tracking_api_info($order_id, $body_request) {
+        if ($this->access_token === false) {
+            $this->access_token = $this->ppcp_get_access_token();
+        }
+        $request = $body_request;
+        $body_request = json_encode($body_request);
+        $args = array(
+            'method' => 'POST',
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer " . $this->access_token,
+                'prefer' => "return=representation",
+                'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
+                'PayPal-Request-Id' => $this->generate_request_id()
+            ),
+            'body' => $body_request
+        );
+        $this->api_response = wp_remote_post($this->tracking_api_url, $args);
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+        $order = wc_get_order($order_id);
+        if (is_wp_error($this->api_response)) {
+            $error_message = $this->api_response->get_error_message();
+            $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
+            $order->add_order_note($error_message);
+            return false;
+        } else {
+            $this->ppcp_log('Response : ' . wc_print_r($this->api_response, true));
+            $this->api_response = json_decode(wp_remote_retrieve_body($this->api_response), true);
+            if (empty($this->api_response['errors'])) {
+                $tracker = isset($request['trackers'][0]) ? $request['trackers'][0] : array();
+                $tracking_number = isset($tracker['tracking_number']) ? $tracker['tracking_number'] : 'N/A';
+                $carrier = isset($tracker['carrier']) ? $tracker['carrier'] : 'N/A';
+                $status = isset($tracker['status']) ? $tracker['status'] : 'N/A';
+                $order->add_order_note("Tracking information submitted to PayPal:\nTracking Number: {$tracking_number}\nCarrier: {$carrier}\nStatus: {$status}");
+            }
+            return true;
+        }
     }
 }

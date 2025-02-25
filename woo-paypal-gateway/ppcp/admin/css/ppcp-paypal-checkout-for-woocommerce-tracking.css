@@ -1,0 +1,114 @@
+#ppcp_paypal_tracking_box .error {
+    color:red;
+    font-weight:bold
+}
+#ppcp_paypal_tracking_box .success {
+    color:green;
+    font-weight:bold
+}
+#ppcp_paypal_tracking_box input:not([type=checkbox]),
+#ppcp_paypal_tracking_box select {
+    width:100%
+}
+#ppcp_paypal_tracking_box #items-select-container {
+    display:none
+}
+#ppcp_paypal_tracking_box .ppcp-tracking-columns-wrapper {
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    grid-gap:60px
+}
+#ppcp_paypal_tracking_box .ppcp-tracking-columns-wrapper .ppcp-tracking-column+.ppcp-tracking-column {
+    border-left:1px solid #c3c4c7;
+    padding-left:20px
+}
+#ppcp_paypal_tracking_box .ppcp-shipment {
+    border:1px solid #ccc;
+    border-radius:4px;
+    background:#fff;
+    margin:20px 0px
+}
+#ppcp_paypal_tracking_box .ppcp-shipment .wc-order-item-sku {
+    font-size:.92em !important;
+    color:#888
+}
+#ppcp_paypal_tracking_box .ppcp-shipment .ppcp-shipment-header {
+    padding:0px 10px;
+    cursor:pointer;
+    background:#f0f0f1
+}
+#ppcp_paypal_tracking_box .ppcp-shipment .ppcp-shipment-header h4 {
+    display:inline-block;
+    margin:10px 0px;
+    max-width:83%;
+    overflow:hidden
+}
+#ppcp_paypal_tracking_box .ppcp-shipment .ppcp-shipment-header button {
+    float:right;
+    border:0;
+    background:0 0;
+    cursor:pointer;
+    height:38px
+}
+#ppcp_paypal_tracking_box .ppcp-shipment .ppcp-shipment-info {
+    padding:0px 10px 20px 10px
+}
+#ppcp_paypal_tracking_box .ppcp-shipment .ppcp-shipment-info.hidden {
+    display:none
+}
+#ppcp_paypal_tracking_box .ppcp-shipment .select2-container--default .select2-selection__rendered {
+    font-weight:bold
+}
+#ppcp_paypal_tracking_box .ppcp-shipment .active .ppcp-shipment-header {
+    background-color:#e0e0e0;
+    border-bottom:1px solid #ccc
+}
+#ppcp_paypal_tracking_box .ppcp-shipment select {
+    width:auto
+}
+#ppcp_paypal_tracking_box .ppcp-shipment.closed .ppcp-shipment-header .shipment-toggle-indicator .toggle-indicator:before {
+    content:""
+}
+#ppcp_paypal_tracking_box .ppcp-tracking-loader {
+    z-index:1000;
+    border:none;
+    margin:0px;
+    padding:0px;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    background:#fff;
+    opacity:.6;
+    cursor:wait;
+    position:absolute;
+    display:none
+}
+@keyframes spin {
+    0% {
+        transform:rotate(0deg)
+    }
+    100% {
+        transform:rotate(360deg)
+    }
+}
+.ppcp-remove-tracking-item {
+    color:#b32d2e;
+    font-size:14px;
+    cursor:pointer
+}
+#side-sortables #ppcp_paypal_tracking_box .ppcp-tracking-columns-wrapper {
+    display:block
+}
+#side-sortables #ppcp_paypal_tracking_box .ppcp-tracking-columns-wrapper .ppcp-tracking-column+.ppcp-tracking-column {
+    border-top:1px solid #c3c4c7;
+    padding-left:0px;
+    margin-top:20px;
+    border-left:none
+}
+#side-sortables #ppcp_paypal_tracking_box .update_shipment {
+    margin-top:20px
+}
+#side-sortables #ppcp_paypal_tracking_box .select2-container {
+    width:100% !important
+}

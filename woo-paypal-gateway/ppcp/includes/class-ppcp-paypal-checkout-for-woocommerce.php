@@ -40,7 +40,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-pay-later-messaging.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php';
-
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php';
+        PPCP_Paypal_Checkout_For_Woocommerce_Tracking::get_instance();
         $this->loader = new PPCP_Paypal_Checkout_For_Woocommerce_Loader();
     }
 

@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.7.2
-Stable tag: 9.0.24  
+Stable tag: 9.0.25  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -105,6 +105,12 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.25 - 2025-02-25 =
+* Fix - Compatibility with WooCommerce Germanized plugin.
+* Fix - Compatibility with YayCurrency – WooCommerce Multi-Currency Switcher plugin.
+* Feature - Added PayPal Shipment Tracking widget on the order details page in the admin panel.
+* Fix - Removed `getmypid()` function as it is not supported by Kinsta hosting.
 
 = 9.0.24 - 2025-02-17 =
 * Resolved an issue related to mini cart QTY update.
