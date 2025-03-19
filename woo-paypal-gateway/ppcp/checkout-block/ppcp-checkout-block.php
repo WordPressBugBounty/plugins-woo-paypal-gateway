@@ -56,7 +56,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         $this->button_class = $this->device_class . ' ' . 'responsive';
         if (is_product()) {
             $page = 'product';
-        } else if (is_cart() && !WC()->cart->is_empty()) {
+        } else if (is_cart() && WC()->cart && !WC()->cart->is_empty()) {
             $page = 'cart';
             $this->button_size = isset($this->settings['cart_button_size']) ? $this->settings['cart_button_size'] : 'responsive';
             $this->button_class = $this->device_class . ' ' . $this->button_size;

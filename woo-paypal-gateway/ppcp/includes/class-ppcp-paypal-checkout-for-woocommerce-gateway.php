@@ -247,7 +247,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
 
     public function payment_fields() {
         $description = $this->get_description();
-        if ($description && is_ppcp_is_terms_page_published()) {
+        if ($description) {
             echo wpautop(wptexturize($description));
         }
         if (is_wpg_change_payment_method() === false) {

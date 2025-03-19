@@ -193,11 +193,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
         add_action('woocommerce_after_add_to_cart_form', array($this, 'display_paypal_button_product_page'), 1);
         add_action('woocommerce_proceed_to_checkout', array($this, 'display_paypal_button_cart_page'), $this->cart_priority);
-        if(is_ppcp_is_terms_page_published()) {
-            add_action('woocommerce_review_order_after_submit', array($this, 'display_paypal_button_checkout_page'));
-        } else {
-            add_action('display_paypal_button_checkout_page', array($this, 'display_paypal_button_checkout_page'));
-        }
+        add_action('woocommerce_review_order_after_submit', array($this, 'display_paypal_button_checkout_page'));
         add_action('addonify_floating_cart_sidebar_cart_footer', array($this, 'display_paypal_button_mini_cart_page'), $this->min_cart_priority);
         add_action('woofc_below_buttons', array($this, 'display_paypal_button_mini_cart_page'), $this->min_cart_priority);
         add_action('xoo_wsc_after_footer_btns', array($this, 'display_paypal_button_mini_cart_page'), $this->min_cart_priority);

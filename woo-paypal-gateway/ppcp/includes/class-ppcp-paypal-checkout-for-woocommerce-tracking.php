@@ -9,6 +9,8 @@
 class PPCP_Paypal_Checkout_For_Woocommerce_Tracking {
 
     private static $instance = null;
+    public $screen_id;
+    public $carriers;
 
     public static function get_instance() {
         if (self::$instance === null) {
@@ -48,20 +50,19 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Tracking {
         );
     }
 
-    public function render_tracking_meta_box($post) {
+    public function render_tracking_meta_box($post_or_order_object) {
+        $wc_order = ( $post_or_order_object instanceof WP_Post ) ? wc_get_order( $post_or_order_object->ID ) : $post_or_order_object;
+        if (!is_a($wc_order, 'WC_Order')) {
+            return;
+        }
         wp_enqueue_style('ppcp-paypal-checkout-for-woocommerce-admin', WPG_PLUGIN_ASSET_URL . 'ppcp/admin/css/ppcp-paypal-checkout-for-woocommerce-tracking.css', array(), WPG_PLUGIN_VERSION, 'all');
         wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-admin', WPG_PLUGIN_ASSET_URL . 'ppcp/admin/js/ppcp-paypal-checkout-for-woocommerce-tracking.js', array('jquery'), WPG_PLUGIN_VERSION, false);
-
-        $wc_order = wc_get_order($post->ID);
         $capture_id = $wc_order->get_transaction_id();
         $shipments = $wc_order->get_meta('_ppcp_tracking_info');
         $this->carriers = $this->carrier_name();
-
-        // Extract tracking data if it exists
         $tracking_number = '';
         $status = '';
         $carrier = '';
-
         if (!empty($shipments['trackers'][0])) {
             $tracking_data = $shipments['trackers'][0];
             $tracking_number = $tracking_data['tracking_number'];

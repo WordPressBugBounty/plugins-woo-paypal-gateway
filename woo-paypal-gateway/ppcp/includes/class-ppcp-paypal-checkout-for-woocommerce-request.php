@@ -56,6 +56,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     public $sandbox_merchant_id;
     public $live_merchant_id;
     public $partner_client_id;
+    public $tracking_api_url;
     protected static $_instance = null;
 
     public static function instance() {

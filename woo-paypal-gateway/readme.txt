@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.7.2
-Stable tag: 9.0.25  
+Stable tag: 9.0.26  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -106,226 +106,218 @@ Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, y
 
 == Changelog ==
 
+= 9.0.26 - 2025-03-19 =
+Enhanced – Improved positioning of PayPal Smart Buttons on the checkout page.
+
 = 9.0.25 - 2025-02-25 =
-* Fix - Compatibility with WooCommerce Germanized plugin.
-* Fix - Compatibility with YayCurrency – WooCommerce Multi-Currency Switcher plugin.
-* Feature - Added PayPal Shipment Tracking widget on the order details page in the admin panel.
-* Fix - Removed `getmypid()` function as it is not supported by Kinsta hosting.
+Fixed – Compatibility issues with WooCommerce Germanized plugin.
+Fixed – Compatibility issues with YayCurrency – WooCommerce Multi-Currency Switcher plugin.
+Added – PayPal Shipment Tracking widget on the order details page in the admin panel.
+Fixed – Removed getmypid() function due to incompatibility with Kinsta hosting.
 
 = 9.0.24 - 2025-02-17 =
-* Resolved an issue related to mini cart QTY update.
+Fixed – Issue related to mini cart quantity update.
 
 = 9.0.23 - 2025-02-10 =
-* Added size and position optimization.
+Optimized – Improved size and positioning adjustments.
 
 = 9.0.22 - 2025-01-29 =
-* Resolved an issue related to setting panel.
+Fixed – Issue related to the settings panel.
 
 = 9.0.21 - 2025-01-21 =
-* Resolved an issue related to the shipping preference in the API.
+Fixed – Issue related to shipping preferences in the API.
 
 = 9.0.20 - 2025-01-17 =
-* Fixed a minor issue on the Cart Page related to Button Design.
+Fixed – Minor button design issue on the Cart page.
 
 = 9.0.19 - 2025-01-16 =
-* Fixed a minor issue on the Checkout Page related to Google Pay integration.
+Fixed – Minor issue related to Google Pay integration on the Checkout page.
 
 = 9.0.18 - 2025-01-10 =
-* Add Apple Pay.
-* Resolved a minor issue with Checkout Page.
+Added – Apple Pay integration.
+Fixed – Minor issue on the Checkout page.
 
 = 9.0.17 - 2024-12-30 =
-* Added woocommerce subscription compatibility.
-* Added PayPal Vault.
+Added – WooCommerce Subscriptions compatibility.
+Added – PayPal Vault support.
 
 = 9.0.16 - 2024-12-17 =
-* Optimised CSS and Layout chnages.
+Optimized – CSS and layout improvements.
 
 = 9.0.15 - 2024-12-11 =
-* Added PayPal Seller Onboarding functionality.
-* Resolved a minor issue with Google Pay.
+Added – PayPal Seller Onboarding functionality.
+Fixed – Minor issue with Google Pay.
 
 = 9.0.14 - 2024-12-04 =
-* Feature: Added Google Pay support for seamless and secure payments.
+Added – Google Pay support for seamless and secure payments.
 
 = 9.0.13 - 2024-11-25 =
-* Added compatibility with Cookies and Content Security Policy (CSP).
-* Improved the organization and structure of gateway settings fields.
-* Enhanced button layout and design with updated CSS for a more polished user interface.
+Added – Compatibility with Cookies and Content Security Policy (CSP).
+Improved – Organization and structure of gateway settings fields.
+Enhanced – Button layout and design with updated CSS for a polished user interface.
 
 = 9.0.12 - 2024-11-15 =
-* Resolved the issue with sending line item details to PayPal.
-* Resolved the issue with the "Leaving Site" popup.
+Fixed – Issue with sending line item details to PayPal.
+Fixed – "Leaving Site" popup issue.
 
 = 9.0.11 - 2024-11-12 =
-* Added language files for improved localization.
-* Updated settings panel to a more user-friendly accordion design.
-* Enhanced and reorganized settings fields for better usability.
+Added – Language files for improved localization.
+Updated – Settings panel with a more user-friendly accordion design.
+Enhanced – Reorganized settings fields for better usability.
 
 = 9.0.10 - 2024-11-05 =
-* Updated CSS and JavaScript for design improvements and overall user experience enhancement.
+Updated – CSS and JavaScript for design improvements and enhanced user experience.
 
 = 9.0.9 - 2024-10-30 =
-* Resolved an issue where wc_add_notice errors were being triggered.
+Fixed – Issue where wc_add_notice errors were being triggered.
 
 = 9.0.8 - 2024-10-28 =
-* Fixed the loading visibility issue.
+Fixed – Loading visibility issue.
 
 = 9.0.7 - 2024-10-25 =
-* Resolved Hide/Show CC field issue.
+Fixed – Issue with hiding/showing credit card fields.
 
 = 9.0.6 - 2024-10-24 =
-* Resolved jQuery conflict with the theme.
-*Updated logic to dynamically hide/show the payment container based on user selections.
+Fixed – jQuery conflict with themes.
+Updated – Logic to dynamically hide/show the payment container based on user selections.
 
 = 9.0.5 - 2024-10-24 =
-* Displayed Smart Button in Checkout block.
-* Separated payment methods into PayPal Checkout and Debit & Credit Cards.
-* Added icon for PayPal method in the Checkout block.
-* Resolved jQuery conflict with PayPal JS SDK.
-* Fixed issue where Access Token was not found in cache.
+Added – Displayed Smart Buttons in Checkout block.
+Separated – Payment methods into PayPal Checkout and Debit & Credit Cards.
+Added – PayPal method icon in the Checkout block.
+Fixed – jQuery conflict with PayPal JS SDK.
+Fixed – Access Token issue where it was not found in the cache.
 
 = 9.0.4 =
-* Resolved PayPal IPN warning.
+Fixed – PayPal IPN warning.
 
-= 9.0.3 = 
-* Adds Send Item Details option.
+= 9.0.3 =
+Added – Option to send item details.
 
-= 9.0.2 = 
-* Fix - Resolved access token not found in cache.
+= 9.0.2 =
+Fixed – Access Token not found in cache issue.
 
-= 9.0.1 = 
-* Fix - Checkout failed: Payment error due to field length being either too long or too short.
+= 9.0.1 =
+Fixed – Checkout failure due to field length validation error.
 
-= 9.0.0 = 
-* Fix - Checkout failed: Payment error due to field length being either too long or too short.
+= 9.0.0 =
+Fixed – Checkout failure due to field length validation error.
 
-= 8.0.5 = 
-* Fix - resolved save button issue.
+= 8.0.5 =
+Fixed – Save button issue.
 
-= 8.0.4 = 
-* Fix - PHP error.
+= 8.0.4 =
+Fixed – PHP error.
 
-= 8.0.3 = 
-* Fix - Access Token not found in cache.
+= 8.0.3 =
+Fixed – Access Token not found in cache.
 
-= 8.0.1 = 
-* Fix - Update Js.
+= 8.0.1 =
+Fixed – Updated JavaScript.
+Fixed – PHP fatal error.
 
-= 8.0.1 = 
-* Fix - PHP fatal error.
-
-= 8.0.0 = 
-* Adds Block Checkout compatibility.
+= 8.0.0 =
+Added – Block Checkout compatibility.
 
 = 7.2.2 =
-* Fix - Resolved PHP notice and some other issue.
+Fixed – PHP notices and other minor issues.
 
 = 7.2.0 =
-* Fix - Resolved PHP notice and some other issue.
+Fixed – PHP notices and other minor issues.
 
 = 7.1.8 =
-* Fix - Resolved issue related to phone number.
+Fixed – Issue related to phone number validation.
 
 = 7.1.7 =
-* Verification - WooCoomerce 7.7 compatibility.
+Verified – WooCommerce 7.7 compatibility.
 
 = 7.1.6 =
-* Verification - WooCoomerce 6.8.2 compatibility.
+Verified – WooCommerce 6.8.2 compatibility.
 
 = 7.1.5 =
-* Fix - Resolved issue with guest checkout in order review page.
-* Fix - Display PayPal validation messages on checkout page.
+Fixed – Issue with guest checkout on the order review page.
+Fixed – Display of PayPal validation messages on the checkout page.
 
 = 7.1.4 =
+Tested – With WooCommerce 7.2.0.
 
-* Tested with WC 7.2.0 
+= 7.1.3 =
+Updated – Disabled coupons when PayPal checkout is enabled.
 
-= 7.1.3 = 
-* Coupon disable when PayPal checkout enable.
+= 7.1.2 =
+Added – Gift Card plugin compatibility.
 
-= 7.1.2 = 
-* Adds Gift Card plugin compatibility.
-
-= 7.1.1 = 
-* Fix - Resolved issue with checkout page. hide other payment method on review page.
+= 7.1.1 =
+Fixed – Issue with hiding other payment methods on the review page during checkout.
 
 = 7.1.0 =
-* Adds major changes related to PayPal SDK and use Latest PayPal JS.
-* improved performance. 
+Major Update – Integrated the latest PayPal SDK.
+Improved – Performance optimizations.
 
 = 7.0.0 =
-* Upgrade PayPal Checkout.
+Upgraded – PayPal Checkout.
 
 = 6.0.1 =
-* Resolve rounding issue.
-* Resolve PayPal Payflow CC exp_year issue.
+Fixed – Rounding issue.
+Fixed – PayPal Payflow CC expiration year issue.
 
 = 6.0.0 =
-* Verification - WooCoomerce 6.8.2 compatibility.
+Verified – WooCommerce 6.8.2 compatibility.
 
-= 5.0.8 - 08/09/2022
-* Verification - WooCoomerce 6.7.0 compatibility.
+= 5.0.8 =
+Verified – WooCommerce 6.7.0 compatibility.
 
-= 5.0.7 - 04/13/2022
-* Verification - WooCoomerce 6.4.0 compatibility.
+= 5.0.7 =
+Verified – WooCommerce 6.4.0 compatibility.
 
-= 5.0.6 - 03/11/2022
-* Resolved PHP notice.
+= 5.0.6 =
+Fixed – PHP notice.
 
-= 5.0.5 - 02/25/2022
-* Resolved Body class issue on checkout page.
+= 5.0.5 =
+Fixed – Body class issue on the checkout page.
 
-= 5.0.4 - 02/23/2022
-* Verification - WordPress 6.2.1 compatibility.
+= 5.0.4 =
+Verified – WordPress 6.2.1 compatibility.
 
-= 5.0.3 - 02/15/2022
-* Resolved multiple PayPal display when update checkout fields.
+= 5.0.3 =
+Fixed – Issue where multiple PayPal buttons displayed after checkout field updates.
 
-= 5.0.2 - 02/01/2022
-* Resolved PHP Notice.
+= 5.0.2 =
+Fixed – PHP notice.
 
-= 4.0.9 - 14/12/2021
-* Remove Trademark 
+= 4.0.9 =
+Removed – Trademark references.
 
-= 2.0.0 - 08/04/2019 = 
-* Add new PayPal Express Checkout Smart button
+= 2.0.0 =
+Added – PayPal Express Checkout Smart Button.
 
-= 1.0.0 - 12/08/2017 =
-* Feature - PayPal Express Checkout
+= 1.0.0 =
+Feature – Introduced PayPal Express Checkout.
 
-= 1.0.1 - 12/08/2017 =
+= 1.0.1 =
+Fixed – PayPal IPN bug.
 
-* PayPal IPN bug resolved.
+= 1.0.2 =
+Added – Pre-Order support and payment token.
 
-= 1.0.2 - 12/12/2017 = 
+= 1.0.3 =
+Added – PayPal Pro payment method.
 
-* Add Pre-Order support and Payment token.
+= 1.0.4 =
+Added – Braintree Payments.
+Added – Icons for all payment methods.
 
-= 1.0.3 - 13/12/2017 = 
+= 1.0.5 =
+Added – PayPal Pro, PayPal Advanced, PayPal Payflow, and PayPal REST.
 
-* Add PayPal Pro payment method.
+= 1.0.6 =
+Added – WPML compatibility.
 
-= 1.0.4 - 15/12/2017 = 
-
-* Add braintree Payment.
-* Add icons for all payment methods.
-
-= 1.0.5 - 17/12/2017 = 
-
-* Add PayPal Pro
-* Add PayPal Advanced
-* Add PayPal Payflow
-* Add PayPal Rest
-
-= 1.0.6 - 24-12-2017 =
-* WPML compability
-
-= 1.0.7 - 06-01-2018 =
-* Code optimizing and better error handling
+= 1.0.7 =
+Optimized – Code improvements and better error handling.
 
 == Upgrade Notice ==
-Upgrade to version 8.0.5 to add the latest PayPal Smart Button integration and improved compatibility for "PayPal For WooCommerce."
+Upgrade to version 9.0.26 for improved PayPal Smart Button positioning and overall enhancements.
 
 == Support and Feedback ==
 Need help? Visit our [support page](https://wordpress.org/support/plugin/payment-gateway-for-paypal-on-woocommerce). If you enjoy our plugin, please [leave a review](https://wordpress.org/support/plugin/payment-gateway-for-paypal-on-woocommerce/reviews/)!
