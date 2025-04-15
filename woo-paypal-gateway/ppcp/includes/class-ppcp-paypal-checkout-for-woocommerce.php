@@ -30,6 +30,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
         }
         $this->set_locale();
         $this->define_public_hooks();
+        add_action('woocommerce_update_option', array($this, 'ppcp_cc_gateway_status_handler'), 10, 1);
     }
 
     private function load_dependencies() {
@@ -73,27 +74,45 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
     }
 
     public function ppcp_woocommerce_payment_gateways($methods) {
-        $advanced_card_position = $this->button_manager->advanced_card_payments_display_position;
         $this->subscription_support_enabled = class_exists('WC_Subscriptions') && function_exists('wcs_create_renewal_order');
         include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php';
         if ($this->subscription_support_enabled) {
             include_once WPG_PLUGIN_DIR . '/ppcp/subscriptions/class-ppcp-paypal-checkout-for-woocommerce-subscriptions.php';
             include_once WPG_PLUGIN_DIR . '/ppcp/subscriptions/class-ppcp-paypal-checkout-for-woocommerce-subscriptions-cc.php';
         }
-        $is_checkout_settings_page = isset($_GET['page'], $_GET['tab']) && $_GET['page'] === 'wc-settings' && $_GET['tab'] === 'checkout';
-        if (!$is_checkout_settings_page) {
-            if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC')) {
-                include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php';
-            }
-            $methods[] = $this->subscription_support_enabled ? 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions_CC' : 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC';
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC')) {
+            include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php';
         }
+        $methods[] = $this->subscription_support_enabled ? 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions_CC' : 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC';
         $methods[] = $this->subscription_support_enabled ? 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions' : 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway';
         array_reverse($methods);
-        if($this->subscription_support_enabled) {
-            $methods = wpg_ppcp_reorder_methods($methods, 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions', 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions_CC', $advanced_card_position);
-        } else {
-            $methods = wpg_ppcp_reorder_methods($methods, 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway', 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC', $advanced_card_position);
-        }
         return $methods;
+    }
+
+    public function ppcp_cc_gateway_status_handler($option_name) {
+        if (isset($_GET['wpg_section'])) {
+            return true;
+        }
+        $paypal_settings_option = 'woocommerce_wpg_paypal_checkout_settings';
+        $gateway_setting_key = 'enable_advanced_card_payments';
+        if (is_array($option_name) && isset($option_name['id']) && $option_name['id'] === 'woocommerce_wpg_paypal_checkout_cc_settings') {
+            $paypal_settings = get_option($paypal_settings_option, []);
+            $advanced_card_enabled = isset($paypal_settings[$gateway_setting_key]) ? $paypal_settings[$gateway_setting_key] : 'no';
+            remove_action('woocommerce_update_option', [$this, 'ppcp_cc_gateway_status_handler'], 10);
+            if ('yes' === $advanced_card_enabled) {
+                $paypal_settings[$gateway_setting_key] = 'no';
+                update_option($paypal_settings_option, $paypal_settings);
+                $enabled = 'yes';
+            } else {
+                $paypal_settings[$gateway_setting_key] = 'yes';
+                update_option($paypal_settings_option, $paypal_settings);
+                $enabled = 'no';
+            }
+            add_action('woocommerce_update_option', [$this, 'ppcp_cc_gateway_status_handler'], 10, 1);
+            if (wp_doing_ajax()) {
+                wp_send_json_success(!wc_string_to_bool($enabled));
+                wp_die();
+            }
+        }
     }
 }

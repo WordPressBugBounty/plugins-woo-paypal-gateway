@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.7.2
-Stable tag: 9.0.26  
+Stable tag: 9.0.27  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -105,6 +105,12 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.27 - 2025-04-15 =
+* Added – Compatibility with Reactify Classic Payments settings.
+* Fixed – Spinner issue when an error occurs during the "Place Order" process.
+* Added – New FAQs to improve user guidance and support.
+* Updated – Important notices and setup instructions for PayPal, Google Pay, and Apple Pay.
 
 = 9.0.26 - 2025-03-19 =
 Enhanced – Improved positioning of PayPal Smart Buttons on the checkout page.
@@ -317,7 +323,7 @@ Added – WPML compatibility.
 Optimized – Code improvements and better error handling.
 
 == Upgrade Notice ==
-Upgrade to version 9.0.26 for improved PayPal Smart Button positioning and overall enhancements.
+Upgrade to version 9.0.27 for improved PayPal Smart Button positioning and overall enhancements.
 
 == Support and Feedback ==
 Need help? Visit our [support page](https://wordpress.org/support/plugin/payment-gateway-for-paypal-on-woocommerce). If you enjoy our plugin, please [leave a review](https://wordpress.org/support/plugin/payment-gateway-for-paypal-on-woocommerce/reviews/)!

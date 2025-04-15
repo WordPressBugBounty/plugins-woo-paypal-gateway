@@ -9,26 +9,37 @@
 class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checkout_For_Woocommerce_Gateway {
 
     public $dcc_applies;
-    public $enable;
+    public $enabled;
 
     public function __construct() {
         parent::__construct();
+        $this->init_form_fields();
         $this->plugin_name = 'ppcp-paypal-checkout-cc';
         $this->title = $this->advanced_card_payments_title;
         $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_cards.png');
         $this->id = 'wpg_paypal_checkout_cc';
-        $this->method_title = __('Credit or Debit Card', 'woo-paypal-gateway');
+        $this->has_fields = true;
+        $this->method_title = __('Credit or Debit Card (PayPal) By Easy Payment', 'woo-paypal-gateway');
+        $this->method_description = __('Advanced Card Processing.', 'woo-paypal-gateway');
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate')) {
             include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-dcc-validate.php');
         }
-        $this->enable = $this->cc_enable;
+        $this->enabled = $this->cc_enable = $this->get_option('enable_advanced_card_payments', 'no');
         $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
+        
     }
 
     public function payment_fields() {
         if ($this->advanced_card_payments) {
             $this->form();
             echo '<div id="payments-sdk__contingency-lightbox"></div>';
+        }
+    }
+
+    public function admin_options() {
+        if (isset($_GET['section']) && 'wpg_paypal_checkout_cc' === $_GET['section']) {
+            wp_safe_redirect(admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout&wpg_section=wpg_paypal_checkout_cc'));
+            exit;
         }
     }
 
@@ -45,6 +56,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
 
         <?php
     }
+
+   
 
     public function get_icon() {
         $title_options = $this->card_labels();
@@ -199,13 +212,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
     }
 
     public function is_available() {
-        if ($this->enable === 'yes') {
-            $this->enabled = true;
+        if ($this->is_credentials_set() && $this->cc_enable === 'yes') {
             return true;
         }
         return false;
     }
-    
+
     public function process_subscription_payment($order, $amount_to_charge) {
         try {
             if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
@@ -215,7 +227,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             $order_id = $order->get_id();
             $this->payment_request->wpg_ppcp_capture_order_using_payment_method_token($order_id);
         } catch (Exception $ex) {
-
+            
         }
     }
 }

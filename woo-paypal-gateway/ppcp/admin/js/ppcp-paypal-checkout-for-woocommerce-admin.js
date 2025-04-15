@@ -117,9 +117,9 @@ window.onboardingCallback = function (authCode, sharedId) {
         }).change();
         jQuery('#woocommerce_wpg_paypal_checkout_enable_advanced_card_payments').change(function () {
             if (jQuery(this).is(':checked')) {
-                jQuery('#woocommerce_wpg_paypal_checkout_3d_secure_contingency, #woocommerce_wpg_paypal_checkout_disable_cards, #woocommerce_wpg_paypal_checkout_advanced_card_payments_title, #woocommerce_wpg_paypal_checkout_advanced_card_payments_display_position').closest('tr').show();
+                jQuery('#woocommerce_wpg_paypal_checkout_3d_secure_contingency, #woocommerce_wpg_paypal_checkout_disable_cards, #woocommerce_wpg_paypal_checkout_advanced_card_payments_title').closest('tr').show();
             } else {
-                jQuery('#woocommerce_wpg_paypal_checkout_3d_secure_contingency, #woocommerce_wpg_paypal_checkout_disable_cards, #woocommerce_wpg_paypal_checkout_advanced_card_payments_title, #woocommerce_wpg_paypal_checkout_advanced_card_payments_display_position').closest('tr').hide();
+                jQuery('#woocommerce_wpg_paypal_checkout_3d_secure_contingency, #woocommerce_wpg_paypal_checkout_disable_cards, #woocommerce_wpg_paypal_checkout_advanced_card_payments_title').closest('tr').hide();
             }
         }).change();
         $('#woocommerce_wpg_paypal_checkout_enabled_google_pay').change(function () {

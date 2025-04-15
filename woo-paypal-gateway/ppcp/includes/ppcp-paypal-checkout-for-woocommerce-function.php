@@ -607,31 +607,6 @@ if (!function_exists('ppcp_get_token_id_by_token')) {
 
 }
 
-if (!function_exists('wpg_ppcp_short_payment_method')) {
-
-    function wpg_ppcp_short_payment_method(&$array, $keyX, $keyY, $position = 'before') {
-        if (array_key_exists($keyX, $array) && array_key_exists($keyY, $array)) {
-            $valueY = $array[$keyY];
-            unset($array[$keyY]);
-
-            $keys = array_keys($array);
-            $indexX = array_search($keyX, $keys, true);
-
-            if ($position === 'before') {
-                $array = array_slice($array, 0, $indexX, true) +
-                        array($keyY => $valueY) +
-                        $array;
-            } elseif ($position === 'after') {
-                $array = array_slice($array, 0, $indexX + 1, true) +
-                        array($keyY => $valueY) +
-                        $array;
-            }
-        }
-        return $array;
-    }
-
-}
-
 if (!function_exists('wpg_ppcp_reorder_methods')) {
 
     function wpg_ppcp_reorder_methods(&$methods, $class1, $class2, $position) {
