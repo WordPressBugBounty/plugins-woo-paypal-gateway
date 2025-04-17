@@ -305,6 +305,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
             $new_settings = array(
                 'sandbox' => $this->is_sandbox ? 'yes' : 'no',
                 'enabled' => 'yes',
+                'description' => __('Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account', 'woo-paypal-gateway')
             );
             if (!empty($credentials['client_secret']) && !empty($credentials['client_id'])) {
                 if ($this->is_sandbox) {

@@ -108,7 +108,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function get_properties() {
-        $this->title = __('PayPal', 'woo-paypal-gateway');
+        $this->title = 'PayPal';
         $this->enabled = 'yes' === $this->ppcp_get_settings('enabled', 'yes');
         $this->sandbox = 'yes' === $this->ppcp_get_settings('sandbox', 'no');
         if ($this->sandbox) {
