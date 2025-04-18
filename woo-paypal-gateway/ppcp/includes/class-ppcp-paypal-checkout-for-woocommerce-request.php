@@ -157,12 +157,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 "X" => "No Response - N/A"
             );
             add_filter('wpg_ppcp_add_payment_source', array($this, 'wpg_ppcp_add_payment_source'), 10, 2);
-            if (isset($_GET['from']) && 'cart' === $_GET['from']) {
-                $this->order_button_text = __('Continue to payment', 'woo-paypal-gateway');
-            }
+            add_action('init', [$this, 'localize_button_text']);
         } catch (Exception $ex) {
             
         }
+    }
+    
+    public function localize_button_text() {
+        $this->order_button_text = __('Continue to payment', 'woo-paypal-gateway');
     }
 
     public function request($url, $args, $action_name = 'default') {

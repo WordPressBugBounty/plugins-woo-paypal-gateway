@@ -8,9 +8,6 @@
             this.paymentsClient = null;
             this.allowedPaymentMethods = [];
             this.merchantInfo = null;
-
-
-
             this.init();
             this.ppcp_cart_css();
         }
@@ -327,12 +324,29 @@
 
         onApproveHandler(data, actions) {
             this.showSpinner();
+            const order_id = data.orderID || data.orderId || '';
+            const payer_id = data.payerID || data.payerId || '';
+            if (!order_id) {
+                console.error('Missing order ID in approval data.');
+                return;
+            }
             if (this.isCheckoutPage()) {
-                $.post(`${this.ppcp_manager.cc_capture}&paypal_order_id=${data.orderID}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`, function (data) {
-                    window.location.href = data.data.redirect;
-                });
+                $.post(
+                        `${this.ppcp_manager.cc_capture}&paypal_order_id=${encodeURIComponent(order_id)}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`,
+                        function (response) {
+                            if (response?.data?.redirect) {
+                                window.location.href = response.data.redirect;
+                            } else {
+                                console.error('No redirect URL returned in response:', response);
+                            }
+                        }
+                );
             } else {
-                window.location.href = `${this.ppcp_manager.checkout_url}?paypal_order_id=${data.orderID}&paypal_payer_id=${data.payerID}&from=${this.ppcp_manager.page}`;
+                let redirectUrl = `${this.ppcp_manager.checkout_url}?paypal_order_id=${encodeURIComponent(order_id)}&from=${this.ppcp_manager.page}`;
+                if (payer_id) {
+                    redirectUrl += `&paypal_payer_id=${encodeURIComponent(payer_id)}`;
+                }
+                window.location.href = redirectUrl;
             }
         }
 
@@ -361,6 +375,9 @@
         }
 
         showError(error_message) {
+            if (typeof error_message === 'undefined' || error_message === null) {
+                return;
+            }
             console.log(error_message);
             let $checkout_form;
             if ($('form.checkout').length) {
@@ -378,6 +395,8 @@
                     error_message = ['An unknown error occurred.'];
                 } else if (typeof error_message === 'string') {
                     error_message = [error_message];
+                } else if (error_message?.data?.messages && Array.isArray(error_message.data.messages)) {
+                    error_message = error_message.data.messages;
                 }
                 let errorHTML = '<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout" role="alert" aria-live="assertive"><ul class="woocommerce-error">';
                 $.each(error_message, (index, value) => {
@@ -397,7 +416,12 @@
                 }
                 $(document.body).trigger('checkout_error', [error_message]);
             } else {
-                const errorMessagesString = Array.isArray(error_message) ? error_message.join('<br>') : typeof error_message === 'string' ? error_message : 'An unknown error occurred.';
+                const errorMessagesString = Array.isArray(error_message)
+                        ? error_message.join('<br>')
+                        : typeof error_message === 'string'
+                        ? error_message
+                        : 'An unknown error occurred.';
+
                 $(document.body).trigger('ppcp_checkout_error', errorMessagesString);
             }
         }
@@ -457,14 +481,24 @@
             } else {
                 data = $(checkoutSelector).closest('form').serialize();
             }
-            return fetch(this.ppcp_manager.create_order_url_for_cc, {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: data}).then(res => res.json()).then(data => {
-                if (data.success !== undefined) {
-                    this.hideSpinner();
-                    this.showError(data.data.messages);
-                    return '';
-                }
-                return data.orderID;
-            });
+            return fetch(this.ppcp_manager.create_order_url_for_cc, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: data
+            })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data || data.success === false) {
+                            this.hideSpinner();
+                            this.showError(data?.data?.messages || 'An unknown error occurred while creating the order.');
+                            return Promise.reject();
+                        }
+                        return data.orderID;
+                    })
+                    .catch(err => {
+                        this.hideSpinner();
+                        return Promise.reject();
+                    });
         }
 
         submitCardFields(payload) {
@@ -509,15 +543,7 @@
         }
 
         ppcp_cart_css() {
-            /*const $button = $('.checkout-button');
-            const width = $button.outerWidth();
-            const $container = $('.ppcp-button-container.ppcp_cart');
-            if (width && $container.length) {
-                $container.width(width);
-            }
-            if ($button.css('float') !== 'none') {
-                $container.css('float', $button.css('float'));
-            }*/
+
         }
 
         manageVariations(selector) {
