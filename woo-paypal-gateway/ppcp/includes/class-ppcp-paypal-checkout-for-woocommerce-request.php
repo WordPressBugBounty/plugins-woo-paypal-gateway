@@ -162,7 +162,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             
         }
     }
-    
+
     public function localize_button_text() {
         $this->order_button_text = __('Continue to payment', 'woo-paypal-gateway');
     }
@@ -664,6 +664,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $api_response = json_decode(wp_remote_retrieve_body($response), true);
                 $this->ppcp_log('Response : ' . wc_print_r($api_response, true));
                 if (isset($api_response['id']) && !empty($api_response['id'])) {
+                    $this->ppcp_update_order_address_from_paypal_capture($woo_order_id, $api_response);
                     $return_response['paypal_order_id'] = $api_response['id'];
                     $order->update_meta_data('_paypal_order_id', $api_response['id']);
                     $order->save_meta_data();
@@ -734,6 +735,72 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
     }
 
+    public function ppcp_update_order_address_from_paypal_capture($order_id, $capture_response) {
+        $order = wc_get_order($order_id);
+        if (!$order) {
+            return;
+        }
+
+        $payment_source = $capture_response['payment_source'] ?? [];
+        $source_data = reset($payment_source);
+
+        $billing_address = $source_data['card']['billing_address'] ?? [];
+        $phone_number = $source_data['phone_number']['national_number'] ?? '';
+        $email = $source_data['email_address'] ?? '';
+
+        $first_name = '';
+        $last_name = '';
+        $name = $source_data['name'] ?? '';
+
+        if (is_array($name)) {
+            $first_name = $name['given_name'] ?? '';
+            $last_name = $name['surname'] ?? '';
+        } elseif (is_string($name)) {
+            $name_parts = explode(' ', trim($name), 2);
+            $first_name = $name_parts[0] ?? '';
+            $last_name = $name_parts[1] ?? '';
+        }
+
+        if (empty($order->get_billing_first_name()) && $first_name) {
+            $order->set_billing_first_name($first_name);
+        }
+        if (empty($order->get_billing_last_name()) && $last_name) {
+            $order->set_billing_last_name($last_name);
+        }
+
+        if (empty($order->get_billing_address_1()) && !empty($billing_address['address_line_1'])) {
+            $order->set_billing_address_1($billing_address['address_line_1']);
+            $order->set_billing_city($billing_address['admin_area_2'] ?? '');
+            $order->set_billing_state($billing_address['admin_area_1'] ?? '');
+            $order->set_billing_postcode($billing_address['postal_code'] ?? '');
+            $order->set_billing_country($billing_address['country_code'] ?? '');
+        }
+
+        if (empty($order->get_billing_phone()) && $phone_number) {
+            $order->set_billing_phone($phone_number);
+        }
+        if (empty($order->get_billing_email()) && $email) {
+            $order->set_billing_email($email);
+        }
+
+        if (empty($order->get_shipping_first_name()) && $first_name) {
+            $order->set_shipping_first_name($first_name);
+        }
+        if (empty($order->get_shipping_last_name()) && $last_name) {
+            $order->set_shipping_last_name($last_name);
+        }
+
+        if (empty($order->get_shipping_address_1()) && !empty($billing_address['address_line_1'])) {
+            $order->set_shipping_address_1($billing_address['address_line_1']);
+            $order->set_shipping_city($billing_address['admin_area_2'] ?? '');
+            $order->set_shipping_state($billing_address['admin_area_1'] ?? '');
+            $order->set_shipping_postcode($billing_address['postal_code'] ?? '');
+            $order->set_shipping_country($billing_address['country_code'] ?? '');
+        }
+
+        $order->save();
+    }
+
     public function ppcp_order_auth_request($woo_order_id) {
         try {
             if ($this->access_token === false) {
@@ -766,6 +833,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $api_response = json_decode(wp_remote_retrieve_body($response), true);
                 $this->ppcp_log('Response : ' . wc_print_r($api_response, true));
                 if (!empty($api_response['id'])) {
+                    $this->ppcp_update_order_address_from_paypal_capture($woo_order_id, $api_response);
                     $return_response['paypal_order_id'] = $api_response['id'];
                     if (isset($woo_order_id) && !empty($woo_order_id)) {
                         $order->update_meta_data('_paypal_order_id', $api_response['id']);

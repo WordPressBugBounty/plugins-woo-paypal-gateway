@@ -1,11 +1,11 @@
 <?php
 
 if (class_exists('WC_Checkout')) {
-    
-    
+
+
 
     class PPCP_Paypal_Checkout_For_Woocommerce_Checkout extends WC_Checkout {
-        
+
         protected static $_instance = null;
 
         public static function instance() {
@@ -71,21 +71,29 @@ if (class_exists('WC_Checkout')) {
                 $smart_button = PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager::instance();
                 $posted_data = $smart_button->ppcp_prepare_order_data();
                 $this->update_session($posted_data);
-                $this->process_customer($posted_data);
-                $order_id = $this->create_order($posted_data);
-                $order = wc_get_order($order_id);
-                if (is_wp_error($order_id)) {
-                    throw new Exception($order_id->get_error_message());
+                $this->validate_checkout( $posted_data, $errors );
+                foreach ($errors->errors as $code => $messages) {
+                    $data = $errors->get_error_data($code);
+                    foreach ($messages as $message) {
+                        wc_add_notice($message, 'error', $data);
+                    }
                 }
-                if (!$order) {
-                    throw new Exception(__('Unable to create order.', 'woo-paypal-gateway'));
+                if (0 === wc_notice_count('error')) {
+                    $this->process_customer($posted_data);
+                    $order_id = $this->create_order($posted_data);
+                    $order = wc_get_order($order_id);
+                    if (is_wp_error($order_id)) {
+                        throw new Exception($order_id->get_error_message());
+                    }
+                    if (!$order) {
+                        throw new Exception(__('Unable to create order.', 'woo-paypal-gateway'));
+                    }
+                    return $order_id;
                 }
-                return $order_id;
             } catch (Exception $ex) {
                 
             }
         }
-
     }
 
 }

@@ -20,6 +20,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
             if (!$adding_to_cart) {
                 return;
             }
+            foreach (WC()->cart->get_cart() as $cart_item) {
+                if ((int) $cart_item['product_id'] === $product_id && (empty($_REQUEST['variation_id']) || (!empty($cart_item['variation_id']) && (int) $cart_item['variation_id'] === (int) $_REQUEST['variation_id']))) {
+                    return;
+                }
+            }
             $add_to_cart_handler = apply_filters('woocommerce_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart);
             if ('variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler) {
                 $was_added_to_cart = self::add_to_cart_handler_variable($product_id);
@@ -30,6 +35,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
             } else {
                 $was_added_to_cart = self::add_to_cart_handler_simple($product_id);
             }
+            wc_clear_notices();
         } catch (Exception $ex) {
             
         }

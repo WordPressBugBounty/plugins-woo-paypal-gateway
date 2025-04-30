@@ -754,7 +754,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Important Note', 'woo-paypal-gateway'),
                     'type' => 'gpay_title',
                     'description' => __(
-                            'To show the Google Pay button, Google Pay must be enabled in your PayPal account (<a target="_blank" href="https://developer.paypal.com/docs/checkout/apm/google-pay/#link-setupyoursandboxaccounttoacceptgooglepay">setup guide</a>) and the page must be served over a secure (HTTPS) connection.',
+                            'To show the Google Pay button, Google Pay must be enabled in your PayPal account (<a target="_blank" href="https://developer.paypal.com/docs/checkout/apm/google-pay/#set-up-your-sandbox-account-to-accept-google-pay">setup guide</a>) and the page must be served over a secure (HTTPS) connection.',
                             'woo-paypal-gateway'
                     ),
                 ),
@@ -837,7 +837,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Important Note', 'woo-paypal-gateway'),
                     'type' => 'apple_title',
                     'description' => __(
-                            'To show the Apple Pay button, Apple Pay must be enabled in your PayPal account (<a target="_blank" href="https://developer.paypal.com/docs/checkout/apm/apple-pay/#link-setupyoursandboxaccounttoacceptapplepay">setup guide</a>), the user must be on Safari using a supported Apple device with Apple Pay configured, and the page must be served over a secure (HTTPS) connection.',
+                            'To show the Apple Pay button, Apple Pay must be enabled in your PayPal account (<a target="_blank" href="https://developer.paypal.com/docs/checkout/apm/apple-pay/#set-up-your-sandbox-account-to-accept-apple-pay">setup guide</a>), the user must be on Safari using a supported Apple device with Apple Pay configured, and the page must be served over a secure (HTTPS) connection.',
                             'woo-paypal-gateway'
                     ),
                 ),
@@ -861,7 +861,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'class' => 'wc-enhanced-select',
                     'default' => array(),
                     'options' => array(
-                        'product' => __('Product', 'woo-paypal-gateway'),
                         'cart' => __('Cart', 'woo-paypal-gateway'),
                         'mini_cart' => __('Mini Cart', 'woo-paypal-gateway'),
                         'express_checkout' => __('Express Checkout', 'woo-paypal-gateway'),
@@ -1332,7 +1331,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
         }
 
         public function wpg_advanced_settings() {
-            return array(
+            $advanced_settings = array(
                 'paymentaction' => array(
                     'title' => __('Payment action', 'woo-paypal-gateway'),
                     'type' => 'select',
@@ -1373,6 +1372,14 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     ),
                     'label' => __('Require Instant Payment', 'woo-paypal-gateway'),
                 ),
+                'set_billing_address' => array(
+                    'title' => __('Billing Address', 'paypal-for-woocommerce'),
+                    'label' => __('Use PayPal Shipping Address as Billing', 'woo-paypal-gateway'),
+                    'description' => __('If the billing address is empty and PayPal provides a shipping address, the order will use the shipping address as the billing address.', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'default' => 'yes',
+                    'desc_tip' => false,
+                ),
                 'send_items' => array(
                     'title' => __('Send Item Details', 'woo-paypal-gateway'),
                     'label' => __('Send line item details to PayPal', 'woo-paypal-gateway'),
@@ -1403,6 +1410,10 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => sprintf(__('Log PayPal events, such as Webhook, Payment, Refund inside %s', 'woo-paypal-gateway'), '<code>' . WC_Log_Handler_File::get_log_file_path('wpg_paypal_checkout') . '</code>'),
                 )
             );
+            if (wc_ship_to_billing_address_only() === true) {
+                unset($advanced_settings['set_billing_address']);
+            }
+            return $advanced_settings;
         }
 
         public function ppcp_setting_fields() {
@@ -2461,6 +2472,14 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     ),
                     'label' => __('Require Instant Payment', 'woo-paypal-gateway'),
                 ),
+                'set_billing_address' => array(
+                    'title' => __('Billing Address', 'paypal-for-woocommerce'),
+                    'label' => __('Use PayPal Shipping Address as Billing', 'woo-paypal-gateway'),
+                    'description' => __('If the billing address is empty and PayPal provides a shipping address, the order will use the shipping address as the billing address.', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'default' => 'yes',
+                    'desc_tip' => false,
+                ),
                 'send_items' => array(
                     'title' => __('Send Item Details', 'woo-paypal-gateway'),
                     'label' => __('Send line item details to PayPal', 'woo-paypal-gateway'),
@@ -2491,6 +2510,10 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => sprintf(__('Log PayPal events, such as Webhook, Payment, Refund inside %s', 'woo-paypal-gateway'), '<code>' . WC_Log_Handler_File::get_log_file_path('wpg_paypal_checkout') . '</code>'),
                 )
             );
+
+            if (wc_ship_to_billing_address_only() === true) {
+                unset($advanced_settings['set_billing_address']);
+            }
 
             $google_pay = array(
                 'enabled_google_pay' => array(

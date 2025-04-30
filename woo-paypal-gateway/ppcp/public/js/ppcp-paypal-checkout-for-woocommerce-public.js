@@ -8,6 +8,7 @@
             this.paymentsClient = null;
             this.allowedPaymentMethods = [];
             this.merchantInfo = null;
+            this.pageContext = 'unknown';
             this.init();
             this.ppcp_cart_css();
         }
@@ -50,9 +51,15 @@
                 email: jQuery(`#${prefix}_email`).val()
             };
             fields.phoneNumber = prefix === 'billing' ? jQuery('#billing-phone').val() || jQuery('#shipping-phone').val() : jQuery('#shipping-phone').val() || jQuery('#billing-phone').val();
-
             if (!fields.addressLine1) {
-                const customerData = wp.data.select('wc/store/cart').getCustomerData();
+                let customerData = {};
+                if (typeof wp !== 'undefined' && wp.data?.select) {
+                    try {
+                        customerData = wp.data.select('wc/store/cart').getCustomerData();
+                    } catch (e) {
+                        console.warn('Could not fetch customerData:', e);
+                    }
+                }
                 const {billingAddress, shippingAddress} = customerData;
                 const addressData = (prefix === 'billing') ? billingAddress : shippingAddress;
                 Object.assign(fields, {
@@ -246,7 +253,7 @@
             $.each(selectors, (key, selector) => {
                 const elements = jQuery(".ppcp-button-container.ppcp_mini_cart");
                 if (elements.length > 1) {
-                    elements.slice(0, -1).remove(); // Removes all except the last one
+                    elements.slice(0, -1).remove();
                 }
                 if (!$(selector).length || $(selector).children().length || typeof wpg_paypal_sdk === 'undefined') {
                     return;
@@ -291,7 +298,6 @@
             $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
             let data;
             if (selector === '#ppcp_checkout_top') {
-                // Handle specific logic here
             } else if (this.isCheckoutPage()) {
                 data = $(selector).closest('form').serialize();
                 if (typeof wpg_paypal_checkout_manager_block !== 'undefined' && wpg_paypal_checkout_manager_block.is_block_enable === 'yes') {
@@ -322,32 +328,73 @@
             });
         }
 
+        googleapplecreateOrder() {
+            this.showSpinner();
+            $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
+            let data = '';
+            switch (this.pageContext) {
+                case 'checkout':
+                    data = $('form.wc-block-checkout__form').serialize();
+                    if (typeof wpg_paypal_checkout_manager_block !== 'undefined' && wpg_paypal_checkout_manager_block.is_block_enable === 'yes') {
+                        const billingAddress = this.getBillingAddress();
+                        const shippingAddress = this.getShippingAddress();
+
+                        data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
+                        data += '&shipping_address=' + encodeURIComponent(JSON.stringify(shippingAddress));
+                        data += `&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
+                    }
+                    break;
+                case 'express_checkout':
+                case 'product':
+                    break;
+                default:
+                    data = $('form.woocommerce-cart-form').serialize();
+                    break;
+            }
+
+            return fetch(this.ppcp_manager.create_order_url_for_google_pay, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: data
+            }).then(res => res.json()).then(data => {
+                this.hideSpinner();
+                if (data.success !== undefined) {
+                    const messages = data.data.messages ?? data.data;
+                    this.showError(messages);
+                    return null;
+                }
+                return data.orderID;
+            });
+        }
+
         onApproveHandler(data, actions) {
             this.showSpinner();
             const order_id = data.orderID || data.orderId || '';
             const payer_id = data.payerID || data.payerId || '';
             if (!order_id) {
-                console.error('Missing order ID in approval data.');
                 return;
             }
             if (this.isCheckoutPage()) {
-                $.post(
-                        `${this.ppcp_manager.cc_capture}&paypal_order_id=${encodeURIComponent(order_id)}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`,
-                        function (response) {
-                            if (response?.data?.redirect) {
-                                window.location.href = response.data.redirect;
-                            } else {
-                                console.error('No redirect URL returned in response:', response);
-                            }
+                const url = `${this.ppcp_manager.cc_capture}&paypal_order_id=${encodeURIComponent(order_id)}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
+                $.post(url, (response) => {
+                    if (response?.data?.redirect) {
+                        window.location.href = response.data.redirect;
+                    } else {
+                        if (response?.success === false) {
+                            const messages = response.data?.messages ?? ['An unknown error occurred.'];
+                            this.showError(messages);
+                            this.hideSpinner();
+                            return null;
                         }
-                );
-            } else {
-                let redirectUrl = `${this.ppcp_manager.checkout_url}?paypal_order_id=${encodeURIComponent(order_id)}&from=${this.ppcp_manager.page}`;
-                if (payer_id) {
-                    redirectUrl += `&paypal_payer_id=${encodeURIComponent(payer_id)}`;
-                }
-                window.location.href = redirectUrl;
+                    }
+                });
+                return;
             }
+            let redirectUrl = `${this.ppcp_manager.checkout_url}?paypal_order_id=${encodeURIComponent(order_id)}&from=${this.ppcp_manager.page}`;
+            if (payer_id) {
+                redirectUrl += `&paypal_payer_id=${encodeURIComponent(payer_id)}`;
+            }
+            window.location.href = redirectUrl;
         }
 
         showSpinner(containerSelector = '.woocommerce') {
@@ -378,7 +425,6 @@
             if (typeof error_message === 'undefined' || error_message === null) {
                 return;
             }
-            console.log(error_message);
             let $checkout_form;
             if ($('form.checkout').length) {
                 $checkout_form = $('form.checkout');
@@ -406,11 +452,14 @@
                 $checkout_form.prepend(errorHTML).removeClass('processing').unblock();
                 $checkout_form.find('.input-text, select, input:checkbox').trigger('validate').trigger('blur');
                 const scrollElement = $('.woocommerce-NoticeGroup-updateOrderReview, .woocommerce-NoticeGroup-checkout').filter(function () {
-                    return $(this).is(':visible') && $(this).offset() !== undefined;
+                    const $el = $(this);
+                    const offset = typeof $el.offset === 'function' ? $el.offset() : null;
+                    return $el.is(':visible') && offset && typeof offset.top !== 'undefined';
                 }).first();
+
                 if (scrollElement.length) {
                     const offset = scrollElement.offset();
-                    if (offset) {
+                    if (offset && typeof offset.top !== 'undefined') {
                         $('html, body').animate({scrollTop: offset.top - 100}, 1000);
                     }
                 }
@@ -610,14 +659,45 @@
 
         getGooglePaymentsClient() {
             if (!this.paymentsClient && typeof google !== "undefined") {
+                const paymentDataCallbacks = {
+                    onPaymentAuthorized: this.onPaymentAuthorized.bind(this)
+                };
+                if (this.ppcp_manager.needs_shipping === "1") {
+                    paymentDataCallbacks.onPaymentDataChanged = this.onPaymentDataChanged.bind(this);
+                }
                 this.paymentsClient = new google.payments.api.PaymentsClient({
                     environment: this.ppcp_manager.environment || "TEST",
-                    paymentDataCallbacks: {
-                        onPaymentAuthorized: this.onPaymentAuthorized.bind(this),
-                    },
+                    paymentDataCallbacks: paymentDataCallbacks
                 });
             }
             return this.paymentsClient;
+        }
+
+        async onPaymentDataChanged(intermediatePaymentData) {
+            try {
+                const {callbackTrigger, shippingAddress} = intermediatePaymentData;
+                if (callbackTrigger !== 'SHIPPING_ADDRESS' || !shippingAddress) {
+                    return {};
+                }
+                const updatedTotal = await this.fetchUpdatedTotalFromBackend({
+                    address1: shippingAddress.address1 || '',
+                    address2: shippingAddress.address2 || '',
+                    city: shippingAddress.locality || '',
+                    state: shippingAddress.administrativeArea || '',
+                    postcode: shippingAddress.postalCode || '',
+                    country: shippingAddress.countryCode || ''
+                });
+                return {
+                    newTransactionInfo: {
+                        totalPriceStatus: 'ESTIMATED',
+                        totalPrice: updatedTotal,
+                        currencyCode: this.ppcp_manager.currency
+                    }
+                };
+            } catch (error) {
+                console.error("Error in onPaymentDataChanged:", error);
+                return {};
+            }
         }
 
         async getGooglePayConfig() {
@@ -691,127 +771,245 @@
                 buttonRadius: 4,
                 buttonLocale: this.ppcp_manager.locale,
                 buttonSizeMode: 'fill',
-                onClick: this.onGooglePaymentButtonClicked.bind(this),
+                onClick: this.onGooglePaymentButtonClicked.bind(this)
             });
-            container.innerHTML = ''; // Clear existing content
+            const context = container.getAttribute('data-context') || 'unknown';
+            button.setAttribute('data-context', context);
+            container.innerHTML = '';
             container.appendChild(button);
         }
 
-        async onGooglePaymentButtonClicked() {
+        async onGooglePaymentButtonClicked(event) {
             try {
+                this.showSpinner();
+                const button = event?.target?.closest('button.gpay-card-info-container');
+                const clickedWrapper = button?.parentElement;
+                this.pageContext = clickedWrapper?.getAttribute('data-context') || 'unknown';
                 const transactionInfo = await this.ppcpGettransactionInfo();
+                if (transactionInfo.success === false) {
+                    const messages = transactionInfo.data?.messages ?? transactionInfo.data ?? ['Unknown error'];
+                    this.showError(messages);
+                    this.hideSpinner();
+                    throw new Error("");
+                }
                 if (transactionInfo?.success) {
                     this.ppcp_manager.cart_total = transactionInfo.data?.cart_total || this.ppcp_manager.cart_total;
                 }
-
                 const paymentDataRequest = await this.getGooglePaymentDataRequest();
                 const paymentsClient = this.getGooglePaymentsClient();
                 const paymentData = await paymentsClient.loadPaymentData(paymentDataRequest);
-
-                await this.processGooglePayPayment(paymentData);
             } catch (error) {
+                this.hideSpinner();
+                if (error?.statusCode === "CANCELED") {
+                    console.warn("Google Pay was cancelled by the user.");
+                    return;
+                }
                 console.error("Google Pay Button Click Error:", error);
             }
         }
 
         async getGooglePaymentDataRequest() {
             const {allowedPaymentMethods, merchantInfo} = await this.getGooglePayConfig();
-            return {
+            const shippingRequired = this.ppcp_manager.needs_shipping === "1";
+            const paymentDataRequest = {
                 apiVersion: 2,
                 apiVersionMinor: 0,
-                allowedPaymentMethods,
+                allowedPaymentMethods: allowedPaymentMethods,
                 transactionInfo: this.getGoogleTransactionInfo(),
-                merchantInfo,
-                callbackIntents: ["PAYMENT_AUTHORIZATION"],
+                merchantInfo: merchantInfo,
+                emailRequired: true,
+                callbackIntents: ['PAYMENT_AUTHORIZATION']
             };
+            if (shippingRequired) {
+                paymentDataRequest.callbackIntents.push('SHIPPING_ADDRESS');
+                paymentDataRequest.shippingAddressRequired = true;
+                paymentDataRequest.shippingAddressParameters = {
+                    phoneNumberRequired: true
+                };
+            }
+            return paymentDataRequest;
         }
 
         async ppcpGettransactionInfo() {
-            const data = this.isProductPage()
-                    ? $('form.cart').serialize()
-                    : $('form.woocommerce-cart-form').serialize();
-
             try {
-                const response = await fetch(this.ppcp_manager.get_transaction_info_url, {
+                this.showSpinner();
+                $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
+                let data = '';
+                const isBlockCheckout = typeof wpg_paypal_checkout_manager_block !== 'undefined' && wpg_paypal_checkout_manager_block.is_block_enable === 'yes';
+                switch (this.pageContext) {
+                    case 'checkout':
+                        data = isBlockCheckout ? $('form.wc-block-checkout__form').serialize() : $('form.checkout').serialize();
+                        if (isBlockCheckout) {
+                            const billingAddress = this.getBillingAddress();
+                            const shippingAddress = this.getShippingAddress();
+                            data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
+                            data += '&shipping_address=' + encodeURIComponent(JSON.stringify(shippingAddress));
+                            data += `&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
+                        }
+                        break;
+                    case 'product':
+                        $('<input>', {
+                            type: 'hidden',
+                            name: 'ppcp-add-to-cart',
+                            value: $("[name='add-to-cart']").val()
+                        }).appendTo('form.cart');
+                        data = $('form.cart').serialize();
+                        break;
+                    case 'express_checkout':
+                        break;
+                    default:
+                        data = $('form.woocommerce-cart-form').serialize();
+                        break;
+                }
+                const transactionInfoUrl = `${this.ppcp_manager.get_transaction_info_url}&form=${encodeURIComponent(this.pageContext)}&used=google_pay`;
+                const response = await fetch(transactionInfoUrl, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: data,
                 });
                 return await response.json();
             } catch (error) {
-                console.error("Transaction Info Fetch Error:", error);
+                console.error('Error in ppcpGettransactionInfo:', error);
                 return null;
+            } finally {
+                this.hideSpinner();
             }
         }
 
         getGoogleTransactionInfo() {
             return {
                 currencyCode: this.ppcp_manager.currency || "USD",
-                totalPriceStatus: "FINAL",
+                totalPriceStatus: "ESTIMATED",
                 totalPrice: this.ppcp_manager.cart_total || "0.00",
             };
         }
 
         async onPaymentAuthorized(paymentData) {
             try {
-                await this.processGooglePayPayment(paymentData);
-                return {transactionState: "SUCCESS"};
-            } catch (error) {
-                console.error("Payment Authorization Error:", error);
-                return {
-                    transactionState: "ERROR",
-                    error: {
-                        intent: "PAYMENT_AUTHORIZATION",
-                        message: error.message,
-                    },
-                };
-            }
-        }
-
-        async processGooglePayPayment(paymentData) {
-            try {
-                const orderId = await this.createOrder('.google-pay-container');
-                if (!orderId)
+                if (this.pageContext !== 'checkout') {
+                    const billingRaw = paymentData?.paymentMethodData?.info?.billingAddress || {};
+                    const shippingRaw = paymentData?.shippingAddress || {};
+                    const email = paymentData?.email || '';
+                    const billingAddress = {
+                        name: billingRaw.name || '',
+                        surname: '',
+                        address1: billingRaw.address1 || '',
+                        address2: billingRaw.address2 || '',
+                        city: billingRaw.locality || '',
+                        state: billingRaw.administrativeArea || '',
+                        postcode: billingRaw.postalCode || '',
+                        country: billingRaw.countryCode || '',
+                        phoneNumber: billingRaw.phoneNumber || '',
+                        emailAddress: email || ''
+                    };
+                    const shippingAddress = {
+                        name: shippingRaw.name || '',
+                        surname: '',
+                        address1: shippingRaw.address1 || '',
+                        address2: shippingRaw.address2 || '',
+                        city: shippingRaw.locality || '',
+                        state: shippingRaw.administrativeArea || '',
+                        postcode: shippingRaw.postalCode || '',
+                        country: shippingRaw.countryCode || '',
+                        phoneNumber: shippingRaw.phoneNumber || ''
+                    };
+                    const updatedTotal = await this.fetchUpdatedTotalFromBackend({
+                        shipping_address: {
+                            address1: shippingAddress.address1 || '',
+                            address2: shippingAddress.address2 || '',
+                            city: shippingAddress.city || '',
+                            state: shippingAddress.state || '',
+                            postcode: shippingAddress.postcode || '',
+                            country: shippingAddress.country || '',
+                            name: shippingAddress.name || '',
+                            phoneNumber: shippingAddress.phoneNumber || ''
+                        },
+                        billing_address: {
+                            address1: billingAddress.address1 || '',
+                            address2: billingAddress.address2 || '',
+                            city: billingAddress.city || '',
+                            state: billingAddress.state || '',
+                            postcode: billingAddress.postcode || '',
+                            country: billingAddress.country || '',
+                            name: billingAddress.name || '',
+                            phoneNumber: billingAddress.phoneNumber || '',
+                            emailAddress: billingAddress.emailAddress || ''
+                        }
+                    });
+                    await this.fetchUpdatedTotalFromBackend(shippingAddress, billingAddress);
+                }
+                const orderId = await this.googleapplecreateOrder();
+                if (!orderId) {
                     throw new Error("Order creation failed.");
-
+                }
                 const result = await wpg_paypal_sdk.Googlepay().confirmOrder({
                     orderId,
                     paymentMethodData: paymentData.paymentMethodData,
                 });
-
-                if (result.status === "APPROVED") {
-                    this.onApproveHandler({orderId}, null);
-                } else {
-                    throw new Error("Google Pay order confirmation failed.");
+                if (result.status === "PAYER_ACTION_REQUIRED") {
+                    await wpg_paypal_sdk.Googlepay().initiatePayerAction({orderId});
                 }
+                this.onApproveHandler({orderID: orderId}, 'google_pay');
+                return {transactionState: "SUCCESS"};
             } catch (error) {
-                console.error("Google Pay Processing Error:", error);
+                this.showError(error.message || "Google Pay failed.");
+                this.hideSpinner();
+                return {
+                    transactionState: "ERROR",
+                    error: {
+                        intent: "PAYMENT_AUTHORIZATION",
+                        message: error.message || "Unknown error"
+                    }
+                };
             }
+        }
+
+        async fetchUpdatedTotalFromBackend(shippingAddress, billingAddress = null) {
+            try {
+                const response = await fetch(this.ppcp_manager.ajax_url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        action: 'ppcp_get_updated_total',
+                        security: this.ppcp_manager.ajax_nonce,
+                        shipping_address: JSON.stringify(shippingAddress),
+                        billing_address: billingAddress ? JSON.stringify(billingAddress) : '',
+                        context: this.pageContext
+                    })
+                });
+                const result = await response.json();
+                if (result?.success && result.data?.total) {
+                    return result.data.total;
+                }
+                return this.ppcp_manager.cart_total;
+            } catch (error) {
+                console.error('Error fetching updated total:', error);
+                return this.ppcp_manager.cart_total;
+        }
+        }
+
+        formatAmount(amount) {
+            if (typeof amount === 'number') {
+                return amount.toFixed(2);
+            }
+            if (typeof amount === 'string') {
+                const parsed = parseFloat(amount);
+                return isNaN(parsed) ? "0.00" : parsed.toFixed(2);
+            }
+            return "0.00";
         }
 
         loadApplePaySdk() {
             const script = document.createElement('script');
-            script.src = 'https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js';
+            script.src = 'https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js';
             script.onload = () => this.onApplePayLoaded();
             script.onerror = () => {
                 this.removeApplePayContainer();
                 console.error("Failed to load Apple Pay SDK.");
             };
             document.head.appendChild(script);
-        }
-
-        addApplePayButton() {
-            const containers = document.querySelectorAll(".apple-pay-container");
-            containers.forEach(container => {
-                container.innerHTML = ''; // Clear any existing content
-                const applePayButton = document.createElement('apple-pay-button');
-                applePayButton.setAttribute('buttonstyle', 'black');
-                applePayButton.setAttribute('type', 'plain');
-                container.appendChild(applePayButton);
-
-                // Add the click event listener for each button
-                applePayButton.addEventListener('click', () => this.onApplePayButtonClicked(container));
-            });
         }
 
         update_apple_pay() {
@@ -821,15 +1019,17 @@
         }
 
         removeApplePayContainer() {
-            const containers = document.querySelectorAll('.apple-pay-container');
-            containers.forEach(container => {
-                container.remove();
-            });
+            setTimeout(() => {
+                const containers = document.querySelectorAll('.apple-pay-container');
+                containers.forEach(container => {
+                    container.remove();
+                });
+            }, 500);
         }
 
         async onApplePayLoaded() {
             if (!window.ApplePaySession) {
-                console.log("Apple Pay cannot make payments on this device.");
+                console.log("Apple Pay is not supported on this device.");
                 this.removeApplePayContainer();
                 return;
             }
@@ -838,9 +1038,9 @@
                 this.removeApplePayContainer();
                 return;
             }
-            const applePay = wpg_paypal_sdk.Applepay();
+            const applepay = wpg_paypal_sdk.Applepay();
             try {
-                const config = await applePay.config({environment: this.ppcp_manager.environment || "TEST"});
+                const config = await applepay.config({environment: this.ppcp_manager.environment || "TEST"});
                 if (config.isEligible) {
                     this.addApplePayButton();
                 } else {
@@ -854,98 +1054,205 @@
         }
 
         addApplePayButton() {
-            if (!window.ApplePaySession) {
-                console.log("Apple Pay cannot make payments on this device.");
-                this.removeApplePayContainer();
-                return;
-            }
-            if (!ApplePaySession.canMakePayments()) {
-                console.log("Apple Pay cannot make payments on this device.");
-                this.removeApplePayContainer();
-                return;
-            }
             const containers = document.querySelectorAll(".apple-pay-container");
             if (containers.length === 0) {
                 return;
             }
-
             containers.forEach(container => {
-                container.innerHTML = ''; // Clear any existing content
+                container.innerHTML = '';
                 const applePayButton = document.createElement('apple-pay-button');
                 applePayButton.setAttribute('buttonstyle', 'black');
                 applePayButton.setAttribute('type', 'plain');
+                const context = container.getAttribute('data-context') || 'unknown';
+                applePayButton.setAttribute('data-context', context);
                 container.appendChild(applePayButton);
-                applePayButton.addEventListener('click', () => this.onApplePayButtonClicked());
+                applePayButton.addEventListener('click', () => this.onApplePayButtonClicked(container));
             });
         }
 
-        async onApplePayButtonClicked(container) {
-            const session = new ApplePaySession(4, {
-                countryCode: this.ppcp_manager.countryCode || "US",
-                currencyCode: this.ppcp_manager.currency || "USD",
-                merchantCapabilities: ["supports3DS", "supportsEMV"],
-                supportedNetworks: ["visa", "masterCard", "amex", "discover"],
-                total: {
-                    label: "Total Amount",
-                    amount: this.ppcp_manager.cart_total || "0.00"
-                },
-                requiredBillingContactFields: ["name", "phone", "email", "postalAddress"],
-                requiredShippingContactFields: ["postalAddress", "name", "email"]
-            });
-
+        onApplePayButtonClicked(container) {
             try {
+                this.showSpinner();
+                this.pageContext = container?.getAttribute('data-context') || 'unknown';
+                if (!window.ApplePaySession || !ApplePaySession.canMakePayments()) {
+                    console.warn('Apple Pay is not available on this device or browser.');
+                    this.hideSpinner();
+                    return;
+                }
+                const applepay = wpg_paypal_sdk.Applepay();
+                const needsShipping = this.ppcp_manager.needs_shipping === "1";
+                const paymentRequest = {
+                    countryCode: this.ppcp_manager.country || "US",
+                    currencyCode: this.ppcp_manager.currency || "USD",
+                    supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
+                    merchantCapabilities: ['supports3DS'],
+                    requiredBillingContactFields: ["postalAddress", "email", "phone", "name"],
+                    total: {
+                        label: this.ppcp_manager.store_label || "Total",
+                        amount: this.formatAmount(this.ppcp_manager.cart_total),
+                        type: "final"
+                    }
+                };
+                if (needsShipping) {
+                    paymentRequest.requiredShippingContactFields = ["postalAddress", "name", "phone"];
+                }
+                const session = new ApplePaySession(3, paymentRequest);
                 session.onvalidatemerchant = async (event) => {
                     try {
-                        const applePay = wpg_paypal_sdk.Applepay();
-                        const validationResult = await applePay.validateMerchant({
-                            validationUrl: event.validationURL
+                        const validation = await applepay.validateMerchant({
+                            validationUrl: event.validationURL,
+                            displayName: this.ppcp_manager.store_label || "Store"
                         });
-                        session.completeMerchantValidation(validationResult.merchantSession);
-                    } catch (error) {
-                        console.error("Merchant validation failed:", error);
+                        session.completeMerchantValidation(validation.merchantSession);
+                    } catch (err) {
+                        console.error('Merchant validation failed:', err);
                         session.abort();
+                        this.hideSpinner();
                     }
                 };
 
+                if (needsShipping) {
+                    let newTotal = {
+                        label: this.ppcp_manager.store_label || "Store",
+                        amount: "0.00",
+                        type: "final"
+                    };
+                    session.onshippingcontactselected = async (event) => {
+                        try {
+                            const shipping = event.shippingContact;
+                            if (!shipping || !shipping.countryCode || !shipping.postalCode) {
+                                throw new Error("Shipping address is incomplete");
+                            }
+                            const updatedTotal = await this.fetchUpdatedTotalFromBackend({
+                                city: shipping.locality || '',
+                                state: shipping.administrativeArea || '',
+                                postcode: shipping.postalCode || '',
+                                country: shipping.countryCode || ''
+                            });
+                            newTotal.amount = updatedTotal;
+                            const update = {
+                                newTotal: newTotal
+                            };
+                            session.completeShippingContactSelection(update);
+                        } catch (error) {
+                            session.completeShippingContactSelection({});
+                        }
+                    };
+                }
+
                 session.onpaymentauthorized = async (event) => {
                     try {
-                        const applePay = wpg_paypal_sdk.Applepay();
-                        const orderID = await this.createOrder(container);
-                        if (!orderID) {
+                        if (this.pageContext === 'checkout') {
+                            const transactionInfo = await this.ppcpGettransactionInfo();
+                            if (transactionInfo.success === false) {
+                                const messages = transactionInfo.data?.messages ?? transactionInfo.data ?? ['Unknown error'];
+                                this.showError(messages);
+                                throw new Error(messages);
+                            }
+                            if (transactionInfo?.success) {
+                                this.ppcp_manager.cart_total = transactionInfo.data?.cart_total || this.ppcp_manager.cart_total;
+                            }
+                        }
+                        const billingRaw = event.payment?.billingContact || {};
+                        const shippingRaw = event.payment?.shippingContact || {};
+                        if (this.pageContext !== 'checkout') {
+                            const billingAddress = {
+                                name: billingRaw.givenName || '',
+                                surname: billingRaw.familyName || '',
+                                address1: billingRaw.addressLines?.[0] || '',
+                                address2: billingRaw.addressLines?.[1] || '',
+                                city: billingRaw.locality || '',
+                                state: billingRaw.administrativeArea || '',
+                                postcode: billingRaw.postalCode || '',
+                                country: billingRaw.countryCode || '',
+                                phoneNumber: billingRaw.phoneNumber || '',
+                                emailAddress: billingRaw.emailAddress || billingRaw.email || ''
+                            };
+                            const shippingAddress = {
+                                name: shippingRaw.givenName || '',
+                                surname: shippingRaw.familyName || '',
+                                address1: shippingRaw.addressLines?.[0] || '',
+                                address2: shippingRaw.addressLines?.[1] || '',
+                                city: shippingRaw.locality || '',
+                                state: shippingRaw.administrativeArea || '',
+                                postcode: shippingRaw.postalCode || '',
+                                country: shippingRaw.countryCode || '',
+                                phoneNumber: shippingRaw.phoneNumber || ''
+                            };
+                            await this.fetchUpdatedTotalFromBackend(shippingAddress, billingAddress);
+                        }
+                        const orderId = await this.googleapplecreateOrder();
+                        if (!orderId) {
                             throw new Error("Order creation failed.");
                         }
-                        const confirmResult = await applePay.confirmOrder({
-                            orderId: orderID,
+                        const result = await applepay.confirmOrder({
+                            orderId: orderId,
                             token: event.payment.token,
-                            billingContact: event.payment.billingContact,
-                            shippingContact: event.payment.shippingContact
+                            billingContact: event.payment.billingContact
                         });
-                        const status = confirmResult?.approveApplePayPayment?.status;
+                        const status = result?.approveApplePayPayment?.status;
                         if (status === "APPROVED") {
-                            await session.completePayment({
-                                status: ApplePaySession.STATUS_SUCCESS,
+                            this.showSpinner();
+                            const order_id = orderId;
+                            const payer_id = '';
+                            if (!order_id) {
+                                console.error('[ApplePay] Missing order ID after approval.');
+                                return;
+                            }
+                            if (this.isCheckoutPage()) {
+                                const url = `${this.ppcp_manager.cc_capture}&paypal_order_id=${encodeURIComponent(order_id)}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
+                                $.post(url, (response) => {
+                                    if (response?.data?.redirect) {
+                                        session.completePayment({
+                                            status: ApplePaySession.STATUS_SUCCESS
+                                        });
+                                        window.location.href = response.data.redirect;
+                                    } else {
+                                        if (response?.success === false) {
+                                            const messages = response.data?.messages ?? ['An unknown error occurred.'];
+                                            session.completePayment({
+                                                status: ApplePaySession.STATUS_FAILURE
+                                            });
+                                            this.showError(messages);
+                                            this.hideSpinner();
+                                            return null;
+                                        }
+                                    }
+                                });
+                                return;
+                            }
+                            session.completePayment({
+                                status: ApplePaySession.STATUS_SUCCESS
                             });
-                            this.onApproveHandler({orderID}, null);
+                            let redirectUrl = `${this.ppcp_manager.checkout_url}?paypal_order_id=${encodeURIComponent(order_id)}&from=${this.ppcp_manager.page}`;
+                            if (payer_id) {
+                                redirectUrl += `&paypal_payer_id=${encodeURIComponent(payer_id)}`;
+                            }
+                            window.location.href = redirectUrl;
+                            this.hideSpinner();
                         } else {
-                            console.error("Order confirmation failed. Status:", status);
-                            throw new Error("Apple Pay order confirmation failed.");
+                            throw new Error("Apple Pay confirmation returned non-APPROVED status.");
                         }
                     } catch (error) {
-                        console.error("Payment authorization failed. Error details:", error);
-                        session.completePayment(ApplePaySession.STATUS_FAILURE);
+                        session.completePayment({
+                            status: ApplePaySession.STATUS_FAILURE
+                        });
+                        this.showError(error?.message || String(error) || 'An unknown error occurred.');
+                        this.hideSpinner();
                     }
                 };
 
                 session.oncancel = () => {
                     console.log("Apple Pay session cancelled.");
+                    this.hideSpinner();
                 };
-
                 session.begin();
-            } catch (error) {
-                console.error("Error during Apple Pay button click:", error);
+            } catch (err) {
+                console.error('Apple Pay session initialization failed:', err);
+                this.showError("Apple Pay could not be initialized.");
+                this.hideSpinner();
             }
         }
-
     }
 
     $(function () {

@@ -100,10 +100,25 @@ var {addAction} = wp.hooks;
                     const isCheckoutButtonTopEnabled = ppcp_settings.enable_checkout_button_top === 'yes';
 
                     return createElement("div", {},
-                            isCheckoutButtonTopEnabled && createElement("div", { id: "ppcp_checkout_top", className: device_class }),
-                            isGooglePayEnabled && createElement("div", {className: "google-pay-container express_checkout " + device_class, style: {height: "40px"}}),
-                            isApplePayEnabled && createElement("div", {className: "apple-pay-container express_checkout " + device_class, style: {height: "40px"}})
+                            isCheckoutButtonTopEnabled &&
+                            createElement("div", {
+                                id: "ppcp_checkout_top",
+                                className: device_class
+                            }),
+                            isGooglePayEnabled &&
+                            createElement("div", {
+                                className: "google-pay-container express_checkout " + device_class,
+                                style: {height: "40px"},
+                                'data-context': 'express_checkout'
+                            }),
+                            isApplePayEnabled &&
+                            createElement("div", {
+                                className: "apple-pay-container express_checkout " + device_class,
+                                style: {height: "40px"},
+                                'data-context': 'express_checkout'
+                            })
                             );
+
                 };
 
 
@@ -120,11 +135,23 @@ var {addAction} = wp.hooks;
                     const showCartButton = ppcp_settings.show_on_cart === 'yes';
 
                     return createElement("div", {},
-                            showCartButton && createElement("div", {id: "ppcp_cart", className: button_class}),
-                            isGooglePayEnabledForCart && createElement("div", {className: "google-pay-container cart " + button_class, style: {height: "48px"}}),
-                            isApplePayEnabledForCart && createElement("div", {className: "apple-pay-container cart " + button_class, style: {height: "48px"}})
+                            showCartButton && createElement("div", {
+                                id: "ppcp_cart",
+                                className: button_class
+                            }),
+                            isGooglePayEnabledForCart && createElement("div", {
+                                className: "google-pay-container cart " + button_class,
+                                style: {height: "48px"},
+                                'data-context': 'cart'
+                            }),
+                            isApplePayEnabledForCart && createElement("div", {
+                                className: "apple-pay-container cart " + button_class,
+                                style: {height: "48px"},
+                                'data-context': 'cart'
+                            })
                             );
                 };
+
 
 
                 const ContentPPCPCheckout = (props) => {
@@ -139,10 +166,19 @@ var {addAction} = wp.hooks;
                             {className: "ppcp_checkout_parent"},
                             createElement("input", {type: "hidden", name: "form", value: "checkout"}),
                             createElement("div", {id: "ppcp_checkout", className: button_class}),
-                            isGooglePayEnabledForCheckout && createElement("div", {className: "google-pay-container checkout " + button_class, style: {height: "48px"}}),
-                            isApplePayEnabledForCheckout && createElement("div", {className: "apple-pay-container checkout " + button_class, style: {height: "48px"}})
+                            isGooglePayEnabledForCheckout && createElement("div", {
+                                className: "google-pay-container checkout " + button_class,
+                                style: {height: "48px"},
+                                'data-context': 'checkout'
+                            }),
+                            isApplePayEnabledForCheckout && createElement("div", {
+                                className: "apple-pay-container checkout " + button_class,
+                                style: {height: "48px"},
+                                'data-context': 'checkout'
+                            })
                             );
                 };
+
 
                 const s = {
                     name: "wpg_paypal_checkout",
