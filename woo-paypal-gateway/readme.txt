@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.8
-Stable tag: 9.0.30  
+Stable tag: 9.0.31  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -106,14 +106,17 @@ Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, y
 
 == Changelog ==
 
+= 9.0.31 – 2025-04-31 =
+* Fixed - Resolved Apple Pay issue in Express Checkout flow.
+
 = 9.0.30 – 2025-04-30 =
 * Fixed - Resolved compatibility issues with Google Pay and Apple Pay.
 * Fixed  - Added shipping country validation for Express Checkout.
 * Enhanced - Added the "Use PayPal Shipping Address as Billing" option under "Additional Settings".
 
 = 9.0.29 – 2025-04-18 =
-* Fixed: Validation issue with Advanced Credit Card on checkout.
-* Fixed: Compatibility issue with Google Pay transactions.
+* Fixed - Validation issue with Advanced Credit Card on checkout.
+* Fixed - Compatibility issue with Google Pay transactions.
 
 = 9.0.28 - 2025-04-17 =
 * Fixed - PHP notice.

@@ -1094,9 +1094,11 @@
                     }
                 };
                 if (needsShipping) {
-                    paymentRequest.requiredShippingContactFields = ["postalAddress", "name", "phone"];
+                    paymentRequest.requiredShippingContactFields = ["postalAddress", "name", "phone", "email"];
+                } else {
+                    paymentRequest.requiredShippingContactFields = ["name", "phone", "email"];
                 }
-                const session = new ApplePaySession(3, paymentRequest);
+                const session = new ApplePaySession(4, paymentRequest);
                 session.onvalidatemerchant = async (event) => {
                     try {
                         const validation = await applepay.validateMerchant({
@@ -1156,6 +1158,7 @@
                         const billingRaw = event.payment?.billingContact || {};
                         const shippingRaw = event.payment?.shippingContact || {};
                         if (this.pageContext !== 'checkout') {
+                            const emailAddress = billingRaw.emailAddress || shippingRaw.emailAddress || billingRaw.email || shippingRaw.email || '';
                             const billingAddress = {
                                 name: billingRaw.givenName || '',
                                 surname: billingRaw.familyName || '',
@@ -1166,7 +1169,7 @@
                                 postcode: billingRaw.postalCode || '',
                                 country: billingRaw.countryCode || '',
                                 phoneNumber: billingRaw.phoneNumber || '',
-                                emailAddress: billingRaw.emailAddress || billingRaw.email || ''
+                                emailAddress: emailAddress
                             };
                             const shippingAddress = {
                                 name: shippingRaw.givenName || '',
