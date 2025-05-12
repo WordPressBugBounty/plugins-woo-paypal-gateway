@@ -4,7 +4,7 @@
  * @since      1.0.0
  * @package    PPCP_Paypal_Checkout_For_Woocommerce_Gateway
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce_Gateway/includes
- * @author     PayPal <wpeasypayment@gmail.com>
+ * @author     easypayment
  */
 class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checkout_For_Woocommerce_Gateway {
 

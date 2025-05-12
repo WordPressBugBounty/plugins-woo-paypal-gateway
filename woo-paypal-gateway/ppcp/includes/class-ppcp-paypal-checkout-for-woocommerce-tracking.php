@@ -4,7 +4,7 @@
  * @since      1.0.0
  * @package    PPCP_Paypal_Checkout_For_Woocommerce
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce/includes
- * @author     PayPal <wpeasypayment@gmail.com>
+ * @author     easypayment
  */
 class PPCP_Paypal_Checkout_For_Woocommerce_Tracking {
 
@@ -22,20 +22,112 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Tracking {
     private function __construct() {
         add_action('current_screen', array($this, 'get_current_screen'));
         add_action('wp_ajax_submit_tracking_info', [$this, 'save_tracking_details']);
+        //add_action('woocommerce_shipstation_shipnotify', [$this, 'handle_notification'], 10, 2);
+        add_filter('wc_shipment_tracking_before_add_tracking_items', [$this, 'intercept_tracking_before_add'], 10, 3);
     }
 
     public function get_current_screen() {
         $screen = get_current_screen();
-
         if (!isset($screen->id)) {
             return;
         }
-
         global $pagenow;
-
         if (( 'shop_order' === $screen->id && 'post-new.php' === $pagenow ) || ( 'woocommerce_page_wc-orders' === $screen->id )) {
             $this->screen_id = $screen->id;
             add_action('add_meta_boxes', array($this, 'add_tracking_meta_box'), 1);
+        }
+    }
+
+    public function intercept_tracking_before_add($tracking_items, $tracking_item, $order_id) {
+        $logger = wc_get_logger();
+        $context = ['source' => 'wpg_paypal_checkout'];
+
+        try {
+            $logger->debug("Intercepting tracking for order ID: {$order_id}", $context);
+
+            $order = wc_get_order($order_id);
+            if (!$order || !is_a($order, 'WC_Order')) {
+                $logger->debug("Invalid or missing order object.", $context);
+                return $tracking_items;
+            }
+
+            if (empty($tracking_item['tracking_number']) || empty($tracking_item['tracking_provider'])) {
+                $logger->debug("Missing tracking number or provider in tracking item.", $context);
+                return $tracking_items;
+            }
+
+            $txn_id = $order->get_transaction_id();
+            if (empty($txn_id)) {
+                $logger->debug("No transaction ID found for order ID: {$order_id}", $context);
+                return $tracking_items;
+            }
+
+            $tracking_data = [
+                'trackers' => [
+                    [
+                        'transaction_id' => $txn_id,
+                        'tracking_number' => sanitize_text_field($tracking_item['tracking_number']),
+                        'status' => 'SHIPPED',
+                        'carrier' => sanitize_text_field($tracking_item['tracking_provider']),
+                    ]
+                ]
+            ];
+
+            $logger->debug("Prepared tracking data: " . wc_print_r($tracking_data, true), $context);
+
+            $existing = $order->get_meta('_ppcp_tracking_number');
+            if ($existing === $tracking_data['trackers'][0]['tracking_number']) {
+                $logger->debug("Tracking number already exists for order, skipping re-submission.", $context);
+                return $tracking_items;
+            }
+
+            $order->update_meta_data('_ppcp_tracking_info', $tracking_data);
+            $order->update_meta_data('_ppcp_tracking_number', $tracking_data['trackers'][0]['tracking_number']);
+            $order->save();
+
+            $logger->debug("Tracking data saved to order meta. Sending to PayPal...", $context);
+
+            $this->send_tracking_to_paypal($order_id, $tracking_data);
+
+            $logger->debug("Tracking successfully submitted to PayPal.", $context);
+            return $tracking_items;
+        } catch (Exception $ex) {
+            $logger->error("Exception in intercept_tracking_before_add: " . $ex->getMessage(), $context);
+            return $tracking_items;
+        }
+    }
+
+    public function handle_notification($order, $args) {
+        try {
+            if (!is_a($order, 'WC_Order') || empty($args['tracking_number']) || empty($args['carrier'])) {
+                return;
+            }
+            $tracking_number = sanitize_text_field($args['tracking_number']);
+            $carrier = sanitize_text_field($args['carrier']);
+            $txn_id = $order->get_transaction_id();
+            if (empty($txn_id)) {
+                return;
+            }
+            $tracking_data = array(
+                'trackers' => array(
+                    array(
+                        'transaction_id' => $txn_id,
+                        'tracking_number' => $tracking_number,
+                        'status' => 'SHIPPED',
+                        'carrier' => $carrier,
+                    )
+                )
+            );
+            $existing = $order->get_meta('_ppcp_tracking_number');
+            if ($existing === $tracking_number) {
+                return;
+            }
+            $order->update_meta_data('_ppcp_tracking_info', $tracking_data);
+            $order->update_meta_data('_ppcp_tracking_number', $tracking_number);
+            $order->save();
+            $this->send_tracking_to_paypal($order->get_id(), $tracking_data);
+        } catch (Exception $ex) {
+            
         }
     }
 
@@ -51,7 +143,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Tracking {
     }
 
     public function render_tracking_meta_box($post_or_order_object) {
-        $wc_order = ( $post_or_order_object instanceof WP_Post ) ? wc_get_order( $post_or_order_object->ID ) : $post_or_order_object;
+        $wc_order = ( $post_or_order_object instanceof WP_Post ) ? wc_get_order($post_or_order_object->ID) : $post_or_order_object;
         if (!is_a($wc_order, 'WC_Order')) {
             return;
         }

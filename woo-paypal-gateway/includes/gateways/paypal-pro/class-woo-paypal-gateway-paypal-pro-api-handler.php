@@ -143,9 +143,12 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
         try {
             if (is_wp_error($this->response)) {
                 if (function_exists('wc_add_notice')) {
+                    // translators: %s: PayPal connection error message.
                     wc_add_notice(sprintf(__('An error occurred while trying to connect to PayPal: %s', 'woo-paypal-gateway'), $this->response->get_error_message()), 'error');
                 }
+                // translators: %s: PayPal connection error message.
                 Woo_PayPal_Gateway_PayPal_Pro::log(sprintf(__('An error occurred while trying to connect to PayPal: %s', 'woo-paypal-gateway'), $this->response->get_error_message()));
+                // translators: %s: PayPal connection error message.
                 throw new Exception(sprintf(__('An error occurred while trying to connect to PayPal: %s', 'woo-paypal-gateway'), $this->response->get_error_message()), 3);
             }
             if (empty($this->response['body'])) {
@@ -364,9 +367,11 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                 $pending_reason = $result['PENDINGREASON'];
             }
             if (!empty($result['PAYERSTATUS'])) {
+                // translators: %s: Payer status wrapped in <strong> tags.
                 $order->add_order_note(sprintf(__('Payer Status: %s', 'woo-paypal-gateway'), '<strong>' . $result['PAYERSTATUS'] . '</strong>'));
             }
             if (!empty($result['ADDRESSSTATUS'])) {
+                // translators: %s: Address status wrapped in <strong> tags.
                 $order->add_order_note(sprintf(__('Address Status: %s', 'woo-paypal-gateway'), '<strong>' . $result['ADDRESSSTATUS'] . '</strong>'));
             }
             switch (strtolower($payment_status)) :
@@ -378,6 +383,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                     if (!in_array(strtolower($transaction_type), array('merchtpmt', 'cart', 'instant', 'express_checkout', 'web_accept', 'masspay', 'send_money', 'webaccept'))) {
                         break;
                     }
+                    // translators: %s: Payment gateway title.
                     $order->add_order_note(sprintf(__('Payment Status Completed via %s', 'woo-paypal-gateway'), $this->gateway->title));
                     $order->payment_complete($transaction_id);
                     break;
@@ -422,14 +428,16 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                             $pending_reason = __('No pending reason provided.', 'woo-paypal-gateway');
                             break;
                     }
-                    $order->add_order_note(sprintf(__('Payment via %s Pending. PayPal reason: %s.', 'woo-paypal-gateway'), $this->gateway->title, $pending_reason));
+                    // translators: 1: Payment gateway title, 2: PayPal pending reason.
+                    $order->add_order_note(sprintf(__('Payment via %1$s Pending. PayPal reason: %2$s.', 'woo-paypal-gateway'), $this->gateway->title, $pending_reason));
                     if (!empty($result['L_LONGMESSAGE0'])) {
                         $error = $result['L_LONGMESSAGE0'];
                     } elseif (!empty($result['L_SHORTMESSAGE0'])) {
                         $error = $result['L_SHORTMESSAGE0'];
                     }
                     if (!empty($error)) {
-                        $order->add_order_note(sprintf(__('%s Error: %s.', 'woo-paypal-gateway'), $this->gateway->title, $error));
+                        // translators: 1: Payment gateway title, 2: Error message.
+                        $order->add_order_note(sprintf(__('%1$s Error: %2$s.', 'woo-paypal-gateway'), $this->gateway->title, $error));
                     }
                     $order->update_status('on-hold');
                     wc_maybe_reduce_stock_levels($orderid);
@@ -438,7 +446,8 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                 case 'expired' :
                 case 'failed' :
                 case 'voided' :
-                    $order->update_status('failed', sprintf(__('Payment %s via %s.', 'woo-paypal-gateway'), strtolower($payment_status)), $this->gateway->title);
+                    // translators: 1: Payment status (lowercase), 2: Payment gateway title.
+                    $order->update_status('failed', sprintf(__('Payment %1$s via %2$s.', 'woo-paypal-gateway'), strtolower($payment_status), $this->gateway->title));
                     break;
                 default:
                     break;
@@ -448,5 +457,4 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
             Woo_PayPal_Gateway_PayPal_Pro::log($ex->getMessage());
         }
     }
-
 }

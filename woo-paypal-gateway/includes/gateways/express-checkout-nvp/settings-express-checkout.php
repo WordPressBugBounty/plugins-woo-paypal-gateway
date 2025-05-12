@@ -47,6 +47,7 @@ return $this->form_fields = array(
         'type' => 'checkbox',
         'label' => __('Enable PayPal Sandbox Mode', 'woo-paypal-gateway'),
         'default' => 'yes',
+        // translators: %s: Link to PayPal developer site.
         'description' => sprintf(__('Place the payment gateway in development mode. Sign up for a developer account <a href="%s" target="_blank">here</a>', 'woo-paypal-gateway'), 'https://developer.paypal.com/'),
     ),
     'sandbox_api_username' => array(
@@ -102,7 +103,7 @@ return $this->form_fields = array(
         'title' => __('Brand Name', 'woo-paypal-gateway'),
         'type' => 'text',
         'description' => __('This controls what users see as the brand / company name on PayPal review pages.', 'woo-paypal-gateway'),
-        'default' => __(get_bloginfo('name'), 'woo-paypal-gateway'),
+        'default' => get_bloginfo('name'),
         'desc_tip' => true,
     ),
     'logoimg' => array(
@@ -155,7 +156,7 @@ return $this->form_fields = array(
         'type' => 'checkbox',
         'label' => __('Show the Express Checkout button on product detail pages.', 'woo-paypal-gateway'),
         'default' => 'no',
-        'description' => sprintf(__('Allows customers to checkout using PayPal directly from a product page.')),
+        'description' => sprintf(__('Allows customers to checkout using PayPal directly from a product page.', 'woo-paypal-gateway')),
         'desc_tip' => false,
     ),
     'show_on_cart' => array(
@@ -168,12 +169,12 @@ return $this->form_fields = array(
         'title' => __('Cart Button Position', 'woo-paypal-gateway'),
         'label' => __('Where to display PayPal Express Checkout button(s).', 'woo-paypal-gateway'),
         'class' => 'wc-enhanced-select',
-        'description' => __('Set where to display the PayPal Express Checkout button(s).'),
+        'description' => __('Set where to display the PayPal Express Checkout button(s).', 'woo-paypal-gateway'),
         'type' => 'select',
         'options' => array(
-            'top' => 'At the top, above the shopping cart details.',
-            'bottom' => 'At the bottom, below the shopping cart details.',
-            'both' => 'Both at the top and bottom, above and below the shopping cart details.'
+            'top' => __('At the top, above the shopping cart details.', 'woo-paypal-gateway'),
+            'bottom' => __('At the bottom, below the shopping cart details.', 'woo-paypal-gateway'),
+            'both' => __('Both at the top and bottom, above and below the shopping cart details.', 'woo-paypal-gateway')
         ),
         'default' => 'bottom',
         'desc_tip' => true,
@@ -183,20 +184,20 @@ return $this->form_fields = array(
         'type' => 'checkbox',
         'label' => __('Show the Express Checkout button on checkout page.', 'woo-paypal-gateway'),
         'default' => 'yes',
-        'description' => sprintf(__('Allows customers to checkout using PayPal directly from a checkout page.')),
+        'description' => __('Allows customers to checkout using PayPal directly from a checkout page.', 'woo-paypal-gateway'),
         'desc_tip' => false,
     ),
     'checkout_skip_text' => array(
         'title' => __('Express Checkout Message', 'woo-paypal-gateway'),
         'type' => 'text',
-        'description' => __('This message will be displayed near to the PayPal Express Checkout button at the top of the checkout page.'),
+        'description' => __('This message will be displayed near to the PayPal Express Checkout button at the top of the checkout page.', 'woo-paypal-gateway'),
         'default' => __('Skip the checkout form and pay faster with PayPal!', 'woo-paypal-gateway'),
         'desc_tip' => true,
     ),
     'button_styles' => array(
         'title' => __('Express Checkout Custom Button Styles (Optional)', 'woo-paypal-gateway'),
         'type' => 'title',
-        'description' => 'Customize your PayPal button with colors, sizes and shapes.',
+        'description' => __('Customize your PayPal button with colors, sizes and shapes.', 'woo-paypal-gateway'),
     ),
     'button_size' => array(
         'title' => __('Button Size', 'woo-paypal-gateway'),
@@ -278,7 +279,8 @@ return $this->form_fields = array(
     'debug' => array(
         'title' => __('Debug', 'woo-paypal-gateway'),
         'type' => 'checkbox',
-        'label' => sprintf(__('Enable logging<code>%s</code>', 'woo-paypal-gateway'), WC_Log_Handler_File::get_log_file_path('paypal_express')),
+        // translators: %s: Log file path.
+        'label' => sprintf(__('Enable logging <code>%s</code>', 'woo-paypal-gateway'), WC_Log_Handler_File::get_log_file_path('paypal_express')),
         'default' => 'yes'
     )
 );

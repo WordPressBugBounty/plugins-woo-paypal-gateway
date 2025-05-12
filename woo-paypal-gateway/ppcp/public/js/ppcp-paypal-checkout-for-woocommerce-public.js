@@ -235,9 +235,15 @@
         togglePlaceOrderButton() {
             const isPpcpSelected = this.isPpcpSelected();
             const isPpcpCCSelected = this.isPpcpCCSelected();
+            const usePlaceOrder = this.ppcp_manager.use_place_order === '1';
             if (isPpcpSelected) {
-                $('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout').show();
-                $('#place_order, .wc-block-components-checkout-place-order-button').hide();
+                if (usePlaceOrder) {
+                    $('#place_order, .wc-block-components-checkout-place-order-button').show();
+                    $('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout').hide();
+                } else {
+                    $('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout').show();
+                    $('#place_order, .wc-block-components-checkout-place-order-button').hide();
+                }
             } else {
                 $('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout').hide();
                 $('#place_order, .wc-block-components-checkout-place-order-button').show();
@@ -245,7 +251,6 @@
             if (isPpcpCCSelected && this.isCardFieldEligible()) {
                 $('#place_order, .wc-block-components-checkout-place-order-button').show();
             }
-
         }
 
         renderSmartButton() {
@@ -358,9 +363,13 @@
                 body: data
             }).then(res => res.json()).then(data => {
                 this.hideSpinner();
-                if (data.success !== undefined) {
-                    const messages = data.data.messages ?? data.data;
+                if (data.success !== undefined && data.success === false) {
+                    const messages = typeof data.data === 'string'
+                            ? data.data
+                            : (data.data.messages ?? 'An unknown error occurred.');
+
                     this.showError(messages);
+                    throw new Error(messages);
                     return null;
                 }
                 return data.orderID;
@@ -453,17 +462,19 @@
                 $checkout_form.find('.input-text, select, input:checkbox').trigger('validate').trigger('blur');
                 const scrollElement = $('.woocommerce-NoticeGroup-updateOrderReview, .woocommerce-NoticeGroup-checkout').filter(function () {
                     const $el = $(this);
-                    const offset = typeof $el.offset === 'function' ? $el.offset() : null;
-                    return $el.is(':visible') && offset && typeof offset.top !== 'undefined';
+                    if (!$el.length || !$el.is(':visible')) {
+                        return false;
+                    }
+                    const offset = $el.offset?.();
+                    return offset && typeof offset.top !== 'undefined';
                 }).first();
-
                 if (scrollElement.length) {
                     const offset = scrollElement.offset();
                     if (offset && typeof offset.top !== 'undefined') {
                         $('html, body').animate({scrollTop: offset.top - 100}, 1000);
                     }
                 }
-                $(document.body).trigger('checkout_error', [error_message]);
+                //$(document.body).trigger('checkout_error', [error_message]);
             } else {
                 const errorMessagesString = Array.isArray(error_message)
                         ? error_message.join('<br>')
@@ -958,7 +969,7 @@
                     transactionState: "ERROR",
                     error: {
                         intent: "PAYMENT_AUTHORIZATION",
-                        message: error.message || "Unknown error"
+                        message: error.message || "Google Pay failed."
                     }
                 };
             }

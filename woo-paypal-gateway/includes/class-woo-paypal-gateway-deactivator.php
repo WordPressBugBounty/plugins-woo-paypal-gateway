@@ -6,7 +6,7 @@
  * @since      1.0.0
  * @package    Woo_Paypal_Gateway
  * @subpackage Woo_Paypal_Gateway/includes
- * @author     easypayment <wpeasypayment@gmail.com>
+ * @author     easypayment
  */
 class Woo_Paypal_Gateway_Deactivator {
 

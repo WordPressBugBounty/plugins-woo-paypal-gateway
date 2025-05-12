@@ -155,12 +155,17 @@ var {addAction} = wp.hooks;
 
 
                 const ContentPPCPCheckout = (props) => {
-                    const {billing, shippingData} = props;
-
-                    // Check if Google Pay is enabled for checkout
+                    const {billing, shippingData, ...i} = props;
+                    if (l.use_place_order === true) {
+                        return createElement(
+                                "div",
+                                {className: "ppcp_checkout_parent"},
+                                createElement("input", {type: "hidden", name: "form", value: "checkout"}),
+                                createElement("p", null, l.description || '')
+                                );
+                    }
                     const isGooglePayEnabledForCheckout = wpg_paypal_checkout_manager_block.is_google_pay_enable_for_checkout === 'yes';
                     const isApplePayEnabledForCheckout = wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_checkout === 'yes';
-
                     return createElement(
                             "div",
                             {className: "ppcp_checkout_parent"},
@@ -178,8 +183,6 @@ var {addAction} = wp.hooks;
                             })
                             );
                 };
-
-
                 const s = {
                     name: "wpg_paypal_checkout",
                     label: createElement("span", {style: {width: "100%"}}, l.title, createElement("img", {src: l.icons, style: {float: "right", marginLeft: "20px", display: "flex", justifyContent: "flex-end", paddingRight: "10px"}})),

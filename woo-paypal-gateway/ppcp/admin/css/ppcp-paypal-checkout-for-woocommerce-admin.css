@@ -69,29 +69,37 @@ table tr:first-child th {
 .button.wpg-ppcp-disconnect {
     margin-top: 20px;
 }
-.wpg_ppcp_paypal_connection_image {
-    display: table-cell;
-    vertical-align: middle;
-    cursor: default;
-    line-height: 1.5;
+.wpg_ppcp_paypal_connection {
+    padding: 12px 16px;
+    border-radius: 6px;
+    max-width: 550px;
+    box-shadow: 0 0 0 1px #e1e1e1;
+}
+.wpg_ppcp_paypal_connection {
+    margin-bottom: 16px;
+}
+@media screen and (max-width: 600px) {
+    .wpg_ppcp_paypal_connection {
+        font-size: 14px;
+        padding: 10px;
+    }
 }
 
 .wpg_ppcp_paypal_connection_status h3 {
-    margin: 5px 4px !important;
-    font-size: 14px;
-    color: green;
+    font-size: 16px;
+    color: #46b450;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 4px;
 }
 
-.wpg_ppcp_paypal_connection {
-    display: table-cell;
-    vertical-align: middle;
-    cursor: default;
-    line-height: 1.5;
+.wpg_ppcp_paypal_connection_status p {
+    margin: 0;
+    color: #444;
+    font-size: 13px;
 }
-.wpg_ppcp_paypal_connection_status {
-    display: block;
-    margin: 0px 1px 11px 7px;
-}
+
 .select2-search__field {
   min-width: 400px !important;
 }
@@ -112,4 +120,8 @@ table::after {
 .woocommerce table.form-table .forminp {
   display: table-cell !important;
   position: relative;
+}
+#woocommerce_wpg_paypal_checkout_description {
+    width: 600px;
+    resize: vertical;
 }

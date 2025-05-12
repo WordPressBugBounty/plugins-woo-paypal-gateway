@@ -21,6 +21,7 @@ if (class_exists('WC_Checkout')) {
                 wc_set_time_limit(0);
                 do_action('woocommerce_before_checkout_process');
                 if (WC()->cart->is_empty()) {
+                    // translators: %s: URL to the shop page.
                     throw new Exception(sprintf(__('Sorry, your session has expired. <a href="%s" class="wc-backward">Return to shop</a>', 'woo-paypal-gateway'), esc_url(wc_get_page_permalink('shop'))));
                 }
                 do_action('woocommerce_checkout_process');
@@ -61,6 +62,7 @@ if (class_exists('WC_Checkout')) {
                 wc_set_time_limit(0);
                 do_action('woocommerce_before_checkout_process');
                 if (WC()->cart->is_empty()) {
+                    // translators: %s: URL to the shop page.
                     throw new Exception(sprintf(__('Sorry, your session has expired. <a href="%s" class="wc-backward">Return to shop</a>', 'woo-paypal-gateway'), esc_url(wc_get_page_permalink('shop'))));
                 }
                 do_action('woocommerce_checkout_process');

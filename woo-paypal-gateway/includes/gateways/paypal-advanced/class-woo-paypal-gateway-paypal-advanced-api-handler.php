@@ -233,6 +233,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             if ('0' !== $parsed_response['RESULT']) {
                 Woo_Paypal_Gateway_PayPal_Advanced::log('Parsed Response (refund) ' . print_r($parsed_response, true));
             } else {
+                // translators: 1: Refunded amount, 2: PayPal PNREF (transaction reference) ID.
                 $order->add_order_note(sprintf(__('Refunded %1$s - PNREF: %2$s', 'woo-paypal-gateway'), wc_price(number_format($amount, 2, '.', '')), $parsed_response['PNREF']));
                 return true;
             }
@@ -264,9 +265,11 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
                         $order->update_meta_data('_paypalpro_charge_captured', 'no');
                         $order->save_meta_data();
                         $order->set_transaction_id($txn_id);
+                        // translators: %s: PayPal PayFlow transaction ID.
                         $order->update_status('on-hold', sprintf(__('PayPal Pro (PayFlow) charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.', 'woo-paypal-gateway'), $txn_id));
                         wc_reduce_stock_levels($order->get_id());
                     } else {
+                        // translators: %s: PayPal Payflow transaction reference (PNREF).
                         $order->add_order_note(sprintf(__('PayPal Pro (Payflow) payment completed (PNREF: %s)', 'woo-paypal-gateway'), $txn_id));
                         $order->payment_complete($txn_id);
                     }

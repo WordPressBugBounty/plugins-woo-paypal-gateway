@@ -4,7 +4,7 @@
  * @since      1.0.0
  * @package    PPCP_Paypal_Checkout_For_Woocommerce_Request
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce_Request/includes
- * @author     PayPal <wpeasypayment@gmail.com>
+ * @author     easypayment
  */
 class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
 
@@ -150,6 +150,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                     } elseif ('' === $valid_value && in_array($value, $attribute->get_slugs(), true)) {
                         $variations[$attribute_key] = $value;
                     } else {
+                        // translators: %s: Product attribute name.
                         throw new Exception(sprintf(__('Invalid value posted for %s', 'woo-paypal-gateway'), wc_attribute_label($attribute['name'])));
                     }
                 } elseif ('' === $valid_value) {
@@ -157,6 +158,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                 }
             }
             if (!empty($missing_attributes)) {
+                // translators: %s: Comma-separated list of missing required product attributes.
                 throw new Exception(sprintf(_n('%s is a required field', '%s are required fields', count($missing_attributes), 'woo-paypal-gateway'), wc_format_list_of_items($missing_attributes)));
             }
         } catch (Exception $e) {

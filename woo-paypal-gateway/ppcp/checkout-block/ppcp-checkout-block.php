@@ -41,7 +41,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         if (ppcp_has_active_session()) {
             $order_button_text = apply_filters('wpg_paypal_checkout_order_review_page_place_order_button_text', __('Confirm Your PayPal Order', 'woo-paypal-gateway'));
         } else {
-            $order_button_text = 'Proceed to PayPal';
+            $order_button_text = apply_filters('wpg_paypal_checkout_place_order_button_text', __('Proceed to PayPal', 'woo-paypal-gateway'));
         }
         $is_paylater_enable_incart_page = 'no';
         if ($this->pay_later->is_paypal_pay_later_messaging_enable_for_page($page = 'cart')) {
@@ -151,9 +151,10 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png');
         return [
             'title' => $this->gateway->title,
-            'description' => $this->get_setting('description'),
+            'description' => $this->gateway->description,
             'supports' => $this->get_supported_features(),
-            'icons' => $this->gateway->icon
+            'icons' => $this->gateway->icon,
+            'use_place_order' => $this->gateway->use_place_order
         ];
     }
 }

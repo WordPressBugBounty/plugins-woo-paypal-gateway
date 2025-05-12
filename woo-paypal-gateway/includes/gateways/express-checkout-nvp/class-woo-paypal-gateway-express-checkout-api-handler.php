@@ -691,13 +691,17 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
         try {
             if (is_wp_error($this->response)) {
                 if (function_exists('wc_add_notice')) {
+                    // translators: %s: WP_Error message.
                     wc_add_notice(sprintf(__('An error occurred while trying to connect to PayPal: %s', 'woo-paypal-gateway'), $this->response->get_error_message()), 'error');
                 }
+                // translators: %s: WP_Error message.
                 Woo_PayPal_Gateway_Express_Checkout_NVP::log(sprintf(__('An error occurred while trying to connect to PayPal: %s', 'woo-paypal-gateway'), $this->response->get_error_message()));
+                // translators: %s: WP_Error message.
                 throw new Exception(sprintf(__('An error occurred while trying to connect to PayPal: %s', 'woo-paypal-gateway'), $this->response->get_error_message()), 3);
             }
             if (empty($this->response['body'])) {
                 Woo_PayPal_Gateway_Express_Checkout_NVP::log('Empty response!');
+                _doing_it_wrong(__METHOD__, __('Empty Paypal response.', 'woo-paypal-gateway'), '1.0.0');
                 throw new Exception(__('Empty Paypal response.', 'woo-paypal-gateway'));
             }
             parse_str(wp_remote_retrieve_body($this->response), $this->result);
@@ -802,6 +806,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                             $pending_reason = __('No pending reason provided.', 'woo-paypal-gateway');
                             break;
                     }
+                    // translators: %s: PayPal pending reason.
                     $order->add_order_note(sprintf(__('Payment via Express Checkout Pending. PayPal reason: %s.', 'woo-paypal-gateway'), $pending_reason));
                     if (!empty($result['L_LONGMESSAGE0'])) {
                         $error = $result['L_LONGMESSAGE0'];
@@ -811,6 +816,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                         $error = '';
                     }
                     if (!empty($error)) {
+                        // translators: %s: Express Checkout error message.
                         $order->add_order_note(sprintf(__('Express Checkout Error: %s.', 'woo-paypal-gateway'), $error));
                     }
                     $order->update_status('on-hold');
@@ -820,6 +826,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 case 'expired' :
                 case 'failed' :
                 case 'voided' :
+                    // translators: %s: Payment status in lowercase (e.g., failed, denied).
                     $order->update_status('failed', sprintf(__('Payment %s via Express Checkout.', 'woo-paypal-gateway'), strtolower($payment_status)));
                     break;
                 default:
@@ -835,9 +842,11 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
         try {
             $paypal_express_checkout = wpg_get_session('GetExpressCheckoutDetails');
             if (!empty($paypal_express_checkout['PAYERSTATUS'])) {
+                // translators: %s: PayPal payer status, wrapped in <strong> HTML tags.
                 $order->add_order_note(sprintf(__('Payer Status: %s', 'woo-paypal-gateway'), '<strong>' . $paypal_express_checkout['PAYERSTATUS'] . '</strong>'));
             }
             if (!empty($paypal_express_checkout['ADDRESSSTATUS'])) {
+                // translators: %s: PayPal address status, wrapped in <strong> HTML tags.
                 $order->add_order_note(sprintf(__('Address Status: %s', 'woo-paypal-gateway'), '<strong>' . $paypal_express_checkout['ADDRESSSTATUS'] . '</strong>'));
             }
         } catch (Exception $ex) {
@@ -846,13 +855,11 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
     }
 
     public function wpg_get_billing_agreement_description() {
-        /* translators: placeholder is blogname */
-        $description = sprintf(_x('Orders with %s', 'data sent to PayPal', 'woocommerce-subscriptions'), get_bloginfo('name'));
-
+        // translators: 1: Blog name.
+        $description = sprintf(_x('Orders with %1$s', 'data sent to PayPal', 'woo-paypal-gateway'), get_bloginfo('name'));
         if (strlen($description) > 127) {
             $description = substr($description, 0, 124) . '...';
         }
-
         return html_entity_decode($description, ENT_NOQUOTES, 'UTF-8');
     }
 

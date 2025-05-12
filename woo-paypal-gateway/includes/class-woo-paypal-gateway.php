@@ -12,7 +12,7 @@
  * @since      1.0.0
  * @package    Woo_Paypal_Gateway
  * @subpackage Woo_Paypal_Gateway/includes
- * @author     easypayment <wpeasypayment@gmail.com>
+ * @author     easypayment
  */
 class Woo_Paypal_Gateway {
 
@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.31';
+            $this->version = '9.0.32';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {

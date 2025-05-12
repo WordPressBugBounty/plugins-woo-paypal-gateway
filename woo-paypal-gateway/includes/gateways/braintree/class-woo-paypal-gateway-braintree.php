@@ -243,27 +243,32 @@ class Woo_PayPal_Gateway_Braintree extends WC_Payment_Gateway_CC {
             }
         } catch (\Braintree\Exception\Authentication $e) {
             $this->add_log($request_name . "Braintree\Exception\Authentication: API keys are incorrect, Please double-check that you haven't accidentally tried to use your sandbox keys in production or vice-versa.");
-            wc_add_notice(__($request_name . "Braintree\Exception\Authentication: API keys are incorrect, Please double-check that you haven't accidentally tried to use your sandbox keys in production or vice-versa.", 'woo-paypal-gateway'), 'error');
+            // translators: %s: request name.
+            wc_add_notice(sprintf(__('%sBraintree\Exception\Authentication: API keys are incorrect. Please double-check that you haven’t accidentally tried to use your sandbox keys in production or vice-versa.', 'woo-paypal-gateway'), $request_name), 'error');
             wp_redirect(wc_get_cart_url());
             exit;
         } catch (\Braintree\Exception\Authorization $e) {
             $this->add_log($request_name . "Braintree\Exception\Authorization: The API key that you're using is not authorized to perform the attempted action according to the role assigned to the user who owns the API key.");
-            wc_add_notice(__($request_name . "Braintree\Exception\Authorization: The API key that you're using is not authorized to perform the attempted action according to the role assigned to the user who owns the API key.", 'woo-paypal-gateway'), 'error');
+            // translators: %s: The request context or label (e.g. "PayPal" or "Credit Card").
+            wc_add_notice(sprintf(__('%sBraintree\Exception\Authorization: The API key that you\'re using is not authorized to perform the attempted action according to the role assigned to the user who owns the API key.', 'woo-paypal-gateway'), $request_name), 'error');
             wp_redirect(wc_get_cart_url());
             exit;
         } catch (\Braintree\Exception\DownForMaintenance $e) {
             $this->add_log($request_name . "Braintree\Exception\DownForMaintenance: Request times out.");
-            wc_add_notice(__($request_name . "Braintree\Exception\DownForMaintenance: Request times out.", 'woo-paypal-gateway'), 'error');
+            // translators: %s: request name.
+            wc_add_notice(sprintf(__('%sBraintree\Exception\DownForMaintenance: Request times out.', 'woo-paypal-gateway'), $request_name), 'error');
             wp_redirect(wc_get_cart_url());
             exit;
         } catch (\Braintree\Exception\ServerError $e) {
             $this->add_log($request_name . "Braintree\Exception\ServerError " . $e->getMessage());
-            wc_add_notice(__($request_name . "Braintree\Exception\ServerError " . $e->getMessage(), 'woo-paypal-gateway'), 'error');
+            // translators: 1: request name, 2: exception message.
+            wc_add_notice(sprintf(__('%1$sBraintree\Exception\ServerError %2$s', 'woo-paypal-gateway'), $request_name, $e->getMessage()), 'error');
             wp_redirect(wc_get_cart_url());
             exit;
         } catch (\Braintree\Exception\SSLCertificate $e) {
             $this->add_log($request_name . "Braintree\Exception\SSLCertificate " . $e->getMessage());
-            wc_add_notice(__($request_name . "Braintree\Exception\SSLCertificate " . $e->getMessage(), 'woo-paypal-gateway'), 'error');
+            // translators: 1: request name, 2: exception message.
+            wc_add_notice(sprintf(__('%1$sBraintree\Exception\SSLCertificate %2$s', 'woo-paypal-gateway'), $request_name, $e->getMessage()), 'error');
             wp_redirect(wc_get_cart_url());
             exit;
         } catch (\Braintree\Exception\NotFound $e) {
@@ -274,13 +279,16 @@ class Woo_PayPal_Gateway_Braintree extends WC_Payment_Gateway_CC {
                 }
             } else {
                 $this->add_log($request_name . "Braintree\Exception\NotFound " . $e->getMessage());
-                wc_add_notice(__($request_name . "Braintree\Exception\NotFound " . $e->getMessage(), 'woo-paypal-gateway'), 'error');
+                // translators: 1: request name, 2: exception message.
+                wc_add_notice(sprintf(__('%1$sBraintree\Exception\NotFound %2$s', 'woo-paypal-gateway'), $request_name, $e->getMessage()), 'error');
                 wp_redirect(wc_get_cart_url());
                 exit;
             }
         } catch (\Exception $e) {
             $this->add_log('Error: Unable to complete request. Reason: ' . $e->getMessage());
-            wc_add_notice(__('Error: Unable to complete request. Reason: ' . $e->getMessage(), 'woo-paypal-gateway'), 'error');
+            // translators: %s: exception message.
+            // translators: %s: exception message.
+            wc_add_notice(sprintf(__('Error: Unable to complete request. Reason: %s', 'woo-paypal-gateway'), $e->getMessage()), 'error');
             wp_redirect(wc_get_cart_url());
             exit;
         }
@@ -356,28 +364,14 @@ class Woo_PayPal_Gateway_Braintree extends WC_Payment_Gateway_CC {
 
         if (in_array($this->result->transaction->status, $maybe_settled_later)) {
             $this->order->payment_complete($this->result->transaction->id);
-            $this->order->add_order_note(sprintf(
-                            __('%s payment approved! Transaction ID: %s', 'woo-paypal-gateway'),
-                            $this->title,
-                            $this->result->transaction->id
-            ));
+            // translators: 1: Payment method title, 2: Transaction ID.
+            $this->order->add_order_note(sprintf(__('%1$s payment approved! Transaction ID: %2$s', 'woo-paypal-gateway'), $this->title, $this->result->transaction->id));
             WC()->cart->empty_cart();
         } else {
-            $this->add_log(sprintf(
-                            'Info: unhandled transaction id = %s, status = %s',
-                            $this->result->transaction->id,
-                            $this->result->transaction->status
-            ));
-            $this->order->update_status(
-                    'on-hold',
-                    sprintf(
-                            __('Transaction was submitted to PayPal Braintree but not handled by WooCommerce order, transaction_id: %s, status: %s. Order was put on hold.', 'woo-paypal-gateway'),
-                            $this->result->transaction->id,
-                            $this->result->transaction->status
-                    )
-            );
+            $this->add_log(sprintf('Info: unhandled transaction id = %1$s, status = %2$s', $this->result->transaction->id, $this->result->transaction->status));
+            // translators: 1: PayPal Braintree transaction ID, 2: Transaction status
+            $this->order->update_status('on-hold', sprintf(__('Transaction was submitted to PayPal Braintree but not handled by WooCommerce order, transaction_id: %1$s, status: %2$s. Order was put on hold.', 'woo-paypal-gateway'), $this->result->transaction->id, $this->result->transaction->status));
         }
-
         $this->return_result = array(
             'result' => 'success',
             'redirect' => $this->get_return_url($this->order),
@@ -753,7 +747,8 @@ class Woo_PayPal_Gateway_Braintree extends WC_Payment_Gateway_CC {
                 try {
                     $result = $this->gateway->transaction()->void($order->get_transaction_id());
                     if ($result->success) {
-                        $order->add_order_note(sprintf(__('Refunded %s - Transaction ID: %s', 'woo-paypal-gateway'), wc_price(number_format($amount, 2, '.', '')), $result->transaction->id));
+                        // translators: 1: Refund amount, 2: Transaction ID.
+                        $order->add_order_note(sprintf(__('Refunded %1$s - Transaction ID: %2$s', 'woo-paypal-gateway'), wc_price(number_format($amount, 2, '.', '')), $result->transaction->id));
                         return true;
                     } else {
                         $errors = implode(', ', array_map(function ($error) {
@@ -775,7 +770,8 @@ class Woo_PayPal_Gateway_Braintree extends WC_Payment_Gateway_CC {
             try {
                 $result = $this->gateway->transaction()->refund($order->get_transaction_id(), $amount);
                 if ($result->success) {
-                    $order->add_order_note(sprintf(__('Refunded %s - Transaction ID: %s', 'woo-paypal-gateway'), wc_price(number_format($amount, 2, '.', '')), $result->transaction->id));
+                    // translators: 1: Refund amount, 2: Transaction ID.
+                    $order->add_order_note(sprintf(__('Refunded %1$s - Transaction ID: %2$s', 'woo-paypal-gateway'), wc_price(number_format($amount, 2, '.', '')), $result->transaction->id));
                     return true;
                 } else {
                     $errors = implode(', ', array_map(function ($error) {

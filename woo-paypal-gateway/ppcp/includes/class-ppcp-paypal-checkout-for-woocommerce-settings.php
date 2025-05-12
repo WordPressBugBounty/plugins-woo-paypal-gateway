@@ -146,10 +146,10 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 'paypal_button_note' => array(
                     'title' => __('Important Note', 'woo-paypal-gateway'),
                     'type' => 'gpay_title',
-                    'description' => __(
-                            'PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, etc.) are shown automatically based on factors such as the buyer’s country and their device type. For more details, see the FAQ.',
-                            'woo-paypal-gateway'
-                    ),
+                    'description' => wp_kses_post(sprintf(
+                                    __('PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, etc.) are shown automatically based on factors such as the buyer’s country and their device type. For more details, <a href="%s" target="_blank">see the FAQ</a>.', 'woo-paypal-gateway'),
+                                    admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout&wpg_section=wpg_foq')
+                            )),
                 ),
                 'gateway_enable_disable' => array(
                     'title' => __('PayPal Settings', 'woo-paypal-gateway'),
@@ -325,7 +325,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'multiselect',
                     'class' => 'wc-enhanced-select ppcp_cart_button_settings',
                     'description' => __('Funding methods selected here will be hidden from buyers during checkout.', 'woo-paypal-gateway'),
-                    'default' => '',
+                    'default' => array('card'),
                     'desc_tip' => true,
                     'options' => array(
                         'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
@@ -449,6 +449,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'data-placeholder' => __('Select funding methods to hide.', 'woo-paypal-gateway'),
                     )
                 ),
+                
                 'checkout_button_layout' => array(
                     'title' => __('Button Layout', 'woo-paypal-gateway'),
                     'type' => 'select',
@@ -514,6 +515,15 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'buynow' => __('Buy Now', 'woo-paypal-gateway'),
                         'pay' => __('Pay', 'woo-paypal-gateway'),
                     ),
+                ),
+                'use_place_order' => array(
+                    'title'       => __( 'Use Place Order Button', 'woo-paypal-gateway' ),
+                    'type'        => 'checkbox',
+                    'default'     => 'no',
+                    'value'       => 'yes',
+                    'desc_tip'    => false,
+                    'description' => __( 'Enable this to use the default Place Order button on the checkout page instead of showing PayPal buttons. This setting does not affect Express Checkout.',
+                        'woo-paypal-gateway' ),
                 ),
             );
             $button_manager_settings_express_checkout_page = array(
@@ -836,10 +846,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 'apple_pay_note' => array(
                     'title' => __('Important Note', 'woo-paypal-gateway'),
                     'type' => 'apple_title',
-                    'description' => __(
-                            'To show the Apple Pay button, Apple Pay must be enabled in your PayPal account (<a target="_blank" href="https://developer.paypal.com/docs/checkout/apm/apple-pay/#set-up-your-sandbox-account-to-accept-apple-pay">setup guide</a>), the user must be on Safari using a supported Apple device with Apple Pay configured, and the page must be served over a secure (HTTPS) connection.',
-                            'woo-paypal-gateway'
-                    ),
+                    'description' => wp_kses_post(__('To show the Apple Pay button, Apple Pay must be enabled in your PayPal account (<a target="_blank" href="https://developer.paypal.com/docs/checkout/apm/apple-pay/#set-up-your-sandbox-account-to-accept-apple-pay">setup guide</a>). The page must also be served over a secure (HTTPS) connection.', 'woo-paypal-gateway')),
                 ),
                 'apple_pay_domain_register' => array(
                     'title' => __('Domain Registration', 'woo-paypal-gateway'),
@@ -1631,7 +1638,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'multiselect',
                     'class' => 'wc-enhanced-select ppcp_cart_button_settings',
                     'description' => __('Funding methods selected here will be hidden from buyers during checkout.', 'woo-paypal-gateway'),
-                    'default' => '',
+                    'default' => array('card'),
                     'desc_tip' => true,
                     'options' => array(
                         'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
@@ -1736,6 +1743,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'data-placeholder' => __('Select funding methods to hide.', 'woo-paypal-gateway'),
                     )
                 ),
+                
                 'checkout_button_layout' => array(
                     'title' => __('Button Layout', 'woo-paypal-gateway'),
                     'type' => 'select',
@@ -1782,6 +1790,15 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'buynow' => __('Buy Now', 'woo-paypal-gateway'),
                         'pay' => __('Pay', 'woo-paypal-gateway'),
                     ),
+                ),
+                 'use_place_order' => array(
+                    'title'       => __( 'Use Place Order Button', 'woo-paypal-gateway' ),
+                    'type'        => 'checkbox',
+                    'default'     => 'no',
+                    'value'       => 'yes',
+                    'desc_tip'    => false,
+                    'description' => __( 'Enable this to use the default Place Order button on the checkout page instead of showing PayPal buttons. This setting does not affect Express Checkout.',
+                        'woo-paypal-gateway' ),
                 ),
             );
             $button_manager_settings_express_checkout_page = array(

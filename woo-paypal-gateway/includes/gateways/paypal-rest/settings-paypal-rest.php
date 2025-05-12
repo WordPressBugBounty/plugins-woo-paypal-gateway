@@ -38,6 +38,7 @@ return $this->form_fields = array(
         'type' => 'checkbox',
         'label' => __('Enable PayPal Sandbox Mode', 'woo-paypal-gateway'),
         'default' => 'yes',
+        // translators: %s: Link to PayPal developer site.
         'description' => sprintf(__('Place the payment gateway in development mode. Sign up for a developer account <a href="%s" target="_blank">here</a>', 'woo-paypal-gateway'), 'https://developer.paypal.com/'),
     ),
     'rest_client_id_sandbox' => array(

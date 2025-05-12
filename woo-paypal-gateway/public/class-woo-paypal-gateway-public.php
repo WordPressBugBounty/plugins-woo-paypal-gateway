@@ -8,7 +8,7 @@
  *
  * @package    Woo_Paypal_Gateway
  * @subpackage Woo_Paypal_Gateway/public
- * @author     easypayment <wpeasypayment@gmail.com>
+ * @author     easypayment
  */
 class Woo_Paypal_Gateway_Public {
 

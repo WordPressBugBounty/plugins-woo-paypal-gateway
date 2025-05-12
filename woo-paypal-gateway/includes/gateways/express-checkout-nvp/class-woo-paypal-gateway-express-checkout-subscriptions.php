@@ -79,7 +79,7 @@ class Woo_PayPal_Gateway_Express_Checkout_Subscriptions_NVP extends Woo_PayPal_G
         $payment_meta[$this->id] = array(
             'post_meta' => array(
                 '_payment_tokens_id' => array(
-                    'value' => $subscription->get_meta('_payment_tokens_id'), 
+                    'value' => $subscription->get_meta('_payment_tokens_id'),
                     'label' => 'Payment Tokens ID',
                 )
             )
@@ -120,9 +120,9 @@ class Woo_PayPal_Gateway_Express_Checkout_Subscriptions_NVP extends Woo_PayPal_G
         }
         if (!empty($subscription->get_id())) {
             $payment_tokens_id = $subscription->get_meta('_payment_tokens_id');
-            $payment_method_to_display = sprintf(__('Via %1$s %2$s', 'woocommerce-gateway-stripe'), 'PayPal Billing Agreement ', $payment_tokens_id);
+            // translators: 1: Payment method label (e.g., "PayPal Billing Agreement"), 2: Payment token ID.
+            $payment_method_to_display = sprintf(__('Via %1$s %2$s', 'woo-paypal-gateway'), 'PayPal Billing Agreement ', $payment_tokens_id);
         }
         return $payment_method_to_display;
     }
-
 }
