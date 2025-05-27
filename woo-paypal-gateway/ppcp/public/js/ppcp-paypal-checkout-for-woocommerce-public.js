@@ -9,6 +9,7 @@
             this.allowedPaymentMethods = [];
             this.merchantInfo = null;
             this.pageContext = 'unknown';
+            this.ppcp_used_payment_method = null;
             this.init();
             this.ppcp_cart_css();
         }
@@ -18,6 +19,11 @@
                 console.log("PPCP Manager configuration is undefined.");
                 return false;
             }
+            this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 500);
+            this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 500);
+            this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 500);
+            this.debouncedUpdateApplePay = this.debounce_apple(this.update_apple_pay.bind(this), 500);
+            this.bindCheckoutEvents();
             if (this.ppcp_manager.enabled_google_pay === 'yes') {
                 this.loadGooglePaySdk();
             }
@@ -25,12 +31,7 @@
                 this.loadApplePaySdk();
             }
             this.manageVariations('#ppcp_product, .google-pay-container, .apple-pay-container');
-            this.bindCheckoutEvents();
             this.update_paypal_checkout();
-            this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 500);
-            this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 500);
-            this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 500);
-            this.debouncedUpdateApplePay = this.debounce_apple(this.update_apple_pay.bind(this), 500);
             if (this.isCheckoutPage() === false) {
                 this.debouncedUpdatePaypalCheckout();
                 this.debouncedUpdateGooglePay();
@@ -187,6 +188,9 @@
         }
 
         handleCheckoutSubmit() {
+            if ($('input[name="wc-wpg_paypal_checkout_cc-payment-token"]:checked').length > 0) {
+                return true;
+            }
             if (this.isPpcpCCSelected() && this.isCardFieldEligible()) {
                 if ($('form.checkout').hasClass('paypal_cc_submitting')) {
                     return false;
@@ -277,24 +281,99 @@
                             : (isExpressCheckout ? this.ppcp_manager.express_checkout_style_shape : this.ppcp_manager.style_shape),
                     label: isMiniCart
                             ? this.ppcp_manager.mini_cart_style_label
-                            : (isExpressCheckout ? this.ppcp_manager.express_checkout_style_label : this.ppcp_manager.style_label)
+                            : (isExpressCheckout ? this.ppcp_manager.express_checkout_style_label : this.ppcp_manager.style_label),
+                    height: Number(
+                            isExpressCheckout
+                            ? this.ppcp_manager.express_checkout_button_height
+                            : isMiniCart
+                            ? this.ppcp_manager.mini_cart_button_height
+                            : this.ppcp_manager.button_height
+                            ) || 48
                 };
                 if (ppcpStyle.layout === 'horizontal') {
                     ppcpStyle.tagline = 'false';
                 }
-                ppcpStyle.height = ppcpStyle.height = Number(
-                        isExpressCheckout ? this.ppcp_manager?.express_checkout_button_height :
-                        isMiniCart ? this.ppcp_manager?.mini_cart_button_height :
-                        this.ppcp_manager?.button_height
-                        ) || 48;
-
-                wpg_paypal_sdk.Buttons({
-                    style: ppcpStyle,
-                    createOrder: () => this.createOrder(selector),
-                    onApprove: (data, actions) => this.onApproveHandler(data, actions),
-                    onCancel: () => this.onCancelHandler(),
-                    onError: (err) => this.onErrorHandler(err)
-                }).render(selector);
+                const styledFundingSources = [
+                    wpg_paypal_sdk.FUNDING.PAYPAL,
+                    wpg_paypal_sdk.FUNDING.PAYLATER
+                ];
+                if (selector === '#ppcp_checkout') {
+                    let fundingSources = wpg_paypal_sdk.getFundingSources();
+                    if (fundingSources.length) {
+                        fundingSources.forEach((fundingSource) => {
+                            if (fundingSource === wpg_paypal_sdk.FUNDING.CARD && this.isCardFieldEligible()) return;
+                            const options = {
+                                fundingSource,
+                                onClick: () => {
+                                    this.ppcp_used_payment_method = fundingSource;
+                                },
+                                createOrder: () => this.createOrder(selector),
+                                onApprove: (data, actions) => this.onApproveHandler(data, actions),
+                                onCancel: () => this.onCancelHandler(),
+                                onError: (err) => this.onErrorHandler(err)
+                            };
+                            if (styledFundingSources.includes(fundingSource)) {
+                                options.style = ppcpStyle;
+                            }
+                            const button = wpg_paypal_sdk.Buttons(options);
+                            if (button.isEligible()) {
+                                button.render(selector);
+                            }
+                        });
+                    }
+                } else if (selector === '#ppcp_checkout_top') {
+                    const expressFundingSources = [
+                        wpg_paypal_sdk.FUNDING.PAYPAL,
+                        wpg_paypal_sdk.FUNDING.VENMO,
+                        wpg_paypal_sdk.FUNDING.PAYLATER,
+                        wpg_paypal_sdk.FUNDING.CREDIT
+                    ];
+                    const renderSelectors = ['#ppcp_checkout_top', '#ppcp_checkout_top_alternative'];
+                    let renderedCount = 0;
+                    for (let i = 0; i < expressFundingSources.length; i++) {
+                        const fundingSource = expressFundingSources[i];
+                        const targetSelector = renderSelectors[renderedCount];
+                        if (!targetSelector || !$(targetSelector).length) {
+                            continue;
+                        }
+                        const options = {
+                            style: { ...ppcpStyle },
+                            fundingSource,
+                            createOrder: () => this.createOrder(targetSelector),
+                            onApprove: (data, actions) => this.onApproveHandler(data, actions),
+                            onCancel: () => this.onCancelHandler(),
+                            onError: (err) => this.onErrorHandler(err)
+                        };
+                        
+                        if (fundingSource === wpg_paypal_sdk.FUNDING.VENMO) {
+                            options.style.color = 'blue';
+                        }
+                        const button = wpg_paypal_sdk.Buttons(options);
+                        if (button.isEligible()) {
+                            button.render(targetSelector);
+                            renderedCount++;
+                        }
+                        if (renderedCount >= 2) {
+                            break;
+                        }
+                    }
+                    if (renderedCount < 2 && $('#ppcp_checkout_top_alternative').length) {
+                        if ($('div.apple-pay-container[data-context="express_checkout"]').length === 0 && $('div.google-pay-container[data-context="express_checkout"]').length === 0) {
+                            if ($('#ppcp_checkout_top').length && !$('#ppcp_checkout_top').hasClass('mobile')) {
+                                $('#ppcp_checkout_top').css('min-width', '480px');
+                            }
+                        }
+                        $('#ppcp_checkout_top_alternative').remove();
+                    }
+                } else {
+                    wpg_paypal_sdk.Buttons({
+                        style: ppcpStyle,
+                        createOrder: () => this.createOrder(selector),
+                        onApprove: (data, actions) => this.onApproveHandler(data, actions),
+                        onCancel: () => this.onCancelHandler(),
+                        onError: (err) => this.onErrorHandler(err)
+                    }).render(selector);
+                }
             });
         }
 
@@ -318,7 +397,10 @@
             } else {
                 data = $('form.woocommerce-cart-form').serialize();
             }
-            return fetch(this.ppcp_manager.create_order_url_for_paypal, {
+            
+            const fundingMethod = this.ppcp_used_payment_method;
+            const createOrderUrl = this.ppcp_manager.create_order_url_for_paypal + (this.ppcp_manager.create_order_url_for_paypal.includes('?') ? '&' : '?') + 'ppcp_used_payment_method=' + encodeURIComponent(fundingMethod);
+            return fetch(createOrderUrl, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 body: data
@@ -519,6 +601,9 @@
                     cardFields.ExpiryField().render("#wpg_paypal_checkout_cc-card-expiry");
                     cardFields.CVVField().render("#wpg_paypal_checkout_cc-card-cvc");
                 }
+                setTimeout(function () {
+                    $('.wpg-paypal-cc-field label').show();
+                }, 1600);
             } else {
                 $('.payment_box.payment_method_wpg_paypal_checkout_cc').hide();
                 if (this.isPpcpCCSelected())
@@ -650,7 +735,6 @@
                     console.log("Google Pay is not available for this configuration");
                 }
             } catch (error) {
-                console.error("Google Pay readiness check failed:", error);
                 this.removeGooglePayContainer();
             }
         }
@@ -1012,6 +1096,43 @@
             return "0.00";
         }
 
+        prefetchProductTotal() {
+            const isApplePayEnabled = this.ppcp_manager?.enabled_apple_pay === 'yes';
+            const isProductPage = document.querySelector('.apple-pay-container[data-context="product"]');
+            if (!isApplePayEnabled || !isProductPage)
+                return;
+
+            const baseProductId = parseInt(this.ppcp_manager?.product_id || 0);
+            const defaultQty = parseFloat(document.querySelector('input.qty')?.value || '1');
+            this.fetchProductTotal(baseProductId, defaultQty);
+
+            jQuery('form.variations_form').on('found_variation', (event, variation) => {
+                const variationId = variation.variation_id;
+                const qty = parseFloat(jQuery('input.qty').val()) || 1;
+                this.fetchProductTotal(variationId, qty);
+            });
+        }
+
+        fetchProductTotal(productId, quantity = 1) {
+            const data = new URLSearchParams({
+                action: 'ppcp_get_product_total',
+                product_id: productId,
+                quantity: quantity
+            });
+
+            fetch(this.ppcp_manager.ajax_url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: data.toString()
+            })
+                    .then(res => res.json())
+                    .then(response => {
+                        if (response.success && response.data?.combined_total) {
+                            this.ppcp_manager.cart_total = response.data.combined_total;
+                        }
+                    });
+        }
+
         loadApplePaySdk() {
             const script = document.createElement('script');
             script.src = 'https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js';
@@ -1069,6 +1190,7 @@
             if (containers.length === 0) {
                 return;
             }
+            this.prefetchProductTotal();
             containers.forEach(container => {
                 container.innerHTML = '';
                 const applePayButton = document.createElement('apple-pay-button');
@@ -1132,6 +1254,17 @@
                     };
                     session.onshippingcontactselected = async (event) => {
                         try {
+                            if (this.pageContext === 'product') {
+                                const transactionInfo = await this.ppcpGettransactionInfo();
+                                if (transactionInfo.success === false) {
+                                    const messages = transactionInfo.data?.messages ?? transactionInfo.data ?? ['Unknown error'];
+                                    this.showError(messages);
+                                    throw new Error(messages);
+                                }
+                                if (transactionInfo?.success) {
+                                    this.ppcp_manager.cart_total = transactionInfo.data?.cart_total || this.ppcp_manager.cart_total;
+                                }
+                            }
                             const shipping = event.shippingContact;
                             if (!shipping || !shipping.countryCode || !shipping.postalCode) {
                                 throw new Error("Shipping address is incomplete");
@@ -1155,7 +1288,7 @@
 
                 session.onpaymentauthorized = async (event) => {
                     try {
-                        if (this.pageContext === 'checkout') {
+                        if (this.pageContext === 'checkout' || this.pageContext === 'product') {
                             const transactionInfo = await this.ppcpGettransactionInfo();
                             if (transactionInfo.success === false) {
                                 const messages = transactionInfo.data?.messages ?? transactionInfo.data ?? ['Unknown error'];

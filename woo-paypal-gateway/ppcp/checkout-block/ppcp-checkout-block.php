@@ -23,7 +23,6 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-pay-later-messaging.php');
         }
         $this->pay_later = PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later::instance();
-        
     }
 
     public function is_active() {
@@ -31,6 +30,10 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     }
 
     public function get_payment_method_script_handles() {
+        // Only load block script if blocks are actually used
+        if (!function_exists('has_block') || !wpg_is_using_block_cart_or_checkout()) {
+            return [];
+        }
         wp_enqueue_script('ppcp-checkout-js');
         if (ppcp_has_active_session() === false) {
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
@@ -73,10 +76,10 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         $all_settings = $this->settings;
         $required_keys = ['enable_checkout_button_top', 'show_on_cart'];
         $filtered_settings = array_intersect_key($all_settings, array_flip($required_keys));
-        if(!isset($filtered_settings['enable_checkout_button_top'])) {
+        if (!isset($filtered_settings['enable_checkout_button_top'])) {
             $filtered_settings['enable_checkout_button_top'] = 'yes';
         }
-        if(!isset($filtered_settings['show_on_cart'])) {
+        if (!isset($filtered_settings['show_on_cart'])) {
             $filtered_settings['show_on_cart'] = 'no';
         }
         wp_localize_script('wpg_paypal_checkout-blocks-integration', 'wpg_paypal_checkout_manager_block', array(
@@ -105,7 +108,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         }
         return ['wpg_paypal_checkout-blocks-integration'];
     }
-    
+
     public function is_google_pay_enable_for_page($page = '') {
         if (!isset($this->settings['enabled_google_pay'])) {
             return false;
@@ -116,7 +119,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         if (empty($page)) {
             return false;
         }
-        if(!isset($this->settings['google_pay_pages'])) {
+        if (!isset($this->settings['google_pay_pages'])) {
             $this->settings['google_pay_pages'] = array('express_checkout');
         }
         if (empty($this->settings['google_pay_pages'])) {
@@ -127,7 +130,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         }
         return false;
     }
-    
+
     public function is_apple_pay_enable_for_page($page = '') {
         if (!isset($this->settings['enabled_apple_pay'])) {
             return false;

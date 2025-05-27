@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.32';
+            $this->version = '9.0.33';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -165,7 +165,7 @@ class Woo_Paypal_Gateway {
 
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 0);
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
-        
+
         if (is_existing_classic_user() === true) {
             $this->loader->add_action('plugins_loaded', $plugin_admin, 'init_wpg_paypal_payment');
             $this->loader->add_filter('woocommerce_payment_gateways', $plugin_admin, 'wpg_pal_payment_for_woo_add_payment_method_class', 9999, 1);
@@ -271,7 +271,7 @@ class Woo_Paypal_Gateway {
         }
         return $meta;
     }
-    
+
     public function wpg_cart_updated($cart_updated) {
         wpg_clear_session_data();
         return $cart_updated;
@@ -383,7 +383,7 @@ class Woo_Paypal_Gateway {
         $rev_notice_hide = get_option('wpg_review_notice_hide');
         $next_show_time = get_option('wpg_next_show_time', time());
         $days_since_activation = (time() - $activation_time) / 86400;
-        if ($rev_notice_hide != 'never' && $days_since_activation >= 10 && time() >= $next_show_time) {
+        if ($rev_notice_hide !== 'never' && $days_since_activation >= 10 && time() >= $next_show_time) {
             $class = 'notice notice-info';
             $notice = '<div class="wpg-review-notice">' .
                     '<p style="font-weight:normal;font-size:15px;">' .
@@ -400,8 +400,11 @@ class Woo_Paypal_Gateway {
                     '<button class="button button-secondary wpg-action-button" data-action="never" style="float:right;">Don’t remind me again</button>' .
                     '</p>' .
                     '</div>';
-
-            printf('<div class="wpg-review-notice %1$s" style="position:fixed;bottom:50px;right:20px;padding-right:30px;z-index:2;margin-left:20px">%2$s</div>', $class, $notice);
+            printf(
+                    '<div class="wpg-review-notice %1$s" style="position:fixed;bottom:50px;right:20px;padding-right:30px;z-index:2;margin-left:20px">%2$s</div>',
+                    esc_attr($class),
+                    wp_kses_post($notice)
+            );
         }
     }
 

@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 
 class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
 
-    public $gateway;   
+    public $gateway;
     public $API_Endpoint;
 
     public function __construct($gateway) {
@@ -17,12 +17,12 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
         }
         $this->gateway_calculation = new Woo_Paypal_Gateway_Calculations($this->gateway);
     }
-    
+
     public function get_token($order, $post_data, $force_new_token = false) {
         try {
             if (!$force_new_token && $order->get_meta('_SECURETOKENHASH') == md5(json_encode($post_data))) {
                 return array(
-                    'SECURETOKEN' => $order->get_meta('_SECURETOKEN'), 
+                    'SECURETOKEN' => $order->get_meta('_SECURETOKEN'),
                     'SECURETOKENID' => $order->get_meta('_SECURETOKENID'),
                 );
             }
@@ -65,7 +65,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
                 return false;
             }
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -148,7 +148,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             }
             return $post_data;
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -181,7 +181,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             }
             return false;
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -239,7 +239,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             }
             return false;
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -295,7 +295,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             wp_redirect($redirect);
             exit;
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -310,24 +310,42 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
                 wc_print_notices();
                 return;
             }
-            echo wpautop(__('Enter your payment details below and click "Confirm and pay" to securely pay for your order.', 'woo-paypal-gateway'));
+            echo wp_kses_post(wpautop(__('Enter your payment details below and click "Confirm and pay" to securely pay for your order.', 'woo-paypal-gateway')));
             ?>
             <form method="POST" action="<?php echo esc_url($url); ?>">
                 <div id="payment">
-                    <label style="padding:10px 0 0 10px;display:block;"><?php echo esc_attr($this->gateway->title) . ' ' . '<div style="vertical-align:middle;display:inline-block;margin:2px 0 0 .5em;">' . $this->gateway->get_icon() . '</div>'; ?></label>
+                    <label style="padding:10px 0 0 10px;display:block;">
+                        <?php
+                        echo esc_html($this->gateway->title) . ' ';
+                        echo '<div style="vertical-align:middle;display:inline-block;margin:2px 0 0 .5em;">' . wp_kses_post($this->gateway->get_icon()) . '</div>';
+                        ?>
+                    </label>
                     <div class="payment_box">
-                        <p><?php echo esc_attr($this->gateway->description) . ( $this->gateway->testmode ? ' ' . __('TEST/SANDBOX MODE ENABLED. In test mode, you can use the card number 4111111111111111 with any CVC and a valid expiration date.', 'woo-paypal-gateway') : '' ); ?></p>
+                        <p>
+                            <?php
+                            echo esc_html($this->gateway->description);
+                            if ($this->gateway->testmode) {
+                                echo ' ' . esc_html__('TEST/SANDBOX MODE ENABLED. In test mode, you can use the card number 4111111111111111 with any CVC and a valid expiration date.', 'woo-paypal-gateway');
+                            }
+                            ?>
+                        </p>
                         <fieldset id="paypal_pro_payflow-cc-form">
                             <p class="form-row form-row-wide">
-                                <label for="paypal_pro_payflow-card-number"><?php _e('Card Number ', 'woo-paypal-gateway'); ?><span class="required">*</span></label>
+                                <label for="paypal_pro_payflow-card-number">
+                                    <?php esc_html_e('Card Number ', 'woo-paypal-gateway'); ?><span class="required">*</span>
+                                </label>
                                 <input type="text" id="paypal_pro_payflow-card-number" class="input-text wc-credit-card-form-card-number" maxlength="20" autocomplete="off" placeholder="•••• •••• •••• ••••" name="CARDNUM" />
                             </p>
                             <p class="form-row form-row-first">
-                                <label for="paypal_pro_payflow-card-expiry"><?php _e('Expiry (MM/YY) ', 'woo-paypal-gateway'); ?><span class="required">*</span></label>
+                                <label for="paypal_pro_payflow-card-expiry">
+                                    <?php esc_html_e('Expiry (MM/YY) ', 'woo-paypal-gateway'); ?><span class="required">*</span>
+                                </label>
                                 <input type="text" id="paypal_pro_payflow-card-expiry" class="input-text wc-credit-card-form-card-expiry" autocomplete="off" placeholder="MM / YY" name="EXPDATE" />
                             </p>
                             <p class="form-row form-row-last">
-                                <label for="paypal_pro_payflow-card-cvc"><?php _e('Card Code ', 'woo-paypal-gateway'); ?><span class="required">*</span></label>
+                                <label for="paypal_pro_payflow-card-cvc">
+                                    <?php esc_html_e('Card Code ', 'woo-paypal-gateway'); ?><span class="required">*</span>
+                                </label>
                                 <input type="text" id="paypal_pro_payflow-card-cvc" class="input-text wc-credit-card-form-card-cvc" autocomplete="off" placeholder="CVC" name="CVV2" />
                             </p>
                             <input type="hidden" name="SECURETOKEN" value="<?php echo esc_attr($token['SECURETOKEN']); ?>" />
@@ -335,13 +353,12 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
                             <input type="hidden" name="SILENTTRAN" value="TRUE" />
                         </fieldset>
                     </div>
-                    <input type="submit" value="<?php _e('Confirm and pay', 'woo-paypal-gateway'); ?>" class="submit buy button" style="float:right;"/>
+                    <input type="submit" value="<?php esc_attr_e('Confirm and pay', 'woo-paypal-gateway'); ?>" class="submit buy button" style="float:right;" />
                 </div>
-                
             </form>
             <?php
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -349,8 +366,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
         try {
             return WC_Geolocation::get_ip_address();
         } catch (Exception $ex) {
-
+            
         }
     }
-
 }

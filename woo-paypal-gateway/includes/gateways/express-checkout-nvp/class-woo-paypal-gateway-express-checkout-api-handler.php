@@ -701,8 +701,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
             }
             if (empty($this->response['body'])) {
                 Woo_PayPal_Gateway_Express_Checkout_NVP::log('Empty response!');
-                _doing_it_wrong(__METHOD__, __('Empty Paypal response.', 'woo-paypal-gateway'), '1.0.0');
-                throw new Exception(__('Empty Paypal response.', 'woo-paypal-gateway'));
+                throw new Exception(esc_html__('Empty Paypal response.', 'woo-paypal-gateway'));
             }
             parse_str(wp_remote_retrieve_body($this->response), $this->result);
             if (!array_key_exists('ACK', $this->result)) {

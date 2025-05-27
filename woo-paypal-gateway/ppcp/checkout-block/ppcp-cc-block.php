@@ -27,6 +27,10 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
     }
 
     public function get_payment_method_script_handles() {
+        // Only load block script if blocks are actually used
+        if (!function_exists('has_block') || !wpg_is_using_block_cart_or_checkout()) {
+            return [];
+        }
         wp_enqueue_script('ppcp-checkout-js');
         if (ppcp_has_active_session() === false) {
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
@@ -61,7 +65,10 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
             'placeOrderButtonLabel' => $order_button_text,
             'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
-            'page' => $page
+            'page' => $page,
+            'card_number' => __('Card number', 'woo-paypal-gateway'),
+            'expiration_date' => __('Expiration date', 'woo-paypal-gateway'),
+            'security_code' => __('Security code', 'woo-paypal-gateway'),
         ));
 
         if (function_exists('wp_set_script_translations')) {
@@ -79,7 +86,8 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
             'cc_title' => $this->gateway->title,
             'description' => $this->get_setting('description'),
             'supports' => $this->get_supported_features(),
-            'icons' => $this->gateway->get_block_icon()
+            'icons' => $this->gateway->get_block_icon(),
+            'enable_save_card' => $this->gateway->enable_save_card
         ];
     }
 }

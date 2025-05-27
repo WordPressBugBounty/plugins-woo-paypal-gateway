@@ -5,7 +5,7 @@
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
  * Description:       PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal Partner
- * Version:           9.0.32
+ * Version:           9.0.33
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
@@ -17,7 +17,7 @@
  * Requires Plugins: woocommerce
  * Tested up to: 6.8.1
  * WC requires at least: 3.4
- * WC tested up to: 9.8.4
+ * WC tested up to: 9.8.5
  */
 if (!defined('WPINC')) {
     die;
@@ -25,7 +25,7 @@ if (!defined('WPINC')) {
 
 
 if (!defined('WPG_PLUGIN_VERSION')) {
-    define('WPG_PLUGIN_VERSION', '9.0.32');
+    define('WPG_PLUGIN_VERSION', '9.0.33');
 }
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
@@ -40,7 +40,7 @@ if (!defined('WPG_PLUGIN_ASSET_URL')) {
     define('WPG_PLUGIN_ASSET_URL', plugin_dir_url(__FILE__));
 }
 if (!defined('WPG_PLUGIN_FILE')) {
-    define('WPG_PLUGIN_FILE',  __FILE__);
+    define('WPG_PLUGIN_FILE', __FILE__);
 }
 if (!defined('WPG_SANDBOX_PARTNER_MERCHANT_ID')) {
     define('WPG_SANDBOX_PARTNER_MERCHANT_ID', 'K6QLN2LPGQRHL');
@@ -51,6 +51,7 @@ if (!defined('WPG_LIVE_PARTNER_MERCHANT_ID')) {
 if (!defined('WPG_ONBOARDING_URL')) {
     define('WPG_ONBOARDING_URL', 'https://mbjtechnolabs.com/ppcp-seller-onboarding/seller-onboarding.php');
 }
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-woo-paypal-gateway-activator.php
@@ -103,7 +104,7 @@ if (!function_exists('run_ppcp_paypal_checkout_for_woocommerce')) {
 }
 
 function run_ppcp_paypal_checkout_for_woocommerce() {
-    if(!class_exists('PPCP_Paypal_Checkout_For_Woocommerce')) {
+    if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce')) {
         require plugin_dir_path(__FILE__) . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce.php';
     }
     $plugin = new PPCP_Paypal_Checkout_For_Woocommerce();
@@ -154,4 +155,13 @@ function woo_paypal_gateway_redirect_to_settings() {
     }
 }
 
-
+function wpg_is_using_block_cart_or_checkout() {
+    if (!function_exists('has_block') || !class_exists('\Automattic\WooCommerce\Blocks\Package')) {
+        return false;
+    }
+    global $post;
+    if (!$post instanceof \WP_Post) {
+        return false;
+    }
+    return has_block('woocommerce/cart', $post) || has_block('woocommerce/checkout', $post);
+}

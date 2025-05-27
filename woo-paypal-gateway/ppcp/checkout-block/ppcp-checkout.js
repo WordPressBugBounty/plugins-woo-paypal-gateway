@@ -100,29 +100,34 @@ var {addAction} = wp.hooks;
                     const isCheckoutButtonTopEnabled = ppcp_settings.enable_checkout_button_top === 'yes';
 
                     return createElement("div", {},
-                            isCheckoutButtonTopEnabled &&
-                            createElement("div", {
-                                id: "ppcp_checkout_top",
-                                className: device_class
-                            }),
+                            isCheckoutButtonTopEnabled && [
+                                createElement("div", {
+                                    key: "ppcp_checkout_top",
+                                    id: "ppcp_checkout_top",
+                                    className: device_class
+                                }),
+                                createElement("div", {
+                                    key: "ppcp_checkout_top_alternative",
+                                    id: "ppcp_checkout_top_alternative",
+                                    className: device_class
+                                })
+                            ],
                             isGooglePayEnabled &&
                             createElement("div", {
+                                key: "google_pay_button",
                                 className: "google-pay-container express_checkout " + device_class,
                                 style: {height: "40px"},
                                 'data-context': 'express_checkout'
                             }),
                             isApplePayEnabled &&
                             createElement("div", {
+                                key: "apple_pay_button",
                                 className: "apple-pay-container express_checkout " + device_class,
                                 style: {height: "40px"},
                                 'data-context': 'express_checkout'
                             })
                             );
-
                 };
-
-
-
                 const Content_PPCP_Smart_Button_Cart_Bottom = (props) => {
                     const {billing, shippingData} = props;
 

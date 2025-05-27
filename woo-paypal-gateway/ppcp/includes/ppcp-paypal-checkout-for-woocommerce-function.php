@@ -225,10 +225,12 @@ if (!function_exists('ppcp_update_woo_order_status')) {
             if (empty($pending_reason)) {
                 $pending_reason = $payment_status;
             }
+
             $order = wc_get_order($orderid);
+
             switch (strtoupper($payment_status)) :
-                case 'DECLINED' :
-                case 'PENDING' :
+                case 'DECLINED':
+                case 'PENDING':
                     switch (strtoupper($pending_reason)) {
                         case 'BUYER_COMPLAINT':
                             $pending_reason_text = __('BUYER_COMPLAINT: The payer initiated a dispute for this captured payment with PayPal.', 'woo-paypal-gateway');
@@ -240,7 +242,7 @@ if (!function_exists('ppcp_update_woo_order_status')) {
                             $pending_reason_text = __('ECHECK: The payer paid by an eCheck that has not yet cleared.', 'woo-paypal-gateway');
                             break;
                         case 'INTERNATIONAL_WITHDRAWAL':
-                            $pending_reason_text = __('INTERNATIONAL_WITHDRAWAL: Visit your online account. In your **Account Overview**, accept and deny this payment.', 'woo-paypal-gateway');
+                            $pending_reason_text = __('INTERNATIONAL_WITHDRAWAL: Visit your online account. In your Account Overview, accept and deny this payment.', 'woo-paypal-gateway');
                             break;
                         case 'OTHER':
                             $pending_reason_text = __('No additional specific reason can be provided. For more information about this captured payment, visit your account online or contact PayPal.', 'woo-paypal-gateway');
@@ -249,7 +251,7 @@ if (!function_exists('ppcp_update_woo_order_status')) {
                             $pending_reason_text = __('PENDING_REVIEW: The captured payment is pending manual review.', 'woo-paypal-gateway');
                             break;
                         case 'RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION':
-                            $pending_reason_text = __('RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: The payee has not yet set up appropriate receiving preferences for their account. For more information about how to accept or deny this payment, visit your account online. This reason is typically offered in scenarios such as when the currency of the captured payment is different from the primary holding currency of the payee.', 'woo-paypal-gateway');
+                            $pending_reason_text = __('RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: The payee has not yet set up appropriate receiving preferences for their account. This may occur when the payment currency differs from the primary currency.', 'woo-paypal-gateway');
                             break;
                         case 'REFUNDED':
                             $pending_reason_text = __('REFUNDED: The captured funds were refunded.', 'woo-paypal-gateway');
@@ -268,28 +270,42 @@ if (!function_exists('ppcp_update_woo_order_status')) {
                             $pending_reason_text = __('No pending reason provided.', 'woo-paypal-gateway');
                             break;
                     }
+
                     if ($payment_status === 'PENDING') {
-                        $order->update_status('on-hold', sprintf(__('Payment via %s Pending. PayPal Pending reason: %s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), $pending_reason_text));
+                        // translators: %1$s is the payment method. %2$s is the pending reason.
+                        $order->update_status('on-hold', sprintf(__('Payment via %1$s Pending. PayPal Pending reason: %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), $pending_reason_text));
                     }
+
                     if ($payment_status === 'DECLINED') {
-                        $order->update_status('failed', sprintf(__('Payment via %s declined. PayPal declined reason: %s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), $pending_reason_text));
+                        // translators: %1$s is the payment method. %2$s is the decline reason.
+                        $order->update_status('failed', sprintf(__('Payment via %1$s declined. PayPal declined reason: %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), $pending_reason_text));
                     }
                     break;
-                case 'PARTIALLY_REFUNDED' :
+
+                case 'PARTIALLY_REFUNDED':
                     $order->update_status('on-hold');
-                    $order->add_order_note(sprintf(__('Payment via %s partially refunded. PayPal reason: %s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), $pending_reason));
-                case 'REFUNDED' :
-                    $order->update_status('refunded');
-                    $order->add_order_note(sprintf(__('Payment via %s refunded. PayPal reason: %s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), $pending_reason));
-                case 'FAILED' :
-                    $order->update_status('failed', sprintf(__('Payment via %s failed. PayPal reason: %s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), $pending_reason));
+                    // translators: %1$s is the payment method. %2$s is the refund reason.
+                    $order->add_order_note(sprintf(__('Payment via %1$s partially refunded. PayPal reason: %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), $pending_reason));
                     break;
+
+                case 'REFUNDED':
+                    $order->update_status('refunded');
+                    // translators: %1$s is the payment method. %2$s is the refund reason.
+                    $order->add_order_note(sprintf(__('Payment via %1$s refunded. PayPal reason: %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), $pending_reason));
+                    break;
+
+                case 'FAILED':
+                    // translators: %1$s is the payment method. %2$s is the failure reason.
+                    $order->update_status('failed', sprintf(__('Payment via %1$s failed. PayPal reason: %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), $pending_reason));
+                    break;
+
                 default:
                     break;
             endswitch;
+
             return;
         } catch (Exception $ex) {
-            
+            // Log or handle error if needed.
         }
     }
 
@@ -473,7 +489,9 @@ if (!function_exists('is_wpg_paypal_vault_required')) {
         if (function_exists('is_wpg_change_payment_method') && is_wpg_change_payment_method()) {
             return true;
         }
-
+        if (isset($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']) && wc_string_to_bool(wc_clean($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']))) {
+            return true;
+        }
         return false;
     }
 
@@ -633,16 +651,38 @@ if (!function_exists('wpg_ppcp_reorder_methods')) {
 if (!function_exists('wpg_is_vaulting_enable')) {
 
     function wpg_is_vaulting_enable($result) {
-        if (isset($result['products']) && isset($result['capabilities']) && !empty($result['products']) && !empty($result['products'])) {
+        $product_vaulting_enabled = false;
+        $global_capability_active = false;
+
+        // Check if any subscribed product has the vaulting capability
+        if (!empty($result['products']) && is_array($result['products'])) {
             foreach ($result['products'] as $product) {
-                if ($product['name'] === 'ADVANCED_VAULTING' &&
-                        isset($product['vetting_status']) && $product['vetting_status'] === 'SUBSCRIBED' &&
-                        isset($product['capabilities']) && in_array('PAYPAL_WALLET_VAULTING_ADVANCED', $product['capabilities'])) {
-                    return true;
+                if (
+                        isset($product['vetting_status'], $product['capabilities']) &&
+                        $product['vetting_status'] === 'SUBSCRIBED' &&
+                        in_array('PAYPAL_WALLET_VAULTING_ADVANCED', $product['capabilities'], true)
+                ) {
+                    $product_vaulting_enabled = true;
+                    break;
                 }
             }
         }
-        return false;
+
+        // Check global capability
+        if (!empty($result['capabilities']) && is_array($result['capabilities'])) {
+            foreach ($result['capabilities'] as $capability) {
+                if (
+                        isset($capability['name'], $capability['status']) &&
+                        $capability['name'] === 'PAYPAL_WALLET_VAULTING_ADVANCED' &&
+                        $capability['status'] === 'ACTIVE'
+                ) {
+                    $global_capability_active = true;
+                    break;
+                }
+            }
+        }
+
+        return $product_vaulting_enabled && $global_capability_active;
     }
 
 }
@@ -726,6 +766,7 @@ if (!function_exists('wpg_manage_apple_domain_file')) {
         }
         return true;
     }
+
 }
 
 if (!function_exists('is_existing_classic_user')) {
@@ -747,6 +788,76 @@ if (!function_exists('is_existing_classic_user')) {
         );
         $result = $wpdb->get_var($query);
         return $result !== null;
+    }
+
+}
+
+if (!function_exists('wpg_set_order_payment_method_title_from_paypal_response')) {
+
+    function wpg_set_order_payment_method_title_from_paypal_response($order, $paypal_response) {
+        if (!$order instanceof WC_Order || empty($paypal_response['payment_source'])) {
+            return;
+        }
+        $source = $paypal_response['payment_source'];
+        if (isset($source['google_pay'])) {
+            $title = 'Google Pay (PayPal)';
+        } elseif (isset($source['apple_pay'])) {
+            $title = 'Apple Pay (PayPal)';
+        } elseif (isset($source['card'])) {
+            $title = 'Credit/Debit Card (PayPal)';
+        } elseif (isset($source['paypal'])) {
+            $title = 'PayPal';
+        } else {
+            $title = 'PayPal';
+        }
+        $order->set_payment_method_title($title);
+    }
+
+}
+
+if (!function_exists('get_payer_action_url_from_paypal_response')) {
+
+    function get_payer_action_url_from_paypal_response($response) {
+        if (empty($response['links']) || !is_array($response['links'])) {
+            return false;
+        }
+        foreach ($response['links'] as $link) {
+            if (isset($link['rel']) && $link['rel'] === 'payer-action' && !empty($link['href'])) {
+                return $link['href'];
+            }
+        }
+        return false;
+    }
+
+}
+
+if (!function_exists('wpg_ppcp_get_payment_method_title')) {
+
+    function wpg_ppcp_get_payment_method_title($payment_name = '') {
+        $final_payment_method_name = '';
+        $list_payment_method = array(
+            'card' => __('Credit or Debit Card', 'paypal-for-woocommerce'),
+            'credit' => __('PayPal Credit', 'paypal-for-woocommerce'),
+            'bancontact' => __('Bancontact', 'paypal-for-woocommerce'),
+            'blik' => __('BLIK', 'paypal-for-woocommerce'),
+            'eps' => __('eps', 'paypal-for-woocommerce'),
+            'giropay' => __('giropay', 'paypal-for-woocommerce'),
+            'ideal' => __('iDEAL', 'paypal-for-woocommerce'),
+            'mercadopago' => __('Mercado Pago', 'paypal-for-woocommerce'),
+            'mybank' => __('MyBank', 'paypal-for-woocommerce'),
+            'p24' => __('Przelewy24', 'paypal-for-woocommerce'),
+            'sepa' => __('SEPA-Lastschrift', 'paypal-for-woocommerce'),
+            'sofort' => __('Sofort', 'paypal-for-woocommerce'),
+            'venmo' => __('Venmo', 'paypal-for-woocommerce'),
+            'paylater' => __('PayPal Pay Later', 'paypal-for-woocommerce'),
+            'paypal' => __('PayPal Checkout', 'paypal-for-woocommerce'),
+            'apple_pay' => __('Apple Pay', 'paypal-for-woocommerce'),
+            'google_pay' => __('Google Pay', 'paypal-for-woocommerce'),
+        );
+        if (!empty($payment_name)) {
+            $final_payment_method_name = $list_payment_method[$payment_name] ?? $payment_name;
+        }
+        return apply_filters('wpg_ppcp_get_payment_method_title', $final_payment_method_name, $payment_name, $list_payment_method);
     }
 
 }

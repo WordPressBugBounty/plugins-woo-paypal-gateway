@@ -89,7 +89,7 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
         $this->init_form_fields();
         $this->init_settings();
         $this->icon = $this->get_option('card_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_cards.png');
-        if ( is_ssl() || get_option( 'woocommerce_force_ssl_checkout' ) == 'yes' ) {
+        if (is_ssl() || get_option('woocommerce_force_ssl_checkout') == 'yes') {
             $this->icon = preg_replace("/^http:/i", "https:", $this->icon);
         }
         $this->icon = apply_filters('woocommerce_wpg_paypal_pro_icon', $this->icon);
@@ -97,7 +97,7 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
         $this->description = $this->get_option('description');
         $this->enabled = $this->get_option('enabled');
         $this->testmode = $this->get_option('testmode', "no") === "yes" ? true : false;
-        if( $this->testmode ) {
+        if ($this->testmode) {
             $this->api_username = $this->get_option('sandbox_api_username');
             $this->api_password = $this->get_option('sandbox_api_password');
             $this->api_signature = $this->get_option('sandbox_api_signature');
@@ -114,7 +114,6 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
         $this->paymentaction = $this->get_option('paymentaction', 'sale');
         $this->invoice_prefix = $this->get_option('invoice_prefix');
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
-        
     }
 
     public function init_form_fields() {
@@ -124,7 +123,7 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
             
         }
     }
-    
+
     public function is_available() {
         if ($this->enabled === "yes") {
             if (!is_ssl() && !$this->testmode) {
@@ -145,11 +144,11 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
         if (!empty($this->description)) {
             echo '<p>' . wp_kses_post($this->description);
         }
-        if ($this->testmode == true) {
+        if ($this->testmode === true) {
             echo '<p>';
-            _e('NOTICE: SANDBOX (TEST) MODE ENABLED.', 'woo-paypal-gateway');
+            esc_html_e('NOTICE: SANDBOX (TEST) MODE ENABLED.', 'woo-paypal-gateway');
             echo '<br />';
-            _e('For testing purposes you can use the card number 4916311462114485 with any CVC and a valid expiration date.', 'woo-paypal-gateway');
+            esc_html_e('For testing purposes you can use the card number 4916311462114485 with any CVC and a valid expiration date.', 'woo-paypal-gateway');
             echo '</p>';
         }
         parent::payment_fields();
@@ -228,5 +227,4 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
             self::$log->log($level, $message, array('source' => 'wpg_paypal_pro'));
         }
     }
-
 }

@@ -527,6 +527,31 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $body_request = $this->ppcp_add_payment_source_parameter($body_request);
             }
             $body_request = ppcp_remove_empty_key($body_request);
+            $used_payment_method = sanitize_text_field($_GET['ppcp_used_payment_method'] ?? '');
+            $allowed_payment_sources = ['bancontact', 'blik', 'eps', 'ideal', 'mybank', 'p24']; // add other APMs as needed
+            if (in_array($used_payment_method, $allowed_payment_sources, true)) {
+                $full_name = '';
+                $country_code = '';
+                if (!empty($body_request['payer']['name']['given_name']) && !empty($body_request['payer']['name']['surname'])) {
+                    $full_name = trim($body_request['payer']['name']['given_name'] . ' ' . $body_request['payer']['name']['surname']);
+                }
+                if (empty($country_code)) {
+                    $country_code = $body_request['purchase_units'][0]['shipping']['address']['country_code'] ?? WC()->customer->get_billing_country();
+                }
+                if (!empty($full_name) && !empty($country_code)) {
+                    $body_request['payment_source'] = [
+                        $used_payment_method => [
+                            'name' => $full_name,
+                            'country_code' => strtoupper($country_code),
+                        ]
+                    ];
+                    unset($body_request['application_context']);
+                    unset($body_request['payment_method']);
+                    //$body_request['processing_instruction'] = 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL';
+                } else {
+                    $this->ppcp_log("Missing APM payer info: name = [$full_name], country = [$country_code]");
+                }
+            }
             $this->ppcp_add_log_details('Create order');
             $this->ppcp_log('Order Request : ' . wc_print_r($body_request, true));
             $body_request = json_encode($body_request);
@@ -553,6 +578,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $this->ppcp_log('Response Code: ' . wp_remote_retrieve_response_code($response));
                     $this->ppcp_log('Response Message: ' . wp_remote_retrieve_response_message($response));
                     $this->ppcp_log('Response Body: ' . wc_print_r($api_response, true));
+                    $payer_action_url = get_payer_action_url_from_paypal_response($api_response);
+                    if ($payer_action_url) {
+                        $return_response['payer_action_url'] = $payer_action_url;
+                    }
                     $return_response['orderID'] = $api_response['id'];
                     if (!empty(isset($woo_order_id) && !empty($woo_order_id))) {
                         $order->update_meta_data('_paypal_order_id', $api_response['id']);
@@ -714,6 +743,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $seller_protection = isset($api_response['purchase_units']['0']['payments']['captures']['0']['seller_protection']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['seller_protection']['status'] : '';
                         $payment_status = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status'] : '';
                         if ($payment_status == 'COMPLETED') {
+                            wpg_set_order_payment_method_title_from_paypal_response($order, $api_response);
                             $order->payment_complete($transaction_id);
                             // translators: 1: Payment method title, 2: Payment status (e.g., Completed, Pending).
                             $order->add_order_note(sprintf(__('Payment via %1$s : %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), ucfirst(strtolower($payment_status))));
@@ -1518,6 +1548,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $transaction_id));
                     $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
                     if ($payment_status === 'COMPLETED') {
+                        wpg_set_order_payment_method_title_from_paypal_response($order, $api_response);
                         $order->payment_complete($transaction_id);
                         // translators: 1: Payment method title, 2: Payment status.
                         $order->add_order_note(sprintf(__('Payment via %1$s : %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), ucfirst(strtolower($payment_status))));
@@ -2613,7 +2644,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $body_request = apply_filters('wpg_ppcp_add_payment_source', $body_request, $woo_order_id);
             $body_request = ppcp_remove_empty_key($body_request);
             $body_request = json_encode($body_request);
-            $this->ppcp_add_log_details('Subscription Order Renewal');
+            $this->ppcp_add_log_details('Order using payment token');
             $this->ppcp_log('Request : ' . wc_print_r($this->paypal_order_api, true));
             $this->api_response = wp_remote_post($this->paypal_order_api, array(
                 'method' => 'POST',
@@ -2633,8 +2664,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 if (ob_get_length()) {
                     ob_end_clean();
                 }
-                $this->ppcp_log('Response : ' . wc_print_r($this->api_response, true));
                 $api_response = json_decode(wp_remote_retrieve_body($this->api_response), true);
+                $this->ppcp_log('Response : ' . wc_print_r($api_response, true));
                 if (!empty($api_response['status']) && $api_response['status'] == 'COMPLETED') {
                     do_action('wpg_ppcp_save_payment_method_details', $woo_order_id, $api_response);
                     $payment_source = isset($api_response['payment_source']) ? $api_response['payment_source'] : '';
@@ -2676,6 +2707,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $seller_protection = isset($api_response['purchase_units']['0']['payments']['captures']['0']['seller_protection']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['seller_protection']['status'] : '';
                     $payment_status = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status'] : '';
                     if ($payment_status == 'COMPLETED') {
+                        wpg_set_order_payment_method_title_from_paypal_response($order, $api_response);
                         $order->payment_complete($transaction_id);
                         // translators: 1: Payment method title, 2: Payment status.
                         $order->add_order_note(sprintf(__('Payment via %1$s : %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), ucfirst(strtolower($payment_status))));
@@ -2917,8 +2949,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $error_message = $this->api_response->get_error_message();
                     $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
                 } else {
-                    $this->ppcp_log('Response : ' . wc_print_r($this->api_response, true));
                     $this->api_response = json_decode(wp_remote_retrieve_body($this->api_response), true);
+                    $this->ppcp_log('Response : ' . wc_print_r($this->api_response, true));
                     if (!empty($this->api_response['id'])) {
                         $customer_id = $this->api_response['customer']['id'] ?? '';
                         if (isset($customer_id) && !empty($customer_id)) {
@@ -3069,7 +3101,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         if (empty($this->api_response['errors'])) {
             $tracker = isset($request['trackers'][0]) ? $request['trackers'][0] : array();
             $tracking_number = isset($tracker['tracking_number']) ? $tracker['tracking_number'] : 'N/A';
-            if(isset($tracker['carrier_name_other']) && !empty($tracker['carrier_name_other'])) {
+            if (isset($tracker['carrier_name_other']) && !empty($tracker['carrier_name_other'])) {
                 $carrier = isset($tracker['carrier_name_other']) ? $tracker['carrier_name_other'] : 'N/A';
             } else {
                 $carrier = isset($tracker['carrier']) ? $tracker['carrier'] : 'N/A';

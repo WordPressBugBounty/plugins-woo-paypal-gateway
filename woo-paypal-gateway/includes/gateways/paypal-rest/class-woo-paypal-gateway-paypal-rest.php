@@ -86,11 +86,11 @@ class Woo_PayPal_Gateway_PayPal_Rest extends WC_Payment_Gateway_CC {
         if (!empty($this->description)) {
             echo '<p>' . wp_kses_post($this->description);
         }
-        if ($this->testmode == true) {
+        if ($this->testmode === true) {
             echo '<p>';
-            _e('NOTICE: SANDBOX (TEST) MODE ENABLED.', 'woo-paypal-gateway');
+            echo esc_html__('NOTICE: SANDBOX (TEST) MODE ENABLED.', 'woo-paypal-gateway');
             echo '<br />';
-            _e('For testing purposes you can use the card number 4916311462114485 with any CVC and a valid expiration date.', 'woo-paypal-gateway');
+            echo esc_html__('For testing purposes you can use the card number 4916311462114485 with any CVC and a valid expiration date.', 'woo-paypal-gateway');
             echo '</p>';
         }
         parent::payment_fields();

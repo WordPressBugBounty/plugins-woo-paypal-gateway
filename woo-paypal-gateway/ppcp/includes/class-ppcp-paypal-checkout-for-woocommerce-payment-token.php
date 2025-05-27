@@ -141,7 +141,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token {
     }
 
     private function process_token_for_card($token, $api_response, $source) {
-        $payment_card = $api_response['payment_source'][$source]['card'] ?? [];
+        $payment_card = $api_response['payment_source'][$source]['card'] ?? $api_response['payment_source'][$source];
         $token->set_card_type($payment_card['brand'] ?? '');
         $token->set_last4($payment_card['last_digits'] ?? '');
 

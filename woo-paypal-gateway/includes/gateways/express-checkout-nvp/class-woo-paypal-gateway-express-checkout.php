@@ -120,7 +120,7 @@ class Woo_PayPal_Gateway_Express_Checkout_NVP extends WC_Payment_Gateway {
 
     public function payment_fields() {
         if ($description = $this->get_description()) {
-            echo wpautop(wptexturize($description));
+            echo wp_kses_post(wpautop(wptexturize($description)));
         }
         if (is_checkout()) {
             $tokens = $this->get_tokens();

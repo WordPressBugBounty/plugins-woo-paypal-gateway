@@ -64,7 +64,7 @@
 }
 .ppcp-button-container {
     text-align: center;
-    margin-top: 5px;
+    margin-top: 20px;
 }
 #ppcp_product.desktop.small {
     max-width: 300px;
@@ -268,45 +268,45 @@
 #ppcp_cart.desktop.small {
     max-width: 350px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
 }
 #ppcp_cart.desktop.medium {
     max-width: 400px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
 }
 #ppcp_cart.desktop.large {
     max-width: 500px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
 }
 #ppcp_cart.desktop.responsive {
     width: 100%;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     max-width: 750px;
 }
 #ppcp_cart.mobile.small {
     max-width: 350px;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     line-height: 0;
     width: 100%;
 }
 #ppcp_cart.mobile.medium {
     max-width: 400px;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     line-height: 0;
     width: 100%;
 }
 #ppcp_cart.mobile.large {
     max-width: 500px;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     line-height: 0;
     width: 100%;
 }
 #ppcp_cart.mobile.responsive {
     width: 100%;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     line-height: 0;
     max-width: 750px;
 }
@@ -322,7 +322,7 @@
     width: 100%;
     max-width: 400px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
 }
@@ -330,14 +330,14 @@
     width: 100%;
     max-width: 500px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
 }
 .google-pay-container.cart.mobile.responsive {
     width: 100%;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
     max-width: 750px;
@@ -345,28 +345,28 @@
 .google-pay-container.cart.desktop.small {
     max-width: 350px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
 }
 .google-pay-container.cart.desktop.medium {
     max-width: 400px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
 }
 .google-pay-container.cart.desktop.large {
     max-width: 500px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
 }
 .google-pay-container.cart.desktop.responsive {
     width: 100%;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
     max-width: 750px;
@@ -374,14 +374,14 @@
 .apple-pay-container.cart.desktop.small {
     max-width: 350px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.cart.mobile.small {
     width: 100%;
     max-width: 350px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.cart.desktop.small apple-pay-button {
@@ -397,14 +397,14 @@
 .apple-pay-container.cart.desktop.medium {
     max-width: 400px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.cart.mobile.medium {
     width: 100%;
     max-width: 400px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.cart.desktop.medium apple-pay-button {
@@ -420,14 +420,14 @@
 .apple-pay-container.cart.desktop.large {
     max-width: 500px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.cart.mobile.large {
     width: 100%;
     max-width: 500px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.cart.desktop.large apple-pay-button {
@@ -443,14 +443,14 @@
 .apple-pay-container.cart.desktop.responsive {
     width: 100%;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     max-width: 750px;
 }
 .apple-pay-container.cart.mobile.responsive {
     width: 100%;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     max-width: 750px;
 }
@@ -467,52 +467,52 @@
 #ppcp_mini_cart.desktop.small {
     max-width: 350px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     margin-top: 7px;
 }
 #ppcp_mini_cart.desktop.medium {
     max-width: 400px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     margin-top: 7px;
 }
 #ppcp_mini_cart.desktop.large {
     max-width: 500px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     margin-top: 7px;
 }
 #ppcp_mini_cart.desktop.responsive {
     width: 100%;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     max-width: 750px;
     margin-top: 7px;
 }
 #ppcp_mini_cart.mobile.small {
     max-width: 350px;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     line-height: 0;
     width: 100%;
     margin-top: 7px;
 }
 #ppcp_mini_cart.mobile.medium {
     max-width: 400px;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     line-height: 0;
     width: 100%;
     margin-top: 7px;
 }
 #ppcp_mini_cart.mobile.large {
     max-width: 500px;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     line-height: 0;
     width: 100%;
     margin-top: 7px;
 }
 #ppcp_mini_cart.mobile.responsive {
     width: 100%;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     line-height: 0;
     max-width: 750px;
     margin-top: 7px;
@@ -530,7 +530,7 @@
     width: 100%;
     max-width: 400px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
 }
@@ -538,14 +538,14 @@
     width: 100%;
     max-width: 500px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
 }
 .google-pay-container.mini_cart.mobile.responsive {
     width: 100%;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
     max-width: 750px;
@@ -553,28 +553,28 @@
 .google-pay-container.mini_cart.desktop.small {
     max-width: 350px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
 }
 .google-pay-container.mini_cart.desktop.medium {
     max-width: 400px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
 }
 .google-pay-container.mini_cart.desktop.large {
     max-width: 500px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
 }
 .google-pay-container.mini_cart.desktop.responsive {
     width: 100%;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     outline: none;
     max-width: 750px;
@@ -582,18 +582,18 @@
 .apple-pay-container.mini_cart.desktop.small {
     max-width: 350px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.mini_cart.mobile.small {
     width: 100%;
     max-width: 350px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.mini_cart.desktop.small apple-pay-button {
-   --apple-pay-button-width: 100%;
+    --apple-pay-button-width: 100%;
     --apple-pay-button-height: var(--button-height, 48px);
     --apple-pay-button-max-width: 350px;
 }
@@ -605,14 +605,14 @@
 .apple-pay-container.mini_cart.desktop.medium {
     max-width: 400px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.mini_cart.mobile.medium {
     width: 100%;
     max-width: 400px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.mini_cart.desktop.medium apple-pay-button {
@@ -628,18 +628,18 @@
 .apple-pay-container.mini_cart.desktop.large {
     max-width: 500px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.mini_cart.mobile.large {
     width: 100%;
     max-width: 500px;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
 }
 .apple-pay-container.mini_cart.desktop.large apple-pay-button {
-   --apple-pay-button-width: 100%;
+    --apple-pay-button-width: 100%;
     --apple-pay-button-height: var(--button-height, 48px);
     --apple-pay-button-max-width: 500px;
 }
@@ -651,14 +651,14 @@
 .apple-pay-container.mini_cart.desktop.responsive {
     width: 100%;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     max-width: 750px;
 }
 .apple-pay-container.mini_cart.mobile.responsive {
     width: 100%;
     line-height: 0;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     text-align: center;
     max-width: 750px;
 }
@@ -1015,11 +1015,23 @@
 }
 #ppcp_checkout_top.desktop {
     display: flex;
-    max-width: 480px;
+    max-width: 240px;
     line-height: 0;
     width: 100%;
 }
 #ppcp_checkout_top.mobile {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto 14px;
+    line-height: 0;
+}
+#ppcp_checkout_top_alternative.desktop {
+    display: flex;
+    max-width: 240px;
+    line-height: 0;
+    width: 100%;
+}
+#ppcp_checkout_top_alternative.mobile {
     width: 100%;
     max-width: 350px;
     margin: 0 auto 14px;
@@ -1063,7 +1075,7 @@
     --apple-pay-button-max-width: 450px;
     --apple-pay-button-width: 100%;
 }
-#express-payment-method-wpg_paypal_checkout_top #ppcp_checkout_top, #express-payment-method-wpg_paypal_checkout_top .google-pay-container, #express-payment-method-wpg_paypal_checkout_top .apple-pay-container {
+#express-payment-method-wpg_paypal_checkout_top #ppcp_checkout_top, #express-payment-method-wpg_paypal_checkout_top #ppcp_checkout_top_alternative, #express-payment-method-wpg_paypal_checkout_top .google-pay-container, #express-payment-method-wpg_paypal_checkout_top .apple-pay-container {
     margin: 0 auto;
     max-width: 480px;
     line-height: 0;
@@ -1072,42 +1084,64 @@
 .wc-block-components-radio-control-accordion-content #wc-wpg_paypal_checkout_cc-form {
     max-width: 450px;
 }
+.wpg-paypal-cc-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
 #wc-wpg_paypal_checkout_cc-form {
     display: flex;
     flex-wrap: wrap;
     max-width: 450px;
+    gap: 0px 0px; /* less vertical gap */
+    align-items: flex-start;
+    margin-top: 10px;
 }
-#wpg_paypal_checkout_cc-card-number {
+
+.wpg-paypal-cc-field.full-width {
     flex: 1 1 100%;
 }
-#wpg_paypal_checkout_cc-card-expiry,
-#wpg_paypal_checkout_cc-card-cvc {
-    flex: 1 1 150px;
-    flex-grow: 1;
+
+.wpg-paypal-cc-field.half-width {
+    flex: 1 1 calc(50% - 8px);
 }
-#payment ul.payment_methods [class*=payment_method_wpg_paypal_checkout] label img {
-    max-height:25px;
-    display:inline-block;
-    max-width: 100px;
+
+/* Label styling */
+.wpg-paypal-cc-field label {
+    margin-left: 8px;
+    font-weight: 600;
+    color: #515151;
 }
-#payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] img {
-    float:none;
-    vertical-align:middle
+.wc-credit-card-form .wpg-paypal-cc-field:not(:last-child) {
+    margin-bottom: 6px;
 }
-#payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] .ppcp-card-icon {
-    max-height:25px
+/* Responsive */
+@media (max-width: 480px) {
+    .wpg-paypal-cc-field.half-width {
+        flex: 1 1 100%;
+    }
 }
+
 .wc-block-components-express-payment__event-buttons {
     padding-bottom: 2px !important;
 }
+#payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] img {
+    margin: -2px 0 0 2px;
+}
+#radio-control-wc-payment-method-options-wpg_paypal_checkout_cc__label img {
+    margin: -2px 0 0 2px;
+}
 @media screen and (max-width: 472px) {
     #payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] img {
-        display: none;
+        height: 20px;
+        margin: 0 0 0 0;
     }
 }
 @media screen and (max-width: 452px) {
     #radio-control-wc-payment-method-options-wpg_paypal_checkout_cc__label img {
-        display:none;
+        height: 20px;
+        margin: 0 0 0 0;
     }
 }
 .entry-content ul.wc-block-components-express-payment__event-buttons, #left-area ul.wc-block-components-express-payment__event-buttons {
@@ -1141,4 +1175,8 @@ apple-pay-button {
     background: none;
     border: none;
     padding: 0;
+}
+
+#ppcp_checkout .paypal-buttons-context-iframe {
+    margin-top: 14px;
 }

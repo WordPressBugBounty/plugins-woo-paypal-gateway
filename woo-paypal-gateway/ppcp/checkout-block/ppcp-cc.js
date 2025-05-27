@@ -91,9 +91,20 @@ var {addAction} = wp.hooks;
                     return false;
                 }
                 const l = Object(u.getSetting)("wpg_paypal_checkout_cc_data", {});
-                const iconsElements = l.icons.map(icon => (
-                            createElement("img", {src: icon, style: {float: "right", marginRight: "3px"}})
-                            ));
+                const iconsElements = createElement(
+                        'span',
+                        {style: {display: 'flex', gap: '4px'}},
+                        l.icons.map((icon, i) =>
+                            createElement('img', {
+                                key: `icon-${i}`,
+                                src: icon,
+                                style: {
+                                    display: 'inline-block',
+                                    verticalAlign: 'middle'
+                                }
+                            })
+                        )
+                        );
                 const p = () => Object(a.decodeEntities)(l.description || "");
                 const {is_order_confirm_page, is_paylater_enable_incart_page, page} = wpg_paypal_checkout_cc_manager_block;
                 const {useEffect} = window.wp.element;
@@ -132,18 +143,66 @@ var {addAction} = wp.hooks;
 
                     return createElement(
                             'div',
-                            {id: 'wc-wpg_paypal_checkout_cc-form', className: 'wc-credit-card-form wc-payment-form'},
-                            createElement('div', {id: 'wpg_paypal_checkout_cc-card-number'}),
-                            createElement('div', {id: 'wpg_paypal_checkout_cc-card-expiry'}),
-                            createElement('div', {id: 'wpg_paypal_checkout_cc-card-cvc'})
+                            {
+                                id: 'wc-wpg_paypal_checkout_cc-form',
+                                className: 'wc-credit-card-form wc-payment-form'
+                            },
+                            createElement(
+                                    'div',
+                                    {className: 'wpg-paypal-cc-field full-width'},
+                                    createElement(
+                                            'label',
+                                            {
+                                                htmlFor: 'wpg_paypal_checkout_cc-card-number',
+                                                style: {display: 'none'}
+                                            },
+                                            wpg_paypal_checkout_cc_manager_block.card_number
+                                            ),
+                                    createElement('div', {id: 'wpg_paypal_checkout_cc-card-number'})
+                                    ),
+                            createElement(
+                                    'div',
+                                    {className: 'wpg-paypal-cc-field half-width'},
+                                    createElement(
+                                            'label',
+                                            {
+                                                htmlFor: 'wpg_paypal_checkout_cc-card-expiry',
+                                                style: {display: 'none'}
+                                            },
+                                            wpg_paypal_checkout_cc_manager_block.expiration_date
+                                            ),
+                                    createElement('div', {id: 'wpg_paypal_checkout_cc-card-expiry'})
+                                    ),
+                            createElement(
+                                    'div',
+                                    {className: 'wpg-paypal-cc-field half-width'},
+                                    createElement(
+                                            'label',
+                                            {
+                                                htmlFor: 'wpg_paypal_checkout_cc-card-cvc',
+                                                style: {display: 'none'}
+                                            },
+                                            wpg_paypal_checkout_cc_manager_block.security_code
+                                            ),
+                                    createElement('div', {id: 'wpg_paypal_checkout_cc-card-cvc'})
+                                    )
                             );
+
+
                 };
 
                 const s = {
                     name: 'wpg_paypal_checkout_cc',
                     label: createElement(
                             'span',
-                            {style: {width: '100%'}},
+                            {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    width: '100%'
+                                }
+                            },
                             l.cc_title,
                             iconsElements
                             ),
@@ -154,12 +213,13 @@ var {addAction} = wp.hooks;
                     ariaLabel: Object(a.decodeEntities)(l.cc_title || Object(i.__)('Payment via PayPal', 'woo-gutenberg-products-block')),
                     supports: {
                         features: o != null ? o : l.supports,
-                        showSavedCards: false,
-                        showSaveOption: false
+                        showSavedCards: l.enable_save_card,
+                        showSaveOption: l.enable_save_card
                     }
                 };
 
 // Register the payment method
+                console.log(l);
                 Object(c.registerPaymentMethod)(s);
 
 

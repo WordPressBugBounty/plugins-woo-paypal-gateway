@@ -92,7 +92,7 @@ class Woo_PayPal_Gateway_Braintree extends WC_Payment_Gateway_CC {
     public function payment_fields() {
         if (is_checkout() || is_checkout_pay_page()) {
             if ($this->description) {
-                echo wpautop(wptexturize($this->description));
+                echo wp_kses_post(wpautop(wptexturize($this->description)));
             }
             $clientToken = $this->wpg_braintree_get_client_token();
             ?>
@@ -119,7 +119,7 @@ class Woo_PayPal_Gateway_Braintree extends WC_Payment_Gateway_CC {
         ?>
         <script type="text/javascript">
             var init_braintree = function () {
-                var authorization = '<?php echo wc_clean($clientToken); ?>';
+                var authorization = '<?php echo esc_js($clientToken); ?>';
                 var submitButton = document.querySelector('#place_order');
                 var ccForm = jQuery('form.checkout, #order_review, #add_payment_method');
                 var $form = jQuery('form.checkout, #order_review, #add_payment_method');

@@ -41,7 +41,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             add_action('wc_ajax_wpg_ajax_generate_cart', array($this, 'wpg_product_add_to_cart'));
             add_action('template_redirect', array($this, 'wpg_redirect_to_checkout_page'));
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -58,11 +58,9 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
                 }
             }
         } catch (Exception $ex) {
-
+            
         }
     }
-    
-    
 
     public function wpg_add_header_meta() {
         echo '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
@@ -118,7 +116,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
                 }
             }
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -149,7 +147,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
                 ));
             }
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -172,7 +170,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             }
             return $locale;
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -191,7 +189,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             }
             return $locale;
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -206,7 +204,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             }
             return $gateways;
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -214,7 +212,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
         try {
             wpg_maybe_clear_session_data();
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -226,7 +224,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             }
             return $title;
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -244,7 +242,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
                 return false;
             }
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -256,13 +254,13 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             $wpg_express_checkout_obj = new Woo_PayPal_Gateway_Express_Checkout_NVP();
             return $wpg_express_checkout_obj->username;
         } catch (Exception $ex) {
-
+            
         }
     }
 
     public function wpg_add_body_class($classes) {
         try {
-            if ( ! class_exists( 'WooCommerce' ) || WC()->session == null ) {
+            if (!class_exists('WooCommerce') || WC()->session == null) {
                 return $classes;
             }
             if (is_wpg_express_checkout_ready_to_capture()) {
@@ -270,14 +268,14 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             }
             return $classes;
         } catch (Exception $ex) {
-
+            
         }
     }
 
     public function wpg_product_add_to_cart() {
         try {
             if (!wp_verify_nonce($_POST['nonce'], '_wpg_nonce_')) {
-                wp_die(__('Cheatin&#8217; huh?', 'woo-paypal-gateway'));
+                wp_die(esc_html__('Cheatin&#8217; huh?', 'woo-paypal-gateway'));
             }
             if (!isset($_POST['is_add_to_cart']) || $_POST['is_add_to_cart'] == 'no') {
                 return false;
@@ -304,7 +302,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             }
             WC()->cart->calculate_totals();
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -326,5 +324,4 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
         }
         return esc_url($create_payment_url);
     }
-
 }
