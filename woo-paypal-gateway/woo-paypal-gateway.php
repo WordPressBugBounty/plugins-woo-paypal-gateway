@@ -5,7 +5,7 @@
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
  * Description:       PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal Partner
- * Version:           9.0.33
+ * Version:           9.0.34
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
@@ -25,7 +25,7 @@ if (!defined('WPINC')) {
 
 
 if (!defined('WPG_PLUGIN_VERSION')) {
-    define('WPG_PLUGIN_VERSION', '9.0.33');
+    define('WPG_PLUGIN_VERSION', '9.0.34');
 }
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
@@ -78,6 +78,8 @@ register_deactivation_hook(__FILE__, 'deactivate_woo_paypal_gateway');
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
+
+require_once WPG_PLUGIN_DIR . '/ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php';
 require plugin_dir_path(__FILE__) . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce.php';
 require plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-gateway.php';
 

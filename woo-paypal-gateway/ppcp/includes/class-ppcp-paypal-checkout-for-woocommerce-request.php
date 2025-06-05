@@ -1337,7 +1337,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
             // Patch request for updating the order amount and shipping
             $patch_request[] = array(
-                'op' => 'replace',
+                'op' => 'add',
                 'path' => "/purchase_units/@reference_id=='$reference_id'/amount",
                 'value' => array(
                     'currency_code' => $order->get_currency(),
@@ -1348,14 +1348,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
             // Update shipping address
             $patch_request[] = array(
-                'op' => 'replace',
+                'op' => 'add',
                 'path' => "/purchase_units/@reference_id=='$reference_id'/shipping/address",
                 'value' => $shipping_address_request
             );
 
             // Update invoice ID
             $patch_request[] = array(
-                'op' => 'replace',
+                'op' => 'add',
                 'path' => "/purchase_units/@reference_id=='$reference_id'/invoice_id",
                 'value' => $this->invoice_id_prefix . str_replace("#", "", $order->get_order_number())
             );
@@ -1368,7 +1368,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     )
             );
             $patch_request[] = array(
-                'op' => 'replace',
+                'op' => 'add',
                 'path' => "/purchase_units/@reference_id=='$reference_id'/custom_id",
                 'value' => $update_custom_id
             );
@@ -1949,9 +1949,30 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         $this->payment_status_failed($order);
     }
 
-    public function payment_status_refunded($order) {
-        if (!$order->has_status(array('refunded'))) {
-            $order->update_status('refunded');
+    public function payment_status_refunded($order, $posted) {
+        if (!isset($posted['resource']['seller_payable_breakdown']['total_refunded_amount']['value'])) {
+            return;
+        }
+        $resource = $posted['resource'];
+        $refunded_amount = floatval($resource['seller_payable_breakdown']['total_refunded_amount']['value']);
+        $refunded_currency = $resource['seller_payable_breakdown']['total_refunded_amount']['currency_code'] ?? '';
+        $order_total = floatval($order->get_total());
+        $order_currency = $order->get_currency();
+        $formatted_refund = wc_format_decimal($refunded_amount, wc_get_price_decimals());
+        $formatted_total = wc_format_decimal($order_total, wc_get_price_decimals());
+        if (strtoupper($refunded_currency) !== strtoupper($order_currency)) {
+            $order->add_order_note("PayPal refund currency mismatch: $refunded_currency vs $order_currency");
+            return;
+        }
+        if ($formatted_refund >= $formatted_total && $order_total > 0) {
+            if (!$order->has_status(['refunded'])) {
+                $order->update_status('refunded');
+                $order->add_order_note(sprintf(
+                                __('Marked as refunded via PayPal. Total refunded: %s %s.', 'woo-paypal-gateway'),
+                                $formatted_refund,
+                                $refunded_currency
+                ));
+            }
         }
     }
 

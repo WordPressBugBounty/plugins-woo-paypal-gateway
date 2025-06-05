@@ -64,7 +64,7 @@
 }
 .ppcp-button-container {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 #ppcp_product.desktop.small {
     max-width: 300px;
@@ -974,9 +974,10 @@
     font-weight: 500;
     margin: 0 auto;
     padding: 0 1rem;
-    max-width: 250px;
+    max-width: 220px;
     float: none;
     color: #6d6d6d;
+    font-size: 16px;
 }
 .ppcp-button-container .express-divider {
     align-items: center;
@@ -991,7 +992,7 @@
 }
 .ppcp-button-container .express-divider::before,
 .ppcp-button-container .express-divider::after {
-    background: #d1d1d1;
+    background: #e2e2e2;
     content: " ";
     display: block;
     height: 1px;
@@ -1112,6 +1113,7 @@
     margin-left: 8px;
     font-weight: 600;
     color: #515151;
+    margin-bottom: 0px;
 }
 .wc-credit-card-form .wpg-paypal-cc-field:not(:last-child) {
     margin-bottom: 6px;
@@ -1179,4 +1181,8 @@ apple-pay-button {
 
 #ppcp_checkout .paypal-buttons-context-iframe {
     margin-top: 14px;
+}
+apple-pay-button {
+    --apple-pay-button-border-radius: var(--button-radius, 4px);
+    border-radius: var(--button-radius, 4px);
 }

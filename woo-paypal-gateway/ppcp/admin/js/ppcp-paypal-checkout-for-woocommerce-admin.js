@@ -1,7 +1,7 @@
 let onboardingInProgress = false;
 window.onboardingCallback = function (authCode, sharedId) {
     if (onboardingInProgress) {
-        return; 
+        return;
     }
     onboardingInProgress = true;
     const is_sandbox = document.querySelector('#woocommerce_wpg_paypal_checkout_sandbox');
@@ -54,7 +54,6 @@ window.onboardingCallback = function (authCode, sharedId) {
                 }
             }
         }).change();
-
         $(".wpg_paypal_checkout_gateway_manual_credential_input").on('click', function (e) {
             e.preventDefault();
             if ($('#woocommerce_wpg_paypal_checkout_sandbox').val() === 'yes') {
@@ -67,7 +66,6 @@ window.onboardingCallback = function (authCode, sharedId) {
                 $('#woocommerce_paypal_smart_checkout_api_credentials, #woocommerce_paypal_smart_checkout_api_credentials + p').toggle();
             }
         });
-
         $(".button.wpg-ppcp-disconnect").click(function () {
             $(".woocommerce-save-button").prop("disabled", false);
             if ($('#woocommerce_wpg_paypal_checkout_sandbox').val() === 'yes') {
@@ -79,7 +77,6 @@ window.onboardingCallback = function (authCode, sharedId) {
             }
             $('.woocommerce-save-button').click();
         });
-
         $('#woocommerce_wpg_paypal_checkout_show_on_product_page').change(function () {
             if ($(this).is(':checked')) {
                 $('.wpg_paypal_checkout_product_button_settings, .ppcp_product_button_settings').closest('tr').show();
@@ -129,7 +126,7 @@ window.onboardingCallback = function (authCode, sharedId) {
                 $('#woocommerce_wpg_paypal_checkout_google_pay_pages').closest('tr').hide();
             }
         }).change();
-        
+
         $('#woocommerce_wpg_paypal_checkout_enabled_apple_pay').change(function () {
             if ($(this).is(':checked')) {
                 $('#woocommerce_wpg_paypal_checkout_apple_pay_pages').closest('tr').show();
@@ -137,34 +134,23 @@ window.onboardingCallback = function (authCode, sharedId) {
                 $('#woocommerce_wpg_paypal_checkout_apple_pay_pages').closest('tr').hide();
             }
         }).change();
-
-
-        // Define page types
         const pageTypes = ['home', 'category', 'product', 'cart', 'payment'];
-
-        // Helper function to toggle visibility
         const toggleVisibility = (selector, condition) => {
             const element = $(selector);
             if (condition) {
-                element.closest('tr').show(); // Show the closest table row
+                element.closest('tr').show();
                 element.closest('tr').closet('table').show();
-                element.show(); // Ensure the element itself is visible
+                element.show();
             } else {
-                element.closest('tr').closet('table').hide(); // Hide the closest table row
-                element.hide(); // Ensure the element itself is hidden
+                element.closest('tr').closet('table').hide();
+                element.hide();
             }
         };
-
-        // Check if messaging is enabled
         const isMessagingEnabled = () => $('#woocommerce_wpg_paypal_checkout_enabled_pay_later_messaging').is(':checked');
-
-        // Check if the current page type is enabled
         const isPageEnabled = (pageType) => {
             const selectedPages = $('#woocommerce_wpg_paypal_checkout_pay_later_messaging_page_type').val() || [];
             return isMessagingEnabled() && selectedPages.includes(pageType);
         };
-
-        // Hide all Pay Later fields
         const hideAllPayLaterFields = () => {
             $('.pay_later_messaging_field').closest('tr').hide(); // Hide all generic fields
             pageTypes.forEach((type) => {
@@ -173,8 +159,6 @@ window.onboardingCallback = function (authCode, sharedId) {
                 $(`#woocommerce_wpg_paypal_checkout_pay_later_messaging_${type}_page_settings`).hide(); // Hide headers
             });
         };
-
-        // Update visibility of page-specific fields and headers
         const updatePageTypeVisibility = () => {
             const selectedPages = $('#woocommerce_wpg_paypal_checkout_pay_later_messaging_page_type').val() || [];
             pageTypes.forEach((type) => {
@@ -192,8 +176,6 @@ window.onboardingCallback = function (authCode, sharedId) {
                 }
             });
         };
-
-        // Event listeners for Pay Later Messaging
         const initializePayLaterMessaging = () => {
             $('#woocommerce_wpg_paypal_checkout_enabled_pay_later_messaging').change(function () {
                 if ($(this).is(':checked')) {
@@ -204,12 +186,9 @@ window.onboardingCallback = function (authCode, sharedId) {
                     hideAllPayLaterFields();
                 }
             });
-
             $('#woocommerce_wpg_paypal_checkout_pay_later_messaging_page_type').change(function () {
                 updatePageTypeVisibility();
             });
-
-            // Initial visibility setup
             if ($('#woocommerce_wpg_paypal_checkout_enabled_pay_later_messaging').is(':checked')) {
                 $('.pay_later_messaging_field').closest('tr').show(); // Show "Page Type" field
                 $('.pay_later_messaging_field').closest('tr').closest('table').show();
@@ -218,49 +197,69 @@ window.onboardingCallback = function (authCode, sharedId) {
                 hideAllPayLaterFields();
             }
         };
-
-        // Collapsible sections functionality
         const initializeCollapsibleSections = () => {
-            // Collapse all sections initially
             $('h3.ppcp-collapsible-section').each(function () {
                 $(this).nextUntil('h3.ppcp-collapsible-section').hide();
             });
-
-            // Make the first section active by default
             const firstSection = $('h3.ppcp-collapsible-section').first();
             firstSection.addClass('active');
             firstSection.nextUntil('h3.ppcp-collapsible-section').show();
-
-            // Toggle sections on header click
             $('h3.ppcp-collapsible-section').on('click', function () {
                 if (!$(this).hasClass('active')) {
-                    // Collapse other sections
                     $('h3.ppcp-collapsible-section')
                             .removeClass('active')
                             .nextUntil('h3.ppcp-collapsible-section')
                             .slideUp(1);
                 }
-                //$(this).toggleClass('active').next('table').css('display', 'block').find('tr').css('display', 'block');
-                //$(this).toggleClass('active').nextUntil('h3.ppcp-collapsible-section').slideToggle(1);
-
                 $(this).toggleClass('active').next('table').slideToggle(1).find('tr').css('display', 'block');
-
             });
         };
-
-
+        function toggleGooglePayPageSettings() {
+            const isGooglePayEnabled = $('#woocommerce_wpg_paypal_checkout_enabled_google_pay').is(':checked');
+            const selectedPages = $('#woocommerce_wpg_paypal_checkout_google_pay_pages').val() || [];
+            const allPages = ['product', 'cart', 'mini_cart', 'express_checkout', 'checkout'];
+            allPages.forEach(function (page) {
+                const heading = $('#woocommerce_wpg_paypal_checkout_google_pay_' + page + '_page_settings');
+                const table = heading.next('table.form-table');
+                if (isGooglePayEnabled && selectedPages.includes(page)) {
+                    heading.show();
+                    table.show();
+                } else {
+                    heading.hide();
+                    table.hide();
+                }
+            });
+            $('#woocommerce_wpg_paypal_checkout_google_pay_pages').closest('tr').toggle(isGooglePayEnabled);
+        }
+        toggleGooglePayPageSettings();
+        $('#woocommerce_wpg_paypal_checkout_google_pay_pages, #woocommerce_wpg_paypal_checkout_enabled_google_pay').on('change', toggleGooglePayPageSettings);
+        function toggleApplePayPageSettings() {
+            const isApplePayEnabled = $('#woocommerce_wpg_paypal_checkout_enabled_apple_pay').is(':checked');
+            const selectedPages = $('#woocommerce_wpg_paypal_checkout_apple_pay_pages').val() || [];
+            const allPages = ['product', 'cart', 'mini_cart', 'express_checkout', 'checkout'];
+            allPages.forEach(function (page) {
+                const heading = $('#woocommerce_wpg_paypal_checkout_apple_pay_' + page + '_page_settings');
+                const table = heading.next('table.form-table');
+                if (isApplePayEnabled && selectedPages.includes(page)) {
+                    heading.show();
+                    table.show();
+                } else {
+                    heading.hide();
+                    table.hide();
+                }
+            });
+            $('#woocommerce_wpg_paypal_checkout_apple_pay_pages').closest('tr').toggle(isApplePayEnabled);
+        }
+        toggleApplePayPageSettings();
+        $('#woocommerce_wpg_paypal_checkout_enabled_apple_pay, #woocommerce_wpg_paypal_checkout_apple_pay_pages').on('change', toggleApplePayPageSettings);
         $('table').each(function () {
             if ($(this).find('tbody').length === 0) {
-                $(this).hide(); // Hide the table if no <tbody> is found
+                $(this).hide();
             }
         });
-
-        // Initialize all functionality on document ready
         $(document).ready(function () {
             initializePayLaterMessaging();
             initializeCollapsibleSections();
         });
-
-
     });
 })(jQuery);

@@ -9,6 +9,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
         public $gateway_key;
         public $settings = array();
         protected static $_instance = null;
+        public $disallowed_funding_methods = array();
 
         public static function instance() {
             if (is_null(self::$_instance)) {
@@ -19,6 +20,33 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
 
         public function __construct() {
             $this->gateway_key = 'woocommerce_wpg_paypal_checkout_settings';
+            $this->disallowed_funding_methods = array(
+                'paypal' => 'PayPal',
+                'venmo' => 'Venmo',
+                'itau' => 'Itaú',
+                'credit' => 'PayPal Credit',
+                'paylater' => 'Pay Later',
+                'ideal' => 'iDEAL',
+                'sepa' => 'SEPA-Lastschrift',
+                'bancontact' => 'Bancontact',
+                'giropay' => 'giropay',
+                'eps' => 'eps',
+                'sofort' => 'Sofort',
+                'mybank' => 'MyBank',
+                'blik' => 'BLIK',
+                'p24' => 'Przelewy24',
+                'wechatpay' => 'WeChat Pay',
+                'payu' => 'PayU',
+                'trustly' => 'Trustly',
+                'oxxo' => 'OXXO',
+                'boleto' => 'Boleto Bancário',
+                'boletobancario' => 'Boleto Bancário',
+                'mercadopago' => 'Mercado Pago',
+                'multibanco' => 'Multibanco',
+                'satispay' => 'Satispay',
+                'paidy' => 'Paidy',
+                'card' => 'Credit or Debit Card',
+            );
         }
 
         public function get($id, $default = false) {
@@ -210,24 +238,9 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'multiselect',
                     'class' => 'wc-enhanced-select ppcp_product_button_settings',
                     'description' => __('Funding methods selected here will be hidden from buyers on the product page only.', 'woo-paypal-gateway'),
-                    'default' => '',
+                    'default' => array(),
                     'desc_tip' => true,
-                    'options' => array(
-                        'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
-                        'credit' => __('PayPal Credit', 'woo-paypal-gateway'),
-                        'paylater' => __('Pay Later', 'woo-paypal-gateway'),
-                        'bancontact' => __('Bancontact', 'woo-paypal-gateway'),
-                        'blik' => __('BLIK', 'woo-paypal-gateway'),
-                        'eps' => __('eps', 'woo-paypal-gateway'),
-                        'giropay' => __('giropay', 'woo-paypal-gateway'),
-                        'ideal' => __('iDEAL', 'woo-paypal-gateway'),
-                        'mercadopago' => __('Mercado Pago', 'woo-paypal-gateway'),
-                        'mybank' => __('MyBank', 'woo-paypal-gateway'),
-                        'p24' => __('Przelewy24', 'woo-paypal-gateway'),
-                        'sepa' => __('SEPA-Lastschrift', 'woo-paypal-gateway'),
-                        'sofort' => __('Sofort', 'woo-paypal-gateway'),
-                        'venmo' => __('Venmo', 'woo-paypal-gateway')
-                    ),
+                    'options' => $this->disallowed_funding_methods,
                     'custom_attributes' => array(
                         'data-placeholder' => __('Select funding methods to hide.', 'woo-paypal-gateway'),
                     )
@@ -333,22 +346,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => __('Funding methods selected here will be hidden from buyers during checkout.', 'woo-paypal-gateway'),
                     'default' => array('card'),
                     'desc_tip' => true,
-                    'options' => array(
-                        'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
-                        'credit' => __('PayPal Credit', 'woo-paypal-gateway'),
-                        'paylater' => __('Pay Later', 'woo-paypal-gateway'),
-                        'bancontact' => __('Bancontact', 'woo-paypal-gateway'),
-                        'blik' => __('BLIK', 'woo-paypal-gateway'),
-                        'eps' => __('eps', 'woo-paypal-gateway'),
-                        'giropay' => __('giropay', 'woo-paypal-gateway'),
-                        'ideal' => __('iDEAL', 'woo-paypal-gateway'),
-                        'mercadopago' => __('Mercado Pago', 'woo-paypal-gateway'),
-                        'mybank' => __('MyBank', 'woo-paypal-gateway'),
-                        'p24' => __('Przelewy24', 'woo-paypal-gateway'),
-                        'sepa' => __('SEPA-Lastschrift', 'woo-paypal-gateway'),
-                        'sofort' => __('Sofort', 'woo-paypal-gateway'),
-                        'venmo' => __('Venmo', 'woo-paypal-gateway')
-                    ),
+                    'options' => $this->disallowed_funding_methods,
                     'custom_attributes' => array(
                         'data-placeholder' => __('Select funding methods to hide.', 'woo-paypal-gateway'),
                     )
@@ -433,24 +431,9 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'multiselect',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
                     'description' => __('Funding methods selected here will be hidden from buyers during checkout.', 'woo-paypal-gateway'),
-                    'default' => '',
+                    'default' => array(),
                     'desc_tip' => true,
-                    'options' => array(
-                        'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
-                        'credit' => __('PayPal Credit', 'woo-paypal-gateway'),
-                        'paylater' => __('Pay Later', 'woo-paypal-gateway'),
-                        'bancontact' => __('Bancontact', 'woo-paypal-gateway'),
-                        'blik' => __('BLIK', 'woo-paypal-gateway'),
-                        'eps' => __('eps', 'woo-paypal-gateway'),
-                        'giropay' => __('giropay', 'woo-paypal-gateway'),
-                        'ideal' => __('iDEAL', 'woo-paypal-gateway'),
-                        'mercadopago' => __('Mercado Pago', 'woo-paypal-gateway'),
-                        'mybank' => __('MyBank', 'woo-paypal-gateway'),
-                        'p24' => __('Przelewy24', 'woo-paypal-gateway'),
-                        'sepa' => __('SEPA-Lastschrift', 'woo-paypal-gateway'),
-                        'sofort' => __('Sofort', 'woo-paypal-gateway'),
-                        'venmo' => __('Venmo', 'woo-paypal-gateway')
-                    ),
+                    'options' => $this->disallowed_funding_methods,
                     'custom_attributes' => array(
                         'data-placeholder' => __('Select funding methods to hide.', 'woo-paypal-gateway'),
                     )
@@ -525,7 +508,6 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Use Place Order Button', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
                     'default' => 'no',
-                    'value' => 'yes',
                     'desc_tip' => false,
                     'description' => __('Enable this to use the default Place Order button on the checkout page instead of showing PayPal buttons. This setting does not affect Express Checkout.',
                             'woo-paypal-gateway'),
@@ -713,7 +695,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
             return array(
                 'advanced_card_pay_note' => array(
                     'title' => __('Important Note', 'woo-paypal-gateway'),
-                    'type' => 'advanced_card_pay_title', // You may rename this if it's not only for Google Pay
+                    'type' => 'advanced_card_pay_title',
                     'description' => __(
                             'To use Advanced Credit/Debit Card (PayPal), your PayPal account must meet eligibility requirements. Please ensure your account is approved for advanced card processing. <a target="_blank" href="https://developer.paypal.com/docs/multiparty/checkout/advanced/#eligibility">View eligibility requirements</a>.',
                             'woo-paypal-gateway'
@@ -811,6 +793,216 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     ),
                     'description' => __('Set the page(s) to display the Google Pay button.', 'woo-paypal-gateway'),
                 ),
+                'google_pay_product_page_settings' => array(
+                    'title' => __('Product Page', 'woo-paypal-gateway'),
+                    'description' => '',
+                    'type' => 'title',
+                    'class' => 'google_pay_field google_pay_product_field',
+                ),
+                'google_pay_product_page_label' => array(
+                    'title' => __('Button Label', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_product_field',
+                    'default' => 'plain',
+                    'options' => array(
+                        'plain' => __('Plain', 'woo-paypal-gateway'),
+                        'buy' => __('Buy', 'woo-paypal-gateway'),
+                        'checkout' => __('Checkout', 'woo-paypal-gateway'),
+                        'donate' => __('Donate', 'woo-paypal-gateway'),
+                        'book' => __('Book', 'woo-paypal-gateway'),
+                        'order' => __('Order', 'woo-paypal-gateway'),
+                        'pay' => __('Pay', 'woo-paypal-gateway'),
+                        'subscribe' => __('Subscribe', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'google_pay_product_page_color' => array(
+                    'title' => __('Button Color', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_product_field',
+                    'default' => 'black', // Default to Black, as it's most widely used
+                    'options' => array(
+                        'black' => __('Black', 'woo-paypal-gateway'),
+                        'white' => __('White', 'woo-paypal-gateway'),
+                    )
+                ),
+                'google_pay_product_page_shape' => array(
+                    'title' => __('Button Shape', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_product_field',
+                    'default' => 'rect',
+                    'options' => array(
+                        'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
+                        'pill' => __('Pill', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'google_pay_cart_page_settings' => array(
+                    'title' => __('Cart Page', 'woo-paypal-gateway'),
+                    'description' => '',
+                    'type' => 'title',
+                    'class' => 'google_pay_field google_pay_cart_field',
+                ),
+                'google_pay_cart_page_label' => array(
+                    'title' => __('Button Label', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_cart_field',
+                    'default' => 'plain',
+                    'options' => array(
+                        'plain' => __('Plain', 'woo-paypal-gateway'),
+                        'buy' => __('Buy', 'woo-paypal-gateway'),
+                        'checkout' => __('Checkout', 'woo-paypal-gateway'),
+                        'donate' => __('Donate', 'woo-paypal-gateway'),
+                        'book' => __('Book', 'woo-paypal-gateway'),
+                        'order' => __('Order', 'woo-paypal-gateway'),
+                        'pay' => __('Pay', 'woo-paypal-gateway'),
+                        'subscribe' => __('Subscribe', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'google_pay_cart_page_color' => array(
+                    'title' => __('Button Color', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_cart_field',
+                    'default' => 'black', // Default to Black, as it's most widely used
+                    'options' => array(
+                        'black' => __('Black', 'woo-paypal-gateway'),
+                        'white' => __('White', 'woo-paypal-gateway'),
+                    )
+                ),
+                'google_pay_cart_page_shape' => array(
+                    'title' => __('Button Shape', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_cart_field',
+                    'default' => 'rect',
+                    'options' => array(
+                        'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
+                        'pill' => __('Pill', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'google_pay_mini_cart_page_settings' => array(
+                    'title' => __('Mini Cart (Side Cart)', 'woo-paypal-gateway'),
+                    'description' => '',
+                    'type' => 'title',
+                    'class' => 'google_pay_field google_pay_mini_cart_field',
+                ),
+                'google_pay_mini_cart_page_label' => array(
+                    'title' => __('Button Label', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_mini_cart_field',
+                    'default' => 'plain',
+                    'options' => array(
+                        'plain' => __('Plain', 'woo-paypal-gateway'),
+                        'buy' => __('Buy', 'woo-paypal-gateway'),
+                        'checkout' => __('Checkout', 'woo-paypal-gateway'),
+                        'donate' => __('Donate', 'woo-paypal-gateway'),
+                        'book' => __('Book', 'woo-paypal-gateway'),
+                        'order' => __('Order', 'woo-paypal-gateway'),
+                        'pay' => __('Pay', 'woo-paypal-gateway'),
+                        'subscribe' => __('Subscribe', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'google_pay_mini_cart_page_color' => array(
+                    'title' => __('Button Color', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_mini_cart_field',
+                    'default' => 'black', // Default to Black, as it's most widely used
+                    'options' => array(
+                        'black' => __('Black', 'woo-paypal-gateway'),
+                        'white' => __('White', 'woo-paypal-gateway'),
+                    )
+                ),
+                'google_pay_mini_cart_page_shape' => array(
+                    'title' => __('Button Shape', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_mini_cart_field',
+                    'default' => 'rect',
+                    'options' => array(
+                        'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
+                        'pill' => __('Pill', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'google_pay_express_checkout_page_settings' => array(
+                    'title' => __('Express Checkout', 'woo-paypal-gateway'),
+                    'description' => '',
+                    'type' => 'title',
+                    'class' => 'google_pay_field google_pay_express_checkout_field',
+                ),
+                'google_pay_express_checkout_page_label' => array(
+                    'title' => __('Button Label', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_express_checkout_field',
+                    'default' => 'plain',
+                    'options' => array(
+                        'plain' => __('Plain', 'woo-paypal-gateway'),
+                        'buy' => __('Buy', 'woo-paypal-gateway'),
+                        'checkout' => __('Checkout', 'woo-paypal-gateway'),
+                        'donate' => __('Donate', 'woo-paypal-gateway'),
+                        'book' => __('Book', 'woo-paypal-gateway'),
+                        'order' => __('Order', 'woo-paypal-gateway'),
+                        'pay' => __('Pay', 'woo-paypal-gateway'),
+                        'subscribe' => __('Subscribe', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'google_pay_express_checkout_page_color' => array(
+                    'title' => __('Button Color', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_express_checkout_field',
+                    'default' => 'black', // Default to Black, as it's most widely used
+                    'options' => array(
+                        'black' => __('Black', 'woo-paypal-gateway'),
+                        'white' => __('White', 'woo-paypal-gateway'),
+                    )
+                ),
+                'google_pay_express_checkout_page_shape' => array(
+                    'title' => __('Button Shape', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_express_checkout_field',
+                    'default' => 'rect',
+                    'options' => array(
+                        'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
+                        'pill' => __('Pill', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'google_pay_checkout_page_settings' => array(
+                    'title' => __('Checkout Page', 'woo-paypal-gateway'),
+                    'description' => '',
+                    'type' => 'title',
+                    'class' => 'google_pay_field google_pay_checkout_field',
+                ),
+                'google_pay_checkout_page_label' => array(
+                    'title' => __('Button Label', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_checkout_field',
+                    'default' => 'plain',
+                    'options' => array(
+                        'plain' => __('Plain', 'woo-paypal-gateway'),
+                        'buy' => __('Buy', 'woo-paypal-gateway'),
+                        'checkout' => __('Checkout', 'woo-paypal-gateway'),
+                        'donate' => __('Donate', 'woo-paypal-gateway'),
+                        'book' => __('Book', 'woo-paypal-gateway'),
+                        'order' => __('Order', 'woo-paypal-gateway'),
+                        'pay' => __('Pay', 'woo-paypal-gateway'),
+                        'subscribe' => __('Subscribe', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'google_pay_checkout_page_color' => array(
+                    'title' => __('Button Color', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_checkout_field',
+                    'default' => 'black', // Default to Black, as it's most widely used
+                    'options' => array(
+                        'black' => __('Black', 'woo-paypal-gateway'),
+                        'white' => __('White', 'woo-paypal-gateway'),
+                    )
+                ),
+                'google_pay_checkout_page_shape' => array(
+                    'title' => __('Button Shape', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select google_pay_field google_pay_checkout_field',
+                    'default' => 'rect',
+                    'options' => array(
+                        'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
+                        'pill' => __('Pill', 'woo-paypal-gateway'),
+                    ),
+                ),
             );
         }
 
@@ -892,6 +1084,211 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
                     ),
                     'description' => __('Set the page(s) to display the Apple Pay button.', 'woo-paypal-gateway'),
+                ),
+                'apple_pay_product_page_settings' => array(
+                    'title' => __('Product Page', 'woo-paypal-gateway'),
+                    'description' => '',
+                    'type' => 'title',
+                    'class' => 'apple_pay_field apple_pay_product_field',
+                ),
+                'apple_pay_product_page_label' => array(
+                    'title' => __('Button Label', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_product_field',
+                    'default' => 'plain',
+                    'options' => array(
+                        'plain' => __('Plain', 'woo-paypal-gateway'),
+                        'buy' => __('Buy', 'woo-paypal-gateway'),
+                        'check-out' => __('Checkout', 'woo-paypal-gateway'),
+                        'order' => __('Order', 'woo-paypal-gateway'),
+                        'pay' => __('Pay', 'woo-paypal-gateway'),
+                        'subscribe' => __('Subscribe', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_product_page_color' => array(
+                    'title' => __('Button Color', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_product_field',
+                    'default' => 'black',
+                    'options' => array(
+                        'black' => __('Black', 'woo-paypal-gateway'),
+                        'white' => __('White', 'woo-paypal-gateway'),
+                        'white-outline' => __('White with outline', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_product_page_shape' => array(
+                    'title' => __('Button Shape', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_product_field',
+                    'default' => 'rect',
+                    'options' => array(
+                        'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
+                        'pill' => __('Pill', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_cart_page_settings' => array(
+                    'title' => __('Cart Page', 'woo-paypal-gateway'),
+                    'description' => '',
+                    'type' => 'title',
+                    'class' => 'apple_pay_field apple_pay_cart_field',
+                ),
+                'apple_pay_cart_page_label' => array(
+                    'title' => __('Button Label', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_cart_field',
+                    'default' => 'plain',
+                    'options' => array(
+                        'plain' => __('Plain', 'woo-paypal-gateway'),
+                        'buy' => __('Buy', 'woo-paypal-gateway'),
+                        'check-out' => __('Checkout', 'woo-paypal-gateway'),
+                        'order' => __('Order', 'woo-paypal-gateway'),
+                        'pay' => __('Pay', 'woo-paypal-gateway'),
+                        'subscribe' => __('Subscribe', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_cart_page_color' => array(
+                    'title' => __('Button Color', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_cart_field',
+                    'default' => 'black',
+                    'options' => array(
+                        'black' => __('Black', 'woo-paypal-gateway'),
+                        'white' => __('White', 'woo-paypal-gateway'),
+                        'white-outline' => __('White with outline', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_cart_page_shape' => array(
+                    'title' => __('Button Shape', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_cart_field',
+                    'default' => 'rect',
+                    'options' => array(
+                        'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
+                        'pill' => __('Pill', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_mini_cart_page_settings' => array(
+                    'title' => __('Mini Cart (Side Cart)', 'woo-paypal-gateway'),
+                    'description' => '',
+                    'type' => 'title',
+                    'class' => 'apple_pay_field apple_pay_mini_cart_field',
+                ),
+                'apple_pay_mini_cart_page_label' => array(
+                    'title' => __('Button Label', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_mini_cart_field',
+                    'default' => 'plain',
+                    'options' => array(
+                        'plain' => __('Plain', 'woo-paypal-gateway'),
+                        'buy' => __('Buy', 'woo-paypal-gateway'),
+                        'check-out' => __('Checkout', 'woo-paypal-gateway'),
+                        'order' => __('Order', 'woo-paypal-gateway'),
+                        'pay' => __('Pay', 'woo-paypal-gateway'),
+                        'subscribe' => __('Subscribe', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_mini_cart_page_color' => array(
+                    'title' => __('Button Color', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_mini_cart_field',
+                    'default' => 'black',
+                    'options' => array(
+                        'black' => __('Black', 'woo-paypal-gateway'),
+                        'white' => __('White', 'woo-paypal-gateway'),
+                        'white-outline' => __('White with outline', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_mini_cart_page_shape' => array(
+                    'title' => __('Button Shape', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_mini_cart_field',
+                    'default' => 'rect',
+                    'options' => array(
+                        'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
+                        'pill' => __('Pill', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_express_checkout_page_settings' => array(
+                    'title' => __('Express Checkout', 'woo-paypal-gateway'),
+                    'description' => '',
+                    'type' => 'title',
+                    'class' => 'apple_pay_field apple_pay_express_checkout_field',
+                ),
+                'apple_pay_express_checkout_page_label' => array(
+                    'title' => __('Button Label', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_express_checkout_field',
+                    'default' => 'plain',
+                    'options' => array(
+                        'plain' => __('Plain', 'woo-paypal-gateway'),
+                        'buy' => __('Buy', 'woo-paypal-gateway'),
+                        'check-out' => __('Checkout', 'woo-paypal-gateway'),
+                        'order' => __('Order', 'woo-paypal-gateway'),
+                        'pay' => __('Pay', 'woo-paypal-gateway'),
+                        'subscribe' => __('Subscribe', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_express_checkout_page_color' => array(
+                    'title' => __('Button Color', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_express_checkout_field',
+                    'default' => 'black',
+                    'options' => array(
+                        'black' => __('Black', 'woo-paypal-gateway'),
+                        'white' => __('White', 'woo-paypal-gateway'),
+                        'white-outline' => __('White with outline', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_express_checkout_page_shape' => array(
+                    'title' => __('Button Shape', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_express_checkout_field',
+                    'default' => 'rect',
+                    'options' => array(
+                        'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
+                        'pill' => __('Pill', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_checkout_page_settings' => array(
+                    'title' => __('Checkout Page', 'woo-paypal-gateway'),
+                    'description' => '',
+                    'type' => 'title',
+                    'class' => 'apple_pay_field apple_pay_checkout_field',
+                ),
+                'apple_pay_checkout_page_label' => array(
+                    'title' => __('Button Label', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_checkout_field',
+                    'default' => 'plain',
+                    'options' => array(
+                        'plain' => __('Plain', 'woo-paypal-gateway'),
+                        'buy' => __('Buy', 'woo-paypal-gateway'),
+                        'check-out' => __('Checkout', 'woo-paypal-gateway'),
+                        'order' => __('Order', 'woo-paypal-gateway'),
+                        'pay' => __('Pay', 'woo-paypal-gateway'),
+                        'subscribe' => __('Subscribe', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_checkout_page_color' => array(
+                    'title' => __('Button Color', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_checkout_field',
+                    'default' => 'black',
+                    'options' => array(
+                        'black' => __('Black', 'woo-paypal-gateway'),
+                        'white' => __('White', 'woo-paypal-gateway'),
+                        'white-outline' => __('White with outline', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'apple_pay_checkout_page_shape' => array(
+                    'title' => __('Button Shape', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select apple_pay_field apple_pay_checkout_field',
+                    'default' => 'rect',
+                    'options' => array(
+                        'rect' => __('Rect (Recommended)', 'woo-paypal-gateway'),
+                        'pill' => __('Pill', 'woo-paypal-gateway'),
+                    ),
                 ),
             );
         }
@@ -1560,24 +1957,9 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'multiselect',
                     'class' => 'wc-enhanced-select ppcp_product_button_settings',
                     'description' => __('Funding methods selected here will be hidden from buyers on the product page only.', 'woo-paypal-gateway'),
-                    'default' => '',
+                    'default' => array(),
                     'desc_tip' => true,
-                    'options' => array(
-                        'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
-                        'credit' => __('PayPal Credit', 'woo-paypal-gateway'),
-                        'paylater' => __('Pay Later', 'woo-paypal-gateway'),
-                        'bancontact' => __('Bancontact', 'woo-paypal-gateway'),
-                        'blik' => __('BLIK', 'woo-paypal-gateway'),
-                        'eps' => __('eps', 'woo-paypal-gateway'),
-                        'giropay' => __('giropay', 'woo-paypal-gateway'),
-                        'ideal' => __('iDEAL', 'woo-paypal-gateway'),
-                        'mercadopago' => __('Mercado Pago', 'woo-paypal-gateway'),
-                        'mybank' => __('MyBank', 'woo-paypal-gateway'),
-                        'p24' => __('Przelewy24', 'woo-paypal-gateway'),
-                        'sepa' => __('SEPA-Lastschrift', 'woo-paypal-gateway'),
-                        'sofort' => __('Sofort', 'woo-paypal-gateway'),
-                        'venmo' => __('Venmo', 'woo-paypal-gateway')
-                    ),
+                    'options' => $this->disallowed_funding_methods,
                     'custom_attributes' => array(
                         'data-placeholder' => __('Select funding methods to hide.', 'woo-paypal-gateway'),
                     )
@@ -1664,22 +2046,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => __('Funding methods selected here will be hidden from buyers during checkout.', 'woo-paypal-gateway'),
                     'default' => array('card'),
                     'desc_tip' => true,
-                    'options' => array(
-                        'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
-                        'credit' => __('PayPal Credit', 'woo-paypal-gateway'),
-                        'paylater' => __('Pay Later', 'woo-paypal-gateway'),
-                        'bancontact' => __('Bancontact', 'woo-paypal-gateway'),
-                        'blik' => __('BLIK', 'woo-paypal-gateway'),
-                        'eps' => __('eps', 'woo-paypal-gateway'),
-                        'giropay' => __('giropay', 'woo-paypal-gateway'),
-                        'ideal' => __('iDEAL', 'woo-paypal-gateway'),
-                        'mercadopago' => __('Mercado Pago', 'woo-paypal-gateway'),
-                        'mybank' => __('MyBank', 'woo-paypal-gateway'),
-                        'p24' => __('Przelewy24', 'woo-paypal-gateway'),
-                        'sepa' => __('SEPA-Lastschrift', 'woo-paypal-gateway'),
-                        'sofort' => __('Sofort', 'woo-paypal-gateway'),
-                        'venmo' => __('Venmo', 'woo-paypal-gateway')
-                    ),
+                    'options' => $this->disallowed_funding_methods,
                     'custom_attributes' => array(
                         'data-placeholder' => __('Select funding methods to hide.', 'woo-paypal-gateway'),
                     )
@@ -1745,24 +2112,9 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'multiselect',
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
                     'description' => __('Funding methods selected here will be hidden from buyers during checkout.', 'woo-paypal-gateway'),
-                    'default' => '',
+                    'default' => array(),
                     'desc_tip' => true,
-                    'options' => array(
-                        'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
-                        'credit' => __('PayPal Credit', 'woo-paypal-gateway'),
-                        'paylater' => __('Pay Later', 'woo-paypal-gateway'),
-                        'bancontact' => __('Bancontact', 'woo-paypal-gateway'),
-                        'blik' => __('BLIK', 'woo-paypal-gateway'),
-                        'eps' => __('eps', 'woo-paypal-gateway'),
-                        'giropay' => __('giropay', 'woo-paypal-gateway'),
-                        'ideal' => __('iDEAL', 'woo-paypal-gateway'),
-                        'mercadopago' => __('Mercado Pago', 'woo-paypal-gateway'),
-                        'mybank' => __('MyBank', 'woo-paypal-gateway'),
-                        'p24' => __('Przelewy24', 'woo-paypal-gateway'),
-                        'sepa' => __('SEPA-Lastschrift', 'woo-paypal-gateway'),
-                        'sofort' => __('Sofort', 'woo-paypal-gateway'),
-                        'venmo' => __('Venmo', 'woo-paypal-gateway')
-                    ),
+                    'options' => $this->disallowed_funding_methods,
                     'custom_attributes' => array(
                         'data-placeholder' => __('Select funding methods to hide.', 'woo-paypal-gateway'),
                     )
@@ -1808,7 +2160,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
                     'default' => 'paypal',
                     'options' => array(
-                        'paypal' => __('PayPal', 'woo-paypal-gateway'),
+                        'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
                         'buynow' => __('Buy Now', 'woo-paypal-gateway'),
                         'pay' => __('Pay', 'woo-paypal-gateway'),
@@ -1877,10 +2229,10 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 'express_checkout_button_label' => array(
                     'title' => __('Button Label', 'woo-paypal-gateway'),
                     'type' => 'select',
-                    'class' => 'wc-enhanced-select ppcp_checkout_button_settings',
+                    'class' => 'wc-enhanced-select ppcp_express_checkout_button_settings',
                     'default' => 'paypal',
                     'options' => array(
-                        'paypal' => __('PayPal', 'woo-paypal-gateway'),
+                        'paypal' => __('PayPal (Recommended)', 'woo-paypal-gateway'),
                         'checkout' => __('Checkout', 'woo-paypal-gateway'),
                         'buynow' => __('Buy Now', 'woo-paypal-gateway'),
                         'pay' => __('Pay', 'woo-paypal-gateway'),

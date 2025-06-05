@@ -321,10 +321,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         $this->display_paypal_admin_notice();
         do_action('wpg_ppcp_get_onboarding_status');
         wp_enqueue_script('wc-clipboard');
-        echo '<h2>' . $this->method_title;
-        wc_back_link(__('Return to payments', 'woo-paypal-gateway'), admin_url('admin.php?page=wc-settings&tab=checkout'));
-        echo '</h2>';
-
+        wc_back_header( $this->get_method_title(), __( 'Return to payments', 'woocommerce' ), admin_url('admin.php?page=wc-settings&tab=checkout') );
         $this->output_tabs($this->wpg_section);
         $this->admin_option();
         if ($this->wpg_section === 'wpg_api_settings' && !$this->is_credentials_set()) {

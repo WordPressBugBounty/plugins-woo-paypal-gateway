@@ -41,6 +41,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         }
         $this->enabled = $this->cc_enable = $this->get_option('enable_advanced_card_payments', 'no');
         $this->enable_save_card = 'yes' === $this->get_option('enable_save_card', 'no');
+        $this->sandbox = 'yes' === $this->get_option('sandbox', 'no');
         if ($this->enable_save_card) {
             $this->supports[] = 'tokenization';
         }
@@ -48,6 +49,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
     }
 
     public function payment_fields() {
+        if ($this->sandbox) {
+                echo '<p style="margin: 1em 0 1em 8px;">';
+                echo '<b>'. __('Sandbox (Test) Mode Enabled.', 'woo-paypal-pro') . '</b>';
+                echo '<br />';
+                _e('For testing purposes, you can use the card number 4111 1111 1111 1111 with a future expiration date and any CVV.', 'woo-paypal-pro');
+                echo '</p>';
+        }
         if ($this->supports('tokenization') && is_checkout()) {
             $this->tokenization_script();
             $this->saved_payment_methods();

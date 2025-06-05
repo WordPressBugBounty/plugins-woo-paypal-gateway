@@ -65,7 +65,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
         }
         
         $this->enabled_pay_later_messaging = 'yes' === $this->setting_obj->get('enabled_pay_later_messaging', 'no');
-        $this->pay_later_messaging_page_type = $this->setting_obj->get('pay_later_messaging_page_type', array('home', 'category', 'product', 'cart', 'payment'));
+        $this->pay_later_messaging_page_type = $this->setting_obj->get('pay_later_messaging_page_type', array());
         if (empty($this->pay_later_messaging_page_type)) {
             $this->enabled_pay_later_messaging = false;
         }

@@ -194,3 +194,9 @@ table::after {
 .wpg-india-plugin .plugin-actions {
     margin-top: 10px;
 }
+.wrap.woocommerce ul.subsubsub {
+    display:none;
+}
+.wrap.woocommerce ul.subsubsub + br.clear {
+    display: none !important;
+}

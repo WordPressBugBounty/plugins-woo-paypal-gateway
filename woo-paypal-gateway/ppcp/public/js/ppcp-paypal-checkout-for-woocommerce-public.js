@@ -240,20 +240,31 @@
             const isPpcpSelected = this.isPpcpSelected();
             const isPpcpCCSelected = this.isPpcpCCSelected();
             const usePlaceOrder = this.ppcp_manager.use_place_order === '1';
+            const showElement = (selector) => {
+                document.querySelectorAll(selector).forEach(el => {
+                    el.style.removeProperty('display');
+                });
+            };
+            const hideElement = (selector) => {
+                document.querySelectorAll(selector).forEach(el => {
+                    el.style.setProperty('display', 'none', 'important');
+                });
+            };
             if (isPpcpSelected) {
                 if (usePlaceOrder) {
-                    $('#place_order, .wc-block-components-checkout-place-order-button').show();
-                    $('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout').hide();
+                    showElement('#place_order, .wc-block-components-checkout-place-order-button');
+                    hideElement('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout');
                 } else {
-                    $('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout').show();
-                    $('#place_order, .wc-block-components-checkout-place-order-button').hide();
+                    showElement('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout');
+                    hideElement('#place_order, .wc-block-components-checkout-place-order-button');
                 }
             } else {
-                $('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout').hide();
-                $('#place_order, .wc-block-components-checkout-place-order-button').show();
+                hideElement('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout');
+                showElement('#place_order, .wc-block-components-checkout-place-order-button');
             }
+
             if (isPpcpCCSelected && this.isCardFieldEligible()) {
-                $('#place_order, .wc-block-components-checkout-place-order-button').show();
+                showElement('#place_order, .wc-block-components-checkout-place-order-button');
             }
         }
 
@@ -301,7 +312,9 @@
                     let fundingSources = wpg_paypal_sdk.getFundingSources();
                     if (fundingSources.length) {
                         fundingSources.forEach((fundingSource) => {
-                            if (fundingSource === wpg_paypal_sdk.FUNDING.CARD && this.isCardFieldEligible()) return;
+                            if (fundingSource === wpg_paypal_sdk.FUNDING.CARD && this.isCardFieldEligible()) {
+                                return;
+                            }
                             const options = {
                                 fundingSource,
                                 onClick: () => {
@@ -314,6 +327,9 @@
                             };
                             if (styledFundingSources.includes(fundingSource)) {
                                 options.style = ppcpStyle;
+                            } else {
+                                const {color, ...cleanStyle} = ppcpStyle; // Destructure to remove 'color' if present
+                                options.style = {...cleanStyle};
                             }
                             const button = wpg_paypal_sdk.Buttons(options);
                             if (button.isEligible()) {
@@ -337,16 +353,19 @@
                             continue;
                         }
                         const options = {
-                            style: { ...ppcpStyle },
+                            style: {...ppcpStyle},
                             fundingSource,
                             createOrder: () => this.createOrder(targetSelector),
                             onApprove: (data, actions) => this.onApproveHandler(data, actions),
                             onCancel: () => this.onCancelHandler(),
                             onError: (err) => this.onErrorHandler(err)
                         };
-                        
+
                         if (fundingSource === wpg_paypal_sdk.FUNDING.VENMO) {
-                            options.style.color = 'blue';
+                            options.style = {
+                                ...options.style, // preserve everything, including shape
+                                color: 'blue'
+                            };
                         }
                         const button = wpg_paypal_sdk.Buttons(options);
                         if (button.isEligible()) {
@@ -397,7 +416,7 @@
             } else {
                 data = $('form.woocommerce-cart-form').serialize();
             }
-            
+
             const fundingMethod = this.ppcp_used_payment_method;
             const createOrderUrl = this.ppcp_manager.create_order_url_for_paypal + (this.ppcp_manager.create_order_url_for_paypal.includes('?') ? '&' : '?') + 'ppcp_used_payment_method=' + encodeURIComponent(fundingMethod);
             return fetch(createOrderUrl, {
@@ -859,16 +878,54 @@
             if (!container) {
                 return;
             }
+            const context = container.getAttribute('data-context') || 'product';
+            const labelMap = {
+                product: this.ppcp_manager.google_pay_style_label,
+                cart: this.ppcp_manager.google_pay_style_label,
+                checkout: this.ppcp_manager.google_pay_style_label,
+                express_checkout: this.ppcp_manager.google_pay_express_checkout_style_label,
+                mini_cart: this.ppcp_manager.google_pay_mini_cart_style_label
+            };
+            const colorMap = {
+                product: this.ppcp_manager.google_pay_style_color,
+                cart: this.ppcp_manager.google_pay_style_color,
+                checkout: this.ppcp_manager.google_pay_style_color,
+                express_checkout: this.ppcp_manager.google_pay_express_checkout_style_color,
+                mini_cart: this.ppcp_manager.google_pay_mini_cart_style_color
+            };
+            const shapeMap = {
+                product: this.ppcp_manager.google_pay_style_shape,
+                cart: this.ppcp_manager.google_pay_style_shape,
+                checkout: this.ppcp_manager.google_pay_style_shape,
+                express_checkout: this.ppcp_manager.google_pay_express_checkout_style_shape,
+                mini_cart: this.ppcp_manager.google_pay_mini_cart_style_shape
+            };
+            const heightMap = {
+                product: this.ppcp_manager.button_height,
+                cart: this.ppcp_manager.button_height,
+                checkout: this.ppcp_manager.button_height,
+                express_checkout: this.ppcp_manager.express_checkout_button_height,
+                mini_cart: this.ppcp_manager.mini_cart_button_height
+            };
+            const buttonType = labelMap[context] || 'plain';
+            const buttonColor = colorMap[context] || 'black';
+            const buttonShape = shapeMap[context] || 'rect';
+            const buttonHeight = parseInt(heightMap[context]) || 40;
+            let buttonRadius;
+            if (buttonShape === 'rect') {
+                buttonRadius = 4;
+            } else {
+                buttonRadius = Math.round(buttonHeight / 2);
+            }
             const paymentsClient = this.getGooglePaymentsClient();
             const button = paymentsClient.createButton({
-                buttonColor: 'default',
-                buttonType: 'plain',
-                buttonRadius: 4,
+                buttonColor: buttonColor,
+                buttonType: buttonType,
+                buttonRadius: buttonRadius,
                 buttonLocale: this.ppcp_manager.locale,
                 buttonSizeMode: 'fill',
                 onClick: this.onGooglePaymentButtonClicked.bind(this)
             });
-            const context = container.getAttribute('data-context') || 'unknown';
             button.setAttribute('data-context', context);
             container.innerHTML = '';
             container.appendChild(button);
@@ -1160,6 +1217,11 @@
         }
 
         async onApplePayLoaded() {
+            if (window.location.protocol !== 'https:') {
+                console.log("Apple Pay requires HTTPS. Current protocol:", window.location.protocol);
+                this.removeApplePayContainer();
+                return;
+            }
             if (!window.ApplePaySession) {
                 console.log("Apple Pay is not supported on this device.");
                 this.removeApplePayContainer();
@@ -1194,9 +1256,34 @@
             containers.forEach(container => {
                 container.innerHTML = '';
                 const applePayButton = document.createElement('apple-pay-button');
-                applePayButton.setAttribute('buttonstyle', 'black');
-                applePayButton.setAttribute('type', 'plain');
-                const context = container.getAttribute('data-context') || 'unknown';
+                const context = container.getAttribute('data-context') || 'product';
+                const labelMap = {
+                    product: this.ppcp_manager.apple_pay_style_label,
+                    cart: this.ppcp_manager.apple_pay_style_label,
+                    checkout: this.ppcp_manager.apple_pay_style_label,
+                    express_checkout: this.ppcp_manager.apple_pay_express_checkout_style_label,
+                    mini_cart: this.ppcp_manager.apple_pay_mini_cart_style_label
+                };
+                const colorMap = {
+                    product: this.ppcp_manager.apple_pay_style_color,
+                    cart: this.ppcp_manager.apple_pay_style_color,
+                    checkout: this.ppcp_manager.apple_pay_style_color,
+                    express_checkout: this.ppcp_manager.apple_pay_express_checkout_style_color,
+                    mini_cart: this.ppcp_manager.apple_pay_mini_cart_style_color
+                };
+                const heightMap = {
+                    product: this.ppcp_manager.button_height,
+                    cart: this.ppcp_manager.button_height,
+                    checkout: this.ppcp_manager.button_height,
+                    express_checkout: this.ppcp_manager.express_checkout_button_height,
+                    mini_cart: this.ppcp_manager.mini_cart_button_height
+                };
+                const buttonType = labelMap[context] || 'plain';
+                const buttonColor = colorMap[context] || 'black';
+                const buttonHeight = parseInt(heightMap[context]) || 40;
+                const buttonRadius = Math.round(buttonHeight * 0.25);
+                applePayButton.setAttribute('type', buttonType);
+                applePayButton.setAttribute('buttonstyle', buttonColor);
                 applePayButton.setAttribute('data-context', context);
                 container.appendChild(applePayButton);
                 applePayButton.addEventListener('click', () => this.onApplePayButtonClicked(container));

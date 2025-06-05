@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.8.1
-Stable tag: 9.0.33  
+Stable tag: 9.0.34  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -105,6 +105,10 @@ Yes, you can use this plugin alongside other WooCommerce payment methods for fle
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.34 – 2025-06-05 =
+* Enhanced – Added settings for Google Pay and Apple Pay button label, color, and shape.
+* Enhanced – Introduced compatibility with Fluid Checkout for WooCommerce.
 
 = 9.0.33 – 2025-05-27 =
 * Enhanced – Introduced "Save Card" feature for advanced credit card payments.

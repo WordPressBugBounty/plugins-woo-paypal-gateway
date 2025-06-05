@@ -73,6 +73,24 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     public $button_class;
     public $mini_cart_button_class;
     public $use_place_order;
+    public $google_pay_style_label;
+    public $google_pay_style_color;
+    public $google_pay_style_shape;
+    public $google_pay_express_checkout_style_label;
+    public $google_pay_express_checkout_style_color;
+    public $google_pay_express_checkout_style_shape;
+    public $google_pay_mini_cart_style_label;
+    public $google_pay_mini_cart_style_color;
+    public $google_pay_mini_cart_style_shape;
+    public $apple_pay_style_label;
+    public $apple_pay_style_color;
+    public $apple_pay_style_shape;
+    public $apple_pay_express_checkout_style_label;
+    public $apple_pay_express_checkout_style_color;
+    public $apple_pay_express_checkout_style_shape;
+    public $apple_pay_mini_cart_style_label;
+    public $apple_pay_mini_cart_style_color;
+    public $apple_pay_mini_cart_style_shape;
     protected static $_instance = null;
 
     public static function instance() {
@@ -145,13 +163,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $this->min_cart_priority = ($this->min_cart_button_location === 'below') ? 30 : 5;
         $this->cart_priority = ($this->cart_button_location === 'below') ? 30 : 11;
         $this->enabled_google_pay = 'yes' === $this->ppcp_get_settings('enabled_google_pay', 'no');
-        $this->google_pay_pages = $this->ppcp_get_settings('google_pay_pages', array());
+        $this->google_pay_pages = $this->ppcp_get_settings('google_pay_pages', array('express_checkout'));
         if (empty($this->google_pay_pages)) {
             $this->enabled_google_pay = false;
         }
         $this->enabled_apple_pay = 'yes' === $this->ppcp_get_settings('enabled_apple_pay', 'no');
         $this->apple_pay_pages = $this->ppcp_get_settings('apple_pay_pages', array());
         if (empty($this->apple_pay_pages)) {
+            $this->enabled_apple_pay = false;
+        }
+        if ( is_ssl() === false) {
             $this->enabled_apple_pay = false;
         }
         if (empty($this->pay_later_messaging_page_type)) {
@@ -242,156 +263,178 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function enqueue_scripts() {
-        if (is_checkout() && !empty($this->checkout_details) && !empty($_GET['paypal_order_id'])) {
-            wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-order-capture', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/ppcp-paypal-checkout-for-woocommerce-order-capture.js', array('jquery'), $this->version, false);
-            return;
-        }
-        if (is_checkout() && $this->advanced_card_payments) {
-            delete_transient('ppcp_sandbox_client_token');
-            delete_transient('ppcp_client_token');
-            $this->request->get_genrate_token();
-            $this->get_properties();
-        }
-        $this->ppcp_paypal_button_style_properties();
-        $ppcp_js_arg = array();
-        $ppcp_js_arg['client-id'] = $this->client_id;
-        $ppcp_js_arg['currency'] = apply_filters('wpg_ppcp_currency', $this->ppcp_currency);
-        if (!isset($this->disable_funding['venmo'])) {
-            $ppcp_js_arg['enable-funding'] = 'venmo,paylater';
-        }
-        if ($this->disable_funding !== false && count($this->disable_funding) > 0) {
-            $ppcp_js_arg['disable-funding'] = implode(',', $this->disable_funding);
-        }
-        if ($this->sandbox) {
-            if (is_user_logged_in() && WC()->customer && WC()->customer->get_billing_country() && 2 === strlen(WC()->customer->get_billing_country())) {
-                $ppcp_js_arg['buyer-country'] = WC()->customer->get_billing_country();
+        try {
+            if (is_checkout() && !empty($this->checkout_details) && !empty($_GET['paypal_order_id'])) {
+                wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-order-capture', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/ppcp-paypal-checkout-for-woocommerce-order-capture.js', array('jquery'), $this->version, false);
+                return;
             }
-        }
-        $is_product_page = is_product();
-        $needs_shipping = false;
-        $shipping_disabled = get_option('woocommerce_ship_to_countries') === 'disabled';
-        if (!$shipping_disabled && $is_product_page) {
-            $product = wc_get_product();
-            if ($product instanceof WC_Product && $product->needs_shipping()) {
+            if (is_checkout() && $this->advanced_card_payments) {
+                delete_transient('ppcp_sandbox_client_token');
+                delete_transient('ppcp_client_token');
+                $this->request->get_genrate_token();
+                $this->get_properties();
+            }
+            $this->ppcp_paypal_button_style_properties();
+            $ppcp_js_arg = array();
+            $ppcp_js_arg['client-id'] = $this->client_id;
+            $ppcp_js_arg['currency'] = apply_filters('wpg_ppcp_currency', $this->ppcp_currency);
+            if (!isset($this->disable_funding['venmo'])) {
+                $ppcp_js_arg['enable-funding'] = 'venmo,paylater';
+            }
+            if ($this->disable_funding !== false && count($this->disable_funding) > 0) {
+                $ppcp_js_arg['disable-funding'] = implode(',', $this->disable_funding);
+            }
+            if ($this->sandbox) {
+                if (is_user_logged_in() && WC()->customer && WC()->customer->get_billing_country() && 2 === strlen(WC()->customer->get_billing_country())) {
+                    $ppcp_js_arg['buyer-country'] = WC()->customer->get_billing_country();
+                }
+            }
+            $is_product_page = is_product();
+            $needs_shipping = false;
+            $shipping_disabled = get_option('woocommerce_ship_to_countries') === 'disabled';
+            if (!$shipping_disabled && $is_product_page) {
+                $product = wc_get_product();
+                if ($product instanceof WC_Product && $product->needs_shipping()) {
+                    $needs_shipping = true;
+                }
+            }
+            if (WC()->cart && !WC()->cart->is_empty() && WC()->cart->needs_shipping()) {
                 $needs_shipping = true;
             }
-        }
-        if (WC()->cart && !WC()->cart->is_empty() && WC()->cart->needs_shipping()) {
-            $needs_shipping = true;
-        }
-        $page = '';
-        $is_pay_page = 'no';
-        $button_selector = array();
-        if (is_product()) {
-            $page = 'product';
-            if ($this->show_on_product_page) {
-                $button_selector['ppcp_product_page'] = '#ppcp_product';
-            }
-        } elseif (is_cart() && !WC()->cart->is_empty()) {
-            $page = 'cart';
-            if ($this->show_on_cart) {
-                $button_selector['ppcp_cart'] = '#ppcp_cart';
+            $page = '';
+            $is_pay_page = 'no';
+            $button_selector = array();
+            if (is_product()) {
+                $page = 'product';
+                if ($this->show_on_product_page) {
+                    $button_selector['ppcp_product_page'] = '#ppcp_product';
+                }
+            } elseif (is_cart() && !WC()->cart->is_empty()) {
+                $page = 'cart';
+                if ($this->show_on_cart) {
+                    $button_selector['ppcp_cart'] = '#ppcp_cart';
+                    $button_selector['ppcp_checkout'] = '#ppcp_checkout';
+                    $button_selector['ppcp_checkout_top'] = '#ppcp_checkout_top';
+                }
+            } elseif (is_checkout_pay_page()) {
+                $page = 'checkout';
                 $button_selector['ppcp_checkout'] = '#ppcp_checkout';
-                $button_selector['ppcp_checkout_top'] = '#ppcp_checkout_top';
+                $is_pay_page = 'yes';
+            } elseif (is_checkout()) {
+                $page = 'checkout';
+                if ($this->show_on_checkout_page) {
+                    $button_selector['ppcp_checkout'] = '#ppcp_checkout';
+                    $button_selector['ppcp_checkout_top'] = '#ppcp_checkout_top';
+                }
             }
-        } elseif (is_checkout_pay_page()) {
-            $page = 'checkout';
-            $button_selector['ppcp_checkout'] = '#ppcp_checkout';
-            $is_pay_page = 'yes';
-        } elseif (is_checkout()) {
-            $page = 'checkout';
-            if ($this->show_on_checkout_page) {
-                $button_selector['ppcp_checkout'] = '#ppcp_checkout';
-                $button_selector['ppcp_checkout_top'] = '#ppcp_checkout_top';
+            if ($this->show_on_mini_cart) {
+                $button_selector['ppcp_mini_cart'] = '#ppcp_mini_cart';
             }
-        }
-        if ($this->show_on_mini_cart) {
-            $button_selector['ppcp_mini_cart'] = '#ppcp_mini_cart';
-        }
-        $ppcp_js_arg['commit'] = ( $page === 'checkout' ) ? 'true' : 'false';
-        $ppcp_js_arg['intent'] = ( $this->paymentaction === 'capture' ) ? 'capture' : 'authorize';
-        $ppcp_js_arg['locale'] = $this->ppcp_locale->get_valid_locale();
-        if (is_wpg_paypal_vault_required()) {
-            $ppcp_js_arg['vault'] = 'true';
-        }
-        $components = array("buttons");
-        if ($this->enabled_google_pay) {
-            $components[] = "googlepay";
-        }
-        if ($this->enabled_apple_pay) {
-            $components[] = "applepay";
-        }
-        if (is_checkout() && $this->advanced_card_payments) {
-            array_push($components, "card-fields");
-        }
-        if ($this->enabled_pay_later_messaging) {
-            array_push($components, 'messages');
-        }
-        array_push($components, 'funding-eligibility');
-        array_push($components, 'payment-fields');
+            $ppcp_js_arg['commit'] = ( $page === 'checkout' ) ? 'true' : 'false';
+            $ppcp_js_arg['intent'] = ( $this->paymentaction === 'capture' ) ? 'capture' : 'authorize';
+            $ppcp_js_arg['locale'] = $this->ppcp_locale->get_valid_locale();
+            if (is_wpg_paypal_vault_required()) {
+                $ppcp_js_arg['vault'] = 'true';
+            }
+            $components = array("buttons");
+            if ($this->enabled_google_pay) {
+                $components[] = "googlepay";
+            }
+            if ($this->enabled_apple_pay) {
+                $components[] = "applepay";
+            }
+            if (is_checkout() && $this->advanced_card_payments) {
+                array_push($components, "card-fields");
+            }
+            if ($this->enabled_pay_later_messaging) {
+                array_push($components, 'messages');
+            }
+            array_push($components, 'funding-eligibility');
+            array_push($components, 'payment-fields');
 
-        if (!empty($components)) {
-            $ppcp_js_arg['components'] = implode(',', $components);
+            if (!empty($components)) {
+                $ppcp_js_arg['components'] = implode(',', $components);
+            }
+            if ($this->is_mobile) {
+                $this->express_checkout_style_layout = 'vertical';
+            }
+            $product_id = is_product() ? get_the_ID() : 0;
+            $js_url = add_query_arg($ppcp_js_arg, 'https://www.paypal.com/sdk/js');
+            wp_register_script('ppcp-checkout-js', $js_url, array(), null, false);
+            wp_enqueue_script('jquery-blockui');
+            wp_register_script('ppcp-paypal-checkout-for-woocommerce-public', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/ppcp-paypal-checkout-for-woocommerce-public.js', array('jquery'), WPG_PLUGIN_VERSION, false);
+            wp_localize_script('ppcp-paypal-checkout-for-woocommerce-public', 'ppcp_manager', array(
+                'style_color' => $this->style_color,
+                'style_shape' => $this->style_shape,
+                'style_label' => $this->style_label,
+                'style_layout' => $this->style_layout,
+                'button_size' => $this->button_size,
+                'button_height' => $this->button_height,
+                'express_checkout_style_color' => $this->express_checkout_style_color,
+                'express_checkout_style_shape' => $this->express_checkout_style_shape,
+                'express_checkout_style_label' => $this->express_checkout_style_label,
+                'express_checkout_style_layout' => $this->express_checkout_style_layout,
+                'express_checkout_button_height' => $this->express_checkout_button_height,
+                'mini_cart_style_color' => $this->mini_cart_style_color,
+                'mini_cart_style_shape' => $this->mini_cart_style_shape,
+                'mini_cart_style_label' => $this->mini_cart_style_label,
+                'mini_cart_style_layout' => $this->mini_cart_style_layout,
+                'mini_cart_button_size' => $this->mini_cart_button_size,
+                'mini_cart_button_height' => $this->mini_cart_button_height,
+                'google_pay_style_label' => $this->google_pay_style_label,
+                'google_pay_style_color' => $this->google_pay_style_color,
+                'google_pay_style_shape' => $this->google_pay_style_shape,
+                'google_pay_express_checkout_style_label' => $this->google_pay_express_checkout_style_label,
+                'google_pay_express_checkout_style_color' => $this->google_pay_express_checkout_style_color,
+                'google_pay_express_checkout_style_shape' => $this->google_pay_express_checkout_style_shape,
+                'google_pay_mini_cart_style_label' => $this->google_pay_mini_cart_style_label,
+                'google_pay_mini_cart_style_color' => $this->google_pay_mini_cart_style_color,
+                'google_pay_mini_cart_style_shape' => $this->google_pay_mini_cart_style_shape,
+                'apple_pay_style_label' => $this->apple_pay_style_label,
+                'apple_pay_style_color' => $this->apple_pay_style_color,
+                'apple_pay_style_shape' => $this->apple_pay_style_shape,
+                'apple_pay_express_checkout_style_label' => $this->apple_pay_express_checkout_style_label,
+                'apple_pay_express_checkout_style_color' => $this->apple_pay_express_checkout_style_color,
+                'apple_pay_express_checkout_style_shape' => $this->apple_pay_express_checkout_style_shape,
+                'apple_pay_mini_cart_style_label' => $this->apple_pay_mini_cart_style_label,
+                'apple_pay_mini_cart_style_color' => $this->apple_pay_mini_cart_style_color,
+                'apple_pay_mini_cart_style_shape' => $this->apple_pay_mini_cart_style_shape,
+                'page' => $page,
+                'is_pay_page' => $is_pay_page,
+                'checkout_url' => wc_get_checkout_url(),
+                'display_order_page' => add_query_arg(array('ppcp_action' => 'display_order_page', 'utm_nooverride' => '1'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
+                'cc_capture' => add_query_arg(array('ppcp_action' => 'cc_capture', 'utm_nooverride' => '1'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
+                'create_order_url_for_paypal' => add_query_arg(array('ppcp_action' => 'create_order', 'utm_nooverride' => '1', 'used' => 'paypal', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
+                'create_order_url_for_google_pay' => add_query_arg(array('ppcp_action' => 'create_order', 'utm_nooverride' => '1', 'used' => 'alternative_pay', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
+                'create_order_url_for_cc' => add_query_arg(array('ppcp_action' => 'create_order', 'utm_nooverride' => '1', 'used' => 'card', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
+                'get_transaction_info_url' => add_query_arg(array('ppcp_action' => 'get_transaction_info', 'utm_nooverride' => '1', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
+                'cancel_url' => wc_get_cart_url(),
+                'paymentaction' => $this->paymentaction,
+                'advanced_card_payments' => ($this->advanced_card_payments === true) ? 'yes' : 'no',
+                'threed_secure_contingency' => $this->threed_secure_contingency,
+                'woocommerce_process_checkout' => wp_create_nonce('woocommerce-process_checkout'),
+                'button_selector' => $button_selector,
+                'enabled_google_pay' => $this->should_enable_google_pay_for_page($page) ? 'yes' : 'no',
+                'enabled_apple_pay' => $this->should_enable_apple_pay_for_page($page) ? 'yes' : 'no',
+                'locale' => explode('-', get_bloginfo('language'))[0] ?? 'en',
+                'is_wpg_change_payment_method' => is_wpg_change_payment_method() ? 'yes' : 'no',
+                'environment' => $this->sandbox ? 'TEST' : 'PRODUCTION',
+                'button_height' => $this->button_height,
+                'express_checkout_button_height' => $this->express_checkout_button_height,
+                'mini_cart_button_height' => $this->mini_cart_button_height,
+                'ajax_nonce' => wp_create_nonce('ppcp_ajax_nonce'),
+                'currency' => get_woocommerce_currency(),
+                'cart_total' => WC()->cart ? WC()->cart->get_total('edit') : '0.00',
+                'is_product_page' => $is_product_page,
+                'needs_shipping' => $needs_shipping ? '1' : '0',
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'use_place_order' => $this->use_place_order,
+                'product_id' => $product_id,
+                    )
+            );
+        } catch (Exception $ex) {
+            
         }
-        if ($this->is_mobile) {
-            $this->express_checkout_style_layout = 'vertical';
-        }
-        $product_id = is_product() ? get_the_ID() : 0;
-        $js_url = add_query_arg($ppcp_js_arg, 'https://www.paypal.com/sdk/js');
-        wp_register_script('ppcp-checkout-js', $js_url, array(), null, false);
-        wp_enqueue_script('jquery-blockui');
-        wp_register_script('ppcp-paypal-checkout-for-woocommerce-public', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/ppcp-paypal-checkout-for-woocommerce-public.js', array('jquery'), WPG_PLUGIN_VERSION, false);
-        wp_localize_script('ppcp-paypal-checkout-for-woocommerce-public', 'ppcp_manager', array(
-            'style_color' => $this->style_color,
-            'style_shape' => $this->style_shape,
-            'style_label' => $this->style_label,
-            'style_layout' => $this->style_layout,
-            'button_size' => $this->button_size,
-            'button_height' => $this->button_height,
-            'express_checkout_style_color' => $this->express_checkout_style_color,
-            'express_checkout_style_shape' => $this->express_checkout_style_shape,
-            'express_checkout_style_label' => $this->express_checkout_style_label,
-            'express_checkout_style_layout' => $this->express_checkout_style_layout,
-            'express_checkout_button_height' => $this->express_checkout_button_height,
-            'mini_cart_style_color' => $this->mini_cart_style_color,
-            'mini_cart_style_shape' => $this->mini_cart_style_shape,
-            'mini_cart_style_label' => $this->mini_cart_style_label,
-            'mini_cart_style_layout' => $this->mini_cart_style_layout,
-            'mini_cart_button_size' => $this->mini_cart_button_size,
-            'mini_cart_button_height' => $this->mini_cart_button_height,
-            'page' => $page,
-            'is_pay_page' => $is_pay_page,
-            'checkout_url' => wc_get_checkout_url(),
-            'display_order_page' => add_query_arg(array('ppcp_action' => 'display_order_page', 'utm_nooverride' => '1'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
-            'cc_capture' => add_query_arg(array('ppcp_action' => 'cc_capture', 'utm_nooverride' => '1'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
-            'create_order_url_for_paypal' => add_query_arg(array('ppcp_action' => 'create_order', 'utm_nooverride' => '1', 'used' => 'paypal', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
-            'create_order_url_for_google_pay' => add_query_arg(array('ppcp_action' => 'create_order', 'utm_nooverride' => '1', 'used' => 'alternative_pay', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
-            'create_order_url_for_cc' => add_query_arg(array('ppcp_action' => 'create_order', 'utm_nooverride' => '1', 'used' => 'card', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
-            'get_transaction_info_url' => add_query_arg(array('ppcp_action' => 'get_transaction_info', 'utm_nooverride' => '1', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
-            'cancel_url' => wc_get_cart_url(),
-            'paymentaction' => $this->paymentaction,
-            'advanced_card_payments' => ($this->advanced_card_payments === true) ? 'yes' : 'no',
-            'threed_secure_contingency' => $this->threed_secure_contingency,
-            'woocommerce_process_checkout' => wp_create_nonce('woocommerce-process_checkout'),
-            'button_selector' => $button_selector,
-            'enabled_google_pay' => $this->should_enable_google_pay_for_page($page) ? 'yes' : 'no',
-            'enabled_apple_pay' => $this->should_enable_apple_pay_for_page($page) ? 'yes' : 'no',
-            'locale' => explode('-', get_bloginfo('language'))[0] ?? 'en',
-            'is_wpg_change_payment_method' => is_wpg_change_payment_method() ? 'yes' : 'no',
-            'environment' => $this->sandbox ? 'TEST' : 'PRODUCTION',
-            'button_height' => $this->button_height,
-            'express_checkout_button_height' => $this->express_checkout_button_height,
-            'mini_cart_button_height' => $this->mini_cart_button_height,
-            'ajax_nonce' => wp_create_nonce('ppcp_ajax_nonce'),
-            'currency' => get_woocommerce_currency(),
-            'cart_total' => WC()->cart ? WC()->cart->get_total('edit') : '0.00',
-            'is_product_page' => $is_product_page,
-            'needs_shipping' => $needs_shipping ? '1' : '0',
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'use_place_order' => $this->use_place_order,
-            'product_id' => $product_id,
-                )
-        );
     }
 
     public function enqueue_styles() {
@@ -403,6 +446,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             return true;
         }
         return false;
+    }
+
+    public function calculate_button_radius($shape, $height) {
+        return $shape === 'pill' ? round($height / 2) : 4;
     }
 
     public function display_paypal_button_product_page() {
@@ -417,7 +464,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             wp_enqueue_script('ppcp-checkout-js');
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
             wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-            echo '<div class="ppcp-button-container">';
+            echo '<div class="ppcp-button-container" style="margin-top: 20px;">';
             if ($this->show_on_product_page) {
                 echo '<div id="ppcp_product" class="' . $this->button_class . '"></div>';
             }
@@ -425,7 +472,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 echo '<div data-context="product" class="google-pay-container product ' . $this->button_class . '" style="height: ' . (int) $this->button_height . 'px;"></div>';
             }
             if ($this->is_apple_pay_enable_for_page('product')) {
-                echo '<div data-context="product" class="apple-pay-container product ' . esc_attr($this->button_class) . '" style="--button-height: ' . (int) $this->button_height . 'px; height: ' . (int) $this->button_height . 'px;"></div>';
+                $button_height = (int) $this->button_height;
+                $button_shape = $this->apple_pay_style_shape;
+                $button_radius = $this->calculate_button_radius($button_shape, $button_height);
+                $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
+                echo '<div data-context="product" class="apple-pay-container product ' . esc_attr($this->button_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
             }
             echo '</div>';
         }
@@ -450,8 +501,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 echo '<div data-context="cart" class="google-pay-container cart ' . esc_attr($this->button_class) . '" style="height: ' . (int) $this->button_height . 'px;"></div>';
             }
             if ($this->is_apple_pay_enable_for_page('cart')) {
-                echo '<div data-context="cart" class="apple-pay-container cart ' . esc_attr($this->button_class) . '" style="--button-height: ' . (int) $this->button_height . 'px; height: ' . (int) $this->button_height . 'px;"></div>';
+                $button_height = (int) $this->button_height;
+                $button_shape = $this->apple_pay_style_shape;
+                $button_radius = $this->calculate_button_radius($button_shape, $button_height);
+                $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
+                echo '<div data-context="cart" class="apple-pay-container cart ' . esc_attr($this->button_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
             }
+
             if ($this->cart_priority === 11) {
                 echo '<div class="ppcp-proceed-to-checkout-button-separator ' . $this->button_class . '"><span>' . __('Or', 'woo-paypal-gateway') . '</span></div>';
             }
@@ -480,7 +536,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 $html .= '<div data-context="mini_cart" class="google-pay-container mini_cart ' . $this->mini_cart_button_class . '" style="height: ' . (int) $this->mini_cart_button_height . 'px;"></div>';
             }
             if ($this->is_apple_pay_enable_for_page('mini_cart')) {
-                $html .= '<div data-context="mini_cart" class="apple-pay-container mini_cart ' . esc_attr($this->mini_cart_button_class) . '" style="--button-height: ' . (int) $this->mini_cart_button_height . 'px; height: ' . (int) $this->mini_cart_button_height . 'px;"></div>';
+                $button_height = (int) $this->mini_cart_button_height;
+                $button_shape = $this->apple_pay_mini_cart_style_shape;
+                $button_radius = $this->calculate_button_radius($button_shape, $button_height);
+                $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
+                $html .= '<div data-context="mini_cart" class="apple-pay-container mini_cart ' . esc_attr($this->mini_cart_button_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
             }
             $html .= '</div>';
         }
@@ -509,7 +569,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                     echo '<div data-context="checkout" class="google-pay-container checkout ' . $this->button_class . '" style="height: ' . (int) $this->button_height . 'px;"></div>';
                 }
                 if ($this->is_apple_pay_enable_for_page('checkout')) {
-                    echo '<div data-context="checkout" class="apple-pay-container checkout ' . esc_attr($this->button_class) . '" style="--button-height: ' . (int) $this->button_height . 'px; height: ' . (int) $this->button_height . 'px;"></div>';
+                    $button_height = (int) $this->button_height;
+                    $button_shape = $this->apple_pay_style_shape;
+                    $button_radius = $this->calculate_button_radius($button_shape, $button_height);
+                    $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
+                    echo '<div data-context="checkout" class="apple-pay-container checkout ' . esc_attr($this->button_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
                 }
                 echo '</div>';
             } elseif ($this->advanced_card_payments) {
@@ -553,7 +617,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             echo '<div data-context="express_checkout" class="google-pay-container express_checkout ' . $this->device_class . '" style="height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
         }
         if ($is_apple_pay_enabled) {
-            echo '<div data-context="express_checkout" class="apple-pay-container express_checkout ' . esc_attr($this->device_class) . '" style="--button-height: ' . (int) $this->express_checkout_button_height . 'px; height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
+            $button_height = (int) $this->express_checkout_button_height;
+            $button_shape = $this->apple_pay_express_checkout_style_shape;
+            $button_radius = $this->calculate_button_radius($button_shape, $button_height);
+            $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
+            echo '<div data-context="express_checkout" class="apple-pay-container express_checkout ' . esc_attr($this->device_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
         }
         echo '</div>';
         echo '</div>';
@@ -570,16 +638,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
     }
 
-    public function ppcp_get_settings($key, $bool = false) {
-        if (!empty($this->woocommerce_wpg_paypal_checkout_settings)) {
-            if (!empty($this->woocommerce_wpg_paypal_checkout_settings[$key])) {
-                return $this->woocommerce_wpg_paypal_checkout_settings[$key];
-            } else {
-                return $bool;
-            }
-        } else {
-            return $bool;
+    public function ppcp_get_settings($key, $default = false) {
+        if (!isset($this->woocommerce_wpg_paypal_checkout_settings[$key])) {
+            return $default;
         }
+        $value = $this->woocommerce_wpg_paypal_checkout_settings[$key];
+        if (empty($value)) {
+            return is_array($default) ? [] : '';
+        }
+        return $value;
     }
 
     public function ppcp_endpoint_page_titles($title) {
@@ -1721,6 +1788,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $this->button_size = 'responsive';
         $this->button_height = '48';
         $this->button_class = $this->device_class . ' ' . $this->button_size;
+        $this->google_pay_style_label = 'plain';
+        $this->google_pay_style_color = 'black';
+        $this->google_pay_style_shape = 'rect';
+        $this->apple_pay_style_label = 'plain';
+        $this->apple_pay_style_color = 'black';
+        $this->apple_pay_style_shape = 'rect';
         if (is_product()) {
             $this->disable_funding = $this->ppcp_get_settings('product_disallowed_funding_methods', array());
             $this->style_layout = $this->ppcp_get_settings('product_button_layout', 'horizontal');
@@ -1730,6 +1803,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $this->button_size = $this->ppcp_get_settings('product_button_size', 'medium');
             $this->button_height = $this->ppcp_get_settings('product_button_height', '48');
             $this->button_class = $this->device_class . ' ' . $this->button_size;
+            $this->google_pay_style_label = $this->ppcp_get_settings('google_pay_product_page_label', 'plain');
+            $this->google_pay_style_color = $this->ppcp_get_settings('google_pay_product_page_color', 'black');
+            $this->google_pay_style_shape = $this->ppcp_get_settings('google_pay_product_page_shape', 'rect');
+            $this->apple_pay_style_label = $this->ppcp_get_settings('apple_pay_product_page_label', 'plain');
+            $this->apple_pay_style_color = $this->ppcp_get_settings('apple_pay_product_page_color', 'black');
+            $this->apple_pay_style_shape = $this->ppcp_get_settings('apple_pay_product_page_shape', 'rect');
         } elseif (is_cart()) {
             $this->disable_funding = $this->ppcp_get_settings('cart_disallowed_funding_methods', array());
             $this->style_layout = $this->ppcp_get_settings('cart_button_layout', 'vertical');
@@ -1739,6 +1818,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $this->button_size = $this->ppcp_get_settings('cart_button_size', 'responsive');
             $this->button_height = $this->ppcp_get_settings('cart_button_height', '48');
             $this->button_class = $this->device_class . ' ' . $this->button_size;
+            $this->google_pay_style_label = $this->ppcp_get_settings('google_pay_cart_page_label', 'plain');
+            $this->google_pay_style_color = $this->ppcp_get_settings('google_pay_cart_page_color', 'black');
+            $this->google_pay_style_shape = $this->ppcp_get_settings('google_pay_cart_page_shape', 'rect');
+            $this->apple_pay_style_label = $this->ppcp_get_settings('apple_pay_cart_page_label', 'plain');
+            $this->apple_pay_style_color = $this->ppcp_get_settings('apple_pay_cart_page_color', 'black');
+            $this->apple_pay_style_shape = $this->ppcp_get_settings('apple_pay_cart_page_shape', 'rect');
         } elseif (is_checkout() || is_checkout_pay_page()) {
             $this->disable_funding = $this->ppcp_get_settings('checkout_disallowed_funding_methods', array());
             $this->style_layout = $this->ppcp_get_settings('checkout_button_layout', 'vertical');
@@ -1748,12 +1833,24 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $this->button_size = $this->ppcp_get_settings('checkout_button_size', 'responsive');
             $this->button_height = $this->ppcp_get_settings('checkout_button_height', '48');
             $this->button_class = $this->device_class . ' ' . $this->button_size;
+            $this->google_pay_style_label = $this->ppcp_get_settings('google_pay_checkout_page_label', 'plain');
+            $this->google_pay_style_color = $this->ppcp_get_settings('google_pay_checkout_page_color', 'black');
+            $this->google_pay_style_shape = $this->ppcp_get_settings('google_pay_checkout_page_shape', 'rect');
+            $this->apple_pay_style_label = $this->ppcp_get_settings('apple_pay_checkout_page_label', 'plain');
+            $this->apple_pay_style_color = $this->ppcp_get_settings('apple_pay_checkout_page_color', 'black');
+            $this->apple_pay_style_shape = $this->ppcp_get_settings('apple_pay_checkout_page_shape', 'rect');
         }
         $this->express_checkout_style_layout = $this->ppcp_get_settings('express_checkout_button_layout', 'horizontal');
         $this->express_checkout_style_color = $this->ppcp_get_settings('express_checkout_button_color', 'gold');
         $this->express_checkout_style_shape = $this->ppcp_get_settings('express_checkout_button_shape', 'rect');
         $this->express_checkout_style_label = $this->ppcp_get_settings('express_checkout_button_label', 'paypal');
         $this->express_checkout_button_height = $this->ppcp_get_settings('express_checkout_button_height', '40');
+        $this->google_pay_express_checkout_style_label = $this->ppcp_get_settings('google_pay_express_checkout_page_label', 'plain');
+        $this->google_pay_express_checkout_style_color = $this->ppcp_get_settings('google_pay_express_checkout_page_color', 'black');
+        $this->google_pay_express_checkout_style_shape = $this->ppcp_get_settings('google_pay_express_checkout_page_shape', 'rect');
+        $this->apple_pay_express_checkout_style_label = $this->ppcp_get_settings('apple_pay_express_checkout_page_label', 'plain');
+        $this->apple_pay_express_checkout_style_color = $this->ppcp_get_settings('apple_pay_express_checkout_page_color', 'black');
+        $this->apple_pay_express_checkout_style_shape = $this->ppcp_get_settings('apple_pay_express_checkout_page_shape', 'rect');
         $this->mini_cart_style_layout = $this->ppcp_get_settings('mini_cart_button_layout', 'horizontal');
         $this->mini_cart_style_color = $this->ppcp_get_settings('mini_cart_button_color', 'gold');
         $this->mini_cart_style_shape = $this->ppcp_get_settings('mini_cart_button_shape', 'rect');
@@ -1761,6 +1858,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $this->mini_cart_button_size = $this->ppcp_get_settings('mini_cart_button_size', 'medium');
         $this->mini_cart_button_height = $this->ppcp_get_settings('mini_cart_button_height', '38');
         $this->mini_cart_button_class = $this->device_class . ' ' . $this->mini_cart_button_size;
+        $this->google_pay_mini_cart_style_label = $this->ppcp_get_settings('google_pay_mini_cart_page_label', 'plain');
+        $this->google_pay_mini_cart_style_color = $this->ppcp_get_settings('google_pay_mini_cart_page_color', 'black');
+        $this->google_pay_mini_cart_style_shape = $this->ppcp_get_settings('google_pay_mini_cart_page_shape', 'rect');
+        $this->apple_pay_mini_cart_style_label = $this->ppcp_get_settings('apple_pay_mini_cart_page_label', 'plain');
+        $this->apple_pay_mini_cart_style_color = $this->ppcp_get_settings('apple_pay_mini_cart_page_color', 'black');
+        $this->apple_pay_mini_cart_style_shape = $this->ppcp_get_settings('apple_pay_mini_cart_page_shape', 'rect');
     }
 
     public function ppcp_prevent_add_to_cart_woo_action() {
