@@ -19,11 +19,6 @@
                 console.log("PPCP Manager configuration is undefined.");
                 return false;
             }
-            this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 500);
-            this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 500);
-            this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 500);
-            this.debouncedUpdateApplePay = this.debounce_apple(this.update_apple_pay.bind(this), 500);
-            this.bindCheckoutEvents();
             if (this.ppcp_manager.enabled_google_pay === 'yes') {
                 this.loadGooglePaySdk();
             }
@@ -31,7 +26,12 @@
                 this.loadApplePaySdk();
             }
             this.manageVariations('#ppcp_product, .google-pay-container, .apple-pay-container');
+            this.bindCheckoutEvents();
             this.update_paypal_checkout();
+            this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 500);
+            this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 500);
+            this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 500);
+            this.debouncedUpdateApplePay = this.debounce_apple(this.update_apple_pay.bind(this), 500);
             if (this.isCheckoutPage() === false) {
                 this.debouncedUpdatePaypalCheckout();
                 this.debouncedUpdateGooglePay();
@@ -624,9 +624,11 @@
                     $('.wpg-paypal-cc-field label').show();
                 }, 1600);
             } else {
+                console.log('Advanced Card Payments not Eligible', cardFields.isEligible());
                 $('.payment_box.payment_method_wpg_paypal_checkout_cc').hide();
-                if (this.isPpcpCCSelected())
+                if (this.isPpcpCCSelected()) {
                     $('#payment_method_wpg_paypal_checkout').prop('checked', true).trigger('click');
+                }
             }
             $(document.body).on('submit_paypal_cc_form', () => cardFields.submit());
         }
@@ -735,12 +737,14 @@
 
         async onGooglePayLoaded() {
             if (!this.isGooglePayAvailable()) {
+                console.log("Google Pay is not available for this configuration");
                 this.removeGooglePayContainer();
                 return;
             }
             const paymentsClient = this.getGooglePaymentsClient();
             const googlePayConfig = await this.getGooglePayConfig();
             if (!googlePayConfig || !googlePayConfig.allowedPaymentMethods || googlePayConfig.allowedPaymentMethods.length === 0) {
+                console.log("Google Pay is not available for this configuration");
                 this.removeGooglePayContainer();
                 return;
             }
@@ -754,14 +758,13 @@
                     console.log("Google Pay is not available for this configuration");
                 }
             } catch (error) {
+                console.log("Google Pay is not available for this configuration", error);
                 this.removeGooglePayContainer();
             }
         }
 
         isGooglePayAvailable() {
-            return typeof wpg_paypal_sdk !== "undefined" &&
-                    typeof wpg_paypal_sdk.Googlepay !== "undefined" &&
-                    typeof google !== "undefined";
+            return typeof wpg_paypal_sdk !== "undefined" && typeof wpg_paypal_sdk.Googlepay !== "undefined" && typeof google !== "undefined";
         }
 
         removeGooglePayContainer() {
@@ -848,6 +851,7 @@
 
         async update_google_pay() {
             if (this.ppcp_manager.enabled_google_pay !== 'yes' || !this.isGooglePayAvailable()) {
+                console.log("Google Pay is not available for this configuration");
                 this.removeGooglePayContainer();
                 return;
             }
@@ -855,12 +859,14 @@
             const googlePayConfig = await this.getGooglePayConfig();
             const allowedPaymentMethods = googlePayConfig?.allowedPaymentMethods;
             if (!allowedPaymentMethods?.length) {
+                console.log("Google Pay is not available for this configuration");
                 this.removeGooglePayContainer();
                 return;
             }
             try {
                 const response = await paymentsClient.isReadyToPay(this.getGoogleIsReadyToPayRequest(allowedPaymentMethods));
                 if (!response.result) {
+                    console.log("Google Pay is not available for this configuration");
                     this.removeGooglePayContainer();
                     return;
                 }
@@ -1492,6 +1498,6 @@
     $(function () {
         window.PPCPManager = PPCPManager;
         const ppcp_manager = window.ppcp_manager || {};
-        new PPCPManager(ppcp_manager);
+        window.ppcpManagerInstance = new PPCPManager(ppcp_manager);
     });
 })(jQuery);
