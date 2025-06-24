@@ -171,7 +171,7 @@
                 event.preventDefault();
                 return this.handleCheckoutSubmit(event);
             });
-            const eventSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragment_refresh wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method';
+            const eventSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragment_refresh wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method fkwcs_express_button_init';
             const checkoutSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_cc_block_ready ppcp_cc_checkout_updated update_checkout';
             $(document.body).on(eventSelectors, (event) => {
                 this.debouncedUpdatePaypalCheckout();
@@ -205,6 +205,18 @@
         update_paypal_checkout() {
             this.ppcp_cart_css();
             this.renderSmartButton();
+            if ($('#ppcp_checkout_top').length === 0) {
+                const $applePay = $('div.apple-pay-container[data-context="express_checkout"]');
+                const $googlePay = $('div.google-pay-container[data-context="express_checkout"]');
+                const hasAppleOnly = $applePay.length > 0 && $googlePay.length === 0;
+                const hasGoogleOnly = $googlePay.length > 0 && $applePay.length === 0;
+                if (hasAppleOnly && !$applePay.hasClass('mobile')) {
+                    $applePay.css('min-width', '480px');
+                }
+                if (hasGoogleOnly && !$googlePay.hasClass('mobile')) {
+                    $googlePay.css('min-width', '480px');
+                }
+            }
             this.togglePlaceOrderButton();
         }
 

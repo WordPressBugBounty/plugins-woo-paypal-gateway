@@ -146,11 +146,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
         $this->ppcp_currency_list = array('AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'INR', 'ILS', 'JPY', 'MYR', 'MXN', 'TWD', 'NZD', 'NOK', 'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'THB', 'USD');
         $this->ppcp_currency = in_array(get_woocommerce_currency(), $this->ppcp_currency_list) ? get_woocommerce_currency() : 'USD';
-        $this->show_on_product_page = 'yes' === $this->ppcp_get_settings('show_on_product_page', 'no');
-        $this->show_on_cart = 'yes' === $this->ppcp_get_settings('show_on_cart', 'no');
-        $this->show_on_checkout_page = 'yes' === $this->ppcp_get_settings('show_on_checkout_page', 'yes');
-        $this->enable_checkout_button_top = 'yes' === $this->ppcp_get_settings('enable_checkout_button_top', 'yes');
-        $this->show_on_mini_cart = 'yes' === $this->ppcp_get_settings('show_on_mini_cart', 'yes');
+
+        $paypal_button_pages = $this->ppcp_get_settings('paypal_button_pages', array('express_checkout', 'checkout', 'mini_cart'));
+        $this->show_on_product_page = in_array('product', $paypal_button_pages, true);
+        $this->show_on_cart = in_array('cart', $paypal_button_pages, true);
+        $this->show_on_checkout_page = true;
+        $this->enable_checkout_button_top = in_array('express_checkout', $paypal_button_pages, true);
+        $this->show_on_mini_cart = in_array('mini_cart', $paypal_button_pages, true);
+
         $this->is_mobile = wp_is_mobile();
         $this->device_class = $this->is_mobile ? 'mobile' : 'desktop';
         $this->paymentaction = $this->ppcp_get_settings('paymentaction', 'capture');
@@ -158,7 +161,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $this->threed_secure_contingency = $this->ppcp_get_settings('3d_secure_contingency', 'SCA_WHEN_REQUIRED');
         $this->enabled_pay_later_messaging = 'yes' === $this->ppcp_get_settings('enabled_pay_later_messaging', 'no');
         $this->pay_later_messaging_page_type = $this->ppcp_get_settings('pay_later_messaging_page_type', array());
-        $this->min_cart_button_location = $this->ppcp_get_settings('min_cart_button_location', 'below');
+        $this->min_cart_button_location = 'below';
         $this->cart_button_location = $this->ppcp_get_settings('cart_button_location', 'below');
         $this->min_cart_priority = ($this->min_cart_button_location === 'below') ? 30 : 5;
         $this->cart_priority = ($this->cart_button_location === 'below') ? 30 : 11;
@@ -172,7 +175,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         if (empty($this->apple_pay_pages)) {
             $this->enabled_apple_pay = false;
         }
-        if ( is_ssl() === false) {
+        if (is_ssl() === false) {
             $this->enabled_apple_pay = false;
         }
         if (empty($this->pay_later_messaging_page_type)) {
@@ -224,6 +227,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         add_action('xoo_wsc_after_footer_btns', array($this, 'display_paypal_button_mini_cart_page'), $this->min_cart_priority);
         add_action('woocommerce_widget_shopping_cart_buttons', array($this, 'display_paypal_button_mini_cart_page'), $this->min_cart_priority);
         add_action('xt_woofc_after_cart_body_footer', array($this, 'display_paypal_button_mini_cart_page'), $this->min_cart_priority);
+        add_action('fkcart_after_checkout_button', array($this, 'display_paypal_button_mini_cart_page_for_funnelkit_sliding_cart'), $this->min_cart_priority);
+
         add_action('init', array($this, 'init'));
         add_filter('script_loader_tag', array($this, 'ppcp_clean_url'), 10, 2);
         add_action('wp_loaded', array($this, 'ppcp_session_manager'), 999);
@@ -547,6 +552,38 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         echo $html;
     }
 
+    public function display_paypal_button_mini_cart_page_for_funnelkit_sliding_cart() {
+        if ($this->enabled === false) {
+            return;
+        }
+        if (WC()->cart->needs_payment() === false) {
+            return '';
+        }
+        $html = '';
+        if ($this->show_on_mini_cart || $this->is_google_pay_enable_for_page('mini_cart') || $this->is_apple_pay_enable_for_page('mini_cart')) {
+            $this->ppcp_paypal_button_style_properties();
+            wp_enqueue_script('ppcp-checkout-js');
+            wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
+            wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
+            $html .= '<div class="fkcart-checkout-wrap fkcart-panel"><div class="ppcp-button-container ppcp_mini_cart">';
+            if ($this->show_on_mini_cart) {
+                $html .= '<div id="ppcp_mini_cart" class="' . $this->mini_cart_button_class . '"></div>';
+            }
+            if ($this->is_google_pay_enable_for_page('mini_cart')) {
+                $html .= '<div data-context="mini_cart" class="google-pay-container mini_cart ' . $this->mini_cart_button_class . '" style="height: ' . (int) $this->mini_cart_button_height . 'px;"></div>';
+            }
+            if ($this->is_apple_pay_enable_for_page('mini_cart')) {
+                $button_height = (int) $this->mini_cart_button_height;
+                $button_shape = $this->apple_pay_mini_cart_style_shape;
+                $button_radius = $this->calculate_button_radius($button_shape, $button_height);
+                $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
+                $html .= '<div data-context="mini_cart" class="apple-pay-container mini_cart ' . esc_attr($this->mini_cart_button_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
+            }
+            $html .= '</div></div>';
+        }
+        echo $html;
+    }
+
     public function display_paypal_button_checkout_page() {
         if ($this->enabled === false) {
             return;
@@ -848,7 +885,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
         ?>
         <div class="ppcp_billing_details">
-            <?php if (wc_ship_to_billing_address_only() && WC()->cart->needs_shipping()) : ?>
+        <?php if (wc_ship_to_billing_address_only() && WC()->cart->needs_shipping()) : ?>
                 <h3><?php esc_html_e('Billing &amp; Shipping', 'woo-paypal-gateway'); ?>&nbsp;&nbsp;&nbsp;<a class="ppcp_edit_billing_address"><?php _e('Edit', 'woo-paypal-gateway'); ?></a></h3>
             <?php else : ?>
                 <h3><?php esc_html_e('Billing details', 'woo-paypal-gateway'); ?>&nbsp;&nbsp;&nbsp;<a class="ppcp_edit_billing_address"><?php _e('Edit', 'woo-paypal-gateway'); ?></a></h3>
@@ -868,140 +905,140 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         ?>
         <div class="ppcp_shipping_details">
             <h3><?php _e('Shipping details', 'woo-paypal-gateway'); ?>&nbsp;&nbsp;&nbsp;<a class="ppcp_edit_shipping_address"><?php _e('Edit', 'woo-paypal-gateway'); ?></a></h3>
-            <?php echo WC()->countries->get_formatted_address($this->get_mapped_shipping_address($this->checkout_details)); ?>
+        <?php echo WC()->countries->get_formatted_address($this->get_mapped_shipping_address($this->checkout_details)); ?>
         </div><?php
-    }
-
-    public function get_mapped_billing_address($checkout_details) {
-        if (empty($checkout_details->payment_source) && empty($checkout_details->payer)) {
-            return [];
         }
 
-        $payer = $checkout_details->payer ?? null;
-        $payment_source = $checkout_details->payment_source ?? null;
+        public function get_mapped_billing_address($checkout_details) {
+            if (empty($checkout_details->payment_source) && empty($checkout_details->payer)) {
+                return [];
+            }
 
-        $phone = '';
-        if (!empty($payer->phone->phone_number->national_number)) {
-            $phone = $payer->phone->phone_number->national_number;
-        } elseif (!empty($_POST['billing_phone'])) {
-            $phone = wc_clean($_POST['billing_phone']);
-        }
+            $payer = $checkout_details->payer ?? null;
+            $payment_source = $checkout_details->payment_source ?? null;
 
-        $billing_address = [
-            'first_name' => '',
-            'last_name' => '',
-            'company' => '',
-            'address_1' => '',
-            'address_2' => '',
-            'city' => '',
-            'state' => '',
-            'postcode' => '',
-            'country' => '',
-            'phone' => $phone,
-            'email' => ''
-        ];
+            $phone = '';
+            if (!empty($payer->phone->phone_number->national_number)) {
+                $phone = $payer->phone->phone_number->national_number;
+            } elseif (!empty($_POST['billing_phone'])) {
+                $phone = wc_clean($_POST['billing_phone']);
+            }
 
-        $source = $payment_source->google_pay ?? $payment_source->apple_pay ?? $payment_source->card ?? null;
+            $billing_address = [
+                'first_name' => '',
+                'last_name' => '',
+                'company' => '',
+                'address_1' => '',
+                'address_2' => '',
+                'city' => '',
+                'state' => '',
+                'postcode' => '',
+                'country' => '',
+                'phone' => $phone,
+                'email' => ''
+            ];
 
-        if ($source) {
-            $full_name = $source->name ?? '';
-            $name_parts = explode(' ', $full_name, 2);
-            $billing_address['first_name'] = $name_parts[0] ?? '';
-            $billing_address['last_name'] = $name_parts[1] ?? '';
-            $billing_address['address_1'] = $source->card->billing_address->address_line_1 ?? '';
-            $billing_address['address_2'] = $source->card->billing_address->address_line_2 ?? '';
-            $billing_address['city'] = $source->card->billing_address->admin_area_2 ?? '';
-            $billing_address['state'] = $source->card->billing_address->admin_area_1 ?? '';
-            $billing_address['postcode'] = $source->card->billing_address->postal_code ?? '';
-            $billing_address['country'] = $source->card->billing_address->country_code ?? '';
-            $billing_address['email'] = $checkout_details->purchase_units[0]->shipping->email_address ?? '';
-        } elseif ($payer) {
-            $address = $payer->address ?? ($checkout_details->purchase_units[0]->shipping->address ?? null);
-            $billing_address['first_name'] = $payer->name->given_name ?? '';
-            $billing_address['last_name'] = $payer->name->surname ?? '';
-            $billing_address['company'] = $payer->business_name ?? '';
-            $billing_address['address_1'] = $address->address_line_1 ?? '';
-            $billing_address['address_2'] = $address->address_line_2 ?? '';
-            $billing_address['city'] = $address->admin_area_2 ?? '';
-            $billing_address['state'] = $address->admin_area_1 ?? '';
-            $billing_address['postcode'] = $address->postal_code ?? '';
-            $billing_address['country'] = $address->country_code ?? '';
-            $billing_address['email'] = $payer->email_address ?? ($checkout_details->purchase_units[0]->shipping->email_address ?? '');
-        }
+            $source = $payment_source->google_pay ?? $payment_source->apple_pay ?? $payment_source->card ?? null;
 
-        // Merge shipping into empty billing fields only
-        if (empty($billing_address['address_1']) && $this->set_billing_address === true) {
-            $shipping_address = $this->get_mapped_shipping_address();
-            foreach ($billing_address as $key => $value) {
-                if (empty($value) && isset($shipping_address[$key]) && !empty($shipping_address[$key])) {
-                    $billing_address[$key] = $shipping_address[$key];
+            if ($source) {
+                $full_name = $source->name ?? '';
+                $name_parts = explode(' ', $full_name, 2);
+                $billing_address['first_name'] = $name_parts[0] ?? '';
+                $billing_address['last_name'] = $name_parts[1] ?? '';
+                $billing_address['address_1'] = $source->card->billing_address->address_line_1 ?? '';
+                $billing_address['address_2'] = $source->card->billing_address->address_line_2 ?? '';
+                $billing_address['city'] = $source->card->billing_address->admin_area_2 ?? '';
+                $billing_address['state'] = $source->card->billing_address->admin_area_1 ?? '';
+                $billing_address['postcode'] = $source->card->billing_address->postal_code ?? '';
+                $billing_address['country'] = $source->card->billing_address->country_code ?? '';
+                $billing_address['email'] = $checkout_details->purchase_units[0]->shipping->email_address ?? '';
+            } elseif ($payer) {
+                $address = $payer->address ?? ($checkout_details->purchase_units[0]->shipping->address ?? null);
+                $billing_address['first_name'] = $payer->name->given_name ?? '';
+                $billing_address['last_name'] = $payer->name->surname ?? '';
+                $billing_address['company'] = $payer->business_name ?? '';
+                $billing_address['address_1'] = $address->address_line_1 ?? '';
+                $billing_address['address_2'] = $address->address_line_2 ?? '';
+                $billing_address['city'] = $address->admin_area_2 ?? '';
+                $billing_address['state'] = $address->admin_area_1 ?? '';
+                $billing_address['postcode'] = $address->postal_code ?? '';
+                $billing_address['country'] = $address->country_code ?? '';
+                $billing_address['email'] = $payer->email_address ?? ($checkout_details->purchase_units[0]->shipping->email_address ?? '');
+            }
+
+            // Merge shipping into empty billing fields only
+            if (empty($billing_address['address_1']) && $this->set_billing_address === true) {
+                $shipping_address = $this->get_mapped_shipping_address();
+                foreach ($billing_address as $key => $value) {
+                    if (empty($value) && isset($shipping_address[$key]) && !empty($shipping_address[$key])) {
+                        $billing_address[$key] = $shipping_address[$key];
+                    }
                 }
             }
+
+            // State validation
+            if (!empty($billing_address['state'])) {
+                $validated_state = $this->validate_checkout($billing_address['country'], $billing_address['state'], 'billing');
+                if ($validated_state) {
+                    $billing_address['state'] = $validated_state;
+                } else {
+                    $states_list = WC()->countries->get_states();
+                    if (!empty($states_list[$billing_address['country']])) {
+                        $state_key = array_search($billing_address['state'], $states_list[$billing_address['country']]);
+                        $billing_address['state'] = $state_key ?: $billing_address['state'];
+                    }
+                }
+            }
+
+            return $billing_address;
         }
 
-        // State validation
-        if (!empty($billing_address['state'])) {
-            $validated_state = $this->validate_checkout($billing_address['country'], $billing_address['state'], 'billing');
-            if ($validated_state) {
-                $billing_address['state'] = $validated_state;
+        public function get_mapped_shipping_address() {
+            if (empty($this->checkout_details->purchase_units[0]) || empty($this->checkout_details->purchase_units[0]->shipping)) {
+                return array();
+            }
+            if (!empty($this->checkout_details->purchase_units[0]->shipping->name->full_name)) {
+                $name = explode(' ', $this->checkout_details->purchase_units[0]->shipping->name->full_name);
+                $first_name = array_shift($name);
+                $last_name = implode(' ', $name);
             } else {
-                $states_list = WC()->countries->get_states();
-                if (!empty($states_list[$billing_address['country']])) {
-                    $state_key = array_search($billing_address['state'], $states_list[$billing_address['country']]);
-                    $billing_address['state'] = $state_key ?: $billing_address['state'];
+                $first_name = '';
+                $last_name = '';
+            }
+            $shipping_country = !empty($this->checkout_details->purchase_units[0]->shipping->address->country_code) ? $this->checkout_details->purchase_units[0]->shipping->address->country_code : '';
+            $shipping_state = !empty($this->checkout_details->purchase_units[0]->shipping->address->admin_area_1) ? $this->checkout_details->purchase_units[0]->shipping->address->admin_area_1 : '';
+            if (!empty($shipping_state)) {
+                if ($this->validate_checkout($shipping_country, $shipping_state, 'shipping')) {
+                    $shipping_state = $this->validate_checkout($shipping_country, $shipping_state, 'shipping');
+                } else {
+                    $states_list = WC()->countries->get_states();
+                    if (isset($shipping_country) && isset($states_list[$shipping_country])) {
+                        $state_key = array_search($shipping_state, $states_list[$shipping_country]);
+                        $shipping_state = $state_key;
+                    }
                 }
             }
-        }
-
-        return $billing_address;
-    }
-
-    public function get_mapped_shipping_address() {
-        if (empty($this->checkout_details->purchase_units[0]) || empty($this->checkout_details->purchase_units[0]->shipping)) {
-            return array();
-        }
-        if (!empty($this->checkout_details->purchase_units[0]->shipping->name->full_name)) {
-            $name = explode(' ', $this->checkout_details->purchase_units[0]->shipping->name->full_name);
-            $first_name = array_shift($name);
-            $last_name = implode(' ', $name);
-        } else {
-            $first_name = '';
-            $last_name = '';
-        }
-        $shipping_country = !empty($this->checkout_details->purchase_units[0]->shipping->address->country_code) ? $this->checkout_details->purchase_units[0]->shipping->address->country_code : '';
-        $shipping_state = !empty($this->checkout_details->purchase_units[0]->shipping->address->admin_area_1) ? $this->checkout_details->purchase_units[0]->shipping->address->admin_area_1 : '';
-        if (!empty($shipping_state)) {
-            if ($this->validate_checkout($shipping_country, $shipping_state, 'shipping')) {
-                $shipping_state = $this->validate_checkout($shipping_country, $shipping_state, 'shipping');
-            } else {
-                $states_list = WC()->countries->get_states();
-                if (isset($shipping_country) && isset($states_list[$shipping_country])) {
-                    $state_key = array_search($shipping_state, $states_list[$shipping_country]);
-                    $shipping_state = $state_key;
-                }
+            $result = array(
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'address_1' => !empty($this->checkout_details->purchase_units[0]->shipping->address->address_line_1) ? $this->checkout_details->purchase_units[0]->shipping->address->address_line_1 : '',
+                'address_2' => !empty($this->checkout_details->purchase_units[0]->shipping->address->address_line_2) ? $this->checkout_details->purchase_units[0]->shipping->address->address_line_2 : '',
+                'city' => !empty($this->checkout_details->purchase_units[0]->shipping->address->admin_area_2) ? $this->checkout_details->purchase_units[0]->shipping->address->admin_area_2 : '',
+                'state' => $shipping_state,
+                'postcode' => !empty($this->checkout_details->purchase_units[0]->shipping->address->postal_code) ? $this->checkout_details->purchase_units[0]->shipping->address->postal_code : '',
+                'country' => $shipping_country,
+            );
+            if (!empty($this->checkout_details->payer->business_name)) {
+                $result['company'] = $this->checkout_details->payer->business_name;
             }
+            return $result;
         }
-        $result = array(
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'address_1' => !empty($this->checkout_details->purchase_units[0]->shipping->address->address_line_1) ? $this->checkout_details->purchase_units[0]->shipping->address->address_line_1 : '',
-            'address_2' => !empty($this->checkout_details->purchase_units[0]->shipping->address->address_line_2) ? $this->checkout_details->purchase_units[0]->shipping->address->address_line_2 : '',
-            'city' => !empty($this->checkout_details->purchase_units[0]->shipping->address->admin_area_2) ? $this->checkout_details->purchase_units[0]->shipping->address->admin_area_2 : '',
-            'state' => $shipping_state,
-            'postcode' => !empty($this->checkout_details->purchase_units[0]->shipping->address->postal_code) ? $this->checkout_details->purchase_units[0]->shipping->address->postal_code : '',
-            'country' => $shipping_country,
-        );
-        if (!empty($this->checkout_details->payer->business_name)) {
-            $result['company'] = $this->checkout_details->payer->business_name;
-        }
-        return $result;
-    }
 
-    public function account_registration() {
-        $checkout = WC()->checkout();
-        if (!is_user_logged_in() && $checkout->enable_signup) {
-            if ($checkout->enable_guest_checkout) {
-                ?>
+        public function account_registration() {
+            $checkout = WC()->checkout();
+            if (!is_user_logged_in() && $checkout->enable_signup) {
+                if ($checkout->enable_guest_checkout) {
+                    ?>
                 <p class="form-row form-row-wide create-account">
                     <input class="input-checkbox" id="createaccount" <?php checked(( true === $checkout->get_value('createaccount') || ( true === apply_filters('woocommerce_create_account_default_checked', false) )), true) ?> type="checkbox" name="createaccount" value="1" /> <label for="createaccount" class="checkbox"><?php _e('Create an account?', 'woo-paypal-gateway'); ?></label>
                 </p>
@@ -1011,7 +1048,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 ?>
                 <div class="create-account">
                     <p><?php _e('Create an account by entering the information below. If you are a returning customer please login at the top of the page.', 'woo-paypal-gateway'); ?></p>
-                    <?php foreach ($checkout->checkout_fields['account'] as $key => $field) : ?>
+                <?php foreach ($checkout->checkout_fields['account'] as $key => $field) : ?>
                         <?php woocommerce_form_field($key, $field, $checkout->get_value($key)); ?>
                     <?php endforeach; ?>
                     <div class="clear"></div>
@@ -1418,9 +1455,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             ?>
             <div class="order_review_page_description">
                 <p>
-                    <?php
-                    echo wp_kses_post(__("<strong>You're almost done!</strong><br>Review your information before you place your order.", 'woo-paypal-gateway'));
-                    ?>
+            <?php
+            echo wp_kses_post(__("<strong>You're almost done!</strong><br>Review your information before you place your order.", 'woo-paypal-gateway'));
+            ?>
                 </p>
             </div>
             <?php

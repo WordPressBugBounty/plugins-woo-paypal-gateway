@@ -73,15 +73,8 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             $this->button_size = isset($this->settings['checkout_button_size']) ? $this->settings['checkout_button_size'] : 'responsive';
             $this->button_class = $this->device_class . ' ' . $this->button_size;
         }
-        $all_settings = $this->settings;
-        $required_keys = ['enable_checkout_button_top', 'show_on_cart'];
-        $filtered_settings = array_intersect_key($all_settings, array_flip($required_keys));
-        if (!isset($filtered_settings['enable_checkout_button_top'])) {
-            $filtered_settings['enable_checkout_button_top'] = 'yes';
-        }
-        if (!isset($filtered_settings['show_on_cart'])) {
-            $filtered_settings['show_on_cart'] = 'no';
-        }
+        $filtered_settings['enable_checkout_button_top'] = $this->is_paypal_enable_for_page('express_checkout') ? 'yes' : 'no';
+        $filtered_settings['show_on_cart'] = $this->is_paypal_enable_for_page('cart') ? 'yes' : 'no';
         wp_localize_script('wpg_paypal_checkout-blocks-integration', 'wpg_paypal_checkout_manager_block', array(
             'placeOrderButtonLabel' => $order_button_text,
             'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
@@ -145,6 +138,25 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             return false;
         }
         if (in_array($page, $this->settings['apple_pay_pages'])) {
+            return true;
+        }
+        return false;
+    }
+
+    public function is_paypal_enable_for_page($page = '') {
+        if (!isset($this->settings['paypal_button_pages'])) {
+            $this->settings['paypal_button_pages'] = array('express_checkout', 'checkout', 'mini_cart');
+        }
+        if ($this->settings['enabled'] === 'no') {
+            return false;
+        }
+        if (empty($page)) {
+            return false;
+        }
+        if (empty($this->settings['paypal_button_pages'])) {
+            return false;
+        }
+        if (in_array($page, $this->settings['paypal_button_pages'])) {
             return true;
         }
         return false;

@@ -45,6 +45,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         if ($this->enable_save_card) {
             $this->supports[] = 'tokenization';
         }
+        $this->order_button_text = __('Place order', 'woo-paypal-gateway');
         $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
     }
 

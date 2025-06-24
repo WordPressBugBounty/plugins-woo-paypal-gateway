@@ -200,14 +200,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-locale_handler.php';
         }
         $this->ppcp_locale = PPCP_Paypal_Checkout_For_Woocommerce_Locale_Handler::instance();
+        $base_url = untrailingslashit(WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager'));
         $application_context = array(
             'brand_name' => $this->brand_name,
             'locale' => $this->valid_bcp47_code(),
             'landing_page' => $this->landing_page,
             'shipping_preference' => $this->ppcp_shipping_preference(),
             'user_action' => is_checkout() ? 'PAY_NOW' : 'CONTINUE',
-            'return_url' => 'https://www.google.com',
-            'cancel_url' => 'https://www.google.com'
+            'return_url' => add_query_arg(['ppcp_action' => 'ppcp_regular_capture', 'utm_nooverride' => '1'], $base_url),
+            'cancel_url' => add_query_arg(['ppcp_action' => 'cancel_order', 'utm_nooverride' => '1'], $base_url)
         );
         if ($return) {
             $application_context['return_url'] = add_query_arg(array('ppcp_action' => 'ppcp_regular_capture', 'utm_nooverride' => '1'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager'));

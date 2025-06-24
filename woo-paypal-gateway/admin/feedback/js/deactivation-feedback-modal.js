@@ -4,28 +4,48 @@ $(document).ready(function () {
     if ($deactivationModal.length) {
         new ModalWpr($deactivationModal);
     }
+    $("#deactivation-no-reason").on("click", function (e) {
+        e.preventDefault();
+        const $link = $(this);
+        const url = $link.attr("href");
+        const data = {
+            action: 'wpg_send_deactivation',
+            reason: 'reason-other',
+            reason_details: 'other'
+        };
+        $.post(ajaxurl, data)
+                .always(function () {
+                    window.location.replace(url);
+                });
+    });
+
+
     $("#mixpanel-send-deactivation").on("click", function (e) {
         e.preventDefault();
         const $button = $('#mixpanel-send-deactivation');
-        $button.prop('disabled', true);
-        $button.css({
-            cursor: 'not-allowed',
-            opacity: '0.6'
-        });
-        $button.attr('title', 'This button is read-only and cannot be clicked.');
-        var data = {
+        const selected = $("input[name='reason']:checked");
+        const reason = selected.val();
+        const reasonDetails = selected.siblings('.deactivation-Modal-fieldHidden').find('textarea').val();
+
+        if (!reason) {
+            alert("Please select a reason before deactivating.");
+            return;
+        }
+
+        $button.prop('disabled', true).css({cursor: 'not-allowed', opacity: '0.6'});
+
+        const data = {
             action: 'wpg_send_deactivation',
-            reason_details: $("#reason-other-details").val(),
-            reason: $("input[name='reason']:checked").val()
+            reason: reason,
+            reason_details: reasonDetails || ''
         };
+
         $.post(ajaxurl, data)
-                .done(function (response) {
-                    window.location.replace($('#mixpanel-send-deactivation').attr("href"));
-                })
-                .fail(function (response) {
-                    window.location.replace($('#mixpanel-send-deactivation').attr("href"));
+                .always(function () {
+                    window.location.replace($button.attr("href"));
                 });
     });
+
 });
 
 function ModalWpr(aElem) {
@@ -81,12 +101,14 @@ ModalWpr.prototype.change = function (aElem) {
     this.textFields.val('');
     $('.deactivation-Modal-fieldHidden').removeClass('deactivation-isOpen');
     $('.deactivation-Modal-hidden').removeClass('deactivation-isOpen');
-    this.button.removeClass('deactivation-isDisabled').removeAttr("disabled");
-    if (id === 'reason-other') {
-        var field = aElem.siblings('.deactivation-Modal-fieldHidden');
+
+    var field = aElem.siblings('.deactivation-Modal-fieldHidden');
+    if (field.length) {
         field.addClass('deactivation-isOpen');
-        field.find('input, textarea').focus();
+        field.find('textarea').focus();
         this.button.addClass('deactivation-isDisabled').attr("disabled", true);
+    } else {
+        this.button.removeClass('deactivation-isDisabled').removeAttr("disabled");
     }
 };
 
