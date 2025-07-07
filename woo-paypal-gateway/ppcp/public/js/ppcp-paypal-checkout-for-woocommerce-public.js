@@ -415,7 +415,7 @@
             if (selector === '#ppcp_checkout_top') {
             } else if (this.isCheckoutPage()) {
                 data = $(selector).closest('form').serialize();
-                if (typeof wpg_paypal_checkout_manager_block !== 'undefined' && wpg_paypal_checkout_manager_block.is_block_enable === 'yes') {
+                if (this.ppcp_manager.is_block_enable === 'yes') {
                     const billingAddress = this.getBillingAddress();
                     const shippingAddress = this.getShippingAddress();
                     data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
@@ -453,7 +453,7 @@
             switch (this.pageContext) {
                 case 'checkout':
                     data = $('form.wc-block-checkout__form').serialize();
-                    if (typeof wpg_paypal_checkout_manager_block !== 'undefined' && wpg_paypal_checkout_manager_block.is_block_enable === 'yes') {
+                    if (this.ppcp_manager.is_block_enable === 'yes') {
                         const billingAddress = this.getBillingAddress();
                         const shippingAddress = this.getShippingAddress();
 
@@ -649,7 +649,7 @@
             this.showSpinner();
             $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
             let data;
-            if (typeof wpg_paypal_checkout_manager_block !== 'undefined' && wpg_paypal_checkout_manager_block.is_block_enable === 'yes') {
+            if (this.ppcp_manager.is_block_enable === 'yes') {
                 data = $('form.wc-block-checkout__form').serialize();
                 const billingAddress = this.getBillingAddress();
                 const shippingAddress = this.getShippingAddress();
@@ -1005,7 +1005,7 @@
                 this.showSpinner();
                 $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
                 let data = '';
-                const isBlockCheckout = typeof wpg_paypal_checkout_manager_block !== 'undefined' && wpg_paypal_checkout_manager_block.is_block_enable === 'yes';
+                const isBlockCheckout = this.ppcp_manager.is_block_enable === 'yes';
                 switch (this.pageContext) {
                     case 'checkout':
                         data = isBlockCheckout ? $('form.wc-block-checkout__form').serialize() : $('form.checkout').serialize();

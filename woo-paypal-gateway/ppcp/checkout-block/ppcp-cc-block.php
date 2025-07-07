@@ -27,7 +27,6 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
     }
 
     public function get_payment_method_script_handles() {
-        // Only load block script if blocks are actually used
         if (!function_exists('has_block') || !wpg_is_using_block_cart_or_checkout()) {
             return [];
         }
@@ -36,19 +35,15 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         }
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-        //$this->pay_later->add_pay_later_script_in_frontend();
         wp_register_script('wpg_paypal_cc-blocks-integration', WPG_PLUGIN_ASSET_URL . 'ppcp/checkout-block/ppcp-cc.js', array('jquery', 'react', 'wc-blocks-registry', 'wc-settings', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-element', 'wp-plugins'), WPG_PLUGIN_VERSION, true);
-        if (ppcp_has_active_session()) {
-            $order_button_text = apply_filters('wpg_paypal_checkout_order_review_page_place_order_button_text', __('Confirm Your PayPal Order', 'woo-paypal-gateway'));
-        } else {
-            $order_button_text = 'Proceed to PayPal';
+        if (function_exists('wp_set_script_translations')) {
+            wp_set_script_translations('wpg_paypal_checkout_cc-blocks-integration', 'woo-paypal-gateway');
         }
-        $is_paylater_enable_incart_page = 'no';
-        if ($this->pay_later->is_paypal_pay_later_messaging_enable_for_page($page = 'cart') && $this->pay_later->pay_later_messaging_cart_shortcode === false) {
-            $is_paylater_enable_incart_page = 'yes';
-        } else {
-            $is_paylater_enable_incart_page = 'no';
-        }
+        wp_enqueue_script('wpg_paypal_checkout');
+        return ['wpg_paypal_cc-blocks-integration'];
+    }
+
+    public function get_payment_method_data() {
         $page = '';
         $is_pay_page = '';
         if (is_product()) {
@@ -61,7 +56,23 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
         } elseif (is_checkout()) {
             $page = 'checkout';
         }
-        wp_localize_script('wpg_paypal_cc-blocks-integration', 'wpg_paypal_checkout_cc_manager_block', array(
+        if (ppcp_has_active_session()) {
+            $order_button_text = apply_filters('wpg_paypal_checkout_order_review_page_place_order_button_text', __('Confirm Your PayPal Order', 'woo-paypal-gateway'));
+        } else {
+            $order_button_text = 'Proceed to PayPal';
+        }
+        $is_paylater_enable_incart_page = 'no';
+        if ($this->pay_later->is_paypal_pay_later_messaging_enable_for_page($page = 'cart') && $this->pay_later->pay_later_messaging_cart_shortcode === false) {
+            $is_paylater_enable_incart_page = 'yes';
+        } else {
+            $is_paylater_enable_incart_page = 'no';
+        }
+        return [
+            'cc_title' => $this->gateway->title,
+            'description' => $this->get_setting('description'),
+            'supports' => $this->get_supported_features(),
+            'icons' => $this->gateway->get_block_icon(),
+            'enable_save_card' => $this->gateway->enable_save_card,
             'placeOrderButtonLabel' => $order_button_text,
             'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
@@ -69,25 +80,6 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
             'card_number' => __('Card number', 'woo-paypal-gateway'),
             'expiration_date' => __('Expiration date', 'woo-paypal-gateway'),
             'security_code' => __('Security code', 'woo-paypal-gateway'),
-        ));
-
-        if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations('wpg_paypal_checkout_cc-blocks-integration', 'woo-paypal-gateway');
-        }
-        wp_enqueue_script('wpg_paypal_checkout');
-        if (ppcp_has_active_session() === false && $page === 'cart') {
-            do_action('wpg_paypal_checkout_cc_woo_cart_block_pay_later_message');
-        }
-        return ['wpg_paypal_cc-blocks-integration'];
-    }
-
-    public function get_payment_method_data() {
-        return [
-            'cc_title' => $this->gateway->title,
-            'description' => $this->get_setting('description'),
-            'supports' => $this->get_supported_features(),
-            'icons' => $this->gateway->get_block_icon(),
-            'enable_save_card' => $this->gateway->enable_save_card
         ];
     }
 }

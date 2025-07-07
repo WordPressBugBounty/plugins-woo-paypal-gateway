@@ -951,7 +951,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                     <div class="wpg_foq">
                         <div class="faq-item">
                             <div class="faq-question" aria-expanded="false">
-                                <?php echo __('Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, etc.) will appear?', 'woo-paypal-gateway'); ?>
+                                <?php echo __('Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Bancontact, etc.) will appear?', 'woo-paypal-gateway'); ?>
                                 <span class="faq-toggle"></span>
                             </div>
                             <div class="faq-answer">
@@ -1358,7 +1358,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                     $paypal_apple_pay_url = $this->sandbox ? 'https://www.sandbox.paypal.com/uccservicing/apm/applepay' : 'https://www.paypal.com/uccservicing/apm/applepay';
                     ?>
                     <a href="<?php echo esc_url($paypal_apple_pay_url); ?>" class="button" target="_blank">
-                        <?php echo __('Manage Domain Registration', 'woo-paypal-gateway'); ?>
+                        <?php echo __('Register Your Domain with Apple Pay', 'woo-paypal-gateway'); ?>
                     </a>
                     <?php
                     echo '<p class="description">'

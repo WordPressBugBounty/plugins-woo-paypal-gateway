@@ -25,11 +25,9 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 'credit' => 'PayPal Credit',
                 'venmo' => 'Venmo',
                 'ideal' => 'iDEAL',
-                'sofort' => 'Sofort',
                 'bancontact' => 'Bancontact',
                 'sepa' => 'SEPA-Lastschrift',
                 'eps' => 'eps',
-                'giropay' => 'giropay',
                 'p24' => 'Przelewy24',
                 'blik' => 'BLIK',
                 'trustly' => 'Trustly',
@@ -217,7 +215,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Disable Specific Payment Buttons', 'woo-paypal-gateway'),
                     'type' => 'disallowed_funding_methods_note',
                     'description' => __(
-                            'PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact, etc.) are shown automatically based on factors such as the buyer’s country and their device type. By default, all buttons are enabled. To disable individual payment buttons, use the "Disable Specific Payment Buttons" setting available in each page section below.<br><br>For Express Checkout, it will follow the configuration from the Checkout Page.<br>For Mini Cart, this setting will follow the configuration from the Product Page.',
+                            'PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Bancontact, etc.) are shown automatically based on factors such as the buyer’s country and their device type. By default, all buttons are enabled. To disable individual payment buttons, use the "Disable Specific Payment Buttons" setting available in each page section below.<br><br>For Express Checkout, it will follow the configuration from the Checkout Page.<br>For Mini Cart, this setting will follow the configuration from the Product Page.',
                             'woo-paypal-gateway'
                     )
                 ,

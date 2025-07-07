@@ -78,15 +78,13 @@ var {addAction} = wp.hooks;
                         i = n(3),
                         u = n(1);
 
-                if (typeof wpg_paypal_checkout_manager_block === 'undefined') {
-                    return false;
-                }
+                
                 const l = Object(i.getSetting)("wpg_paypal_checkout_data", {});
                 const p = () => Object(u.decodeEntities)(l.description || "");
                 const {useEffect} = wp.element;
-                const ppcp_settings = wpg_paypal_checkout_manager_block.settins;
-                const device_class = wpg_paypal_checkout_manager_block.is_mobile;
-                const button_class = wpg_paypal_checkout_manager_block.button_class;
+                const ppcp_settings = l.settins;
+                const device_class = l.is_mobile;
+                const button_class = l.button_class;
 
                 const Content_PPCP_Smart_Button_Checkout_Top = (props) => {
                     const {billing, shippingData} = props;
@@ -95,8 +93,8 @@ var {addAction} = wp.hooks;
                         jQuery(document.body).trigger("ppcp_checkout_updated");
                     }, []);
 
-                    const isGooglePayEnabled = wpg_paypal_checkout_manager_block.is_google_pay_enable_for_express_checkout === 'yes';
-                    const isApplePayEnabled = wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_express_checkout === 'yes';
+                    const isGooglePayEnabled = l.is_google_pay_enable_for_express_checkout === 'yes';
+                    const isApplePayEnabled = l.is_apple_pay_enable_for_express_checkout === 'yes';
                     const isCheckoutButtonTopEnabled = ppcp_settings.enable_checkout_button_top === 'yes';
 
                     return createElement("div", {},
@@ -135,8 +133,8 @@ var {addAction} = wp.hooks;
                         jQuery(document.body).trigger("ppcp_checkout_updated");
                     }, []);
 
-                    const isGooglePayEnabledForCart = wpg_paypal_checkout_manager_block.is_google_pay_enable_for_cart === 'yes';
-                    const isApplePayEnabledForCart = wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_cart === 'yes';
+                    const isGooglePayEnabledForCart = l.is_google_pay_enable_for_cart === 'yes';
+                    const isApplePayEnabledForCart = l.is_apple_pay_enable_for_cart === 'yes';
                     const showCartButton = ppcp_settings.show_on_cart === 'yes';
 
                     return createElement("div", {},
@@ -169,8 +167,8 @@ var {addAction} = wp.hooks;
                                 createElement("p", null, l.description || '')
                                 );
                     }
-                    const isGooglePayEnabledForCheckout = wpg_paypal_checkout_manager_block.is_google_pay_enable_for_checkout === 'yes';
-                    const isApplePayEnabledForCheckout = wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_checkout === 'yes';
+                    const isGooglePayEnabledForCheckout = l.is_google_pay_enable_for_checkout === 'yes';
+                    const isApplePayEnabledForCheckout = l.is_apple_pay_enable_for_checkout === 'yes';
                     return createElement(
                             "div",
                             {className: "ppcp_checkout_parent"},
@@ -191,7 +189,7 @@ var {addAction} = wp.hooks;
                 const s = {
                     name: "wpg_paypal_checkout",
                     label: createElement("span", {style: {width: "100%"}}, l.title, createElement("img", {src: l.icons, style: {float: "right", marginLeft: "20px", display: "flex", justifyContent: "flex-end", paddingRight: "10px"}})),
-                    placeOrderButtonLabel: Object(c.__)(wpg_paypal_checkout_manager_block.placeOrderButtonLabel),
+                    placeOrderButtonLabel: Object(c.__)(l.placeOrderButtonLabel),
                     content: createElement(ContentPPCPCheckout, null),
                     edit: Object(o.createElement)(p, null),
                     canMakePayment: () => Promise.resolve(true),
@@ -205,9 +203,9 @@ var {addAction} = wp.hooks;
                 Object(r.registerPaymentMethod)(s);
 
 
-                const {is_order_confirm_page, is_paylater_enable_incart_page, page} = wpg_paypal_checkout_manager_block;
+                const {is_order_confirm_page, is_paylater_enable_incart_page, page} = l;
 
-                if (page === "checkout" && is_order_confirm_page === "no" && ppcp_settings && (ppcp_settings.enable_checkout_button_top === "yes" || wpg_paypal_checkout_manager_block.is_google_pay_enable_for_express_checkout === 'yes' || wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_express_checkout === 'yes')) {
+                if (page === "checkout" && is_order_confirm_page === "no" && ppcp_settings && (ppcp_settings.enable_checkout_button_top === "yes" || l.is_google_pay_enable_for_express_checkout === 'yes' || l.is_apple_pay_enable_for_express_checkout === 'yes')) {
                     const commonExpressPaymentMethodConfig = {
                         name: "wpg_paypal_checkout_top",
                         label: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
@@ -219,12 +217,12 @@ var {addAction} = wp.hooks;
                         supports: {features: l.supports || []}
                     };
                     Object(r.registerExpressPaymentMethod)(commonExpressPaymentMethodConfig);
-                } else if (page === "cart" && ppcp_settings && (ppcp_settings.show_on_cart === "yes" || wpg_paypal_checkout_manager_block.is_google_pay_enable_for_cart === 'yes' || wpg_paypal_checkout_manager_block.is_apple_pay_enable_for_cart === 'yes')) {
+                } else if (page === "cart" && ppcp_settings && (ppcp_settings.show_on_cart === "yes" || l.is_google_pay_enable_for_cart === 'yes' || l.is_apple_pay_enable_for_cart === 'yes')) {
                     const commonExpressPaymentMethodConfig = {
                         name: "wpg_paypal_checkout_top",
                         label: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                         content: createElement(Content_PPCP_Smart_Button_Cart_Bottom, null),
-                        edit: Object(o.createElement)(p, null),
+                        edit: createElement(Content_PPCP_Smart_Button_Cart_Bottom, null),
                         ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                         canMakePayment: () => true,
                         paymentMethodId: "wpg_paypal_checkout",
@@ -242,9 +240,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const ppcp_uniqueEvents = new Set([
-    "experimental__woocommerce_blocks-checkout-set-shipping-address",
-    "experimental__woocommerce_blocks-checkout-set-billing-address",
-    "experimental__woocommerce_blocks-checkout-set-email-address",
     "experimental__woocommerce_blocks-checkout-render-checkout-form",
     "experimental__woocommerce_blocks-checkout-set-active-payment-method",
 ]);

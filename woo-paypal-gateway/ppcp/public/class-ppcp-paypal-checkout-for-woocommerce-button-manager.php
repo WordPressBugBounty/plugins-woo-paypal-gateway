@@ -435,6 +435,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'use_place_order' => $this->use_place_order,
                 'product_id' => $product_id,
+                'is_block_enable' => wpg_is_using_block_cart_or_checkout() ? 'yes' : 'no'
                     )
             );
         } catch (Exception $ex) {
@@ -1238,10 +1239,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 $order->add_order_note($cvv2_response_code);
             }
             $currency_code = isset($this->checkout_details->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->paypal_fee->currency_code) ? $this->checkout_details->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->paypal_fee->currency_code : '';
-            $value = isset($this->checkout_details->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->paypal_fee->value) ? $this->checkout_details->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->paypal_fee->value : '';
-            $order->update_meta_data('_paypal_fee', $value);
-            $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
-            $order->save_meta_data();
+            $paypal_fee = isset($this->checkout_details->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->paypal_fee->value) ? $this->checkout_details->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->paypal_fee->value : '';
+            if ( $paypal_fee !== '' && floatval( $paypal_fee ) > 0 ) {
+                $order->update_meta_data('_paypal_fee', $paypal_fee);
+                $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
+                $order->save_meta_data();
+            }
             $payment_status = isset($this->checkout_details->purchase_units[0]->payments->captures[0]->status) ? $this->checkout_details->purchase_units[0]->payments->captures[0]->status : '';
             if ($payment_status == 'COMPLETED') {
                 wpg_set_order_payment_method_title_from_paypal_response($order, $this->checkout_details);

@@ -3,12 +3,12 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.8.1
-Stable tag: 9.0.36  
+Stable tag: 9.0.37  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
 
-PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal Partner
+PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Bancontact & more - by an official PayPal Partner
 
 == Description ==
 
@@ -31,18 +31,16 @@ PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Merc
 * **Advanced credit and debit card payments** - Accept credit card payments directly on your site.
 * **Google Pay** - A fast, simple, and secure payment method, available globally, enabling users to pay with their saved cards through their Android devices or web browsers.  
 * **Apple Pay** - Streamlined payments using Apple’s secure payment platform.
-* **Pay Later** - This service, offered by providers like PayPal, lets customers defer payments, popular in the U.S. and Europe for flexible purchasing.  
+* **Pay Later** - This service, offered by PayPal, lets customers defer payments, popular in the U.S. and Europe for flexible purchasing.  
 * **Venmo** - A major mobile payment service in the U.S. with over 70 million users, ideal for peer-to-peer and e-commerce transactions.  
 * **Bancontact** - The most widely used payment method in Belgium, processing millions of secure transactions annually.  
 * **BLIK** - A leading payment option in Poland, widely used for online and mobile transactions, with millions of users.  
 * **Discover** - A popular credit card option in the U.S., serving millions of cardholders and accepted by numerous merchants nationwide.  
 * **eps** - An Austrian online bank transfer system supported by major banks, handling millions of secure transactions annually.  
-* **giropay** - Common in Germany, giropay is widely accepted among German merchants, providing millions of secure online transactions.  
 * **iDEAL** - Dominant in the Netherlands, iDEAL is used for over half of online transactions, offering trusted bank-based payments.  
 * **MyBank** - A secure online payment method in several European countries, including Italy and France, serving millions of users.  
 * **Mastercard** - A globally recognized and trusted credit card option, accepted by merchants worldwide.  
 * **Przelewy24** - A leading payment method in Poland, connecting with numerous banks to facilitate millions of transactions.  
-* **Sofort** - Available across Europe, especially in Germany and Austria, preferred for secure, direct bank transfers.  
 * **Mercado Pago** - A major digital payment platform in Latin America with tens of millions of users across countries like Brazil and Argentina.  
 * **SEPA-Lastschrift** - Covering over 36 European countries, SEPA enables euro-denominated bank transfers for hundreds of millions of users.  
 
@@ -95,16 +93,17 @@ PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Merc
 2. Click "Applications" in the top menu.
 3. Select "Sandbox Accounts" and click "Create Account" to test "PayPal For WooCommerce" settings.
 
-### How do I get phone numbers for PayPal Checkout orders?
-To enable phone numbers for "PayPal For WooCommerce," go to your PayPal business account settings and require them for all checkouts.
-
-### Can I use this plugin with other payment gateways?
-Yes, you can use this plugin alongside other WooCommerce payment methods for flexible checkout options, making it versatile for any "PayPal For WooCommerce" setup.
+### Does the plugin support subscription payments?
+Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 
 ### Does the plugin support subscription payments?
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.37 – 2025-07-07 =
+* Fixed – Issue with PayPal fee not saving correctly has been resolved.
+* Fixed – Deprecated payment methods Giropay and Sofort have been removed.
 
 = 9.0.36 – 2025-06-24 =
 * Enhanced – Optimized the settings panel for better usability.

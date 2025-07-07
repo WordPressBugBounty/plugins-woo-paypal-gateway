@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.36';
+            $this->version = '9.0.37';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -321,6 +321,7 @@ class Woo_Paypal_Gateway {
         if ('plugins.php' != $pagenow) {
             return;
         }
+        wp_enqueue_script('jquery-blockui');
         wp_enqueue_style('deactivation-feedback-modal', WPG_PLUGIN_ASSET_URL . 'admin/feedback/css/deactivation-feedback-modal.css', null, WPG_PLUGIN_VERSION);
         wp_enqueue_script('deactivation-feedback-modal', WPG_PLUGIN_ASSET_URL . 'admin/feedback/js/deactivation-feedback-modal.js', null, WPG_PLUGIN_VERSION, true);
         wp_localize_script('deactivation-feedback-modal', 'wpg_feedback_form_ajax_data', array('nonce' => wp_create_nonce('wpg-ajax')));
@@ -380,7 +381,7 @@ class Woo_Paypal_Gateway {
             $activation_time = time();
             update_option('wpg_activation_time', $activation_time);
         }
-        $rev_notice_hide = get_option('wpg_review_notice_hide');
+        $rev_notice_hide = get_option('wpg_review_notice_hide_v1');
         $next_show_time = get_option('wpg_next_show_time', time());
         $days_since_activation = (time() - $activation_time) / 86400;
         if ($rev_notice_hide !== 'never' && $days_since_activation >= 10 && time() >= $next_show_time) {
@@ -417,10 +418,10 @@ class Woo_Paypal_Gateway {
             // Hide the notice for 1 week
             $next_show_time = time() + (86400 * 7); // 7 days from now
             update_option('wpg_next_show_time', $next_show_time);
-            update_option('wpg_review_notice_hide', 'later');
+            update_option('wpg_review_notice_hide_v1', 'later');
         } elseif ($action === 'never' || $action === 'reviewed') {
             // Hide the notice permanently
-            update_option('wpg_review_notice_hide', 'never');
+            update_option('wpg_review_notice_hide_v1', 'never');
         } else {
             wp_send_json_error('Invalid action');
         }

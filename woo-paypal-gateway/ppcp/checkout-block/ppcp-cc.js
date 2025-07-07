@@ -87,9 +87,6 @@ var {addAction} = wp.hooks;
                 "use strict";
                 n.r(t);
                 var o, r = n(0), c = n(4), i = n(2), u = n(3), a = n(1);
-                if (typeof wpg_paypal_checkout_cc_manager_block === 'undefined') {
-                    return false;
-                }
                 const l = Object(u.getSetting)("wpg_paypal_checkout_cc_data", {});
                 const iconsElements = createElement(
                         'span',
@@ -106,7 +103,7 @@ var {addAction} = wp.hooks;
                         )
                         );
                 const p = () => Object(a.decodeEntities)(l.description || "");
-                const {is_order_confirm_page, is_paylater_enable_incart_page, page} = wpg_paypal_checkout_cc_manager_block;
+                const {is_order_confirm_page, is_paylater_enable_incart_page, page} = l;
                 const {useEffect} = window.wp.element;
 
                 const Content_PPCP_CC = (props) => {
@@ -156,7 +153,7 @@ var {addAction} = wp.hooks;
                                                 htmlFor: 'wpg_paypal_checkout_cc-card-number',
                                                 style: {display: 'none'}
                                             },
-                                            wpg_paypal_checkout_cc_manager_block.card_number
+                                            l.card_number
                                             ),
                                     createElement('div', {id: 'wpg_paypal_checkout_cc-card-number'})
                                     ),
@@ -169,7 +166,7 @@ var {addAction} = wp.hooks;
                                                 htmlFor: 'wpg_paypal_checkout_cc-card-expiry',
                                                 style: {display: 'none'}
                                             },
-                                            wpg_paypal_checkout_cc_manager_block.expiration_date
+                                            l.expiration_date
                                             ),
                                     createElement('div', {id: 'wpg_paypal_checkout_cc-card-expiry'})
                                     ),
@@ -182,7 +179,7 @@ var {addAction} = wp.hooks;
                                                 htmlFor: 'wpg_paypal_checkout_cc-card-cvc',
                                                 style: {display: 'none'}
                                             },
-                                            wpg_paypal_checkout_cc_manager_block.security_code
+                                            l.security_code
                                             ),
                                     createElement('div', {id: 'wpg_paypal_checkout_cc-card-cvc'})
                                     )
@@ -206,9 +203,8 @@ var {addAction} = wp.hooks;
                             l.cc_title,
                             iconsElements
                             ),
-                    icons: ['https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png'],
                     content: createElement(Content_PPCP_CC, null),
-                    edit: Object(r.createElement)(p, null),
+                    edit: createElement(Content_PPCP_CC, null),
                     canMakePayment: () => Promise.resolve(true),
                     ariaLabel: Object(a.decodeEntities)(l.cc_title || Object(i.__)('Payment via PayPal', 'woo-gutenberg-products-block')),
                     supports: {
@@ -218,8 +214,7 @@ var {addAction} = wp.hooks;
                     }
                 };
 
-// Register the payment method
-                console.log(l);
+
                 Object(c.registerPaymentMethod)(s);
 
 
@@ -229,10 +224,6 @@ var {addAction} = wp.hooks;
 ]);
 
 const ppcp_cc_uniqueEvents = new Set([
-    "experimental__woocommerce_blocks-checkout-set-shipping-address",
-    "experimental__woocommerce_blocks-checkout-set-billing-address",
-    "experimental__woocommerce_blocks-checkout-set-email-address",
-    "experimental__woocommerce_blocks-checkout-render-checkout-form",
     "experimental__woocommerce_blocks-checkout-set-active-payment-method",
 ]);
 

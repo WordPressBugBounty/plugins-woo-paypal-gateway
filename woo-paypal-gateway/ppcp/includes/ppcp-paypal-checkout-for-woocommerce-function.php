@@ -841,13 +841,11 @@ if (!function_exists('wpg_ppcp_get_payment_method_title')) {
             'bancontact' => __('Bancontact', 'paypal-for-woocommerce'),
             'blik' => __('BLIK', 'paypal-for-woocommerce'),
             'eps' => __('eps', 'paypal-for-woocommerce'),
-            'giropay' => __('giropay', 'paypal-for-woocommerce'),
             'ideal' => __('iDEAL', 'paypal-for-woocommerce'),
             'mercadopago' => __('Mercado Pago', 'paypal-for-woocommerce'),
             'mybank' => __('MyBank', 'paypal-for-woocommerce'),
             'p24' => __('Przelewy24', 'paypal-for-woocommerce'),
             'sepa' => __('SEPA-Lastschrift', 'paypal-for-woocommerce'),
-            'sofort' => __('Sofort', 'paypal-for-woocommerce'),
             'venmo' => __('Venmo', 'paypal-for-woocommerce'),
             'paylater' => __('PayPal Pay Later', 'paypal-for-woocommerce'),
             'paypal' => __('PayPal Checkout', 'paypal-for-woocommerce'),
@@ -858,6 +856,28 @@ if (!function_exists('wpg_ppcp_get_payment_method_title')) {
             $final_payment_method_name = $list_payment_method[$payment_name] ?? $payment_name;
         }
         return apply_filters('wpg_ppcp_get_payment_method_title', $final_payment_method_name, $payment_name, $list_payment_method);
+    }
+
+}
+
+if (!function_exists('is_admin_checkout_page_edit_screen')) {
+
+    function is_admin_checkout_page_edit_screen() {
+        // Ensure we're in wp-admin and editing a post.
+        if (!is_admin() || !isset($_GET['post']) || !isset($_GET['action'])) {
+            return false;
+        }
+
+        // Only check when editing a post
+        if ($_GET['action'] !== 'edit') {
+            return false;
+        }
+
+        // Get the WooCommerce Checkout Page ID
+        $checkout_page_id = get_option('woocommerce_checkout_page_id');
+        $current_post_id = absint($_GET['post']);
+
+        return ( $current_post_id === absint($checkout_page_id) );
     }
 
 }

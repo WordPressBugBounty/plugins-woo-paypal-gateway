@@ -6,6 +6,7 @@ $(document).ready(function () {
     }
     $("#deactivation-no-reason").on("click", function (e) {
         e.preventDefault();
+        $('.deactivation-Modal').block({ message: null, overlayCSS: { background: '#fff', opacity: 0.6 } });
         const $link = $(this);
         const url = $link.attr("href");
         const data = {
@@ -22,6 +23,7 @@ $(document).ready(function () {
 
     $("#mixpanel-send-deactivation").on("click", function (e) {
         e.preventDefault();
+        $('.deactivation-Modal').block({ message: null, overlayCSS: { background: '#fff', opacity: 0.6 } });
         const $button = $('#mixpanel-send-deactivation');
         const selected = $("input[name='reason']:checked");
         const reason = selected.val();

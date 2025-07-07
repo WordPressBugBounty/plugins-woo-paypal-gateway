@@ -736,10 +736,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                             $order->add_order_note($cvv2_response_code);
                         }
                         $currency_code = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['currency_code']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['currency_code'] : '';
-                        $value = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value'] : '';
-                        $order->update_meta_data('_paypal_fee', $value);
-                        $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
-                        $order->save_meta_data();
+                        $paypal_fee = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value'] : '';
+                        if ( $paypal_fee !== '' && floatval( $paypal_fee ) > 0 ) {
+                            $order->update_meta_data('_paypal_fee', $paypal_fee);
+                            $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
+                            $order->save_meta_data();
+                        }
                         $transaction_id = isset($api_response['purchase_units']['0']['payments']['captures']['0']['id']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['id'] : '';
                         $seller_protection = isset($api_response['purchase_units']['0']['payments']['captures']['0']['seller_protection']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['seller_protection']['status'] : '';
                         $payment_status = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status'] : '';
@@ -1535,14 +1537,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $order->add_order_note($cvv2_response_code);
                     }
                     $currency_code = isset($api_response['seller_receivable_breakdown']['paypal_fee']['currency_code']) ? $api_response['seller_receivable_breakdown']['paypal_fee']['currency_code'] : '';
-                    $value = isset($api_response['seller_receivable_breakdown']['paypal_fee']['value']) ? $api_response['seller_receivable_breakdown']['paypal_fee']['value'] : '';
-                    $order->update_meta_data('_paypal_fee', $value);
-                    $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
-                    $order->save_meta_data();
+                    $paypal_fee = isset($api_response['seller_receivable_breakdown']['paypal_fee']['value']) ? $api_response['seller_receivable_breakdown']['paypal_fee']['value'] : '';
+                    if ( $paypal_fee !== '' && floatval( $paypal_fee ) > 0 ) {
+                        $order->update_meta_data('_paypal_fee', $paypal_fee);
+                        $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
+                        $order->save_meta_data();
+                    }
                     $transaction_id = isset($api_response['id']) ? $api_response['id'] : '';
                     $seller_protection = isset($api_response['seller_protection']['status']) ? $api_response['seller_protection']['status'] : '';
                     $payment_status = isset($api_response['status']) ? $api_response['status'] : '';
-                    $order->update_meta_data('_paypal_fee', $value);
                     $order->update_meta_data('_payment_status', $payment_status);
                     $order->save_meta_data();
                     // translators: 1: Payment method title, 2: Transaction ID.
@@ -2721,10 +2724,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $order->add_order_note($cvv2_response_code);
                     }
                     $currency_code = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['currency_code']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['currency_code'] : '';
-                    $value = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value'] : '';
-                    $order->update_meta_data('_paypal_fee', $value);
-                    $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
-                    $order->save_meta_data();
+                    $paypal_fee = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value'] : '';
+                    if ( $paypal_fee !== '' && floatval( $paypal_fee ) > 0 ) {
+                        $order->update_meta_data('_paypal_fee', $paypal_fee);
+                        $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
+                        $order->save_meta_data();
+                    }
                     $transaction_id = isset($api_response['purchase_units']['0']['payments']['captures']['0']['id']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['id'] : '';
                     $seller_protection = isset($api_response['purchase_units']['0']['payments']['captures']['0']['seller_protection']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['seller_protection']['status'] : '';
                     $payment_status = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status'] : '';
