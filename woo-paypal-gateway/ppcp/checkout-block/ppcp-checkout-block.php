@@ -50,7 +50,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         if (!isset($this->settings['enabled_google_pay'])) {
             return false;
         }
-        if ($this->settings['enabled_google_pay'] === 'no') {
+        if (isset($this->settings['enabled_google_pay']) && $this->settings['enabled_google_pay'] === 'no') {
             return false;
         }
         if (empty($page)) {
@@ -72,7 +72,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         if (!isset($this->settings['enabled_apple_pay'])) {
             return false;
         }
-        if ($this->settings['enabled_apple_pay'] === 'no') {
+        if (isset($this->settings['enabled_apple_pay']) && $this->settings['enabled_apple_pay'] === 'no') {
             return false;
         }
         if (empty($page)) {
@@ -91,7 +91,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         if (!isset($this->settings['paypal_button_pages'])) {
             $this->settings['paypal_button_pages'] = array('express_checkout', 'checkout', 'mini_cart');
         }
-        if ($this->settings['enabled'] === 'no') {
+        if (isset($this->settings['enabled']) && $this->settings['enabled'] === 'no') {
             return false;
         }
         if (empty($page)) {

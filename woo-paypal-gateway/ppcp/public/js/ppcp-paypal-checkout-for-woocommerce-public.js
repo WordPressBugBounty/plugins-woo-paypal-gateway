@@ -323,6 +323,7 @@
                 if (selector === '#ppcp_checkout') {
                     let fundingSources = wpg_paypal_sdk.getFundingSources();
                     if (fundingSources.length) {
+                        const hideTagline = this.ppcp_manager.is_google_pay_enabled_checkout === 'yes' || this.ppcp_manager.is_apple_pay_enable_checkout === 'yes';
                         fundingSources.forEach((fundingSource) => {
                             if (fundingSource === wpg_paypal_sdk.FUNDING.CARD && this.isCardFieldEligible()) {
                                 return;
@@ -337,10 +338,17 @@
                                 onCancel: () => this.onCancelHandler(),
                                 onError: (err) => this.onErrorHandler(err)
                             };
+                            let style = {...ppcpStyle};
+                            if (hideTagline) {
+                                style.tagline = 'false';
+                                const {layout, ...base} = style;
+                                style = base; // remove layout
+                            }
+                            let cleanStyleBase = {...style};
                             if (styledFundingSources.includes(fundingSource)) {
-                                options.style = ppcpStyle;
+                                options.style = {...cleanStyleBase};
                             } else {
-                                const {color, ...cleanStyle} = ppcpStyle; // Destructure to remove 'color' if present
+                                const {color, ...cleanStyle} = cleanStyleBase;
                                 options.style = {...cleanStyle};
                             }
                             const button = wpg_paypal_sdk.Buttons(options);
@@ -364,21 +372,27 @@
                         if (!targetSelector || !$(targetSelector).length) {
                             continue;
                         }
+                        const {layout, ...cleanStyle} = ppcpStyle;
+                        let style = {...cleanStyle};
+                        if (fundingSource === wpg_paypal_sdk.FUNDING.VENMO) {
+                            style = {
+                                ...style,
+                                color: 'blue'
+                            };
+                        } else if (fundingSource === wpg_paypal_sdk.FUNDING.CREDIT) {
+                            style = {
+                                ...style,
+                                color: 'darkblue'
+                            };
+                        }
                         const options = {
-                            style: {...ppcpStyle},
+                            style,
                             fundingSource,
                             createOrder: () => this.createOrder(targetSelector),
                             onApprove: (data, actions) => this.onApproveHandler(data, actions),
                             onCancel: () => this.onCancelHandler(),
                             onError: (err) => this.onErrorHandler(err)
                         };
-
-                        if (fundingSource === wpg_paypal_sdk.FUNDING.VENMO) {
-                            options.style = {
-                                ...options.style, // preserve everything, including shape
-                                color: 'blue'
-                            };
-                        }
                         const button = wpg_paypal_sdk.Buttons(options);
                         if (button.isEligible()) {
                             button.render(targetSelector);
@@ -396,6 +410,7 @@
                         }
                         $('#ppcp_checkout_top_alternative').remove();
                     }
+
                 } else {
                     wpg_paypal_sdk.Buttons({
                         style: ppcpStyle,
@@ -606,7 +621,7 @@
             }
             $(checkoutSelector).addClass('CardFields');
             const cardStyle = {
-                input: {fontSize: '16px', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '400', color: '#32325d', padding: '12px 14px', borderRadius: '4px', border: '1px solid #ccd0d5', background: '#ffffff', boxShadow: 'none', transition: 'border-color 0.15s ease, box-shadow 0.15s ease'},
+                input: {fontSize: '18px', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '400', color: '#32325d', padding: '12px 14px', borderRadius: '4px', border: '1px solid #ccd0d5', background: '#ffffff', boxShadow: 'none', transition: 'border-color 0.15s ease, box-shadow 0.15s ease'},
                 '.invalid': {color: '#fa755a', border: '1px solid #fa755a', boxShadow: 'none'},
                 '::placeholder': {color: '#aab7c4'},
                 'input:focus': {outline: 'none', border: '1px solid #4a90e2', boxShadow: '0 0 4px rgba(74, 144, 226, 0.3)'},

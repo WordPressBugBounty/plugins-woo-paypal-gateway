@@ -51,11 +51,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
 
     public function payment_fields() {
         if ($this->sandbox) {
-                echo '<p style="margin: 1em 0 1em 8px;">';
-                echo '<b>'. __('Sandbox (Test) Mode Enabled.', 'woo-paypal-pro') . '</b>';
-                echo '<br />';
-                _e('For testing purposes, you can use the card number 4111 1111 1111 1111 with a future expiration date and any CVV.', 'woo-paypal-pro');
-                echo '</p>';
+            echo '<p style="margin: 6px 0 8px 8px">';
+            echo '<b>' . __('Sandbox (Test) Mode Enabled.', 'woo-paypal-pro') . '</b>';
+            echo '<br />';
+            _e('For testing purposes, you can use the card number 4111 1111 1111 1111 with a future expiration date and any CVV.', 'woo-paypal-pro');
+            echo '</p>';
         }
         if ($this->supports('tokenization') && is_checkout()) {
             $this->tokenization_script();
@@ -115,13 +115,23 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
                 </label>
                 <div id="wpg_paypal_checkout_cc-card-expiry"></div>
             </div>
-
             <div class="wpg-paypal-cc-field half-width">
                 <label for="wpg_paypal_checkout_cc-card-cvc" style="display: none;">
                     <?php esc_html_e('Security code', 'woo-paypal-gateway'); ?>
                 </label>
-                <div id="wpg_paypal_checkout_cc-card-cvc"></div>
+
+                <div class="wpg-cvc-wrapper">
+                    <div id="wpg_paypal_checkout_cc-card-cvc"></div>
+                    <div class="wpg-ppcp-card-cvv-icon">
+                        <svg class="wpg-card-cvc-icon" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="var(--colorIconCardCvc)" role="img" aria-labelledby="cvcDesc">
+                            <path opacity=".2" fill-rule="evenodd" clip-rule="evenodd" d="M15.337 4A5.493 5.493 0 0013 8.5c0 1.33.472 2.55 1.257 3.5H4a1 1 0 00-1 1v1a1 1 0 001 1h16a1 1 0 001-1v-.6a5.526 5.526 0 002-1.737V18a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h12.337zm6.707.293c.239.202.46.424.662.663a2.01 2.01 0 00-.662-.663z"></path>
+                            <path opacity=".4" fill-rule="evenodd" clip-rule="evenodd" d="M13.6 6a5.477 5.477 0 00-.578 3H1V6h12.6z"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M18.5 14a5.5 5.5 0 110-11 5.5 5.5 0 010 11zm-2.184-7.779h-.621l-1.516.77v.786l1.202-.628v3.63h.943V6.22h-.008zm1.807.629c.448 0 .762.251.762.613 0 .393-.37.668-.904.668h-.235v.668h.283c.565 0 .95.282.95.691 0 .393-.377.66-.911.66-.393 0-.786-.126-1.194-.37v.786c.44.189.88.291 1.312.291 1.029 0 1.736-.526 1.736-1.288 0-.535-.33-.967-.88-1.14.472-.157.778-.573.778-1.045 0-.738-.652-1.241-1.595-1.241a3.143 3.143 0 00-1.234.267v.77c.378-.212.763-.33 1.132-.33zm3.394 1.713c.574 0 .974.338.974.778 0 .463-.4.785-.974.785-.346 0-.707-.11-1.076-.337v.809c.385.173.778.26 1.163.26.204 0 .392-.032.573-.08a4.313 4.313 0 00.644-2.262l-.015-.33a1.807 1.807 0 00-.967-.252 3 3 0 00-.448.032V6.944h1.132a4.423 4.423 0 00-.362-.723h-1.587v2.475a3.9 3.9 0 01.943-.133z"></path>
+                        </svg>    
+                    </div>
+                </div>
             </div>
+            
         </div>
         <?php
     }

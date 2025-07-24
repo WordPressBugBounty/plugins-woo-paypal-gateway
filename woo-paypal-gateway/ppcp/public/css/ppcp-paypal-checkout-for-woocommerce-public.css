@@ -55,9 +55,6 @@
     position: relative;
     z-index: 99999;
 }
-.payment_box.payment_method_wpg_paypal_checkout > p {
-    margin-bottom: 20px;
-}
 #express-payment-method-wpg_paypal_checkout_top,
 #express-payment-method-ppcp_checkout_top {
     list-style: none !important;
@@ -968,13 +965,13 @@
     border: 1px solid #d1d1d1;
     border-radius: 3px;
     margin-bottom: 20px;
-    padding: 15px 25px;
+    padding: 15px 15px 22px;
 }
 .ppcp-button-container fieldset legend {
     font-weight: 500;
     margin: 0 auto;
     padding: 0 1rem;
-    max-width: 220px;
+    max-width: 180px;
     float: none;
     color: #6d6d6d;
     font-size: 16px;
@@ -989,6 +986,8 @@
     top: -13px;
     white-space: nowrap;
     margin-bottom: 25px;
+    color: #6d6d6d;
+    font-weight: 500;
 }
 .ppcp-button-container .express-divider::before,
 .ppcp-button-container .express-divider::after {
@@ -1170,14 +1169,38 @@ apple-pay-button {
     border-radius: var(--button-radius, 4px);
 }
 #payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] img {
-    margin: -2px 0 0 .5em;
+    margin-left: 8px;
+    height: 25px;
 }
 #payment .payment_methods li label[for=payment_method_wpg_paypal_checkout] img {
-    margin: -2px 0 0 .5em;
+    margin-left: 8px;
+    height: 25px;
 }
 #radio-control-wc-payment-method-options-wpg_paypal_checkout_cc__label img {
-    margin: -2px 0 0 .5em;
+    height: 25px;
 }
 #radio-control-wc-payment-method-options-wpg_paypal_checkout__label img {
-    margin: -2px 0 0 .5em;
+    height: 25px;
+}
+.wpg-cvc-wrapper {
+    position: relative;
+    width: 100%;
+}
+.wpg-ppcp-card-cvv-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    padding: 8px 8px 14px;
+    z-index: 999;
+    pointer-events: none;
+}
+.wpg-card-cvc-icon {
+    height: 1.95em;
+    width: 1.95em;
+}
+.woocommerce div.product form.cart, .woocommerce-page div.product form.cart, .woocommerce #content div.product form.cart, .woocommerce-page #content div.product form.cart {
+    margin-bottom: 16px !important;
 }

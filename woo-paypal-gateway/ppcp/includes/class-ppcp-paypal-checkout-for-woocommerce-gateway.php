@@ -50,6 +50,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             $this->maybe_migrate_or_initialize_paypal_button_pages_setting();
         }
         $this->get_properties();
+
         $this->plugin_name = 'ppcp-paypal-checkout';
         $this->title = $this->get_option('title', 'PayPal');
         $this->disable_cards = $this->get_option('disable_cards', array());
@@ -68,8 +69,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             $this->order_button_text = __('Proceed to PayPal', 'woo-paypal-gateway');
         }
         add_action('admin_notices', array($this, 'display_paypal_admin_notice'));
-        add_filter('woocommerce_settings_api_sanitized_fields_' . $this->id, array($this, 'wpg_sanitized_paypal_client_secret'), 999, 1);
-        add_action('wpg_ppcp_get_onboarding_status', array($this, 'wpg_ppcp_get_onboarding_status'));
+        if (!has_filter('woocommerce_settings_api_sanitized_fields_' . $this->id, [$this, 'wpg_sanitized_paypal_client_secret'])) {
+            add_filter('woocommerce_settings_api_sanitized_fields_' . $this->id, [$this, 'wpg_sanitized_paypal_client_secret'], 999, 1);
+        }
         add_action('woocommerce_after_settings_checkout', array($this, 'wpg_ppcp_display_other_plugin'));
     }
 
@@ -78,7 +80,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         $this->method_title = __('PayPal Gateway By Easy Payment', 'woo-paypal-gateway');
         $this->method_description = __('PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and many more.', 'woo-paypal-gateway');
         $this->has_fields = true;
-        $this->icon = 'https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png';
+        $this->icon = WPG_PLUGIN_ASSET_URL . 'assets/images/paypal.svg';
     }
 
     public function get_properties() {
@@ -136,7 +138,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         $this->advanced_card_payments = 'yes' === $this->get_option('enable_advanced_card_payments', 'no');
         $this->threed_secure_contingency = $this->get_option('3d_secure_contingency', 'SCA_WHEN_REQUIRED');
         $this->use_place_order = 'yes' === $this->get_option('use_place_order', 'no');
-
+        $this->wpg_ppcp_get_onboarding_status();
         if (isset($_GET['section']) && $_GET['section'] === 'wpg_paypal_checkout') {
             $this->wpg_section = isset($_GET['wpg_section']) ? sanitize_text_field($_GET['wpg_section']) : 'wpg_api_settings';
         }
@@ -187,57 +189,58 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
     }
 
     public function wpg_ppcp_get_onboarding_status() {
-        if (!empty($this->merchant_id) && $this->is_credentials_set() && get_transient($this->available_end_point_key) === false) {
-            set_transient($this->available_end_point_key, false, MINUTE_IN_SECONDS);
-            $availableEndpoints = array();
-            $result = $this->seller_onboarding->wpg_track_seller_onboarding_status($this->merchant_id, $this->sandbox);
-            if (!empty($result['products'])) {
-                delete_transient('wpg_ppcp_live_onboarding_status');
-                delete_transient('wpg_ppcp_sandbox_onboarding_status');
-                if (wpg_is_acdc_approved($result)) {
-                    $availableEndpoints['advanced_cc'] = 'SUBSCRIBED';
-                    $this->update_option('enable_advanced_card_payments', 'yes');
-                } else {
-                    $this->update_option('enable_advanced_card_payments', 'no');
-                }
-                if (wpg_is_google_pay_approved($result)) {
-                    $this->update_option('enabled_google_pay', 'yes');
-                    $availableEndpoints['google_pay'] = 'SUBSCRIBED';
-                } else {
-                    $this->update_option('enabled_google_pay', 'no');
-                }
-                if (wpg_is_apple_pay_approved($result)) {
-                    $availableEndpoints['apple_pay'] = 'SUBSCRIBED';
-                    //if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
-                    // include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
-                    // }
-                    //$this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
-                    //$this->request->wpg_register_apple_domain();
-                } else {
-                    $this->update_option('enabled_apple_pay', 'no');
-                }
-                if (wpg_is_vaulting_enable($result)) {
-                    $availableEndpoints['save_card'] = 'SUBSCRIBED';
-                }
-                $email = $result['primary_email'] ?? '';
-                if ($email !== '') {
-                    $this->update_option($this->sandbox ? 'ppcp_email_sandbox' : 'ppcp_email_live', $email);
-                }
-                set_transient($this->available_end_point_key, $availableEndpoints, DAY_IN_SECONDS);
+        if (empty($this->merchant_id) || !$this->is_credentials_set()) {
+            return;
+        }
+        if (get_transient($this->available_end_point_key) !== false) {
+            return;
+        }
+        set_transient($this->available_end_point_key, [], MINUTE_IN_SECONDS);
+        $availableEndpoints = [];
+        $result = $this->seller_onboarding->wpg_track_seller_onboarding_status($this->merchant_id, $this->sandbox);
+        if (!empty($result['products'])) {
+            delete_transient('wpg_ppcp_live_onboarding_status');
+            delete_transient('wpg_ppcp_sandbox_onboarding_status');
+            if (wpg_is_acdc_approved($result)) {
+                $availableEndpoints['advanced_cc'] = 'SUBSCRIBED';
+                $this->update_option('enable_advanced_card_payments', 'yes');
+            } else {
+                $this->update_option('enable_advanced_card_payments', 'no');
             }
+            if (wpg_is_google_pay_approved($result)) {
+                $availableEndpoints['google_pay'] = 'SUBSCRIBED';
+                $this->update_option('enabled_google_pay', 'yes');
+            } else {
+                $this->update_option('enabled_google_pay', 'no');
+            }
+            if (wpg_is_apple_pay_approved($result)) {
+                $availableEndpoints['apple_pay'] = 'SUBSCRIBED';
+            } else {
+                $this->update_option('enabled_apple_pay', 'no');
+            }
+            if (wpg_is_vaulting_enable($result)) {
+                $availableEndpoints['save_card'] = 'SUBSCRIBED';
+            }
+            if (!empty($result['primary_email'])) {
+                $this->update_option($this->sandbox ? 'ppcp_email_sandbox' : 'ppcp_email_live', sanitize_email($result['primary_email']));
+            }
+            set_transient($this->available_end_point_key, $availableEndpoints, DAY_IN_SECONDS);
         }
     }
 
     public function wpg_is_end_point_enable($end_point) {
-        if (!empty($this->merchant_id) && $this->is_credentials_set() && get_transient($this->available_end_point_key) !== false) {
+        if (empty($this->merchant_id) || !$this->is_credentials_set()) {
+            return false;
+        }
+        $available_end_point = get_transient($this->available_end_point_key);
+        if ($available_end_point === false) {
+            $this->wpg_ppcp_get_onboarding_status();
             $available_end_point = get_transient($this->available_end_point_key);
-            if (isset($available_end_point[$end_point]) && $available_end_point[$end_point] === 'SUBSCRIBED') {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        }
+        if (isset($available_end_point[$end_point]) && $available_end_point[$end_point] === 'SUBSCRIBED') {
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -361,7 +364,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
 
     public function admin_options() {
         $this->display_paypal_admin_notice();
-        do_action('wpg_ppcp_get_onboarding_status');
         wp_enqueue_script('wc-clipboard');
         if (function_exists('wc_back_header')) {
             wc_back_header($this->get_method_title(), __('Return to payments', 'woocommerce'), admin_url('admin.php?page=wc-settings&tab=checkout'));
@@ -427,16 +429,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             $wpg_paypal_checkout_settings = $this->settings_obj->wpg_paypal_checkout_settings();
             return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_paypal_checkout_settings));
         } elseif ($this->wpg_section === 'wpg_paypal_checkout_cc') {
-            if ($this->wpg_is_end_point_enable('advanced_cc') === true) {
-                $wpg_advanced_cc_settings = $this->settings_obj->wpg_advanced_cc_settings();
-                if ($this->wpg_is_end_point_enable('save_card') === false) {
-                    unset($wpg_advanced_cc_settings['enable_save_card']);
-                }
-                return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_advanced_cc_settings));
-            } else {
-                $wpg_advanced_cc_onboard_settings = $this->settings_obj->wpg_advanced_cc_onboard_settings();
-                return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_advanced_cc_onboard_settings));
-            }
+            $is_advanced_cc_enable = ($this->wpg_is_end_point_enable('advanced_cc') === true) ? 'yes' : 'no';
+            $is_save_card_enable = ($this->wpg_is_end_point_enable('save_card') === true) ? 'yes' : 'no';
+            $wpg_advanced_cc_settings = $this->settings_obj->wpg_advanced_cc_settings($is_advanced_cc_enable, $is_save_card_enable);
+            return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_advanced_cc_settings));
         } elseif ($this->wpg_section === 'wpg_ppcp_paylater') {
             $wpg_ppcp_paylater_settings = $this->settings_obj->wpg_ppcp_paylater_settings();
             return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_ppcp_paylater_settings));
@@ -444,26 +440,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             $wpg_advanced_settings = $this->settings_obj->wpg_advanced_settings();
             return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_advanced_settings));
         } elseif ($this->wpg_section === 'wpg_google_pay') {
-            if ($this->wpg_is_end_point_enable('google_pay') === true) {
-                $wpg_google_pay_settings = $this->settings_obj->wpg_ppcp_google_pay_settings();
-                return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_google_pay_settings));
-            } else {
-                $this->update_option('enabled_google_pay', 'no');
-                $wpg_google_pay_onboard_settings = $this->settings_obj->wpg_google_pay_onboard_settings();
-                return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_google_pay_onboard_settings));
-            }
+            $is_google_pay_enable = ($this->wpg_is_end_point_enable('google_pay') === true) ? 'yes' : 'no';
+            $wpg_google_pay_settings = $this->settings_obj->wpg_ppcp_google_pay_settings($is_google_pay_enable);
+            return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_google_pay_settings));
         } elseif ($this->wpg_section === 'wpg_foq') {
             $wpg_foq = $this->settings_obj->wpg_foq();
             return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_foq));
         } elseif ($this->wpg_section === 'wpg_apple_pay') {
-            if ($this->wpg_is_end_point_enable('apple_pay') === true) {
-                $wpg_apple_pay_settings = $this->settings_obj->wpg_ppcp_apple_pay_settings();
-                return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_apple_pay_settings));
-            } else {
-                $this->update_option('enabled_apple_pay', 'no');
-                $wpg_apple_pay_onboard_settings = $this->settings_obj->wpg_apple_pay_onboard_settings();
-                return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_apple_pay_onboard_settings));
-            }
+            $is_apple_pay_enable = ($this->wpg_is_end_point_enable('apple_pay') === true) ? 'yes' : 'no';
+            $wpg_apple_pay_settings = $this->settings_obj->wpg_ppcp_apple_pay_settings($is_apple_pay_enable);
+            return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $wpg_apple_pay_settings));
         } else {
             $this->form_fields = $this->settings_obj->ppcp_setting_fields();
             return apply_filters('woocommerce_settings_api_form_fields_' . $this->id, array_map(array($this, 'set_defaults'), $this->form_fields));
@@ -593,7 +579,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             ?>
             <tr valign="top">
                 <th scope="row" class="titledesc">
-                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                                                              ?></label>
+                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                                                                           ?></label>
                 </th>
                 <td class="forminp" id="<?php echo esc_attr($field_key); ?>">
                     <button type="button" class="button ppcp-disconnect"><?php echo __('Disconnect', 'woo-paypal-gateway'); ?></button>
@@ -623,14 +609,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         ?>
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                ?></label>
+                <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                             ?></label>
             </th>
             <td class="forminp">
                 <fieldset>
                     <legend class="screen-reader-text"><span><?php echo wp_kses_post($data['title']); ?></span></legend>
-                    <input class="input-text regular-input <?php echo esc_attr($data['class']); ?>" type="text" name="<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>" style="<?php echo esc_attr($data['css']); ?>" value="<?php echo esc_attr($this->get_option($key)); ?>" placeholder="<?php echo esc_attr($data['placeholder']); ?>" <?php disabled($data['disabled'], true); ?> <?php echo $this->get_custom_attribute_html($data); // WPCS: XSS ok.                                                                                                                                                                     ?> />
+                    <input class="input-text regular-input <?php echo esc_attr($data['class']); ?>" type="text" name="<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>" style="<?php echo esc_attr($data['css']); ?>" value="<?php echo esc_attr($this->get_option($key)); ?>" placeholder="<?php echo esc_attr($data['placeholder']); ?>" <?php disabled($data['disabled'], true); ?> <?php echo $this->get_custom_attribute_html($data); // WPCS: XSS ok.                                                                                                                                                                                  ?> />
                     <button type="button" class="button-secondary <?php echo esc_attr($data['button_class']); ?>" data-tip="Copied!">Copy</button>
-                    <?php echo $this->get_description_html($data); // WPCS: XSS ok.                                ?>
+                    <?php echo $this->get_description_html($data); // WPCS: XSS ok.                                     ?>
                 </fieldset>
             </td>
         </tr>
@@ -650,6 +636,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                 'is_live_connected' => (!empty($this->live_client_id) && !empty($this->live_secret_id)) ? 'yes' : 'no',
                 'wpg_onboarding_endpoint' => WC_AJAX::get_endpoint('wpg_login_seller'),
                 'wpg_onboarding_endpoint_nonce' => wp_create_nonce('wpg_login_seller'),
+                'wpg_setting_url' => admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout&wpg_section=wpg_api_settings')
             ));
         }
     }
@@ -661,7 +648,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             ?>
             <tr valign="top" style="display:none;">
                 <th scope="row" class="titledesc">
-                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                                               ?></label>
+                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                                                            ?></label>
                 </th>
                 <td class="forminp" id="<?php echo esc_attr($field_key); ?>">
                     <?php
@@ -710,13 +697,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             ?>
             <tr valign="top" style="display:none;">
                 <th scope="row" class="titledesc">
-                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                          ?></label>
+                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                       ?></label>
                 </th>
                 <td class="forminp">
                     <fieldset>
                         <legend class="screen-reader-text"><span><?php echo wp_kses_post($data['title']); ?></span></legend>
-                        <input class="input-text regular-input <?php echo esc_attr($data['class']); ?>" type="<?php echo esc_attr($data['type']); ?>" name="<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>" style="<?php echo esc_attr($data['css']); ?>" value="<?php echo esc_attr($this->get_option($key)); ?>" placeholder="<?php echo esc_attr($data['placeholder']); ?>" <?php disabled($data['disabled'], true); ?> <?php echo $this->get_custom_attribute_html($data); // WPCS: XSS ok.                                                                                                             ?> />
-                        <?php echo $this->get_description_html($data); // WPCS: XSS ok.                    ?>
+                        <input class="input-text regular-input <?php echo esc_attr($data['class']); ?>" type="<?php echo esc_attr($data['type']); ?>" name="<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>" style="<?php echo esc_attr($data['css']); ?>" value="<?php echo esc_attr($this->get_option($key)); ?>" placeholder="<?php echo esc_attr($data['placeholder']); ?>" <?php disabled($data['disabled'], true); ?> <?php echo $this->get_custom_attribute_html($data); // WPCS: XSS ok.                                                                                                                          ?> />
+                        <?php echo $this->get_description_html($data); // WPCS: XSS ok.                         ?>
                     </fieldset>
                 </td>
             </tr>
@@ -729,12 +716,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
 
     public function wpg_sanitized_paypal_client_secret($settings) {
         if ($this->wpg_section === 'wpg_api_settings') {
+            if (false !== get_transient('wpg_sandbox_seller_onboarding_process_done')) {
+                return $settings;
+            }
             $is_sandbox = isset($settings['sandbox']) && $settings['sandbox'] === 'yes';
             $environment = $is_sandbox ? 'sandbox' : 'live';
             $client_id_key = "rest_client_id_{$environment}";
             $secret_id_key = "rest_secret_id_{$environment}";
+            $email_key = "ppcp_email_{$environment}";
             $client_id = isset($settings[$client_id_key]) ? sanitize_text_field($settings[$client_id_key]) : '';
             $secret_id = isset($settings[$secret_id_key]) ? sanitize_text_field($settings[$secret_id_key]) : '';
+            $settings[$email_key] = '';
             if (!empty($client_id) && !empty($secret_id)) {
                 $paypal_oauth_api = $is_sandbox ? 'https://api.sandbox.paypal.com/v1/oauth2/token/' : 'https://api.paypal.com/v1/oauth2/token/';
                 $basicAuth = base64_encode("{$client_id}:{$secret_id}");
@@ -797,22 +789,22 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                 'displayMode' => 'minibrowser',
             );
             $id = ($testmode === 'no') ? 'connect-to-production' : 'connect-to-sandbox';
-            $label = ($testmode === 'no') ? __('Click to Connect PayPal', 'woo-paypal-gateway') : __('Click to Connect PayPal Sandbox', 'woo-paypal-gateway');
+            $label = ($testmode === 'no') ? __('Click to Connect PayPal', 'woo-paypal-gateway') : __('Click to Connect PayPal', 'woo-paypal-gateway');
             ob_start();
             ?>
             <tr valign="top" style="display:none;">
                 <th scope="row" class="titledesc">
-                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                         ?></label>
+                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                                     ?></label>
                 </th>
                 <td class="forminp" id="<?php echo esc_attr($field_key); ?>">
-                    <?php
-                    if ($this->is_live_seller_onboarding_done === false && $testmode === 'no' || $this->is_sandbox_seller_onboarding_done === false && $testmode === 'yes') {
-                        $signup_link = $this->wpg_get_signup_link($testmode);
-                        if ($signup_link) {
-                            $url = add_query_arg($args, $signup_link);
-                            $this->wpg_display_paypal_signup_button($url, $id, $label);
-                            $script_url = 'https://www.paypal.com/webapps/merchantboarding/js/lib/lightbox/partner.js';
-                            ?>
+            <?php
+            if ($this->is_live_seller_onboarding_done === false && $testmode === 'no' || $this->is_sandbox_seller_onboarding_done === false && $testmode === 'yes') {
+                $signup_link = $this->wpg_get_signup_link($testmode);
+                if ($signup_link) {
+                    $url = add_query_arg($args, $signup_link);
+                    $this->wpg_display_paypal_signup_button($url, $id, $label);
+                    $script_url = 'https://www.paypal.com/webapps/merchantboarding/js/lib/lightbox/partner.js';
+                    ?>
                             <script type="text/javascript">
                                 document.querySelectorAll('[data-paypal-onboard-complete=onboardingCallback]').forEach((element) => {
                                     element.addEventListener('click', (e) => {
@@ -823,9 +815,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                                     });
                                 });</script>
                             <script id="paypal-js" src="<?php echo esc_url($script_url); ?>"></script> <?php
-                        } else {
-                            echo '<div style="display: inline;margin-right: 10px;vertical-align: middle;">' . __('The Connect to PayPal service is temporarily unavailable.', 'woo-paypal-gateway') . '</div>';
-                            ?>
+                } else {
+                    echo '<div style="display: inline;margin-right: 10px;vertical-align: middle;">' . __('The Connect to PayPal service is temporarily unavailable.', 'woo-paypal-gateway') . '</div>';
+                    ?>
                             <a href="#" class="wpg_paypal_checkout_gateway_manual_credential_input"><?php echo __('Toggle to manual credential input', 'woo-paypal-gateway'); ?></a>
                             <?php
                         }
@@ -833,102 +825,140 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                     ?>
                 </td>
             </tr>
-            <?php
-            return ob_get_clean();
-        }
-    }
-
-    public function wpg_display_paypal_signup_button($url, $id, $label) {
-        ?><a target="_blank" class="button" id="<?php echo esc_attr($id); ?>" data-paypal-onboard-complete="onboardingCallback" href="<?php echo esc_url($url); ?>" data-paypal-button="true"><?php echo esc_html($label); ?></a>
-        <span class="wpg_paypal_checkout_gateway_setting_sepraer"><?php echo __('OR', 'woo-paypal-gateway'); ?></span>
-        <a href="#" class="wpg_paypal_checkout_gateway_manual_credential_input"><?php echo __('Toggle to manual credential input', 'woo-paypal-gateway'); ?></a>
-        <?php
-    }
-
-    public function wpg_get_signup_link($testmode = 'yes') {
-        try {
-
-            $seller_onboarding_result = $this->seller_onboarding->wpg_generate_signup_link($testmode);
-            if (isset($seller_onboarding_result['result']) && 'success' === $seller_onboarding_result['result'] && !empty($seller_onboarding_result['body'])) {
-                $json = json_decode($seller_onboarding_result['body']);
-                if (isset($json->links)) {
-                    foreach ($json->links as $link) {
-                        if ('action_url' === $link->rel) {
-                            return (string) $link->href;
-                        }
-                    }
-                } else {
-                    return false;
+                    <?php
+                    return ob_get_clean();
                 }
             }
-        } catch (Exception $ex) {
-            
-        }
-    }
 
-    public function wpg_get_signup_link_for_google_pay($testmode = 'yes') {
-        try {
+            public function wpg_display_paypal_signup_button($url, $id, $label) {
+                ?>
+        <div class="wpg-paypal-onboard-wrap">
+            <div class="wpg-paypal-connect-row">
+                <a target="_blank"
+                   class="button wpg-paypal-connect-button"
+                   id="<?php echo esc_attr($id); ?>"
+                   data-paypal-onboard-complete="onboardingCallback"
+                   href="<?php echo esc_url($url); ?>"
+                   data-paypal-button="true">
+        <?php echo esc_html($label); ?>
+                </a>
+                <span class="wpg-paypal-recommend"><?php esc_html_e('Recommended', 'woo-paypal-gateway'); ?></span>
+            </div>
 
-            $seller_onboarding_result = $this->seller_onboarding->wpg_generate_signup_link_for_google_pay($testmode);
-            if (isset($seller_onboarding_result['result']) && 'success' === $seller_onboarding_result['result'] && !empty($seller_onboarding_result['body'])) {
-                $json = json_decode($seller_onboarding_result['body']);
-                if (isset($json->links)) {
-                    foreach ($json->links as $link) {
-                        if ('action_url' === $link->rel) {
-                            return (string) $link->href;
+            <div class="wpg-paypal-separator">
+                <span>───────────</span>
+        <?php esc_html_e('OR', 'woo-paypal-gateway'); ?>
+                <span>───────────</span>
+            </div>
+
+            <a href="#" class="wpg_paypal_checkout_gateway_manual_credential_input">
+        <?php esc_html_e('Click here to insert credentials manually', 'woo-paypal-gateway'); ?>
+            </a>
+        </div>
+                <?php
+            }
+
+            public function wpg_get_signup_link($testmode = 'yes') {
+                $env = ($testmode === 'yes') ? 'sandbox' : 'live';
+                $key = 'wpg_signup_link_' . $env;
+                $link = get_transient($key);
+                if ($link) {
+                    return $link;
+                }
+
+                try {
+                    $result = $this->seller_onboarding->wpg_generate_signup_link($testmode);
+                    if (isset($result['result'], $result['body']) && $result['result'] === 'success') {
+                        $json = json_decode($result['body']);
+                        if (!empty($json->links)) {
+                            foreach ($json->links as $l) {
+                                if ($l->rel === 'action_url') {
+                                    set_transient($key, $l->href, 5 * MINUTE_IN_SECONDS);
+                                    return (string) $l->href;
+                                }
+                            }
                         }
                     }
-                } else {
-                    return false;
+                } catch (Exception $ex) {
+                    
                 }
+
+                return false;
             }
-        } catch (Exception $ex) {
-            
-        }
-    }
 
-    public function wpg_get_signup_link_for_apple_pay($testmode = 'yes') {
-        try {
-
-            $seller_onboarding_result = $this->seller_onboarding->wpg_generate_signup_link_for_apple_pay($testmode);
-            if (isset($seller_onboarding_result['result']) && 'success' === $seller_onboarding_result['result'] && !empty($seller_onboarding_result['body'])) {
-                $json = json_decode($seller_onboarding_result['body']);
-                if (isset($json->links)) {
-                    foreach ($json->links as $link) {
-                        if ('action_url' === $link->rel) {
-                            return (string) $link->href;
+            public function wpg_get_signup_link_for_google_pay($testmode = 'yes') {
+                $env = ($testmode === 'yes') ? 'sandbox' : 'live';
+                $key = 'wpg_google_pay_signup_link_' . $env;
+                $link = get_transient($key);
+                if ($link) {
+                    return $link;
+                }
+                try {
+                    $result = $this->seller_onboarding->wpg_generate_signup_link_for_google_pay($testmode);
+                    if (isset($result['result'], $result['body']) && $result['result'] === 'success') {
+                        $json = json_decode($result['body']);
+                        if (!empty($json->links)) {
+                            foreach ($json->links as $l) {
+                                if ($l->rel === 'action_url') {
+                                    set_transient($key, $l->href, 5 * MINUTE_IN_SECONDS);
+                                    return (string) $l->href;
+                                }
+                            }
                         }
                     }
-                } else {
-                    return false;
+                } catch (Exception $ex) {
+                    
+                }
+                return false;
+            }
+
+            public function wpg_get_signup_link_for_apple_pay($testmode = 'yes') {
+                $env = ($testmode === 'yes') ? 'sandbox' : 'live';
+                $key = 'wpg_apple_pay_signup_link_' . $env;
+                $link = get_transient($key);
+                if ($link) {
+                    return $link;
+                }
+                try {
+                    $result = $this->seller_onboarding->wpg_generate_signup_link_for_apple_pay($testmode);
+                    if (isset($result['result'], $result['body']) && $result['result'] === 'success') {
+                        $json = json_decode($result['body']);
+                        if (!empty($json->links)) {
+                            foreach ($json->links as $l) {
+                                if ($l->rel === 'action_url') {
+                                    set_transient($key, $l->href, 5 * MINUTE_IN_SECONDS);
+                                    return (string) $l->href;
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception $ex) {
+                    
+                }
+                return false;
+            }
+
+            public function process_subscription_payment($order, $amount_to_charge) {
+                try {
+                    include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+                    $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+                    $order_id = $order->get_id();
+                    $this->request->wpg_ppcp_capture_order_using_payment_method_token($order_id);
+                } catch (Exception $ex) {
+                    
                 }
             }
-        } catch (Exception $ex) {
-            
-        }
-    }
 
-    public function process_subscription_payment($order, $amount_to_charge) {
-        try {
-            include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
-            $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
-            $order_id = $order->get_id();
-            $this->request->wpg_ppcp_capture_order_using_payment_method_token($order_id);
-        } catch (Exception $ex) {
-            
-        }
-    }
+            public function subscription_change_payment($order_id) {
+                include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+                $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+                return $this->request->ppcp_paypal_setup_tokens_sub_change_payment($order_id);
+            }
 
-    public function subscription_change_payment($order_id) {
-        include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
-        $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
-        return $this->request->ppcp_paypal_setup_tokens_sub_change_payment($order_id);
-    }
-
-    public function generate_paypal_button_preview_html($field_key, $data) {
-        if (isset($data['type']) && $data['type'] === 'paypal_button_preview') {
-            ob_start();
-            ?>
+            public function generate_paypal_button_preview_html($field_key, $data) {
+                if (isset($data['type']) && $data['type'] === 'paypal_button_preview') {
+                    ob_start();
+                    ?>
             <tr valign="top">
                 <td class="forminp" id="<?php echo esc_attr($field_key); ?>">
                     <div class="ppcp-preview ppcp-button-preview" >
@@ -951,7 +981,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                     <div class="wpg_foq">
                         <div class="faq-item">
                             <div class="faq-question" aria-expanded="false">
-                                <?php echo __('Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Bancontact, etc.) will appear?', 'woo-paypal-gateway'); ?>
+            <?php echo __('Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Bancontact, etc.) will appear?', 'woo-paypal-gateway'); ?>
                                 <span class="faq-toggle"></span>
                             </div>
                             <div class="faq-answer">
@@ -967,7 +997,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
 
                         <div class="faq-item">
                             <div class="faq-question" aria-expanded="false">
-                                <?php echo __('How can I hide specific PayPal buttons?', 'woo-paypal-gateway'); ?>
+            <?php echo __('How can I hide specific PayPal buttons?', 'woo-paypal-gateway'); ?>
                                 <span class="faq-toggle"></span>
                             </div>
                             <div class="faq-answer">
@@ -983,7 +1013,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                         </div>
                         <div class="faq-item">
                             <div class="faq-question" aria-expanded="false">
-                                <?php echo __('How can I show only the "PayPal" button on the Checkout page?', 'woo-paypal-gateway'); ?>
+            <?php echo __('How can I show only the "PayPal" button on the Checkout page?', 'woo-paypal-gateway'); ?>
                                 <span class="faq-toggle"></span>
                             </div>
                             <div class="faq-answer">
@@ -1005,7 +1035,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                         </div>
                         <div class="faq-item">
                             <div class="faq-question" aria-expanded="false">
-                                <?php echo __('How can I show only the "Credit or Debit Card" payment method on the Checkout page?', 'woo-paypal-gateway'); ?>
+            <?php echo __('How can I show only the "Credit or Debit Card" payment method on the Checkout page?', 'woo-paypal-gateway'); ?>
                                 <span class="faq-toggle"></span>
                             </div>
                             <div class="faq-answer">
@@ -1027,7 +1057,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                         </div>
                         <div class="faq-item">
                             <div class="faq-question" aria-expanded="false">
-                                <?php echo __('What is PayPal Pay Later?', 'woo-paypal-gateway'); ?>
+            <?php echo __('What is PayPal Pay Later?', 'woo-paypal-gateway'); ?>
                                 <span class="faq-toggle"></span>
                             </div>
                             <div class="faq-answer">
@@ -1035,7 +1065,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                                 <p><?php echo __('This can help increase your sales, with many merchants seeing higher conversion rates and larger order sizes.', 'woo-paypal-gateway'); ?></p>
                                 <p>
                                     <a href="https://www.paypal.com/us/business/accept-payments/checkout/installments" target="_blank" rel="noopener noreferrer">
-                                        <?php echo __('Learn more about Pay Later on PayPal’s website.', 'woo-paypal-gateway'); ?>
+            <?php echo __('Learn more about Pay Later on PayPal’s website.', 'woo-paypal-gateway'); ?>
                                     </a>
                                 </p>
                             </div>
@@ -1043,7 +1073,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
 
                         <div class="faq-item faq-highlight">
                             <div class="faq-question" aria-expanded="false">
-                                <?php echo __('How can I contact support or request a new functionality?', 'woo-paypal-gateway'); ?>
+            <?php echo __('How can I contact support or request a new functionality?', 'woo-paypal-gateway'); ?>
                                 <span class="faq-toggle"></span>
                             </div>
                             <div class="faq-answer">
@@ -1165,20 +1195,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             ?>
             <tr valign="top">
                 <th scope="row" class="titledesc">
-                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                                               ?></label>
+                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                                                          ?></label>
                 </th>
                 <td class="forminp" id="<?php echo esc_attr($field_key); ?>">
-                    <?php
-                    $args = array(
-                        'displayMode' => 'minibrowser',
-                    );
-                    $id = 'connect-to-google';
-                    $label = __('Click to Enable Google Pay', 'woo-paypal-gateway');
-                    $testmode = $this->sandbox ? 'yes' : 'no';
-                    $signup_link = $this->wpg_get_signup_link_for_google_pay($testmode);
-                    if ($signup_link) {
-                        $url = add_query_arg($args, $signup_link);
-                        ?><a target="_blank" class="button" id="<?php echo esc_attr($id); ?>"  href="<?php echo esc_url($url); ?>" ><?php echo esc_html($label); ?></a><?php
+            <?php
+            $args = array(
+                'displayMode' => 'minibrowser',
+            );
+            $id = 'connect-to-google';
+            $label = __('Click to Enable Google Pay', 'woo-paypal-gateway');
+            $testmode = $this->sandbox ? 'yes' : 'no';
+            $signup_link = $this->wpg_get_signup_link_for_google_pay($testmode);
+            if ($signup_link) {
+                $url = add_query_arg($args, $signup_link);
+                ?><a target="_blank" class="button" id="<?php echo esc_attr($id); ?>"  href="<?php echo esc_url($url); ?>" ><?php echo esc_html($label); ?></a><?php
                     }
                     ?>
                     <p class="description"><?php echo wp_kses_post($data['description']); ?></p>
@@ -1190,24 +1220,25 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
     }
 
     public function generate_gpay_title_html($field_key, $data) {
-        if (isset($data['type']) && $data['type'] === 'gpay_title') {
+        if (isset($data['type']) && $data['type'] === 'gpay_title' && !empty($data['description'])) {
             $field_key = $this->get_field_key($field_key);
             ob_start();
             ?>
             <div class="ppcp-google-pay-notice-box">
-                <?php echo '<strong>' . __('Important: ', 'woo-paypal-gateway') . '</strong>'; ?>
-                <?php echo $data['description']; ?>
+            <?php echo '<strong>' . esc_html__('Important: ', 'woo-paypal-gateway') . '</strong>'; ?>
+            <?php echo wp_kses_post($data['description']); ?>
             </div>
-            <?php
-            return ob_get_clean();
+                <?php
+                return ob_get_clean();
+            }
+            return '';
         }
-    }
 
-    public function generate_advanced_card_pay_title_html($field_key, $data) {
-        if (isset($data['type']) && $data['type'] === 'advanced_card_pay_title') {
-            $field_key = $this->get_field_key($field_key);
-            ob_start();
-            ?>
+        public function generate_advanced_card_pay_title_html($field_key, $data) {
+            if (isset($data['type']) && $data['type'] === 'advanced_card_pay_title' && !empty($data['description'])) {
+                $field_key = $this->get_field_key($field_key);
+                ob_start();
+                ?>
             <style>
                 .ppcp-advanced_card_pay-notice-box {
                     padding: 12px 16px;
@@ -1222,21 +1253,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                     margin-bottom: 15px;
                 }
             </style>
-
             <div class="ppcp-advanced_card_pay-notice-box">
-                <?php echo '<strong>' . __('Important: ', 'woo-paypal-gateway') . '</strong>'; ?>
-                <?php echo $data['description']; ?>
+            <?php echo '<strong>' . esc_html__('Important: ', 'woo-paypal-gateway') . '</strong>'; ?>
+            <?php echo $data['description']; ?>
             </div>
-            <?php
-            return ob_get_clean();
+                <?php
+                return ob_get_clean();
+            }
+            return '';
         }
-    }
 
-    public function generate_apple_title_html($field_key, $data) {
-        if (isset($data['type']) && $data['type'] === 'apple_title') {
-            $field_key = $this->get_field_key($field_key);
-            ob_start();
-            ?>
+        public function generate_apple_title_html($field_key, $data) {
+            if (isset($data['type']) && $data['type'] === 'apple_title' && !empty($data['description'])) {
+                $field_key = $this->get_field_key($field_key);
+                ob_start();
+                ?>
             <style>
                 .ppcp-apple-title-notice-box {
                     padding: 12px 16px;
@@ -1252,19 +1283,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                 }
             </style>
             <div class="ppcp-apple-title-notice-box">
-                <?php echo '<strong>' . __('Important: ', 'woo-paypal-gateway') . '</strong>'; ?>
-                <?php echo $data['description']; ?>
+            <?php echo '<strong>' . esc_html__('Important: ', 'woo-paypal-gateway') . '</strong>'; ?>
+            <?php echo wp_kses_post($data['description']); ?>
             </div>
-            <?php
-            return ob_get_clean();
+                <?php
+                return ob_get_clean();
+            }
+            return '';
         }
-    }
-    
-    public function generate_pay_later_messaging_title_html($field_key, $data) {
-        if (isset($data['type']) && $data['type'] === 'pay_later_messaging_title') {
-            $field_key = $this->get_field_key($field_key);
-            ob_start();
-            ?>
+
+        public function generate_pay_later_messaging_title_html($field_key, $data) {
+            if (isset($data['type']) && $data['type'] === 'pay_later_messaging_title') {
+                $field_key = $this->get_field_key($field_key);
+                ob_start();
+                ?>
             <style>
                 .ppcp-apple-title-notice-box {
                     padding: 12px 16px;
@@ -1280,19 +1312,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                 }
             </style>
             <div class="ppcp-apple-title-notice-box">
-                <?php echo $data['description']; ?>
+            <?php echo $data['description']; ?>
             </div>
-            <?php
-            return ob_get_clean();
+                <?php
+                return ob_get_clean();
+            }
         }
-    }
-    
 
-    public function generate_disallowed_funding_methods_note_html($field_key, $data) {
-        if (isset($data['type']) && $data['type'] === 'disallowed_funding_methods_note') {
-            $field_key = $this->get_field_key($field_key);
-            ob_start();
-            ?>
+        public function generate_disallowed_funding_methods_note_html($field_key, $data) {
+            if (isset($data['type']) && $data['type'] === 'disallowed_funding_methods_note') {
+                $field_key = $this->get_field_key($field_key);
+                ob_start();
+                ?>
             <tr valign="top">
                 <th scope="row" class="titledesc">
                     <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> </label>
@@ -1313,20 +1344,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             ?>
             <tr valign="top">
                 <th scope="row" class="titledesc">
-                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                                               ?></label>
+                    <label for="<?php echo esc_attr($field_key); ?>"><?php echo wp_kses_post($data['title']); ?> <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.                                                                                                                                                                                                          ?></label>
                 </th>
                 <td class="forminp" id="<?php echo esc_attr($field_key); ?>">
-                    <?php
-                    $args = array(
-                        'displayMode' => 'minibrowser',
-                    );
-                    $id = 'connect-to-google';
-                    $label = __('Click to Enable Apple Pay', 'woo-paypal-gateway');
-                    $testmode = $this->sandbox ? 'yes' : 'no';
-                    $signup_link = $this->wpg_get_signup_link_for_apple_pay($testmode);
-                    if ($signup_link) {
-                        $url = add_query_arg($args, $signup_link);
-                        ?><a target="_blank" class="button" id="<?php echo esc_attr($id); ?>"  href="<?php echo esc_url($url); ?>" ><?php echo esc_html($label); ?></a><?php
+            <?php
+            $args = array(
+                'displayMode' => 'minibrowser',
+            );
+            $id = 'connect-to-google';
+            $label = __('Click to Enable Apple Pay', 'woo-paypal-gateway');
+            $testmode = $this->sandbox ? 'yes' : 'no';
+            $signup_link = $this->wpg_get_signup_link_for_apple_pay($testmode);
+            if ($signup_link) {
+                $url = add_query_arg($args, $signup_link);
+                ?><a target="_blank" class="button" id="<?php echo esc_attr($id); ?>"  href="<?php echo esc_url($url); ?>" ><?php echo esc_html($label); ?></a><?php
                     }
                     ?>
                     <p class="description"><?php echo wp_kses_post($data['description']); ?></p>
@@ -1348,103 +1379,104 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             <tr valign="top">
                 <th scope="row" class="titledesc">
                     <label for="<?php echo esc_attr($field_key); ?>">
-                        <?php echo wp_kses_post($data['title']); ?>
-                        <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.    ?>
+            <?php echo wp_kses_post($data['title']); ?>
+            <?php echo $this->get_tooltip_html($data); // WPCS: XSS ok.        ?>
                     </label>
                 </th>
                 <td class="forminp" id="<?php echo esc_attr($field_key); ?>">
-                    <?php
-                    // Determine the URL for PayPal Apple Pay based on the environment
-                    $paypal_apple_pay_url = $this->sandbox ? 'https://www.sandbox.paypal.com/uccservicing/apm/applepay' : 'https://www.paypal.com/uccservicing/apm/applepay';
-                    ?>
+            <?php
+            // Determine the URL for PayPal Apple Pay based on the environment
+            $paypal_apple_pay_url = $this->sandbox ? 'https://www.sandbox.paypal.com/uccservicing/apm/applepay' : 'https://www.paypal.com/uccservicing/apm/applepay';
+            ?>
                     <a href="<?php echo esc_url($paypal_apple_pay_url); ?>" class="button" target="_blank">
-                        <?php echo __('Register Your Domain with Apple Pay', 'woo-paypal-gateway'); ?>
+                    <?php echo __('Register Your Domain with Apple Pay', 'woo-paypal-gateway'); ?>
                     </a>
-                    <?php
-                    echo '<p class="description">'
-                    . __('Any (sub)domain displaying an Apple Pay button must be registered on the PayPal website. If the domain is not registered, the payment method will not work.', 'woo-paypal-gateway')
-                    . '</p>';
-                    ?>
+                        <?php
+                        echo '<p class="description">'
+                        . __('Any (sub)domain displaying an Apple Pay button must be registered on the PayPal website. If the domain is not registered, the payment method will not work.', 'woo-paypal-gateway')
+                        . '</p>';
+                        ?>
                 </td>
             </tr>
-            <?php
-            // Return the buffered output
-            return ob_get_clean();
-        }
-    }
+                    <?php
+                    // Return the buffered output
+                    return ob_get_clean();
+                }
+            }
 
-    public function wpg_ppcp_display_other_plugin() {
-        static $shown = false;
-        if ($shown) {
-            return;
-        }
-        $shown = true;
+            public function wpg_ppcp_display_other_plugin() {
+                static $shown = false;
+                if ($shown) {
+                    return;
+                }
+                $shown = true;
 
-        if (!isset($_GET['section']) || $_GET['section'] !== 'wpg_paypal_checkout' || (isset($_GET['wpg_section']) && $_GET['wpg_section'] !== 'wpg_api_settings')) {
-            return;
-        }
+                if (!isset($_GET['section']) || $_GET['section'] !== 'wpg_paypal_checkout' || (isset($_GET['wpg_section']) && $_GET['wpg_section'] !== 'wpg_api_settings')) {
+                    return;
+                }
 
-        $country = get_option('woocommerce_default_country');
-        if (strpos($country, 'IN') !== 0) {
-            return;
-        }
+                $country = get_option('woocommerce_default_country');
+                if (strpos($country, 'IN') !== 0) {
+                    return;
+                }
 
-        $plugins = [
-            [
-                'slug' => 'easy-payment-gateway-for-razorpay-and-for-woocommerce',
-                'title' => __('Easy Payment Gateway for Razorpay and for WooCommerce', 'woo-paypal-gateway'),
-                'description' => __('Accept payments through UPI, Cards, and Net Banking using Razorpay — developed by an official Razorpay Partner.', 'woo-paypal-gateway'),
-                'image' => 'https://ps.w.org/easy-payment-gateway-for-razorpay-and-for-woocommerce/assets/icon-256x256.png',
-            ],
-            [
-                'slug' => 'payment-gateway-for-phonepe-and-for-woocommerce',
-                'title' => __('Payment Gateway for PhonePe and for WooCommerce', 'woo-paypal-gateway'),
-                'description' => __('Accept PhonePe UPI, Wallet, and Cards in WooCommerce with a secure, fast, and seamless payment gateway developed by a PhonePe Partner.', 'woo-paypal-gateway'),
-                'image' => 'https://ps.w.org/payment-gateway-for-phonepe-and-for-woocommerce/assets/icon-256x256.png',
-            ]
-        ];
-        ?>
+                $plugins = [
+                    [
+                        'slug' => 'easy-payment-gateway-for-razorpay-and-for-woocommerce',
+                        'title' => __('Easy Payment Gateway for Razorpay and for WooCommerce', 'woo-paypal-gateway'),
+                        'description' => __('Accept payments through UPI, Cards, and Net Banking using Razorpay — developed by an official Razorpay Partner.', 'woo-paypal-gateway'),
+                        'image' => 'https://ps.w.org/easy-payment-gateway-for-razorpay-and-for-woocommerce/assets/icon-256x256.png',
+                    ],
+                    [
+                        'slug' => 'payment-gateway-for-phonepe-and-for-woocommerce',
+                        'title' => __('Payment Gateway for PhonePe and for WooCommerce', 'woo-paypal-gateway'),
+                        'description' => __('Accept PhonePe UPI, Wallet, and Cards in WooCommerce with a secure, fast, and seamless payment gateway developed by a PhonePe Partner.', 'woo-paypal-gateway'),
+                        'image' => 'https://ps.w.org/payment-gateway-for-phonepe-and-for-woocommerce/assets/icon-256x256.png',
+                    ]
+                ];
+                ?>
         <div class="wpg-india-highlight">
             <div class="section-title"><?php _e('Recommended payment method for Indian merchants', 'woo-paypal-gateway'); ?></div>
             <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-                <?php
-                foreach ($plugins as $plugin) :
-                    $plugin_file = $plugin['slug'] . '/' . $plugin['slug'] . '.php';
-                    $plugin_installed = file_exists(WP_PLUGIN_DIR . '/' . $plugin_file);
-                    $plugin_active = is_plugin_active($plugin_file);
+        <?php
+        foreach ($plugins as $plugin) :
+            $plugin_file = $plugin['slug'] . '/' . $plugin['slug'] . '.php';
+            $plugin_installed = file_exists(WP_PLUGIN_DIR . '/' . $plugin_file);
+            $plugin_active = is_plugin_active($plugin_file);
 
-                    if ($plugin_installed || $plugin_active) {
-                        continue;
-                    }
+            if ($plugin_installed || $plugin_active) {
+                continue;
+            }
 
-                    $install_url = wp_nonce_url(
-                            self_admin_url('update.php?action=install-plugin&plugin=' . $plugin['slug']),
-                            'install-plugin_' . $plugin['slug']
-                    );
-                    ?>
+            $install_url = wp_nonce_url(
+                    self_admin_url('update.php?action=install-plugin&plugin=' . $plugin['slug']),
+                    'install-plugin_' . $plugin['slug']
+            );
+            ?>
                     <div class="wpg-india-plugin" style="display: flex; max-width: 430px; border: 1px solid #ccc; padding: 16px; border-radius: 8px; background: #fff;">
                         <img src="<?php echo esc_url($plugin['image']); ?>" alt="<?php esc_attr_e('Plugin Logo', 'woo-paypal-gateway'); ?>" style="width: 64px; height: 64px; margin-right: 16px;">
                         <div class="plugin-info">
                             <h3 style="margin-top: 0;">
                                 <a href="https://wordpress.org/plugins/<?php echo esc_attr($plugin['slug']); ?>/" target="_blank">
-                                    <?php echo $plugin['title']; ?>
+            <?php echo $plugin['title']; ?>
                                 </a>
                             </h3>
                             <p><?php echo $plugin['description']; ?></p>
                             <div class="author">
-                                <?php _e('By', 'woo-paypal-gateway'); ?>
+            <?php _e('By', 'woo-paypal-gateway'); ?>
                                 <a href="https://profiles.wordpress.org/easypayment/" target="_blank">Easy Payment</a>
                             </div>
                             <div class="plugin-actions" style="margin-top: 8px;">
                                 <a class="install-now button" href="<?php echo esc_url($install_url); ?>">
-                                    <?php _e('Install Now', 'woo-paypal-gateway'); ?>
+            <?php _e('Install Now', 'woo-paypal-gateway'); ?>
                                 </a>
                             </div>
                         </div>
                     </div>
-                <?php endforeach; ?>
+        <?php endforeach; ?>
             </div>
         </div>
-        <?php
-    }
-}
+                <?php
+            }
+        }
+        

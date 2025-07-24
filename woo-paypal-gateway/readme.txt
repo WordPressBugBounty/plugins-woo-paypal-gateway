@@ -2,8 +2,8 @@
 Contributors: easypayment  
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
-Tested up to: 6.8.1
-Stable tag: 9.0.37  
+Tested up to: 6.8.2
+Stable tag: 9.0.38  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -12,7 +12,7 @@ PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Merc
 
 == Description ==
 
-**Payment Gateway for PayPal on WooCommerce** is the ideal solution for adding PayPal payment options to your WooCommerce store. This comprehensive plugin integrates all major PayPal payment methods, providing a complete "PayPal For WooCommerce" experience. Enhance your checkout with PayPal Express Checkout ensuring secure and efficient transactions for your customers.
+Payment Gateway for PayPal on WooCommerce is the ideal solution for adding PayPal payment options to your WooCommerce store. This comprehensive plugin integrates all major PayPal payment methods, providing a complete PayPal For WooCommerce" experience. **Developed by an Official PayPal Partner**, this plugin ensures high performance and reliability.
 
 ### Key Features:
 - **Advanced credit and debit card payments**: Accept credit card payments directly on your site.
@@ -100,6 +100,10 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.38 – 2025-07-21 =
+* Fixed - Addressed an issue with shipping address validation during checkout.
+* Enhanced - Refined the seller onboarding process for a smoother experience.
 
 = 9.0.37 – 2025-07-07 =
 * Fixed – Issue with PayPal fee not saving correctly has been resolved.

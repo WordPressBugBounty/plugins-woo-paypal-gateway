@@ -365,6 +365,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
             $product_id = is_product() ? get_the_ID() : 0;
             $js_url = add_query_arg($ppcp_js_arg, 'https://www.paypal.com/sdk/js');
+            
             wp_register_script('ppcp-checkout-js', $js_url, array(), null, false);
             wp_enqueue_script('jquery-blockui');
             wp_register_script('ppcp-paypal-checkout-for-woocommerce-public', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/ppcp-paypal-checkout-for-woocommerce-public.js', array('jquery'), WPG_PLUGIN_VERSION, false);
@@ -421,6 +422,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'button_selector' => $button_selector,
                 'enabled_google_pay' => $this->should_enable_google_pay_for_page($page) ? 'yes' : 'no',
                 'enabled_apple_pay' => $this->should_enable_apple_pay_for_page($page) ? 'yes' : 'no',
+                'is_apple_pay_enable_checkout' => $this->is_apple_pay_enable_for_page('checkout') ? 'yes' : 'no',
+                'is_google_pay_enabled_checkout' => $this->is_google_pay_enable_for_page('checkout') ? 'yes' : 'no',
                 'locale' => explode('-', get_bloginfo('language'))[0] ?? 'en',
                 'is_wpg_change_payment_method' => is_wpg_change_payment_method() ? 'yes' : 'no',
                 'environment' => $this->sandbox ? 'TEST' : 'PRODUCTION',
@@ -470,7 +473,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             wp_enqueue_script('ppcp-checkout-js');
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
             wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-            echo '<div class="ppcp-button-container" style="margin-top: 20px;">';
+            echo '<div class="ppcp-button-container">';
             if ($this->show_on_product_page) {
                 echo '<div id="ppcp_product" class="' . $this->button_class . '"></div>';
             }

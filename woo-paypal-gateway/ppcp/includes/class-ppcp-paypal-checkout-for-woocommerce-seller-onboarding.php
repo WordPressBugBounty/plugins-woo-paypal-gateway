@@ -257,9 +257,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 delete_transient('wpg_ppcp_sandbox_onboarding_status');
                 delete_transient('wpg_ppcp_live_onboarding_status');
                 set_transient($lock_key, true, 60);
-                sleep(5);
                 if (!empty($_GET['isEmailConfirmed']) && $_GET['isEmailConfirmed'] === 'false') {
                     set_transient('wpg_primary_email_not_confirmed', 'yes', 29000);
+                }
+                if (isset($_GET['merchantIdInPayPal']) && !empty($_GET['merchantIdInPayPal'])) {
+                    $merchant_id = sanitize_text_field(wp_unslash($_GET['merchantIdInPayPal']));
+                    if (isset($_GET['sandbox']) && !empty($_GET['sandbox'])) {
+                        $is_sandbox = sanitize_text_field(wp_unslash($_GET['sandbox'])) === 'yes';
+                        $settings = get_option('woocommerce_wpg_paypal_checkout_settings', []);
+                        if ($is_sandbox) {
+                            $settings['sandbox_merchant_id'] = $merchant_id;
+                        } else {
+                            $settings['live_merchant_id'] = $merchant_id;
+                        }
+                        update_option('woocommerce_wpg_paypal_checkout_settings', $settings);
+                    }
                 }
                 if (ob_get_length()) {
                     ob_end_clean();
@@ -268,7 +280,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 exit;
             }
             if (!$proceed && !empty($_GET['merchantIdInPayPal'])) {
-                sleep(5);
                 delete_transient($lock_key);
                 if (ob_get_length()) {
                     ob_end_clean();
@@ -312,11 +323,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                     $new_settings['rest_secret_id_sandbox'] = $credentials['client_secret'];
                     $new_settings['rest_client_id_sandbox'] = $credentials['client_id'];
                     $new_settings['sandbox_merchant_id'] = $credentials['payer_id'];
+                    $new_settings['ppcp_email_sandbox'] = '';
                 } else {
                     $new_settings['rest_secret_id_live'] = $credentials['client_secret'];
                     $new_settings['rest_client_id_live'] = $credentials['client_id'];
                     $new_settings['live_merchant_id'] = $credentials['payer_id'];
+                    $new_settings['ppcp_email_live'] = '';
                 }
+                delete_transient('wpg_ppcp_live_onboarding_status');
+                delete_transient('wpg_ppcp_sandbox_onboarding_status');
                 $this->update_gateway_settings($new_settings);
                 $transient_key = $this->is_sandbox ? 'wpg_sandbox_seller_onboarding_process_done' : 'wpg_live_seller_onboarding_process_done';
                 set_transient($transient_key, 'yes', 29000);
@@ -370,16 +385,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
     }
 
     public function update_gateway_settings($new_settings) {
-        $original_option = 'woocommerce_wpg_paypal_checkout_settings';
-        $temp_option = $original_option . '_temp';
-        $original_settings = get_option($original_option, array());
-        $temp_settings = get_option($temp_option, array());
-        $merged_settings = array_merge($original_settings, $temp_settings, $new_settings);
-        update_option($temp_option, $merged_settings, 'yes');
-        update_option($original_option, $merged_settings, 'yes');
-        wp_cache_delete($original_option, 'options');
-        $updated_settings = get_option($original_option, array());
-        update_option($temp_option, $updated_settings, 'yes');
+        $option_key = 'woocommerce_wpg_paypal_checkout_settings';
+        $existing_settings = get_option($option_key, array());
+        $merged_settings = array_merge($existing_settings, $new_settings);
+        update_option($option_key, $merged_settings, true);
+        wp_cache_delete($option_key, 'options');
     }
 
     private function clear_transients_and_options() {

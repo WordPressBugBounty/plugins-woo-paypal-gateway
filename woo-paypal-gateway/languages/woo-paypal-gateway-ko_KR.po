@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.22\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-"
 "gateway\n"
-"POT-Creation-Date: 2025-07-07T10:40:37+00:00\n"
-"PO-Revision-Date: 2025-07-07 16:22+0530\n"
+"POT-Creation-Date: 2025-07-23T13:16:53+00:00\n"
+"PO-Revision-Date: 2025-07-24 09:07+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -160,7 +160,6 @@ msgstr "신용 카드 결제는 PayPal / Braintree에서 제공합니다."
 
 #. translators: %s: request name.
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:247
-#, php-format
 msgid ""
 "%sBraintree\\Exception\\Authentication: API keys are incorrect. Please "
 "double-check that you haven’t accidentally tried to use your sandbox keys in "
@@ -172,7 +171,6 @@ msgstr ""
 
 #. translators: %s: The request context or label (e.g. "PayPal" or "Credit Card").
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:253
-#, php-format
 msgid ""
 "%sBraintree\\Exception\\Authorization: The API key that you're using is not "
 "authorized to perform the attempted action according to the role assigned to "
@@ -183,32 +181,27 @@ msgstr ""
 
 #. translators: %s: request name.
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:259
-#, php-format
 msgid "%sBraintree\\Exception\\DownForMaintenance: Request times out."
 msgstr ""
 "%sBraintree\\Exception\\DownForMaintenance: 요청 시간이 초과되었습니다."
 
 #. translators: 1: request name, 2: exception message.
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:265
-#, php-format
 msgid "%1$sBraintree\\Exception\\ServerError %2$s"
 msgstr "%1$s브레인트리\\예외\\서버 오류 %2$s"
 
 #. translators: 1: request name, 2: exception message.
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:271
-#, php-format
 msgid "%1$sBraintree\\Exception\\SSLCertificate %2$s"
 msgstr "%1$s브레인트리\\예외\\SSLCertificate %2$s"
 
 #. translators: 1: request name, 2: exception message.
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:283
-#, php-format
 msgid "%1$sBraintree\\Exception\\NotFound %2$s"
 msgstr "%1$s브레인트리\\예외\\못찾음 %2$s"
 
 #. translators: %s: exception message.
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:291
-#, php-format
 msgid "Error: Unable to complete request. Reason: %s"
 msgstr "오류가 발생했습니다: 요청을 완료할 수 없습니다. 이유: %s"
 
@@ -226,13 +219,11 @@ msgstr "브레인트리 응답에서 알 수 없는 오류가 발생했습니다
 
 #. translators: 1: Payment method title, 2: Transaction ID.
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:368
-#, php-format
 msgid "%1$s payment approved! Transaction ID: %2$s"
 msgstr "%1$s 결제 승인! 거래 ID: %2$s"
 
 #. translators: 1: PayPal Braintree transaction ID, 2: Transaction status
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:373
-#, php-format
 msgid ""
 "Transaction was submitted to PayPal Braintree but not handled by WooCommerce "
 "order, transaction_id: %1$s, status: %2$s. Order was put on hold."
@@ -252,7 +243,6 @@ msgstr "판매자 계정 ID를 가져올 수 없습니다."
 #. translators: 1: Refund amount, 2: Transaction ID.
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:751
 #: includes/gateways/braintree/class-woo-paypal-gateway-braintree.php:774
-#, php-format
 msgid "Refunded %1$s - Transaction ID: %2$s"
 msgstr "환불됨 %1$s - 거래 ID: %2$s"
 
@@ -266,14 +256,14 @@ msgstr "부분 무효는 허용되지 않습니다. 주문 금액 전액을 환�
 #: includes/gateways/paypal-pro-payflow/settings-paypal-pro-payflow.php:12
 #: includes/gateways/paypal-pro/settings-paypal-pro.php:12
 #: includes/gateways/paypal-rest/settings-paypal-rest.php:12
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:173
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:670
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1283
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1368
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1455
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1541
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1627
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1713
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:186
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:689
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1327
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1412
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1499
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1585
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1671
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1757
 msgid "Enable/Disable"
 msgstr "활성화/비활성화"
 
@@ -287,8 +277,8 @@ msgstr "Braintree 결제 게이트웨이 활성화"
 #: includes/gateways/paypal-pro-payflow/settings-paypal-pro-payflow.php:19
 #: includes/gateways/paypal-pro/settings-paypal-pro.php:19
 #: includes/gateways/paypal-rest/settings-paypal-rest.php:18
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:181
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:678
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:194
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:697
 msgid "Title"
 msgstr "제목"
 
@@ -311,7 +301,7 @@ msgstr "크레딧 / 페이팔 / 페이팔 크레딧"
 #: includes/gateways/paypal-pro-payflow/settings-paypal-pro-payflow.php:26
 #: includes/gateways/paypal-pro/settings-paypal-pro.php:26
 #: includes/gateways/paypal-rest/settings-paypal-rest.php:24
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:188
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:201
 msgid "Description"
 msgstr "설명"
 
@@ -337,7 +327,7 @@ msgstr "Invoice Prefix"
 #: includes/gateways/paypal-pro-payflow/settings-paypal-pro-payflow.php:46
 #: includes/gateways/paypal-pro/settings-paypal-pro.php:97
 #: includes/gateways/paypal-rest/settings-paypal-rest.php:32
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1791
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1835
 msgid ""
 "Please enter a prefix for your invoice numbers. If you use your PayPal "
 "account for multiple stores ensure this prefix is unique as PayPal will not "
@@ -417,7 +407,7 @@ msgstr "디버그 로그"
 #: includes/gateways/paypal-pro-payflow/settings-paypal-pro-payflow.php:138
 #: includes/gateways/paypal-pro/settings-paypal-pro.php:121
 #: includes/gateways/paypal-rest/settings-paypal-rest.php:77
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1806
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1850
 msgid "Enable logging"
 msgstr "로깅 활성화"
 
@@ -440,7 +430,6 @@ msgstr "지불 방법이 성공적으로 추가되었습니다."
 #: includes/gateways/paypal-pro/class-woo-paypal-gateway-paypal-pro-api-handler.php:147
 #: includes/gateways/paypal-pro/class-woo-paypal-gateway-paypal-pro-api-handler.php:150
 #: includes/gateways/paypal-pro/class-woo-paypal-gateway-paypal-pro-api-handler.php:152
-#, php-format
 msgid "An error occurred while trying to connect to PayPal: %s"
 msgstr "PayPal에 연결하는 동안 오류가 발생했습니다: %s"
 
@@ -557,19 +546,16 @@ msgstr "보류 사유가 제공되지 않았습니다."
 
 #. translators: %s: PayPal pending reason.
 #: includes/gateways/express-checkout-nvp/class-woo-paypal-gateway-express-checkout-api-handler.php:809
-#, php-format
 msgid "Payment via Express Checkout Pending. PayPal reason: %s."
 msgstr "빠른 결제를 통한 결제가 보류 중입니다. PayPal 이유: %s."
 
 #. translators: %s: Express Checkout error message.
 #: includes/gateways/express-checkout-nvp/class-woo-paypal-gateway-express-checkout-api-handler.php:819
-#, php-format
 msgid "Express Checkout Error: %s."
 msgstr "빠른 결제 오류: %s."
 
 #. translators: %s: Payment status in lowercase (e.g., failed, denied).
 #: includes/gateways/express-checkout-nvp/class-woo-paypal-gateway-express-checkout-api-handler.php:829
-#, php-format
 msgid "Payment %s via Express Checkout."
 msgstr "빠른 결제를 통한 결제 %s."
 
@@ -577,7 +563,6 @@ msgstr "빠른 결제를 통한 결제 %s."
 #. translators: %s: Payer status wrapped in <strong> tags.
 #: includes/gateways/express-checkout-nvp/class-woo-paypal-gateway-express-checkout-api-handler.php:845
 #: includes/gateways/paypal-pro/class-woo-paypal-gateway-paypal-pro-api-handler.php:371
-#, php-format
 msgid "Payer Status: %s"
 msgstr "결제자 상태: %s"
 
@@ -585,13 +570,11 @@ msgstr "결제자 상태: %s"
 #. translators: %s: Address status wrapped in <strong> tags.
 #: includes/gateways/express-checkout-nvp/class-woo-paypal-gateway-express-checkout-api-handler.php:849
 #: includes/gateways/paypal-pro/class-woo-paypal-gateway-paypal-pro-api-handler.php:375
-#, php-format
 msgid "Address Status: %s"
 msgstr "주소 상태: %s"
 
 #. translators: 1: Blog name.
 #: includes/gateways/express-checkout-nvp/class-woo-paypal-gateway-express-checkout-api-handler.php:858
-#, php-format
 msgctxt "data sent to PayPal"
 msgid "Orders with %1$s"
 msgstr "주문 %1$s 포함"
@@ -608,8 +591,8 @@ msgid ""
 msgstr "주문 처리 중 문제가 발생했습니다. 고객 지원팀에 문의하세요."
 
 #: includes/gateways/express-checkout-nvp/class-woo-paypal-gateway-express-checkout-helper.php:222
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:66
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:692
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:67
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:695
 msgid "Confirm your PayPal order"
 msgstr "PayPal 주문을 확인하세요"
 
@@ -619,7 +602,6 @@ msgstr "잘못된 접근입니다."
 
 #. translators: 1: Payment method label (e.g., "PayPal Billing Agreement"), 2: Payment token ID.
 #: includes/gateways/express-checkout-nvp/class-woo-paypal-gateway-express-checkout-subscriptions.php:124
-#, php-format
 msgid "Via %1$s %2$s"
 msgstr "%1$s %2$s 통해"
 
@@ -691,7 +673,6 @@ msgstr "PayPal 샌드박스 모드 활성화"
 #. translators: %s: Link to PayPal developer site.
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:51
 #: includes/gateways/paypal-rest/settings-paypal-rest.php:42
-#, php-format
 msgid ""
 "Place the payment gateway in development mode. Sign up for a developer "
 "account <a href=\"%s\" target=\"_blank\">here</a>"
@@ -762,12 +743,12 @@ msgid "Optional"
 msgstr "선택 사항"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:103
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1746
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1790
 msgid "Brand Name"
 msgstr "브랜드명"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:105
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1748
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1792
 msgid ""
 "This controls what users see as the brand / company name on PayPal review "
 "pages."
@@ -813,7 +794,7 @@ msgstr ""
 "니다."
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:134
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1753
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1797
 msgid "Landing Page"
 msgstr "랜딩 페이지"
 
@@ -848,11 +829,11 @@ msgstr ""
 "다."
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:155
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:203
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:227
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:763
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1055
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1472
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:216
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:240
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:793
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1099
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1516
 msgid "Product Page"
 msgstr "제품 페이지"
 
@@ -865,11 +846,11 @@ msgid "Allows customers to checkout using PayPal directly from a product page."
 msgstr "고객이 제품 페이지에서 바로 PayPal을 사용하여 결제할 수 있습니다."
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:163
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:204
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:315
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:805
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1096
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1558
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:328
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:835
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1140
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1602
 msgid "Cart Page"
 msgstr "장바구니 페이지"
 
@@ -902,10 +883,10 @@ msgid "Both at the top and bottom, above and below the shopping cart details."
 msgstr "장바구니 세부 정보 상단과 하단, 위와 아래에 모두 표시됩니다."
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:183
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:206
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:414
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:931
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1219
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:219
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:427
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:961
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1263
 msgid "Checkout Page"
 msgstr "결제 페이지"
 
@@ -950,42 +931,42 @@ msgid "Type of PayPal Button Size (small | medium | responsive)."
 msgstr "PayPal 버튼 크기 유형(소형 | 중형 | 반응형)."
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:210
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:287
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:374
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:473
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:619
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:300
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:387
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:486
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:632
 msgid "Small"
 msgstr "작게"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:211
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:288
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:375
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:474
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:620
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:301
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:388
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:487
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:633
 msgid "Medium"
 msgstr "중간"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:212
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:290
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:303
 msgid "Responsive"
 msgstr "반응형"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:216
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:272
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:359
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:458
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:541
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:604
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:795
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:879
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:921
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:963
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1086
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1127
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1168
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1209
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1250
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:285
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:372
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:471
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:554
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:825
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:867
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:909
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:951
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:993
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1130
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1171
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1212
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1253
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1294
 msgid "Button Shape"
 msgstr "버튼 모양"
 
@@ -994,21 +975,21 @@ msgid "Type of PayPal Button Shape (pill | rect)."
 msgstr "PayPal 버튼 모양 유형(알약 | 직사각형)."
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:223
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:278
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:365
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:464
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:547
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:610
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:801
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:843
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:885
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:927
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:969
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1092
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1133
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1174
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1215
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1256
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:291
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:378
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:477
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:560
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:831
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:873
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:915
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:957
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:999
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1136
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1177
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1218
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1259
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1300
 msgid "Pill"
 msgstr "Pill"
 
@@ -1017,21 +998,21 @@ msgid "Rect"
 msgstr "직사각형"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:228
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:259
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:346
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:445
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:528
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:591
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:785
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:827
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:869
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:911
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:953
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1075
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1116
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1157
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1198
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1239
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:272
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:359
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:458
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:541
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:604
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:815
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:857
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:899
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:941
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:983
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1119
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1160
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1201
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1242
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1283
 msgid "Button Color"
 msgstr "버튼 색상"
 
@@ -1044,25 +1025,25 @@ msgid "Gold"
 msgstr "골드"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:236
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:265
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:352
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:451
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:534
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:597
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1356
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1443
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1529
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1615
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1701
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:278
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:365
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:464
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:547
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:610
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1487
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1573
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1745
 msgid "Blue"
 msgstr "파랑"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:237
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:266
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:353
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:452
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:535
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:598
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:279
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:366
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:548
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:611
 msgid "Silver"
 msgstr "실버"
 
@@ -1095,7 +1076,7 @@ msgstr "지불 작업"
 #: includes/gateways/paypal-advanced/settings-paypal-advanced.php:121
 #: includes/gateways/paypal-pro-payflow/settings-paypal-pro-payflow.php:121
 #: includes/gateways/paypal-pro/settings-paypal-pro.php:86
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1737
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1781
 msgid ""
 "Choose whether you wish to capture funds immediately or authorize payment "
 "only."
@@ -1110,16 +1091,16 @@ msgid "Authorization"
 msgstr "권한"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:262
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:779
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:821
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:863
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:905
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:947
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1069
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1110
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1151
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1192
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1233
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:809
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:851
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:893
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:935
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:977
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1113
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1154
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1195
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1236
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1277
 msgid "Order"
 msgstr "주문"
 
@@ -1128,12 +1109,12 @@ msgid "Instant Payments"
 msgstr "즉시 결제"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:268
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1771
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1815
 msgid "Require Instant Payment"
 msgstr "즉시 결제 필요"
 
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:271
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1768
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1812
 msgid ""
 "If you enable this setting, PayPal will be instructed not to allow the buyer "
 "to use funding sources that take additional time to complete (for example, "
@@ -1168,7 +1149,6 @@ msgstr "디버그"
 
 #. translators: %s: Log file path.
 #: includes/gateways/express-checkout-nvp/settings-express-checkout.php:283
-#, php-format
 msgid "Enable logging <code>%s</code>"
 msgstr "로깅 사용 <code>%s</code>"
 
@@ -1212,13 +1192,11 @@ msgstr "PayPal에서 예상치 못한 응답이 왔습니다."
 #. translators: 1: Refunded amount, 2: PayPal Payflow transaction reference (PNREF).
 #: includes/gateways/paypal-advanced/class-woo-paypal-gateway-paypal-advanced-api-handler.php:237
 #: includes/gateways/paypal-pro-payflow/class-woo-paypal-gateway-paypal-pro-payflow-api-handler.php:246
-#, php-format
 msgid "Refunded %1$s - PNREF: %2$s"
 msgstr "환불됨 %1$s - PNREF: %2$s"
 
 #. translators: %s: PayPal PayFlow transaction ID.
 #: includes/gateways/paypal-advanced/class-woo-paypal-gateway-paypal-advanced-api-handler.php:269
-#, php-format
 msgid ""
 "PayPal Pro (PayFlow) charge authorized (Charge ID: %s). Process order to "
 "take payment, or cancel to remove the pre-authorization."
@@ -1230,7 +1208,6 @@ msgstr ""
 #. translators: %s: PayPal Payflow transaction reference number (PNREF).
 #: includes/gateways/paypal-advanced/class-woo-paypal-gateway-paypal-advanced-api-handler.php:273
 #: includes/gateways/paypal-pro-payflow/class-woo-paypal-gateway-paypal-pro-payflow-api-handler.php:139
-#, php-format
 msgid "PayPal Pro (Payflow) payment completed (PNREF: %s)"
 msgstr "페이팔 프로(페이플로우) 결제 완료(PNREF: %s)"
 
@@ -1413,14 +1390,14 @@ msgstr "계정을 등록할 때 정의한 비밀번호입니다."
 #: includes/gateways/paypal-advanced/settings-paypal-advanced.php:125
 #: includes/gateways/paypal-pro-payflow/settings-paypal-pro-payflow.php:125
 #: includes/gateways/paypal-pro/settings-paypal-pro.php:90
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1741
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1785
 msgid "Capture"
 msgstr "캡처"
 
 #: includes/gateways/paypal-advanced/settings-paypal-advanced.php:126
 #: includes/gateways/paypal-pro-payflow/settings-paypal-pro-payflow.php:126
 #: includes/gateways/paypal-pro/settings-paypal-pro.php:91
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1742
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1786
 msgid "Authorize"
 msgstr "인증"
 
@@ -1438,7 +1415,6 @@ msgstr "빈 PayPal 응답입니다."
 
 #. translators: 1: PayPal PayFlow transaction ID.
 #: includes/gateways/paypal-pro-payflow/class-woo-paypal-gateway-paypal-pro-payflow-api-handler.php:135
-#, php-format
 msgid ""
 "PayPal Pro (PayFlow) charge authorized (Charge ID: %1$s). Process order to "
 "take payment, or cancel to remove the pre-authorization."
@@ -1517,27 +1493,23 @@ msgstr ""
 
 #. translators: %s: Payment gateway title.
 #: includes/gateways/paypal-pro/class-woo-paypal-gateway-paypal-pro-api-handler.php:387
-#, php-format
 msgid "Payment Status Completed via %s"
 msgstr "결제 완료 상태 %s"
 
 #. translators: 1: Payment gateway title, 2: PayPal pending reason.
 #. translators: %1$s is the payment method title, %2$s is the pending reason from PayPal.
 #: includes/gateways/paypal-pro/class-woo-paypal-gateway-paypal-pro-api-handler.php:432
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1269
-#, php-format
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1272
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
 msgstr "%1$s을(를) 통한 결제가 보류 중입니다. PayPal 사유: %2$s."
 
 #. translators: 1: Payment gateway title, 2: Error message.
 #: includes/gateways/paypal-pro/class-woo-paypal-gateway-paypal-pro-api-handler.php:440
-#, php-format
 msgid "%1$s Error: %2$s."
 msgstr "%1$s 오류: %2$s."
 
 #. translators: 1: Payment status (lowercase), 2: Payment gateway title.
 #: includes/gateways/paypal-pro/class-woo-paypal-gateway-paypal-pro-api-handler.php:450
-#, php-format
 msgid "Payment %1$s via %2$s."
 msgstr "%2$s을(를) 통한 결제 %1$s."
 
@@ -1640,7 +1612,7 @@ msgid "Pay with your credit card"
 msgstr "신용카드로 결제하기"
 
 #: includes/gateways/paypal-rest/settings-paypal-rest.php:45
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:137
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:144
 msgid "Sandbox Client ID"
 msgstr "샌드박스 클라이언트 ID"
 
@@ -1653,7 +1625,7 @@ msgid "Enter your Sandbox PayPal Rest API Secret ID."
 msgstr "샌드박스 페이팔 레스트 API 비밀 ID를 입력합니다."
 
 #: includes/gateways/paypal-rest/settings-paypal-rest.php:57
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:105
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:106
 msgid "Live Client ID"
 msgstr "라이브 클라이언트 ID"
 
@@ -1688,13 +1660,11 @@ msgstr ""
 
 #. translators: %s: Currency code returned by PayPal.
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:89
-#, php-format
 msgid "Validation error: PayPal currencies do not match (code %s)."
 msgstr "인증 에러: 페이팔 통화가 일치하지 않습니다 (코드 %s)."
 
 #. translators: %s: Gross amount from PayPal.
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:98
-#, php-format
 msgid "Validation error: PayPal amounts do not match (gross %s)."
 msgstr "인증 에러: 페이팔 금액이 일치하지 않습니다 (총계 %s)."
 
@@ -1704,7 +1674,6 @@ msgstr "IPN 결제가 완료되었습니다"
 
 #. translators: %s: PayPal pending reason.
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:115
-#, php-format
 msgid "Payment pending: %s"
 msgstr "지불 대기중: %s"
 
@@ -1715,32 +1684,27 @@ msgstr "지불 대기중: %s"
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:153
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:155
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:162
-#, php-format
 msgid "Payment %s via IPN."
 msgstr "IPN을 통한 지불 %s."
 
 #. translators: 1: Order number, 2: PayPal reason code.
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:147
-#, php-format
 msgid "Payment for order %1$s refunded"
 msgstr "주문 결제 %1$s 환불됨"
 
 #. translators: 1: Order number, 2: PayPal reason code.
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:147
-#, php-format
 msgid "Order #%1$s has been marked as refunded - PayPal reason code: %2$s"
 msgstr ""
 "주문 #%1$s이 (는) 환불 된 것으로 표시되었습니다. - PayPal 이유 코드 : %2$s"
 
 #. translators: 1: Order number, 2: PayPal reason code.
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:157
-#, php-format
 msgid "Payment for order %1$s reversed"
 msgstr "주문 %1$s에 대한 결제 취소"
 
 #. translators: 1: Order number, 2: PayPal reason code.
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:157
-#, php-format
 msgid ""
 "Order #%1$s has been marked on-hold due to a reversal - PayPal reason code: "
 "%2$s"
@@ -1750,13 +1714,11 @@ msgstr ""
 
 #. translators: 1: Order number.
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:164
-#, php-format
 msgid "Reversal cancelled for order #%1$s"
 msgstr "주문 #%1$s에 대한 취소가 취소되었습니다"
 
 #. translators: 1: Order number.
 #: includes/paypal-ipn/class-woo-paypal-gateway-ipn-handler.php:164
-#, php-format
 msgid ""
 "Order #%1$s has had a reversal cancelled. Please check the status of payment "
 "and update the order status accordingly here: %2$s"
@@ -1808,19 +1770,18 @@ msgid "Expiration date"
 msgstr "만료일"
 
 #: ppcp/checkout-block/ppcp-cc-block.php:82
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:121
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:120
 msgid "Security code"
 msgstr "보안 코드"
 
 #: ppcp/checkout-block/ppcp-checkout-block.php:114
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:68
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:69
 msgid "Proceed to PayPal"
 msgstr "페이팔"
 
 #. translators: %s: URL to the shop page.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:25
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:66
-#, php-format
 msgid ""
 "Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return "
 "to shop</a>"
@@ -1845,68 +1806,68 @@ msgstr "고급 카드 처리."
 msgid "Place order"
 msgstr "결제하기"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:162
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:652
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:172
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:674
 msgctxt "Name of credit card"
 msgid "Visa"
 msgstr "비자카드"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:167
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:653
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:177
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:675
 msgctxt "Name of credit card"
 msgid "Mastercard"
 msgstr "마스터카드"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:172
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:182
 msgctxt "Name of credit card"
 msgid "Maestro"
 msgstr "마에스트로"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:177
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:654
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:187
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:676
 msgctxt "Name of credit card"
 msgid "American Express"
 msgstr "어메리칸 익스프레스"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:182
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:655
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:192
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:677
 msgctxt "Name of credit card"
 msgid "Discover"
 msgstr "Discover"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:187
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:656
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:197
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:678
 msgctxt "Name of credit card"
 msgid "JCB"
 msgstr "JCB"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:192
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:657
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:202
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:679
 msgctxt "Name of credit card"
 msgid "Elo"
 msgstr "Elo"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:197
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:658
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:207
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:680
 msgctxt "Name of credit card"
 msgid "Hiper"
 msgstr "Hiper"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:264
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:274
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:532
 msgid "Refund failed."
 msgstr "환불 실패."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:63
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:681
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:64
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:700
 msgid "Credit or Debit Card"
 msgstr "신용 카드 또는 직불 카드"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:78
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:80
 msgid "PayPal Gateway By Easy Payment"
 msgstr "간편 결제를 통한 페이팔 게이트웨이"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:79
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:81
 msgid ""
 "PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and "
 "many more."
@@ -1914,17 +1875,16 @@ msgstr ""
 "페이팔, 나중에 결제, Venmo, 신용카드 및 직불카드, 구글 페이, 애플 페이 등 다"
 "양한 결제 수단이 있습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:249
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:252
 msgid "Please verify the PayPal account to receive the payments."
 msgstr "PayPal 빠른 결제를 사용하여 결제를 수락하여 매출을 늘리세요."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:261
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:264
 msgid "PayPal onboarding process successfully completed."
 msgstr "PayPal 계정이 성공적으로 연결되었습니다!"
 
 #. translators: %1$s: URL to the PayPal API settings page.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:292
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:295
 msgid ""
 "<strong>PayPal Setup Required:</strong> Connect your PayPal account or enter "
 "your Client ID and Secret in the <a href=\"%1$s\">API settings</a> to begin "
@@ -1934,67 +1894,67 @@ msgstr ""
 "href=\"%1$s\">API 설정에</a> 고객 ID와 비밀번호를 입력하여 결제 수락을 시작하"
 "세요."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:370
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:372
 msgid "Return to payments"
 msgstr "결제 계속하기"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:395
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:397
 msgid "API Settings"
 msgstr "API 설정"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:396
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:398
 msgid "PayPal Settings"
 msgstr "페이팔 설정"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:397
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:399
 msgid "Advanced Card Payments"
 msgstr "고급 카드 결제"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:398
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:400
 msgid "Google Pay"
 msgstr "Google Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:399
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:401
 msgid "Apple Pay"
 msgstr "애플 페이"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:400
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:402
 msgid "Pay Later Messaging"
 msgstr "나중에 결제 메시지"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:401
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:403
 msgid "Additional Settings"
 msgstr "추가 설정"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:402
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:404
 msgid "FAQ"
 msgstr "자주 묻는 질문"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:573
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:559
 msgid "This represents the fee PayPal collects for the transaction."
 msgstr "이는 PayPal이 거래에 대해 징수하는 수수료를 나타냅니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:574
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:560
 msgid "PayPal Fee:"
 msgstr "페이팔 수수료:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:599
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:585
 msgid "Disconnect"
 msgstr "연결 해제"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:661
 msgid "PayPal Account Successfully Connected!"
 msgstr "PayPal 계정이 성공적으로 연결되었습니다!"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:679
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:666
 msgid "Connected Email:"
 msgstr "연결된 이메일:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:685
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:672
 msgid "Disconnect PayPal Account"
 msgstr "PayPal 계정 연결 해제"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:742
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:734
 msgid ""
 "The PayPal Client ID and Secret key you entered are invalid. Ensure you are "
 "using the correct credentials for the selected environment (Sandbox or Live)."
@@ -2002,28 +1962,31 @@ msgstr ""
 "입력한 PayPal 클라이언트 ID 및 비밀 키가 유효하지 않습니다. 선택한 환경(샌드"
 "박스 또는 라이브)에 맞는 올바른 자격 증명을 사용하고 있는지 확인하세요."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:800
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:792
 msgid "Click to Connect PayPal"
 msgstr "PayPal 연결하기 클릭"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:800
-msgid "Click to Connect PayPal Sandbox"
-msgstr "PayPal 샌드박스 연결 클릭"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:827
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:819
 msgid "The Connect to PayPal service is temporarily unavailable."
 msgstr "PayPal에 연결 서비스를 일시적으로 사용할 수 없습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:829
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:844
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:821
 msgid "Toggle to manual credential input"
 msgstr "수동 자격 증명 입력으로 전환"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:843
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:845
+msgid "Recommended"
+msgstr "추천"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:850
 msgid "OR"
 msgstr "또는"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:954
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:855
+msgid "Click here to insert credentials manually"
+msgstr "자격 증명을 수동으로 삽입하려면 여기를 클릭하세요"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:984
 msgid ""
 "Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) will appear?"
@@ -2031,25 +1994,25 @@ msgstr ""
 "어떤 PayPal 버튼(예: 나중에 결제, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact 등)이 표시되나요?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:958
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:988
 msgid ""
 "The PayPal buttons are shown automatically based on several factors, "
 "including:"
 msgstr "PayPal 버튼은 다음과 같은 여러 요인에 따라 자동으로 표시됩니다:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:960
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:990
 msgid "The buyer’s country"
 msgstr "구매자의 국가"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:961
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:991
 msgid "Their device type"
 msgstr "디바이스 유형"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:962
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:992
 msgid "The funding sources they’ve enabled"
 msgstr "그들이 활성화한 자금 출처"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:964
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:994
 msgid ""
 "As a result, each buyer may see a different set of buttons. Pay Later "
 "options vary by country and may display different buttons."
@@ -2057,11 +2020,11 @@ msgstr ""
 "따라서 구매자마다 다른 버튼 세트가 표시될 수 있습니다. 나중에 결제 옵션은 국"
 "가별로 다르며 다른 버튼이 표시될 수 있습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:970
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1000
 msgid "How can I hide specific PayPal buttons?"
 msgstr "특정 PayPal 버튼을 숨기려면 어떻게 해야 하나요?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:974
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1004
 msgid ""
 "By default, all PayPal buttons are enabled. To hide specific buttons, use "
 "the <strong>Disable Specific Payment Buttons</strong> option."
@@ -2069,47 +2032,47 @@ msgstr ""
 "기본적으로 모든 PayPal 버튼은 활성화되어 있습니다. 특정 버튼을 숨기려면 "
 "<strong>특정 결제 버튼 비활성화</strong> 옵션을 사용합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:975
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1005
 msgid "Example: To hide the Pay Later button on the Checkout Page:"
 msgstr "예시: 결제 페이지에서 나중에 결제 버튼을 숨기려면 다음과 같이 하세요:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:977
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:993
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1007
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1023
 msgid "Go to <strong>PayPal Settings</strong>."
 msgstr "<strong>PayPal 설정으로</strong> 이동합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:978
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1008
 msgid "Find the <strong>Disable Specific Payment Buttons</strong> setting."
 msgstr "<strong>특정 결제 버튼 사용 안 함</strong> 설정을 찾습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:979
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1009
 msgid "Select <strong>Pay Later</strong> from the dropdown list."
 msgstr "드롭다운 목록에서 <strong>나중에 결제를</strong> 선택합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:980
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:995
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1001
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1017
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1023
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1010
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1025
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1031
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1047
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1053
 msgid "Click <strong>Save Changes</strong>."
 msgstr "<strong>변경 사항 저장을</strong> 클릭합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:986
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1016
 msgid "How can I show only the \"PayPal\" button on the Checkout page?"
 msgstr "빠른 결제를 사용 설정합니다(결제 페이지 상단에 PayPal 버튼 표시)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:990
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1020
 msgid ""
 "To display only the \"PayPal\" button on the Checkout page, follow these "
 "steps:"
 msgstr "결제 페이지에 'PayPal' 버튼만 표시하려면 다음 단계를 따르세요:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:991
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1013
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1021
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1043
 msgid "Step 1: Update PayPal Settings"
 msgstr "페이팔 설정"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:994
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1024
 msgid ""
 "Under <strong>Disable Specific Payment Buttons</strong>, select "
 "<strong>Credit or Debit Card</strong> and any other methods you want to hide."
@@ -2117,26 +2080,26 @@ msgstr ""
 "<strong>특정 결제 버튼 비활성화에서</strong> <strong>신용카드 또는 직불카드</"
 "strong> 및 숨기려는 기타 <strong>결제</strong> 수단을 선택합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:997
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1027
 msgid "Step 2: Update Advanced Card Payments Settings"
 msgstr "고급 카드 결제"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:999
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1021
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1029
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1051
 msgid "Go to <strong>Advanced Card Payments</strong> settings."
 msgstr "<strong>고급 카드 결제</strong> 설정으로 이동합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1000
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1030
 msgid "Disable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr "<strong>고급 신용/직불 카드 사용</strong> 옵션을 비활성화합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1003
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1033
 msgid ""
 "Once you save the changes in both sections, only the \"PayPal\" button will "
 "appear on the Checkout page."
 msgstr "빠른 결제를 사용 설정합니다(결제 페이지 상단에 PayPal 버튼 표시)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1008
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1038
 msgid ""
 "How can I show only the \"Credit or Debit Card\" payment method on the "
 "Checkout page?"
@@ -2144,7 +2107,7 @@ msgstr ""
 "결제 페이지에 '신용 카드 또는 직불 카드' 결제 방법만 표시하려면 어떻게 해야 "
 "하나요?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1012
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1042
 msgid ""
 "To display only the \"Credit or Debit Card\" payment method on the Checkout "
 "page, follow these steps:"
@@ -2152,23 +2115,23 @@ msgstr ""
 "결제 페이지에 '신용 카드 또는 직불 카드' 결제 방법만 표시하려면 다음 단계를 "
 "따르세요:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1015
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1045
 msgid "Go to <strong>PayPal Settings > Checkout Page Settings</strong>."
 msgstr "<strong>PayPal 설정 &gt; 결제 페이지 설정으로</strong> 이동합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1016
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1046
 msgid "Disable the <strong>Enable PayPal</strong> option."
 msgstr "<strong>PayPal 사용</strong> 옵션을 비활성화합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1019
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1049
 msgid "Step 2: Enable Advanced Credit/Debit Card Payments"
 msgstr "고급 신용/직불 카드 사용"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1022
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1052
 msgid "Enable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr "<strong>고급 신용/직불 카드 사용</strong> 옵션을 활성화합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1025
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1055
 msgid ""
 "Once you save the changes in both sections, only the \"Credit or Debit "
 "Card\" payment method will appear on the Checkout page."
@@ -2176,11 +2139,11 @@ msgstr ""
 "결제 페이지에 표시되는 고급 신용/직불 카드 결제 방법의 제목을 설정합니다(예: "
 "'신용/직불 카드로 결제')."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1030
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1060
 msgid "What is PayPal Pay Later?"
 msgstr "나중에 페이팔 결제가 무엇인가요?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1034
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1064
 msgid ""
 "PayPal Pay Later lets your customers split their purchases into interest-"
 "free payments over time, such as \"Pay in 4\" or monthly installments. You "
@@ -2190,7 +2153,7 @@ msgstr ""
 "부처럼 무이자 할부로 분할하여 결제할 수 있습니다. 판매자는 전액 선불로 결제하"
 "고 고객은 유연한 결제 옵션을 이용할 수 있습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1035
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1065
 msgid ""
 "This can help increase your sales, with many merchants seeing higher "
 "conversion rates and larger order sizes."
@@ -2198,15 +2161,15 @@ msgstr ""
 "이를 통해 많은 판매자가 전환율이 높아지고 주문 규모가 커지는 등 매출 증대에 "
 "도움이 될 수 있습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1038
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1068
 msgid "Learn more about Pay Later on PayPal’s website."
 msgstr "나중에 결제에 대한 자세한 내용은 PayPal 웹사이트에서 확인하세요."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1046
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1076
 msgid "How can I contact support or request a new functionality?"
 msgstr "지원팀에 문의하거나 새로운 기능을 요청하려면 어떻게 해야 하나요?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1050
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1080
 msgid ""
 "If you have any questions, encounter an issue, or have a new functionality "
 "request, please create a support ticket on our official support page at: "
@@ -2214,25 +2177,25 @@ msgstr ""
 "궁금한 점이 있거나 문제가 발생하거나 새로운 기능 요청이 있는 경우 공식 지원 "
 "페이지에서 지원 티켓을 작성해 주세요:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1176
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1206
 msgid "Click to Enable Google Pay"
 msgstr "Google Pay를 사용하려면 클릭하세요"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1198
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1227
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1255
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1228
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1257
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1286
 msgid "Important: "
 msgstr "중요:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1324
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1355
 msgid "Click to Enable Apple Pay"
 msgstr "Apple Pay를 활성화하려면 클릭"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1361
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1392
 msgid "Register Your Domain with Apple Pay"
 msgstr "Apple Pay로 도메인 등록"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1365
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1396
 msgid ""
 "Any (sub)domain displaying an Apple Pay button must be registered on the "
 "PayPal website. If the domain is not registered, the payment method will not "
@@ -2241,11 +2204,11 @@ msgstr ""
 "Apple Pay 버튼이 표시되는 모든 (하위) 도메인은 PayPal 웹사이트에 등록되어 있"
 "어야 합니다. 도메인이 등록되지 않은 경우 결제 수단이 작동하지 않습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1395
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1426
 msgid "Easy Payment Gateway for Razorpay and for WooCommerce"
 msgstr "레이저페이 및 우커머스용 간편 결제 게이트웨이"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1396
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1427
 msgid ""
 "Accept payments through UPI, Cards, and Net Banking using Razorpay — "
 "developed by an official Razorpay Partner."
@@ -2253,11 +2216,11 @@ msgstr ""
 "공식 레이저페이 파트너가 개발한 레이저페이를 사용하여 UPI, 카드, 인터넷 뱅킹"
 "을 통해 결제를 수락하세요."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1401
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1432
 msgid "Payment Gateway for PhonePe and for WooCommerce"
 msgstr "폰페 및 우커머스용 결제 게이트웨이"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1402
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1433
 msgid ""
 "Accept PhonePe UPI, Wallet, and Cards in WooCommerce with a secure, fast, "
 "and seamless payment gateway developed by a PhonePe Partner."
@@ -2265,24 +2228,24 @@ msgstr ""
 "PhonePe 파트너가 개발한 안전하고 빠르고 원활한 결제 게이트웨이를 통해 "
 "WooCommerce에서 PhonePe UPI, 월렛 및 카드를 수락하세요."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1408
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1439
 msgid "Recommended payment method for Indian merchants"
 msgstr "인도 판매자를 위한 권장 결제 방법"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1426
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1457
 msgid "Plugin Logo"
 msgstr "플러그인 로고"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1435
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1466
 msgid "By"
 msgstr "작성자"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1440
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1471
 msgid "Install Now"
 msgstr "바로 설치합니다"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3016
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3024
 msgid "Invalid or missing payment token fields."
 msgstr "지불 토큰 필드가 잘못 되었거나 누락 되었습니다."
 
@@ -2301,13 +2264,11 @@ msgstr "상품 옵션을 선택해주세요&hellip;"
 
 #. translators: %s: Product attribute name.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:154
-#, php-format
 msgid "Invalid value posted for %s"
 msgstr "%s에 게시된 값이 유효하지 않습니다"
 
 #. translators: %s: Comma-separated list of missing required product attributes.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:162
-#, php-format
 msgid "%s is a required field"
 msgid_plural "%s are required fields"
 msgstr[0] "%s 은(는) 필수 입력 항목입니다"
@@ -2316,94 +2277,87 @@ msgstr[0] "%s 은(는) 필수 입력 항목입니다"
 msgid "Continue to payment"
 msgstr "결제 계속하기"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:710
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1511
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2698
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1213
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:713
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1516
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2706
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1216
 msgid "Card Details"
 msgstr "카드 정보"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:721
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1522
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2709
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1224
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:724
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1527
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2717
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1227
 msgid "Address Verification Result"
 msgstr "주소 확인 결과"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:730
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1531
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2718
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1233
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:733
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1536
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2726
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1236
 msgid "Card Security Code Result"
 msgstr "카드 보안 코드 결과"
 
 #. translators: 1: Payment method title, 2: Payment status (e.g., Completed, Pending).
 #. translators: 1: Payment method title, 2: Payment status.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:752
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1558
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2740
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:755
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1563
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2748
 msgid "Payment via %1$s : %2$s."
 msgstr "%1$s을(를) 통한 결제: %2$s."
 
 #. translators: 1: Payment method title, 2: Transaction ID.
 #. translators: %1$s is the payment method title, %2$s is the PayPal transaction ID.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:761
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:892
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1552
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2749
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1260
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:895
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1557
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2757
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1263
 msgid "%1$s Transaction ID: %2$s"
 msgstr "%1$s 트랜잭션 ID: %2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:895
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1907
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1281
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:898
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1912
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1284
 msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
 msgstr "지불 승인. 지불 상태를 처리 또는 완료로 변경하여 자금을 확보하십시오."
 
 #. translators: 1: Refunded amount, 2: Refund transaction ID.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1253
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1256
 msgid "Refunded %1$s - Refund ID: %2$s"
 msgstr "환불된 %1$s - 환불 ID : %2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1423
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1428
 msgid "An error occurred while updating the order."
 msgstr "주문을 업데이트하는 동안 오류가 발생했습니다."
 
 #. translators: %s: Plugin version number.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1581
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1586
 msgid "Payment Gateway for PayPal on WooCommerce: %1$s"
 msgstr "WooCommerce의 PayPal용 결제 게이트웨이: %1$s"
 
 #. translators: %s: WooCommerce version number.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1583
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1588
 msgid "WooCommerce Version: %1$s"
 msgstr "우커머스 버전: %1$s"
 
 #. translators: 1: PayPal pending reason.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1911
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1916
 msgid "Payment pending (%1$s)."
 msgstr "결제 보류 중 (%1$s)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1975
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1980
 msgid "Marked as refunded via PayPal. Total refunded: %s %s."
 msgstr "PayPal을 통해 환불된 것으로 표시되었습니다. 환불된 총액입니다: %s %s."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2113
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2542
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2118
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2550
 msgid "Sorry, your session has expired."
 msgstr "죄송합니다, 고객님의 세션이 만료됐습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2321
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2326
 msgid ""
 "This payment was unable to be processed successfully. Please try again with "
 "another payment method."
@@ -2416,8 +2370,8 @@ msgstr ""
 msgid "Return to your shop."
 msgstr "상점으로 돌아갑니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:308
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:192
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:319
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:205
 msgid ""
 "Pay via PayPal; you can pay with your credit card if you don’t have a PayPal "
 "account"
@@ -2440,113 +2394,115 @@ msgstr ""
 "PayPal 환경을 선택합니다. 테스트 거래의 경우 '샌드박스'를 선택하고(실제 거래"
 "는 발생하지 않음), 라이브 거래의 경우 '프로덕션'을 선택합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:92
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:93
 msgid "Sandbox (Test Mode)"
 msgstr "샌드박스(테스트 모드)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:93
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:94
 msgid "Production (Live)"
 msgstr "프로덕션(라이브)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:97
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:129
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:98
 msgid "Connect to PayPal"
 msgstr "PayPal 연결하기 클릭"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:101
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:133
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:102
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:140
 msgid "Setup or link an existing PayPal account."
 msgstr "기존 PayPal 계정을 설정하거나 연결합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:107
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:139
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:108
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:146
 msgid "Enter PayPal Client ID."
 msgstr "PayPal 고객 ID를 입력합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:113
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:117
 msgid "Live Secret key"
 msgstr "라이브 시크릿 키"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:115
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:147
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:119
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:157
 msgid "Enter PayPal Secret key."
 msgstr "PayPal 비밀 키를 입력합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:121
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:153
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:128
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:166
 msgid "PayPal Connection"
 msgstr "PayPal 연결"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:145
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:136
+msgid "Connect to PayPal Sandbox"
+msgstr "PayPal 샌드박스에 연결"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:155
 msgid "Sandbox Secret key"
 msgstr "샌드박스 비밀 키"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:165
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:178
 msgid "Select Height"
 msgstr "높이 선택"
 
 #. translators: %d is the button height in pixels.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:169
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:182
 msgid "%d px"
 msgstr "%d px"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:175
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:188
 msgid "Enable PayPal"
 msgstr "페이팔 사용"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:176
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:189
 msgid ""
 "Enable this option to activate the PayPal gateway. Uncheck to disable it."
 msgstr ""
 "PayPal 게이트웨이를 활성화하려면 이 옵션을 활성화합니다. 비활성화하려면 선택"
 "을 취소합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:183
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:196
 msgid "The title displayed to customers during checkout."
 msgstr "결제 시 고객에게 표시되는 제목입니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:184
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
 msgid "PayPal"
 msgstr "페이팔"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:191
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:204
 msgid "The description displayed to customers during checkout."
 msgstr "결제 시 고객에게 표시되는 설명입니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:196
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
 msgid "Display PayPal Buttons On"
 msgstr "PayPal 버튼 표시"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:205
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:509
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:757
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:889
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1049
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1178
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:647
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:218
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:522
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:787
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:919
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1093
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1222
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:650
 msgid "Express Checkout"
 msgstr "빠른 결제"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:207
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:572
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:847
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1137
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:220
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:585
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:877
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1181
 msgid "Mini Cart (Side Cart)"
 msgstr "미니 카트(사이드 카트)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:222
 msgid "Set the page(s) to display the PayPal Buttons."
 msgstr "페이팔 버튼이 표시되도록 페이지를 설정합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:215
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:235
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:421
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:228
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:248
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:335
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:434
 msgid "Disable Specific Payment Buttons"
 msgstr "특정 결제 버튼 비활성화"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:230
 msgid ""
 "PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) are shown automatically based on factors such as the "
@@ -2563,238 +2519,238 @@ msgstr ""
 "의 경우 결제 페이지의 구성을 따릅니다.<br>미니 카트의 경우 이 설정은 제품 페"
 "이지의 구성을 따릅니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:243
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:330
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:429
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:256
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:343
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:442
 msgid "Select payment buttons to disable"
 msgstr "비활성화할 결제 버튼을 선택합니다"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:247
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:334
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:433
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:516
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:260
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:347
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:446
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:529
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:592
 msgid "Button Layout"
 msgstr "버튼 레이아웃"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:250
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:337
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:436
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:519
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:582
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:263
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:350
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:449
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:532
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:595
 msgid ""
 "Select Vertical for stacked buttons, and Horizontal for side-by-side buttons."
 msgstr "버튼이 쌓여 있으면 세로, 나란히 있으면 가로를 선택합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:254
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:523
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:586
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:267
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:536
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:599
 msgid "Horizontal (Recommended)"
 msgstr "가로(권장)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:255
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:524
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:587
-msgid "Vertical"
-msgstr "수직"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:264
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:351
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:450
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:533
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:596
-msgid "Gold (Recommended)"
-msgstr "골드(권장)"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:267
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:354
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:453
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:536
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:599
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:791
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:833
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:875
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:917
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:959
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1081
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1122
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1163
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1204
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1245
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1347
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1356
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1434
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1443
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1520
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1529
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1606
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1615
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1692
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1701
-msgid "White"
-msgstr "흰색"
-
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:268
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:355
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:454
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:537
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:600
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:790
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:832
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:874
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:916
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:958
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1080
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1121
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1162
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1203
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1244
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1347
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1356
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1434
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1443
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1520
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1529
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1606
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1615
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1692
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1701
-msgid "Black"
-msgstr "검정"
+msgid "Vertical"
+msgstr "수직"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:277
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:364
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:463
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:546
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:609
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:800
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:842
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:884
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:926
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:968
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1091
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1132
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1173
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1214
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1255
+msgid "Gold (Recommended)"
+msgstr "골드(권장)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:280
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:367
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:466
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:549
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:612
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:821
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:863
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:905
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:947
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:989
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1125
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1166
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1207
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1248
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1289
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1391
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1478
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1487
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1564
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1573
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1650
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1736
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1745
+msgid "White"
+msgstr "흰색"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:281
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:368
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:467
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:550
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:613
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:820
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:862
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:904
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:946
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:988
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1124
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1165
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1206
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1288
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1391
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1478
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1487
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1564
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1573
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1650
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1736
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1745
+msgid "Black"
+msgstr "검정"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:290
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:377
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:476
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:559
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:622
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:830
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:872
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:914
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:956
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:998
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1135
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1176
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1258
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1299
 msgid "Rect (Recommended)"
 msgstr "직사각형(권장)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:282
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:369
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:468
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:295
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:382
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:481
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:627
 msgid "Button Width"
 msgstr "버튼 넓이"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:289
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:376
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:475
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:621
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:302
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:389
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:488
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:634
 msgid "Large"
 msgstr "크게"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:294
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:381
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:480
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:551
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:626
-msgid "Button Height"
-msgstr "버튼 높이"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:301
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:388
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:487
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:558
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:633
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:769
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:811
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:853
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:895
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:937
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1061
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1102
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1143
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1184
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1225
-msgid "Button Label"
-msgstr "버튼 이름"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:306
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:393
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:492
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:563
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:638
-msgid "PayPal (Recommended)"
-msgstr "PayPal(권장)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:307
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:394
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:493
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:564
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:639
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:758
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:776
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:818
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:860
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:902
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:944
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1050
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1068
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1109
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1150
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1191
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1232
+msgid "Button Height"
+msgstr "버튼 높이"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:314
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:401
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:500
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:571
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:646
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:799
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:841
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:883
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:925
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:967
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1105
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1146
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1187
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1228
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1269
+msgid "Button Label"
+msgstr "버튼 이름"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:319
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:406
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:505
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:576
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:651
+msgid "PayPal (Recommended)"
+msgstr "PayPal(권장)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:320
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:407
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:506
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:577
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:652
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:788
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:806
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:848
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:890
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:932
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:974
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1094
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1112
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1153
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1194
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1235
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1276
 msgid "Checkout"
 msgstr "결제"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:308
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:395
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:494
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:565
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:640
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:321
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:408
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:507
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:578
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:653
 msgid "Buy Now"
 msgstr "즉시 구매"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:309
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:396
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:495
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:566
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:641
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:780
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:822
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:864
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:906
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:948
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1070
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1111
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1152
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1193
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1234
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:409
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:508
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:654
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:810
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:852
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:894
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:936
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:978
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1114
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1155
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1196
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1237
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1278
 msgid "Pay"
 msgstr "결제"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:341
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:440
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:354
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:453
 msgid "Vertical (Recommended)"
 msgstr "세로(권장)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:342
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:441
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:355
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:454
 msgid "Horizontal"
 msgstr "가로"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:377
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:476
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:622
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:390
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:489
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:635
 msgid "Responsive (Recommended)"
 msgstr "반응형(권장)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:400
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:413
 msgid "PayPal Button Position (Classic Cart Only)"
 msgstr "PayPal 버튼 위치(클래식 카트만 해당)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:403
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:416
 msgid ""
 "Choose where the PayPal buttons should appear on the cart page, either above "
 "or below the \"Proceed to Checkout\" button. This applies only to classic "
@@ -2804,19 +2760,19 @@ msgstr ""
 "선택합니다. 이는 새로운 카트 블록 레이아웃이 아닌 기존 카트 템플릿에만 적용됩"
 "니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:407
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:420
 msgid "Below Proceed to Checkout button"
 msgstr "아래 결제 진행 버튼"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:408
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:421
 msgid "Above Proceed to Checkout button"
 msgstr "결제 진행 버튼 위"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:499
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:512
 msgid "Use Place Order Button"
 msgstr "주문하기 버튼 사용"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:503
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:516
 msgid ""
 "Enable this to use the default Place Order button on the checkout page "
 "instead of showing PayPal buttons. This setting does not affect Express "
@@ -2825,34 +2781,35 @@ msgstr ""
 "이 설정을 활성화하면 결제 페이지에 PayPal 버튼이 표시되는 대신 기본 주문하기 "
 "버튼이 사용됩니다. 이 설정은 빠른 결제에는 영향을 미치지 않습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:662
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:723
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:733
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:978
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1000
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1022
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1273
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:664
+msgid ""
+"To use Advanced Card Payments, ensure your PayPal account is eligible and "
+"enabled:<br><br>1. Visit developer.paypal.com → Apps & Credentials → API "
+"Credentials.<br>2. Click your App Name.<br>3. Under \"Features\" → Accept "
+"Payments, check if \"Advanced Credit and Debit Card Payments\" is enabled."
+"<br>4. If missing, your account or region may not support it."
+msgstr ""
+"고급 카드 결제를 사용하려면 PayPal 계정이 적격하고 활성화되어 있는지 확인하세"
+"요:<br><br>1. Developer.paypal.com → 앱 및 자격증명 → API 자격증명<br>2. 앱 "
+"이름을 클릭합니다.<br>3. '기능' → 결제 허용에서 '고급 신용 및 직불 카드 결"
+"제'가 활성화되어 있는지 확인합니다.<br>4. 없는 경우, 계정 또는 지역에서 지원"
+"하지 않을 수 있습니다."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:684
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:742
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:766
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1008
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1030
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1066
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1317
 msgid "Important Note"
 msgstr "중요 공지"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:664
-msgid ""
-"To use Advanced Credit/Debit Card (PayPal), your PayPal account must meet "
-"eligibility requirements. Please ensure your account is approved for "
-"advanced card processing. <a target=\"_blank\" href=\"https://"
-"developer.paypal.com/docs/multiparty/checkout/advanced/#eligibility\">View "
-"eligibility requirements</a>."
-msgstr ""
-"고급 신용/직불 카드(PayPal)를 사용하려면 PayPal 계정이 자격 요건을 충족해야 "
-"합니다. 계정이 고급 카드 처리를 위해 승인되었는지 확인하세요. <a "
-"target=\"_blank\" href=\"https://developer.paypal.com/docs/multiparty/"
-"checkout/advanced/#eligibility\">자격 요건을</a> 확인하세요."
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:672
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:691
 msgid "Enable Advanced Credit/Debit Card"
 msgstr "고급 신용/직불 카드 사용"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:693
 msgid ""
 "Enable the Advanced Credit/Debit Card payment option as a separate gateway "
 "on the checkout page. This gateway typically offers a lower PayPal fee "
@@ -2868,7 +2825,7 @@ msgstr ""
 "스터카드, 아메리칸 익스프레스와 같은 주요 카드를 지원하여 안전하고 간소화된 "
 "결제 환경을 제공합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:680
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:699
 msgid ""
 "Set the title for the Advanced Credit/Debit Card payment method as it will "
 "appear on the checkout page (e.g., 'Pay with Credit/Debit Card').."
@@ -2876,11 +2833,11 @@ msgstr ""
 "결제 페이지에 표시되는 고급 신용/직불 카드 결제 방법의 제목을 설정합니다(예: "
 "'신용/직불 카드로 결제')."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:685
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:704
 msgid "Disable specific credit cards"
 msgstr "특정 신용 카드 비활성화"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:691
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:710
 msgid ""
 "By default all possible credit cards will be accepted. You can disable some "
 "cards, if you wish."
@@ -2888,19 +2845,19 @@ msgstr ""
 "기본적으로 가능한 모든 신용카드를 사용할 수 있습니다. 원하는 경우 일부 카드"
 "를 비활성화할 수 있습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:698
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:717
 msgid "Contingency for 3D Secure"
 msgstr "3D 보안을 위한 컨틴전시"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:702
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:721
 msgid "3D Secure when required"
 msgstr "필요한 경우 3D 보안"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:703
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:722
 msgid "Always trigger 3D Secure"
 msgstr "항상 3D 보안을 트리거"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:707
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:726
 msgid ""
 "3D Secure benefits cardholders and merchants by providing an additional "
 "layer of verification using Verified by Visa, MasterCard SecureCode and "
@@ -2909,15 +2866,15 @@ msgstr ""
 "3D 검증된 비자, 마스터카드 보안 코드 및 아메리칸 익스프레스 세이프키를 사용하"
 "여 추가 인증 계층을 제공함으로써 카드 소지자와 판매자를 보호합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:710
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:729
 msgid "Card Save Enabled"
 msgstr "카드 저장 사용"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:711
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:730
 msgid "Enable card saving at checkout"
 msgstr "결제 시 카드 저장 사용"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:714
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:733
 msgid ""
 "When enabled, customers can securely save their card details using PayPal "
 "for faster future checkouts."
@@ -2925,7 +2882,7 @@ msgstr ""
 "이 기능을 활성화하면 고객은 PayPal을 사용하여 카드 정보를 안전하게 저장하여 "
 "향후 더 빠른 결제를 할 수 있습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:725
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:744
 msgid ""
 "Advanced Credit/Debit Card payments are not enabled in your PayPal account. "
 "<br><br><strong>Supported Countries:</strong><br>Australia, Austria, "
@@ -2942,112 +2899,120 @@ msgstr ""
 "아, 룩셈부르크, 몰타, 네덜란드, 노르웨이, 폴란드, 포르투갈, 루마니아, 싱가포"
 "르, 슬로바키아, 슬로베니아, 스페인, 스웨덴, 미국, 영국<br><br>"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:735
-msgid ""
-"To show the Google Pay button, Google Pay must be enabled in your PayPal "
-"account (<a target=\"_blank\" href=\"https://developer.paypal.com/docs/"
-"checkout/apm/google-pay/#set-up-your-sandbox-account-to-accept-google-"
-"pay\">setup guide</a>) and the page must be served over a secure (HTTPS) "
-"connection."
-msgstr ""
-"Google Pay 버튼을 표시하려면 PayPal 계정에서 Google Pay를 사용하도록<a "
-"target=\"_blank\" href=\"https://developer.paypal.com/docs/checkout/apm/"
-"google-pay/#set-up-your-sandbox-account-to-accept-google-pay\">설정해야 하며"
-"(설정 가이드)</a>, 페이지가 보안(HTTPS) 연결을 통해 제공되어야 합니다."
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:750
+msgid "Please ensure that Google Pay is enabled in your PayPal account."
+msgstr "PayPal 계정에서 Google Pay가 활성화되어 있는지 확인하세요."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:741
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:742
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:988
-msgid "Enable Google Pay"
-msgstr "Google Pay 사용"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:744
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:750
 msgid "Check this box to display the Google Pay button on selected pages."
 msgstr "선택한 페이지에 Google Pay 버튼을 표시하려면 이 확인란을 선택합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:748
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:754
+msgid "Google Pay must be enabled in your PayPal account (%s)."
+msgstr "PayPal 계정(%s)에서 Google Pay를 사용하도록 설정해야 합니다."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:756
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1056
+msgid "setup guide"
+msgstr "설정 가이드"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:761
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1061
+msgid "The page must be served over a secure (HTTPS) connection."
+msgstr "페이지는 보안(HTTPS) 연결을 통해 제공되어야 합니다."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:763
+msgid "To show the Google Pay button,"
+msgstr "Google Pay 버튼을 표시합니다,"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:771
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:772
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1018
+msgid "Enable Google Pay"
+msgstr "Google Pay 사용"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:778
 msgid "Display Google Pay Button On"
 msgstr "Google 결제 버튼 켜짐 표시"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:754
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1046
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1295
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:784
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1090
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
 msgid "Product"
 msgstr "상품"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:755
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1047
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1295
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:785
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1091
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
 msgid "Cart"
 msgstr "장바구니"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:756
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1048
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1092
 msgid "Mini Cart"
 msgstr "미니 장바구니"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:790
 msgid "Set the page(s) to display the Google Pay button."
 msgstr "Google Pay 버튼을 표시하도록 페이지를 설정합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:774
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:816
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:858
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:900
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:942
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1066
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1107
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1148
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1189
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1230
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:804
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:846
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:888
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:930
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:972
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1110
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1151
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1192
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1233
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1274
 msgid "Plain"
 msgstr "일반"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:775
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:817
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:859
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:901
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:943
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1067
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1108
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1149
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1190
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1231
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:805
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:847
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:889
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:931
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:973
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1111
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1152
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1193
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1234
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1275
 msgid "Buy"
 msgstr "구매"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:777
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:819
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:861
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:903
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:945
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:807
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:849
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:891
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:933
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:975
 msgid "Donate"
 msgstr "기부하기"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:778
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:820
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:862
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:904
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:946
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:808
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:850
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:892
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:934
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:976
 msgid "Book"
 msgstr "예약"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:781
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:823
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:865
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:907
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:949
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1071
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1112
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1153
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1194
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1235
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:811
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:853
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:895
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:937
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:979
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1115
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1156
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1197
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1238
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1279
 msgid "Subscribe"
 msgstr "구독"
 
 #. translators: %1$s is the supported countries list. %2$s is the supported currencies list.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:982
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1012
 msgid ""
 "Google Pay is not enabled in your PayPal account. Click below to enable it."
 "<br><br><strong>Supported Countries:</"
@@ -3058,8 +3023,7 @@ msgstr ""
 "는 통화:</strong><br>%2$s"
 
 #. translators: %1$s is the list of supported countries. %2$s is the list of supported currencies.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1004
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1034
 msgid ""
 "Apple Pay is not enabled in your PayPal account. Click below to enable it."
 "<br><br><strong>Supported Countries:</"
@@ -3069,30 +3033,32 @@ msgstr ""
 "릭하세요.<br><br><strong>지원 국가:</strong><br>%1$s<br><br><strong>지원 통"
 "화:</strong><br>%2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1010
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1033
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1040
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1077
 msgid "Enable Apple Pay"
 msgstr "Apple Pay 활성화"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1024
-msgid ""
-"To show the Apple Pay button, Apple Pay must be enabled in your PayPal "
-"account (<a target=\"_blank\" href=\"https://developer.paypal.com/docs/"
-"checkout/apm/apple-pay/#set-up-your-sandbox-account-to-accept-apple-"
-"pay\">setup guide</a>). The page must also be served over a secure (HTTPS) "
-"connection."
-msgstr ""
-"Apple Pay 버튼을 표시하려면 PayPal 계정에서 Apple Pay를 사용하도록<a "
-"target=\"_blank\" href=\"https://developer.paypal.com/docs/checkout/apm/"
-"apple-pay/#set-up-your-sandbox-account-to-accept-apple-pay\">설정해야 합니다"
-"(설정 가이드)</a>. 또한 이 페이지는 보안(HTTPS) 연결을 통해 제공되어야 합니"
-"다."
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1050
+msgid "Please ensure that Apple Pay is enabled in your PayPal account."
+msgstr "PayPal 계정에서 Apple Pay가 활성화되어 있는지 확인하세요."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1027
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1050
+msgid "Check this box to display the Apple Pay button on selected pages."
+msgstr "선택한 페이지에 Apple Pay 버튼을 표시하려면 이 확인란을 선택합니다."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1054
+msgid "Apple Pay must be enabled in your PayPal account (%s)."
+msgstr "PayPal 계정(%s)에서 Apple Pay가 활성화되어 있어야 합니다."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1063
+msgid "To show the Apple Pay button,"
+msgstr "Apple Pay 버튼을 표시합니다,"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1071
 msgid "Domain Registration"
 msgstr "도메인 등록"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1029
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1073
 msgid ""
 "Apple requires that the website domain be registered on PayPal. Payments "
 "will not be processed if the Apple Pay button is used on an unregistered "
@@ -3101,31 +3067,27 @@ msgstr ""
 "Apple에서는 웹사이트 도메인이 PayPal에 등록되어 있어야 합니다. 등록되지 않은 "
 "도메인에서 Apple Pay 버튼을 사용하는 경우 결제가 처리되지 않습니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1034
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1078
 msgid "Enable Apple Pay on your store"
 msgstr "스토어에서 Apple Pay 활성화"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1036
-msgid "Check this box to display the Apple Pay button on selected pages."
-msgstr "선택한 페이지에 Apple Pay 버튼을 표시하려면 이 확인란을 선택합니다."
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1040
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1084
 msgid "Display Apple Pay Button On"
 msgstr "Apple Pay 버튼 켜짐 표시"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1052
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1096
 msgid "Set the page(s) to display the Apple Pay button."
 msgstr "Apple Pay 버튼이 표시되도록 페이지를 설정합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1082
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1123
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1164
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1205
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1246
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1126
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1167
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1208
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1249
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1290
 msgid "White with outline"
 msgstr "윤곽선이 있는 흰색"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1276
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1320
 msgid ""
 "Your customers can already buy now and pay later with PayPal — add messaging "
 "to your site to let them know. PayPal’s Pay Later helps boost merchants' "
@@ -3139,31 +3101,31 @@ msgstr ""
 "다. <a target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-"
 "payments/checkout/installments\">나중에 결제에 대해 자세히 알아보기</a>"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1284
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1328
 msgid "Enable Pay Later Messaging"
 msgstr "나중에 결제 메시지 사용"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1286
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1330
 msgid "Displays Pay Later messaging for available offers."
 msgstr "사용 가능한 오퍼에 대해 나중에 결제 메시지를 표시합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1290
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1334
 msgid "Display Pay Later messaging On"
 msgstr "나중에 결제 메시지 표시 켜기"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1295
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
 msgid "Home"
 msgstr "홈"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1295
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
 msgid "Category"
 msgstr "카테고리"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1295
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
 msgid "Payment"
 msgstr "결제"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1296
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1340
 msgid ""
 "Set the page(s) you want to display messaging on, and then adjust that "
 "page's display option below."
@@ -3171,269 +3133,269 @@ msgstr ""
 "메시지를 표시할 페이지를 설정한 다음 아래에서 해당 페이지의 표시 옵션을 조정"
 "합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1299
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1343
 msgid "Home Page"
 msgstr "홈페이지"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1305
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1392
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1478
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1564
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1650
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1349
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1436
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1522
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1608
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1694
 msgid "Layout Type"
 msgstr "레이아웃 유형"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1311
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1398
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1484
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1570
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1656
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1355
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1442
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1528
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1700
 msgid "Text Layout"
 msgstr "텍스트 레이아웃"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1311
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1398
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1484
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1570
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1656
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1355
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1442
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1528
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1700
 msgid "Flex Layout"
 msgstr "플렉스 레이아웃"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1314
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1401
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1487
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1573
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1445
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1531
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1703
 msgid "Logo Type"
 msgstr "로고 타입"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1320
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1407
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1493
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1364
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1451
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
 msgid "Primary"
 msgstr "기본"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1320
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1407
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1493
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1364
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1451
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
 msgid "Alternative"
 msgstr "올터너티브"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1320
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1407
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1493
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1364
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1451
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
 msgid "Inline"
 msgstr "인라인"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1320
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1407
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1493
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1364
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1451
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
 msgid "None"
 msgstr "없음"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1323
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1496
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1582
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1668
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1367
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1454
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1540
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1626
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1712
 msgid "Logo Position"
 msgstr "로고 위치"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1329
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1416
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1502
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1373
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1460
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
 msgid "Left"
 msgstr "왼쪽"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1329
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1416
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1502
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1373
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1460
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
 msgid "Right"
 msgstr "오른쪽"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1329
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1416
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1502
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1373
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1460
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
 msgid "Top"
 msgstr "상단"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1332
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1505
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1591
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1677
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1376
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1463
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1549
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1635
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1721
 msgid "Text Size"
 msgstr "글씨 크기"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1425
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1511
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1382
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1469
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1555
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1641
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1727
 msgid "10 px"
 msgstr "10 픽셀"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1425
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1511
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1382
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1469
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1555
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1641
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1727
 msgid "11 px"
 msgstr "11 픽셀"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1425
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1511
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1382
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1469
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1555
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1641
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1727
 msgid "12 px"
 msgstr "12 픽셀"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1425
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1511
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1382
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1469
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1555
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1641
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1727
 msgid "13 px"
 msgstr "13픽셀"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1425
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1511
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1382
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1469
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1555
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1641
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1727
 msgid "14 px"
 msgstr "14픽셀"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1425
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1511
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1382
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1469
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1555
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1641
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1727
 msgid "15 px"
 msgstr "15 픽셀"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1425
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1511
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1382
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1469
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1555
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1641
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1727
 msgid "16 px"
 msgstr "16 픽셀"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1341
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1514
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1600
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1686
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1385
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1472
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1558
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1644
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1730
 msgid "Text Color"
 msgstr "텍스트 색상"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1347
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1356
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1434
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1443
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1520
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1529
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1606
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1615
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1692
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1701
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1391
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1478
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1487
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1564
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1573
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1650
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1736
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1745
 msgid "Monochrome"
 msgstr "단색"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1347
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1356
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1434
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1443
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1520
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1529
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1606
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1615
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1692
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1701
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1391
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1478
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1487
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1564
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1573
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1650
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1736
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1745
 msgid "Grayscale"
 msgstr "그레이스케일"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1350
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1437
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1523
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1609
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1695
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1394
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1481
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1567
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1653
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1739
 msgid "Color"
 msgstr "색상"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1356
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1443
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1529
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1615
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1701
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1487
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1573
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1745
 msgid "White (No Border)"
 msgstr "흰색(테두리 없음)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1356
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1443
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1529
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1615
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1701
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1487
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1573
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1745
 msgid "Gray"
 msgstr "회색"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1359
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1446
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1532
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1618
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1704
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1403
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1490
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1576
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1662
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1748
 msgid "Ratio"
 msgstr "비율"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1365
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1452
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1538
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1624
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1710
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1409
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1496
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1582
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1668
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1754
 msgid "Flexes between 120px and 300px wide"
 msgstr "너비 120픽셀에서 300픽셀 사이"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1365
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1452
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1538
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1624
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1710
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1409
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1496
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1582
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1668
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1754
 msgid "160px wide"
 msgstr "160px 너비"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1365
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1452
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1538
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1624
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1710
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1409
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1496
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1582
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1668
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1754
 msgid "Flexes between 250px and 768px wide"
 msgstr "너비 250px~768px 사이 플렉스"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1365
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1452
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1538
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1624
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1710
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1409
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1496
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1582
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1668
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1754
 msgid "Flexes between 250px and 1169px wide"
 msgstr "너비 250픽셀에서 1169픽셀 사이의 플렉스"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1369
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1413
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on Home "
 "page."
@@ -3441,19 +3403,19 @@ msgstr ""
 "홈 페이지에서 더 좋은 위치에 메시지를 배치할 수 있도록 단축 코드가 필요합니"
 "다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1376
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1463
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1549
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1635
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1721
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1420
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1507
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1593
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1679
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1765
 msgid "Shortcode"
 msgstr "숏코드"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1385
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1429
 msgid "Category Page"
 msgstr "카테고리 페이지"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1456
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1500
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "category page."
@@ -3461,7 +3423,7 @@ msgstr ""
 "카테고리 페이지에서 더 좋은 위치에 메시지를 배치할 수 있도록 단축 코드가 필요"
 "합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1542
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1586
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "product page."
@@ -3469,7 +3431,7 @@ msgstr ""
 "제품 페이지에서 더 좋은 위치에 메시지를 배치할 수 있도록 단축 코드가 필요합니"
 "다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1628
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1672
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on cart "
 "page."
@@ -3477,11 +3439,11 @@ msgstr ""
 "장바구니 페이지에서 더 좋은 위치에 메시지를 배치할 수 있도록 단축 코드가 필요"
 "합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1644
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1688
 msgid "Payment Page"
 msgstr "결제 페이지"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1714
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1758
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "payment page."
@@ -3489,11 +3451,11 @@ msgstr ""
 "결제 페이지에서 더 좋은 위치에 메시지를 배치할 수 있도록 단축 코드가 필요합니"
 "다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1734
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1778
 msgid "Payment action"
 msgstr "결제 동작"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1756
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1800
 msgid ""
 "The type of landing page to show on the PayPal site for customer checkout. "
 "PayPal Account Optional must be checked for this option to be used."
@@ -3501,31 +3463,31 @@ msgstr ""
 "고객 결제를 위해 PayPal 사이트에 표시할 랜딩 페이지 유형입니다. 이 옵션을 사"
 "용하려면 PayPal 계정 선택 사항을 선택해야 합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1757
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1801
 msgid "Login"
 msgstr "로그인"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1758
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1802
 msgid "Billing"
 msgstr "청구"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1759
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1803
 msgid "No Preference"
 msgstr "기본 설정 없음"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1808
 msgid "Instant Payments "
 msgstr "즉시 결제"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1774
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1818
 msgid "Billing Address"
 msgstr "청구지 주소"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1775
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
 msgid "Use PayPal Shipping Address as Billing"
 msgstr "PayPal 배송 주소를 청구로 사용"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1776
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1820
 msgid ""
 "If the billing address is empty and PayPal provides a shipping address, the "
 "order will use the shipping address as the billing address."
@@ -3533,15 +3495,15 @@ msgstr ""
 "청구 주소가 비어 있고 PayPal에서 배송 주소를 제공한 경우 주문은 배송 주소를 "
 "청구 주소로 사용합니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1782
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1826
 msgid "Send Item Details"
 msgstr "항목 세부 정보 보내기"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1783
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1827
 msgid "Send line item details to PayPal"
 msgstr "PayPal로 품목 세부 정보 보내기"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1785
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1829
 msgid ""
 "Include all line item details in the payment request to PayPal so that they "
 "can be seen from the PayPal transaction details page."
@@ -3549,27 +3511,26 @@ msgstr ""
 "PayPal 거래 세부 정보 페이지에서 확인할 수 있도록 모든 품목 세부 정보를 "
 "PayPal에 결제 요청에 포함하세요."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1789
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1833
 msgid "Invoice prefix"
 msgstr "송장 접두사"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1796
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1840
 msgid "Credit Card Statement Name"
 msgstr "신용 카드 명세서 이름"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1798
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1842
 msgid ""
 "The value entered here will be displayed on the buyer's credit card "
 "statement."
 msgstr "여기에 입력한 금액은 구매자의 신용 카드 명세서에 표시됩니다."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1848
 msgid "Debug log"
 msgstr "디버그 로그"
 
 #. translators: %s is the path to the WooCommerce PayPal debug log file.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
-#, php-format
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1854
 msgid "Log PayPal events, such as Webhook, Payment, Refund inside %s"
 msgstr "웹훅, 결제, 환불 등의 PayPal 이벤트를 %s 내부에 기록합니다"
 
@@ -3676,66 +3637,61 @@ msgstr "Verification_required: 수취인의 PayPal 계정이 확인되지 않았
 
 #. translators: %1$s is the payment method. %2$s is the pending reason.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:276
-#, php-format
 msgid "Payment via %1$s Pending. PayPal Pending reason: %2$s."
 msgstr "%1$s을(를) 통한 결제가 보류 중입니다. PayPal 보류 사유: %2$s."
 
 #. translators: %1$s is the payment method. %2$s is the decline reason.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:281
-#, php-format
 msgid "Payment via %1$s declined. PayPal declined reason: %2$s."
 msgstr "%1$s을(를) 통한 결제가 거부되었습니다. PayPal 거부 사유: %2$s."
 
 #. translators: %1$s is the payment method. %2$s is the refund reason.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:288
-#, php-format
 msgid "Payment via %1$s partially refunded. PayPal reason: %2$s."
 msgstr "%1$s을(를) 통한 결제가 부분 환불되었습니다. PayPal 사유: %2$s."
 
 #. translators: %1$s is the payment method. %2$s is the refund reason.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:294
-#, php-format
 msgid "Payment via %1$s refunded. PayPal reason: %2$s."
 msgstr "%1$s을(를) 통한 결제가 환불되었습니다. PayPal 사유: %2$s."
 
 #. translators: %1$s is the payment method. %2$s is the failure reason.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:299
-#, php-format
 msgid "Payment via %1$s failed. PayPal reason: %2$s."
 msgstr "%1$s을(를) 통한 결제가 실패했습니다. PayPal 사유: %2$s."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:501
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:518
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:504
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:521
 msgid "Or"
 msgstr "또는"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:667
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:670
 msgid "Or continue below"
 msgstr "또는 아래에서 계속하세요"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:890
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:893
 msgid "Billing &amp; Shipping"
 msgstr "결제 및 배송정보"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:890
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:892
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:908
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:893
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:895
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:911
 msgid "Edit"
 msgstr "편집"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:892
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:895
 msgid "Billing details"
 msgstr "결제정보"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:908
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:911
 msgid "Shipping details"
 msgstr "배송정보"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1044
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1047
 msgid "Create an account?"
 msgstr "계정을 만드시겠습니까?"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1051
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1054
 msgid ""
 "Create an account by entering the information below. If you are a returning "
 "customer please login at the top of the page."
@@ -3744,18 +3700,16 @@ msgstr ""
 "서 로그인 해주세요."
 
 #. translators: %1$s is the payment method title, %2$s is the formatted payment status.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1253
-#, php-format
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1256
 msgid "Payment via %1$s: %2$s."
 msgstr "%1$s을(를) 통한 결제: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal transaction ID.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1278
-#, php-format
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1281
 msgid "Payment via %1$s. Transaction ID: %2$s"
 msgstr "%1$s을(를) 통한 결제. 거래 ID: %2$s"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1462
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1465
 msgid ""
 "<strong>You're almost done!</strong><br>Review your information before you "
 "place your order."
@@ -3763,15 +3717,15 @@ msgstr ""
 "<strong>거의 완료되었습니다!</strong><br>주문을 완료하기 전에 정보를 확인하세"
 "요."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1517
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1520
 msgid "Capture Charge"
 msgstr "캡처 요금"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1655
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1658
 msgid "Cancel order"
 msgstr "주문 취소"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1725
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1728
 msgid ""
 "We cannot process your order with the payment information that you provided. "
 "Please use an alternate payment method."
@@ -3779,13 +3733,53 @@ msgstr ""
 "제공하신 결제 정보로는 주문을 처리할 수 없습니다. 다른 결제 방법을 사용해 주"
 "세요."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1730
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1733
 msgid "Something went wrong. Please try again."
 msgstr "뭔가 잘못 됐어요. 다시 시도해 보십시오."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1766
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1769
 msgid "3D Secure response"
 msgstr "3D 보안 응답"
+
+#~ msgid "Click to Connect PayPal Sandbox"
+#~ msgstr "PayPal 샌드박스 연결 클릭"
+
+#~ msgid ""
+#~ "To use Advanced Credit/Debit Card (PayPal), your PayPal account must meet "
+#~ "eligibility requirements. Please ensure your account is approved for "
+#~ "advanced card processing. <a target=\"_blank\" href=\"https://"
+#~ "developer.paypal.com/docs/multiparty/checkout/advanced/"
+#~ "#eligibility\">View eligibility requirements</a>."
+#~ msgstr ""
+#~ "고급 신용/직불 카드(PayPal)를 사용하려면 PayPal 계정이 자격 요건을 충족해"
+#~ "야 합니다. 계정이 고급 카드 처리를 위해 승인되었는지 확인하세요. <a "
+#~ "target=\"_blank\" href=\"https://developer.paypal.com/docs/multiparty/"
+#~ "checkout/advanced/#eligibility\">자격 요건을</a> 확인하세요."
+
+#~ msgid ""
+#~ "To show the Google Pay button, Google Pay must be enabled in your PayPal "
+#~ "account (<a target=\"_blank\" href=\"https://developer.paypal.com/docs/"
+#~ "checkout/apm/google-pay/#set-up-your-sandbox-account-to-accept-google-"
+#~ "pay\">setup guide</a>) and the page must be served over a secure (HTTPS) "
+#~ "connection."
+#~ msgstr ""
+#~ "Google Pay 버튼을 표시하려면 PayPal 계정에서 Google Pay를 사용하도록<a "
+#~ "target=\"_blank\" href=\"https://developer.paypal.com/docs/checkout/apm/"
+#~ "google-pay/#set-up-your-sandbox-account-to-accept-google-pay\">설정해야 하"
+#~ "며(설정 가이드)</a>, 페이지가 보안(HTTPS) 연결을 통해 제공되어야 합니다."
+
+#~ msgid ""
+#~ "To show the Apple Pay button, Apple Pay must be enabled in your PayPal "
+#~ "account (<a target=\"_blank\" href=\"https://developer.paypal.com/docs/"
+#~ "checkout/apm/apple-pay/#set-up-your-sandbox-account-to-accept-apple-"
+#~ "pay\">setup guide</a>). The page must also be served over a secure "
+#~ "(HTTPS) connection."
+#~ msgstr ""
+#~ "Apple Pay 버튼을 표시하려면 PayPal 계정에서 Apple Pay를 사용하도록<a "
+#~ "target=\"_blank\" href=\"https://developer.paypal.com/docs/checkout/apm/"
+#~ "apple-pay/#set-up-your-sandbox-account-to-accept-apple-pay\">설정해야 합니"
+#~ "다(설정 가이드)</a>. 또한 이 페이지는 보안(HTTPS) 연결을 통해 제공되어야 "
+#~ "합니다."
 
 #~ msgid "Manage Domain Registration"
 #~ msgstr "도메인 등록"

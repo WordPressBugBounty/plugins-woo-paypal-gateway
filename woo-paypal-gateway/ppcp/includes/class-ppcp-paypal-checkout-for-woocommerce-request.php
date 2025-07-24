@@ -247,6 +247,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function get_genrate_token() {
         try {
+            if(is_wc_endpoint_url( 'order-received' )) {
+                return;
+            }
             if ($this->access_token === false) {
                 $this->access_token = $this->ppcp_get_access_token();
             }
@@ -261,7 +264,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     'cookies' => array()
                         )
                 );
-                $this->ppcp_log('Get Genrate token Request' . $this->generate_token_url);
+                $this->ppcp_log('Get Genrate token Request ' . $this->generate_token_url);
                 if (is_wp_error($response)) {
                     $error_message = $response->get_error_message();
                     $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
@@ -1292,15 +1295,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $shipping_postcode = $order->get_billing_postcode();
                 $shipping_country = $order->get_billing_country();
             }
-
-            $shipping_address_request = array(
-                'address_line_1' => $shipping_address_1,
-                'address_line_2' => $shipping_address_2,
-                'admin_area_2' => $shipping_city,
-                'admin_area_1' => $shipping_state,
-                'postal_code' => $shipping_postcode,
-                'country_code' => $shipping_country,
-            );
+            
+            if (!empty($shipping_address_1) && !empty($shipping_city)) {
+                $shipping_address_request = array(
+                    'address_line_1' => $shipping_address_1,
+                    'address_line_2' => $shipping_address_2,
+                    'admin_area_2' => $shipping_city,
+                    'admin_area_1' => $shipping_state,
+                    'postal_code' => $shipping_postcode,
+                    'country_code' => $shipping_country,
+                );
+            }
 
             // Always calculate item_total if items exist
             if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {
@@ -2489,6 +2494,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function ppcp_get_id_token() {
         try {
+            if ( is_wc_endpoint_url( 'order-received' ) ) {
+                return;
+            }
             $headers = array(
                 'Accept' => 'application/json',
                 'Authorization' => 'Basic ' . $this->basicAuth,

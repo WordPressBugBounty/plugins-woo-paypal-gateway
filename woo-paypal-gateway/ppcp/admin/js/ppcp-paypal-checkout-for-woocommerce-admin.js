@@ -24,14 +24,33 @@ class WPGPayPalSettingsUI {
 
     setupOnboarding() {
         window.onboardingCallback = (authCode, sharedId) => {
-            if (this.onboardingInProgress) return;
-            this.onboardingInProgress = true;
-            const is_sandbox = document.querySelector('#woocommerce_wpg_paypal_checkout_sandbox');
             window.onbeforeunload = '';
-            jQuery('#wpbody').block({ message: null, overlayCSS: { background: '#fff', opacity: 0.6 } });
+            if (typeof PAYPAL !== 'undefined' && PAYPAL.apps && PAYPAL.apps.Signup && PAYPAL.apps.Signup.MiniBrowser && typeof PAYPAL.apps.Signup.MiniBrowser.closeFlow === 'function') {
+                PAYPAL.apps.Signup.MiniBrowser.closeFlow();
+            }
+            jQuery('#wpbody').block({
+                message: '<div class="nexa-spinner-wrap"><div class="nexa-loader"></div><strong>Configuring connection to PayPal…</strong></div>',
+                css: {
+                    border: 'none',
+                    padding: '20px',
+                    backgroundColor: '#fff',
+                    borderRadius: '8px',
+                    boxShadow: '0 0 12px rgba(0, 0, 0, 0.1)',
+                    fontSize: '15px',
+                    fontWeight: '500',
+                    color: '#333',
+                    width: '315px'
+                },
+                overlayCSS: {
+                    background: '#fff',
+                    opacity: 0.6,
+                    cursor: 'wait'
+                }
+            });
+            const is_sandbox = document.querySelector('#woocommerce_wpg_paypal_checkout_sandbox');
             fetch(ppcp_param.wpg_onboarding_endpoint, {
                 method: 'POST',
-                headers: { 'content-type': 'application/json' },
+                headers: {'content-type': 'application/json'},
                 body: JSON.stringify({
                     authCode,
                     sharedId,
@@ -40,6 +59,7 @@ class WPGPayPalSettingsUI {
                 })
             }).finally(() => {
                 this.onboardingInProgress = false;
+                window.location.href = window.location.href;
             });
         };
     }
@@ -118,7 +138,7 @@ class WPGPayPalSettingsUI {
                 const show = enabled && selectedPages.includes(type);
                 jQuery(`.pay_later_messaging_${type}_field`).closest('tr').toggle(show);
                 jQuery(`.pay_later_messaging_${type}_field`).closest('tr').closest('table').toggle(show);
-                
+
                 jQuery(`#woocommerce_wpg_paypal_checkout_pay_later_messaging_${type}_page_settings`).toggle(show);
             });
         };
@@ -173,7 +193,8 @@ class WPGPayPalSettingsUI {
         const update = () => {
             let current = $select.val() || [];
             lockedValues.forEach(val => {
-                if (!current.includes(val)) current.push(val);
+                if (!current.includes(val))
+                    current.push(val);
             });
             $select.val(current).trigger('change.select2');
             setTimeout(() => {
