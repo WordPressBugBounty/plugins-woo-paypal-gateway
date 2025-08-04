@@ -51,13 +51,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
 
     public function payment_fields() {
         if ($this->sandbox) {
-            echo '<p style="margin: 6px 0 8px 8px">';
-            echo '<b>' . __('Sandbox (Test) Mode Enabled.', 'woo-paypal-pro') . '</b>';
-            echo '<br />';
-            _e('For testing purposes, you can use the card number 4111 1111 1111 1111 with a future expiration date and any CVV.', 'woo-paypal-pro');
-            echo '</p>';
+            echo '<div class="wpg_ppcp_sanbdox_notice" style="margin: 5px 0 20px 8px; font-size: 13px;display:none;">';
+            echo esc_html__('Sandbox Mode Enabled.', 'woo-paypal-gateway') . '<br>';
+            echo esc_html__('Use test card 4111 1111 1111 1111 with any future expiration date and any CVV.', 'woo-paypal-gateway');
+            echo '</div>';
         }
-        if ($this->supports('tokenization') && is_checkout()) {
+        if ($this->supports('tokenization') && (is_checkout() || is_checkout_pay_page())) {
             $this->tokenization_script();
             $this->saved_payment_methods();
             $this->form();
@@ -122,7 +121,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
 
                 <div class="wpg-cvc-wrapper">
                     <div id="wpg_paypal_checkout_cc-card-cvc"></div>
-                    <div class="wpg-ppcp-card-cvv-icon">
+                    <div class="wpg-ppcp-card-cvv-icon" style="display: none;">
                         <svg class="wpg-card-cvc-icon" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="var(--colorIconCardCvc)" role="img" aria-labelledby="cvcDesc">
                             <path opacity=".2" fill-rule="evenodd" clip-rule="evenodd" d="M15.337 4A5.493 5.493 0 0013 8.5c0 1.33.472 2.55 1.257 3.5H4a1 1 0 00-1 1v1a1 1 0 001 1h16a1 1 0 001-1v-.6a5.526 5.526 0 002-1.737V18a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h12.337zm6.707.293c.239.202.46.424.662.663a2.01 2.01 0 00-.662-.663z"></path>
                             <path opacity=".4" fill-rule="evenodd" clip-rule="evenodd" d="M13.6 6a5.477 5.477 0 00-.578 3H1V6h12.6z"></path>
@@ -131,7 +130,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <?php
     }
@@ -248,7 +247,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             return $this->request->ppcp_regular_create_order_request($woo_order_id);
         }
         if ($is_success) {
-            WC()->cart->empty_cart();
+            wpg_clear_ppcp_session_and_cart();
             return [
                 'result' => 'success',
                 'redirect' => $this->get_return_url($order),

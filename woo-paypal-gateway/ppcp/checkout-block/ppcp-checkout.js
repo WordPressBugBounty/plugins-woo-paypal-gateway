@@ -78,9 +78,8 @@ var {addAction} = wp.hooks;
                         i = n(3),
                         u = n(1);
 
-                
+
                 const l = Object(i.getSetting)("wpg_paypal_checkout_data", {});
-                const p = () => Object(u.decodeEntities)(l.description || "");
                 const {useEffect} = wp.element;
                 const ppcp_settings = l.settins;
                 const device_class = l.is_mobile;
@@ -160,13 +159,40 @@ var {addAction} = wp.hooks;
                 const ContentPPCPCheckout = (props) => {
                     const {billing, shippingData, ...i} = props;
                     if (l.use_place_order === true) {
-                        return createElement(
-                                "div",
-                                {className: "ppcp_checkout_parent"},
-                                createElement("input", {type: "hidden", name: "form", value: "checkout"}),
-                                createElement("p", null, l.description || '')
-                                );
+                        if (l.show_redirect_icon === 'yes') {
+                            return createElement(
+                                    "div",
+                                    {className: "ppcp_checkout_parent"},
+                                    createElement("input", {type: "hidden", name: "form", value: "checkout"}),
+                                    createElement(
+                                            "div",
+                                            {className: "wc_ppcp_wpg_container"},
+                                            l.redirect_icon && createElement("img", {
+                                                src: l.redirect_icon,
+                                                alt: "PayPal"
+                                            }),
+                                            createElement(
+                                                    "p",
+                                                    null,
+                                                    l.placeOrderDescription || ''
+                                                    )
+                                            )
+                                    );
+                        } else if (l.show_redirect_icon === 'no') {
+                            return createElement(
+                                    "div",
+                                    {className: "ppcp_checkout_parent"},
+                                    createElement("input", {type: "hidden", name: "form", value: "checkout"}),
+                                    createElement(
+                                            "p",
+                                            null,
+                                            l.description || ''
+                                            )
+                                    );
+                        }
                     }
+
+
                     const isGooglePayEnabledForCheckout = l.is_google_pay_enable_for_checkout === 'yes';
                     const isApplePayEnabledForCheckout = l.is_apple_pay_enable_for_checkout === 'yes';
                     return createElement(
@@ -191,7 +217,7 @@ var {addAction} = wp.hooks;
                     label: createElement("span", {style: {width: "100%"}}, l.title, createElement("img", {src: l.icons, style: {float: "right", marginLeft: "20px", display: "flex", justifyContent: "flex-end", paddingRight: "10px"}})),
                     placeOrderButtonLabel: Object(c.__)(l.placeOrderButtonLabel),
                     content: createElement(ContentPPCPCheckout, null),
-                    edit: Object(o.createElement)(p, null),
+                    edit: createElement(ContentPPCPCheckout, null),
                     canMakePayment: () => Promise.resolve(true),
                     ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                     supports: {
@@ -210,7 +236,7 @@ var {addAction} = wp.hooks;
                         name: "wpg_paypal_checkout_top",
                         label: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                         content: createElement(Content_PPCP_Smart_Button_Checkout_Top, null),
-                        edit: Object(o.createElement)(p, null),
+                        edit: createElement(Content_PPCP_Smart_Button_Checkout_Top, null),
                         ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                         canMakePayment: () => true,
                         paymentMethodId: "wpg_paypal_checkout",

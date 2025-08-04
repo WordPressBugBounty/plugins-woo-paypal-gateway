@@ -36,6 +36,9 @@
                 this.debouncedUpdatePaypalCheckout();
                 this.debouncedUpdateGooglePay();
                 this.debouncedUpdateApplePay();
+
+            } else {
+                this.debouncedUpdatePaypalCC();
             }
         }
 
@@ -170,6 +173,10 @@
             $('form.checkout').on('checkout_place_order_wpg_paypal_checkout_cc', (event) => {
                 event.preventDefault();
                 return this.handleCheckoutSubmit(event);
+            });
+            $('#order_review').on('submit', (event) => {
+                event.preventDefault();
+                return this.handleCheckoutSubmit();
             });
             const eventSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragment_refresh wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method fkwcs_express_button_init';
             const checkoutSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_cc_block_ready ppcp_cc_checkout_updated update_checkout';
@@ -615,6 +622,7 @@
         }
 
         renderCardFields() {
+            jQuery(document.body).trigger('wc-credit-card-form-init');
             const checkoutSelector = this.getCheckoutSelectorCss();
             if ($('#wpg_paypal_checkout_cc-card-number').length === 0 || typeof wpg_paypal_sdk === 'undefined') {
                 return;
@@ -632,7 +640,6 @@
                 createOrder: () => this.createCardOrder(checkoutSelector),
                 onApprove: (payload) => payload && payload.orderID ? this.submitCardFields(payload) : console.error("No valid payload returned during onApprove:", payload),
                 onError: (err) => {
-                    this.hideSpinner();
                     this.handleCardFieldsError(err, checkoutSelector);
                 }
             });
@@ -648,8 +655,11 @@
                     cardFields.CVVField().render("#wpg_paypal_checkout_cc-card-cvc");
                 }
                 setTimeout(function () {
-                    $('.wpg-paypal-cc-field label').show();
+                    $('.wpg-paypal-cc-field label, .wpg-ppcp-card-cvv-icon').show();
                 }, 1600);
+                setTimeout(function () {
+                    $('.wpg_ppcp_sanbdox_notice').show();
+                }, 1900);
             } else {
                 console.log('Advanced Card Payments not Eligible', cardFields.isEligible());
                 $('.payment_box.payment_method_wpg_paypal_checkout_cc').hide();
@@ -657,7 +667,11 @@
                     $('#payment_method_wpg_paypal_checkout').prop('checked', true).trigger('click');
                 }
             }
-            $(document.body).on('submit_paypal_cc_form', () => cardFields.submit());
+            $(document.body).on('submit_paypal_cc_form', () => {
+                cardFields.submit().catch((error) => {
+                    this.handleCardFieldsError(error, checkoutSelector);
+                });
+            });
         }
 
         createCardOrder(checkoutSelector) {
@@ -682,8 +696,9 @@
                     .then(res => res.json())
                     .then(data => {
                         if (!data || data.success === false) {
+                            const messages = data.data.messages ?? data.data;
                             this.hideSpinner();
-                            this.showError(data?.data?.messages || 'An unknown error occurred while creating the order.');
+                            this.showError(messages || 'An unknown error occurred while creating the order.');
                             return Promise.reject();
                         }
                         return data.orderID;
@@ -695,7 +710,6 @@
         }
 
         submitCardFields(payload) {
-            this.showSpinner();
             $.post(`${this.ppcp_manager.cc_capture}&paypal_order_id=${payload.orderID}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`, (data) => {
                 window.location.href = data.data.redirect;
             });
@@ -704,23 +718,90 @@
         handleCardFieldsError(errorString, checkoutSelector) {
             $('#place_order, #wc-wpg_paypal_checkout-cc-form').unblock();
             $(checkoutSelector).removeClass('processing paypal_cc_submitting CardFields createOrder').unblock();
+            let message = "An unknown error occurred with your payment. Please try again.";
+            let raw = errorString instanceof Error ? errorString.message : String(errorString);
+            if (raw.includes('Expected reject')) {
+                return true;
+            }
             try {
-                if (errorString instanceof Error) {
-                    var messageContent = errorString.message;
-                    var jsonMatch = messageContent.match(/{[\s\S]*}$/);
-                    if (jsonMatch) {
-                        var errorJsonString = jsonMatch[0].trim();
-                        var error = JSON.parse(errorJsonString);
-                        var message = (error.details && Array.isArray(error.details) && error.details.length > 0) ? error.details[0].description : error.message || "An unknown error occurred.";
+                if (raw.includes('INVALID_NUMBER')) {
+                    message = 'Please enter a valid card number.';
+                } else if (raw.includes('INVALID_CVV')) {
+                    message = 'Please enter a valid CVV.';
+                } else if (raw.includes('INVALID_EXPIRATION') || raw.includes('INVALID_EXPIRY_DATE')) {
+                    message = 'Please enter a valid expiration date.';
+                } else {
+                    const jsonStart = raw.indexOf('{');
+                    const jsonEnd = raw.lastIndexOf('}') + 1;
+                    if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+                        const jsonString = raw.slice(jsonStart, jsonEnd);
+                        const error = JSON.parse(jsonString);
+                        if ((error.message && error.message.includes('Expected reject')) ||
+                                (error.details?.[0]?.description && error.details[0].description.includes('Expected reject'))) {
+                            return true;
+                        }
+                        if (error.success === false && error.data && error.data.messages && Array.isArray(error.data.messages)) {
+                            if (error.data.messages.some(msg => msg.includes('Expected reject'))) {
+                                return true;
+                            }
+                            message = error.data.messages.map(msg => msg.replace(/<\/?[^>]+(>|$)/g, ''))
+                                    .join('\n');
+                        } else if (error.details && Array.isArray(error.details)) {
+                            const cardError = error.details.find(detail =>
+                                detail.issue === 'VALIDATION_ERROR' ||
+                                        detail.issue === 'INVALID_NUMBER' ||
+                                        detail.issue === 'INVALID_CVV' ||
+                                        detail.issue === 'INVALID_EXPIRY_DATE' ||
+                                        detail.field?.includes('/card/')
+                            );
+                            if (cardError) {
+                                switch (cardError.issue) {
+                                    case 'INVALID_NUMBER':
+                                        message = 'Please enter a valid card number.';
+                                        break;
+                                    case 'INVALID_CVV':
+                                        message = 'Please enter a valid CVV.';
+                                        break;
+                                    case 'INVALID_EXPIRY_DATE':
+                                        message = 'Please enter a valid expiration date.';
+                                        break;
+                                    case 'VALIDATION_ERROR':
+                                        if (cardError.field?.includes('/card/number')) {
+                                            message = 'Please enter a valid card number.';
+                                        } else if (cardError.field?.includes('/card/expiry')) {
+                                            message = 'Please enter a valid expiration date.';
+                                        } else if (cardError.field?.includes('/card/security_code')) {
+                                            message = 'Please enter a valid CVV.';
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                        if (message === "An unknown error occurred with your payment. Please try again.") {
+                            if (error.details?.[0]?.description) {
+                                message = error.details[0].description;
+                            } else if (error.message) {
+                                message = error.message;
+                            }
+                        }
                     }
-                } else if (typeof errorString === 'object' && errorString !== null) {
-                    var message = (errorString.details && Array.isArray(errorString.details) && errorString.details.length > 0) ? errorString.details[0].description : errorString.message || "An unknown error occurred.";
                 }
             } catch (err) {
-                var message = "An unknown error occurred.";
+                if (raw.includes('INVALID_NUMBER')) {
+                    message = 'Please enter a valid card number.';
+                } else if (raw.includes('INVALID_CVV')) {
+                    message = 'Please enter a valid CVV.';
+                } else if (raw.includes('INVALID_EXPIRATION') || raw.includes('INVALID_EXPIRY_DATE')) {
+                    message = 'Please enter a valid expiration date.';
+                } else {
+                    const lastColon = raw.lastIndexOf(':');
+                    message = lastColon > 0 ? raw.slice(lastColon + 1).trim() : raw;
+                }
             }
+            message = message.replace(/\.$/, '').trim();
             this.showError(message);
             this.hideSpinner();
+            return false;
         }
 
         getCheckoutSelectorCss() {
@@ -757,7 +838,7 @@
             const sdkUrl = "https://pay.google.com/gp/p/js/pay.js";
             const script = document.createElement("script");
             script.src = sdkUrl;
-            script.onload = () => this.onGooglePayLoaded();
+            script.onload = () => setTimeout(() => this.onGooglePayLoaded(), 10);
             script.onerror = () => this.removeGooglePayContainer();
             document.head.appendChild(script);
         }
@@ -1237,6 +1318,8 @@
         update_apple_pay() {
             if (this.ppcp_manager.enabled_apple_pay === 'yes') {
                 this.addApplePayButton();
+            } else {
+                this.removeApplePayContainer();
             }
         }
 

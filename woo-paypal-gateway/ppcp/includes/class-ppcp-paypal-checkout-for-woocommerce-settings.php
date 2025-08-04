@@ -202,7 +202,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'type' => 'textarea',
                     'css' => 'width: 400px;',
                     'description' => __('The description displayed to customers during checkout.', 'woo-paypal-gateway'),
-                    'default' => __('Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account', 'woo-paypal-gateway'),
+                    'default' => '',
                     'desc_tip' => true
                 ),
                 'paypal_button_pages' => array(
@@ -508,6 +508,24 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'pay' => __('Pay', 'woo-paypal-gateway'),
                     ),
                 ),
+                'icon_type' => [
+                    'title' => __('Icon', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'default' => 'monogram',
+                    'options' => [
+                        'monogram' => __('Monogram (PP)', 'woo-paypal-gateway'),
+                        'wordmark' => __('Wordmark (PayPal)', 'woo-paypal-gateway'),
+                        'combination' => __('Combination Mark (PP PayPal)', 'woo-paypal-gateway'),
+                    ],
+                    'description' => __('Select the PayPal logo style displayed next to the payment method title on the checkout page.', 'woo-paypal-gateway'),
+                ],
+                'show_redirect_icon' => [
+                    'title' => __('Show Redirect Icon and Text', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'value' => 'yes',
+                    'default' => 'yes',
+                    'description' => __('When enabled, a redirect icon and message will appear to let customers know they will be taken to PayPal to complete their payment.', 'woo-paypal-gateway')
+                ],
                 'use_place_order' => array(
                     'title' => __('Use Place Order Button', 'woo-paypal-gateway'),
                     'type' => 'checkbox',

@@ -881,3 +881,22 @@ if (!function_exists('is_admin_checkout_page_edit_screen')) {
     }
 
 }
+
+if (!function_exists('wpg_clear_ppcp_session_and_cart')) {
+
+    function wpg_clear_ppcp_session_and_cart() {
+        if (function_exists('WC')) {
+            $wc = WC();
+
+            if (isset($wc->session) && isset($wc->session->ppcp_session)) {
+                unset($wc->session->ppcp_session);
+                WC()->session->__unset('ppcp_session');
+            }
+
+            if (isset($wc->cart)) {
+                $wc->cart->empty_cart();
+            }
+        }
+    }
+
+}

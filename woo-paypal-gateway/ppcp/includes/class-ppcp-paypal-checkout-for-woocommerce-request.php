@@ -247,7 +247,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function get_genrate_token() {
         try {
-            if(is_wc_endpoint_url( 'order-received' )) {
+            if (is_wc_endpoint_url('order-received')) {
                 return;
             }
             if ($this->access_token === false) {
@@ -275,9 +275,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $this->ppcp_log('Response Body: ' . wc_print_r($api_response, true));
                     if (!empty($api_response['client_token'])) {
                         if ($this->is_sandbox) {
-                            set_transient('ppcp_sandbox_client_token', $api_response['client_token'], 2500);
+                            set_transient('ppcp_sandbox_client_token', $api_response['client_token'], ($api_response['expires_in'] - 200));
                         } else {
-                            set_transient('ppcp_client_token', $api_response['client_token'], 2500);
+                            set_transient('ppcp_client_token', $api_response['client_token'], ($api_response['expires_in'] - 200));
                         }
                         $this->client_token = $api_response['client_token'];
                     }
@@ -658,7 +658,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->ppcp_log('Response Body: ' . wc_print_r($api_response, true));
             if (!empty($api_response['access_token'])) {
                 $transient_key = $this->is_sandbox ? 'ppcp_sandbox_access_token' : 'ppcp_access_token';
-                set_transient($transient_key, $api_response['access_token'], 5000);
+                $expires_in = isset($api_response['expires_in']) ? (int) $api_response['expires_in'] : 0;
+                $buffer_seconds = 600;
+                $cache_duration = max(0, $expires_in - $buffer_seconds);
+                set_transient($transient_key, $api_response['access_token'], $cache_duration);
                 $this->access_token = $api_response['access_token'];
                 return $this->access_token;
             }
@@ -740,7 +743,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         }
                         $currency_code = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['currency_code']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['currency_code'] : '';
                         $paypal_fee = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value'] : '';
-                        if ( $paypal_fee !== '' && floatval( $paypal_fee ) > 0 ) {
+                        if ($paypal_fee !== '' && floatval($paypal_fee) > 0) {
                             $order->update_meta_data('_paypal_fee', $paypal_fee);
                             $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
                             $order->save_meta_data();
@@ -897,7 +900,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $order->update_status('on-hold');
                         $order->add_order_note(__('Payment authorized. Change payment status to processing or complete to capture funds.', 'woo-paypal-gateway'));
                     }
-                    WC()->cart->empty_cart();
+                    wpg_clear_ppcp_session_and_cart();
                     return true;
                 } else {
                     if (function_exists('wc_add_notice')) {
@@ -914,35 +917,46 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function ppcp_get_checkout_details($paypal_order_id) {
         try {
-            if ($this->access_token === false) {
+            if (is_wc_endpoint_url('order-received')) {
+                return;
+            }
+            $cached_id = ppcp_get_session('ppcp_paypal_order_id');
+            $cached_details = ppcp_get_session('ppcp_paypal_transaction_details');
+            if ($cached_id === $paypal_order_id && !empty($cached_details)) {
+                return $cached_details;
+            }
+            if (empty($this->access_token)) {
                 $this->access_token = $this->ppcp_get_access_token();
             }
             $this->ppcp_add_log_details('Get Order Details');
-            $this->ppcp_log('Endpoint: ' . $this->paypal_order_api . $paypal_order_id);
-            $response = wp_remote_get($this->paypal_order_api . $paypal_order_id, array(
+            $endpoint = $this->paypal_order_api . $paypal_order_id;
+            $this->ppcp_log('Endpoint: ' . $endpoint);
+            $response = wp_remote_get($endpoint, array(
                 'timeout' => 60,
-                'redirection' => 5,
-                'httpversion' => '1.1',
-                'blocking' => true,
-                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB'),
-                'body' => array(),
-                'cookies' => array()
-                    )
-            );
+                'headers' => array(
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $this->access_token,
+                    'Prefer' => 'return=representation',
+                    'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
+                ),
+            ));
             if (is_wp_error($response)) {
-                $error_message = $response->get_error_message();
-                $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
-            } else {
-                $api_response = json_decode(wp_remote_retrieve_body($response));
-                $this->ppcp_log('Response Code: ' . wp_remote_retrieve_response_code($response));
-                $this->ppcp_log('Response Message: ' . wp_remote_retrieve_response_message($response));
-                $this->ppcp_log('Response Body: ' . wc_print_r($api_response, true));
-                ppcp_set_session('ppcp_paypal_order_id', $paypal_order_id);
-                ppcp_set_session('ppcp_paypal_transaction_details', $api_response);
-                return $api_response;
+                $this->ppcp_log('Error: ' . wc_print_r($response->get_error_message(), true));
+                return null;
             }
+            $code = wp_remote_retrieve_response_code($response);
+            $message = wp_remote_retrieve_response_message($response);
+            $body_raw = wp_remote_retrieve_body($response);
+            $body = json_decode($body_raw);
+            $this->ppcp_log('Response Code: ' . $code);
+            $this->ppcp_log('Response Message: ' . $message);
+            $this->ppcp_log('Response Body: ' . wc_print_r($body, true));
+            ppcp_set_session('ppcp_paypal_order_id', $paypal_order_id);
+            ppcp_set_session('ppcp_paypal_transaction_details', $body);
+            return $body;
         } catch (Exception $ex) {
-            
+            $this->ppcp_log('Exception in ppcp_get_checkout_details: ' . $ex->getMessage());
+            return null;
         }
     }
 
@@ -1295,7 +1309,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $shipping_postcode = $order->get_billing_postcode();
                 $shipping_country = $order->get_billing_country();
             }
-            
+
             if (!empty($shipping_address_1) && !empty($shipping_city)) {
                 $shipping_address_request = array(
                     'address_line_1' => $shipping_address_1,
@@ -1543,7 +1557,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     }
                     $currency_code = isset($api_response['seller_receivable_breakdown']['paypal_fee']['currency_code']) ? $api_response['seller_receivable_breakdown']['paypal_fee']['currency_code'] : '';
                     $paypal_fee = isset($api_response['seller_receivable_breakdown']['paypal_fee']['value']) ? $api_response['seller_receivable_breakdown']['paypal_fee']['value'] : '';
-                    if ( $paypal_fee !== '' && floatval( $paypal_fee ) > 0 ) {
+                    if ($paypal_fee !== '' && floatval($paypal_fee) > 0) {
                         $order->update_meta_data('_paypal_fee', $paypal_fee);
                         $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
                         $order->save_meta_data();
@@ -1924,7 +1938,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $order->add_order_note($note);
             $order->payment_complete($txn_id);
             apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $order);
-            WC()->cart->empty_cart();
+            wpg_clear_ppcp_session_and_cart();
         }
     }
 
@@ -2393,8 +2407,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         $order->update_meta_data('_enviorment', ($this->is_sandbox) ? 'sandbox' : 'live');
         $order->save_meta_data();
         if ($is_success) {
-            unset(WC()->session->ppcp_session);
-            WC()->cart->empty_cart();
+            wpg_clear_ppcp_session_and_cart();
             wp_redirect(apply_filters('woocommerce_get_return_url', $order->get_checkout_order_received_url(), $order));
         } else {
             unset(WC()->session->ppcp_session);
@@ -2494,7 +2507,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function ppcp_get_id_token() {
         try {
-            if ( is_wc_endpoint_url( 'order-received' ) ) {
+            if (is_wc_endpoint_url('order-received')) {
                 return;
             }
             $headers = array(
@@ -2733,7 +2746,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     }
                     $currency_code = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['currency_code']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['currency_code'] : '';
                     $paypal_fee = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value'] : '';
-                    if ( $paypal_fee !== '' && floatval( $paypal_fee ) > 0 ) {
+                    if ($paypal_fee !== '' && floatval($paypal_fee) > 0) {
                         $order->update_meta_data('_paypal_fee', $paypal_fee);
                         $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
                         $order->save_meta_data();

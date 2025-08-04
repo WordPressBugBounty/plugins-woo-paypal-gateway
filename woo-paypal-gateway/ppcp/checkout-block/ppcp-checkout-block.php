@@ -149,6 +149,11 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             'icons' => $this->gateway->icon,
             'use_place_order' => $this->gateway->use_place_order,
             'placeOrderButtonLabel' => $order_button_text,
+            'placeOrderDescription' => sprintf(
+                    /* translators: %s: Order button text (e.g. Place order) */
+                    __('Click the "%s" button below to process your order.', 'woo-paypal-gateway'),
+                    $order_button_text
+            ),
             'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
             'settins' => $filtered_settings,
@@ -161,7 +166,9 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             'is_apple_pay_enable_for_express_checkout' => $this->is_apple_pay_enable_for_page('express_checkout') ? 'yes' : 'no',
             'is_apple_pay_enable_for_checkout' => $this->is_apple_pay_enable_for_page('checkout') ? 'yes' : 'no',
             'is_mobile' => wp_is_mobile() ? 'mobile' : 'desktop',
-            'button_class' => $this->button_class
+            'button_class' => $this->button_class,
+            'redirect_icon' => $this->gateway->redirect_icon,
+            'show_redirect_icon' => $this->gateway->show_redirect_icon ? 'yes' : 'no'
         ];
     }
 }

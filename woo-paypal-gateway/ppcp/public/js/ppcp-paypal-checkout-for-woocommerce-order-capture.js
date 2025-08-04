@@ -10,12 +10,8 @@
             }, 1000);
 
         }
-
         setTimeout(function () {
             $('#place_order').show();
         }, 1200);
-
-
-
     });
 })(jQuery);

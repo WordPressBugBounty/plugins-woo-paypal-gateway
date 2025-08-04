@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.8.2
-Stable tag: 9.0.38  
+Stable tag: 9.0.39  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,11 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.39 – 2025-07-29 =
+* Added - New setting to choose PayPal icon style: Monogram, Wordmark, or Combination.
+* Updated - Default PayPal icon set to Monogram for cleaner display beside the payment label.
+* Fixed - Styling conflict affecting Google Pay label on some themes.
 
 = 9.0.38 – 2025-07-21 =
 * Fixed - Addressed an issue with shipping address validation during checkout.
