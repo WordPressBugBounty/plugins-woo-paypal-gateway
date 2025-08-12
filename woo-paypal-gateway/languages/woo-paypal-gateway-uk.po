@@ -6,22 +6,22 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-"
 "gateway\n"
 "POT-Creation-Date: 2025-08-07T09:49:54+00:00\n"
-"PO-Revision-Date: 2025-08-11 10:12+0530\n"
+"PO-Revision-Date: 2025-08-11 11:01+0530\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: ar\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Domain: woo-paypal-gateway\n"
 "X-Generator: Poedit 3.6\n"
 
 #. Plugin Name of the plugin
 #: woo-paypal-gateway.php
 msgid "Payment Gateway for PayPal on WooCommerce"
-msgstr "بوابة الدفع لـ PayPal على WooCommerce"
+msgstr "Платіжний шлюз для PayPal на WooCommerce"
 
 #. Plugin URI of the plugin
 #: woo-paypal-gateway.php
@@ -34,8 +34,9 @@ msgid ""
 "PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, "
 "Mercado Pago, Sofort, Bancontact & more - by an official PayPal Partner"
 msgstr ""
-"باي بال، بطاقات الائتمان، جوجل باي، آبل باي، الدفع لاحقًا، فينمو، SEPA، "
-"iDEAL، ميركادو باجو، سوفورت، بانكونتكت والمزيد - بواسطة شريك رسمي لباي بال"
+"PayPal, кредитні картки, Google Pay, Apple Pay, Оплата пізніше, Venmo, SEPA, "
+"iDEAL, Mercado Pago, Sofort, Bancontact та інші - від офіційного партнера "
+"PayPal"
 
 #. Author of the plugin
 #: woo-paypal-gateway.php
@@ -49,180 +50,184 @@ msgstr "https://profiles.wordpress.org/easypayment/"
 
 #: admin/feedback/deactivation-feedback-form.php:8
 msgid "Return"
-msgstr "إرجاع"
+msgstr "Повернутися"
 
 #: admin/feedback/deactivation-feedback-form.php:9
 msgid "We’re sorry to see you go! 💔"
-msgstr "نحن آسفون لرؤيتك تذهب! 💔"
+msgstr "Нам шкода бачити вас ідучи! 💔"
 
 #: admin/feedback/deactivation-feedback-form.php:11
 msgid "Close"
-msgstr "أغلق"
+msgstr "Закрити"
 
 #: admin/feedback/deactivation-feedback-form.php:15
 msgid ""
 "Can you please tell us why you’re deactivating the plugin? Your feedback "
 "helps us make it better."
 msgstr ""
-"هل يمكنك من فضلك إخبارنا لماذا تقوم بإلغاء تفعيل الإضافة؟ ملاحظاتك تساعدنا "
-"في تحسينها."
+"Чи можете, будь ласка, розповісти, чому ви деактивуєте плагін? Ваші відгуки "
+"допомагають нам покращити його."
 
 #: admin/feedback/deactivation-feedback-form.php:19
 msgid "Temporary deactivation (troubleshooting)"
-msgstr "تعطيل مؤقت (استكشاف الأخطاء وإصلاحها)"
+msgstr "Тимчасова деактивація (усунення неполадок)"
 
 #: admin/feedback/deactivation-feedback-form.php:23
 msgid "Compatibility issue"
-msgstr "مشكلة التوافق"
+msgstr "Проблема сумісності"
 
 #: admin/feedback/deactivation-feedback-form.php:25
 msgid "Please describe what part of the layout or functionality was affected."
-msgstr "يرجى وصف الجزء من التخطيط أو الوظائف الذي تأثر."
+msgstr ""
+"Будь ласка, опишіть, яка частина макету або функціональності була порушена."
 
 #: admin/feedback/deactivation-feedback-form.php:30
 msgid "Difficult to set up"
-msgstr "صعب الإعداد"
+msgstr "Важко налаштувати"
 
 #: admin/feedback/deactivation-feedback-form.php:32
 msgid "What part of the setup was confusing or unclear?"
-msgstr "ما الجزء من الإعداد كان محيرًا أو غير واضح؟"
+msgstr "Яка частина налаштування була заплутаною або незрозумілою?"
 
 #: admin/feedback/deactivation-feedback-form.php:37
 msgid "Missing features"
-msgstr "ميزات مفقودة"
+msgstr "Відсутні функції"
 
 #: admin/feedback/deactivation-feedback-form.php:39
 msgid "Which features were you looking for?"
-msgstr "ما هي الميزات التي كنت تبحث عنها؟"
+msgstr "Які функції ви шукали?"
 
 #: admin/feedback/deactivation-feedback-form.php:44
 msgid "Other"
-msgstr "آخر"
+msgstr "Інше"
 
 #: admin/feedback/deactivation-feedback-form.php:46
 msgid ""
 "Please share why you’re deactivating the PayPal plugin so we can make "
 "improvements."
-msgstr "يرجى مشاركة سبب تعطيلك لملحق PayPal حتى نتمكن من إجراء تحسينات."
+msgstr ""
+"Будь ласка, поділіться, чому ви деактивуєте плагін PayPal, щоб ми могли "
+"внести покращення."
 
 #: admin/feedback/deactivation-feedback-form.php:58
 msgid ""
-"Your privacy is important to us. No personal data is collected with this "
-"form—just your valuable feedback and basic system information (such as "
-"WordPress and plugin versions) to help us improve our plugin."
+"Your privacy is important to us. No personal data is collected with this form"
+"—just your valuable feedback and basic system information (such as WordPress "
+"and plugin versions) to help us improve our plugin."
 msgstr ""
-"خصوصيتك مهمة بالنسبة لنا. لا يتم جمع أي بيانات شخصية من خلال هذا النموذج - "
-"فقط ملاحظاتك القيمة ومعلومات النظام الأساسية (مثل إصدارات WordPress "
-"والإضافات) لمساعدتنا في تحسين الإضافة الخاصة بنا."
+"Ваша конфіденційність важлива для нас. З цією формою не збирається жодних "
+"особистих даних — лише ваші цінні відгуки та основна інформація про систему "
+"(таку як версії WordPress та плагінів), щоб допомогти нам покращити наш "
+"плагін."
 
 #: admin/feedback/deactivation-feedback-form.php:63
 msgid "Visit our support page for assistance"
-msgstr "قم بزيارة صفحة الدعم الخاصة بنا للحصول على المساعدة"
+msgstr "Відвідайте нашу сторінку підтримки для отримання допомоги."
 
 #: admin/feedback/deactivation-feedback-form.php:63
 msgid "Get Support"
-msgstr "احصل على الدعم"
+msgstr "Отримати підтримку"
 
 #: admin/feedback/deactivation-feedback-form.php:65
 msgid "Send & Deactivate"
-msgstr "إرسال & إلغاء التفعيل"
+msgstr "Надіслати та деактивувати"
 
 #: admin/feedback/deactivation-feedback-form.php:67
 msgid "I rather wouldn't say"
-msgstr "أفضل أن لا أقول"
+msgstr "Я б скоріше не сказав."
 
 #: ppcp/admin/class-paypal-ppcp-apple-pay-configurations.php:57
 msgid "Invalid domain name."
-msgstr "اسم النطاق غير صالح."
+msgstr "Недійсне ім'я домену."
 
 #: ppcp/admin/class-paypal-ppcp-apple-pay-configurations.php:75
 msgid "Domain registered successfully."
-msgstr "تم تسجيل النطاق بنجاح."
+msgstr "Домен успішно зареєстровано."
 
 #: ppcp/admin/class-paypal-ppcp-apple-pay-configurations.php:80
 msgid "Domain registration failed."
-msgstr "فشل تسجيل النطاق."
+msgstr "Реєстрація домену не вдалася."
 
 #: ppcp/admin/class-paypal-ppcp-apple-pay-configurations.php:101
 msgid "Domain removed successfully."
-msgstr "تمت إزالة النطاق بنجاح."
+msgstr "Домен успішно видалено."
 
 #: ppcp/admin/class-paypal-ppcp-apple-pay-configurations.php:105
 msgid "Domain removal failed."
-msgstr "فشل إزالة النطاق."
+msgstr "Видалення домену не вдалося."
 
 #: ppcp/admin/class-paypal-ppcp-apple-pay-configurations.php:138
 msgid "Failed to write domain validation file."
-msgstr "فشل في كتابة ملف التحقق من النطاق."
+msgstr "Не вдалося записати файл перевірки домену."
 
 #: ppcp/admin/class-paypal-ppcp-apple-pay-configurations.php:146
 msgid "Failed to fetch domain validation file."
-msgstr "فشل في جلب ملف التحقق من النطاق."
+msgstr "Не вдалося отримати файл перевірки домену."
 
 #: ppcp/checkout-block/ppcp-cc-block.php:74
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:105
 msgctxt "Important"
 msgid "Card number"
-msgstr "رقم البطاقة"
+msgstr "Номер картки"
 
 #: ppcp/checkout-block/ppcp-cc-block.php:75
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:112
 msgctxt "Important"
 msgid "Expiration date"
-msgstr "تاريخ الانتهاء"
+msgstr "Термін придатності"
 
 #: ppcp/checkout-block/ppcp-cc-block.php:76
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:118
 msgctxt "Important"
 msgid "Security code"
-msgstr "رمز الحماية"
+msgstr "Код безпеки"
 
 #: ppcp/checkout-block/ppcp-checkout-block.php:112
 msgctxt "Important"
 msgid "Confirm Your PayPal Order"
-msgstr "أكد طلبك عبر PayPal"
+msgstr "Підтвердіть своє замовлення PayPal"
 
 #: ppcp/checkout-block/ppcp-checkout-block.php:114
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:73
 msgctxt "Important"
 msgid "Proceed to PayPal"
-msgstr "المتابعة إلى PayPal"
+msgstr "Перейти до PayPal"
 
 #. translators: %s: Order button text (e.g. Place order)
 #: ppcp/checkout-block/ppcp-checkout-block.php:154
 msgctxt "Important"
 msgid "Click the \"%s\" button below to process your order."
-msgstr "انقر على الزر \"%s\" أدناه لمعالجة طلبك."
+msgstr "Натисніть кнопку \"%s\" нижче, щоб обробити ваше замовлення."
 
 #. translators: %s: URL to the shop page.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:25
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:66
 msgid ""
-"Sorry, your session has expired. <a href=\"%s\" class=\"wc-"
-"backward\">Return to shop</a>"
+"Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return "
+"to shop</a>"
 msgstr ""
-"عذرًا، انتهت جلستك. <a href=\"%s\" class=\"wc-backward\">العودة إلى المتجر</"
-"a>"
+"Вибачте, ваша сесія закінчилася. <a href=\"%s\" class=\"wc-"
+"backward\">Повернутися до магазину</a>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:43
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:91
 msgid "Unable to create order."
-msgstr "غير قادر على إنشاء الطلب."
+msgstr "Не вдалося створити замовлення."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:37
 msgctxt "Important"
 msgid "Credit or Debit Card (PayPal) By Easy Payment"
-msgstr "بطاقة ائتمان أو بطاقة خصم (باي بال) بواسطة الدفع السهل"
+msgstr "Кредитна або дебетова картка (PayPal) через Easy Payment"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:38
 msgctxt "Important"
 msgid "Advanced Card Processing."
-msgstr "معالجة البطاقات المتقدمة."
+msgstr "Розширена обробка карток."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:54
 msgctxt "Important"
 msgid "Sandbox Mode Enabled."
-msgstr "وضع الصندوق الرملي مفعل."
+msgstr "Режим пісочниці увімкнено."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:55
 msgctxt "Important"
@@ -230,29 +235,29 @@ msgid ""
 "Use test card 4111 1111 1111 1111 with any future expiration date and any "
 "CVV."
 msgstr ""
-"استخدم بطاقة الاختبار 4111 1111 1111 1111 مع أي تاريخ انتهاء صلاحية مستقبلي "
-"وأي CVV."
+"Використовуйте тестову картку 4111 1111 1111 1111 з будь-якою майбутньою "
+"датою закінчення терміну дії та будь-яким CVV."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:240
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:601
 msgid "Refund failed."
-msgstr "فشل استرداد المبلغ."
+msgstr "Повернення не вдалося."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:68
 msgctxt "Important"
 msgid "Credit or Debit Card"
-msgstr "بطاقة ائتمان أو بطاقة خصم"
+msgstr "Кредитна або дебетова картка"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:71
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:712
 msgctxt "Important"
 msgid "Confirm your PayPal order"
-msgstr "أكد طلبك على PayPal"
+msgstr "Підтвердіть своє замовлення PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:84
 msgctxt "Important"
 msgid "PayPal Gateway By Easy Payment"
-msgstr "بوابة باي بال بواسطة Easy Payment"
+msgstr "PayPal Gateway від Easy Payment"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:85
 msgctxt "Important"
@@ -260,194 +265,203 @@ msgid ""
 "PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and "
 "many more."
 msgstr ""
-"باي بال، ادفع لاحقًا، فينمو، بطاقات الائتمان والخصم، جوجل باي، آبل باي — "
-"والعديد غيرها."
+"PayPal, Pay Later, Venmo, кредитні та дебетові картки, Google Pay, Apple Pay "
+"— і багато інших."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:302
 msgid "Please verify the PayPal account to receive the payments."
-msgstr "يرجى التحقق من حساب PayPal لاستلام المدفوعات."
+msgstr ""
+"Будь ласка, підтвердіть обліковий запис PayPal, щоб отримувати платежі."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:314
 msgid "PayPal onboarding process successfully completed."
-msgstr "تم إكمال عملية الانضمام إلى PayPal بنجاح."
+msgstr "Процес onboarding PayPal успішно завершено."
 
 #. translators: %1$s: URL to the PayPal API settings page.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:345
 msgid ""
-"<strong>PayPal Setup Required:</strong> Connect your PayPal account or "
-"enter your Client ID and Secret in the <a href=\"%1$s\">API settings</a> to "
-"begin accepting payments."
+"<strong>PayPal Setup Required:</strong> Connect your PayPal account or enter "
+"your Client ID and Secret in the <a href=\"%1$s\">API settings</a> to begin "
+"accepting payments."
 msgstr ""
-"<strong>إعداد PayPal مطلوب:</strong> قم بربط حساب PayPal الخاص بك أو أدخل "
-"معرف العميل والسر في <a href=\"%1$s\">إعدادات API</a> لبدء قبول المدفوعات."
+"<strong>Необхідна налаштування PayPal:</strong> Підключіть свій обліковий "
+"запис PayPal або введіть свій Client ID та Secret у <a "
+"href=\"%1$s\">налаштуваннях API</a>, щоб почати приймати платежі."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:363
 msgid "Click the PayPal button to add your payment method."
-msgstr "انقر على زر PayPal لإضافة وسيلة الدفع الخاصة بك."
+msgstr "Натисніть кнопку PayPal, щоб додати свій спосіб оплати."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:366
 msgid "Click the \"%s\" button below to process your order."
-msgstr "انقر على زر \"%s\" أدناه لمعالجة طلبك."
+msgstr "Натисніть кнопку \"%s\" нижче, щоб обробити ваше замовлення."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:370
 msgid "Click a payment option below to process your order."
-msgstr "انقر على خيار الدفع أدناه لمعالجة طلبك."
+msgstr "Натисніть на варіант оплати нижче, щоб обробити ваше замовлення."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:442
 msgid "Return to payments"
-msgstr "العودة إلى المدفوعات"
+msgstr "Повернутися до платежів"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:467
 msgid "API Settings"
-msgstr "إعدادات واجهة برمجة التطبيقات"
+msgstr "Налаштування API"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:468
 msgid "PayPal Settings"
-msgstr "إعدادات باي بال"
+msgstr "Налаштування PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:469
 msgid "Advanced Card Payments"
-msgstr "مدفوعات البطاقة المتقدمة"
+msgstr "Розширені карткові платежі"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:470
 msgid "Google Pay"
-msgstr "جوجل باي"
+msgstr "Google Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:471
 msgid "Apple Pay"
-msgstr "أبل باي"
+msgstr "Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:472
 msgid "Pay Later Messaging"
-msgstr "رسائل الدفع لاحقًا"
+msgstr "Повідомлення \"Оплатити пізніше\""
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:473
 msgid "Additional Settings"
-msgstr "إعدادات إضافية"
+msgstr "Додаткові налаштування"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:474
 msgid "FAQ"
-msgstr "أسئلة شائعة"
+msgstr "Часті запитання"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:628
 msgid "This represents the fee PayPal collects for the transaction."
-msgstr "يمثل هذا الرسوم التي تجمعها باي بال مقابل المعاملة."
+msgstr "Це представляє собою плату, яку PayPal стягує за транзакцію."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:629
 msgid "PayPal Fee:"
-msgstr "رسوم باي بال:"
+msgstr "Плата PayPal:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:654
 msgid "Disconnect"
-msgstr "فصل الاتصال"
+msgstr "Відключити"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:730
 msgid "PayPal Account Successfully Connected!"
-msgstr "تم ربط حساب PayPal بنجاح!"
+msgstr "Обліковий запис PayPal успішно підключено!"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:735
 msgid "Connected Email:"
-msgstr "البريد الإلكتروني المتصل:"
+msgstr "Підключений електронний лист:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:741
 msgid "Disconnect PayPal Account"
-msgstr "فصل حساب باي بال"
+msgstr "Відключити обліковий запис PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:803
 msgid ""
 "The PayPal Client ID and Secret key you entered are invalid. Ensure you are "
-"using the correct credentials for the selected environment (Sandbox or "
-"Live)."
+"using the correct credentials for the selected environment (Sandbox or Live)."
 msgstr ""
-"معرف عميل PayPal ومفتاح السر الذي أدخلتهما غير صالحين. تأكد من أنك تستخدم "
-"بيانات الاعتماد الصحيحة للبيئة المحددة (Sandbox أو Live)."
+"Введений вами ідентифікатор клієнта PayPal та секретний ключ недійсні. "
+"Переконайтеся, що ви використовуєте правильні облікові дані для вибраного "
+"середовища (Sandbox або Live)."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:861
 msgid "Click to Connect PayPal"
-msgstr "انقر للاتصال بـ PayPal"
+msgstr "Натисніть, щоб підключити PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:888
 msgid "The Connect to PayPal service is temporarily unavailable."
-msgstr "خدمة الاتصال بـ PayPal غير متاحة مؤقتًا."
+msgstr "Служба підключення до PayPal тимчасово недоступна."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:890
 msgid "Toggle to manual credential input"
-msgstr "التبديل إلى إدخال بيانات الاعتماد يدويًا"
+msgstr "Переключити на ручний ввід облікових даних"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:914
 msgid "Recommended"
-msgstr "موصى به"
+msgstr "Рекомендовано"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:919
 msgid "OR"
-msgstr "أو"
+msgstr "АБО"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:924
 msgid "Click here to insert credentials manually"
-msgstr "انقر هنا لإدخال بيانات الاعتماد يدويًا"
+msgstr "Натисніть тут, щоб вручну ввести облікові дані"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1053
 msgid ""
 "Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) will appear?"
 msgstr ""
-"ما هي أزرار PayPal التي ستظهر (مثل: الدفع لاحقًا، فينمو، SEPA، iDEAL، "
-"Mercado Pago، Bancontact، إلخ)؟"
+"Які кнопки PayPal (наприклад, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
+"Bancontact тощо) з'являться?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1057
 msgid ""
 "The PayPal buttons are shown automatically based on several factors, "
 "including:"
-msgstr "تظهر أزرار PayPal تلقائيًا بناءً على عدة عوامل، بما في ذلك:"
+msgstr ""
+"Кнопки PayPal відображаються автоматично на основі кількох факторів, "
+"включаючи:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1059
 msgid "The buyer’s country"
-msgstr "بلد المشتري"
+msgstr "Країна покупця"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1060
 msgid "Their device type"
-msgstr "نوع جهازهم"
+msgstr "Їхній тип пристрою"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1061
 msgid "The funding sources they’ve enabled"
-msgstr "مصادر التمويل التي قاموا بتمكينها"
+msgstr "Джерела фінансування, які вони активували"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1063
 msgid ""
 "As a result, each buyer may see a different set of buttons. Pay Later "
 "options vary by country and may display different buttons."
 msgstr ""
-"نتيجة لذلك، قد يرى كل مشترٍ مجموعة مختلفة من الأزرار. تختلف خيارات الدفع "
-"لاحقًا حسب البلد وقد تعرض أزرارًا مختلفة."
+"В результаті кожен покупець може бачити різний набір кнопок. Варіанти "
+"\"Оплатити пізніше\" відрізняються в залежності від країни та можуть "
+"відображати різні кнопки."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1069
 msgid "How can I hide specific PayPal buttons?"
-msgstr "كيف يمكنني إخفاء أزرار PayPal معينة؟"
+msgstr "Як я можу приховати конкретні кнопки PayPal?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1073
 msgid ""
 "By default, all PayPal buttons are enabled. To hide specific buttons, use "
 "the <strong>Disable Specific Payment Buttons</strong> option."
 msgstr ""
-"بشكل افتراضي، جميع أزرار PayPal مفعلة. لإخفاء أزرار معينة، استخدم خيار "
-"<strong>تعطيل أزرار الدفع المحددة</strong>."
+"За замовчуванням усі кнопки PayPal увімкнені. Щоб приховати конкретні "
+"кнопки, використовуйте опцію <strong>Вимкнути конкретні кнопки оплати</"
+"strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1074
 msgid "Example: To hide the Pay Later button on the Checkout Page:"
-msgstr "مثال: لإخفاء زر الدفع لاحقًا في صفحة الدفع:"
+msgstr ""
+"Приклад: Щоб приховати кнопку \"Оплатити пізніше\" на сторінці оформлення "
+"замовлення:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1076
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1092
 msgid "Go to <strong>PayPal Settings</strong>."
-msgstr "اذهب إلى <strong>إعدادات باي بال</strong>."
+msgstr "Перейдіть до <strong>Налаштувань PayPal</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1077
 msgid "Find the <strong>Disable Specific Payment Buttons</strong> setting."
-msgstr "ابحث عن إعداد <strong>تعطيل أزرار الدفع المحددة</strong>."
+msgstr ""
+"Знайдіть налаштування <strong>Вимкнути конкретні кнопки оплати</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1078
 msgid "Select <strong>Pay Later</strong> from the dropdown list."
-msgstr "اختر <strong>الدفع لاحقاً</strong> من قائمة السحب."
+msgstr "Виберіть <strong>Оплатити пізніше</strong> з випадаючого списку."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1079
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1094
@@ -455,97 +469,105 @@ msgstr "اختر <strong>الدفع لاحقاً</strong> من قائمة الس
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1116
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1122
 msgid "Click <strong>Save Changes</strong>."
-msgstr "انقر على <strong>حفظ التغييرات</strong>."
+msgstr "Натисніть <strong>Зберегти зміни</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1085
 msgid "How can I show only the \"PayPal\" button on the Checkout page?"
-msgstr "كيف يمكنني عرض زر \"PayPal\" فقط في صفحة الدفع؟"
+msgstr ""
+"Як я можу показати лише кнопку \"PayPal\" на сторінці оформлення замовлення?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1089
 msgid ""
 "To display only the \"PayPal\" button on the Checkout page, follow these "
 "steps:"
-msgstr "لعرض زر \"PayPal\" فقط في صفحة الدفع، اتبع الخطوات التالية:"
+msgstr ""
+"Щоб відобразити лише кнопку \"PayPal\" на сторінці оформлення замовлення, "
+"виконайте такі кроки:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1090
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1112
 msgid "Step 1: Update PayPal Settings"
-msgstr "الخطوة 1: تحديث إعدادات PayPal"
+msgstr "Крок 1: Оновіть налаштування PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1093
 msgid ""
 "Under <strong>Disable Specific Payment Buttons</strong>, select "
-"<strong>Credit or Debit Card</strong> and any other methods you want to "
-"hide."
+"<strong>Credit or Debit Card</strong> and any other methods you want to hide."
 msgstr ""
-"تحت <strong>تعطيل أزرار الدفع المحددة</strong>، اختر <strong>بطاقة الائتمان "
-"أو بطاقة الخصم</strong> وأي طرق أخرى تريد إخفاءها."
+"У розділі <strong>Вимкнути конкретні кнопки оплати</strong> виберіть "
+"<strong>Кредитну або дебетову картку</strong> та будь-які інші методи, які "
+"ви хочете приховати."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1096
 msgid "Step 2: Update Advanced Card Payments Settings"
-msgstr "الخطوة 2: تحديث إعدادات المدفوعات المتقدمة بالبطاقات"
+msgstr "Крок 2: Оновлення налаштувань розширених карткових платежів"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1098
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1120
 msgid "Go to <strong>Advanced Card Payments</strong> settings."
-msgstr "اذهب إلى إعدادات <strong>مدفوعات البطاقة المتقدمة</strong>."
+msgstr ""
+"Перейдіть до налаштувань <strong>Розширених карткових платежів</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1099
 msgid "Disable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr ""
-"قم بتعطيل الخيار <strong>تمكين بطاقة الائتمان/الخصم المتقدمة</strong>."
+"Вимкніть опцію <strong>Увімкнути розширену кредитну/дебетову картку</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1102
 msgid ""
 "Once you save the changes in both sections, only the \"PayPal\" button will "
 "appear on the Checkout page."
 msgstr ""
-"بمجرد حفظ التغييرات في كلا القسمين، سيظهر فقط زر \"PayPal\" في صفحة الدفع."
+"Після збереження змін в обох секціях на сторінці оформлення замовлення "
+"з'явиться лише кнопка \"PayPal\"."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1107
 msgid ""
 "How can I show only the \"Credit or Debit Card\" payment method on the "
 "Checkout page?"
 msgstr ""
-"كيف يمكنني عرض طريقة الدفع \"بطاقة الائتمان أو بطاقة الخصم\" فقط في صفحة "
-"الدفع؟"
+"Як я можу показати лише метод оплати \"Кредитна або Дебетова картка\" на "
+"сторінці оформлення замовлення?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1111
 msgid ""
 "To display only the \"Credit or Debit Card\" payment method on the Checkout "
 "page, follow these steps:"
 msgstr ""
-"لعرض طريقة الدفع \"بطاقة ائتمان أو بطاقة خصم\" فقط في صفحة الدفع، اتبع "
-"الخطوات التالية:"
+"Щоб відобразити лише метод оплати \"Кредитна або Дебетова картка\" на "
+"сторінці оформлення замовлення, виконайте такі кроки:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1114
 msgid "Go to <strong>PayPal Settings > Checkout Page Settings</strong>."
-msgstr "اذهب إلى <strong>إعدادات باي بال > إعدادات صفحة الدفع</strong>."
+msgstr ""
+"Перейдіть до <strong>Налаштування PayPal > Налаштування сторінки оформлення "
+"замовлення</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1115
 msgid "Disable the <strong>Enable PayPal</strong> option."
-msgstr "قم بتعطيل خيار <strong>تفعيل باي بال</strong>."
+msgstr "Вимкніть опцію <strong>Увімкнути PayPal</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1118
 msgid "Step 2: Enable Advanced Credit/Debit Card Payments"
-msgstr "الخطوة 2: تفعيل مدفوعات بطاقات الائتمان/الخصم المتقدمة"
+msgstr "Крок 2: Увімкніть розширені платежі кредитними/дебетовими картками"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1121
 msgid "Enable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr ""
-"قم بتمكين الخيار <strong>تمكين بطاقة الائتمان/الخصم المتقدمة</strong>."
+"Увімкніть опцію <strong>Увімкнути розширене використання кредитних/дебетових "
+"карток</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1124
 msgid ""
 "Once you save the changes in both sections, only the \"Credit or Debit "
 "Card\" payment method will appear on the Checkout page."
 msgstr ""
-"بمجرد حفظ التغييرات في كلا القسمين، ستظهر فقط طريقة الدفع \"بطاقة الائتمان "
-"أو بطاقة الخصم\" في صفحة الدفع."
+"Після збереження змін в обох секціях на сторінці оформлення замовлення "
+"з'явиться лише метод оплати \"Кредитна або Дебетова картка\"."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1129
 msgid "What is PayPal Pay Later?"
-msgstr "ما هو PayPal Pay Later؟"
+msgstr "Що таке PayPal Pay Later?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1133
 msgid ""
@@ -553,163 +575,163 @@ msgid ""
 "free payments over time, such as \"Pay in 4\" or monthly installments. You "
 "get paid in full upfront, while customers enjoy flexible payment options."
 msgstr ""
-"تتيح لك خدمة \"PayPal Pay Later\" لعملائك تقسيم مشترياتهم إلى دفعات خالية "
-"من الفوائد على مدى فترة زمنية، مثل \"الدفع على 4 دفعات\" أو الأقساط "
-"الشهرية. ستحصل على المبلغ كاملاً مقدماً، بينما يستمتع العملاء بخيارات دفع "
-"مرنة."
+"PayPal Pay Later дозволяє вашим клієнтам розділити свої покупки на "
+"безвідсоткові платежі протягом певного часу, такі як \"Оплата за 4\" або "
+"щомісячні внески. Ви отримуєте повну оплату заздалегідь, тоді як клієнти "
+"насолоджуються гнучкими варіантами оплати."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1134
 msgid ""
 "This can help increase your sales, with many merchants seeing higher "
 "conversion rates and larger order sizes."
 msgstr ""
-"يمكن أن يساعد ذلك في زيادة مبيعاتك، حيث شهد العديد من التجار معدلات تحويل "
-"أعلى وأحجام طلبات أكبر."
+"Це може допомогти збільшити ваші продажі, багато торговців спостерігають "
+"вищі коефіцієнти конверсії та більші розміри замовлень."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1137
 msgid "Learn more about Pay Later on PayPal’s website."
-msgstr "تعرف على المزيد حول الدفع لاحقًا على موقع PayPal."
+msgstr "Дізнайтеся більше про Pay Later на веб-сайті PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1145
 msgid "How can I contact support or request a new functionality?"
-msgstr "كيف يمكنني الاتصال بالدعم أو طلب وظيفة جديدة؟"
+msgstr "Як я можу зв'язатися з підтримкою або запросити нову функціональність?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1149
 msgid ""
 "If you have any questions, encounter an issue, or have a new functionality "
 "request, please create a support ticket on our official support page at: "
 msgstr ""
-"إذا كان لديك أي أسئلة، أو واجهت مشكلة، أو لديك طلب وظيفة جديدة، يرجى إنشاء "
-"تذكرة دعم على صفحة الدعم الرسمية لدينا على: "
+"Якщо у вас є будь-які запитання, ви зіткнулися з проблемою або маєте запит "
+"на нову функціональність, будь ласка, створіть заявку на підтримку на нашій "
+"офіційній сторінці підтримки за адресою: "
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1275
 msgid "Click to Enable Google Pay"
-msgstr "انقر لتمكين Google Pay"
+msgstr "Натисніть, щоб увімкнути Google Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1297
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1326
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1355
 msgid "Important: "
-msgstr "مهم: "
+msgstr "Важливо: "
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1424
 msgid "Click to Enable Apple Pay"
-msgstr "انقر لتمكين Apple Pay"
+msgstr "Натисніть, щоб увімкнути Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1461
 msgid "Register Your Domain with Apple Pay"
-msgstr "سجل نطاقك باستخدام Apple Pay"
+msgstr "Зареєструйте свій домен за допомогою Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1465
 msgid ""
 "Any (sub)domain displaying an Apple Pay button must be registered on the "
-"PayPal website. If the domain is not registered, the payment method will "
-"not work."
+"PayPal website. If the domain is not registered, the payment method will not "
+"work."
 msgstr ""
-"يجب تسجيل أي (فرعي) نطاق يعرض زر Apple Pay على موقع PayPal. إذا لم يكن "
-"النطاق مسجلاً، فلن تعمل طريقة الدفع."
+"Будь-який (під)домен, на якому відображається кнопка Apple Pay, повинен бути "
+"зареєстрований на веб-сайті PayPal. Якщо домен не зареєстрований, метод "
+"оплати не буде працювати."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1495
 msgid "Easy Payment Gateway for Razorpay and for WooCommerce"
-msgstr "بوابة دفع سهلة لـ Razorpay و WooCommerce"
+msgstr "Легкий платіжний шлюз для Razorpay та WooCommerce"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1496
 msgid ""
 "Accept payments through UPI, Cards, and Net Banking using Razorpay — "
 "developed by an official Razorpay Partner."
 msgstr ""
-"قبول المدفوعات من خلال UPI، والبطاقات، والخدمات المصرفية عبر الإنترنت "
-"باستخدام Razorpay - تم تطويره بواسطة شريك رسمي لـ Razorpay."
+"Приймайте платежі через UPI, картки та інтернет-банкінг за допомогою "
+"Razorpay — розроблено офіційним партнером Razorpay."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1501
 msgid "Payment Gateway for PhonePe and for WooCommerce"
-msgstr "بوابة الدفع لـ PhonePe و WooCommerce"
+msgstr "Платіжний шлюз для PhonePe та для WooCommerce"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1502
 msgid ""
 "Accept PhonePe UPI, Wallet, and Cards in WooCommerce with a secure, fast, "
 "and seamless payment gateway developed by a PhonePe Partner."
 msgstr ""
-"قم بقبول مدفوعات PhonePe UPI، والمحافظ، والبطاقات في WooCommerce من خلال "
-"بوابة دفع آمنة وسريعة وسلسة تم تطويرها بواسطة شريك PhonePe."
+"Приймайте PhonePe UPI, гаманці та картки в WooCommerce за допомогою "
+"безпечного, швидкого та безперебійного платіжного шлюзу, розробленого "
+"партнером PhonePe."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1508
 msgid "Recommended payment method for Indian merchants"
-msgstr "طريقة الدفع الموصى بها للتجار الهنود"
+msgstr "Рекомендований метод оплати для індійських торговців"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1526
 msgid "Plugin Logo"
-msgstr "شعار الإضافة"
+msgstr "Логотип плагіна"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1535
 msgid "By"
-msgstr "بواسطة"
+msgstr "Від"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1540
 msgid "Install Now"
-msgstr "قم بالتثبيت الآن"
+msgstr "Встановити зараз"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3037
 msgid "Invalid or missing payment token fields."
-msgstr "حقول رمز الدفع غير صالحة أو مفقودة."
+msgstr "Недійсні або відсутні поля токена платежу."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:81
 msgid ""
 "Please choose the quantity of items you wish to add to your cart&hellip;"
 msgstr ""
-"يرجى اختيار كمية العناصر التي ترغب في إضافتها إلى سلة التسوق الخاصة "
-"بك&hellip;"
+"Будь ласка, виберіть кількість товарів, які ви бажаєте додати до вашого "
+"кошика&hellip;"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:90
 msgid "Please choose a product to add to your cart&hellip;"
-msgstr "يرجى اختيار منتج لإضافته إلى سلة التسوق الخاصة بك&hellip;"
+msgstr "Будь ласка, виберіть продукт, щоб додати до вашого кошика&hellip;"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:137
 msgid "Please choose product options&hellip;"
-msgstr "يرجى اختيار خيارات المنتج&hellip;"
+msgstr "Будь ласка, виберіть варіанти продукту&hellip;"
 
 #. translators: %s: Product attribute name.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:154
 msgid "Invalid value posted for %s"
-msgstr "قيمة غير صالحة تم إرسالها لـ %s"
+msgstr "Недійсне значення, надіслане для %s"
 
 #. translators: %s: Comma-separated list of missing required product
 #. attributes.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:162
 msgid "%s is a required field"
 msgid_plural "%s are required fields"
-msgstr[0] "%s حقل مطلوب"
+msgstr[0] "%s — це обов'язкове поле"
 msgstr[1] ""
 msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:169
 msgid "Continue to payment"
-msgstr "تابع إلى الدفع"
+msgstr "Продовжити до оплати"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:716
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1530
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2719
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1261
 msgid "Card Details"
-msgstr "تفاصيل البطاقة"
+msgstr "Деталі картки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:727
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1541
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2730
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1272
 msgid "Address Verification Result"
-msgstr "نتيجة التحقق من العنوان"
+msgstr "Результат перевірки адреси"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:736
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1550
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2739
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1281
 msgid "Card Security Code Result"
-msgstr "نتيجة رمز أمان البطاقة"
+msgstr "Результат коду безпеки картки"
 
 #. translators: 1: Payment method title, 2: Payment status (e.g., Completed,
 #. Pending).
@@ -718,7 +740,7 @@ msgstr "نتيجة رمز أمان البطاقة"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1577
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2761
 msgid "Payment via %1$s : %2$s."
-msgstr "الدفع عبر %1$s : %2$s."
+msgstr "Оплата через %1$s : %2$s."
 
 #. translators: 1: Payment method title, 2: Transaction ID.
 #. translators: %1$s is the payment method title, %2$s is the PayPal
@@ -729,7 +751,7 @@ msgstr "الدفع عبر %1$s : %2$s."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2770
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1308
 msgid "%1$s Transaction ID: %2$s"
-msgstr "معرّف المعاملة: %1$s %2$s"
+msgstr "%1$s Ідентифікатор транзакції: %2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:901
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1926
@@ -738,141 +760,141 @@ msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
 msgstr ""
-"تمت الموافقة على الدفع. يرجى تغيير حالة الدفع إلى \"قيد المعالجة\" أو "
-"\"مكتمل\" لالتقاط الأموال."
+"Оплата авторизована. Змініть статус платежу на обробку або завершено, щоб "
+"зафіксувати кошти."
 
 #. translators: 1: Refunded amount, 2: Refund transaction ID.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1270
 msgid "Refunded %1$s - Refund ID: %2$s"
-msgstr "تم رد المبلغ %1$s - رقم رد المبلغ: %2$s"
+msgstr "Відшкодовано %1$s - ID відшкодування: %2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1442
 msgid "An error occurred while updating the order."
-msgstr "حدث خطأ أثناء تحديث الطلب."
+msgstr "Сталася помилка під час оновлення замовлення."
 
 #. translators: %s: Plugin version number.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1600
 msgid "Payment Gateway for PayPal on WooCommerce: %1$s"
-msgstr "بوابة الدفع لـ PayPal على WooCommerce: %1$s"
+msgstr "Платіжний шлюз для PayPal на WooCommerce: %1$s"
 
 #. translators: %s: WooCommerce version number.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1602
 msgid "WooCommerce Version: %1$s"
-msgstr "نسخة WooCommerce: %1$s"
+msgstr "Версія WooCommerce: %1$s"
 
 #. translators: 1: PayPal pending reason.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1930
 msgid "Payment pending (%1$s)."
-msgstr "الدفع معلق (%1$s)."
+msgstr "Очікується оплата (%1$s)."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1994
 msgid "Marked as refunded via PayPal. Total refunded: %s %s."
-msgstr ""
-"تم وضع علامة على المبلغ كمرتجع عبر باي بال. المبلغ الإجمالي المسترد: %s %s."
+msgstr "Позначено як повернене через PayPal. Загальна сума повернення: %s %s."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2132
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2563
 msgid "Sorry, your session has expired."
-msgstr "عذرًا، انتهت جلستك."
+msgstr "Вибачте, ваша сесія закінчилася."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2340
 msgid ""
 "This payment was unable to be processed successfully. Please try again with "
 "another payment method."
 msgstr ""
-"لم يتمكن هذا الدفع من المعالجة بنجاح. يرجى المحاولة مرة أخرى باستخدام طريقة "
-"دفع أخرى."
+"Цю оплату не вдалося успішно обробити. Будь ласка, спробуйте ще раз з іншим "
+"способом оплати."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:119
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:135
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:156
 msgid "Return to your shop."
-msgstr "ارجع إلى متجرك."
+msgstr "Поверніться до вашого магазину."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:319
 msgid ""
-"Pay via PayPal; you can pay with your credit card if you don’t have a "
-"PayPal account"
+"Pay via PayPal; you can pay with your credit card if you don’t have a PayPal "
+"account"
 msgstr ""
-"ادفع عبر PayPal؛ يمكنك الدفع باستخدام بطاقة الائتمان الخاصة بك إذا لم يكن "
-"لديك حساب PayPal"
+"Оплатіть через PayPal; ви можете сплатити своєю кредитною карткою, якщо у "
+"вас немає облікового запису PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:84
 msgid "Environment"
-msgstr "بيئة"
+msgstr "Середовище"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:87
 msgid "Select PayPal Environment"
-msgstr "اختر بيئة باي بال"
+msgstr "Виберіть середовище PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:89
 msgid ""
 "Choose the PayPal environment. Select \"Sandbox\" for testing transactions "
 "(no real transactions will occur) or \"Production\" for live transactions."
 msgstr ""
-"اختر بيئة PayPal. اختر \"Sandbox\" لاختبار المعاملات (لن تحدث أي معاملات "
-"حقيقية) أو \"Production\" للمعاملات الحية."
+"Оберіть середовище PayPal. Виберіть \"Sandbox\" для тестування транзакцій "
+"(реальні транзакції не відбуватимуться) або \"Production\" для живих "
+"транзакцій."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:93
 msgid "Sandbox (Test Mode)"
-msgstr "وضع الاختبار (Sandbox)"
+msgstr "Пісочниця (Тестовий режим)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:94
 msgid "Production (Live)"
-msgstr "الإنتاج (مباشر)"
+msgstr "Виробництво (В прямому ефірі)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:98
 msgid "Connect to PayPal"
-msgstr "اتصل بـ PayPal"
+msgstr "Підключитися до PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:102
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:140
 msgid "Setup or link an existing PayPal account."
-msgstr "قم بإعداد أو ربط حساب PayPal موجود."
+msgstr "Налаштуйте або зв'яжіть існуючий обліковий запис PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:106
 msgid "Live Client ID"
-msgstr "معرّف العميل المباشر"
+msgstr "Живий ідентифікатор клієнта"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:108
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:146
 msgid "Enter PayPal Client ID."
-msgstr "أدخل معرف عميل PayPal."
+msgstr "Введіть ідентифікатор клієнта PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:117
 msgid "Live Secret key"
-msgstr "مفتاح سري مباشر"
+msgstr "Живий секретний ключ"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:119
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:157
 msgid "Enter PayPal Secret key."
-msgstr "أدخل مفتاح سرّي PayPal."
+msgstr "Введіть секретний ключ PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:128
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:166
 msgid "PayPal Connection"
-msgstr "اتصال باي بال"
+msgstr "З'єднання з PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:136
 msgid "Connect to PayPal Sandbox"
-msgstr "الاتصال بـ PayPal Sandbox"
+msgstr "Підключитися до PayPal Sandbox"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:144
 msgid "Sandbox Client ID"
-msgstr "معرّف عميل Sandbox"
+msgstr "ID клієнта пісочниці"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:155
 msgid "Sandbox Secret key"
-msgstr "مفتاح السر الخاص بـ Sandbox"
+msgstr "Ключ секрету пісочниці"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:178
 msgid "Select Height"
-msgstr "اختر الارتفاع"
+msgstr "Виберіть висоту"
 
 #. translators: %d is the button height in pixels.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:182
 msgid "%d px"
-msgstr "%d بكسل"
+msgstr "%d пікселів"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:186
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:708
@@ -883,41 +905,43 @@ msgstr "%d بكسل"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1690
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1776
 msgid "Enable/Disable"
-msgstr "تفعيل/تعطيل"
+msgstr "Увімкнути/Вимкнути"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:188
 msgid "Enable PayPal"
-msgstr "تفعيل باي بال"
+msgstr "Увімкніть PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:189
 msgid ""
 "Enable this option to activate the PayPal gateway. Uncheck to disable it."
-msgstr "قم بتمكين هذا الخيار لتفعيل بوابة PayPal. قم بإلغاء تحديده لتعطيله."
+msgstr ""
+"Увімкніть цю опцію, щоб активувати шлюз PayPal. Зніміть галочку, щоб "
+"вимкнути його."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:194
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:716
 msgid "Title"
-msgstr "عنوان"
+msgstr "Заголовок"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:196
 msgid "The title displayed to customers during checkout."
-msgstr "العنوان المعروض للعملاء أثناء عملية الدفع."
+msgstr "Заголовок, який відображається клієнтам під час оформлення замовлення."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
 msgid "PayPal"
-msgstr "باي بال"
+msgstr "PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:201
 msgid "Description"
-msgstr "وصف"
+msgstr "Описання"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:204
 msgid "The description displayed to customers during checkout."
-msgstr "الوصف المعروض للعملاء أثناء عملية الدفع."
+msgstr "Опис, що відображається клієнтам під час оформлення замовлення."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
 msgid "Display PayPal Buttons On"
-msgstr "عرض أزرار باي بال على"
+msgstr "Відобразити кнопки PayPal на"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:216
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:240
@@ -925,7 +949,7 @@ msgstr "عرض أزرار باي بال على"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1118
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1535
 msgid "Product Page"
-msgstr "صفحة المنتج"
+msgstr "Сторінка продукту"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:217
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:328
@@ -933,7 +957,7 @@ msgstr "صفحة المنتج"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1159
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1621
 msgid "Cart Page"
-msgstr "صفحة السلة"
+msgstr "Сторінка кошика"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:218
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:540
@@ -942,32 +966,32 @@ msgstr "صفحة السلة"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1112
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1241
 msgid "Express Checkout"
-msgstr "الدفع السريع"
+msgstr "Швидка каса"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:219
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:427
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:980
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1282
 msgid "Checkout Page"
-msgstr "صفحة الدفع"
+msgstr "Сторінка оформлення замовлення"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:220
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:603
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:896
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1200
 msgid "Mini Cart (Side Cart)"
-msgstr "عربة صغيرة (عربة جانبية)"
+msgstr "Міні Кошик (Боковий Кошик)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:222
 msgid "Set the page(s) to display the PayPal Buttons."
-msgstr "قم بتعيين الصفحة (الصفحات) لعرض أزرار PayPal."
+msgstr "Встановіть сторінку(и) для відображення кнопок PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:228
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:248
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:335
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:434
 msgid "Disable Specific Payment Buttons"
-msgstr "تعطيل أزرار الدفع المحددة"
+msgstr "Вимкнути конкретні кнопки оплати"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:230
 msgid ""
@@ -979,18 +1003,20 @@ msgid ""
 "Checkout, it will follow the configuration from the Checkout Page.<br>For "
 "Mini Cart, this setting will follow the configuration from the Product Page."
 msgstr ""
-"تظهر أزرار PayPal (مثل الدفع لاحقًا، Venmo، SEPA، iDEAL، Mercado Pago، "
-"Bancontact، إلخ) تلقائيًا بناءً على عوامل مثل بلد المشتري ونوع جهازه. بشكل "
-"افتراضي، تكون جميع الأزرار مفعلة. لتعطيل أزرار الدفع الفردية، استخدم إعداد "
-"\"تعطيل أزرار الدفع المحددة\" المتاح في كل قسم من الأقسام أدناه."
-"<br><br>بالنسبة للدفع السريع، سيتبع الإعداد التكوين من صفحة الدفع."
-"<br>بالنسبة لعربة التسوق الصغيرة، سيتبع هذا الإعداد التكوين من صفحة المنتج."
+"Кнопки PayPal (наприклад, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
+"Bancontact тощо) автоматично відображаються на основі таких факторів, як "
+"країна покупця та тип його пристрою. За замовчуванням усі кнопки увімкнені. "
+"Щоб вимкнути окремі платіжні кнопки, використовуйте налаштування \"Вимкнути "
+"конкретні платіжні кнопки\", доступне в кожному розділі сторінки нижче."
+"<br><br>Для Express Checkout буде дотримано конфігурації зі сторінки "
+"оформлення замовлення.<br>Для Mini Cart це налаштування буде дотримано "
+"конфігурації зі сторінки продукту."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:256
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:343
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:442
 msgid "Select payment buttons to disable"
-msgstr "اختر أزرار الدفع لتعطيلها"
+msgstr "Виберіть кнопки оплати для вимкнення"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:260
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:347
@@ -998,7 +1024,7 @@ msgstr "اختر أزرار الدفع لتعطيلها"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:547
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:610
 msgid "Button Layout"
-msgstr "تخطيط الزر"
+msgstr "Розташування кнопок"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:263
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:350
@@ -1006,21 +1032,22 @@ msgstr "تخطيط الزر"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:550
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:613
 msgid ""
-"Select Vertical for stacked buttons, and Horizontal for side-by-side "
-"buttons."
-msgstr "اختر عمودي للأزرار المكدسة، وأفقي للأزرار جنبًا إلى جنب."
+"Select Vertical for stacked buttons, and Horizontal for side-by-side buttons."
+msgstr ""
+"Виберіть Вертикальний для стекованих кнопок та Горизонтальний для кнопок, "
+"розташованих поруч."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:267
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:554
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:617
 msgid "Horizontal (Recommended)"
-msgstr "أفقي (موصى به)"
+msgstr "Горизонтальний (Рекомендується)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:268
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:555
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:618
 msgid "Vertical"
-msgstr "عمودي"
+msgstr "Вертикальний"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:272
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:359
@@ -1038,7 +1065,7 @@ msgstr "عمودي"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1261
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1302
 msgid "Button Color"
-msgstr "لون الزر"
+msgstr "Колір кнопки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:277
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:364
@@ -1046,7 +1073,7 @@ msgstr "لون الزر"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:564
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:627
 msgid "Gold (Recommended)"
-msgstr "ذهب (موصى به)"
+msgstr "Золото (Рекомендовано)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:278
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:365
@@ -1059,7 +1086,7 @@ msgstr "ذهب (موصى به)"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
 msgid "Blue"
-msgstr "أزرق"
+msgstr "Синій"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:279
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:366
@@ -1067,7 +1094,7 @@ msgstr "أزرق"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:566
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:629
 msgid "Silver"
-msgstr "فضة"
+msgstr "Срібло"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:280
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:367
@@ -1095,7 +1122,7 @@ msgstr "فضة"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
 msgid "White"
-msgstr "أبيض"
+msgstr "Білий"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:281
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:368
@@ -1123,7 +1150,7 @@ msgstr "أبيض"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
 msgid "Black"
-msgstr "أسود"
+msgstr "Чорний"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:285
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:372
@@ -1141,7 +1168,7 @@ msgstr "أسود"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1272
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1313
 msgid "Button Shape"
-msgstr "شكل الزر"
+msgstr "Форма кнопки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:290
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:377
@@ -1159,7 +1186,7 @@ msgstr "شكل الزر"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1277
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1318
 msgid "Rect (Recommended)"
-msgstr "مستطيل (موصى به)"
+msgstr "Прямокутник (Рекомендується)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:291
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:378
@@ -1177,39 +1204,39 @@ msgstr "مستطيل (موصى به)"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1278
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1319
 msgid "Pill"
-msgstr "حبوب"
+msgstr "Пілюля"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:295
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:382
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:481
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:645
 msgid "Button Width"
-msgstr "عرض الزر"
+msgstr "Ширина кнопки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:300
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:387
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:486
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:650
 msgid "Small"
-msgstr "صغير"
+msgstr "Маленький"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:301
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:388
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:487
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:651
 msgid "Medium"
-msgstr "متوسط"
+msgstr "Середній"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:302
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:389
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:488
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:652
 msgid "Large"
-msgstr "كبير"
+msgstr "Великий"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:303
 msgid "Responsive"
-msgstr "استجابة"
+msgstr "Адаптивний"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:307
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:394
@@ -1217,7 +1244,7 @@ msgstr "استجابة"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:582
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:657
 msgid "Button Height"
-msgstr "ارتفاع الزر"
+msgstr "Висота кнопки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:314
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:401
@@ -1235,7 +1262,7 @@ msgstr "ارتفاع الزر"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1247
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1288
 msgid "Button Label"
-msgstr "تسمية الزر"
+msgstr "Мітка кнопки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:319
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:406
@@ -1243,7 +1270,7 @@ msgstr "تسمية الزر"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:594
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:669
 msgid "PayPal (Recommended)"
-msgstr "باي بال (موصى به)"
+msgstr "PayPal (Рекомендується)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:320
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:407
@@ -1263,7 +1290,7 @@ msgstr "باي بال (موصى به)"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1254
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1295
 msgid "Checkout"
-msgstr "الدفع"
+msgstr "Оформлення замовлення"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:321
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:408
@@ -1271,7 +1298,7 @@ msgstr "الدفع"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:596
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:671
 msgid "Buy Now"
-msgstr "اشترِ الآن"
+msgstr "Купити зараз"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:409
@@ -1289,83 +1316,86 @@ msgstr "اشترِ الآن"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1256
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1297
 msgid "Pay"
-msgstr "دفع"
+msgstr "Оплата"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:354
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:453
 msgid "Vertical (Recommended)"
-msgstr "عمودي (موصى به)"
+msgstr "Вертикальний (Рекомендовано)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:355
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:454
 msgid "Horizontal"
-msgstr "أفقي"
+msgstr "Горизонтальний"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:390
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:489
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:653
 msgid "Responsive (Recommended)"
-msgstr "استجابة (موصى به)"
+msgstr "Адаптивний (Рекомендується)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:413
 msgid "PayPal Button Position (Classic Cart Only)"
-msgstr "موضع زر باي بال (للسلة الكلاسيكية فقط)"
+msgstr "Позиція кнопки PayPal (тільки класичний кошик)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:416
 msgid ""
-"Choose where the PayPal buttons should appear on the cart page, either "
-"above or below the \"Proceed to Checkout\" button. This applies only to "
-"classic cart templates, not the new Cart Blocks layout."
+"Choose where the PayPal buttons should appear on the cart page, either above "
+"or below the \"Proceed to Checkout\" button. This applies only to classic "
+"cart templates, not the new Cart Blocks layout."
 msgstr ""
-"اختر مكان ظهور أزرار PayPal في صفحة السلة، إما فوق أو تحت زر \"المتابعة إلى "
-"الدفع\". ينطبق هذا فقط على قوالب السلة الكلاسيكية، وليس على تخطيط Cart "
-"Blocks الجديد."
+"Виберіть, де повинні з'являтися кнопки PayPal на сторінці кошика: вище або "
+"нижче кнопки \"Продовжити до оформлення замовлення\". Це стосується лише "
+"класичних шаблонів кошика, а не нового макету Cart Blocks."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:420
 msgid "Below Proceed to Checkout button"
-msgstr "أسفل زر المتابعة إلى الدفع"
+msgstr "Нижче кнопка \"Перейти до оформлення замовлення\""
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:421
 msgid "Above Proceed to Checkout button"
-msgstr "فوق زر المتابعة إلى الدفع"
+msgstr "Вище кнопки \"Перейти до оформлення замовлення\""
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:512
 msgid "Icon"
-msgstr "أيقونة"
+msgstr "Іконка"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:516
 msgid "Monogram (PP)"
-msgstr "مونوجرام (PP)"
+msgstr "Монограма (PP)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:517
 msgid "Wordmark (PayPal)"
-msgstr "علامة كلمة (PayPal)"
+msgstr "Wordmark (PayPal)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:518
 msgid "Combination Mark (PP PayPal)"
-msgstr "علامة التركيب (PP باي بال)"
+msgstr "Комбінований знак (PP PayPal)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:520
 msgid ""
 "Select the PayPal logo style displayed next to the payment method title on "
 "the checkout page."
-msgstr "اختر نمط شعار باي بال المعروض بجانب عنوان طريقة الدفع في صفحة الدفع."
+msgstr ""
+"Виберіть стиль логотипу PayPal, який відображається поруч із заголовком "
+"способу оплати на сторінці оформлення замовлення."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:523
 msgid "Show Redirect Icon and Text"
-msgstr "عرض أيقونة وإعدادات إعادة التوجيه"
+msgstr "Показати значок перенаправлення та текст"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:527
 msgid ""
 "When enabled, a redirect icon and message will appear to let customers know "
 "they will be taken to PayPal to complete their payment."
 msgstr ""
-"عند التفعيل، ستظهر أيقونة إعادة التوجيه ورسالة لإعلام العملاء أنهم سيتم "
-"نقلهم إلى PayPal لإكمال عملية الدفع."
+"Коли ця функція увімкнена, з'явиться значок перенаправлення та повідомлення, "
+"яке повідомить клієнтів, що вони будуть перенаправлені на PayPal для "
+"завершення свого платежу."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:530
 msgid "Use Place Order Button"
-msgstr "استخدم زر تقديم الطلب"
+msgstr "Використовуйте кнопку \"Оформити замовлення\""
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:534
 msgid ""
@@ -1373,8 +1403,9 @@ msgid ""
 "instead of showing PayPal buttons. This setting does not affect Express "
 "Checkout."
 msgstr ""
-"قم بتمكين هذا لاستخدام زر \"إتمام الطلب\" الافتراضي في صفحة الدفع بدلاً من "
-"عرض أزرار PayPal. لا تؤثر هذه الإعدادات على الدفع السريع."
+"Увімкніть це, щоб використовувати кнопку \"Замовити\" за замовчуванням на "
+"сторінці оформлення замовлення замість відображення кнопок PayPal. Ця "
+"настройка не впливає на експрес-оформлення."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:682
 msgid ""
@@ -1384,11 +1415,13 @@ msgid ""
 "Payments, check if \"Advanced Credit and Debit Card Payments\" is enabled."
 "<br>4. If missing, your account or region may not support it."
 msgstr ""
-"لاستخدام مدفوعات بطاقات متقدمة، تأكد من أن حساب PayPal الخاص بك مؤهل ومفعل:"
-"<br><br>1. قم بزيارة developer.paypal.com → التطبيقات والاعتمادات → بيانات "
-"اعتماد API.<br>2. انقر على اسم التطبيق الخاص بك.<br>3. تحت \"الميزات\" → "
-"قبول المدفوعات، تحقق مما إذا كانت \"مدفوعات بطاقات الائتمان والخصم "
-"المتقدمة\" مفعلة.<br>4. إذا كانت مفقودة، قد لا يدعم حسابك أو منطقتك ذلك."
+"Щоб використовувати Розширені карткові платежі, переконайтеся, що ваш "
+"обліковий запис PayPal є дійсним і активованим:<br><br>1. Відвідайте "
+"developer.paypal.com → Apps & Credentials → API Credentials.<br>2. Натисніть "
+"на назву вашого додатку.<br>3. У розділі \"Features\" → Accept Payments "
+"перевірте, чи активовано \"Advanced Credit and Debit Card Payments\".<br>4. "
+"Якщо відсутнє, ваш обліковий запис або регіон можуть не підтримувати цю "
+"функцію."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:703
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:761
@@ -1398,11 +1431,11 @@ msgstr ""
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1085
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1336
 msgid "Important Note"
-msgstr "ملاحظة هامة"
+msgstr "Важлива примітка"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:710
 msgid "Enable Advanced Credit/Debit Card"
-msgstr "تفعيل بطاقة الائتمان/الخصم المتقدمة"
+msgstr "Увімкнути розширене використання кредитної/дебетової картки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:712
 msgid ""
@@ -1413,48 +1446,50 @@ msgid ""
 "PayPal Smart Buttons. It supports major cards like Visa, Mastercard, and "
 "American Express, providing a secure and streamlined payment experience."
 msgstr ""
-"قم بتمكين خيار الدفع باستخدام بطاقة الائتمان/الخصم المتقدمة كبوابة منفصلة "
-"في صفحة الدفع. عادةً ما تقدم هذه البوابة رسوم PayPal أقل مقارنةً بزر PayPal "
-"الذكي. الرسوم هي 2.59% + $0.49* لكل معاملة لمدفوعات بطاقة الائتمان/الخصم "
-"المتقدمة و3.49% + $0.49* لزر PayPal الذكي. تدعم البوابة بطاقات رئيسية مثل "
-"Visa وMastercard وAmerican Express، مما يوفر تجربة دفع آمنة وسلسة."
+"Увімкніть опцію розширеної оплати кредитною/дебетовою карткою як окремий "
+"шлюз на сторінці оформлення замовлення. Цей шлюз зазвичай пропонує нижчий "
+"платіжний збір PayPal у порівнянні з кнопкою PayPal Smart. Збір становить "
+"2.59% + $0.49* за транзакцію для платежів за допомогою розширеної кредитної/"
+"дебетової картки та 3.49% + $0.49* для кнопок PayPal Smart. Він підтримує "
+"основні картки, такі як Visa, Mastercard та American Express, забезпечуючи "
+"безпечний і зручний процес оплати."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:718
 msgid ""
 "Set the title for the Advanced Credit/Debit Card payment method as it will "
 "appear on the checkout page (e.g., 'Pay with Credit/Debit Card').."
 msgstr ""
-"قم بتعيين العنوان لطريقة الدفع المتقدمة باستخدام بطاقة الائتمان/الخصم كما "
-"سيظهر في صفحة الدفع (على سبيل المثال، 'الدفع باستخدام بطاقة الائتمان/"
-"الخصم')."
+"Встановіть заголовок для методу оплати за допомогою кредитної/дебетової "
+"картки, як він з'явиться на сторінці оформлення замовлення (наприклад, "
+"'Оплатити за допомогою кредитної/дебетової картки')."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:719
 msgid "Credit or Debit Card"
-msgstr "بطاقة ائتمان أو بطاقة خصم"
+msgstr "Кредитна або дебетова картка"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:723
 msgid "Disable specific credit cards"
-msgstr "تعطيل بطاقات الائتمان المحددة"
+msgstr "Вимкнути конкретні кредитні картки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:729
 msgid ""
 "By default all possible credit cards will be accepted. You can disable some "
 "cards, if you wish."
 msgstr ""
-"بشكل افتراضي، سيتم قبول جميع بطاقات الائتمان الممكنة. يمكنك تعطيل بعض "
-"البطاقات إذا رغبت في ذلك."
+"За замовчуванням приймаються всі можливі кредитні картки. Ви можете вимкнути "
+"деякі картки, якщо бажаєте."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:736
 msgid "Contingency for 3D Secure"
-msgstr "احتياطي لـ 3D Secure"
+msgstr "Контингент для 3D Secure"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:740
 msgid "3D Secure when required"
-msgstr "3D Secure عند الحاجة"
+msgstr "3D Secure, коли це необхідно"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:741
 msgid "Always trigger 3D Secure"
-msgstr "دائمًا قم بتفعيل 3D Secure"
+msgstr "Завжди активуйте 3D Secure"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:745
 msgid ""
@@ -1462,100 +1497,104 @@ msgid ""
 "layer of verification using Verified by Visa, MasterCard SecureCode and "
 "American Express SafeKey."
 msgstr ""
-"تستفيد بطاقات 3D Secure حاملي البطاقات والتجار من خلال توفير طبقة إضافية من "
-"التحقق باستخدام Verified by Visa وMasterCard SecureCode وAmerican Express "
-"SafeKey."
+"3D Secure приносить користь як картковимholderам, так і торговцям, "
+"забезпечуючи додатковий рівень перевірки за допомогою Verified by Visa, "
+"MasterCard SecureCode та American Express SafeKey."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:748
 msgid "Card Save Enabled"
-msgstr "تمكين حفظ البطاقة"
+msgstr "Збереження картки увімкнено"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:749
 msgid "Enable card saving at checkout"
-msgstr "قم بتمكين حفظ البطاقة عند الخروج"
+msgstr "Увімкніть збереження картки під час оформлення замовлення"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:752
 msgid ""
 "When enabled, customers can securely save their card details using PayPal "
 "for faster future checkouts."
 msgstr ""
-"عند التفعيل، يمكن للعملاء حفظ تفاصيل بطاقاتهم بأمان باستخدام PayPal لتسهيل "
-"عمليات الدفع المستقبلية بشكل أسرع."
+"Коли увімкнено, клієнти можуть безпечно зберігати свої дані картки за "
+"допомогою PayPal для швидших майбутніх оформлень замовлення."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:763
 msgid ""
 "Advanced Credit/Debit Card payments are not enabled in your PayPal account. "
 "<br><br><strong>Supported Countries:</strong><br>Australia, Austria, "
 "Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, "
-"Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, "
-"Japan, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, "
-"Norway, Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, "
-"Sweden, United States, United Kingdom<br><br>"
+"Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan, "
+"Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, "
+"Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, "
+"United States, United Kingdom<br><br>"
 msgstr ""
-"لم يتم تفعيل مدفوعات بطاقات الائتمان/الخصم المتقدمة في حساب PayPal الخاص "
-"بك. <br><br><strong>الدول المدعومة:</strong><br>أستراليا، النمسا، بلجيكا، "
-"بلغاريا، كندا، الصين، قبرص، جمهورية التشيك، الدنمارك، إستونيا، فنلندا، "
-"فرنسا، ألمانيا، اليونان، هونغ كونغ، المجر، أيرلندا، إيطاليا، اليابان، "
-"لاتفيا، ليختنشتاين، ليتوانيا، لوكسمبورغ، مالطا، هولندا، النرويج، بولندا، "
-"البرتغال، رومانيا، سنغافورة، سلوفاكيا، سلوفينيا، إسبانيا، السويد، الولايات "
-"المتحدة، المملكة المتحدة<br><br>"
+"Розширені платежі за допомогою кредитних/дебетових карток не активовані у "
+"вашому обліковому записі PayPal. <br><br><strong>Підтримувані країни:</"
+"strong><br>Австралія, Австрія, Бельгія, Болгарія, Канада, Китай, Кіпр, "
+"Чехія, Данія, Естонія, Фінляндія, Франція, Німеччина, Греція, Гонконг, "
+"Угорщина, Ірландія, Італія, Японія, Латвія, Ліхтенштейн, Литва, Люксембург, "
+"Мальта, Нідерланди, Норвегія, Польща, Португалія, Румунія, Сінгапур, "
+"Словаччина, Словенія, Іспанія, Швеція, Сполучені Штати, Сполучене "
+"Королівство<br><br>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:769
 msgid "Please ensure that Google Pay is enabled in your PayPal account."
-msgstr "يرجى التأكد من أن Google Pay مفعل في حساب PayPal الخاص بك."
+msgstr ""
+"Будь ласка, переконайтеся, що Google Pay увімкнено у вашому обліковому "
+"записі PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:769
 msgid "Check this box to display the Google Pay button on selected pages."
-msgstr "حدد هذا المربع لعرض زر Google Pay على الصفحات المحددة."
+msgstr ""
+"Позначте це поле, щоб відобразити кнопку Google Pay на вибраних сторінках."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:773
 msgid "Google Pay must be enabled in your PayPal account (%s)."
-msgstr "يجب تفعيل Google Pay في حساب PayPal الخاص بك (%s)."
+msgstr "Google Pay має бути увімкнено у вашому обліковому записі PayPal (%s)."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:775
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1075
 msgid "setup guide"
-msgstr "دليل الإعداد"
+msgstr "посібник з налаштування"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:780
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1080
 msgid "The page must be served over a secure (HTTPS) connection."
-msgstr "يجب تقديم الصفحة عبر اتصال آمن (HTTPS)."
+msgstr "Сторінка повинна бути доступна через захищене (HTTPS) з'єднання."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:782
 msgid "To show the Google Pay button,"
-msgstr "لإظهار زر Google Pay،"
+msgstr "Щоб показати кнопку Google Pay,"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:790
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:791
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1037
 msgid "Enable Google Pay"
-msgstr "قم بتمكين Google Pay"
+msgstr "Увімкніть Google Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:797
 msgid "Display Google Pay Button On"
-msgstr "عرض زر Google Pay على"
+msgstr "Відобразити кнопку Google Pay на"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:803
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1109
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
 msgid "Product"
-msgstr "منتج"
+msgstr "Продукт"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:804
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1110
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
 msgid "Cart"
-msgstr "عربة التسوق"
+msgstr "Кошик"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:805
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1111
 msgid "Mini Cart"
-msgstr "عربة التسوق الصغيرة"
+msgstr "Міні-картка"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:809
 msgid "Set the page(s) to display the Google Pay button."
-msgstr "قم بتعيين الصفحة (الصفحات) لعرض زر Google Pay."
+msgstr "Встановіть сторінку(и) для відображення кнопки Google Pay."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:823
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:865
@@ -1568,7 +1607,7 @@ msgstr "قم بتعيين الصفحة (الصفحات) لعرض زر Google Pay
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1252
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1293
 msgid "Plain"
-msgstr "عادي"
+msgstr "Простий"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:824
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:866
@@ -1581,7 +1620,7 @@ msgstr "عادي"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1253
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1294
 msgid "Buy"
-msgstr "اشترِ"
+msgstr "Купити"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:826
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:868
@@ -1589,7 +1628,7 @@ msgstr "اشترِ"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:952
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:994
 msgid "Donate"
-msgstr "تبرع"
+msgstr "Пожертвувати"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:827
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:869
@@ -1597,7 +1636,7 @@ msgstr "تبرع"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:953
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:995
 msgid "Book"
-msgstr "كتاب"
+msgstr "Книга"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:828
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:870
@@ -1610,7 +1649,7 @@ msgstr "كتاب"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1255
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1296
 msgid "Order"
-msgstr "طلب"
+msgstr "Замовлення"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:830
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:872
@@ -1623,7 +1662,7 @@ msgstr "طلب"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1257
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1298
 msgid "Subscribe"
-msgstr "اشترك"
+msgstr "Підписатися"
 
 #. translators: %1$s is the supported countries list. %2$s is the supported
 #. currencies list.
@@ -1633,9 +1672,9 @@ msgid ""
 "<br><br><strong>Supported Countries:</"
 "strong><br>%1$s<br><br><strong>Supported Currencies:</strong><br>%2$s"
 msgstr ""
-"جوجل باي غير مفعل في حساب باي بال الخاص بك. انقر أدناه لتفعيله."
-"<br><br><strong>الدول المدعومة:</strong><br>%1$s<br><br><strong>العملات "
-"المدعومة:</strong><br>%2$s"
+"Google Pay не активовано у вашому обліковому записі PayPal. Натисніть нижче, "
+"щоб активувати його.<br><br><strong>Підтримувані країни:</"
+"strong><br>%1$s<br><br><strong>Підтримувані валюти:</strong><br>%2$s"
 
 #. translators: %1$s is the list of supported countries. %2$s is the list of
 #. supported currencies.
@@ -1645,34 +1684,38 @@ msgid ""
 "<br><br><strong>Supported Countries:</"
 "strong><br>%1$s<br><br><strong>Supported Currencies:</strong><br>%2$s"
 msgstr ""
-"Apple Pay غير مفعل في حساب PayPal الخاص بك. انقر أدناه لتفعيله."
-"<br><br><strong>الدول المدعومة:</strong><br>%1$s<br><br><strong>العملات "
-"المدعومة:</strong><br>%2$s"
+"Apple Pay не активовано у вашому обліковому записі PayPal. Натисніть нижче, "
+"щоб активувати його.<br><br><strong>Підтримувані країни:</"
+"strong><br>%1$s<br><br><strong>Підтримувані валюти:</strong><br>%2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1059
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1096
 msgid "Enable Apple Pay"
-msgstr "قم بتمكين Apple Pay"
+msgstr "Увімкніть Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1069
 msgid "Please ensure that Apple Pay is enabled in your PayPal account."
-msgstr "يرجى التأكد من أن Apple Pay مفعل في حساب PayPal الخاص بك."
+msgstr ""
+"Будь ласка, переконайтеся, що Apple Pay увімкнено у вашому обліковому записі "
+"PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1069
 msgid "Check this box to display the Apple Pay button on selected pages."
-msgstr "حدد هذا المربع لعرض زر Apple Pay على الصفحات المحددة."
+msgstr ""
+"Позначте цей прапорець, щоб відобразити кнопку Apple Pay на вибраних "
+"сторінках."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1073
 msgid "Apple Pay must be enabled in your PayPal account (%s)."
-msgstr "يجب تفعيل Apple Pay في حساب PayPal الخاص بك (%s)."
+msgstr "Apple Pay має бути увімкнено у вашому обліковому записі PayPal (%s)."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1082
 msgid "To show the Apple Pay button,"
-msgstr "لإظهار زر Apple Pay،"
+msgstr "Щоб показати кнопку Apple Pay,"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1090
 msgid "Domain Registration"
-msgstr "تسجيل النطاق"
+msgstr "Реєстрація домену"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1092
 msgid ""
@@ -1680,20 +1723,21 @@ msgid ""
 "will not be processed if the Apple Pay button is used on an unregistered "
 "domain."
 msgstr ""
-"تتطلب Apple أن يكون نطاق الموقع مسجلاً على PayPal. لن تتم معالجة المدفوعات "
-"إذا تم استخدام زر Apple Pay على نطاق غير مسجل."
+"Apple вимагає, щоб домен веб-сайту був зареєстрований на PayPal. Платежі не "
+"будуть оброблені, якщо кнопка Apple Pay використовується на "
+"незареєстрованому домені."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1097
 msgid "Enable Apple Pay on your store"
-msgstr "قم بتمكين Apple Pay في متجرك"
+msgstr "Увімкніть Apple Pay у вашому магазині"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1103
 msgid "Display Apple Pay Button On"
-msgstr "عرض زر Apple Pay على"
+msgstr "Відобразити кнопку Apple Pay У"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1115
 msgid "Set the page(s) to display the Apple Pay button."
-msgstr "قم بتعيين الصفحة(الصفحات) لعرض زر Apple Pay."
+msgstr "Встановіть сторінку(и) для відображення кнопки Apple Pay."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1145
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1186
@@ -1701,57 +1745,58 @@ msgstr "قم بتعيين الصفحة(الصفحات) لعرض زر Apple Pay."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1268
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1309
 msgid "White with outline"
-msgstr "أبيض مع حدود"
+msgstr "Білий з контуром"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
 msgid ""
-"Your customers can already buy now and pay later with PayPal — add "
-"messaging to your site to let them know. PayPal’s Pay Later helps boost "
-"merchants' conversion rates and increases cart sizes by 39%.¹ You get paid "
-"in full up front. <a target=\"_blank\" href=\"https://www.paypal.com/us/"
-"business/accept-payments/checkout/installments\">More about Pay Later</a>"
+"Your customers can already buy now and pay later with PayPal — add messaging "
+"to your site to let them know. PayPal’s Pay Later helps boost merchants' "
+"conversion rates and increases cart sizes by 39%.¹ You get paid in full up "
+"front. <a target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-"
+"payments/checkout/installments\">More about Pay Later</a>"
 msgstr ""
-"يمكن لعملائك الشراء الآن والدفع لاحقًا باستخدام PayPal - أضف رسائل إلى موقعك "
-"لإعلامهم بذلك. يساعد خيار الدفع لاحقًا من PayPal في زيادة معدلات تحويل "
-"التجار ويزيد من حجم السلة بنسبة 39%.¹ ستحصل على المدفوعات كاملة مقدمًا. <a "
-"target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-payments/"
-"checkout/installments\">المزيد عن الدفع لاحقًا</a>"
+"Ваші клієнти вже можуть купувати зараз і платити пізніше з PayPal — додайте "
+"повідомлення на свій сайт, щоб повідомити їх про це. PayPal’s Pay Later "
+"допомагає підвищити конверсію торговців і збільшити розмір кошика на 39%.¹ "
+"Ви отримуєте повну оплату наперед. <a target=\"_blank\" href=\"https://"
+"www.paypal.com/us/business/accept-payments/checkout/installments\">Дізнатися "
+"більше про Pay Later</a>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1347
 msgid "Enable Pay Later Messaging"
-msgstr "تفعيل رسائل الدفع لاحقًا"
+msgstr "Увімкнути повідомлення \"Оплата пізніше\""
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1349
 msgid "Displays Pay Later messaging for available offers."
-msgstr "يعرض رسائل الدفع لاحقًا للعروض المتاحة."
+msgstr "Відображає повідомлення \"Оплатити пізніше\" для доступних пропозицій."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1353
 msgid "Display Pay Later messaging On"
-msgstr "عرض رسالة الدفع لاحقًا مفعل"
+msgstr "Включити повідомлення \"Сплатити пізніше\""
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
 msgid "Home"
-msgstr "الصفحة الرئيسية"
+msgstr "Додому"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
 msgid "Category"
-msgstr "فئة"
+msgstr "Категорія"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
 msgid "Payment"
-msgstr "دفع"
+msgstr "Оплата"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1359
 msgid ""
 "Set the page(s) you want to display messaging on, and then adjust that "
 "page's display option below."
 msgstr ""
-"حدد الصفحة (الصفحات) التي تريد عرض الرسائل عليها، ثم قم بضبط خيار عرض تلك "
-"الصفحة أدناه."
+"Виберіть сторінки, на яких ви хочете відображати повідомлення, а потім "
+"налаштуйте параметри відображення цієї сторінки нижче."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1362
 msgid "Home Page"
-msgstr "الصفحة الرئيسية"
+msgstr "Головна сторінка"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1368
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1455
@@ -1759,7 +1804,7 @@ msgstr "الصفحة الرئيسية"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1627
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1713
 msgid "Layout Type"
-msgstr "نوع التخطيط"
+msgstr "Тип макета"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1374
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1461
@@ -1767,7 +1812,7 @@ msgstr "نوع التخطيط"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1633
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1719
 msgid "Text Layout"
-msgstr "تخطيط النص"
+msgstr "Текстове оформлення"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1374
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1461
@@ -1775,7 +1820,7 @@ msgstr "تخطيط النص"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1633
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1719
 msgid "Flex Layout"
-msgstr "تخطيط مرن"
+msgstr "Гнучка розкладка"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1377
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1464
@@ -1783,7 +1828,7 @@ msgstr "تخطيط مرن"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1636
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1722
 msgid "Logo Type"
-msgstr "نوع الشعار"
+msgstr "Тип логотипу"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
@@ -1791,7 +1836,7 @@ msgstr "نوع الشعار"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
 msgid "Primary"
-msgstr "أساسي"
+msgstr "Основний"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
@@ -1799,7 +1844,7 @@ msgstr "أساسي"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
 msgid "Alternative"
-msgstr "بديل"
+msgstr "Альтернатива"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
@@ -1807,7 +1852,7 @@ msgstr "بديل"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
 msgid "Inline"
-msgstr "داخل السطر"
+msgstr "Вбудовані"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
@@ -1815,7 +1860,7 @@ msgstr "داخل السطر"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
 msgid "None"
-msgstr "لا شيء"
+msgstr "Немає"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1386
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1473
@@ -1823,7 +1868,7 @@ msgstr "لا شيء"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1645
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1731
 msgid "Logo Position"
-msgstr "موضع الشعار"
+msgstr "Позиція логотипу"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1392
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
@@ -1831,7 +1876,7 @@ msgstr "موضع الشعار"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1651
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1737
 msgid "Left"
-msgstr "يسار"
+msgstr "Ліво"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1392
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
@@ -1839,7 +1884,7 @@ msgstr "يسار"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1651
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1737
 msgid "Right"
-msgstr "صحيح"
+msgstr "Правильно"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1392
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
@@ -1847,7 +1892,7 @@ msgstr "صحيح"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1651
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1737
 msgid "Top"
-msgstr "أعلى"
+msgstr "Верхній"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1395
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1482
@@ -1855,7 +1900,7 @@ msgstr "أعلى"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1654
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1740
 msgid "Text Size"
-msgstr "حجم النص"
+msgstr "Розмір тексту"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1404
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1491
@@ -1863,7 +1908,7 @@ msgstr "حجم النص"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1663
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1749
 msgid "Text Color"
-msgstr "لون النص"
+msgstr "Колір тексту"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
@@ -1876,7 +1921,7 @@ msgstr "لون النص"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
 msgid "Monochrome"
-msgstr "أحادي اللون"
+msgstr "Монохромний"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
@@ -1889,7 +1934,7 @@ msgstr "أحادي اللون"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
 msgid "Grayscale"
-msgstr "تدرج الرمادي"
+msgstr "Сірий масштаб"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1413
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1500
@@ -1897,7 +1942,7 @@ msgstr "تدرج الرمادي"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1672
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1758
 msgid "Color"
-msgstr "لون"
+msgstr "Колір"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
@@ -1905,7 +1950,7 @@ msgstr "لون"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
 msgid "White (No Border)"
-msgstr "أبيض (بدون حدود)"
+msgstr "Білий (Без межі)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
@@ -1913,7 +1958,7 @@ msgstr "أبيض (بدون حدود)"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
 msgid "Gray"
-msgstr "رمادي"
+msgstr "Сірий"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1422
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1509
@@ -1921,7 +1966,7 @@ msgstr "رمادي"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1681
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1767
 msgid "Ratio"
-msgstr "نسبة"
+msgstr "Співвідношення"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
@@ -1929,7 +1974,7 @@ msgstr "نسبة"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
 msgid "Flexes between 120px and 300px wide"
-msgstr "يتراوح العرض بين 120 بكسل و 300 بكسل"
+msgstr "Гнеться між 120px і 300px в ширину"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
@@ -1937,7 +1982,7 @@ msgstr "يتراوح العرض بين 120 بكسل و 300 بكسل"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
 msgid "160px wide"
-msgstr "عرض 160 بكسل"
+msgstr "160 пікселів завширшки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
@@ -1945,7 +1990,7 @@ msgstr "عرض 160 بكسل"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
 msgid "Flexes between 250px and 768px wide"
-msgstr "يتراوح العرض بين 250 بكسل و 768 بكسل"
+msgstr "Гнеться між 250px і 768px в ширину"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
@@ -1953,15 +1998,15 @@ msgstr "يتراوح العرض بين 250 بكسل و 768 بكسل"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
 msgid "Flexes between 250px and 1169px wide"
-msgstr "يتراوح العرض بين 250 بكسل و 1169 بكسل"
+msgstr "Гнеться між 250px і 1169px завширшки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1432
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on Home "
 "page."
 msgstr ""
-"أحتاج إلى كود قصير حتى أتمكن من وضع الرسالة في مكان أفضل على الصفحة "
-"الرئيسية."
+"Мені потрібен шорткод, щоб я міг розмістити повідомлення в кращому місці на "
+"головній сторінці."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1439
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1526
@@ -1969,154 +2014,165 @@ msgstr ""
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1698
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1784
 msgid "Shortcode"
-msgstr "رمز قصير"
+msgstr "Шорткод"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1448
 msgid "Category Page"
-msgstr "صفحة الفئة"
+msgstr "Сторінка категорії"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1519
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "category page."
 msgstr ""
-"أحتاج إلى كود قصير حتى أتمكن من وضع الرسالة في مكان أفضل على صفحة الفئة."
+"Мені потрібен шорткод, щоб я міг розмістити повідомлення в кращому місці на "
+"сторінці категорії."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1605
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "product page."
 msgstr ""
-"أحتاج إلى كود قصير حتى أتمكن من وضع الرسالة في مكان أفضل على صفحة المنتج."
+"Мені потрібен шорткод, щоб я міг розмістити повідомлення в кращому місці на "
+"сторінці продукту."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1691
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on cart "
 "page."
 msgstr ""
-"أحتاج إلى كود قصير حتى أتمكن من وضع الرسالة في مكان أفضل على صفحة السلة."
+"Мені потрібен шорткод, щоб я міг розмістити повідомлення в кращому місці на "
+"сторінці кошика."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1707
 msgid "Payment Page"
-msgstr "صفحة الدفع"
+msgstr "Сторінка оплати"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1777
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "payment page."
 msgstr ""
-"أحتاج إلى كود قصير حتى أتمكن من وضع الرسالة في مكان أفضل في صفحة الدفع."
+"Мені потрібен шорткод, щоб я міг розмістити повідомлення в кращому місці на "
+"сторінці оплати."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1797
 msgid "Payment action"
-msgstr "إجراء الدفع"
+msgstr "Дія оплати"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1800
 msgid ""
 "Choose whether you wish to capture funds immediately or authorize payment "
 "only."
-msgstr "اختر ما إذا كنت ترغب في استرداد الأموال على الفور أو تفويض الدفع فقط."
+msgstr ""
+"Виберіть, чи бажаєте ви негайно зафіксувати кошти, чи лише авторизувати "
+"платіж."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
 msgid "Capture"
-msgstr "التقاط"
+msgstr "Захоплення"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1805
 msgid "Authorize"
-msgstr "تفويض"
+msgstr "Авторизувати"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1809
 msgid "Brand Name"
-msgstr "اسم العلامة التجارية"
+msgstr "Назва бренду"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1811
 msgid ""
 "This controls what users see as the brand / company name on PayPal review "
 "pages."
 msgstr ""
-"هذا يتحكم فيما يراه المستخدمون كاسم العلامة التجارية / الشركة على صفحات "
-"مراجعة PayPal."
+"Це контролює, що користувачі бачать як назву бренду / компанії на сторінках "
+"перегляду PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1816
 msgid "Landing Page"
-msgstr "صفحة الهبوط"
+msgstr "Лендингова сторінка"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
 msgid ""
 "The type of landing page to show on the PayPal site for customer checkout. "
 "PayPal Account Optional must be checked for this option to be used."
 msgstr ""
-"نوع صفحة الهبوط التي ستظهر على موقع PayPal لعملية الدفع من قبل العملاء. يجب "
-"تحديد خيار \"حساب PayPal اختياري\" لاستخدام هذا الخيار."
+"Тип сторінки приземлення, яка повинна відображатися на сайті PayPal для "
+"оформлення замовлення клієнтом. Опція \"Обліковий запис PayPal "
+"необов'язковий\" повинна бути позначена, щоб цю опцію можна було "
+"використовувати."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1820
 msgid "Login"
-msgstr "تسجيل الدخول"
+msgstr "Увійти"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1821
 msgid "Billing"
-msgstr "الفوترة"
+msgstr "Білінг"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1822
 msgid "No Preference"
-msgstr "لا تفضيل"
+msgstr "Без переваг"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1827
 msgid "Instant Payments "
-msgstr "المدفوعات الفورية "
+msgstr "Миттєві платежі "
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1831
 msgid ""
-"If you enable this setting, PayPal will be instructed not to allow the "
-"buyer to use funding sources that take additional time to complete (for "
-"example, eChecks). Instead, the buyer will be required to use an instant "
-"funding source, such as an instant transfer, a credit/debit card, or PayPal "
-"Credit."
+"If you enable this setting, PayPal will be instructed not to allow the buyer "
+"to use funding sources that take additional time to complete (for example, "
+"eChecks). Instead, the buyer will be required to use an instant funding "
+"source, such as an instant transfer, a credit/debit card, or PayPal Credit."
 msgstr ""
-"إذا قمت بتمكين هذا الإعداد، سيتم توجيه PayPal بعدم السماح للمشتري باستخدام "
-"مصادر التمويل التي تستغرق وقتًا إضافيًا لإكمالها (مثل، eChecks). بدلاً من ذلك، "
-"سيتعين على المشتري استخدام مصدر تمويل فوري، مثل تحويل فوري، أو بطاقة ائتمان/"
-"خصم، أو PayPal Credit."
+"Якщо ви увімкнете цю настройку, PayPal буде проінструктовано не дозволяти "
+"покупцеві використовувати джерела фінансування, які потребують додаткового "
+"часу для завершення (наприклад, електронні чеки). Замість цього покупець "
+"буде зобов'язаний використовувати джерело фінансування, яке здійснюється "
+"миттєво, таке як миттєвий переказ, кредитна/дебетова картка або PayPal "
+"Credit."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1834
 msgid "Require Instant Payment"
-msgstr "يتطلب الدفع الفوري"
+msgstr "Вимагається миттєва оплата"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
 msgid "Billing Address"
-msgstr "عنوان الفوترة"
+msgstr "Адреса для рахунку"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1838
 msgid "Use PayPal Shipping Address as Billing"
-msgstr "استخدم عنوان شحن PayPal كعنوان فواتير"
+msgstr ""
+"Використовуйте адресу доставки PayPal як адресу для виставлення рахунку"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1839
 msgid ""
 "If the billing address is empty and PayPal provides a shipping address, the "
 "order will use the shipping address as the billing address."
 msgstr ""
-"إذا كانت عنوان الفوترة فارغًا وقدم PayPal عنوان شحن، فسيتم استخدام عنوان "
-"الشحن كعنوان فوترة."
+"Якщо адреса для виставлення рахунку порожня, а PayPal надає адресу доставки, "
+"замовлення використовуватиме адресу доставки як адресу для виставлення "
+"рахунку."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1845
 msgid "Send Item Details"
-msgstr "إرسال تفاصيل العنصر"
+msgstr "Надіслати деталі товару"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
 msgid "Send line item details to PayPal"
-msgstr "إرسال تفاصيل العناصر إلى PayPal"
+msgstr "Надішліть деталі позицій до PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1848
 msgid ""
 "Include all line item details in the payment request to PayPal so that they "
 "can be seen from the PayPal transaction details page."
 msgstr ""
-"قم بتضمين جميع تفاصيل العناصر في طلب الدفع إلى PayPal حتى يمكن رؤيتها من "
-"صفحة تفاصيل معاملة PayPal."
+"Включіть усі деталі позицій у запиті на оплату до PayPal, щоб їх можна було "
+"побачити на сторінці деталей транзакції PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1852
 msgid "Invoice prefix"
-msgstr "بادئة الفاتورة"
+msgstr "Префікс рахунку"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1854
 msgid ""
@@ -2124,71 +2180,74 @@ msgid ""
 "account for multiple stores ensure this prefix is unique as PayPal will not "
 "allow orders with the same invoice number."
 msgstr ""
-"يرجى إدخال بادئة لأرقام فواتيرك. إذا كنت تستخدم حساب PayPal الخاص بك لعدة "
-"متاجر، تأكد من أن هذه البادئة فريدة حيث أن PayPal لن يسمح بالطلبات التي "
-"تحمل نفس رقم الفاتورة."
+"Будь ласка, введіть префікс для ваших номерів рахунків. Якщо ви "
+"використовуєте свій обліковий запис PayPal для кількох магазинів, "
+"переконайтеся, що цей префікс є унікальним, оскільки PayPal не дозволить "
+"замовлення з однаковим номером рахунку."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1859
 msgid "Credit Card Statement Name"
-msgstr "اسم كشف حساب بطاقة الائتمان"
+msgstr "Назва виписки з кредитної картки"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1861
 msgid ""
 "The value entered here will be displayed on the buyer's credit card "
 "statement."
-msgstr "القيمة المدخلة هنا ستظهر على كشف حساب بطاقة الائتمان الخاصة بالمشتري."
+msgstr ""
+"Значення, введене тут, буде відображено у виписці з кредитної картки покупця."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1867
 msgid "Debug log"
-msgstr "سجل تصحيح الأخطاء"
+msgstr "Журнал налагодження"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1869
 msgid "Enable logging"
-msgstr "تفعيل التسجيل"
+msgstr "Увімкнути ведення журналу"
 
 #. translators: %s is the path to the WooCommerce PayPal debug log file.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1873
 msgid "Log PayPal events, such as Webhook, Payment, Refund inside %s"
-msgstr "سجل أحداث PayPal، مثل Webhook، الدفع، والاسترداد داخل %s"
+msgstr "Логуйте події PayPal, такі як Webhook, Платіж, Виплата, всередині %s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:137
 msgid "PayPal Shipment Tracking"
-msgstr "تتبع شحنة باي بال"
+msgstr "Відстеження відправлень PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:168
 msgid "Transaction Id"
-msgstr "معرّف المعاملة"
+msgstr "Ідентифікатор транзакції"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:172
 msgid "Tracking Number*"
-msgstr "رقم التتبع*"
+msgstr "Номер для відстеження*"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:176
 msgid "Status"
-msgstr "حالة"
+msgstr "Статус"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:185
 msgid "Carrier"
-msgstr "ناقل"
+msgstr "Перевізник"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:187
 msgid "Select Carrier"
-msgstr "اختر الناقل"
+msgstr "Виберіть перевізника"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:201
 msgid "Carrier Name*"
-msgstr "اسم الناقل*"
+msgstr "Назва перевізника*"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:208
 msgid "Add tracking information"
-msgstr "أضف معلومات التتبع"
+msgstr "Додати інформацію для відстеження"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:236
 msgid ""
 "BUYER_COMPLAINT: The payer initiated a dispute for this captured payment "
 "with PayPal."
 msgstr ""
-"BUYER_COMPLAINT: قام الدافع ببدء نزاع بشأن هذه الدفعة الملتقطة مع PayPal."
+"BUYER_COMPLAINT: Платник ініціював спір щодо цього захопленого платежу з "
+"PayPal."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:239
 msgid ""
@@ -2196,185 +2255,189 @@ msgid ""
 "disputing this captured payment with the issuer of the financial instrument "
 "used to pay for this captured payment."
 msgstr ""
-"استرداد المدفوعات: تم عكس الأموال المقتطعة استجابةً لتنازع الدافع بشأن هذه "
-"المدفوعات المقتطعة مع مصدر الأداة المالية المستخدمة لدفع هذه المدفوعات "
-"المقتطعة."
+"CHARGEBACK: Затримані кошти були повернені у відповідь на спір платника щодо "
+"цього затриманого платежу з емітентом фінансового інструменту, використаного "
+"для оплати цього затриманого платежу."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:242
 msgid "ECHECK: The payer paid by an eCheck that has not yet cleared."
-msgstr "ECHECK: قام الدافع بالدفع بواسطة eCheck الذي لم يتم تصفيته بعد."
+msgstr "ECHECK: Платник сплатив електронним чеком, який ще не був зарахований."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:245
 msgid ""
 "INTERNATIONAL_WITHDRAWAL: Visit your online account. In your Account "
 "Overview, accept and deny this payment."
 msgstr ""
-"السحب الدولي: قم بزيارة حسابك عبر الإنترنت. في نظرة عامة على حسابك، قم "
-"بقبول أو رفض هذه الدفعة."
+"МІЖНАРОДНЕ ВИВЕДЕННЯ: Відвідайте свій онлайн-акаунт. У розділі Огляд рахунку "
+"прийміть або відхиліть цей платіж."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:248
 msgid ""
 "No additional specific reason can be provided. For more information about "
 "this captured payment, visit your account online or contact PayPal."
 msgstr ""
-"لا يمكن تقديم سبب محدد إضافي. لمزيد من المعلومات حول هذه الدفعة الملتقطة، "
-"قم بزيارة حسابك عبر الإنترنت أو اتصل بـ PayPal."
+"Не можна надати жодної додаткової конкретної причини. Для отримання "
+"додаткової інформації про цей зафіксований платіж відвідайте свій обліковий "
+"запис онлайн або зв'яжіться з PayPal."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:251
 msgid "PENDING_REVIEW: The captured payment is pending manual review."
-msgstr "PENDING_REVIEW: الدفع الملتقط في انتظار المراجعة اليدوية."
+msgstr "PENDING_REVIEW: Затвердження платежу чекає на ручний перегляд."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:254
 msgid ""
 "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: The payee has not yet set up "
-"appropriate receiving preferences for their account. This may occur when "
-"the payment currency differs from the primary currency."
+"appropriate receiving preferences for their account. This may occur when the "
+"payment currency differs from the primary currency."
 msgstr ""
-"RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: لم يقم المستفيد بعد بإعداد "
-"تفضيلات الاستلام المناسبة لحسابه. قد يحدث هذا عندما تختلف عملة الدفع عن "
-"العملة الأساسية."
+"RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: Одержувач ще не налаштував "
+"відповідні переваги отримання для свого рахунку. Це може статися, коли "
+"валюта платежу відрізняється від основної валюти."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:257
 msgid "REFUNDED: The captured funds were refunded."
-msgstr "تم استرداد الأموال: تم استرداد الأموال المقتطعة."
+msgstr "ВЕРНУТО: Затримані кошти були повернені."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:260
 msgid ""
 "TRANSACTION_APPROVED_AWAITING_FUNDING: The payer must send the funds for "
 "this captured payment. This code generally appears for manual EFTs."
 msgstr ""
-"TRANSACTION_APPROVED_AWAITING_FUNDING: يجب على الدافع إرسال الأموال لهذه "
-"الدفعة الملتقطة. يظهر هذا الرمز عادةً للمدفوعات الإلكترونية اليدوية (EFT)."
+"TRANSACTION_APPROVED_AWAITING_FUNDING: Платник повинен надіслати кошти для "
+"цього зафіксованого платежу. Цей код зазвичай з'являється для ручних EFT."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:263
 msgid "UNILATERAL: The payee does not have a PayPal account."
-msgstr "أحادي الجانب: لا يمتلك المستفيد حسابًا على PayPal."
+msgstr "ОДНОСТОРОННІЙ: Одержувач не має облікового запису PayPal."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:266
 msgid "VERIFICATION_REQUIRED: The payee's PayPal account is not verified."
-msgstr "التحقق مطلوب: حساب باي بال الخاص بالمستفيد غير مُحقق."
+msgstr ""
+"VERIFICATION_REQUIRED: Обліковий запис PayPal отримувача не підтверджено."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:270
 msgid "No pending reason provided."
-msgstr "لا يوجد سبب معلق مقدم."
+msgstr "Не надано жодної причини для очікування."
 
 #. translators: %1$s is the payment method. %2$s is the pending reason.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:276
 msgid "Payment via %1$s Pending. PayPal Pending reason: %2$s."
-msgstr "الدفع عبر %1$s معلق. سبب تعليق PayPal: %2$s."
+msgstr "Оплата через %1$s в очікуванні. Причина очікування PayPal: %2$s."
 
 #. translators: %1$s is the payment method. %2$s is the decline reason.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:281
 msgid "Payment via %1$s declined. PayPal declined reason: %2$s."
-msgstr "تم رفض الدفع عبر %1$s. سبب الرفض من باي بال: %2$s."
+msgstr "Оплата через %1$s була відхилена. Причина відхилення PayPal: %2$s."
 
 #. translators: %1$s is the payment method. %2$s is the refund reason.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:288
 msgid "Payment via %1$s partially refunded. PayPal reason: %2$s."
-msgstr "تم استرداد جزء من الدفع عبر %1$s. سبب PayPal: %2$s."
+msgstr "Оплата через %1$s частково повернена. Причина PayPal: %2$s."
 
 #. translators: %1$s is the payment method. %2$s is the refund reason.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:294
 msgid "Payment via %1$s refunded. PayPal reason: %2$s."
-msgstr "تم استرداد الدفع عبر %1$s. سبب PayPal: %2$s."
+msgstr "Платіж через %1$s повернено. Причина PayPal: %2$s."
 
 #. translators: %1$s is the payment method. %2$s is the failure reason.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:299
 msgid "Payment via %1$s failed. PayPal reason: %2$s."
-msgstr "فشل الدفع عبر %1$s. سبب PayPal: %2$s."
+msgstr "Оплата через %1$s не вдалася. Причина PayPal: %2$s."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:521
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:538
 msgctxt "Important"
 msgid "Or"
-msgstr "أو"
+msgstr "Або"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:667
 msgctxt "Important"
 msgid "Express Checkout"
-msgstr "الدفع السريع"
+msgstr "Швидка каса"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:687
 msgctxt "Important"
 msgid "Or continue below"
-msgstr "أو المتابعة أدناه"
+msgstr "Або продовжте нижче"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:916
 msgid "Billing &amp; Shipping"
-msgstr "الفوترة والشحن"
+msgstr "Оплата та доставка"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:916
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:918
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:934
 msgid "Edit"
-msgstr "تعديل"
+msgstr "Редагувати"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:918
 msgid "Billing details"
-msgstr "تفاصيل الفوترة"
+msgstr "Деталі рахунку"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:934
 msgid "Shipping details"
-msgstr "تفاصيل الشحن"
+msgstr "Деталі доставки"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1092
 msgid "Create an account?"
-msgstr "إنشاء حساب؟"
+msgstr "Створити обліковий запис?"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1099
 msgid ""
 "Create an account by entering the information below. If you are a returning "
 "customer please login at the top of the page."
 msgstr ""
-"قم بإنشاء حساب عن طريق إدخال المعلومات أدناه. إذا كنت عميلاً عائدًا، يرجى "
-"تسجيل الدخول في أعلى الصفحة."
+"Створіть обліковий запис, ввівши інформацію нижче. Якщо ви вже є клієнтом, "
+"будь ласка, увійдіть у верхній частині сторінки."
 
 #. translators: %1$s is the payment method title, %2$s is the formatted
 #. payment status.
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1301
 msgid "Payment via %1$s: %2$s."
-msgstr "الدفع عبر %1$s: %2$s."
+msgstr "Оплата через %1$s: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the pending reason
 #. from PayPal.
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1317
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
-msgstr "الدفع عبر %1$s قيد الانتظار. سبب PayPal: %2$s."
+msgstr "Оплата через %1$s в очікуванні. Причина PayPal: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1326
 msgid "Payment via %1$s. Transaction ID: %2$s"
-msgstr "الدفع عبر %1$s. معرف المعاملة: %2$s"
+msgstr "Оплата через %1$s. Ідентифікатор транзакції: %2$s"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1509
 msgctxt "Important"
 msgid ""
 "<strong>You're almost done!</strong><br>Review your information before you "
 "place your order."
-msgstr "<strong>أوشكت على الانتهاء!</strong><br>راجع معلوماتك قبل تقديم طلبك."
+msgstr ""
+"<strong>Ви майже закінчили!</strong><br>Перегляньте вашу інформацію перед "
+"тим, як оформити замовлення."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1564
 msgid "Capture Charge"
-msgstr "رسوم الالتقاط"
+msgstr "Заряд за захоплення"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1702
 msgctxt "Important"
 msgid "Cancel order"
-msgstr "إلغاء الطلب"
+msgstr "Скасувати замовлення"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1775
 msgid ""
-"We cannot process your order with the payment information that you "
-"provided. Please use an alternate payment method."
+"We cannot process your order with the payment information that you provided. "
+"Please use an alternate payment method."
 msgstr ""
-"لا يمكننا معالجة طلبك باستخدام معلومات الدفع التي قدمتها. يرجى استخدام "
-"طريقة دفع بديلة."
+"Ми не можемо обробити ваше замовлення з наданою вами платіжною інформацією. "
+"Будь ласка, скористайтеся альтернативним способом оплати."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1783
 msgid "Something went wrong. Please try again."
-msgstr "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+msgstr "Щось пішло не так. Будь ласка, спробуйте ще раз."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1825
 msgid "3D Secure response"
-msgstr "استجابة 3D Secure"
+msgstr "3D Secure відповідь"

@@ -518,7 +518,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
             echo '<div class="ppcp-button-container ppcp_cart">';
             if ($this->cart_priority === 30) {
-                echo '<div class="ppcp-proceed-to-checkout-button-separator ' . $this->button_class . '"><span>' . __('Or', 'woo-paypal-gateway') . '</span></div>';
+                echo '<div class="ppcp-proceed-to-checkout-button-separator ' . $this->button_class . '"><span>' . _x('Or', 'Important', 'woo-paypal-gateway') . '</span></div>';
             }
             if ($this->show_on_cart) {
                 echo '<div id="ppcp_cart" class="cart ' . $this->button_class . '"></div>';
@@ -535,7 +535,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
 
             if ($this->cart_priority === 11) {
-                echo '<div class="ppcp-proceed-to-checkout-button-separator ' . $this->button_class . '"><span>' . __('Or', 'woo-paypal-gateway') . '</span></div>';
+                echo '<div class="ppcp-proceed-to-checkout-button-separator ' . $this->button_class . '"><span>' . _x('Or', 'Important', 'woo-paypal-gateway') . '</span></div>';
             }
             echo '</div>';
         }
@@ -664,7 +664,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
         echo '<div class="ppcp-button-container">';
         echo '<fieldset>';
-        echo '<legend class="express-title">' . __('Express Checkout', 'woo-paypal-gateway') . '</legend>';
+        echo '<legend class="express-title">' . _x('Express Checkout', 'Important', 'woo-paypal-gateway') . '</legend>';
         echo '<div class="wc_ppcp_express_checkout_gateways">';
         echo '<div class="express_payment_method_ppcp ' . $this->device_class . '">';
         if ($is_paypal_enabled) {
@@ -684,7 +684,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         echo '</div>';
         echo '</div>';
         echo '</fieldset>';
-        echo '<span class="express-divider">' . __('Or continue below', 'woo-paypal-gateway') . '</span>';
+        echo '<span class="express-divider">' . _x('Or continue below', 'Important', 'woo-paypal-gateway') . '</span>';
         echo '</div>';
         remove_action('woocommerce_before_checkout_form', array($this, 'display_paypal_button_top_checkout_page'), 10);
     }
@@ -709,7 +709,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
     public function ppcp_endpoint_page_titles($title) {
         if (!is_admin() && is_main_query() && in_the_loop() && is_page() && is_checkout() && !empty($_GET['paypal_payer_id'])) {
-            $title = __('Confirm your PayPal order', 'woo-paypal-gateway');
+            $title = _x('Confirm your PayPal order', 'Important', 'woo-paypal-gateway');
             remove_filter('the_title', array($this, 'ppcp_endpoint_page_titles'));
         }
         return $title;
@@ -1506,7 +1506,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             <div class="order_review_page_description">
                 <p>
                     <?php
-                    echo wp_kses_post(__("<strong>You're almost done!</strong><br>Review your information before you place your order.", 'woo-paypal-gateway'));
+                    echo wp_kses_post(_x("<strong>You're almost done!</strong><br>Review your information before you place your order.", 'Important', 'woo-paypal-gateway'));
                     ?>
                 </p>
             </div>
@@ -1699,7 +1699,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
     public function ppcp_cancel_button() {
         if (ppcp_has_active_session()) {
-            $order_button_text = __('Cancel order', 'woo-paypal-gateway');
+            $order_button_text = _x('Cancel order', 'Important', 'woo-paypal-gateway');
             $cancel_order_url = add_query_arg(array('ppcp_action' => 'cancel_order', 'utm_nooverride' => '1', 'from' => 'checkout'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager'));
             echo apply_filters('ppcp_review_order_cance_button_html', '<a class="button alt ppcp_cancel" name="woocommerce_checkout_cancel_order" href="' . esc_attr($cancel_order_url) . '" >' . $order_button_text . '</a>');
         }

@@ -56,11 +56,6 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
         } elseif (is_checkout()) {
             $page = 'checkout';
         }
-        if (ppcp_has_active_session()) {
-            $order_button_text = apply_filters('wpg_paypal_checkout_order_review_page_place_order_button_text', __('Confirm Your PayPal Order', 'woo-paypal-gateway'));
-        } else {
-            $order_button_text = 'Proceed to PayPal';
-        }
         $is_paylater_enable_incart_page = 'no';
         if ($this->pay_later->is_paypal_pay_later_messaging_enable_for_page($page = 'cart') && $this->pay_later->pay_later_messaging_cart_shortcode === false) {
             $is_paylater_enable_incart_page = 'yes';
@@ -73,13 +68,12 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
             'supports' => $this->get_supported_features(),
             'icons' => $this->gateway->get_block_icon(),
             'enable_save_card' => $this->gateway->enable_save_card,
-            'placeOrderButtonLabel' => $order_button_text,
             'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
             'page' => $page,
-            'card_number' => __('Card number', 'woo-paypal-gateway'),
-            'expiration_date' => __('Expiration date', 'woo-paypal-gateway'),
-            'security_code' => __('Security code', 'woo-paypal-gateway'),
+            'card_number' => _x('Card number', 'Important', 'woo-paypal-gateway'),
+            'expiration_date' => _x('Expiration date', 'Important', 'woo-paypal-gateway'),
+            'security_code' => _x('Security code', 'Important', 'woo-paypal-gateway'),
         ];
     }
 }

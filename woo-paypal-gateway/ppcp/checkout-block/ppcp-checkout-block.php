@@ -109,9 +109,9 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     public function get_payment_method_data() {
         $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png');
         if (ppcp_has_active_session()) {
-            $order_button_text = apply_filters('wpg_paypal_checkout_order_review_page_place_order_button_text', __('Confirm Your PayPal Order', 'woo-paypal-gateway'));
+            $order_button_text = apply_filters('wpg_paypal_checkout_order_review_page_place_order_button_text', _x('Confirm Your PayPal Order', 'Important', 'woo-paypal-gateway'));
         } else {
-            $order_button_text = apply_filters('wpg_paypal_checkout_place_order_button_text', __('Proceed to PayPal', 'woo-paypal-gateway'));
+            $order_button_text = apply_filters('wpg_paypal_checkout_place_order_button_text', _x('Proceed to PayPal', 'Important', 'woo-paypal-gateway'));
         }
         $is_paylater_enable_incart_page = 'no';
         if ($this->pay_later->is_paypal_pay_later_messaging_enable_for_page($page = 'cart')) {
@@ -151,7 +151,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             'placeOrderButtonLabel' => $order_button_text,
             'placeOrderDescription' => sprintf(
                     /* translators: %s: Order button text (e.g. Place order) */
-                    __('Click the "%s" button below to process your order.', 'woo-paypal-gateway'),
+                    _x('Click the "%s" button below to process your order.', 'Important', 'woo-paypal-gateway'),
                     $order_button_text
             ),
             'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',

@@ -34,8 +34,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_cards.png');
         $this->id = 'wpg_paypal_checkout_cc';
         $this->has_fields = true;
-        $this->method_title = __('Credit or Debit Card (PayPal) By Easy Payment', 'woo-paypal-gateway');
-        $this->method_description = __('Advanced Card Processing.', 'woo-paypal-gateway');
+        $this->method_title = _x('Credit or Debit Card (PayPal) By Easy Payment', 'Important', 'woo-paypal-gateway');
+        $this->method_description = _x('Advanced Card Processing.', 'Important', 'woo-paypal-gateway');
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate')) {
             include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-dcc-validate.php');
         }
@@ -45,15 +45,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         if ($this->enable_save_card) {
             $this->supports[] = 'tokenization';
         }
-        $this->order_button_text = __('Place order', 'woo-paypal-gateway');
         $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
+        $this->order_button_text = __( 'Place order', 'woocommerce' );
     }
 
     public function payment_fields() {
         if ($this->sandbox) {
             echo '<div class="wpg_ppcp_sanbdox_notice" style="margin: 5px 0 20px 8px; font-size: 13px;display:none;">';
-            echo esc_html__('Sandbox Mode Enabled.', 'woo-paypal-gateway') . '<br>';
-            echo esc_html__('Use test card 4111 1111 1111 1111 with any future expiration date and any CVV.', 'woo-paypal-gateway');
+            echo esc_html_x('Sandbox Mode Enabled.', 'Important', 'woo-paypal-gateway') . '<br>';
+            echo esc_html_x('Use test card 4111 1111 1111 1111 with any future expiration date and any CVV.', 'Important', 'woo-paypal-gateway');
             echo '</div>';
         }
         if ($this->supports('tokenization') && (is_checkout() || is_checkout_pay_page())) {
@@ -103,20 +103,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         <div id="wc-<?php echo esc_attr($this->id); ?>-form" class='wc-credit-card-form wc-payment-form'>
             <div class="wpg-paypal-cc-field full-width">
                 <label for="wpg_paypal_checkout_cc-card-number" style="display: none;">
-                    <?php esc_html_e('Card number', 'woo-paypal-gateway'); ?>
+                    <?php echo esc_html_x('Card number', 'Important', 'woo-paypal-gateway'); ?>
                 </label>
                 <div id="wpg_paypal_checkout_cc-card-number"></div>
             </div>
 
             <div class="wpg-paypal-cc-field half-width">
                 <label for="wpg_paypal_checkout_cc-card-expiry" style="display: none;">
-                    <?php esc_html_e('Expiration date', 'woo-paypal-gateway'); ?>
+                    <?php echo esc_html_x('Expiration date', 'Important', 'woo-paypal-gateway'); ?>
                 </label>
                 <div id="wpg_paypal_checkout_cc-card-expiry"></div>
             </div>
             <div class="wpg-paypal-cc-field half-width">
                 <label for="wpg_paypal_checkout_cc-card-cvc" style="display: none;">
-                    <?php esc_html_e('Security code', 'woo-paypal-gateway'); ?>
+                    <?php echo esc_html_x('Security code', 'Important', 'woo-paypal-gateway'); ?>
                 </label>
 
                 <div class="wpg-cvc-wrapper">
@@ -168,46 +168,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
 
     private function card_labels(): array {
         return array(
-            'visa' => _x(
-                    'Visa',
-                    'Name of credit card',
-                    'woo-paypal-gateway'
-            ),
-            'mastercard' => _x(
-                    'Mastercard',
-                    'Name of credit card',
-                    'woo-paypal-gateway'
-            ),
-            'maestro' => _x(
-                    'Maestro',
-                    'Name of credit card',
-                    'woo-paypal-gateway'
-            ),
-            'amex' => _x(
-                    'American Express',
-                    'Name of credit card',
-                    'woo-paypal-gateway'
-            ),
-            'discover' => _x(
-                    'Discover',
-                    'Name of credit card',
-                    'woo-paypal-gateway'
-            ),
-            'jcb' => _x(
-                    'JCB',
-                    'Name of credit card',
-                    'woo-paypal-gateway'
-            ),
-            'elo' => _x(
-                    'Elo',
-                    'Name of credit card',
-                    'woo-paypal-gateway'
-            ),
-            'hiper' => _x(
-                    'Hiper',
-                    'Name of credit card',
-                    'woo-paypal-gateway'
-            ),
+            'visa' => 'Visa',
+            'mastercard' => 'Mastercard',
+            'maestro' => 'Maestro',
+            'amex' => 'American Express',
+            'discover' => 'Discover',
+            'jcb' => 'JCB',
+            'elo' => 'Elo',
+            'hiper' => 'Hiper',
         );
     }
 

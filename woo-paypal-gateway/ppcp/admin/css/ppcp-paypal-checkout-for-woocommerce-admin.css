@@ -294,3 +294,7 @@ table::after {
 #woocommerce_wpg_paypal_checkout_sandbox ~ .select2-container {
     min-width: 249px !important;
 }
+body.woocommerce_page_wc-settings #wpbody-content {
+    background: #F0F0F1 !important;
+    padding-bottom: 0;
+}

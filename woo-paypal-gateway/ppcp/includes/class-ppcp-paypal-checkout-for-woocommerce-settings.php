@@ -689,14 +689,15 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                             )) : '';
 
             $cards_list = array(
-                'visa' => _x('Visa', 'Name of credit card', 'woo-paypal-gateway'),
-                'mastercard' => _x('Mastercard', 'Name of credit card', 'woo-paypal-gateway'),
-                'amex' => _x('American Express', 'Name of credit card', 'woo-paypal-gateway'),
-                'discover' => _x('Discover', 'Name of credit card', 'woo-paypal-gateway'),
-                'jcb' => _x('JCB', 'Name of credit card', 'woo-paypal-gateway'),
-                'elo' => _x('Elo', 'Name of credit card', 'woo-paypal-gateway'),
-                'hiper' => _x('Hiper', 'Name of credit card', 'woo-paypal-gateway'),
+                'visa' => 'Visa',
+                'mastercard' => 'Mastercard',
+                'amex' => 'American Express',
+                'discover' => 'Discover',
+                'jcb' => 'JCB',
+                'elo' => 'Elo',
+                'hiper' => 'Hiper',
             );
+
             return array(
                 'advanced_card_pay_note' => array(
                     'title' => esc_html__('Important Note', 'woo-paypal-gateway'),
@@ -1397,7 +1398,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => '',
                     'default' => '12',
                     'desc_tip' => true,
-                    'options' => array('10' => __('10 px', 'woo-paypal-gateway'), '11' => __('11 px', 'woo-paypal-gateway'), '12' => __('12 px', 'woo-paypal-gateway'), '13' => __('13 px', 'woo-paypal-gateway'), '14' => __('14 px', 'woo-paypal-gateway'), '15' => __('15 px', 'woo-paypal-gateway'), '16' => __('16 px', 'woo-paypal-gateway'))
+                    'options' => array('10' => '10 px', '11' => '11 px', '12' => '12 px', '13' => '13 px', '14' => '14 px', '15' => '15 px', '16' => '16 px')
                 ),
                 'pay_later_messaging_home_text_layout_text_color' => array(
                     'title' => __('Text Color', 'woo-paypal-gateway'),
@@ -1484,7 +1485,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => '',
                     'default' => '12',
                     'desc_tip' => true,
-                    'options' => array('10' => __('10 px', 'woo-paypal-gateway'), '11' => __('11 px', 'woo-paypal-gateway'), '12' => __('12 px', 'woo-paypal-gateway'), '13' => __('13 px', 'woo-paypal-gateway'), '14' => __('14 px', 'woo-paypal-gateway'), '15' => __('15 px', 'woo-paypal-gateway'), '16' => __('16 px', 'woo-paypal-gateway'))
+                    'options' => array('10' => '10 px', '11' => '11 px', '12' => '12 px', '13' => '13 px', '14' => '14 px', '15' => '15 px', '16' => '16 px')
                 ),
                 'pay_later_messaging_category_text_layout_text_color' => array(
                     'title' => __('Text Color', 'woo-paypal-gateway'),
@@ -1570,7 +1571,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => '',
                     'default' => '12',
                     'desc_tip' => true,
-                    'options' => array('10' => __('10 px', 'woo-paypal-gateway'), '11' => __('11 px', 'woo-paypal-gateway'), '12' => __('12 px', 'woo-paypal-gateway'), '13' => __('13 px', 'woo-paypal-gateway'), '14' => __('14 px', 'woo-paypal-gateway'), '15' => __('15 px', 'woo-paypal-gateway'), '16' => __('16 px', 'woo-paypal-gateway'))
+                    'options' => array('10' => '10 px', '11' => '11 px', '12' => '12 px', '13' => '13 px', '14' => '14 px', '15' => '15 px', '16' => '16 px')
                 ),
                 'pay_later_messaging_product_text_layout_text_color' => array(
                     'title' => __('Text Color', 'woo-paypal-gateway'),
@@ -1656,7 +1657,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => '',
                     'default' => '12',
                     'desc_tip' => true,
-                    'options' => array('10' => __('10 px', 'woo-paypal-gateway'), '11' => __('11 px', 'woo-paypal-gateway'), '12' => __('12 px', 'woo-paypal-gateway'), '13' => __('13 px', 'woo-paypal-gateway'), '14' => __('14 px', 'woo-paypal-gateway'), '15' => __('15 px', 'woo-paypal-gateway'), '16' => __('16 px', 'woo-paypal-gateway'))
+                    'options' => array('10' => '10 px', '11' => '11 px', '12' => '12 px', '13' => '13 px', '14' => '14 px', '15' => '15 px', '16' => '16 px')
                 ),
                 'pay_later_messaging_cart_text_layout_text_color' => array(
                     'title' => __('Text Color', 'woo-paypal-gateway'),
@@ -1742,7 +1743,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'description' => '',
                     'default' => '12',
                     'desc_tip' => true,
-                    'options' => array('10' => __('10 px', 'woo-paypal-gateway'), '11' => __('11 px', 'woo-paypal-gateway'), '12' => __('12 px', 'woo-paypal-gateway'), '13' => __('13 px', 'woo-paypal-gateway'), '14' => __('14 px', 'woo-paypal-gateway'), '15' => __('15 px', 'woo-paypal-gateway'), '16' => __('16 px', 'woo-paypal-gateway'))
+                    'options' => array('10' => '10 px', '11' => '11 px', '12' => '12 px', '13' => '13 px', '14' => '14 px', '15' => '15 px', '16' => '16 px')
                 ),
                 'pay_later_messaging_payment_text_layout_text_color' => array(
                     'title' => __('Text Color', 'woo-paypal-gateway'),

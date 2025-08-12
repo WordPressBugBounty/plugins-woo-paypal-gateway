@@ -1173,15 +1173,25 @@ apple-pay-button {
     --apple-pay-button-border-radius: var(--button-radius, 4px);
     border-radius: var(--button-radius, 4px);
 }
-#payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] img {
+#payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] img:first-of-type {
+    display: inline !important;
     margin-left: 8px;
     height: 25px;
+    margin-right: 0px;
+}
+#payment .payment_methods li label[for=payment_method_wpg_paypal_checkout_cc] img {
+    display: inline !important;
+    margin-left: 2px;
+    height: 25px;
+    margin-right: 0px;
 }
 #payment .payment_methods li label[for=payment_method_wpg_paypal_checkout] img {
+    display: inline !important;
     margin-left: 8px;
     height: 25px;
+    margin-right: 0px;
 }
-#radio-control-wc-payment-method-options-wpg_paypal_checkout_cc__label img {
+#radio-control-wc-payment-method-options-wpg_paypal_checkout_cc__label img:first-of-type {
     height: 25px;
 }
 #radio-control-wc-payment-method-options-wpg_paypal_checkout__label img {
@@ -1224,4 +1234,11 @@ apple-pay-button {
   max-height: 77px !important;
   max-width: 150px;
   width: 110px;
+}
+.google-pay-container iframe {
+  min-height: 100% !important;
+}
+.payment_box.payment_method_wpg_paypal_checkout {
+    max-width: 100% !important;
+    padding-top: 20px !important;
 }

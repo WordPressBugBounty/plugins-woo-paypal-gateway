@@ -27,7 +27,6 @@
             }
             this.manageVariations('#ppcp_product, .google-pay-container, .apple-pay-container');
             this.bindCheckoutEvents();
-            this.update_paypal_checkout();
             this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 500);
             this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 500);
             this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 500);
@@ -38,6 +37,9 @@
                 this.debouncedUpdateApplePay();
 
             } else {
+                this.debouncedUpdatePaypalCheckout();
+                this.debouncedUpdateGooglePay();
+                this.debouncedUpdateApplePay();
                 this.debouncedUpdatePaypalCC();
             }
         }
@@ -1394,10 +1396,25 @@
                     express_checkout: this.ppcp_manager.express_checkout_button_height,
                     mini_cart: this.ppcp_manager.mini_cart_button_height
                 };
+                const shapeMap = {
+                    product: this.ppcp_manager.apple_pay_style_shape,
+                    cart: this.ppcp_manager.apple_pay_style_shape,
+                    checkout: this.ppcp_manager.apple_pay_style_shape,
+                    express_checkout: this.ppcp_manager.apple_pay_express_checkout_style_shape,
+                    mini_cart: this.ppcp_manager.apple_pay_mini_cart_style_shape
+                };
                 const buttonType = labelMap[context] || 'plain';
                 const buttonColor = colorMap[context] || 'black';
                 const buttonHeight = parseInt(heightMap[context]) || 40;
-                const buttonRadius = Math.round(buttonHeight * 0.25);
+                const buttonShape = shapeMap[context] || 'rect';
+                const buttonRadius = buttonShape === 'pill' ? 20 : 4;
+
+                container.classList.add(buttonShape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect');
+
+                container.style.setProperty('--button-height', `${buttonHeight}px`);
+                container.style.setProperty('--button-radius', `${buttonRadius}px`);
+                container.style.height = `${buttonHeight}px`;
+
                 applePayButton.setAttribute('type', buttonType);
                 applePayButton.setAttribute('buttonstyle', buttonColor);
                 applePayButton.setAttribute('data-context', context);
