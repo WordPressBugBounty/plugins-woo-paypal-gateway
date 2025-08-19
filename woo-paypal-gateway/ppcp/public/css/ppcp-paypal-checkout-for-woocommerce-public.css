@@ -1223,6 +1223,7 @@ apple-pay-button {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 750px;
 }
 .wc_ppcp_wpg_container p {
   flex: 1 1 100%;

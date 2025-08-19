@@ -124,6 +124,18 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     ),
                     'desc_tip' => true
                 ),
+                'ppcp_email_live' => array(
+                    'title' => __('Live PayPal Email', 'woo-paypal-gateway'),
+                    'type' => 'email',
+                    'gateway' => 'wpg_email',
+                    'description' => __('Enter Live PayPal Email.', 'woo-paypal-gateway'),
+                    'default' => '',
+                    'custom_attributes' => array(
+                        'autocomplete' => 'new-password'
+                    ),
+                    'desc_tip' => true
+                ),
+                
                 'live_disconnect' => array(
                     'title' => __('PayPal Connection', 'woo-paypal-gateway'),
                     'type' => 'wpg_ppcp_text',
@@ -162,6 +174,17 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     ),
                     'desc_tip' => true,
                 ),
+                'ppcp_email_sandbox' => array(
+                    'title' => __('Sandbox PayPal Email', 'woo-paypal-gateway'),
+                    'type' => 'email',
+                    'gateway' => 'wpg_email',
+                    'description' => __('Enter Sandbox PayPal Email.', 'woo-paypal-gateway'),
+                    'default' => '',
+                    'custom_attributes' => array(
+                        'autocomplete' => 'new-password'
+                    ),
+                    'desc_tip' => true
+                ),
                 'sandbox_disconnect' => array(
                     'title' => __('PayPal Connection', 'woo-paypal-gateway'),
                     'type' => 'wpg_ppcp_text',
@@ -170,6 +193,14 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'gateway' => 'wpg',
                     'desc_tip' => ''
                 ),
+                'admin_mode' => [
+                    'title' => __('Admin Only Mode', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'default' => 'no',
+                    'value' => 'yes',
+                    'desc_tip' => true,
+                    'description' => __( 'When enabled, Payment methods will only be visible to site administrators and store managers. This allows you to test PayPal on your live site without customers seeing them.', 'woo-paypal-gateway' ),
+                ],
             );
         }
 

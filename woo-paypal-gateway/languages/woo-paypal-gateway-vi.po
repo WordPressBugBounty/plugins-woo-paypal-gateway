@@ -3,9 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.39\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-"
-"gateway\n"
-"POT-Creation-Date: 2025-08-07T09:49:54+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
+"POT-Creation-Date: 2025-08-19T05:41:27+00:00\n"
 "PO-Revision-Date: 2025-08-11 11:02+0530\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -19,6 +18,7 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: woo-paypal-gateway.php
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1577
 msgid "Payment Gateway for PayPal on WooCommerce"
 msgstr "Cổng thanh toán cho PayPal trên WooCommerce"
 
@@ -163,19 +163,19 @@ msgid "Failed to fetch domain validation file."
 msgstr "Không thể lấy tệp xác thực miền."
 
 #: ppcp/checkout-block/ppcp-cc-block.php:74
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:105
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:106
 msgctxt "Important"
 msgid "Card number"
 msgstr "Số thẻ"
 
 #: ppcp/checkout-block/ppcp-cc-block.php:75
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:112
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:113
 msgctxt "Important"
 msgid "Expiration date"
 msgstr "Ngày hết hạn"
 
 #: ppcp/checkout-block/ppcp-cc-block.php:76
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:118
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:119
 msgctxt "Important"
 msgid "Security code"
 msgstr "Mã bảo mật"
@@ -186,7 +186,7 @@ msgid "Confirm Your PayPal Order"
 msgstr "Xác Nhận Đơn Hàng PayPal Của Bạn"
 
 #: ppcp/checkout-block/ppcp-checkout-block.php:114
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:73
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:68
 msgctxt "Important"
 msgid "Proceed to PayPal"
 msgstr "Tiến hành đến PayPal"
@@ -201,11 +201,11 @@ msgstr "Nhấn nút \"%s\" bên dưới để xử lý đơn hàng của bạn."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:25
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:66
 msgid ""
-"Sorry, your session has expired. <a href=\"%s\" class=\"wc-"
-"backward\">Return to shop</a>"
+"Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return"
+" to shop</a>"
 msgstr ""
-"Xin lỗi, phiên của bạn đã hết hạn. <a href=\"%s\" class=\"wc-"
-"backward\">Quay lại cửa hàng</a>"
+"Xin lỗi, phiên của bạn đã hết hạn. <a href=\"%s\" class=\"wc-backward\">Quay"
+" lại cửa hàng</a>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:43
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:91
@@ -222,12 +222,12 @@ msgctxt "Important"
 msgid "Advanced Card Processing."
 msgstr "Xử lý thẻ nâng cao."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:54
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:55
 msgctxt "Important"
 msgid "Sandbox Mode Enabled."
 msgstr "Chế độ Sandbox đã được kích hoạt."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:55
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:56
 msgctxt "Important"
 msgid ""
 "Use test card 4111 1111 1111 1111 with any future expiration date and any "
@@ -236,28 +236,28 @@ msgstr ""
 "Sử dụng thẻ kiểm tra 4111 1111 1111 1111 với bất kỳ ngày hết hạn nào trong "
 "tương lai và bất kỳ CVV nào."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:240
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:601
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:241
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:630
 msgid "Refund failed."
 msgstr "Hoàn tiền không thành công."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:68
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:63
 msgctxt "Important"
 msgid "Credit or Debit Card"
 msgstr "Thẻ tín dụng hoặc thẻ ghi nợ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:71
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:712
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:66
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:715
 msgctxt "Important"
 msgid "Confirm your PayPal order"
 msgstr "Xác nhận đơn hàng PayPal của bạn"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:84
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:86
 msgctxt "Important"
 msgid "PayPal Gateway By Easy Payment"
 msgstr "Cổng thanh toán PayPal bởi Easy Payment"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:85
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:87
 msgctxt "Important"
 msgid ""
 "PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and "
@@ -266,98 +266,119 @@ msgstr ""
 "PayPal, Trả sau, Venmo, Thẻ tín dụng & Thẻ ghi nợ, Google Pay, Apple Pay — "
 "và nhiều hơn nữa."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:302
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:310
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
+msgid "Admin Only Mode"
+msgstr "Chế độ chỉ dành cho quản trị viên"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:311
+msgid ""
+"is currently enabled. PayPal payment methods are visible only to site "
+"administrators and store managers. Disable this mode after testing to make "
+"them available to customers."
+msgstr ""
+"hiện đang được kích hoạt. Các phương thức thanh toán PayPal chỉ hiển thị cho"
+" quản trị viên trang và quản lý cửa hàng. Vui lòng tắt chế độ này sau khi "
+"thử nghiệm để làm cho chúng có sẵn cho khách hàng."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:323
 msgid "Please verify the PayPal account to receive the payments."
 msgstr "Vui lòng xác minh tài khoản PayPal để nhận các khoản thanh toán."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:314
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:335
 msgid "PayPal onboarding process successfully completed."
 msgstr "Quá trình onboarding PayPal đã hoàn tất thành công."
 
 #. translators: %1$s: URL to the PayPal API settings page.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:345
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:366
 msgid ""
-"<strong>PayPal Setup Required:</strong> Connect your PayPal account or "
-"enter your Client ID and Secret in the <a href=\"%1$s\">API settings</a> to "
-"begin accepting payments."
+"<strong>PayPal Setup Required:</strong> Connect your PayPal account or enter"
+" your Client ID and Secret in the <a href=\"%1$s\">API settings</a> to begin"
+" accepting payments."
 msgstr ""
-"<strong>Cần thiết lập PayPal:</strong> Kết nối tài khoản PayPal của bạn "
-"hoặc nhập Client ID và Secret của bạn trong <a href=\"%1$s\">cài đặt API</"
-"a> để bắt đầu nhận thanh toán."
+"<strong>Cần thiết lập PayPal:</strong> Kết nối tài khoản PayPal của bạn hoặc"
+" nhập Client ID và Secret của bạn trong <a href=\"%1$s\">cài đặt API</a> để "
+"bắt đầu nhận thanh toán."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:363
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:384
 msgid "Click the PayPal button to add your payment method."
 msgstr "Nhấn nút PayPal để thêm phương thức thanh toán của bạn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:366
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:387
 msgid "Click the \"%s\" button below to process your order."
 msgstr "Nhấn nút \"%s\" bên dưới để xử lý đơn hàng của bạn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:370
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:391
 msgid "Click a payment option below to process your order."
 msgstr "Nhấn vào một tùy chọn thanh toán bên dưới để xử lý đơn hàng của bạn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:442
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:464
 msgid "Return to payments"
 msgstr "Quay lại thanh toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:467
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:489
 msgid "API Settings"
 msgstr "Cài đặt API"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:468
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:490
 msgid "PayPal Settings"
 msgstr "Cài đặt PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:469
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:491
 msgid "Advanced Card Payments"
 msgstr "Thanh toán thẻ nâng cao"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:470
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:492
 msgid "Google Pay"
 msgstr "Google Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:471
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:493
 msgid "Apple Pay"
 msgstr "Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:472
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:494
 msgid "Pay Later Messaging"
 msgstr "Tin Nhắn Trả Sau"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:473
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:495
 msgid "Additional Settings"
 msgstr "Cài đặt bổ sung"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:474
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:496
 msgid "FAQ"
 msgstr "Câu hỏi thường gặp"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:628
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:497
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1655
+#, fuzzy
+msgid "Recommended Plugins"
+msgstr "Các plugin được đề xuất"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:686
 msgid "This represents the fee PayPal collects for the transaction."
 msgstr "Điều này đại diện cho phí mà PayPal thu cho giao dịch."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:629
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:687
 msgid "PayPal Fee:"
 msgstr "Phí PayPal:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:654
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:747
 msgid "Disconnect"
 msgstr "Ngắt kết nối"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:730
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:823
 msgid "PayPal Account Successfully Connected!"
 msgstr "Tài khoản PayPal đã được kết nối thành công!"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:735
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:828
 msgid "Connected Email:"
 msgstr "Email đã kết nối:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:741
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:834
 msgid "Disconnect PayPal Account"
 msgstr "Ngắt kết nối tài khoản PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:803
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:896
 msgid ""
 "The PayPal Client ID and Secret key you entered are invalid. Ensure you are "
 "using the correct credentials for the selected environment (Sandbox or "
@@ -367,31 +388,31 @@ msgstr ""
 "bạn đang sử dụng thông tin xác thực đúng cho môi trường đã chọn (Sandbox "
 "hoặc Live)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:861
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:955
 msgid "Click to Connect PayPal"
 msgstr "Nhấp để Kết nối PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:888
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:982
 msgid "The Connect to PayPal service is temporarily unavailable."
 msgstr "Dịch vụ Kết nối với PayPal hiện đang tạm thời không khả dụng."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:890
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:984
 msgid "Toggle to manual credential input"
 msgstr "Chuyển sang nhập thông tin xác thực thủ công"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:914
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1008
 msgid "Recommended"
 msgstr "Được khuyến nghị"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:919
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1013
 msgid "OR"
 msgstr "HOẶC"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:924
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1018
 msgid "Click here to insert credentials manually"
 msgstr "Nhấp vào đây để nhập thông tin xác thực thủ công"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1053
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1147
 msgid ""
 "Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) will appear?"
@@ -399,75 +420,75 @@ msgstr ""
 "Những nút PayPal nào (ví dụ: Trả sau, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, v.v.) sẽ xuất hiện?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1057
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1151
 msgid ""
 "The PayPal buttons are shown automatically based on several factors, "
 "including:"
 msgstr "Các nút PayPal được hiển thị tự động dựa trên một số yếu tố, bao gồm:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1059
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1153
 msgid "The buyer’s country"
 msgstr "Quốc gia của người mua"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1060
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1154
 msgid "Their device type"
 msgstr "Loại thiết bị của họ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1061
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1155
 msgid "The funding sources they’ve enabled"
 msgstr "Các nguồn tài trợ mà họ đã kích hoạt"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1063
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1157
 msgid ""
 "As a result, each buyer may see a different set of buttons. Pay Later "
 "options vary by country and may display different buttons."
 msgstr ""
-"Kết quả là, mỗi người mua có thể thấy một bộ nút khác nhau. Các tùy chọn "
-"Trả Sau khác nhau theo quốc gia và có thể hiển thị các nút khác nhau."
+"Kết quả là, mỗi người mua có thể thấy một bộ nút khác nhau. Các tùy chọn Trả"
+" Sau khác nhau theo quốc gia và có thể hiển thị các nút khác nhau."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1069
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1163
 msgid "How can I hide specific PayPal buttons?"
 msgstr "Làm thế nào để tôi có thể ẩn các nút PayPal cụ thể?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1073
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1167
 msgid ""
 "By default, all PayPal buttons are enabled. To hide specific buttons, use "
 "the <strong>Disable Specific Payment Buttons</strong> option."
 msgstr ""
 "Theo mặc định, tất cả các nút PayPal đều được kích hoạt. Để ẩn các nút cụ "
-"thể, hãy sử dụng tùy chọn <strong>Vô hiệu hóa các nút thanh toán cụ thể</"
-"strong>."
+"thể, hãy sử dụng tùy chọn <strong>Vô hiệu hóa các nút thanh toán cụ "
+"thể</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1074
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1168
 msgid "Example: To hide the Pay Later button on the Checkout Page:"
 msgstr "Ví dụ: Để ẩn nút Thanh toán sau trên Trang Thanh toán:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1076
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1092
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1170
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1186
 msgid "Go to <strong>PayPal Settings</strong>."
 msgstr "Đi đến <strong>Cài đặt PayPal</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1077
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1171
 msgid "Find the <strong>Disable Specific Payment Buttons</strong> setting."
 msgstr "Tìm cài đặt <strong>Vô hiệu hóa các nút thanh toán cụ thể</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1078
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1172
 msgid "Select <strong>Pay Later</strong> from the dropdown list."
 msgstr "Chọn <strong>Trả Sau</strong> từ danh sách thả xuống."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1079
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1094
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1100
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1116
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1122
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1173
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1188
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1194
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1210
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1216
 msgid "Click <strong>Save Changes</strong>."
 msgstr "Nhấn <strong>Lưu Thay Đổi</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1085
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1179
 msgid "How can I show only the \"PayPal\" button on the Checkout page?"
 msgstr "Làm thế nào để tôi chỉ hiển thị nút \"PayPal\" trên trang Thanh toán?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1089
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1183
 msgid ""
 "To display only the \"PayPal\" button on the Checkout page, follow these "
 "steps:"
@@ -475,37 +496,37 @@ msgstr ""
 "Để chỉ hiển thị nút \"PayPal\" trên trang Thanh toán, hãy làm theo các bước "
 "sau:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1090
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1112
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1184
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1206
 msgid "Step 1: Update PayPal Settings"
 msgstr "Bước 1: Cập nhật Cài đặt PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1093
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1187
 msgid ""
 "Under <strong>Disable Specific Payment Buttons</strong>, select "
 "<strong>Credit or Debit Card</strong> and any other methods you want to "
 "hide."
 msgstr ""
 "Dưới <strong>Vô hiệu hóa các nút thanh toán cụ thể</strong>, chọn "
-"<strong>Thẻ tín dụng hoặc thẻ ghi nợ</strong> và bất kỳ phương thức nào "
-"khác mà bạn muốn ẩn."
+"<strong>Thẻ tín dụng hoặc thẻ ghi nợ</strong> và bất kỳ phương thức nào khác"
+" mà bạn muốn ẩn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1096
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1190
 msgid "Step 2: Update Advanced Card Payments Settings"
 msgstr "Bước 2: Cập nhật Cài đặt Thanh toán Thẻ Nâng cao"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1098
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1120
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1192
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1214
 msgid "Go to <strong>Advanced Card Payments</strong> settings."
 msgstr "Đi đến cài đặt <strong>Thanh toán Thẻ Nâng cao</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1099
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1193
 msgid "Disable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr ""
-"Vô hiệu hóa tùy chọn <strong>Kích hoạt Thẻ Tín Dụng/Ghi Nợ Nâng Cao</"
-"strong>."
+"Vô hiệu hóa tùy chọn <strong>Kích hoạt Thẻ Tín Dụng/Ghi Nợ Nâng "
+"Cao</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1102
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1196
 msgid ""
 "Once you save the changes in both sections, only the \"PayPal\" button will "
 "appear on the Checkout page."
@@ -513,7 +534,7 @@ msgstr ""
 "Khi bạn lưu các thay đổi trong cả hai phần, chỉ nút \"PayPal\" sẽ xuất hiện "
 "trên trang Thanh toán."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1107
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1201
 msgid ""
 "How can I show only the \"Credit or Debit Card\" payment method on the "
 "Checkout page?"
@@ -521,43 +542,43 @@ msgstr ""
 "Làm thế nào để tôi chỉ hiển thị phương thức thanh toán \"Thẻ tín dụng hoặc "
 "thẻ ghi nợ\" trên trang Thanh toán?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1111
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1205
 msgid ""
 "To display only the \"Credit or Debit Card\" payment method on the Checkout "
 "page, follow these steps:"
 msgstr ""
-"Để hiển thị chỉ phương thức thanh toán \"Thẻ tín dụng hoặc thẻ ghi nợ\" "
-"trên trang Thanh toán, hãy làm theo các bước sau:"
+"Để hiển thị chỉ phương thức thanh toán \"Thẻ tín dụng hoặc thẻ ghi nợ\" trên"
+" trang Thanh toán, hãy làm theo các bước sau:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1114
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1208
 msgid "Go to <strong>PayPal Settings > Checkout Page Settings</strong>."
 msgstr "Đi đến <strong>Cài đặt PayPal > Cài đặt Trang Thanh Toán</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1115
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1209
 msgid "Disable the <strong>Enable PayPal</strong> option."
 msgstr "Vô hiệu hóa tùy chọn <strong>Enable PayPal</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1118
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1212
 msgid "Step 2: Enable Advanced Credit/Debit Card Payments"
 msgstr "Bước 2: Kích hoạt Thanh toán Thẻ Tín Dụng/Thẻ Ghi Nợ Nâng Cao"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1121
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1215
 msgid "Enable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr "Bật tùy chọn <strong>Bật Thẻ Tín Dụng/Ghi Nợ Nâng Cao</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1124
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1218
 msgid ""
 "Once you save the changes in both sections, only the \"Credit or Debit "
 "Card\" payment method will appear on the Checkout page."
 msgstr ""
-"Khi bạn lưu các thay đổi trong cả hai phần, chỉ phương thức thanh toán "
-"\"Thẻ tín dụng hoặc thẻ ghi nợ\" sẽ xuất hiện trên trang Thanh toán."
+"Khi bạn lưu các thay đổi trong cả hai phần, chỉ phương thức thanh toán \"Thẻ"
+" tín dụng hoặc thẻ ghi nợ\" sẽ xuất hiện trên trang Thanh toán."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1129
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1223
 msgid "What is PayPal Pay Later?"
 msgstr "PayPal Pay Later là gì?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1133
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1227
 msgid ""
 "PayPal Pay Later lets your customers split their purchases into interest-"
 "free payments over time, such as \"Pay in 4\" or monthly installments. You "
@@ -569,7 +590,7 @@ msgstr ""
 "được toàn bộ số tiền ngay từ đầu, trong khi khách hàng tận hưởng các tùy "
 "chọn thanh toán linh hoạt."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1134
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1228
 msgid ""
 "This can help increase your sales, with many merchants seeing higher "
 "conversion rates and larger order sizes."
@@ -577,17 +598,17 @@ msgstr ""
 "Điều này có thể giúp tăng doanh số bán hàng của bạn, với nhiều thương nhân "
 "thấy tỷ lệ chuyển đổi cao hơn và kích thước đơn hàng lớn hơn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1137
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1231
 msgid "Learn more about Pay Later on PayPal’s website."
 msgstr "Tìm hiểu thêm về Pay Later trên trang web của PayPal."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1145
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1239
 msgid "How can I contact support or request a new functionality?"
 msgstr ""
-"Làm thế nào tôi có thể liên hệ với bộ phận hỗ trợ hoặc yêu cầu một chức "
-"năng mới?"
+"Làm thế nào tôi có thể liên hệ với bộ phận hỗ trợ hoặc yêu cầu một chức năng"
+" mới?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1149
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1243
 msgid ""
 "If you have any questions, encounter an issue, or have a new functionality "
 "request, please create a support ticket on our official support page at: "
@@ -595,77 +616,144 @@ msgstr ""
 "Nếu bạn có bất kỳ câu hỏi nào, gặp sự cố hoặc có yêu cầu về chức năng mới, "
 "vui lòng tạo một vé hỗ trợ trên trang hỗ trợ chính thức của chúng tôi tại: "
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1275
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1369
 msgid "Click to Enable Google Pay"
 msgstr "Nhấn để kích hoạt Google Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1297
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1326
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1355
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1391
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1420
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1449
 msgid "Important: "
 msgstr "Quan trọng: "
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1424
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1518
 msgid "Click to Enable Apple Pay"
 msgstr "Nhấp để kích hoạt Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1461
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1551
 msgid "Register Your Domain with Apple Pay"
 msgstr "Đăng ký tên miền của bạn với Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1555
 msgid ""
 "Any (sub)domain displaying an Apple Pay button must be registered on the "
-"PayPal website. If the domain is not registered, the payment method will "
-"not work."
+"PayPal website. If the domain is not registered, the payment method will not"
+" work."
 msgstr ""
 "Bất kỳ (phụ) miền nào hiển thị nút Apple Pay phải được đăng ký trên trang "
 "web PayPal. Nếu miền không được đăng ký, phương thức thanh toán sẽ không "
 "hoạt động."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1495
-msgid "Easy Payment Gateway for Razorpay and for WooCommerce"
-msgstr "Cổng thanh toán dễ dàng cho Razorpay và WooCommerce"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1496
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1578
 msgid ""
-"Accept payments through UPI, Cards, and Net Banking using Razorpay — "
-"developed by an official Razorpay Partner."
+"Accept PayPal, Pay Later, and major cards in WooCommerce using the PayPal "
+"Commerce Platform."
 msgstr ""
-"Chấp nhận thanh toán qua UPI, Thẻ và Ngân hàng trực tuyến sử dụng Razorpay "
-"— được phát triển bởi một Đối tác chính thức của Razorpay."
+"Chấp nhận PayPal, Trả sau, và các thẻ chính trong WooCommerce bằng cách sử "
+"dụng Nền tảng Thương mại PayPal."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1580
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1600
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1620
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1630
+#, fuzzy
+msgid "By Easy Payment"
+msgstr "Bằng cách thanh toán dễ dàng"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1587
+msgid "AI Product Description Generator for WooCommerce"
+msgstr "Trình tạo mô tả sản phẩm AI cho WooCommerce"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1588
+msgid ""
+"Generate SEO-friendly titles, descriptions, and attributes with AI. Includes"
+" bulk tools and templates."
+msgstr ""
+"Tạo tiêu đề, mô tả và thuộc tính thân thiện với SEO bằng AI. Bao gồm công cụ"
+" và mẫu hàng loạt."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1590
+msgid "By nexaplugins"
+msgstr "Bởi nexaplugins"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1597
+#, fuzzy
+msgid "Payment Gateway for Authorize.Net for WooCommerce"
+msgstr "Cổng thanh toán cho Authorize.Net cho WooCommerce"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1598
+msgid ""
+"Accept credit and debit cards via Authorize.Net with a secure, seamless "
+"WooCommerce checkout."
+msgstr ""
+"Chấp nhận thẻ tín dụng và thẻ ghi nợ qua Authorize.Net với quy trình thanh "
+"toán WooCommerce an toàn và liền mạch."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1607
+msgid "Widgets for Google Business Reviews and Ratings"
+msgstr "Widgets cho Đánh giá và Xếp hạng Doanh nghiệp Google"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1608
+msgid ""
+"Showcase your Google Business Profile reviews and star rating with "
+"customizable widgets."
+msgstr ""
+"Trình bày đánh giá và xếp hạng sao trên Hồ sơ Doanh nghiệp Google của bạn "
+"với các widget có thể tùy chỉnh."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1610
+msgid "By Repocean"
+msgstr "Bởi Repocean"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1617
 msgid "Payment Gateway for PhonePe and for WooCommerce"
 msgstr "Cổng thanh toán cho PhonePe và WooCommerce"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1502
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1618
+#, fuzzy
 msgid ""
-"Accept PhonePe UPI, Wallet, and Cards in WooCommerce with a secure, fast, "
-"and seamless payment gateway developed by a PhonePe Partner."
+"Accept PhonePe UPI, Wallet, and Cards with a fast, secure payment experience"
+" in WooCommerce."
 msgstr ""
-"Chấp nhận PhonePe UPI, Ví, và Thẻ trong WooCommerce với một cổng thanh toán "
-"an toàn, nhanh chóng và liền mạch được phát triển bởi một Đối tác của "
-"PhonePe."
+"Chấp nhận PhonePe UPI, Ví, và Thẻ với trải nghiệm thanh toán nhanh chóng, an"
+" toàn trong WooCommerce."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1508
-msgid "Recommended payment method for Indian merchants"
-msgstr "Phương thức thanh toán được khuyến nghị cho các thương nhân Ấn Độ"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1627
+#, fuzzy
+msgid "Payment Gateway for Razorpay and for WooCommerce"
+msgstr "Cổng thanh toán cho Razorpay và WooCommerce"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1526
-msgid "Plugin Logo"
-msgstr "Biểu tượng Plugin"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1628
+msgid ""
+"Accept UPI, Cards, and Net Banking via Razorpay with a reliable, optimized "
+"WooCommerce integration."
+msgstr ""
+"Chấp nhận UPI, Thẻ và Ngân hàng trực tuyến qua Razorpay với một tích hợp "
+"WooCommerce đáng tin cậy và tối ưu."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1535
-msgid "By"
-msgstr "Bởi"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1657
+msgid ""
+"Start by adding helpful extensions to your store—payments, product content, "
+"reviews and more."
+msgstr ""
+"Bắt đầu bằng cách thêm các tiện ích hữu ích vào cửa hàng của bạn—thanh toán,"
+" nội dung sản phẩm, đánh giá và nhiều hơn nữa."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1540
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1665
+#, fuzzy
+msgid "Plugin logo"
+msgstr "Biểu tượng plugin"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1680
 msgid "Install Now"
 msgstr "Cài đặt ngay bây giờ"
 
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1687
+msgid "No matching plugins found for your store settings."
+msgstr "Không tìm thấy plugin nào phù hợp với cài đặt cửa hàng của bạn."
+
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3037
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3036
 msgid "Invalid or missing payment token fields."
 msgstr "Các trường mã thông báo thanh toán không hợp lệ hoặc bị thiếu."
 
@@ -700,22 +788,22 @@ msgstr "Tiếp tục đến thanh toán"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:716
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1530
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2719
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1261
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2718
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1264
 msgid "Card Details"
 msgstr "Chi tiết thẻ"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:727
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1541
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2730
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1272
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2729
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1275
 msgid "Address Verification Result"
 msgstr "Kết quả Xác minh Địa chỉ"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:736
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1550
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2739
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1281
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2738
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1284
 msgid "Card Security Code Result"
 msgstr "Kết quả Mã Bảo Mật Thẻ"
 
@@ -724,7 +812,7 @@ msgstr "Kết quả Mã Bảo Mật Thẻ"
 #. translators: 1: Payment method title, 2: Payment status.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:758
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1577
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2761
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2760
 msgid "Payment via %1$s : %2$s."
 msgstr "Thanh toán qua %1$s : %2$s."
 
@@ -734,20 +822,20 @@ msgstr "Thanh toán qua %1$s : %2$s."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:767
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:898
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1571
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2770
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1308
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2769
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1311
 msgid "%1$s Transaction ID: %2$s"
 msgstr "ID giao dịch: %2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:901
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1926
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1329
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1925
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1332
 msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
 msgstr ""
-"Thanh toán đã được xác thực. Thay đổi trạng thái thanh toán thành đang xử "
-"lý hoặc hoàn tất để ghi nhận quỹ."
+"Thanh toán đã được xác thực. Thay đổi trạng thái thanh toán thành đang xử lý"
+" hoặc hoàn tất để ghi nhận quỹ."
 
 #. translators: 1: Refunded amount, 2: Refund transaction ID.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1270
@@ -769,21 +857,21 @@ msgid "WooCommerce Version: %1$s"
 msgstr "Phiên bản WooCommerce: %1$s"
 
 #. translators: 1: PayPal pending reason.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1930
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1929
 msgid "Payment pending (%1$s)."
 msgstr "Thanh toán đang chờ (%1$s)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1994
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1993
 msgid "Marked as refunded via PayPal. Total refunded: %s %s."
 msgstr ""
 "Đã được đánh dấu là hoàn tiền qua PayPal. Tổng số tiền hoàn lại: %s %s."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2132
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2563
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2131
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2562
 msgid "Sorry, your session has expired."
 msgstr "Xin lỗi, phiên của bạn đã hết hạn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2340
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2339
 msgid ""
 "This payment was unable to be processed successfully. Please try again with "
 "another payment method."
@@ -799,8 +887,8 @@ msgstr "Trở lại cửa hàng của bạn."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:319
 msgid ""
-"Pay via PayPal; you can pay with your credit card if you don’t have a "
-"PayPal account"
+"Pay via PayPal; you can pay with your credit card if you don’t have a PayPal"
+" account"
 msgstr ""
 "Thanh toán qua PayPal; bạn có thể thanh toán bằng thẻ tín dụng của mình nếu "
 "bạn không có tài khoản PayPal"
@@ -834,7 +922,7 @@ msgid "Connect to PayPal"
 msgstr "Kết nối với PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:102
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:140
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:152
 msgid "Setup or link an existing PayPal account."
 msgstr "Thiết lập hoặc liên kết một tài khoản PayPal hiện có."
 
@@ -843,7 +931,7 @@ msgid "Live Client ID"
 msgstr "ID Khách Hàng Trực Tiếp"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:108
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:146
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:158
 msgid "Enter PayPal Client ID."
 msgstr "Nhập ID Khách hàng PayPal."
 
@@ -852,132 +940,160 @@ msgid "Live Secret key"
 msgstr "Khóa bí mật trực tiếp"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:119
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:157
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:169
 msgid "Enter PayPal Secret key."
 msgstr "Nhập khóa bí mật PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:128
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:166
+msgid "Live PayPal Email"
+msgstr "Email PayPal Trực Tiếp"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:131
+#, fuzzy
+msgid "Enter Live PayPal Email."
+msgstr "Nhập Email PayPal trực tiếp."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:140
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:189
 msgid "PayPal Connection"
 msgstr "Kết nối PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:136
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:148
 msgid "Connect to PayPal Sandbox"
 msgstr "Kết nối với PayPal Sandbox"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:144
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:156
 msgid "Sandbox Client ID"
 msgstr "ID Khách hàng Sandbox"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:155
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:167
 msgid "Sandbox Secret key"
 msgstr "Khóa bí mật Sandbox"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:178
+msgid "Sandbox PayPal Email"
+msgstr "Email PayPal Sandbox"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:181
+#, fuzzy
+msgid "Enter Sandbox PayPal Email."
+msgstr "Nhập Email PayPal Sandbox."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:202
+msgid ""
+"When enabled, Payment methods will only be visible to site administrators "
+"and store managers. This allows you to test PayPal on your live site without"
+" customers seeing them."
+msgstr ""
+"Khi được kích hoạt, các phương thức thanh toán chỉ sẽ hiển thị cho quản trị "
+"viên trang và quản lý cửa hàng. Điều này cho phép bạn thử nghiệm PayPal trên"
+" trang trực tiếp của mình mà không để khách hàng nhìn thấy chúng."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
 msgid "Select Height"
 msgstr "Chọn Chiều cao"
 
 #. translators: %d is the button height in pixels.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:182
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:213
 msgid "%d px"
 msgstr "%d px"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:186
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:708
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1346
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1431
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1518
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1604
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1690
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1776
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:739
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1377
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1462
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1549
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1635
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1721
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1807
 msgid "Enable/Disable"
 msgstr "Bật/Tắt"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:188
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:219
 msgid "Enable PayPal"
 msgstr "Kích hoạt PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:189
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:220
 msgid ""
 "Enable this option to activate the PayPal gateway. Uncheck to disable it."
 msgstr "Bật tùy chọn này để kích hoạt cổng PayPal. Bỏ chọn để vô hiệu hóa nó."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:194
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:716
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:225
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:747
 msgid "Title"
 msgstr "Tiêu đề"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:196
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:227
 msgid "The title displayed to customers during checkout."
 msgstr "Tiêu đề hiển thị cho khách hàng trong quá trình thanh toán."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:228
 msgid "PayPal"
 msgstr "PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:201
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:232
 msgid "Description"
 msgstr "Mô tả"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:204
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:235
 msgid "The description displayed to customers during checkout."
 msgstr "Mô tả hiển thị cho khách hàng trong quá trình thanh toán."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:240
 msgid "Display PayPal Buttons On"
 msgstr "Hiển thị nút PayPal trên"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:216
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:240
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:812
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1118
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1535
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:271
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:843
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1149
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1566
 msgid "Product Page"
 msgstr "Trang sản phẩm"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:217
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:328
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:854
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1159
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1621
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:248
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:359
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:885
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1190
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1652
 msgid "Cart Page"
 msgstr "Trang Giỏ Hàng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:218
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:540
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:806
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:938
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1112
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1241
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:249
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:571
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:969
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1143
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1272
 msgid "Express Checkout"
 msgstr "Thanh toán nhanh"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:219
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:427
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:980
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1282
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:250
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:458
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1011
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1313
 msgid "Checkout Page"
 msgstr "Trang Thanh Toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:220
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:603
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:896
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1200
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:251
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:634
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:927
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1231
 msgid "Mini Cart (Side Cart)"
 msgstr "Giỏ Hàng Nhỏ (Giỏ Bên)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:222
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:253
 msgid "Set the page(s) to display the PayPal Buttons."
 msgstr "Đặt trang (các trang) để hiển thị các nút PayPal."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:228
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:248
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:335
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:434
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:259
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:279
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:366
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:465
 msgid "Disable Specific Payment Buttons"
 msgstr "Vô hiệu hóa các nút thanh toán cụ thể"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:230
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:261
 msgid ""
 "PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) are shown automatically based on factors such as the "
@@ -996,366 +1112,366 @@ msgstr ""
 "Thanh toán.<br>Đối với Giỏ hàng Nhỏ, cài đặt này sẽ theo cấu hình từ Trang "
 "Sản phẩm."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:256
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:343
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:442
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:287
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:374
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:473
 msgid "Select payment buttons to disable"
 msgstr "Chọn nút thanh toán để vô hiệu hóa"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:260
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:347
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:446
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:547
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:610
-msgid "Button Layout"
-msgstr "Bố cục Nút"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:263
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:350
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:449
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:550
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:613
-msgid ""
-"Select Vertical for stacked buttons, and Horizontal for side-by-side "
-"buttons."
-msgstr "Chọn Dọc cho các nút xếp chồng, và Ngang cho các nút bên cạnh nhau."
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:267
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:554
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:617
-msgid "Horizontal (Recommended)"
-msgstr "Ngang (Được khuyến nghị)"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:268
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:555
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:618
-msgid "Vertical"
-msgstr "Dọc"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:272
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:359
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:458
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:559
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:622
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:834
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:876
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:918
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:960
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1002
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1138
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1179
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1220
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1261
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1302
-msgid "Button Color"
-msgstr "Màu Nút"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:277
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:364
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:463
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:564
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:627
-msgid "Gold (Recommended)"
-msgstr "Vàng (Được khuyến nghị)"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:278
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:365
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:464
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:565
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:628
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
-msgid "Blue"
-msgstr "Xanh dương"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:279
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:366
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:465
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:566
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:629
-msgid "Silver"
-msgstr "Bạc"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:280
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:367
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:466
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:567
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:630
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:840
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:882
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:924
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:966
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1008
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1185
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1226
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1267
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1308
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1497
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1583
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1669
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
-msgid "White"
-msgstr "Trắng"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:281
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:368
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:467
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:568
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:631
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:839
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:881
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:923
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:965
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1007
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1143
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1184
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1225
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1266
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1307
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1497
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1583
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1669
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
-msgid "Black"
-msgstr "Đen"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:285
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:372
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:471
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:572
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:635
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:844
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:886
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:928
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:970
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1012
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1149
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1190
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1231
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1272
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1313
-msgid "Button Shape"
-msgstr "Hình dạng nút"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:290
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:377
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:476
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:577
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:640
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:849
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:891
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:933
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:975
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1017
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1154
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1195
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1236
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1277
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1318
-msgid "Rect (Recommended)"
-msgstr "Hình chữ nhật (Được khuyến nghị)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:291
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:378
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:477
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:578
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:641
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:850
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:892
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:934
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:976
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1018
+msgid "Button Layout"
+msgstr "Bố cục Nút"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:294
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:381
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:480
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:581
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:644
+msgid ""
+"Select Vertical for stacked buttons, and Horizontal for side-by-side "
+"buttons."
+msgstr "Chọn Dọc cho các nút xếp chồng, và Ngang cho các nút bên cạnh nhau."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:298
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:585
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:648
+msgid "Horizontal (Recommended)"
+msgstr "Ngang (Được khuyến nghị)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:299
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:586
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:649
+msgid "Vertical"
+msgstr "Dọc"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:303
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:390
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:489
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:590
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:653
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:865
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:907
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:949
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:991
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1033
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1169
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1210
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1251
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1292
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1333
+msgid "Button Color"
+msgstr "Màu Nút"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:308
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:395
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:494
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:595
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:658
+msgid "Gold (Recommended)"
+msgstr "Vàng (Được khuyến nghị)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:309
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:396
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:495
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:596
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
+msgid "Blue"
+msgstr "Xanh dương"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:310
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:397
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:496
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:660
+msgid "Silver"
+msgstr "Bạc"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:311
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:398
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:497
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:598
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:661
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:871
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:913
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:955
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:997
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1039
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1175
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1216
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1257
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1298
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1441
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1528
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1700
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
+msgid "White"
+msgstr "Trắng"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:312
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:399
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:498
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:599
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:662
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:870
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:912
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:954
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:996
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1038
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1174
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1215
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1256
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1297
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1441
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1528
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1700
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
+msgid "Black"
+msgstr "Đen"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:316
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:403
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:502
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:603
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:666
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:875
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:917
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:959
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1001
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1043
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1180
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1221
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1262
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1303
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1344
+msgid "Button Shape"
+msgstr "Hình dạng nút"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:321
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:408
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:507
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:608
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:671
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:880
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:922
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:964
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1006
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1048
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1185
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1226
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1267
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1308
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1349
+msgid "Rect (Recommended)"
+msgstr "Hình chữ nhật (Được khuyến nghị)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:409
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:508
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:609
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:672
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:881
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:923
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:965
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1007
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1049
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1186
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1227
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1268
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1309
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1350
+msgid "Pill"
+msgstr "Viên thuốc"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:326
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:413
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:512
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:676
+msgid "Button Width"
+msgstr "Chiều rộng nút"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:331
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:418
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:517
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:681
+msgid "Small"
+msgstr "Nhỏ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:332
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:419
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:518
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:682
+msgid "Medium"
+msgstr "Trung bình"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:333
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:420
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:519
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:683
+msgid "Large"
+msgstr "Lớn"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:334
+msgid "Responsive"
+msgstr "Phản hồi"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:338
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:425
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:524
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:613
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:688
+msgid "Button Height"
+msgstr "Chiều cao nút"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:345
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:432
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:531
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:620
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:695
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:849
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:891
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:933
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:975
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1017
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1155
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1196
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1237
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1278
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1319
-msgid "Pill"
-msgstr "Viên thuốc"
+msgid "Button Label"
+msgstr "Nhãn Nút"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:295
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:382
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:481
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:645
-msgid "Button Width"
-msgstr "Chiều rộng nút"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:350
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:437
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:536
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:625
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:700
+msgid "PayPal (Recommended)"
+msgstr "PayPal (Được khuyến nghị)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:300
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:387
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:486
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:650
-msgid "Small"
-msgstr "Nhỏ"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:351
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:438
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:626
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:701
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:838
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:856
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:898
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:940
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:982
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1024
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1162
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1203
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1244
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1285
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1326
+msgid "Checkout"
+msgstr "Thanh toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:301
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:388
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:487
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:651
-msgid "Medium"
-msgstr "Trung bình"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:352
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:439
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:538
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:627
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:702
+msgid "Buy Now"
+msgstr "Mua ngay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:302
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:389
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:488
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:652
-msgid "Large"
-msgstr "Lớn"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:303
-msgid "Responsive"
-msgstr "Phản hồi"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:307
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:394
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:493
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:582
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:657
-msgid "Button Height"
-msgstr "Chiều cao nút"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:314
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:401
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:500
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:589
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:664
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:818
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:353
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:440
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:539
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:628
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:703
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:860
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:902
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:944
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:986
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1124
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1165
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1206
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1247
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1288
-msgid "Button Label"
-msgstr "Nhãn Nút"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:319
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:406
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:505
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:594
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:669
-msgid "PayPal (Recommended)"
-msgstr "PayPal (Được khuyến nghị)"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:320
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:407
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:595
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:670
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:807
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:825
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:867
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:909
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:951
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:993
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1113
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1131
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1172
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1213
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1254
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1295
-msgid "Checkout"
-msgstr "Thanh toán"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:321
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:408
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:507
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:596
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:671
-msgid "Buy Now"
-msgstr "Mua ngay"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:409
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:508
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:597
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:672
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:829
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:871
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:913
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:955
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:997
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1133
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1174
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1215
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1256
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1297
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1028
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1164
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1205
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1246
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1287
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1328
 msgid "Pay"
 msgstr "Trả tiền"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:354
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:453
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:385
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:484
 msgid "Vertical (Recommended)"
 msgstr "Dọc (Được khuyến nghị)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:355
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:454
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:386
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:485
 msgid "Horizontal"
 msgstr "Ngang"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:390
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:489
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:653
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:421
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:520
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:684
 msgid "Responsive (Recommended)"
 msgstr "Phản hồi (Được khuyến nghị)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:413
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:444
 msgid "PayPal Button Position (Classic Cart Only)"
 msgstr "Vị trí nút PayPal (Chỉ dành cho Giỏ hàng Cổ điển)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:416
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:447
 msgid ""
-"Choose where the PayPal buttons should appear on the cart page, either "
-"above or below the \"Proceed to Checkout\" button. This applies only to "
-"classic cart templates, not the new Cart Blocks layout."
+"Choose where the PayPal buttons should appear on the cart page, either above"
+" or below the \"Proceed to Checkout\" button. This applies only to classic "
+"cart templates, not the new Cart Blocks layout."
 msgstr ""
 "Chọn vị trí mà các nút PayPal nên xuất hiện trên trang giỏ hàng, hoặc là ở "
 "trên hoặc dưới nút \"Tiến hành thanh toán\". Điều này chỉ áp dụng cho các "
 "mẫu giỏ hàng cổ điển, không phải bố cục Giỏ hàng Mới."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:420
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:451
 msgid "Below Proceed to Checkout button"
 msgstr "Dưới nút Tiến hành thanh toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:421
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:452
 msgid "Above Proceed to Checkout button"
 msgstr "Trên nút Tiến hành thanh toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:512
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:543
 msgid "Icon"
 msgstr "Biểu tượng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:516
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:547
 msgid "Monogram (PP)"
 msgstr "Monogram (PP)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:517
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:548
 msgid "Wordmark (PayPal)"
 msgstr "Biểu trưng (PayPal)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:518
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:549
 msgid "Combination Mark (PP PayPal)"
 msgstr "Biểu trưng kết hợp (PP PayPal)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:520
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:551
 msgid ""
 "Select the PayPal logo style displayed next to the payment method title on "
 "the checkout page."
@@ -1363,11 +1479,11 @@ msgstr ""
 "Chọn kiểu logo PayPal hiển thị bên cạnh tiêu đề phương thức thanh toán trên "
 "trang thanh toán."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:523
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:554
 msgid "Show Redirect Icon and Text"
 msgstr "Hiển thị biểu tượng và văn bản chuyển hướng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:527
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:558
 msgid ""
 "When enabled, a redirect icon and message will appear to let customers know "
 "they will be taken to PayPal to complete their payment."
@@ -1376,27 +1492,27 @@ msgstr ""
 "để thông báo cho khách hàng rằng họ sẽ được chuyển đến PayPal để hoàn tất "
 "thanh toán của mình."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:530
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:561
 msgid "Use Place Order Button"
 msgstr "Sử dụng nút Đặt hàng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:534
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:565
 msgid ""
 "Enable this to use the default Place Order button on the checkout page "
 "instead of showing PayPal buttons. This setting does not affect Express "
 "Checkout."
 msgstr ""
-"Bật tùy chọn này để sử dụng nút Đặt hàng mặc định trên trang thanh toán "
-"thay vì hiển thị các nút PayPal. Cài đặt này không ảnh hưởng đến Thanh toán "
+"Bật tùy chọn này để sử dụng nút Đặt hàng mặc định trên trang thanh toán thay"
+" vì hiển thị các nút PayPal. Cài đặt này không ảnh hưởng đến Thanh toán "
 "Nhanh."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:682
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:713
 msgid ""
 "To use Advanced Card Payments, ensure your PayPal account is eligible and "
 "enabled:<br><br>1. Visit developer.paypal.com → Apps & Credentials → API "
 "Credentials.<br>2. Click your App Name.<br>3. Under \"Features\" → Accept "
-"Payments, check if \"Advanced Credit and Debit Card Payments\" is enabled."
-"<br>4. If missing, your account or region may not support it."
+"Payments, check if \"Advanced Credit and Debit Card Payments\" is "
+"enabled.<br>4. If missing, your account or region may not support it."
 msgstr ""
 "Để sử dụng Thanh toán Thẻ Nâng cao, hãy đảm bảo rằng tài khoản PayPal của "
 "bạn đủ điều kiện và đã được kích hoạt:<br><br>1. Truy cập "
@@ -1406,21 +1522,21 @@ msgstr ""
 "cao\" có được kích hoạt không.<br>4. Nếu thiếu, tài khoản hoặc khu vực của "
 "bạn có thể không hỗ trợ tính năng này."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:703
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:761
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:785
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1027
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1049
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1085
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1336
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:734
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:792
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:816
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1058
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1080
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1116
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1367
 msgid "Important Note"
 msgstr "Lưu ý quan trọng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:710
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:741
 msgid "Enable Advanced Credit/Debit Card"
 msgstr "Kích hoạt Thẻ Tín Dụng/Ghi Nợ Nâng Cao"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:712
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:743
 msgid ""
 "Enable the Advanced Credit/Debit Card payment option as a separate gateway "
 "on the checkout page. This gateway typically offers a lower PayPal fee "
@@ -1429,31 +1545,31 @@ msgid ""
 "PayPal Smart Buttons. It supports major cards like Visa, Mastercard, and "
 "American Express, providing a secure and streamlined payment experience."
 msgstr ""
-"Bật tùy chọn thanh toán Thẻ Tín Dụng/Ghi Nợ Nâng Cao như một cổng thanh "
-"toán riêng biệt trên trang thanh toán. Cổng thanh toán này thường cung cấp "
-"phí PayPal thấp hơn so với Nút Thông Minh PayPal. Phí là 2.59% + $0.49* cho "
-"các giao dịch thanh toán Thẻ Tín Dụng/Ghi Nợ Nâng Cao và 3.49% + $0.49* cho "
-"Nút Thông Minh PayPal. Nó hỗ trợ các thẻ chính như Visa, Mastercard và "
-"American Express, cung cấp trải nghiệm thanh toán an toàn và mượt mà."
+"Bật tùy chọn thanh toán Thẻ Tín Dụng/Ghi Nợ Nâng Cao như một cổng thanh toán"
+" riêng biệt trên trang thanh toán. Cổng thanh toán này thường cung cấp phí "
+"PayPal thấp hơn so với Nút Thông Minh PayPal. Phí là 2.59% + $0.49* cho các "
+"giao dịch thanh toán Thẻ Tín Dụng/Ghi Nợ Nâng Cao và 3.49% + $0.49* cho Nút "
+"Thông Minh PayPal. Nó hỗ trợ các thẻ chính như Visa, Mastercard và American "
+"Express, cung cấp trải nghiệm thanh toán an toàn và mượt mà."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:749
 msgid ""
 "Set the title for the Advanced Credit/Debit Card payment method as it will "
 "appear on the checkout page (e.g., 'Pay with Credit/Debit Card').."
 msgstr ""
 "Đặt tiêu đề cho phương thức thanh toán Thẻ Tín Dụng/Thẻ Ghi Nợ nâng cao như "
-"nó sẽ xuất hiện trên trang thanh toán (ví dụ: 'Thanh toán bằng Thẻ Tín Dụng/"
-"Thẻ Ghi Nợ')."
+"nó sẽ xuất hiện trên trang thanh toán (ví dụ: 'Thanh toán bằng Thẻ Tín "
+"Dụng/Thẻ Ghi Nợ')."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:719
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:750
 msgid "Credit or Debit Card"
 msgstr "Thẻ tín dụng hoặc thẻ ghi nợ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:723
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:754
 msgid "Disable specific credit cards"
 msgstr "Vô hiệu hóa các thẻ tín dụng cụ thể"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:729
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:760
 msgid ""
 "By default all possible credit cards will be accepted. You can disable some "
 "cards, if you wish."
@@ -1461,37 +1577,37 @@ msgstr ""
 "Theo mặc định, tất cả các thẻ tín dụng có thể sẽ được chấp nhận. Bạn có thể "
 "vô hiệu hóa một số thẻ, nếu bạn muốn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:736
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:767
 msgid "Contingency for 3D Secure"
 msgstr "Dự phòng cho 3D Secure"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:740
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:771
 msgid "3D Secure when required"
 msgstr "3D Secure khi cần thiết"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:741
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:772
 msgid "Always trigger 3D Secure"
 msgstr "Luôn kích hoạt 3D Secure"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:745
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:776
 msgid ""
 "3D Secure benefits cardholders and merchants by providing an additional "
 "layer of verification using Verified by Visa, MasterCard SecureCode and "
 "American Express SafeKey."
 msgstr ""
-"3D Secure mang lại lợi ích cho chủ thẻ và thương nhân bằng cách cung cấp "
-"một lớp xác minh bổ sung thông qua Verified by Visa, MasterCard SecureCode "
-"và American Express SafeKey."
+"3D Secure mang lại lợi ích cho chủ thẻ và thương nhân bằng cách cung cấp một"
+" lớp xác minh bổ sung thông qua Verified by Visa, MasterCard SecureCode và "
+"American Express SafeKey."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:748
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:779
 msgid "Card Save Enabled"
 msgstr "Đã bật lưu thẻ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:749
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:780
 msgid "Enable card saving at checkout"
 msgstr "Bật tính năng lưu thẻ tại trang thanh toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:752
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:783
 msgid ""
 "When enabled, customers can securely save their card details using PayPal "
 "for faster future checkouts."
@@ -1499,274 +1615,277 @@ msgstr ""
 "Khi được kích hoạt, khách hàng có thể lưu trữ thông tin thẻ của họ một cách "
 "an toàn bằng cách sử dụng PayPal để thanh toán nhanh hơn trong tương lai."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:763
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:794
 msgid ""
 "Advanced Credit/Debit Card payments are not enabled in your PayPal account. "
 "<br><br><strong>Supported Countries:</strong><br>Australia, Austria, "
 "Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, "
-"Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, "
-"Japan, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, "
-"Norway, Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, "
-"Sweden, United States, United Kingdom<br><br>"
+"Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan,"
+" Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, "
+"Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, "
+"United States, United Kingdom<br><br>"
 msgstr ""
 "Thanh toán bằng thẻ tín dụng/thẻ ghi nợ nâng cao chưa được kích hoạt trong "
-"tài khoản PayPal của bạn. <br><br><strong>Các quốc gia được hỗ trợ:</"
-"strong><br>Úc, Áo, Bỉ, Bulgaria, Canada, Trung Quốc, Síp, Cộng hòa Séc, Đan "
-"Mạch, Estonia, Phần Lan, Pháp, Đức, Hy Lạp, Hồng Kông, Hungary, Ireland, Ý, "
-"Nhật Bản, Latvia, Liechtenstein, Litva, Luxembourg, Malta, Hà Lan, Na Uy, "
-"Ba Lan, Bồ Đào Nha, Romania, Singapore, Slovakia, Slovenia, Tây Ban Nha, "
-"Thụy Điển, Hoa Kỳ, Vương quốc Anh<br><br>"
+"tài khoản PayPal của bạn. <br><br><strong>Các quốc gia được hỗ "
+"trợ:</strong><br>Úc, Áo, Bỉ, Bulgaria, Canada, Trung Quốc, Síp, Cộng hòa "
+"Séc, Đan Mạch, Estonia, Phần Lan, Pháp, Đức, Hy Lạp, Hồng Kông, Hungary, "
+"Ireland, Ý, Nhật Bản, Latvia, Liechtenstein, Litva, Luxembourg, Malta, Hà "
+"Lan, Na Uy, Ba Lan, Bồ Đào Nha, Romania, Singapore, Slovakia, Slovenia, Tây "
+"Ban Nha, Thụy Điển, Hoa Kỳ, Vương quốc Anh<br><br>"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:800
 msgid "Please ensure that Google Pay is enabled in your PayPal account."
 msgstr ""
 "Vui lòng đảm bảo rằng Google Pay đã được kích hoạt trong tài khoản PayPal "
 "của bạn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:800
 msgid "Check this box to display the Google Pay button on selected pages."
 msgstr "Đánh dấu ô này để hiển thị nút Google Pay trên các trang đã chọn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:773
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:804
 msgid "Google Pay must be enabled in your PayPal account (%s)."
 msgstr "Google Pay phải được kích hoạt trong tài khoản PayPal của bạn (%s)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:775
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1075
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:806
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1106
 msgid "setup guide"
 msgstr "hướng dẫn thiết lập"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:780
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1080
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:811
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1111
 msgid "The page must be served over a secure (HTTPS) connection."
 msgstr "Trang phải được phục vụ qua kết nối an toàn (HTTPS)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:782
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:813
 msgid "To show the Google Pay button,"
 msgstr "Để hiển thị nút Google Pay,"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:790
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:791
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1037
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:821
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:822
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1068
 msgid "Enable Google Pay"
 msgstr "Kích hoạt Google Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:797
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:828
 msgid "Display Google Pay Button On"
 msgstr "Hiển thị nút Google Pay Bật"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:803
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1109
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:834
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1140
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
 msgid "Product"
 msgstr "Sản phẩm"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:804
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1110
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:835
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1141
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
 msgid "Cart"
 msgstr "Giỏ hàng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:805
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1111
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:836
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1142
 msgid "Mini Cart"
 msgstr "Giỏ hàng nhỏ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:809
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:840
 msgid "Set the page(s) to display the Google Pay button."
 msgstr "Đặt trang (các trang) để hiển thị nút Google Pay."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:823
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:865
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:907
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:949
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:991
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1129
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1170
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1211
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1252
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1293
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:854
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:896
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:938
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:980
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1022
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1160
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1201
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1242
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1283
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1324
 msgid "Plain"
 msgstr "Đơn giản"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:824
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:866
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:908
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:950
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:992
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1130
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1171
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1212
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1253
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1294
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:855
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:897
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:939
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:981
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1023
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1161
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1202
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1243
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1284
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1325
 msgid "Buy"
 msgstr "Mua"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:826
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:868
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:910
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:952
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:994
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:857
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:899
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:941
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:983
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1025
 msgid "Donate"
 msgstr "Đóng góp"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:827
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:869
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:911
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:953
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:995
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:858
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:900
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:942
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:984
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1026
 msgid "Book"
 msgstr "Sách"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:828
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:870
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:912
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:954
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:996
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1132
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1173
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1214
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1255
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1296
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:859
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:901
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:943
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:985
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1027
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1163
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1204
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1245
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1286
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1327
 msgid "Order"
 msgstr "Đặt hàng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:830
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:872
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:914
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:956
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:998
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1134
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1175
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1216
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1257
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1298
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:861
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:903
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:945
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:987
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1029
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1165
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1206
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1288
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1329
 msgid "Subscribe"
 msgstr "Đăng ký"
 
 #. translators: %1$s is the supported countries list. %2$s is the supported
 #. currencies list.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1031
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1062
 msgid ""
-"Google Pay is not enabled in your PayPal account. Click below to enable it."
-"<br><br><strong>Supported Countries:</"
-"strong><br>%1$s<br><br><strong>Supported Currencies:</strong><br>%2$s"
+"Google Pay is not enabled in your PayPal account. Click below to enable "
+"it.<br><br><strong>Supported "
+"Countries:</strong><br>%1$s<br><br><strong>Supported "
+"Currencies:</strong><br>%2$s"
 msgstr ""
-"Google Pay chưa được kích hoạt trong tài khoản PayPal của bạn. Nhấn vào "
-"liên kết bên dưới để kích hoạt.<br><br><strong>Các quốc gia được hỗ trợ:</"
-"strong><br>%1$s<br><br><strong>Các loại tiền tệ được hỗ trợ:</"
-"strong><br>%2$s"
+"Google Pay chưa được kích hoạt trong tài khoản PayPal của bạn. Nhấn vào liên"
+" kết bên dưới để kích hoạt.<br><br><strong>Các quốc gia được hỗ "
+"trợ:</strong><br>%1$s<br><br><strong>Các loại tiền tệ được hỗ "
+"trợ:</strong><br>%2$s"
 
 #. translators: %1$s is the list of supported countries. %2$s is the list of
 #. supported currencies.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1053
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1084
 msgid ""
-"Apple Pay is not enabled in your PayPal account. Click below to enable it."
-"<br><br><strong>Supported Countries:</"
-"strong><br>%1$s<br><br><strong>Supported Currencies:</strong><br>%2$s"
+"Apple Pay is not enabled in your PayPal account. Click below to enable "
+"it.<br><br><strong>Supported "
+"Countries:</strong><br>%1$s<br><br><strong>Supported "
+"Currencies:</strong><br>%2$s"
 msgstr ""
 "Apple Pay chưa được kích hoạt trong tài khoản PayPal của bạn. Nhấn vào đây "
-"để kích hoạt.<br><br><strong>Các quốc gia được hỗ trợ:</"
-"strong><br>%1$s<br><br><strong>Các loại tiền tệ được hỗ trợ:</"
-"strong><br>%2$s"
+"để kích hoạt.<br><br><strong>Các quốc gia được hỗ "
+"trợ:</strong><br>%1$s<br><br><strong>Các loại tiền tệ được hỗ "
+"trợ:</strong><br>%2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1059
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1096
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1090
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1127
 msgid "Enable Apple Pay"
 msgstr "Kích hoạt Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1069
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1100
 msgid "Please ensure that Apple Pay is enabled in your PayPal account."
 msgstr ""
-"Vui lòng đảm bảo rằng Apple Pay đã được kích hoạt trong tài khoản PayPal "
-"của bạn."
+"Vui lòng đảm bảo rằng Apple Pay đã được kích hoạt trong tài khoản PayPal của"
+" bạn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1069
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1100
 msgid "Check this box to display the Apple Pay button on selected pages."
 msgstr "Đánh dấu ô này để hiển thị nút Apple Pay trên các trang đã chọn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1073
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1104
 msgid "Apple Pay must be enabled in your PayPal account (%s)."
 msgstr "Apple Pay phải được kích hoạt trong tài khoản PayPal của bạn (%s)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1082
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1113
 msgid "To show the Apple Pay button,"
 msgstr "Để hiển thị nút Apple Pay,"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1090
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1121
 msgid "Domain Registration"
 msgstr "Đăng ký tên miền"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1092
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1123
 msgid ""
 "Apple requires that the website domain be registered on PayPal. Payments "
 "will not be processed if the Apple Pay button is used on an unregistered "
 "domain."
 msgstr ""
 "Apple yêu cầu rằng tên miền trang web phải được đăng ký trên PayPal. Các "
-"khoản thanh toán sẽ không được xử lý nếu nút Apple Pay được sử dụng trên "
-"một tên miền chưa được đăng ký."
+"khoản thanh toán sẽ không được xử lý nếu nút Apple Pay được sử dụng trên một"
+" tên miền chưa được đăng ký."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1097
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1128
 msgid "Enable Apple Pay on your store"
 msgstr "Bật Apple Pay trên cửa hàng của bạn"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1103
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1134
 msgid "Display Apple Pay Button On"
 msgstr "Hiển thị nút Apple Pay Bật"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1115
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1146
 msgid "Set the page(s) to display the Apple Pay button."
 msgstr "Đặt trang(s) để hiển thị nút Apple Pay."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1145
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1186
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1227
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1268
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1309
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1176
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1258
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1299
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1340
 msgid "White with outline"
 msgstr "Trắng với viền"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1370
 msgid ""
-"Your customers can already buy now and pay later with PayPal — add "
-"messaging to your site to let them know. PayPal’s Pay Later helps boost "
-"merchants' conversion rates and increases cart sizes by 39%.¹ You get paid "
-"in full up front. <a target=\"_blank\" href=\"https://www.paypal.com/us/"
-"business/accept-payments/checkout/installments\">More about Pay Later</a>"
+"Your customers can already buy now and pay later with PayPal — add messaging"
+" to your site to let them know. PayPal’s Pay Later helps boost merchants' "
+"conversion rates and increases cart sizes by 39%.¹ You get paid in full up "
+"front. <a target=\"_blank\" "
+"href=\"https://www.paypal.com/us/business/accept-"
+"payments/checkout/installments\">More about Pay Later</a>"
 msgstr ""
 "Khách hàng của bạn đã có thể mua ngay và thanh toán sau với PayPal — hãy "
 "thêm thông điệp trên trang web của bạn để thông báo cho họ. PayPal’s Pay "
 "Later giúp tăng tỷ lệ chuyển đổi của người bán và tăng kích thước giỏ hàng "
 "lên 39%.¹ Bạn sẽ nhận được thanh toán đầy đủ ngay từ đầu. <a "
-"target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-payments/"
-"checkout/installments\">Tìm hiểu thêm về Pay Later</a>"
+"target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-"
+"payments/checkout/installments\">Tìm hiểu thêm về Pay Later</a>"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1347
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1378
 msgid "Enable Pay Later Messaging"
 msgstr "Bật Tin Nhắn Trả Sau"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1349
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1380
 msgid "Displays Pay Later messaging for available offers."
 msgstr "Hiển thị thông điệp Trả Sau cho các ưu đãi có sẵn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1353
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1384
 msgid "Display Pay Later messaging On"
 msgstr "Hiển thị thông điệp Trả Sau Bật"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
 msgid "Home"
 msgstr "Trang chủ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
 msgid "Category"
 msgstr "Danh mục"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
 msgid "Payment"
 msgstr "Thanh toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1359
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1390
 msgid ""
 "Set the page(s) you want to display messaging on, and then adjust that "
 "page's display option below."
@@ -1774,213 +1893,213 @@ msgstr ""
 "Đặt trang mà bạn muốn hiển thị thông điệp, sau đó điều chỉnh tùy chọn hiển "
 "thị của trang đó bên dưới."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1362
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1393
 msgid "Home Page"
 msgstr "Trang Chủ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1368
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1455
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1541
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1627
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1713
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1399
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1486
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1572
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1658
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1744
 msgid "Layout Type"
 msgstr "Loại Bố Cục"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1374
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1461
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1547
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1633
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1719
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1405
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1578
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1664
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1750
 msgid "Text Layout"
 msgstr "Bố cục văn bản"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1374
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1461
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1547
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1633
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1719
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1405
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1578
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1664
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1750
 msgid "Flex Layout"
 msgstr "Bố cục Linh hoạt"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1377
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1464
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1550
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1636
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1722
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1408
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1495
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1581
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1667
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1753
 msgid "Logo Type"
 msgstr "Loại Logo"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1556
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1414
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1673
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1759
 msgid "Primary"
 msgstr "Chính"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1556
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1414
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1673
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1759
 msgid "Alternative"
 msgstr "Thay thế"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1556
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1414
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1673
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1759
 msgid "Inline"
 msgstr "Nội tuyến"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1556
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1414
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1673
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1759
 msgid "None"
 msgstr "Không có gì"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1386
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1473
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1559
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1645
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1731
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1417
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1504
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1590
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1676
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1762
 msgid "Logo Position"
 msgstr "Vị trí Logo"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1392
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1565
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1651
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1737
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1423
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1596
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1682
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1768
 msgid "Left"
 msgstr "Trái"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1392
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1565
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1651
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1737
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1423
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1596
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1682
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1768
 msgid "Right"
 msgstr "Đúng vậy"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1392
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1565
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1651
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1737
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1423
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1596
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1682
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1768
 msgid "Top"
 msgstr "Đỉnh"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1395
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1482
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1568
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1654
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1740
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1426
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1513
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1599
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1685
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1771
 msgid "Text Size"
 msgstr "Kích thước văn bản"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1404
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1491
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1577
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1663
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1749
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1435
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1522
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1608
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1694
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1780
 msgid "Text Color"
 msgstr "Màu văn bản"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1497
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1583
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1669
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1441
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1528
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1700
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
 msgid "Monochrome"
 msgstr "Đơn sắc"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1497
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1583
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1669
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1441
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1528
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1700
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
 msgid "Grayscale"
 msgstr "Đen trắng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1413
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1500
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1586
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1672
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1758
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1444
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1531
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1703
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1789
 msgid "Color"
 msgstr "Màu sắc"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
 msgid "White (No Border)"
 msgstr "Trắng (Không Viền)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
 msgid "Gray"
 msgstr "Xám"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1422
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1509
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1595
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1681
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1767
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1453
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1540
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1626
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1712
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1798
 msgid "Ratio"
 msgstr "Tỷ lệ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
 msgid "Flexes between 120px and 300px wide"
 msgstr "Kích thước linh hoạt giữa 120px và 300px rộng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
 msgid "160px wide"
 msgstr "160px rộng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
 msgid "Flexes between 250px and 768px wide"
 msgstr "Kéo dài giữa 250px và 768px rộng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
 msgid "Flexes between 250px and 1169px wide"
 msgstr "Kéo dài giữa 250px và 1169px rộng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1432
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1463
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on Home "
 "page."
@@ -1988,19 +2107,19 @@ msgstr ""
 "Tôi cần một mã ngắn để có thể đặt thông điệp ở vị trí tốt hơn trên trang "
 "chính."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1439
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1526
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1612
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1698
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1784
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1557
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1643
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1729
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1815
 msgid "Shortcode"
 msgstr "Mã ngắn"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1448
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
 msgid "Category Page"
 msgstr "Trang Danh Mục"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1519
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1550
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "category page."
@@ -2008,7 +2127,7 @@ msgstr ""
 "Tôi cần một shortcode để tôi có thể đặt thông điệp ở vị trí tốt hơn trên "
 "trang danh mục."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1605
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1636
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "product page."
@@ -2016,7 +2135,7 @@ msgstr ""
 "Tôi cần một shortcode để tôi có thể đặt thông điệp ở vị trí tốt hơn trên "
 "trang sản phẩm."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1691
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1722
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on cart "
 "page."
@@ -2024,11 +2143,11 @@ msgstr ""
 "Tôi cần một shortcode để có thể đặt thông điệp ở vị trí tốt hơn trên trang "
 "giỏ hàng."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1707
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1738
 msgid "Payment Page"
 msgstr "Trang Thanh Toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1777
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1808
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "payment page."
@@ -2036,41 +2155,41 @@ msgstr ""
 "Tôi cần một shortcode để tôi có thể đặt thông điệp ở vị trí tốt hơn trên "
 "trang thanh toán."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1797
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1828
 msgid "Payment action"
 msgstr "Hành động thanh toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1800
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1831
 msgid ""
 "Choose whether you wish to capture funds immediately or authorize payment "
 "only."
 msgstr "Chọn xem bạn muốn thu tiền ngay lập tức hay chỉ ủy quyền thanh toán."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1835
 msgid "Capture"
 msgstr "Bắt giữ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1805
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1836
 msgid "Authorize"
 msgstr "Ủy quyền"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1809
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1840
 msgid "Brand Name"
 msgstr "Tên thương hiệu"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1811
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1842
 msgid ""
 "This controls what users see as the brand / company name on PayPal review "
 "pages."
 msgstr ""
-"Điều này kiểm soát những gì người dùng thấy dưới dạng tên thương hiệu / "
-"công ty trên các trang đánh giá của PayPal."
+"Điều này kiểm soát những gì người dùng thấy dưới dạng tên thương hiệu / công"
+" ty trên các trang đánh giá của PayPal."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1816
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1847
 msgid "Landing Page"
 msgstr "Trang Đích"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1850
 msgid ""
 "The type of landing page to show on the PayPal site for customer checkout. "
 "PayPal Account Optional must be checked for this option to be used."
@@ -2079,49 +2198,48 @@ msgstr ""
 "khách hàng. Tùy chọn Tài khoản PayPal Tùy chọn phải được đánh dấu để có thể "
 "sử dụng tùy chọn này."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1820
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1851
 msgid "Login"
 msgstr "Đăng nhập"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1821
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1852
 msgid "Billing"
 msgstr "Thanh toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1822
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1853
 msgid "No Preference"
 msgstr "Không có sở thích"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1827
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1858
 msgid "Instant Payments "
 msgstr "Thanh toán ngay lập tức "
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1831
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1862
 msgid ""
-"If you enable this setting, PayPal will be instructed not to allow the "
-"buyer to use funding sources that take additional time to complete (for "
-"example, eChecks). Instead, the buyer will be required to use an instant "
-"funding source, such as an instant transfer, a credit/debit card, or PayPal "
-"Credit."
+"If you enable this setting, PayPal will be instructed not to allow the buyer"
+" to use funding sources that take additional time to complete (for example, "
+"eChecks). Instead, the buyer will be required to use an instant funding "
+"source, such as an instant transfer, a credit/debit card, or PayPal Credit."
 msgstr ""
 "Nếu bạn bật cài đặt này, PayPal sẽ được hướng dẫn không cho phép người mua "
 "sử dụng các nguồn tài trợ cần thêm thời gian để hoàn tất (ví dụ, eChecks). "
-"Thay vào đó, người mua sẽ phải sử dụng một nguồn tài trợ ngay lập tức, "
-"chẳng hạn như chuyển khoản ngay lập tức, thẻ tín dụng/thẻ ghi nợ hoặc "
-"PayPal Credit."
+"Thay vào đó, người mua sẽ phải sử dụng một nguồn tài trợ ngay lập tức, chẳng"
+" hạn như chuyển khoản ngay lập tức, thẻ tín dụng/thẻ ghi nợ hoặc PayPal "
+"Credit."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1834
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1865
 msgid "Require Instant Payment"
 msgstr "Yêu cầu Thanh Toán Ngay Lập Tức"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1868
 msgid "Billing Address"
 msgstr "Địa chỉ thanh toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1838
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1869
 msgid "Use PayPal Shipping Address as Billing"
 msgstr "Sử dụng Địa chỉ Giao hàng PayPal làm Địa chỉ Thanh toán"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1839
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1870
 msgid ""
 "If the billing address is empty and PayPal provides a shipping address, the "
 "order will use the shipping address as the billing address."
@@ -2129,15 +2247,15 @@ msgstr ""
 "Nếu địa chỉ thanh toán trống và PayPal cung cấp một địa chỉ giao hàng, đơn "
 "hàng sẽ sử dụng địa chỉ giao hàng làm địa chỉ thanh toán."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1845
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1876
 msgid "Send Item Details"
 msgstr "Gửi Chi Tiết Mặt Hàng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1877
 msgid "Send line item details to PayPal"
 msgstr "Gửi chi tiết mặt hàng đến PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1848
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1879
 msgid ""
 "Include all line item details in the payment request to PayPal so that they "
 "can be seen from the PayPal transaction details page."
@@ -2145,25 +2263,25 @@ msgstr ""
 "Bao gồm tất cả chi tiết mục trong yêu cầu thanh toán đến PayPal để chúng có "
 "thể được nhìn thấy từ trang chi tiết giao dịch của PayPal."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1852
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1883
 msgid "Invoice prefix"
 msgstr "Tiền tố hóa đơn"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1854
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1885
 msgid ""
 "Please enter a prefix for your invoice numbers. If you use your PayPal "
 "account for multiple stores ensure this prefix is unique as PayPal will not "
 "allow orders with the same invoice number."
 msgstr ""
 "Vui lòng nhập một tiền tố cho số hóa đơn của bạn. Nếu bạn sử dụng tài khoản "
-"PayPal của mình cho nhiều cửa hàng, hãy đảm bảo rằng tiền tố này là duy "
-"nhất vì PayPal sẽ không cho phép các đơn hàng có cùng số hóa đơn."
+"PayPal của mình cho nhiều cửa hàng, hãy đảm bảo rằng tiền tố này là duy nhất"
+" vì PayPal sẽ không cho phép các đơn hàng có cùng số hóa đơn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1859
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1890
 msgid "Credit Card Statement Name"
 msgstr "Tên Bảng Sao Kê Thẻ Tín Dụng"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1861
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1892
 msgid ""
 "The value entered here will be displayed on the buyer's credit card "
 "statement."
@@ -2171,20 +2289,20 @@ msgstr ""
 "Giá trị được nhập ở đây sẽ được hiển thị trên bảng sao kê thẻ tín dụng của "
 "người mua."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1867
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1898
 msgid "Debug log"
 msgstr "Nhật ký gỡ lỗi"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1869
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1900
 msgid "Enable logging"
 msgstr "Bật ghi nhật ký"
 
 #. translators: %s is the path to the WooCommerce PayPal debug log file.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1873
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1904
 msgid "Log PayPal events, such as Webhook, Payment, Refund inside %s"
 msgstr ""
-"Ghi lại các sự kiện PayPal, chẳng hạn như Webhook, Thanh toán, Hoàn tiền "
-"bên trong %s"
+"Ghi lại các sự kiện PayPal, chẳng hạn như Webhook, Thanh toán, Hoàn tiền bên"
+" trong %s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:137
 msgid "PayPal Shipment Tracking"
@@ -2246,8 +2364,8 @@ msgid ""
 "INTERNATIONAL_WITHDRAWAL: Visit your online account. In your Account "
 "Overview, accept and deny this payment."
 msgstr ""
-"RÚT TIỀN QUỐC TẾ: Truy cập tài khoản trực tuyến của bạn. Trong Tổng quan "
-"Tài khoản của bạn, chấp nhận và từ chối khoản thanh toán này."
+"RÚT TIỀN QUỐC TẾ: Truy cập tài khoản trực tuyến của bạn. Trong Tổng quan Tài"
+" khoản của bạn, chấp nhận và từ chối khoản thanh toán này."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:248
 msgid ""
@@ -2255,8 +2373,8 @@ msgid ""
 "this captured payment, visit your account online or contact PayPal."
 msgstr ""
 "Không có lý do cụ thể nào khác có thể được cung cấp. Để biết thêm thông tin "
-"về khoản thanh toán đã được ghi lại này, hãy truy cập tài khoản của bạn "
-"trực tuyến hoặc liên hệ với PayPal."
+"về khoản thanh toán đã được ghi lại này, hãy truy cập tài khoản của bạn trực"
+" tuyến hoặc liên hệ với PayPal."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:251
 msgid "PENDING_REVIEW: The captured payment is pending manual review."
@@ -2266,8 +2384,8 @@ msgstr ""
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:254
 msgid ""
 "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: The payee has not yet set up "
-"appropriate receiving preferences for their account. This may occur when "
-"the payment currency differs from the primary currency."
+"appropriate receiving preferences for their account. This may occur when the"
+" payment currency differs from the primary currency."
 msgstr ""
 "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: Người nhận vẫn chưa thiết lập "
 "các tùy chọn nhận tiền phù hợp cho tài khoản của họ. Điều này có thể xảy ra "
@@ -2324,45 +2442,45 @@ msgstr "Thanh toán qua %1$s đã được hoàn lại. Lý do PayPal: %2$s."
 msgid "Payment via %1$s failed. PayPal reason: %2$s."
 msgstr "Thanh toán qua %1$s đã thất bại. Lý do từ PayPal: %2$s."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:521
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:538
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:524
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:541
 msgctxt "Important"
 msgid "Or"
 msgstr "Hoặc"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:667
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:670
 msgctxt "Important"
 msgid "Express Checkout"
 msgstr "Thanh toán nhanh"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:687
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:690
 msgctxt "Important"
 msgid "Or continue below"
 msgstr "Hoặc tiếp tục bên dưới"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:916
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:919
 msgid "Billing &amp; Shipping"
 msgstr "Thanh toán &amp; Giao hàng"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:916
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:918
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:934
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:919
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:921
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:937
 msgid "Edit"
 msgstr "Chỉnh sửa"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:918
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:921
 msgid "Billing details"
 msgstr "Chi tiết thanh toán"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:934
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:937
 msgid "Shipping details"
 msgstr "Chi tiết giao hàng"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1092
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1095
 msgid "Create an account?"
 msgstr "Tạo một tài khoản?"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1099
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1102
 msgid ""
 "Create an account by entering the information below. If you are a returning "
 "customer please login at the top of the page."
@@ -2372,23 +2490,23 @@ msgstr ""
 
 #. translators: %1$s is the payment method title, %2$s is the formatted
 #. payment status.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1301
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1304
 msgid "Payment via %1$s: %2$s."
 msgstr "Thanh toán qua %1$s: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the pending reason
 #. from PayPal.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1317
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1320
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
 msgstr "Thanh toán qua %1$s đang chờ xử lý. Lý do PayPal: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1326
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1329
 msgid "Payment via %1$s. Transaction ID: %2$s"
 msgstr "Thanh toán qua %1$s. Mã giao dịch: %2$s"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1509
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1512
 msgctxt "Important"
 msgid ""
 "<strong>You're almost done!</strong><br>Review your information before you "
@@ -2397,27 +2515,40 @@ msgstr ""
 "<strong>Bạn gần hoàn thành rồi!</strong><br>Hãy xem lại thông tin của bạn "
 "trước khi bạn đặt hàng."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1564
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1567
 msgid "Capture Charge"
 msgstr "Phí Ghi Nhận"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1702
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1705
 msgctxt "Important"
 msgid "Cancel order"
 msgstr "Hủy đơn hàng"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1775
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1778
 msgid ""
-"We cannot process your order with the payment information that you "
-"provided. Please use an alternate payment method."
+"We cannot process your order with the payment information that you provided."
+" Please use an alternate payment method."
 msgstr ""
 "Chúng tôi không thể xử lý đơn hàng của bạn với thông tin thanh toán mà bạn "
 "đã cung cấp. Vui lòng sử dụng phương thức thanh toán khác."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1783
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1786
 msgid "Something went wrong. Please try again."
 msgstr "Có gì đó đã xảy ra. Vui lòng thử lại."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1825
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1828
 msgid "3D Secure response"
 msgstr "Phản hồi 3D Secure"
+
+#~ msgid ""
+#~ "Accept payments through UPI, Cards, and Net Banking using Razorpay — "
+#~ "developed by an official Razorpay Partner."
+#~ msgstr ""
+#~ "Chấp nhận thanh toán qua UPI, Thẻ và Ngân hàng trực tuyến sử dụng Razorpay —"
+#~ " được phát triển bởi một Đối tác chính thức của Razorpay."
+
+#~ msgid "Recommended payment method for Indian merchants"
+#~ msgstr "Phương thức thanh toán được khuyến nghị cho các thương nhân Ấn Độ"
+
+#~ msgid "By"
+#~ msgstr "Bởi"

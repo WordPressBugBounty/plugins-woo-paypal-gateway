@@ -3,9 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.39\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-"
-"gateway\n"
-"POT-Creation-Date: 2025-08-07T09:49:54+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
+"POT-Creation-Date: 2025-08-19T05:41:27+00:00\n"
 "PO-Revision-Date: 2025-08-11 10:58+0530\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -19,6 +18,7 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: woo-paypal-gateway.php
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1577
 msgid "Payment Gateway for PayPal on WooCommerce"
 msgstr "Betalningsgateway för PayPal på WooCommerce"
 
@@ -64,8 +64,8 @@ msgid ""
 "Can you please tell us why you’re deactivating the plugin? Your feedback "
 "helps us make it better."
 msgstr ""
-"Kan du vänligen berätta varför du inaktiverar pluginet? Din feedback "
-"hjälper oss att göra det bättre."
+"Kan du vänligen berätta varför du inaktiverar pluginet? Din feedback hjälper"
+" oss att göra det bättre."
 
 #: admin/feedback/deactivation-feedback-form.php:19
 msgid "Temporary deactivation (troubleshooting)"
@@ -106,8 +106,8 @@ msgid ""
 "Please share why you’re deactivating the PayPal plugin so we can make "
 "improvements."
 msgstr ""
-"Vänligen dela med dig av varför du inaktiverar PayPal-pluginet så att vi "
-"kan göra förbättringar."
+"Vänligen dela med dig av varför du inaktiverar PayPal-pluginet så att vi kan"
+" göra förbättringar."
 
 #: admin/feedback/deactivation-feedback-form.php:58
 msgid ""
@@ -134,7 +134,7 @@ msgstr "Skicka & Avaktivera"
 
 #: admin/feedback/deactivation-feedback-form.php:67
 msgid "I rather wouldn't say"
-msgstr "Jag skulle hellre inte säga det"
+msgstr "Jag skulle hellre inte säga det."
 
 #: ppcp/admin/class-paypal-ppcp-apple-pay-configurations.php:57
 msgid "Invalid domain name."
@@ -165,19 +165,19 @@ msgid "Failed to fetch domain validation file."
 msgstr "Misslyckades med att hämta domänvalideringsfilen."
 
 #: ppcp/checkout-block/ppcp-cc-block.php:74
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:105
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:106
 msgctxt "Important"
 msgid "Card number"
 msgstr "Kortnummer"
 
 #: ppcp/checkout-block/ppcp-cc-block.php:75
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:112
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:113
 msgctxt "Important"
 msgid "Expiration date"
 msgstr "Utgångsdatum"
 
 #: ppcp/checkout-block/ppcp-cc-block.php:76
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:118
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:119
 msgctxt "Important"
 msgid "Security code"
 msgstr "Säkerhetskod"
@@ -188,7 +188,7 @@ msgid "Confirm Your PayPal Order"
 msgstr "Bekräfta din PayPal-beställning"
 
 #: ppcp/checkout-block/ppcp-checkout-block.php:114
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:73
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:68
 msgctxt "Important"
 msgid "Proceed to PayPal"
 msgstr "Fortsätt till PayPal"
@@ -203,8 +203,8 @@ msgstr "Klicka på knappen \"%s\" nedan för att behandla din beställning."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:25
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:66
 msgid ""
-"Sorry, your session has expired. <a href=\"%s\" class=\"wc-"
-"backward\">Return to shop</a>"
+"Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return"
+" to shop</a>"
 msgstr ""
 "Tyvärr har din session gått ut. <a href=\"%s\" class=\"wc-"
 "backward\">Återvänd till butiken</a>"
@@ -224,12 +224,12 @@ msgctxt "Important"
 msgid "Advanced Card Processing."
 msgstr "Avancerad kortbehandling."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:54
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:55
 msgctxt "Important"
 msgid "Sandbox Mode Enabled."
 msgstr "Sandbox-läge aktiverat."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:55
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:56
 msgctxt "Important"
 msgid ""
 "Use test card 4111 1111 1111 1111 with any future expiration date and any "
@@ -238,129 +238,150 @@ msgstr ""
 "Använd testkortet 4111 1111 1111 1111 med ett framtida utgångsdatum och "
 "valfri CVV."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:240
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:601
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:241
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:630
 msgid "Refund failed."
 msgstr "Återbetalning misslyckades."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:68
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:63
 msgctxt "Important"
 msgid "Credit or Debit Card"
 msgstr "Kredit- eller betalkort"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:71
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:712
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:66
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:715
 msgctxt "Important"
 msgid "Confirm your PayPal order"
 msgstr "Bekräfta din PayPal-beställning"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:84
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:86
 msgctxt "Important"
 msgid "PayPal Gateway By Easy Payment"
 msgstr "PayPal Gateway Av Easy Payment"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:85
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:87
 msgctxt "Important"
 msgid ""
 "PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and "
 "many more."
 msgstr ""
-"PayPal, Betala senare, Venmo, Kredit- och betalkort, Google Pay, Apple Pay "
-"— och många fler."
+"PayPal, Betala senare, Venmo, Kredit- och betalkort, Google Pay, Apple Pay —"
+" och många fler."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:302
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:310
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
+msgid "Admin Only Mode"
+msgstr "Endast administratörsläge"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:311
+msgid ""
+"is currently enabled. PayPal payment methods are visible only to site "
+"administrators and store managers. Disable this mode after testing to make "
+"them available to customers."
+msgstr ""
+"är för närvarande aktiverad. PayPal-betalningsmetoder är endast synliga för "
+"webbplatsadministratörer och butikschefer. Inaktivera detta läge efter "
+"testning för att göra dem tillgängliga för kunder."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:323
 msgid "Please verify the PayPal account to receive the payments."
 msgstr "Vänligen verifiera PayPal-kontot för att ta emot betalningarna."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:314
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:335
 msgid "PayPal onboarding process successfully completed."
 msgstr "PayPal onboarding-processen har slutförts framgångsrikt."
 
 #. translators: %1$s: URL to the PayPal API settings page.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:345
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:366
 msgid ""
-"<strong>PayPal Setup Required:</strong> Connect your PayPal account or "
-"enter your Client ID and Secret in the <a href=\"%1$s\">API settings</a> to "
-"begin accepting payments."
+"<strong>PayPal Setup Required:</strong> Connect your PayPal account or enter"
+" your Client ID and Secret in the <a href=\"%1$s\">API settings</a> to begin"
+" accepting payments."
 msgstr ""
 "<strong>PayPal-inställning krävs:</strong> Anslut ditt PayPal-konto eller "
-"ange ditt klient-ID och hemlighet i <a href=\"%1$s\">API-inställningarna</"
-"a> för att börja ta emot betalningar."
+"ange ditt klient-ID och hemlighet i <a href=\"%1$s\">API-inställningarna</a>"
+" för att börja ta emot betalningar."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:363
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:384
 msgid "Click the PayPal button to add your payment method."
 msgstr "Klicka på PayPal-knappen för att lägga till din betalningsmetod."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:366
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:387
 msgid "Click the \"%s\" button below to process your order."
 msgstr "Klicka på knappen \"%s\" nedan för att behandla din beställning."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:370
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:391
 msgid "Click a payment option below to process your order."
 msgstr ""
 "Klicka på ett betalningsalternativ nedan för att behandla din beställning."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:442
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:464
 msgid "Return to payments"
 msgstr "Återgå till betalningar"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:467
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:489
 msgid "API Settings"
 msgstr "API-inställningar"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:468
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:490
 msgid "PayPal Settings"
 msgstr "PayPal-inställningar"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:469
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:491
 msgid "Advanced Card Payments"
 msgstr "Avancerade kortbetalningar"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:470
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:492
 msgid "Google Pay"
 msgstr "Google Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:471
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:493
 msgid "Apple Pay"
 msgstr "Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:472
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:494
 msgid "Pay Later Messaging"
 msgstr "Betala senare-meddelande"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:473
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:495
 msgid "Additional Settings"
 msgstr "Ytterligare inställningar"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:474
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:496
 msgid "FAQ"
 msgstr "Vanliga frågor (FAQ)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:628
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:497
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1655
+#, fuzzy
+msgid "Recommended Plugins"
+msgstr "Rekommenderade tillägg"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:686
 msgid "This represents the fee PayPal collects for the transaction."
 msgstr "Detta representerar avgiften som PayPal tar ut för transaktionen."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:629
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:687
 msgid "PayPal Fee:"
 msgstr "PayPal-avgift:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:654
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:747
 msgid "Disconnect"
 msgstr "Koppla bort"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:730
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:823
 msgid "PayPal Account Successfully Connected!"
 msgstr "PayPal-konto kopplat framgångsrikt!"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:735
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:828
 msgid "Connected Email:"
 msgstr "Ansluten e-post:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:741
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:834
 msgid "Disconnect PayPal Account"
 msgstr "Koppla bort PayPal-konto"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:803
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:896
 msgid ""
 "The PayPal Client ID and Secret key you entered are invalid. Ensure you are "
 "using the correct credentials for the selected environment (Sandbox or "
@@ -370,58 +391,58 @@ msgstr ""
 "använder rätt autentiseringsuppgifter för den valda miljön (Sandbox eller "
 "Live)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:861
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:955
 msgid "Click to Connect PayPal"
 msgstr "Klicka för att ansluta PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:888
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:982
 msgid "The Connect to PayPal service is temporarily unavailable."
 msgstr "Tjänsten Anslut till PayPal är tillfälligt otillgänglig."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:890
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:984
 msgid "Toggle to manual credential input"
 msgstr "Väx till manuell inmatning av referenser"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:914
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1008
 msgid "Recommended"
 msgstr "Rekommenderad"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:919
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1013
 msgid "OR"
 msgstr "ELLER"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:924
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1018
 msgid "Click here to insert credentials manually"
 msgstr "Klicka här för att manuellt ange autentiseringsuppgifter"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1053
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1147
 msgid ""
 "Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) will appear?"
 msgstr ""
-"Vilka PayPal-knappar (t.ex. Betala senare, Venmo, SEPA, iDEAL, Mercado "
-"Pago, Bancontact, etc.) kommer att visas?"
+"Vilka PayPal-knappar (t.ex. Betala senare, Venmo, SEPA, iDEAL, Mercado Pago,"
+" Bancontact, etc.) kommer att visas?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1057
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1151
 msgid ""
 "The PayPal buttons are shown automatically based on several factors, "
 "including:"
 msgstr ""
 "PayPal-knapparna visas automatiskt baserat på flera faktorer, inklusive:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1059
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1153
 msgid "The buyer’s country"
 msgstr "Köparens land"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1060
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1154
 msgid "Their device type"
 msgstr "Deras enhetstyp"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1061
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1155
 msgid "The funding sources they’ve enabled"
 msgstr "De finansieringskällor de har aktiverat"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1063
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1157
 msgid ""
 "As a result, each buyer may see a different set of buttons. Pay Later "
 "options vary by country and may display different buttons."
@@ -429,11 +450,11 @@ msgstr ""
 "Som ett resultat kan varje köpare se en annan uppsättning knappar. Betala "
 "senare-alternativ varierar beroende på land och kan visa olika knappar."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1069
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1163
 msgid "How can I hide specific PayPal buttons?"
 msgstr "Hur kan jag dölja specifika PayPal-knappar?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1073
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1167
 msgid ""
 "By default, all PayPal buttons are enabled. To hide specific buttons, use "
 "the <strong>Disable Specific Payment Buttons</strong> option."
@@ -442,48 +463,48 @@ msgstr ""
 "knappar, använd alternativet <strong>Inaktivera specifika "
 "betalningsknappar</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1074
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1168
 msgid "Example: To hide the Pay Later button on the Checkout Page:"
 msgstr "Exempel: För att dölja knappen Betala senare på kassan:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1076
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1092
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1170
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1186
 msgid "Go to <strong>PayPal Settings</strong>."
 msgstr "Gå till <strong>PayPal-inställningar</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1077
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1171
 msgid "Find the <strong>Disable Specific Payment Buttons</strong> setting."
 msgstr ""
 "Hitta inställningen <strong>Inaktivera specifika betalningsknappar</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1078
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1172
 msgid "Select <strong>Pay Later</strong> from the dropdown list."
 msgstr "Välj <strong>Betala senare</strong> från rullgardinsmenyn."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1079
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1094
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1100
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1116
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1122
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1173
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1188
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1194
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1210
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1216
 msgid "Click <strong>Save Changes</strong>."
 msgstr "Klicka på <strong>Spara ändringar</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1085
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1179
 msgid "How can I show only the \"PayPal\" button on the Checkout page?"
 msgstr "Hur kan jag visa endast \"PayPal\"-knappen på kassan?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1089
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1183
 msgid ""
 "To display only the \"PayPal\" button on the Checkout page, follow these "
 "steps:"
 msgstr "För att endast visa \"PayPal\"-knappen på kassan, följ dessa steg:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1090
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1112
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1184
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1206
 msgid "Step 1: Update PayPal Settings"
 msgstr "Steg 1: Uppdatera PayPal-inställningar"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1093
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1187
 msgid ""
 "Under <strong>Disable Specific Payment Buttons</strong>, select "
 "<strong>Credit or Debit Card</strong> and any other methods you want to "
@@ -492,31 +513,31 @@ msgstr ""
 "Under <strong>Inaktivera specifika betalningsknappar</strong>, välj "
 "<strong>Kredit- eller betalkort</strong> och andra metoder du vill dölja."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1096
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1190
 msgid "Step 2: Update Advanced Card Payments Settings"
 msgstr "Steg 2: Uppdatera inställningar för avancerade kortbetalningar"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1098
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1120
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1192
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1214
 msgid "Go to <strong>Advanced Card Payments</strong> settings."
 msgstr ""
 "Gå till inställningarna för <strong>Avancerade kortbetalningar</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1099
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1193
 msgid "Disable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr ""
-"Inaktivera alternativet <strong>Aktivera avancerat kredit-/betalkort</"
-"strong>."
+"Inaktivera alternativet <strong>Aktivera avancerat "
+"kredit-/betalkort</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1102
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1196
 msgid ""
 "Once you save the changes in both sections, only the \"PayPal\" button will "
 "appear on the Checkout page."
 msgstr ""
-"När du har sparat ändringarna i båda sektionerna kommer endast \"PayPal\"-"
-"knappen att visas på kassan sidan."
+"När du har sparat ändringarna i båda sektionerna kommer endast "
+"\"PayPal\"-knappen att visas på kassan sidan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1107
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1201
 msgid ""
 "How can I show only the \"Credit or Debit Card\" payment method on the "
 "Checkout page?"
@@ -524,33 +545,33 @@ msgstr ""
 "Hur kan jag visa endast betalningsmetoden \"Kredit- eller Betalkort\" på "
 "kassan?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1111
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1205
 msgid ""
 "To display only the \"Credit or Debit Card\" payment method on the Checkout "
 "page, follow these steps:"
 msgstr ""
-"För att endast visa betalningsmetoden \"Kredit- eller Betalkort\" på "
-"kassan, följ dessa steg:"
+"För att endast visa betalningsmetoden \"Kredit- eller Betalkort\" på kassan,"
+" följ dessa steg:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1114
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1208
 msgid "Go to <strong>PayPal Settings > Checkout Page Settings</strong>."
 msgstr ""
 "Gå till <strong>PayPal-inställningar > Inställningar för kassan</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1115
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1209
 msgid "Disable the <strong>Enable PayPal</strong> option."
 msgstr "Inaktivera <strong>Aktivera PayPal</strong> alternativet."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1118
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1212
 msgid "Step 2: Enable Advanced Credit/Debit Card Payments"
 msgstr "Steg 2: Aktivera avancerade kredit-/betalkortsbetalningar"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1121
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1215
 msgid "Enable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr ""
 "Aktivera alternativet <strong>Aktivera avancerat kredit-/betalkort</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1124
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1218
 msgid ""
 "Once you save the changes in both sections, only the \"Credit or Debit "
 "Card\" payment method will appear on the Checkout page."
@@ -558,22 +579,21 @@ msgstr ""
 "När du har sparat ändringarna i båda sektionerna kommer endast "
 "betalningsmetoden \"Kredit- eller Betalkort\" att visas på kassan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1129
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1223
 msgid "What is PayPal Pay Later?"
 msgstr "Vad är PayPal Betala senare?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1133
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1227
 msgid ""
 "PayPal Pay Later lets your customers split their purchases into interest-"
 "free payments over time, such as \"Pay in 4\" or monthly installments. You "
 "get paid in full upfront, while customers enjoy flexible payment options."
 msgstr ""
-"PayPal Pay Later låter dina kunder dela upp sina köp i räntefria "
-"betalningar över tid, såsom \"Betala i 4\" eller månadsbetalningar. Du får "
-"betalt i sin helhet i förskott, medan kunderna njuter av flexibla "
-"betalningsalternativ."
+"PayPal Pay Later låter dina kunder dela upp sina köp i räntefria betalningar"
+" över tid, såsom \"Betala i 4\" eller månadsbetalningar. Du får betalt i sin"
+" helhet i förskott, medan kunderna njuter av flexibla betalningsalternativ."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1134
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1228
 msgid ""
 "This can help increase your sales, with many merchants seeing higher "
 "conversion rates and larger order sizes."
@@ -581,15 +601,15 @@ msgstr ""
 "Detta kan hjälpa till att öka din försäljning, med många handlare som ser "
 "högre konverteringsgrader och större orderstorlekar."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1137
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1231
 msgid "Learn more about Pay Later on PayPal’s website."
 msgstr "Läs mer om Betala senare på PayPals webbplats."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1145
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1239
 msgid "How can I contact support or request a new functionality?"
 msgstr "Hur kan jag kontakta support eller begära en ny funktionalitet?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1149
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1243
 msgid ""
 "If you have any questions, encounter an issue, or have a new functionality "
 "request, please create a support ticket on our official support page at: "
@@ -598,76 +618,144 @@ msgstr ""
 "funktionalitet, vänligen skapa en supportbiljett på vår officiella "
 "supportsida på: "
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1275
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1369
 msgid "Click to Enable Google Pay"
 msgstr "Klicka för att aktivera Google Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1297
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1326
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1355
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1391
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1420
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1449
 msgid "Important: "
 msgstr "Viktigt: "
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1424
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1518
 msgid "Click to Enable Apple Pay"
 msgstr "Klicka för att aktivera Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1461
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1551
 msgid "Register Your Domain with Apple Pay"
 msgstr "Registrera din domän med Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1555
 msgid ""
 "Any (sub)domain displaying an Apple Pay button must be registered on the "
-"PayPal website. If the domain is not registered, the payment method will "
-"not work."
+"PayPal website. If the domain is not registered, the payment method will not"
+" work."
 msgstr ""
 "Alla (sub)domäner som visar en Apple Pay-knapp måste registreras på PayPal-"
 "webbplatsen. Om domänen inte är registrerad kommer betalningsmetoden inte "
 "att fungera."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1495
-msgid "Easy Payment Gateway for Razorpay and for WooCommerce"
-msgstr "Enkel betalningsgateway för Razorpay och WooCommerce"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1496
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1578
 msgid ""
-"Accept payments through UPI, Cards, and Net Banking using Razorpay — "
-"developed by an official Razorpay Partner."
+"Accept PayPal, Pay Later, and major cards in WooCommerce using the PayPal "
+"Commerce Platform."
 msgstr ""
-"Acceptera betalningar via UPI, kort och nätbank med Razorpay — utvecklat av "
-"en officiell Razorpay-partner."
+"Acceptera PayPal, Betala senare och stora kort i WooCommerce med hjälp av "
+"PayPal Commerce Platform."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1580
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1600
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1620
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1630
+#, fuzzy
+msgid "By Easy Payment"
+msgstr "Genom Enkel Betalning"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1587
+msgid "AI Product Description Generator for WooCommerce"
+msgstr "AI-produktbeskrivningsgenerator för WooCommerce"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1588
+msgid ""
+"Generate SEO-friendly titles, descriptions, and attributes with AI. Includes"
+" bulk tools and templates."
+msgstr ""
+"Generera SEO-vänliga titlar, beskrivningar och attribut med AI. Inkluderar "
+"verktyg för massbearbetning och mallar."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1590
+msgid "By nexaplugins"
+msgstr "Av nexaplugins"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1597
+#, fuzzy
+msgid "Payment Gateway for Authorize.Net for WooCommerce"
+msgstr "Betalningsgateway för Authorize.Net för WooCommerce"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1598
+msgid ""
+"Accept credit and debit cards via Authorize.Net with a secure, seamless "
+"WooCommerce checkout."
+msgstr ""
+"Acceptera kredit- och betalkort via Authorize.Net med en säker och smidig "
+"WooCommerce-kassa."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1607
+msgid "Widgets for Google Business Reviews and Ratings"
+msgstr "Widgets för Google Företagsrecensioner och Betyg"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1608
+msgid ""
+"Showcase your Google Business Profile reviews and star rating with "
+"customizable widgets."
+msgstr ""
+"Visa dina Google Business Profile-recensioner och stjärnbetyg med "
+"anpassningsbara widgets."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1610
+msgid "By Repocean"
+msgstr "Av Repocean"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1617
 msgid "Payment Gateway for PhonePe and for WooCommerce"
 msgstr "Betalningsgateway för PhonePe och för WooCommerce"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1502
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1618
+#, fuzzy
 msgid ""
-"Accept PhonePe UPI, Wallet, and Cards in WooCommerce with a secure, fast, "
-"and seamless payment gateway developed by a PhonePe Partner."
+"Accept PhonePe UPI, Wallet, and Cards with a fast, secure payment experience"
+" in WooCommerce."
 msgstr ""
-"Acceptera PhonePe UPI, plånböcker och kort i WooCommerce med en säker, "
-"snabb och sömlös betalningsgateway utvecklad av en PhonePe-partner."
+"Acceptera PhonePe UPI, plånböcker och kort med en snabb, säker "
+"betalningsupplevelse i WooCommerce."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1508
-msgid "Recommended payment method for Indian merchants"
-msgstr "Rekommenderad betalningsmetod för indiska handlare"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1627
+#, fuzzy
+msgid "Payment Gateway for Razorpay and for WooCommerce"
+msgstr "Betalningsgateway för Razorpay och för WooCommerce"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1526
-msgid "Plugin Logo"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1628
+msgid ""
+"Accept UPI, Cards, and Net Banking via Razorpay with a reliable, optimized "
+"WooCommerce integration."
+msgstr ""
+"Acceptera UPI, kort och nätbank via Razorpay med en pålitlig, optimerad "
+"WooCommerce-integration."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1657
+msgid ""
+"Start by adding helpful extensions to your store—payments, product content, "
+"reviews and more."
+msgstr ""
+"Börja med att lägga till användbara tillägg till din butik—betalningar, "
+"produktinnehåll, recensioner och mer."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1665
+#, fuzzy
+msgid "Plugin logo"
 msgstr "Plugin-logotyp"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1535
-msgid "By"
-msgstr "Av"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1540
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1680
 msgid "Install Now"
 msgstr "Installera nu"
 
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1687
+msgid "No matching plugins found for your store settings."
+msgstr "Inga matchande plugins hittades för dina butikinställningar."
+
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3037
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3036
 msgid "Invalid or missing payment token fields."
 msgstr "Ogiltiga eller saknade betalningstokenfält."
 
@@ -704,22 +792,22 @@ msgstr "Fortsätt till betalning"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:716
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1530
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2719
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1261
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2718
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1264
 msgid "Card Details"
 msgstr "Kortdetaljer"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:727
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1541
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2730
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1272
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2729
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1275
 msgid "Address Verification Result"
 msgstr "Adressverifieringsresultat"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:736
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1550
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2739
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1281
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2738
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1284
 msgid "Card Security Code Result"
 msgstr "Resultat för kortsäkerhetskod"
 
@@ -728,7 +816,7 @@ msgstr "Resultat för kortsäkerhetskod"
 #. translators: 1: Payment method title, 2: Payment status.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:758
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1577
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2761
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2760
 msgid "Payment via %1$s : %2$s."
 msgstr "Betalning via %1$s : %2$s."
 
@@ -738,14 +826,14 @@ msgstr "Betalning via %1$s : %2$s."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:767
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:898
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1571
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2770
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1308
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2769
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1311
 msgid "%1$s Transaction ID: %2$s"
 msgstr "%1$s Transaktions-ID: %2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:901
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1926
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1329
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1925
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1332
 msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
@@ -773,26 +861,26 @@ msgid "WooCommerce Version: %1$s"
 msgstr "WooCommerce Version: %1$s"
 
 #. translators: 1: PayPal pending reason.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1930
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1929
 msgid "Payment pending (%1$s)."
 msgstr "Betalning väntar (%1$s)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1994
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1993
 msgid "Marked as refunded via PayPal. Total refunded: %s %s."
 msgstr "Markerad som återbetalad via PayPal. Totalt återbetalat: %s %s."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2132
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2563
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2131
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2562
 msgid "Sorry, your session has expired."
 msgstr "Tyvärr har din session gått ut."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2340
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2339
 msgid ""
 "This payment was unable to be processed successfully. Please try again with "
 "another payment method."
 msgstr ""
-"Denna betalning kunde inte behandlas framgångsrikt. Vänligen försök igen "
-"med en annan betalningsmetod."
+"Denna betalning kunde inte behandlas framgångsrikt. Vänligen försök igen med"
+" en annan betalningsmetod."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:119
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:135
@@ -802,8 +890,8 @@ msgstr "Återvänd till din butik."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:319
 msgid ""
-"Pay via PayPal; you can pay with your credit card if you don’t have a "
-"PayPal account"
+"Pay via PayPal; you can pay with your credit card if you don’t have a PayPal"
+" account"
 msgstr ""
 "Betala via PayPal; du kan betala med ditt kreditkort om du inte har ett "
 "PayPal-konto"
@@ -838,7 +926,7 @@ msgid "Connect to PayPal"
 msgstr "Anslut till PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:102
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:140
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:152
 msgid "Setup or link an existing PayPal account."
 msgstr "Ställ in eller länka ett befintligt PayPal-konto."
 
@@ -847,7 +935,7 @@ msgid "Live Client ID"
 msgstr "Live Client ID"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:108
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:146
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:158
 msgid "Enter PayPal Client ID."
 msgstr "Ange PayPal-klient-ID."
 
@@ -856,134 +944,162 @@ msgid "Live Secret key"
 msgstr "Live hemlig nyckel"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:119
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:157
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:169
 msgid "Enter PayPal Secret key."
 msgstr "Ange PayPal hemlig nyckel."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:128
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:166
+msgid "Live PayPal Email"
+msgstr "Live PayPal-e-postadress"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:131
+#, fuzzy
+msgid "Enter Live PayPal Email."
+msgstr "Ange Live PayPal-e-postadress."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:140
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:189
 msgid "PayPal Connection"
 msgstr "PayPal-anslutning"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:136
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:148
 msgid "Connect to PayPal Sandbox"
 msgstr "Anslut till PayPal Sandbox"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:144
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:156
 msgid "Sandbox Client ID"
 msgstr "Sandbox-klient-ID"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:155
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:167
 msgid "Sandbox Secret key"
 msgstr "Sandbox hemlig nyckel"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:178
+msgid "Sandbox PayPal Email"
+msgstr "Sandbox PayPal-e-postadress"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:181
+#, fuzzy
+msgid "Enter Sandbox PayPal Email."
+msgstr "Ange Sandbox PayPal-e-postadress."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:202
+msgid ""
+"When enabled, Payment methods will only be visible to site administrators "
+"and store managers. This allows you to test PayPal on your live site without"
+" customers seeing them."
+msgstr ""
+"När det är aktiverat kommer betalningsmetoder endast att vara synliga för "
+"webbplatsadministratörer och butikschefer. Detta gör att du kan testa PayPal"
+" på din live-webbplats utan att kunderna ser dem."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
 msgid "Select Height"
 msgstr "Välj Höjd"
 
 #. translators: %d is the button height in pixels.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:182
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:213
 msgid "%d px"
 msgstr "%d px"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:186
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:708
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1346
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1431
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1518
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1604
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1690
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1776
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:739
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1377
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1462
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1549
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1635
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1721
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1807
 msgid "Enable/Disable"
 msgstr "Aktivera/Avaktivera"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:188
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:219
 msgid "Enable PayPal"
 msgstr "Aktivera PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:189
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:220
 msgid ""
 "Enable this option to activate the PayPal gateway. Uncheck to disable it."
 msgstr ""
 "Aktivera det här alternativet för att aktivera PayPal-gatewayen. Avmarkera "
 "för att inaktivera den."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:194
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:716
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:225
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:747
 msgid "Title"
 msgstr "Titel"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:196
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:227
 msgid "The title displayed to customers during checkout."
 msgstr "Titeln som visas för kunder under kassan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:228
 msgid "PayPal"
 msgstr "PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:201
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:232
 msgid "Description"
 msgstr "Beskrivning"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:204
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:235
 msgid "The description displayed to customers during checkout."
 msgstr "Beskrivningen som visas för kunder under kassan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:240
 msgid "Display PayPal Buttons On"
 msgstr "Visa PayPal-knappar på"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:216
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:240
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:812
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1118
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1535
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:271
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:843
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1149
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1566
 msgid "Product Page"
 msgstr "Produkt Sida"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:217
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:328
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:854
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1159
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1621
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:248
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:359
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:885
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1190
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1652
 msgid "Cart Page"
 msgstr "Kundvagnssida"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:218
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:540
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:806
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:938
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1112
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1241
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:249
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:571
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:969
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1143
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1272
 msgid "Express Checkout"
 msgstr "Snabbetalning"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:219
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:427
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:980
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1282
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:250
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:458
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1011
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1313
 msgid "Checkout Page"
 msgstr "Kassa-sidan"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:220
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:603
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:896
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1200
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:251
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:634
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:927
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1231
 msgid "Mini Cart (Side Cart)"
 msgstr "Mini Cart (Sidokorg)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:222
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:253
 msgid "Set the page(s) to display the PayPal Buttons."
 msgstr "Ställ in sidan/sidorna för att visa PayPal-knapparna."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:228
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:248
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:335
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:434
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:259
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:279
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:366
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:465
 msgid "Disable Specific Payment Buttons"
 msgstr "Inaktivera specifika betalningsknappar"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:230
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:261
 msgid ""
 "PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) are shown automatically based on factors such as the "
@@ -996,31 +1112,31 @@ msgstr ""
 "PayPal-knappar (t.ex. Betala senare, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) visas automatiskt baserat på faktorer som köparens land "
 "och deras enhetstyp. Som standard är alla knappar aktiverade. För att "
-"inaktivera individuella betalningsknappar, använd inställningen "
-"\"Inaktivera specifika betalningsknappar\" som finns i varje avsnitt på "
-"sidan nedan.<br><br>För Express Checkout kommer den att följa "
-"konfigurationen från kassan. För Mini Cart kommer denna inställning att "
-"följa konfigurationen från produkt sidan."
+"inaktivera individuella betalningsknappar, använd inställningen \"Inaktivera"
+" specifika betalningsknappar\" som finns i varje avsnitt på sidan "
+"nedan.<br><br>För Express Checkout kommer den att följa konfigurationen från"
+" kassan. För Mini Cart kommer denna inställning att följa konfigurationen "
+"från produkt sidan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:256
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:343
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:442
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:287
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:374
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:473
 msgid "Select payment buttons to disable"
 msgstr "Välj betalningsknappar att inaktivera"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:260
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:347
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:446
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:547
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:610
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:291
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:378
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:477
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:578
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:641
 msgid "Button Layout"
 msgstr "Knapplayout"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:263
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:350
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:449
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:550
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:613
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:294
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:381
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:480
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:581
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:644
 msgid ""
 "Select Vertical for stacked buttons, and Horizontal for side-by-side "
 "buttons."
@@ -1028,342 +1144,342 @@ msgstr ""
 "Välj Vertikal för staplade knappar och Horisontell för knappar sida vid "
 "sida."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:267
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:554
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:298
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:585
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:648
 msgid "Horizontal (Recommended)"
 msgstr "Horisontell (Rekommenderad)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:268
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:555
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:618
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:299
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:586
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:649
 msgid "Vertical"
 msgstr "Vertikal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:272
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:359
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:458
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:559
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:622
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:834
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:876
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:918
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:960
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1002
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1138
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1179
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1220
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1261
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1302
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:303
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:390
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:489
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:590
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:653
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:865
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:907
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:949
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:991
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1033
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1169
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1210
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1251
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1292
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1333
 msgid "Button Color"
 msgstr "Knapparnas färg"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:277
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:364
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:463
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:564
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:627
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:308
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:395
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:494
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:595
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:658
 msgid "Gold (Recommended)"
 msgstr "Guld (Rekommenderad)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:278
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:365
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:464
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:565
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:628
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:309
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:396
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:495
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:596
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
 msgid "Blue"
 msgstr "Blå"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:279
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:366
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:465
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:566
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:629
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:310
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:397
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:496
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:660
 msgid "Silver"
 msgstr "Silver"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:280
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:367
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:466
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:567
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:630
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:840
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:882
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:924
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:966
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1008
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:311
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:398
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:497
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:598
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:661
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:871
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:913
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:955
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:997
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1039
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1175
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1216
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1257
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1298
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1441
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1528
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1700
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
+msgid "White"
+msgstr "Vit"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:312
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:399
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:498
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:599
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:662
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:870
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:912
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:954
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:996
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1038
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1174
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1215
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1256
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1297
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1441
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1528
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1700
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
+msgid "Black"
+msgstr "Svart"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:316
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:403
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:502
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:603
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:666
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:875
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:917
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:959
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1001
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1043
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1180
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1221
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1262
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1303
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1344
+msgid "Button Shape"
+msgstr "Knappform"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:321
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:408
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:507
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:608
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:671
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:880
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:922
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:964
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1006
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1048
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1185
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1226
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1267
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1308
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1497
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1583
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1669
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
-msgid "White"
-msgstr "Vit"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1349
+msgid "Rect (Recommended)"
+msgstr "Rektangel (Rekommenderad)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:281
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:368
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:467
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:568
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:631
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:839
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:409
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:508
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:609
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:672
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:881
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:923
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:965
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1007
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1143
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1184
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1225
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1266
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1307
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1497
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1583
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1669
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
-msgid "Black"
-msgstr "Svart"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1049
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1186
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1227
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1268
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1309
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1350
+msgid "Pill"
+msgstr "Piller"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:285
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:372
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:471
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:572
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:635
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:844
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:886
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:928
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:970
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1012
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1149
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1190
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1231
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1272
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1313
-msgid "Button Shape"
-msgstr "Knappform"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:326
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:413
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:512
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:676
+msgid "Button Width"
+msgstr "Knapplängd"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:290
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:377
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:476
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:577
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:640
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:331
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:418
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:517
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:681
+msgid "Small"
+msgstr "Liten"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:332
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:419
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:518
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:682
+msgid "Medium"
+msgstr "Medium"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:333
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:420
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:519
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:683
+msgid "Large"
+msgstr "Stor"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:334
+msgid "Responsive"
+msgstr "Responsiv"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:338
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:425
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:524
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:613
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:688
+msgid "Button Height"
+msgstr "Knapphöjd"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:345
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:432
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:531
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:620
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:695
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:849
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:891
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:933
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:975
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1017
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1154
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1195
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1236
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1277
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1318
-msgid "Rect (Recommended)"
-msgstr "Rektangel (Rekommenderad)"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:291
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:378
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:477
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:578
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:641
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:850
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:892
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:934
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:976
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1018
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1155
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1196
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1237
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1278
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1319
-msgid "Pill"
-msgstr "Piller"
+msgid "Button Label"
+msgstr "Knappetikett"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:295
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:382
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:481
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:645
-msgid "Button Width"
-msgstr "Knapplängd"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:350
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:437
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:536
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:625
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:700
+msgid "PayPal (Recommended)"
+msgstr "PayPal (Rekommenderat)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:300
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:387
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:486
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:650
-msgid "Small"
-msgstr "Liten"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:351
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:438
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:626
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:701
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:838
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:856
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:898
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:940
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:982
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1024
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1162
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1203
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1244
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1285
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1326
+msgid "Checkout"
+msgstr "Kassa"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:301
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:388
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:487
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:651
-msgid "Medium"
-msgstr "Medium"
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:352
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:439
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:538
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:627
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:702
+msgid "Buy Now"
+msgstr "Köp nu"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:302
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:389
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:488
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:652
-msgid "Large"
-msgstr "Stor"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:303
-msgid "Responsive"
-msgstr "Responsiv"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:307
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:394
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:493
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:582
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:657
-msgid "Button Height"
-msgstr "Knapphöjd"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:314
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:401
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:500
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:589
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:664
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:818
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:353
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:440
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:539
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:628
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:703
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:860
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:902
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:944
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:986
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1124
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1165
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1206
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1247
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1288
-msgid "Button Label"
-msgstr "Knappetikett"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:319
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:406
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:505
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:594
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:669
-msgid "PayPal (Recommended)"
-msgstr "PayPal (Rekommenderat)"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:320
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:407
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:595
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:670
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:807
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:825
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:867
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:909
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:951
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:993
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1113
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1131
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1172
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1213
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1254
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1295
-msgid "Checkout"
-msgstr "Kassa"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:321
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:408
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:507
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:596
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:671
-msgid "Buy Now"
-msgstr "Köp nu"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:409
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:508
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:597
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:672
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:829
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:871
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:913
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:955
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:997
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1133
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1174
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1215
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1256
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1297
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1028
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1164
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1205
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1246
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1287
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1328
 msgid "Pay"
 msgstr "Betala"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:354
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:453
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:385
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:484
 msgid "Vertical (Recommended)"
 msgstr "Vertikal (Rekommenderad)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:355
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:454
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:386
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:485
 msgid "Horizontal"
 msgstr "Horisontell"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:390
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:489
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:653
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:421
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:520
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:684
 msgid "Responsive (Recommended)"
 msgstr "Responsiv (Rekommenderad)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:413
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:444
 msgid "PayPal Button Position (Classic Cart Only)"
 msgstr "PayPal-knappens position (endast klassisk kundvagn)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:416
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:447
 msgid ""
-"Choose where the PayPal buttons should appear on the cart page, either "
-"above or below the \"Proceed to Checkout\" button. This applies only to "
-"classic cart templates, not the new Cart Blocks layout."
+"Choose where the PayPal buttons should appear on the cart page, either above"
+" or below the \"Proceed to Checkout\" button. This applies only to classic "
+"cart templates, not the new Cart Blocks layout."
 msgstr ""
 "Välj var PayPal-knapparna ska visas på kundvagnssidan, antingen ovanför "
 "eller nedanför knappen \"Fortsätt till kassan\". Detta gäller endast "
 "klassiska kundvagnsmallar, inte den nya Cart Blocks-layouten."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:420
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:451
 msgid "Below Proceed to Checkout button"
 msgstr "Nedanför knappen Gå till kassan"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:421
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:452
 msgid "Above Proceed to Checkout button"
 msgstr "Över knappen Gå till kassan"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:512
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:543
 msgid "Icon"
 msgstr "Ikon"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:516
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:547
 msgid "Monogram (PP)"
 msgstr "Monogram (PP)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:517
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:548
 msgid "Wordmark (PayPal)"
 msgstr "Wordmark (PayPal)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:518
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:549
 msgid "Combination Mark (PP PayPal)"
 msgstr "Kombinationsmärke (PP PayPal)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:520
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:551
 msgid ""
 "Select the PayPal logo style displayed next to the payment method title on "
 "the checkout page."
@@ -1371,11 +1487,11 @@ msgstr ""
 "Välj den PayPal-logotypstil som visas bredvid betalningsmetodens titel på "
 "kassan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:523
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:554
 msgid "Show Redirect Icon and Text"
 msgstr "Visa omdirigeringsikon och text"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:527
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:558
 msgid ""
 "When enabled, a redirect icon and message will appear to let customers know "
 "they will be taken to PayPal to complete their payment."
@@ -1384,50 +1500,50 @@ msgstr ""
 "för att informera kunderna om att de kommer att tas till PayPal för att "
 "slutföra sin betalning."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:530
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:561
 msgid "Use Place Order Button"
 msgstr "Använd knappen \"Placerar beställning\""
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:534
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:565
 msgid ""
 "Enable this to use the default Place Order button on the checkout page "
 "instead of showing PayPal buttons. This setting does not affect Express "
 "Checkout."
 msgstr ""
 "Aktivera detta för att använda standardknappen \"Placerar beställning\" på "
-"kassan istället för att visa PayPal-knappar. Denna inställning påverkar "
-"inte Express Checkout."
+"kassan istället för att visa PayPal-knappar. Denna inställning påverkar inte"
+" Express Checkout."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:682
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:713
 msgid ""
 "To use Advanced Card Payments, ensure your PayPal account is eligible and "
 "enabled:<br><br>1. Visit developer.paypal.com → Apps & Credentials → API "
 "Credentials.<br>2. Click your App Name.<br>3. Under \"Features\" → Accept "
-"Payments, check if \"Advanced Credit and Debit Card Payments\" is enabled."
-"<br>4. If missing, your account or region may not support it."
+"Payments, check if \"Advanced Credit and Debit Card Payments\" is "
+"enabled.<br>4. If missing, your account or region may not support it."
 msgstr ""
 "För att använda Advanced Card Payments, se till att ditt PayPal-konto är "
 "berättigat och aktiverat:<br><br>1. Besök developer.paypal.com → Appar & "
 "Behörigheter → API-uppgifter.<br>2. Klicka på ditt App-namn.<br>3. Under "
-"\"Funktioner\" → Acceptera betalningar, kontrollera om \"Advanced Credit "
-"and Debit Card Payments\" är aktiverat.<br>4. Om det saknas kan ditt konto "
+"\"Funktioner\" → Acceptera betalningar, kontrollera om \"Advanced Credit and"
+" Debit Card Payments\" är aktiverat.<br>4. Om det saknas kan ditt konto "
 "eller din region kanske inte stödja det."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:703
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:761
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:785
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1027
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1049
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1085
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1336
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:734
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:792
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:816
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1058
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1080
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1116
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1367
 msgid "Important Note"
 msgstr "Viktig notering"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:710
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:741
 msgid "Enable Advanced Credit/Debit Card"
 msgstr "Aktivera avancerat kredit-/betalkort"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:712
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:743
 msgid ""
 "Enable the Advanced Credit/Debit Card payment option as a separate gateway "
 "on the checkout page. This gateway typically offers a lower PayPal fee "
@@ -1443,7 +1559,7 @@ msgstr ""
 "$0,49* för PayPal Smart Buttons. Den stöder stora kort som Visa, Mastercard "
 "och American Express, vilket ger en säker och smidig betalningsupplevelse."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:749
 msgid ""
 "Set the title for the Advanced Credit/Debit Card payment method as it will "
 "appear on the checkout page (e.g., 'Pay with Credit/Debit Card').."
@@ -1451,15 +1567,15 @@ msgstr ""
 "Ställ in titeln för betalningsmetoden för avancerat kredit-/betalkort som "
 "den kommer att visas på kassan (t.ex. 'Betala med kredit-/betalkort')."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:719
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:750
 msgid "Credit or Debit Card"
 msgstr "Kredit- eller betalkort"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:723
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:754
 msgid "Disable specific credit cards"
 msgstr "Inaktivera specifika kreditkort"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:729
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:760
 msgid ""
 "By default all possible credit cards will be accepted. You can disable some "
 "cards, if you wish."
@@ -1467,19 +1583,19 @@ msgstr ""
 "Som standard kommer alla möjliga kreditkort att accepteras. Du kan "
 "inaktivera vissa kort om du så önskar."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:736
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:767
 msgid "Contingency for 3D Secure"
 msgstr "Kontingens för 3D Secure"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:740
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:771
 msgid "3D Secure when required"
 msgstr "3D Secure när det krävs"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:741
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:772
 msgid "Always trigger 3D Secure"
 msgstr "Alltid aktivera 3D Secure"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:745
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:776
 msgid ""
 "3D Secure benefits cardholders and merchants by providing an additional "
 "layer of verification using Verified by Visa, MasterCard SecureCode and "
@@ -1489,15 +1605,15 @@ msgstr ""
 "lager av verifiering med hjälp av Verified by Visa, MasterCard SecureCode "
 "och American Express SafeKey."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:748
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:779
 msgid "Card Save Enabled"
 msgstr "Kortbetalning aktiverad"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:749
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:780
 msgid "Enable card saving at checkout"
 msgstr "Aktivera kortbesparing vid kassan"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:752
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:783
 msgid ""
 "When enabled, customers can securely save their card details using PayPal "
 "for faster future checkouts."
@@ -1505,15 +1621,15 @@ msgstr ""
 "När det är aktiverat kan kunder säkert spara sina kortuppgifter med PayPal "
 "för snabbare framtida utcheckningar."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:763
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:794
 msgid ""
 "Advanced Credit/Debit Card payments are not enabled in your PayPal account. "
 "<br><br><strong>Supported Countries:</strong><br>Australia, Austria, "
 "Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, "
-"Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, "
-"Japan, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, "
-"Norway, Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, "
-"Sweden, United States, United Kingdom<br><br>"
+"Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan,"
+" Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, "
+"Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, "
+"United States, United Kingdom<br><br>"
 msgstr ""
 "Avancerade kredit-/betalkortsbetalningar är inte aktiverade i ditt PayPal-"
 "konto. <br><br><strong>Stödda länder:</strong><br>Australien, Österrike, "
@@ -1523,182 +1639,184 @@ msgstr ""
 "Norge, Polen, Portugal, Rumänien, Singapore, Slovakien, Slovenien, Spanien, "
 "Sverige, USA, Storbritannien<br><br>"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:800
 msgid "Please ensure that Google Pay is enabled in your PayPal account."
 msgstr "Vänligen se till att Google Pay är aktiverat i ditt PayPal-konto."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:800
 msgid "Check this box to display the Google Pay button on selected pages."
 msgstr ""
 "Kryssa i den här rutan för att visa Google Pay-knappen på valda sidor."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:773
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:804
 msgid "Google Pay must be enabled in your PayPal account (%s)."
 msgstr "Google Pay måste aktiveras i ditt PayPal-konto (%s)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:775
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1075
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:806
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1106
 msgid "setup guide"
 msgstr "installationsguide"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:780
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1080
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:811
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1111
 msgid "The page must be served over a secure (HTTPS) connection."
 msgstr "Sidan måste serveras över en säker (HTTPS) anslutning."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:782
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:813
 msgid "To show the Google Pay button,"
 msgstr "För att visa Google Pay-knappen,"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:790
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:791
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1037
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:821
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:822
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1068
 msgid "Enable Google Pay"
 msgstr "Aktivera Google Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:797
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:828
 msgid "Display Google Pay Button On"
 msgstr "Visa Google Pay-knapp på"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:803
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1109
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:834
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1140
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
 msgid "Product"
 msgstr "Produkt"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:804
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1110
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:835
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1141
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
 msgid "Cart"
 msgstr "Kundvagn"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:805
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1111
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:836
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1142
 msgid "Mini Cart"
 msgstr "Mini kundvagn"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:809
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:840
 msgid "Set the page(s) to display the Google Pay button."
 msgstr "Ställ in sidan/ sidorna för att visa Google Pay-knappen."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:823
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:865
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:907
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:949
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:991
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1129
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1170
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1211
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1252
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1293
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:854
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:896
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:938
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:980
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1022
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1160
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1201
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1242
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1283
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1324
 msgid "Plain"
 msgstr "Enkel"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:824
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:866
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:908
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:950
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:992
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1130
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1171
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1212
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1253
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1294
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:855
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:897
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:939
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:981
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1023
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1161
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1202
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1243
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1284
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1325
 msgid "Buy"
 msgstr "Köp"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:826
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:868
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:910
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:952
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:994
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:857
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:899
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:941
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:983
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1025
 msgid "Donate"
 msgstr "Donera"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:827
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:869
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:911
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:953
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:995
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:858
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:900
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:942
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:984
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1026
 msgid "Book"
 msgstr "Bok"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:828
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:870
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:912
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:954
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:996
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1132
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1173
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1214
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1255
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1296
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:859
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:901
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:943
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:985
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1027
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1163
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1204
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1245
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1286
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1327
 msgid "Order"
 msgstr "Beställning"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:830
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:872
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:914
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:956
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:998
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1134
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1175
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1216
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1257
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1298
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:861
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:903
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:945
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:987
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1029
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1165
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1206
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1288
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1329
 msgid "Subscribe"
 msgstr "Prenumerera"
 
 #. translators: %1$s is the supported countries list. %2$s is the supported
 #. currencies list.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1031
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1062
 msgid ""
-"Google Pay is not enabled in your PayPal account. Click below to enable it."
-"<br><br><strong>Supported Countries:</"
-"strong><br>%1$s<br><br><strong>Supported Currencies:</strong><br>%2$s"
+"Google Pay is not enabled in your PayPal account. Click below to enable "
+"it.<br><br><strong>Supported "
+"Countries:</strong><br>%1$s<br><br><strong>Supported "
+"Currencies:</strong><br>%2$s"
 msgstr ""
 "Google Pay är inte aktiverat i ditt PayPal-konto. Klicka nedan för att "
-"aktivera det.<br><br><strong>Stödda länder:</"
-"strong><br>%1$s<br><br><strong>Stödda valutor:</strong><br>%2$s"
+"aktivera det.<br><br><strong>Stödda "
+"länder:</strong><br>%1$s<br><br><strong>Stödda valutor:</strong><br>%2$s"
 
 #. translators: %1$s is the list of supported countries. %2$s is the list of
 #. supported currencies.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1053
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1084
 msgid ""
-"Apple Pay is not enabled in your PayPal account. Click below to enable it."
-"<br><br><strong>Supported Countries:</"
-"strong><br>%1$s<br><br><strong>Supported Currencies:</strong><br>%2$s"
+"Apple Pay is not enabled in your PayPal account. Click below to enable "
+"it.<br><br><strong>Supported "
+"Countries:</strong><br>%1$s<br><br><strong>Supported "
+"Currencies:</strong><br>%2$s"
 msgstr ""
 "Apple Pay är inte aktiverat i ditt PayPal-konto. Klicka nedan för att "
-"aktivera det.<br><br><strong>Stödda länder:</"
-"strong><br>%1$s<br><br><strong>Stödda valutor:</strong><br>%2$s"
+"aktivera det.<br><br><strong>Stödda "
+"länder:</strong><br>%1$s<br><br><strong>Stödda valutor:</strong><br>%2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1059
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1096
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1090
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1127
 msgid "Enable Apple Pay"
 msgstr "Aktivera Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1069
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1100
 msgid "Please ensure that Apple Pay is enabled in your PayPal account."
 msgstr "Vänligen se till att Apple Pay är aktiverat i ditt PayPal-konto."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1069
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1100
 msgid "Check this box to display the Apple Pay button on selected pages."
 msgstr "Kryssa i den här rutan för att visa Apple Pay-knappen på valda sidor."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1073
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1104
 msgid "Apple Pay must be enabled in your PayPal account (%s)."
 msgstr "Apple Pay måste vara aktiverat i ditt PayPal-konto (%s)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1082
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1113
 msgid "To show the Apple Pay button,"
 msgstr "För att visa Apple Pay-knappen,"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1090
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1121
 msgid "Domain Registration"
 msgstr "Domänregistrering"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1092
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1123
 msgid ""
 "Apple requires that the website domain be registered on PayPal. Payments "
 "will not be processed if the Apple Pay button is used on an unregistered "
@@ -1708,66 +1826,67 @@ msgstr ""
 "kommer inte att behandlas om Apple Pay-knappen används på en oregistrerad "
 "domän."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1097
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1128
 msgid "Enable Apple Pay on your store"
 msgstr "Aktivera Apple Pay i din butik"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1103
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1134
 msgid "Display Apple Pay Button On"
 msgstr "Visa Apple Pay-knapp på"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1115
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1146
 msgid "Set the page(s) to display the Apple Pay button."
 msgstr "Ställ in sidan/ sidorna för att visa Apple Pay-knappen."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1145
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1186
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1227
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1268
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1309
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1176
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1258
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1299
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1340
 msgid "White with outline"
 msgstr "Vit med kontur"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1370
 msgid ""
-"Your customers can already buy now and pay later with PayPal — add "
-"messaging to your site to let them know. PayPal’s Pay Later helps boost "
-"merchants' conversion rates and increases cart sizes by 39%.¹ You get paid "
-"in full up front. <a target=\"_blank\" href=\"https://www.paypal.com/us/"
-"business/accept-payments/checkout/installments\">More about Pay Later</a>"
+"Your customers can already buy now and pay later with PayPal — add messaging"
+" to your site to let them know. PayPal’s Pay Later helps boost merchants' "
+"conversion rates and increases cart sizes by 39%.¹ You get paid in full up "
+"front. <a target=\"_blank\" "
+"href=\"https://www.paypal.com/us/business/accept-"
+"payments/checkout/installments\">More about Pay Later</a>"
 msgstr ""
 "Dina kunder kan redan köpa nu och betala senare med PayPal — lägg till "
 "meddelanden på din webbplats för att informera dem. PayPals Betala senare "
-"hjälper till att öka handlarens konverteringsfrekvenser och ökar "
-"kundvagnens storlek med 39%.¹ Du får betalt i sin helhet i förskott. <a "
-"target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-payments/"
-"checkout/installments\">Mer om Betala senare</a>"
+"hjälper till att öka handlarens konverteringsfrekvenser och ökar kundvagnens"
+" storlek med 39%.¹ Du får betalt i sin helhet i förskott. <a "
+"target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-"
+"payments/checkout/installments\">Mer om Betala senare</a>"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1347
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1378
 msgid "Enable Pay Later Messaging"
 msgstr "Aktivera Meddelande om Betala Senare"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1349
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1380
 msgid "Displays Pay Later messaging for available offers."
 msgstr "Visar Pay Later-meddelanden för tillgängliga erbjudanden."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1353
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1384
 msgid "Display Pay Later messaging On"
 msgstr "Visa senare betalning meddelande På"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
 msgid "Home"
 msgstr "Hem"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
 msgid "Category"
 msgstr "Kategori"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1358
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
 msgid "Payment"
 msgstr "Betalning"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1359
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1390
 msgid ""
 "Set the page(s) you want to display messaging on, and then adjust that "
 "page's display option below."
@@ -1775,292 +1894,292 @@ msgstr ""
 "Ställ in den sida/sidor du vill visa meddelanden på, och justera sedan "
 "sidans visningsalternativ nedan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1362
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1393
 msgid "Home Page"
 msgstr "Hemside"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1368
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1455
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1541
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1627
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1713
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1399
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1486
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1572
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1658
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1744
 msgid "Layout Type"
 msgstr "Layouttyp"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1374
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1461
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1547
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1633
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1719
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1405
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1578
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1664
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1750
 msgid "Text Layout"
 msgstr "Textlayout"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1374
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1461
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1547
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1633
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1719
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1405
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1578
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1664
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1750
 msgid "Flex Layout"
 msgstr "Flexlayout"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1377
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1464
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1550
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1636
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1722
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1408
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1495
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1581
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1667
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1753
 msgid "Logo Type"
 msgstr "Logotyp"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1556
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1414
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1673
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1759
 msgid "Primary"
 msgstr "Primär"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1556
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1414
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1673
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1759
 msgid "Alternative"
 msgstr "Alternativ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1556
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1414
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1673
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1759
 msgid "Inline"
 msgstr "Inline"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1383
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1556
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1642
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1728
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1414
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1673
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1759
 msgid "None"
 msgstr "Ingen"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1386
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1473
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1559
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1645
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1731
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1417
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1504
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1590
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1676
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1762
 msgid "Logo Position"
 msgstr "Logotypens position"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1392
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1565
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1651
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1737
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1423
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1596
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1682
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1768
 msgid "Left"
 msgstr "Vänster"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1392
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1565
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1651
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1737
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1423
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1596
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1682
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1768
 msgid "Right"
 msgstr "Rätt"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1392
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1565
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1651
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1737
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1423
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1596
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1682
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1768
 msgid "Top"
 msgstr "Topp"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1395
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1482
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1568
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1654
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1740
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1426
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1513
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1599
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1685
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1771
 msgid "Text Size"
 msgstr "Textstorlek"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1404
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1491
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1577
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1663
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1749
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1435
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1522
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1608
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1694
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1780
 msgid "Text Color"
 msgstr "Textfärg"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1497
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1583
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1669
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1441
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1528
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1700
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
 msgid "Monochrome"
 msgstr "Monokrom"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1410
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1497
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1583
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1669
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1755
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1441
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1528
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1700
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
 msgid "Grayscale"
 msgstr "Gråskala"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1413
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1500
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1586
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1672
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1758
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1444
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1531
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1703
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1789
 msgid "Color"
 msgstr "Färg"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
 msgid "White (No Border)"
 msgstr "Vit (Ingen kant)"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1419
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1506
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1592
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1678
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1764
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
 msgid "Gray"
 msgstr "Grå"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1422
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1509
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1595
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1681
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1767
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1453
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1540
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1626
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1712
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1798
 msgid "Ratio"
 msgstr "Förhållande"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
 msgid "Flexes between 120px and 300px wide"
 msgstr "Flexar mellan 120px och 300px bred"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
 msgid "160px wide"
 msgstr "160px bred"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
 msgid "Flexes between 250px and 768px wide"
 msgstr "Flexar mellan 250px och 768px bred"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1515
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
 msgid "Flexes between 250px and 1169px wide"
 msgstr "Flexar mellan 250px och 1169px bred"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1432
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1463
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on Home "
 "page."
 msgstr ""
-"Jag behöver en kortkod så att jag kan placera meddelandet på en bättre "
-"plats på startsidan."
+"Jag behöver en kortkod så att jag kan placera meddelandet på en bättre plats"
+" på startsidan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1439
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1526
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1612
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1698
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1784
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1470
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1557
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1643
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1729
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1815
 msgid "Shortcode"
 msgstr "Kortkod"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1448
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1479
 msgid "Category Page"
 msgstr "Kategorisida"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1519
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1550
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "category page."
 msgstr ""
-"Jag behöver en kortkod så att jag kan placera meddelandet på en bättre "
-"plats på kategorisidan."
+"Jag behöver en kortkod så att jag kan placera meddelandet på en bättre plats"
+" på kategorisidan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1605
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1636
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "product page."
 msgstr ""
-"Jag behöver en kortkod så att jag kan placera meddelandet på en bättre "
-"plats på produkt sidan."
+"Jag behöver en kortkod så att jag kan placera meddelandet på en bättre plats"
+" på produkt sidan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1691
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1722
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on cart "
 "page."
 msgstr ""
-"Jag behöver en kortkod så att jag kan placera meddelandet på en bättre "
-"plats på kundvagnssidan."
+"Jag behöver en kortkod så att jag kan placera meddelandet på en bättre plats"
+" på kundvagnssidan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1707
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1738
 msgid "Payment Page"
 msgstr "Betalningssida"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1777
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1808
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "payment page."
 msgstr ""
-"Jag behöver en kortkod så att jag kan placera meddelandet på en bättre "
-"plats på betalningssidan."
+"Jag behöver en kortkod så att jag kan placera meddelandet på en bättre plats"
+" på betalningssidan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1797
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1828
 msgid "Payment action"
 msgstr "Betalningsåtgärd"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1800
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1831
 msgid ""
 "Choose whether you wish to capture funds immediately or authorize payment "
 "only."
 msgstr ""
 "Välj om du vill fånga medel omedelbart eller endast auktorisera betalningen."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1835
 msgid "Capture"
 msgstr "Fånga"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1805
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1836
 msgid "Authorize"
 msgstr "Auktorisera"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1809
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1840
 msgid "Brand Name"
 msgstr "Varumärke"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1811
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1842
 msgid ""
 "This controls what users see as the brand / company name on PayPal review "
 "pages."
@@ -2068,11 +2187,11 @@ msgstr ""
 "Detta styr vad användare ser som varumärket / företagsnamnet på PayPal-"
 "granskningssidor."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1816
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1847
 msgid "Landing Page"
 msgstr "Landningssida"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1850
 msgid ""
 "The type of landing page to show on the PayPal site for customer checkout. "
 "PayPal Account Optional must be checked for this option to be used."
@@ -2081,78 +2200,76 @@ msgstr ""
 "kassa. PayPal-konto valfritt måste vara markerat för att detta alternativ "
 "ska kunna användas."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1820
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1851
 msgid "Login"
 msgstr "Logga in"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1821
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1852
 msgid "Billing"
 msgstr "Fakturering"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1822
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1853
 msgid "No Preference"
 msgstr "Ingen preferens"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1827
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1858
 msgid "Instant Payments "
 msgstr "Omedelbara betalningar "
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1831
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1862
 msgid ""
-"If you enable this setting, PayPal will be instructed not to allow the "
-"buyer to use funding sources that take additional time to complete (for "
-"example, eChecks). Instead, the buyer will be required to use an instant "
-"funding source, such as an instant transfer, a credit/debit card, or PayPal "
-"Credit."
+"If you enable this setting, PayPal will be instructed not to allow the buyer"
+" to use funding sources that take additional time to complete (for example, "
+"eChecks). Instead, the buyer will be required to use an instant funding "
+"source, such as an instant transfer, a credit/debit card, or PayPal Credit."
 msgstr ""
 "Om du aktiverar den här inställningen kommer PayPal att instrueras att inte "
 "tillåta köparen att använda finansieringskällor som tar extra tid att "
 "slutföra (till exempel eChecks). Istället kommer köparen att behöva använda "
-"en omedelbar finansieringskälla, såsom en omedelbar överföring, ett kredit-/"
-"betalkort eller PayPal Credit."
+"en omedelbar finansieringskälla, såsom en omedelbar överföring, ett "
+"kredit-/betalkort eller PayPal Credit."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1834
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1865
 msgid "Require Instant Payment"
 msgstr "Kräv omedelbar betalning"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1868
 msgid "Billing Address"
 msgstr "Faktureringsadress"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1838
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1869
 msgid "Use PayPal Shipping Address as Billing"
 msgstr "Använd PayPal-fraktadress som fakturaadress"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1839
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1870
 msgid ""
 "If the billing address is empty and PayPal provides a shipping address, the "
 "order will use the shipping address as the billing address."
 msgstr ""
-"Om faktureringsadressen är tom och PayPal tillhandahåller en "
-"leveransadress, kommer beställningen att använda leveransadressen som "
-"faktureringsadress."
+"Om faktureringsadressen är tom och PayPal tillhandahåller en leveransadress,"
+" kommer beställningen att använda leveransadressen som faktureringsadress."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1845
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1876
 msgid "Send Item Details"
 msgstr "Skicka artikelinformation"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1877
 msgid "Send line item details to PayPal"
 msgstr "Skicka radpostdetaljer till PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1848
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1879
 msgid ""
 "Include all line item details in the payment request to PayPal so that they "
 "can be seen from the PayPal transaction details page."
 msgstr ""
-"Inkludera alla radpostdetaljer i betalningsbegäran till PayPal så att de "
-"kan ses från PayPal-transaktionsdetaljsidan."
+"Inkludera alla radpostdetaljer i betalningsbegäran till PayPal så att de kan"
+" ses från PayPal-transaktionsdetaljsidan."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1852
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1883
 msgid "Invoice prefix"
 msgstr "Faktura-prefix"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1854
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1885
 msgid ""
 "Please enter a prefix for your invoice numbers. If you use your PayPal "
 "account for multiple stores ensure this prefix is unique as PayPal will not "
@@ -2162,26 +2279,26 @@ msgstr ""
 "konto för flera butiker, se till att detta prefix är unikt, eftersom PayPal "
 "inte tillåter beställningar med samma fakturanummer."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1859
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1890
 msgid "Credit Card Statement Name"
 msgstr "Kreditkortssaldonamn"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1861
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1892
 msgid ""
 "The value entered here will be displayed on the buyer's credit card "
 "statement."
 msgstr "Värdet som anges här kommer att visas på köparens kreditkortssaldo."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1867
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1898
 msgid "Debug log"
 msgstr "Felsökningslogg"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1869
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1900
 msgid "Enable logging"
 msgstr "Aktivera loggning"
 
 #. translators: %s is the path to the WooCommerce PayPal debug log file.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1873
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1904
 msgid "Log PayPal events, such as Webhook, Payment, Refund inside %s"
 msgstr ""
 "Logga PayPal-händelser, såsom Webhook, Betalning, Återbetalning inuti %s"
@@ -2246,16 +2363,16 @@ msgid ""
 "INTERNATIONAL_WITHDRAWAL: Visit your online account. In your Account "
 "Overview, accept and deny this payment."
 msgstr ""
-"INTERNATIONAL_WITHDRAWAL: Besök ditt onlinekonto. I din "
-"Kontosammanfattning, acceptera och neka denna betalning."
+"INTERNATIONAL_WITHDRAWAL: Besök ditt onlinekonto. I din Kontosammanfattning,"
+" acceptera och neka denna betalning."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:248
 msgid ""
 "No additional specific reason can be provided. For more information about "
 "this captured payment, visit your account online or contact PayPal."
 msgstr ""
-"Ingen ytterligare specifik anledning kan anges. För mer information om "
-"denna registrerade betalning, besök ditt konto online eller kontakta PayPal."
+"Ingen ytterligare specifik anledning kan anges. För mer information om denna"
+" registrerade betalning, besök ditt konto online eller kontakta PayPal."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:251
 msgid "PENDING_REVIEW: The captured payment is pending manual review."
@@ -2264,12 +2381,12 @@ msgstr "PENDING_REVIEW: Den fångade betalningen väntar på manuell granskning.
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:254
 msgid ""
 "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: The payee has not yet set up "
-"appropriate receiving preferences for their account. This may occur when "
-"the payment currency differs from the primary currency."
+"appropriate receiving preferences for their account. This may occur when the"
+" payment currency differs from the primary currency."
 msgstr ""
-"RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: Mottagaren har ännu inte "
-"ställt in lämpliga mottagningspreferenser för sitt konto. Detta kan "
-"inträffa när betalningsvalutan skiljer sig från den primära valutan."
+"RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: Mottagaren har ännu inte ställt"
+" in lämpliga mottagningspreferenser för sitt konto. Detta kan inträffa när "
+"betalningsvalutan skiljer sig från den primära valutan."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:257
 msgid "REFUNDED: The captured funds were refunded."
@@ -2321,71 +2438,71 @@ msgstr "Betalning via %1$s återbetalad. PayPal-anledning: %2$s."
 msgid "Payment via %1$s failed. PayPal reason: %2$s."
 msgstr "Betalning via %1$s misslyckades. PayPal-anledning: %2$s."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:521
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:538
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:524
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:541
 msgctxt "Important"
 msgid "Or"
 msgstr "Eller"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:667
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:670
 msgctxt "Important"
 msgid "Express Checkout"
 msgstr "Snabbetalning"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:687
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:690
 msgctxt "Important"
 msgid "Or continue below"
 msgstr "Eller fortsätt nedan"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:916
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:919
 msgid "Billing &amp; Shipping"
 msgstr "Fakturering &amp; Frakt"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:916
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:918
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:934
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:919
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:921
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:937
 msgid "Edit"
 msgstr "Redigera"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:918
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:921
 msgid "Billing details"
 msgstr "Fakturainformation"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:934
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:937
 msgid "Shipping details"
 msgstr "Fraktinformation"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1092
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1095
 msgid "Create an account?"
 msgstr "Skapa ett konto?"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1099
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1102
 msgid ""
 "Create an account by entering the information below. If you are a returning "
 "customer please login at the top of the page."
 msgstr ""
-"Skapa ett konto genom att ange informationen nedan. Om du är en "
-"återkommande kund, vänligen logga in högst upp på sidan."
+"Skapa ett konto genom att ange informationen nedan. Om du är en återkommande"
+" kund, vänligen logga in högst upp på sidan."
 
 #. translators: %1$s is the payment method title, %2$s is the formatted
 #. payment status.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1301
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1304
 msgid "Payment via %1$s: %2$s."
 msgstr "Betalning via %1$s: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the pending reason
 #. from PayPal.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1317
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1320
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
 msgstr "Betalning via %1$s är på väg. PayPal-anledning: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1326
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1329
 msgid "Payment via %1$s. Transaction ID: %2$s"
 msgstr "Betalning via %1$s. Transaktions-ID: %2$s"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1509
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1512
 msgctxt "Important"
 msgid ""
 "<strong>You're almost done!</strong><br>Review your information before you "
@@ -2394,27 +2511,40 @@ msgstr ""
 "<strong>Du är nästan klar!</strong><br>Granska din information innan du "
 "lägger din beställning."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1564
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1567
 msgid "Capture Charge"
 msgstr "Fångstavgift"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1702
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1705
 msgctxt "Important"
 msgid "Cancel order"
 msgstr "Avbryt beställning"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1775
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1778
 msgid ""
-"We cannot process your order with the payment information that you "
-"provided. Please use an alternate payment method."
+"We cannot process your order with the payment information that you provided."
+" Please use an alternate payment method."
 msgstr ""
 "Vi kan inte behandla din beställning med den betalningsinformation som du "
 "angav. Vänligen använd en alternativ betalningsmetod."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1783
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1786
 msgid "Something went wrong. Please try again."
 msgstr "Något gick fel. Vänligen försök igen."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1825
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1828
 msgid "3D Secure response"
 msgstr "3D Secure-svar"
+
+#~ msgid ""
+#~ "Accept payments through UPI, Cards, and Net Banking using Razorpay — "
+#~ "developed by an official Razorpay Partner."
+#~ msgstr ""
+#~ "Acceptera betalningar via UPI, kort och nätbank med Razorpay — utvecklat av "
+#~ "en officiell Razorpay-partner."
+
+#~ msgid "Recommended payment method for Indian merchants"
+#~ msgstr "Rekommenderad betalningsmetod för indiska handlare"
+
+#~ msgid "By"
+#~ msgstr "Av"

@@ -1842,10 +1842,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->ppcp_log('Webhook Error Message : ' . wc_print_r($error_message, true));
                 return false;
             } else {
-                $return_response = array();
                 $api_response = json_decode(wp_remote_retrieve_body($response), true);
-                $this->ppcp_log('Response Body: ' . wc_print_r($api_response, true));
                 if (!empty($api_response['verification_status']) && 'SUCCESS' === $api_response['verification_status']) {
+                    $this->ppcp_log('Response Body: ' . wc_print_r($api_response, true));
                     $this->ppcp_log('Response Code: ' . wp_remote_retrieve_response_code($response));
                     $this->ppcp_log('Response Message: ' . wp_remote_retrieve_response_message($response));
                     return true;

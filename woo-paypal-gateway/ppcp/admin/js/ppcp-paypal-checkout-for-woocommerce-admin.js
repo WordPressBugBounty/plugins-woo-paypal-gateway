@@ -78,7 +78,7 @@ class WPGPayPalSettingsUI {
         const $sandboxToggle = jQuery('#woocommerce_wpg_paypal_checkout_sandbox');
         const $liveFields = jQuery('#woocommerce_wpg_paypal_checkout_rest_client_id_live, #woocommerce_wpg_paypal_checkout_rest_secret_id_live').closest('tr');
         const $sandboxFields = jQuery('#woocommerce_wpg_paypal_checkout_rest_client_id_sandbox, #woocommerce_wpg_paypal_checkout_rest_secret_id_sandbox').closest('tr');
-
+       
         $sandboxToggle.change(function () {
             $liveFields.hide();
             $sandboxFields.hide();

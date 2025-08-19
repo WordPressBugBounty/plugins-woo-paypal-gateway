@@ -46,7 +46,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             $this->supports[] = 'tokenization';
         }
         $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
-        $this->order_button_text = __( 'Place order', 'woocommerce' );
+        $this->order_button_text = __('Place order', 'woocommerce');
     }
 
     public function payment_fields() {
@@ -248,6 +248,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
     }
 
     public function is_available() {
+        if ('yes' === $this->get_option('admin_mode')) {
+            if (current_user_can('administrator') || current_user_can('shop_manager')) {
+                return $this->is_credentials_set() && $this->cc_enable === 'yes';
+            }
+            return false;
+        }
         if ($this->is_credentials_set() && $this->cc_enable === 'yes') {
             return true;
         }
