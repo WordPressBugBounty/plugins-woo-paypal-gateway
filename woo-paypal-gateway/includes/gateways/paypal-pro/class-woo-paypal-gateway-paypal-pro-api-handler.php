@@ -74,7 +74,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                 'SHIPTOZIP' => $this->order->get_shipping_postcode(),
                 'CUSTOM' => apply_filters('wpg_paypal_pro_custom_parameter', json_encode(array('order_id' => $this->order->get_id(), 'order_key' => $this->order->get_order_key())), $this->order),
                 'NOTIFYURL' => apply_filters('wpg_paypal_pro_notify_url', add_query_arg('wpg_ipn_action', 'ipn', WC()->api_request_url('Woo_Paypal_Gateway_IPN_Handler'))),
-                'BUTTONSOURCE' => 'mbjtechnolabs_SP',
+                'BUTTONSOURCE' => 'MBJTechnolabs_SI_SPB',
             );
             if ($this->gateway->soft_descriptor) {
                 $post_data['SOFTDESCRIPTOR'] = $this->gateway->soft_descriptor;

@@ -102,41 +102,49 @@ var {addAction} = wp.hooks;
                             })
                         )
                         );
-                
+
                 const {is_order_confirm_page, is_paylater_enable_incart_page, page} = l;
                 const {useEffect} = window.wp.element;
 
                 const Content_PPCP_CC = (props) => {
-                    const {eventRegistration} = props;
-                    const {onPaymentSetup} = eventRegistration;
+                    const {eventRegistration, emitResponse } = props;
+                    const {onPaymentSetup, onCheckoutValidation} = eventRegistration;
 
                     useEffect(() => {
-                        jQuery(document.body).trigger('ppcp_cc_block_ready');
                         const blockElements = '.wc-block-components-checkout-place-order-button, .wp-block-woocommerce-checkout-fields-block #contact-fields, .wp-block-woocommerce-checkout-fields-block #billing-fields, .wp-block-woocommerce-checkout-fields-block #payment-method';
+
                         const unsubscribe = onPaymentSetup(async () => {
                             try {
                                 wp.data.dispatch(wc.wcBlocksData.CHECKOUT_STORE_KEY).__internalSetIdle();
-                                jQuery(document.body).trigger('submit_paypal_cc_form');
-                                jQuery(blockElements).block({
-                                    message: null,
-                                    overlayCSS: {background: '#fff', opacity: 0.6}
-                                });
-                            } catch (error) {
-                                console.error('Payment setup error:', error);
-                                jQuery(blockElements).unblock();
-                                if (window.wc?.blocksCheckout?.blocksRegistry?.dispatchNoticeStore) {
-                                    window.wc.blocksCheckout.blocksRegistry.dispatchNoticeStore.addErrorNotice(
-                                            error.message || 'An unexpected error occurred during payment setup.'
-                                            );
-                                } else {
-                                    alert(error.message || 'An unexpected error occurred during payment setup.');
+                                // Defensive: re-check before submit
+                                const hasErrors = wp?.data?.select('wc/store/validation')?.hasValidationErrors?.() === true;
+                                if (hasErrors) {
+                                    jQuery(blockElements).unblock();
+                                    return false; // halt
                                 }
+                                jQuery(blockElements).block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
+                                jQuery(document.body).trigger('submit_paypal_cc_form'); // only when clean
+                                return true;
+                            } catch (e) {
+                                jQuery(blockElements).unblock();
+                                return false;
                             } finally {
                                 jQuery(blockElements).unblock();
                             }
                         });
+
                         return () => unsubscribe();
                     }, [onPaymentSetup]);
+
+
+                    useEffect(() => {
+                        const unsubscribe = onCheckoutValidation(() => {
+                            const hasErrors = wp?.data?.select('wc/store/validation')?.hasValidationErrors?.() === true;
+                            return hasErrors ? false : true; // stop vs proceed
+                        });
+                        return () => unsubscribe();
+                    }, [onCheckoutValidation]);
+
 
                     return createElement(
                             'div',

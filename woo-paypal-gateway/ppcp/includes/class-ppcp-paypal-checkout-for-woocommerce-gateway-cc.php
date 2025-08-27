@@ -200,6 +200,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             unset(WC()->session->ppcp_session);
         } elseif (isset($_GET['from']) && $_GET['from'] === 'checkout') {
             ppcp_set_session('ppcp_woo_order_id', $woo_order_id);
+            $checkout_post = ppcp_get_session('wpg_ppcp_block_checkout_post');
+            if (!empty($checkout_post)) {
+                $order->set_created_via( 'store-api' );
+                $order->save();
+            }
             $this->request->ppcp_create_order_request($woo_order_id);
             exit;
         } elseif ($paypal_order_id = ppcp_get_session('ppcp_paypal_order_id')) {
@@ -212,6 +217,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             if (ob_get_length()) {
                 ob_end_clean();
             }
+
             return $this->request->ppcp_regular_create_order_request($woo_order_id);
         }
         if ($is_success) {

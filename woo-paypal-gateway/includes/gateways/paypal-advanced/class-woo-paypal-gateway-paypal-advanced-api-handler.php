@@ -83,7 +83,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             $post_data['CUSTIP'] = $this->get_user_ip();
             $post_data['EMAIL'] = $order->get_billing_email();
             $post_data['INVNUM'] = $this->gateway->invoice_prefix . $order->get_order_number();
-            $post_data['BUTTONSOURCE'] = 'mbjtechnolabs_SP';
+            $post_data['BUTTONSOURCE'] = 'MBJTechnolabs_SI_SPB';
             $post_data['CUSTOM'] = apply_filters('wpg_paypal_advanced_custom_parameter', json_encode(array('order_id' => $order->get_id(), 'order_key' => $order->get_order_key())), $order);
             $post_data['NOTIFYURL'] = apply_filters('wpg_paypal_advanced_notify_url', add_query_arg('wpg_ipn_action', 'ipn', WC()->api_request_url('Woo_Paypal_Gateway_IPN_Handler')));
             if ($this->gateway->soft_descriptor) {

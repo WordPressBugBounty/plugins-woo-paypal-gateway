@@ -42,6 +42,17 @@
                 this.debouncedUpdateApplePay();
                 this.debouncedUpdatePaypalCC();
             }
+            var $targets = $('#ppcp_product, #ppcp_cart, #ppcp_checkout_top, #ppcp_checkout_top_alternative, .google-pay-container, .apple-pay-container');
+            setTimeout(function () {
+                $targets.css({background: '', 'background-color': ''});
+                $targets.each(function () {
+                    this.style.setProperty('--wpg-skel-fallback-bg', 'transparent');
+                });
+                $targets.addClass('bg-cleared');
+            }, 2000);
+            setTimeout(function () {
+                $('#wfacp_smart_buttons.wfacp-dynamic-checkout-loading .dynamic-checkout__skeleton').hide();
+            }, 2000);
         }
 
         getAddress(prefix) {
@@ -56,9 +67,15 @@
                 lastName: jQuery(`#${prefix}_last_name`).val(),
                 email: jQuery(`#${prefix}_email`).val()
             };
-            fields.phoneNumber = prefix === 'billing' ? jQuery('#billing-phone').val() || jQuery('#shipping-phone').val() : jQuery('#shipping-phone').val() || jQuery('#billing-phone').val();
+
+            fields.phoneNumber = prefix === 'billing' ?
+                    jQuery('#billing-phone').val() || jQuery('#shipping-phone').val() :
+                    jQuery('#shipping-phone').val() || jQuery('#billing-phone').val();
+
+            let customerData = {};
+            let addressData = {};
+
             if (!fields.addressLine1) {
-                let customerData = {};
                 if (typeof wp !== 'undefined' && wp.data?.select) {
                     try {
                         customerData = wp.data.select('wc/store/cart').getCustomerData();
@@ -67,7 +84,8 @@
                     }
                 }
                 const {billingAddress, shippingAddress} = customerData;
-                const addressData = (prefix === 'billing') ? billingAddress : shippingAddress;
+                addressData = (prefix === 'billing') ? billingAddress : shippingAddress;
+
                 Object.assign(fields, {
                     addressLine1: addressData.address_1,
                     addressLine2: addressData.address_2,
@@ -81,7 +99,8 @@
                 });
             }
 
-            return {
+            // Start with the standard fields
+            const result = {
                 [`${prefix}_address_1`]: fields.addressLine1 || '',
                 [`${prefix}_address_2`]: fields.addressLine2 || '',
                 [`${prefix}_state`]: fields.adminArea1 || '',
@@ -93,6 +112,21 @@
                 [`${prefix}_email`]: fields.email || '',
                 [`${prefix}_phone`]: fields.phoneNumber || ''
             };
+
+            // Add ALL other fields from addressData (including custom fields)
+            if (addressData && Object.keys(addressData).length > 0) {
+                Object.keys(addressData).forEach(key => {
+                    const fieldKey = `${prefix}_${key}`;
+                    // Only add if it's not already in our standard fields
+                    if (!result.hasOwnProperty(fieldKey)) {
+                        result[fieldKey] = addressData[key] !== undefined && addressData[key] !== null
+                                ? addressData[key]
+                                : '';
+                    }
+                });
+            }
+
+            return result;
         }
 
         getValidAddress(prefix) {
@@ -180,7 +214,7 @@
                 event.preventDefault();
                 return this.handleCheckoutSubmit();
             });
-            const eventSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragment_refresh wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method fkwcs_express_button_init';
+            const eventSelectors = 'added_to_cart updated_cart_totals wc_fragments_refreshed wc_fragment_refresh wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method fkwcs_express_button_init';
             const checkoutSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_cc_block_ready ppcp_cc_checkout_updated update_checkout';
             $(document.body).on(eventSelectors, (event) => {
                 this.debouncedUpdatePaypalCheckout();
@@ -325,6 +359,27 @@
                 if (ppcpStyle.layout === 'horizontal') {
                     ppcpStyle.tagline = 'false';
                 }
+                const baseH = parseFloat(ppcpStyle.height) || 48;       // handles "48" or "48px"
+                const heightPx = `${Math.max(0, baseH - 1)}px`;         // reduce by 1px (no negatives)
+
+                const targets = [];
+                if (isMiniCart || selector === '#ppcp_cart') {
+                    targets.push('#ppcp_cart', '.google-pay-container.cart', '.apple-pay-container.cart');
+                } else if (isExpressCheckout) {
+                    targets.push('#ppcp_checkout_top', '#ppcp_checkout_top_alternative',
+                            '.google-pay-container.express_checkout', '.apple-pay-container.express_checkout');
+                } else if (selector === '#ppcp_product') {
+                    targets.push('#ppcp_product', '.google-pay-container.product', '.apple-pay-container.product');
+                } else if (selector === '#ppcp_checkout') {
+                    targets.push('#ppcp_checkout', '.google-pay-container.checkout', '.apple-pay-container.checkout');
+                }
+
+                if (targets.length) {
+                    document.querySelectorAll(targets.join(',')).forEach(el => {
+                        el.style.setProperty('--button-height', heightPx);
+                    });
+                }
+
                 const styledFundingSources = [
                     wpg_paypal_sdk.FUNDING.PAYPAL,
                     wpg_paypal_sdk.FUNDING.PAYLATER
@@ -339,9 +394,54 @@
                             }
                             const options = {
                                 fundingSource,
-                                onClick: () => {
+                                onClick: async (data, actions) => {
                                     this.ppcp_used_payment_method = fundingSource;
-                                },
+
+                                    if (this.ppcp_manager.is_block_enable === 'yes' && window.wp?.data) {
+                                        const vDisp = wp.data.dispatch('wc/store/validation');
+                                        const vSel = wp.data.select('wc/store/validation');
+                                        const cartSel = wp.data.select('wc/store/cart');
+                                        const chkSel = wp.data.select('wc/store/checkout');
+
+                                        // 0) Wait until Blocks is idle (addresses/rates/coupons/customer updates)
+                                        const waitUntilIdle = async () => {
+                                            for (let i = 0; i < 30; i++) {
+                                                const busy =
+                                                        cartSel?.isLoading?.() ||
+                                                        cartSel?.isCouponsUpdating?.() ||
+                                                        cartSel?.isCustomerDataUpdating?.() ||
+                                                        chkSel?.isProcessing?.(); // some builds expose this
+                                                if (!busy)
+                                                    return;
+                                                await new Promise(r => setTimeout(r, 50));
+                                            }
+                                        };
+                                        await waitUntilIdle();
+
+                                        // 1) Ask Blocks to reveal native messages
+                                        vDisp.showAllValidationErrors();
+
+                                        // 2) Give the validation store a tick to recalc & render
+                                        await new Promise(r => setTimeout(r, 0));
+
+                                        // 3) Re-check using BOTH the boolean and the map (some builds lag the boolean)
+                                        const hasErrorsBool =
+                                                typeof vSel.hasValidationErrors === 'function' && vSel.hasValidationErrors();
+                                        const errorMap = typeof vSel.getValidationErrorMap === 'function'
+                                                ? vSel.getValidationErrorMap()
+                                                : {};
+                                        const hasErrors = hasErrorsBool || (errorMap && Object.keys(errorMap).length > 0);
+
+                                        if (hasErrors) {
+                                            // keep focus on form; errors are already shown natively
+                                            return actions?.reject ? actions.reject() : false;
+                                        }
+                                    }
+
+                                    // proceed to wallet
+                                    return true;
+                                }
+                                ,
                                 createOrder: () => this.createOrder(selector),
                                 onApprove: (data, actions) => this.onApproveHandler(data, actions),
                                 onCancel: () => this.onCancelHandler(),
@@ -367,6 +467,7 @@
                         });
                     }
                 } else if (selector === '#ppcp_checkout_top') {
+
                     const expressFundingSources = [
                         wpg_paypal_sdk.FUNDING.PAYPAL,
                         wpg_paypal_sdk.FUNDING.VENMO,

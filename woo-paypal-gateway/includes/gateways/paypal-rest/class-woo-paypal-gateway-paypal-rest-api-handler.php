@@ -53,7 +53,7 @@ class Woo_PayPal_Gateway_PayPal_Rest_API_Handler {
             $this->mode = $this->sandbox == true ? 'SANDBOX' : 'LIVE';
 
             $auth = new ApiContext(new OAuthTokenCredential($this->rest_client_id, $this->rest_secret_id));
-            $auth->setConfig(array('mode' => $this->mode, 'http.headers.PayPal-Partner-Attribution-Id' => 'mbjtechnolabs_SP', 'log.LogEnabled' => true, 'log.LogLevel' => 'DEBUG', 'log.FileName' => wc_get_log_file_path('wpg_paypal_rest'), 'cache.enabled' => true, 'cache.FileName' => wc_get_log_file_path('wpg_paypal_rest_cache')));
+            $auth->setConfig(array('mode' => $this->mode, 'http.headers.PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'log.LogEnabled' => true, 'log.LogLevel' => 'DEBUG', 'log.FileName' => wc_get_log_file_path('wpg_paypal_rest'), 'cache.enabled' => true, 'cache.FileName' => wc_get_log_file_path('wpg_paypal_rest_cache')));
             return $auth;
         } catch (Exception $ex) {
             Woo_PayPal_Gateway_PayPal_Rest::log($ex->getMessage());

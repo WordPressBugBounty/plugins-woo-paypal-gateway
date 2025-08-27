@@ -1243,3 +1243,78 @@ apple-pay-button {
     max-width: 100% !important;
     padding-top: 20px !important;
 }
+#wfacp_smart_buttons {
+    display: block !important;
+}
+#wfacp_smart_buttons.wfacp-dynamic-checkout-loading .dynamic-checkout__skeleton {
+    min-height: 45px;
+}
+:root{
+  --wpg-skel-height:39px;
+  --wpg-skel-radius:0px;
+  --wpg-skel-speed:1.25s;
+  --wpg-skel-fallback-bg:rgba(0,0,0,.06);
+}
+#ppcp_product, .google-pay-container.product, .apple-pay-container.product,
+#ppcp_cart, .google-pay-container.cart, .apple-pay-container.cart {
+  min-height: var(--button-height, 48px);
+}
+
+/* express checkout */
+#ppcp_checkout_top, #ppcp_checkout_top_alternative,
+.google-pay-container.express_checkout, .apple-pay-container.express_checkout {
+  min-height: var(--button-height, 40px);
+}
+
+/* regular checkout */
+#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout {
+  min-height: var(--button-height, 48px);
+}
+
+#ppcp_product, #ppcp_cart, #ppcp_checkout_top, #ppcp_checkout_top_alternative, .google-pay-container, .apple-pay-container {
+  position:relative;
+  
+  z-index:999999;
+  border-radius:var(--wpg-skel-radius);
+  overflow:hidden;
+  border:0;
+
+  background-color:var(--wpg-skel-fallback-bg);
+  background:color-mix(in srgb,currentColor 5%,transparent);
+}
+.ppcp-button-container fieldset legend:after
+#ppcp_product::after,
+#ppcp_cart::after,
+#ppcp_checkout_top::after,
+#ppcp_checkout_top_alternative::after,
+.apple-pay-container::after,
+.google-pay-container::after{
+  animation:wpg-skeleton-shimmer var(--wpg-skel-speed) infinite;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,currentColor 5%,transparent) 50%,transparent);
+  content:"";
+  inset:0;
+  position:absolute;
+  transform:translateX(-100%);
+}
+
+@media (prefers-reduced-motion:reduce){
+  #ppcp_product::after,
+  #ppcp_cart::after,
+  #ppcp_checkout_top::after,
+  #ppcp_checkout_top_alternative::after,
+ .apple-pay-container::after,
+  .google-pay-container::after{
+    animation:none;
+    transform:translateX(0);
+  }
+}
+
+@keyframes wpg-skeleton-shimmer{
+  to{transform:translateX(100%)}
+}
+.bg-cleared,
+.bg-cleared::before,
+.bg-cleared::after {
+  background: none !important;
+  background-color: transparent !important;
+}
