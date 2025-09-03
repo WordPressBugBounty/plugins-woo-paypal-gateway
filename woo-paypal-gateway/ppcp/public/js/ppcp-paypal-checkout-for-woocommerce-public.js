@@ -42,17 +42,10 @@
                 this.debouncedUpdateApplePay();
                 this.debouncedUpdatePaypalCC();
             }
-            var $targets = $('#ppcp_product, #ppcp_cart, #ppcp_checkout_top, #ppcp_checkout_top_alternative, .google-pay-container, .apple-pay-container');
-            setTimeout(function () {
-                $targets.css({background: '', 'background-color': ''});
-                $targets.each(function () {
-                    this.style.setProperty('--wpg-skel-fallback-bg', 'transparent');
-                });
-                $targets.addClass('bg-cleared');
-            }, 2000);
+
             setTimeout(function () {
                 $('#wfacp_smart_buttons.wfacp-dynamic-checkout-loading .dynamic-checkout__skeleton').hide();
-            }, 2000);
+            }, 1000);
         }
 
         getAddress(prefix) {
@@ -215,7 +208,7 @@
                 return this.handleCheckoutSubmit();
             });
             const eventSelectors = 'added_to_cart updated_cart_totals wc_fragments_refreshed wc_fragment_refresh wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method fkwcs_express_button_init';
-            const checkoutSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_cc_block_ready ppcp_cc_checkout_updated update_checkout';
+            const checkoutSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_cc_block_ready ppcp_cc_checkout_updated update_checkout wpg_change_method';
             $(document.body).on(eventSelectors, (event) => {
                 this.debouncedUpdatePaypalCheckout();
                 this.debouncedUpdateGooglePay();
@@ -531,6 +524,14 @@
                     }).render(selector);
                 }
             });
+            var $targets = $('#ppcp_product, #ppcp_cart, #ppcp_mini_cart, #ppcp_checkout, #ppcp_checkout_top, #ppcp_checkout_top_alternative');
+            setTimeout(function () {
+                $targets.css({background: '', 'background-color': ''});
+                $targets.each(function () {
+                    this.style.setProperty('--wpg-skel-fallback-bg', 'transparent');
+                });
+                $targets.addClass('bg-cleared');
+            }, 1);
         }
 
         createOrder(selector) {
@@ -647,9 +648,11 @@
         showSpinner(containerSelector = '.woocommerce') {
             if (jQuery('.wc-block-checkout__main').length || jQuery('.wp-block-woocommerce-cart').length) {
                 jQuery('.wc-block-checkout__main, .wp-block-woocommerce-cart').block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
+            }  else if (jQuery('form.checkout').length) {
+                jQuery('form.checkout').block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
             } else if (jQuery(containerSelector).length) {
                 jQuery(containerSelector).block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
-        }
+            }
         }
 
         hideSpinner(containerSelector = '.woocommerce') {
@@ -1146,6 +1149,14 @@
             button.setAttribute('data-context', context);
             container.innerHTML = '';
             container.appendChild(button);
+            var $targets = $('.google-pay-container');
+            setTimeout(function () {
+                $targets.css({background: '', 'background-color': ''});
+                $targets.each(function () {
+                    this.style.setProperty('--wpg-skel-fallback-bg', 'transparent');
+                });
+                $targets.addClass('bg-cleared');
+            }, 1);
         }
 
         async onGooglePaymentButtonClicked(event) {
@@ -1521,6 +1532,14 @@
                 applePayButton.setAttribute('data-context', context);
                 container.appendChild(applePayButton);
                 applePayButton.addEventListener('click', () => this.onApplePayButtonClicked(container));
+                var $targets = $('.apple-pay-container');
+                setTimeout(function () {
+                    $targets.css({background: '', 'background-color': ''});
+                    $targets.each(function () {
+                        this.style.setProperty('--wpg-skel-fallback-bg', 'transparent');
+                    });
+                    $targets.addClass('bg-cleared');
+                }, 1);
             });
         }
 

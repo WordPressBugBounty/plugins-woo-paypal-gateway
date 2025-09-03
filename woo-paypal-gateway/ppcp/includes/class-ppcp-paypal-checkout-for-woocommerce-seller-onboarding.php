@@ -167,7 +167,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
 
     public function wpg_login_seller() {
         try {
-            $this->api_log->log('wpg_login_seller');
+            $connection_time = get_option('wpg_connection_time');
+            if ($connection_time == '') {
+                $connection_time = time();
+                update_option('wpg_connection_time', $connection_time);
+            }
             $posted_raw = wpg_get_raw_data();
             if (empty($posted_raw)) {
                 return false;
@@ -182,7 +186,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
 
     public function wpg_get_access_token($data) {
         try {
-            $this->api_log->log('wpg_get_access_token');
             if (empty($data['authCode'])) {
                 return false;
             }
@@ -215,7 +218,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
 
     public function wpg_get_seller_rest_api_credentials($token) {
         try {
-            $this->api_log->log('wpg_get_seller_rest_api_credentials');
             $partner_merchant_id = $this->is_sandbox ? $this->sandbox_partner_merchant_id : $this->partner_merchant_id;
             $this->api_request = new PPCP_Paypal_Checkout_For_Woocommerce_Request();
             $url = trailingslashit($this->host) . 'v1/customer/partners/' . $partner_merchant_id . '/merchant-integrations/credentials/';
@@ -307,7 +309,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
 
     public function wpg_get_credentials($data) {
         try {
-            $this->api_log->log('wpg_get_credentials');
             $this->is_sandbox = isset($data['env']) && 'sandbox' === $data['env'];
             $this->host = $this->is_sandbox ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';
             $this->clear_transients_and_options();

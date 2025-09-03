@@ -977,6 +977,7 @@
     font-size: 16px;
     text-transform: none;
     border-bottom: none;
+    background: transparent;
 }
 .ppcp-button-container .express-divider {
     align-items: center;
@@ -1271,20 +1272,19 @@ apple-pay-button {
   min-height: var(--button-height, 48px);
 }
 
-#ppcp_product, #ppcp_cart, #ppcp_checkout_top, #ppcp_checkout_top_alternative, .google-pay-container, .apple-pay-container {
+#ppcp_product, #ppcp_cart, #ppcp_mini_cart, #ppcp_checkout_top, #ppcp_checkout, #ppcp_checkout_top_alternative, .google-pay-container, .apple-pay-container {
   position:relative;
-  
   z-index:999999;
   border-radius:var(--wpg-skel-radius);
   overflow:hidden;
   border:0;
-
   background-color:var(--wpg-skel-fallback-bg);
   background:color-mix(in srgb,currentColor 5%,transparent);
 }
-.ppcp-button-container fieldset legend:after
 #ppcp_product::after,
 #ppcp_cart::after,
+#ppcp_mini_cart::after,
+#ppcp_checkout::after,
 #ppcp_checkout_top::after,
 #ppcp_checkout_top_alternative::after,
 .apple-pay-container::after,
@@ -1300,6 +1300,8 @@ apple-pay-button {
 @media (prefers-reduced-motion:reduce){
   #ppcp_product::after,
   #ppcp_cart::after,
+  #ppcp_mini_cart::after,
+  #ppcp_checkout::after,
   #ppcp_checkout_top::after,
   #ppcp_checkout_top_alternative::after,
  .apple-pay-container::after,
@@ -1318,3 +1320,4 @@ apple-pay-button {
   background: none !important;
   background-color: transparent !important;
 }
+[id^="zoid-paypal-card"] { height: 57px !important; }

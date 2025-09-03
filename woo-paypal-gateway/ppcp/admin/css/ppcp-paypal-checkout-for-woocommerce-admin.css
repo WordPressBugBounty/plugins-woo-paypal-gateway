@@ -126,55 +126,140 @@ table::after {
     resize: vertical;
 }
 /* Wrapper + header */
-.wpg-ch-wrap{max-width:900px;background:#fff;border:1px solid #dcdcdc;}
-.wpg-ch-title{margin:16px 16px 4px !important;font-size:17px;font-weight:600;color:#1d2327}
-.wpg-ch-sub{margin:0 16px 12px;color:#646970}
+.wpg-ch-wrap{
+    max-width:900px;
+    background:#fff;
+    border:1px solid #dcdcdc;
+}
+.wpg-ch-title{
+    margin:16px 16px 4px !important;
+    font-size:17px;
+    font-weight:600;
+    color:#1d2327
+}
+.wpg-ch-sub{
+    margin:0 16px 12px;
+    color:#646970
+}
 
 /* List */
-.wpg-ch-list{border-top:1px solid #e6e7e9}
+.wpg-ch-list{
+    border-top:1px solid #e6e7e9
+}
 
 /* Row */
 .wpg-ch-item{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:16px;border-top:1px solid #e6e7e9;background:#fff
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:16px;
+    border-top:1px solid #e6e7e9;
+    background:#fff
 }
-.wpg-ch-item:first-child{border-top:none}
+.wpg-ch-item:first-child{
+    border-top:none
+}
 
 /* Left cluster */
-.wpg-ch-left{display:flex;align-items:center;gap:16px;min-width:0}
-.wpg-ch-logo{width:75px;height:75px;border-radius:6px;object-fit:contain;background:#fff;flex:0 0 auto}
-.wpg-ch-text{min-width:0}
-.wpg-ch-line1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.wpg-ch-name{font-weight:600;color:#1d2327;text-decoration:none;font-size: 14px;}
-.wpg-ch-name:hover{color:#135e96;text-decoration:underline}
-.wpg-ch-chip{
-  color:#757575;border:1px solid #757575;border-radius:999px;
-  padding:2px 8px;font-size:12px;line-height:18px
+.wpg-ch-left{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    min-width:0
 }
-.wpg-ch-desc{color:#2c3338;margin-top:4px;max-width:720px}
+.wpg-ch-logo{
+    width:75px;
+    height:75px;
+    border-radius:6px;
+    object-fit:contain;
+    background:#fff;
+    flex:0 0 auto
+}
+.wpg-ch-text{
+    min-width:0
+}
+.wpg-ch-line1{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap
+}
+.wpg-ch-name{
+    font-weight:600;
+    color:#1d2327;
+    text-decoration:none;
+    font-size: 14px;
+}
+.wpg-ch-name:hover{
+    color:#135e96;
+    text-decoration:underline
+}
+.wpg-ch-chip{
+    color:#757575;
+    border:1px solid #757575;
+    border-radius:999px;
+    padding:2px 8px;
+    font-size:12px;
+    line-height:18px
+}
+.wpg-ch-desc{
+    color:#2c3338;
+    margin-top:4px;
+    max-width:720px
+}
 
 /* Right button */
-.wpg-ch-right{flex:0 0 auto}
-.wpg-ch-btn{white-space:nowrap}
+.wpg-ch-right{
+    flex:0 0 auto
+}
+.wpg-ch-btn{
+    white-space:nowrap
+}
 
 /* Make rows stack on narrow screens */
 @media (max-width: 720px){
-  .wpg-ch-item{flex-direction:column;align-items:flex-start}
-  .wpg-ch-right{width:100%}
-  .wpg-ch-btn{width:auto}
+    .wpg-ch-item{
+        flex-direction:column;
+        align-items:flex-start
+    }
+    .wpg-ch-right{
+        width:100%
+    }
+    .wpg-ch-btn{
+        width:auto
+    }
 }
 
 /* Dark mode */
-body.is-dark-theme .wpg-ch-wrap{background:#1e1f24;border-color:#2a2f33}
-body.is-dark-theme .wpg-ch-title{color:#e2e4e7}
-body.is-dark-theme .wpg-ch-sub{color:#9aa0a6}
-body.is-dark-theme .wpg-ch-item{background:#1e1f24;border-color:#2a2f33}
-body.is-dark-theme .wpg-ch-name{color:#e2e4e7}
-body.is-dark-theme .wpg-ch-name:hover{color:#8cc8ff}
-body.is-dark-theme .wpg-ch-desc{color:#c3c4c7}
-body.is-dark-theme .wpg-ch-chip{background:#0b2940;color:#8cc8ff;border-color:#183a57}
-
-
+body.is-dark-theme .wpg-ch-wrap{
+    background:#1e1f24;
+    border-color:#2a2f33
+}
+body.is-dark-theme .wpg-ch-title{
+    color:#e2e4e7
+}
+body.is-dark-theme .wpg-ch-sub{
+    color:#9aa0a6
+}
+body.is-dark-theme .wpg-ch-item{
+    background:#1e1f24;
+    border-color:#2a2f33
+}
+body.is-dark-theme .wpg-ch-name{
+    color:#e2e4e7
+}
+body.is-dark-theme .wpg-ch-name:hover{
+    color:#8cc8ff
+}
+body.is-dark-theme .wpg-ch-desc{
+    color:#c3c4c7
+}
+body.is-dark-theme .wpg-ch-chip{
+    background:#0b2940;
+    color:#8cc8ff;
+    border-color:#183a57
+}
 .ppcp-google-pay-notice-box {
     padding: 12px 16px;
     line-height: 1.5;
@@ -192,7 +277,6 @@ body.is-dark-theme .wpg-ch-chip{background:#0b2940;color:#8cc8ff;border-color:#1
     align-items: center;
     gap: 12px;
 }
-
 .nexa-loader {
     width: 20px;
     height: 20px;
@@ -201,7 +285,6 @@ body.is-dark-theme .wpg-ch-chip{background:#0b2940;color:#8cc8ff;border-color:#1
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
-
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -220,19 +303,16 @@ body.is-dark-theme .wpg-ch-chip{background:#0b2940;color:#8cc8ff;border-color:#1
     gap: 8px;
     width: 248px;
 }
-
 .wpg-paypal-connect-row {
     display: flex;
     align-items: center;
     gap: 6px;
 }
-
 .wpg-paypal-connect-button {
     padding: 6px 12px;
     font-size: 13px;
     cursor: pointer;
 }
-
 .wpg-paypal-recommend {
     font-size: 11px;
     color: #2f7d32;
@@ -241,7 +321,6 @@ body.is-dark-theme .wpg-ch-chip{background:#0b2940;color:#8cc8ff;border-color:#1
     padding: 6px 6px;
     border-radius: 4px;
 }
-
 .wpg-paypal-separator {
     font-size: 13px;
     text-align: center;
@@ -249,27 +328,45 @@ body.is-dark-theme .wpg-ch-chip{background:#0b2940;color:#8cc8ff;border-color:#1
     color: #827a7a;
     align-self: center;
 }
-
 .wpg-paypal-separator span {
     color: #eeeded;
 }
-
 .wpg_paypal_checkout_gateway_manual_credential_input {
     font-size: 13px;
     text-decoration: underline;
     color: #0073aa;
     align-self: center;
 }
-
 .wpg_paypal_checkout_gateway_manual_credential_input:hover {
     color: #005177;
 }
-
-/* Adjust Select2 container next to the environment dropdown */
 #woocommerce_wpg_paypal_checkout_sandbox ~ .select2-container {
     min-width: 249px !important;
 }
 body.woocommerce_page_wc-settings #wpbody-content {
     background: #F0F0F1 !important;
     padding-bottom: 0;
+}
+.wpg_lamp_icon {
+    font-size: 18px;
+    color: #2271b1;
+}
+.wpg-notice-ai p {
+    display: flow-root;
+    margin: .5em 0;
+}
+.wpg-notice-ai .emoji {
+    height: 18px;
+    width: 18px;
+    vertical-align: text-bottom;
+}
+.wpg-notice-ai .button.alignright {
+    margin-left: .75rem;
+}
+@media (max-width: 782px) {
+    .wpg-notice-ai .button.alignright {
+        float: none;
+        display: inline-block;
+        margin: .5rem 0 0;
+    }
 }
