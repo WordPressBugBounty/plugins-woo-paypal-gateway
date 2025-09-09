@@ -240,6 +240,7 @@
 
         update_paypal_checkout() {
             this.ppcp_cart_css();
+            this.togglePlaceOrderButton();
             this.renderSmartButton();
             if ($('#ppcp_checkout_top').length === 0) {
                 const $applePay = $('div.apple-pay-container[data-context="express_checkout"]');
@@ -253,7 +254,7 @@
                     $googlePay.css('min-width', '480px');
                 }
             }
-            this.togglePlaceOrderButton();
+
         }
 
         update_paypal_cc() {
@@ -648,16 +649,18 @@
         showSpinner(containerSelector = '.woocommerce') {
             if (jQuery('.wc-block-checkout__main').length || jQuery('.wp-block-woocommerce-cart').length) {
                 jQuery('.wc-block-checkout__main, .wp-block-woocommerce-cart').block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
-            }  else if (jQuery('form.checkout').length) {
+            } else if (jQuery('form.checkout').length) {
                 jQuery('form.checkout').block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
             } else if (jQuery(containerSelector).length) {
                 jQuery(containerSelector).block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
-            }
+        }
         }
 
         hideSpinner(containerSelector = '.woocommerce') {
             if (jQuery('.wc-block-checkout__main').length || jQuery('.wp-block-woocommerce-cart').length) {
                 jQuery('.wc-block-checkout__main, .wp-block-woocommerce-cart').unblock();
+            } else if (jQuery('form.checkout').length) {
+                jQuery('form.checkout').unblock();
             } else if (jQuery(containerSelector).length) {
                 jQuery(containerSelector).unblock();
         }
@@ -1173,7 +1176,14 @@
                     throw new Error("");
                 }
                 if (transactionInfo?.success) {
-                    this.ppcp_manager.cart_total = transactionInfo.data?.cart_total || this.ppcp_manager.cart_total;
+                    const d = transactionInfo.data || {};
+                    this.ppcp_manager.cart_total = d.cart_total ?? this.ppcp_manager.cart_total;
+                    this.ppcp_manager.cart_items = Array.isArray(d.cart_items) ? d.cart_items : [];
+                    this.ppcp_manager.shipping_total = d.shipping_total ?? "0.00";
+                    this.ppcp_manager.tax_total = d.tax_total ?? "0.00";
+                    this.ppcp_manager.discount_total = d.discount_total ?? "0.00";
+                    this.ppcp_manager.currency = d.currency ?? this.ppcp_manager.currency;
+                    this.ppcp_manager.needs_shipping = d.needs_shipping ?? this.ppcp_manager.needs_shipping ?? "0";
                 }
                 const paymentDataRequest = await this.getGooglePaymentDataRequest();
                 const paymentsClient = this.getGooglePaymentsClient();
@@ -1257,10 +1267,64 @@
         }
 
         getGoogleTransactionInfo() {
+            const currency = this.ppcp_manager?.currency || "USD";
+            const toNum = (v) => {
+                const f = parseFloat((v ?? "").toString().replace(/,/g, ""));
+                return Number.isFinite(f) ? f : 0;
+            };
+            const toStr = (v) => toNum(v).toFixed(2);
+
+            const displayItems = [];
+
+            const items = Array.isArray(this.ppcp_manager?.cart_items) ? this.ppcp_manager.cart_items : [];
+            for (const it of items) {
+                const name = it?.name ?? "Item";
+                const qty = Math.max(1, parseInt(it?.quantity, 10) || 1);
+                const lineTotal = ("subtotal" in it) ? toNum(it.subtotal) : toNum(it.price) * qty;
+
+                displayItems.push({
+                    label: `${name}${qty > 1 ? ` × ${qty}` : ""}`,
+                    type: "LINE_ITEM",
+                    price: toStr(lineTotal),
+                });
+            }
+
+            const needsShipping = String(this.ppcp_manager?.needs_shipping ?? "0") === "1";
+            const shippingTotal = toNum(this.ppcp_manager?.shipping_total);
+            if (needsShipping || shippingTotal > 0) {
+                displayItems.push({
+                    label: "Shipping",
+                    type: "SHIPPING_OPTION",
+                    price: toStr(shippingTotal),
+                });
+            }
+
+            const taxTotal = toNum(this.ppcp_manager?.tax_total);
+            if (taxTotal > 0) {
+                displayItems.push({
+                    label: "Tax",
+                    type: "TAX",
+                    price: toStr(taxTotal),
+                });
+            }
+
+            const discountTotal = toNum(this.ppcp_manager?.discount_total);
+            if (discountTotal > 0) {
+                displayItems.push({
+                    label: "Discount",
+                    type: "DISCOUNT",
+                    price: toStr(-discountTotal),
+                });
+            }
+
+            const total = toNum(this.ppcp_manager?.cart_total);
+
             return {
-                currencyCode: this.ppcp_manager.currency || "USD",
+                displayItems,
+                currencyCode: currency,
                 totalPriceStatus: "ESTIMATED",
-                totalPrice: this.ppcp_manager.cart_total || "0.00",
+                totalPrice: toStr(total),
+                totalPriceLabel: "Total",
             };
         }
 

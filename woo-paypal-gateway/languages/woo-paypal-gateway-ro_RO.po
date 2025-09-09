@@ -3,9 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.39\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-"
-"gateway\n"
-"POT-Creation-Date: 2025-08-19T05:41:27+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
+"POT-Creation-Date: 2025-09-08T10:54:19+00:00\n"
 "PO-Revision-Date: 2025-08-19 15:07+0530\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -13,14 +12,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
 "X-Domain: woo-paypal-gateway\n"
 "X-Generator: Poedit 3.6\n"
 
 #. Plugin Name of the plugin
 #: woo-paypal-gateway.php
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1577
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1606
 msgid "Payment Gateway for PayPal on WooCommerce"
 msgstr "Gateway de plată pentru PayPal pe WooCommerce"
 
@@ -31,13 +29,15 @@ msgstr "https://profiles.wordpress.org/easypayment"
 
 #. Description of the plugin
 #: woo-paypal-gateway.php
+#, fuzzy
 msgid ""
-"PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, "
-"Mercado Pago, Sofort, Bancontact & more - by an official PayPal Partner"
+"PayPal, Credit/Debit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, "
+"iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal "
+"Partner"
 msgstr ""
-"PayPal, Carduri de credit, Google Pay, Apple Pay, Plătește mai târziu, "
-"Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact și altele - de la un "
-"partener oficial PayPal"
+"PayPal, Carduri de credit/debit, Google Pay, Apple Pay, Plătește mai târziu,"
+" Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact și altele - de către "
+"un partener oficial PayPal"
 
 #. Author of the plugin
 #: woo-paypal-gateway.php
@@ -48,96 +48,6 @@ msgstr "easypayment"
 #: woo-paypal-gateway.php
 msgid "https://profiles.wordpress.org/easypayment/"
 msgstr "https://profiles.wordpress.org/easypayment/"
-
-#: admin/feedback/deactivation-feedback-form.php:8
-msgid "Return"
-msgstr "Întoarce-te"
-
-#: admin/feedback/deactivation-feedback-form.php:9
-msgid "We’re sorry to see you go! 💔"
-msgstr "Ne pare rău să te vedem plecând! 💔"
-
-#: admin/feedback/deactivation-feedback-form.php:11
-msgid "Close"
-msgstr "Închis"
-
-#: admin/feedback/deactivation-feedback-form.php:15
-msgid ""
-"Can you please tell us why you’re deactivating the plugin? Your feedback "
-"helps us make it better."
-msgstr ""
-"Ne poți spune, te rugăm, de ce dezactivezi pluginul? Feedback-ul tău ne "
-"ajută să-l îmbunătățim."
-
-#: admin/feedback/deactivation-feedback-form.php:19
-msgid "Temporary deactivation (troubleshooting)"
-msgstr "Dezactivare temporară (depistarea problemelor)"
-
-#: admin/feedback/deactivation-feedback-form.php:23
-msgid "Compatibility issue"
-msgstr "Problema de compatibilitate"
-
-#: admin/feedback/deactivation-feedback-form.php:25
-msgid "Please describe what part of the layout or functionality was affected."
-msgstr ""
-"Te rog să descrii ce parte a layout-ului sau a funcționalității a fost "
-"afectată."
-
-#: admin/feedback/deactivation-feedback-form.php:30
-msgid "Difficult to set up"
-msgstr "Dificil de configurat"
-
-#: admin/feedback/deactivation-feedback-form.php:32
-msgid "What part of the setup was confusing or unclear?"
-msgstr "Ce parte a configurării a fost confuză sau neclară?"
-
-#: admin/feedback/deactivation-feedback-form.php:37
-msgid "Missing features"
-msgstr "Funcții lipsă"
-
-#: admin/feedback/deactivation-feedback-form.php:39
-msgid "Which features were you looking for?"
-msgstr "Ce caracteristici căutai?"
-
-#: admin/feedback/deactivation-feedback-form.php:44
-msgid "Other"
-msgstr "Altul"
-
-#: admin/feedback/deactivation-feedback-form.php:46
-msgid ""
-"Please share why you’re deactivating the PayPal plugin so we can make "
-"improvements."
-msgstr ""
-"Te rugăm să ne împărtășești de ce dezactivezi pluginul PayPal, astfel încât "
-"să putem face îmbunătățiri."
-
-#: admin/feedback/deactivation-feedback-form.php:58
-msgid ""
-"Your privacy is important to us. No personal data is collected with this form"
-"—just your valuable feedback and basic system information (such as WordPress "
-"and plugin versions) to help us improve our plugin."
-msgstr ""
-"Confidențialitatea dumneavoastră este importantă pentru noi. Nu sunt "
-"colectate date personale cu acest formular—doar feedback-ul dumneavoastră "
-"valoros și informații de bază despre sistem (cum ar fi versiunile WordPress "
-"și plugin-urilor) pentru a ne ajuta să ne îmbunătățim plugin-ul."
-
-#: admin/feedback/deactivation-feedback-form.php:63
-#, fuzzy
-msgid "Visit our support page for assistance"
-msgstr "Vizitați pagina noastră de suport pentru asistență."
-
-#: admin/feedback/deactivation-feedback-form.php:63
-msgid "Get Support"
-msgstr "Obțineți suport"
-
-#: admin/feedback/deactivation-feedback-form.php:65
-msgid "Send & Deactivate"
-msgstr "Trimite și Dezactivează"
-
-#: admin/feedback/deactivation-feedback-form.php:67
-msgid "I rather wouldn't say"
-msgstr "Prefer să nu spun."
 
 #: ppcp/admin/class-paypal-ppcp-apple-pay-configurations.php:57
 msgid "Invalid domain name."
@@ -191,7 +101,7 @@ msgid "Confirm Your PayPal Order"
 msgstr "Confirmă Comanda Ta PayPal"
 
 #: ppcp/checkout-block/ppcp-checkout-block.php:114
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:68
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:69
 msgctxt "Important"
 msgid "Proceed to PayPal"
 msgstr "Continuați către PayPal"
@@ -208,8 +118,8 @@ msgstr ""
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:25
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:66
 msgid ""
-"Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return "
-"to shop</a>"
+"Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return"
+" to shop</a>"
 msgstr ""
 "Ne pare rău, sesiunea ta a expirat. <a href=\"%s\" class=\"wc-"
 "backward\">Întoarce-te la magazin</a>"
@@ -243,28 +153,28 @@ msgstr ""
 "Folosește cardul de test 4111 1111 1111 1111 cu orice dată de expirare "
 "viitoare și orice CVV."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:241
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:630
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:659
 msgid "Refund failed."
 msgstr "Restituirea a eșuat."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:63
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:64
 msgctxt "Important"
 msgid "Credit or Debit Card"
 msgstr "Card de credit sau debit"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:66
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:715
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:67
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:797
 msgctxt "Important"
 msgid "Confirm your PayPal order"
 msgstr "Confirmă comanda ta PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:86
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:99
 msgctxt "Important"
 msgid "PayPal Gateway By Easy Payment"
 msgstr "Gateway PayPal prin Easy Payment"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:87
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:100
 msgctxt "Important"
 msgid ""
 "PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and "
@@ -273,12 +183,12 @@ msgstr ""
 "PayPal, Plătește mai târziu, Venmo, Carduri de credit și debit, Google Pay, "
 "Apple Pay — și multe altele."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:310
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:323
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
 msgid "Admin Only Mode"
 msgstr "Modul doar pentru administratori"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:311
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:324
 msgid ""
 "is currently enabled. PayPal payment methods are visible only to site "
 "administrators and store managers. Disable this mode after testing to make "
@@ -288,140 +198,142 @@ msgstr ""
 "administratorii site-ului și managerii de magazin. Dezactivează acest mod "
 "după testare pentru a le face disponibile clienților."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:323
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:336
 msgid "Please verify the PayPal account to receive the payments."
 msgstr "Vă rugăm să verificați contul PayPal pentru a primi plățile."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:335
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:348
 msgid "PayPal onboarding process successfully completed."
 msgstr "Procesul de integrare PayPal a fost finalizat cu succes."
 
 #. translators: %1$s: URL to the PayPal API settings page.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:366
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:379
 msgid ""
-"<strong>PayPal Setup Required:</strong> Connect your PayPal account or enter "
-"your Client ID and Secret in the <a href=\"%1$s\">API settings</a> to begin "
-"accepting payments."
+"<strong>PayPal Setup Required:</strong> Connect your PayPal account or enter"
+" your Client ID and Secret in the <a href=\"%1$s\">API settings</a> to begin"
+" accepting payments."
 msgstr ""
 "<strong>Configurare PayPal necesară:</strong> Conectați-vă la contul dvs. "
 "PayPal sau introduceți ID-ul dvs. de client și Secretul în setările <a "
 "href=\"%1$s\">API</a> pentru a începe să acceptați plăți."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:384
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:397
 msgid "Click the PayPal button to add your payment method."
 msgstr "Faceți clic pe butonul PayPal pentru a adăuga metoda dvs. de plată."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:387
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:400
 msgid "Click the \"%s\" button below to process your order."
 msgstr ""
 "Faceți clic pe butonul \"%s\" de mai jos pentru a procesa comanda "
 "dumneavoastră."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:391
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:404
 msgid "Click a payment option below to process your order."
 msgstr ""
 "Faceți clic pe o opțiune de plată mai jos pentru a procesa comanda "
 "dumneavoastră."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:464
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:486
 msgid "Return to payments"
 msgstr "Întoarceți-vă la plăți"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:489
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:511
 msgid "API Settings"
 msgstr "Setări API"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:490
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:512
 msgid "PayPal Settings"
 msgstr "Setări PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:491
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:513
 msgid "Advanced Card Payments"
 msgstr "Plăți avansate cu cardul"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:514
 msgid "Google Pay"
 msgstr "Google Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:493
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:515
 msgid "Apple Pay"
 msgstr "Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:494
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:516
 msgid "Pay Later Messaging"
 msgstr "Mesajul \"Plătește mai târziu\""
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:495
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:517
 msgid "Additional Settings"
 msgstr "Setări suplimentare"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:496
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:518
 msgid "FAQ"
 msgstr "Întrebări frecvente"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:497
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1655
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:519
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1684
 msgid "Recommended Plugins"
 msgstr "Plugin-uri recomandate"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:686
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:715
 msgid "This represents the fee PayPal collects for the transaction."
-msgstr "Aceasta reprezintă taxa pe care PayPal o colectează pentru tranzacție."
+msgstr ""
+"Aceasta reprezintă taxa pe care PayPal o colectează pentru tranzacție."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:687
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:716
 msgid "PayPal Fee:"
 msgstr "Taxa PayPal:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:747
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:776
 msgid "Disconnect"
 msgstr "Deconectare"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:823
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:852
 msgid "PayPal Account Successfully Connected!"
 msgstr "Contul PayPal a fost conectat cu succes!"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:828
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:857
 msgid "Connected Email:"
 msgstr "Email conectat:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:834
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:863
 msgid "Disconnect PayPal Account"
 msgstr "Dezactivează contul PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:896
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:925
 msgid ""
 "The PayPal Client ID and Secret key you entered are invalid. Ensure you are "
-"using the correct credentials for the selected environment (Sandbox or Live)."
+"using the correct credentials for the selected environment (Sandbox or "
+"Live)."
 msgstr ""
 "ID-ul Client PayPal și cheia Secretă pe care le-ați introdus sunt invalide. "
 "Asigurați-vă că utilizați acreditivele corecte pentru mediul selectat "
 "(Sandbox sau Live)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:955
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:984
 msgid "Click to Connect PayPal"
 msgstr "Click pentru a conecta PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:982
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1011
 msgid "The Connect to PayPal service is temporarily unavailable."
 msgstr "Serviciul Connect to PayPal este temporar indisponibil."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:984
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1013
 msgid "Toggle to manual credential input"
 msgstr "Comută la introducerea manuală a acreditivelor"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1008
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1037
 msgid "Recommended"
 msgstr "Recomandat"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1013
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1042
 msgid "OR"
 msgstr "sau"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1018
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1047
 msgid "Click here to insert credentials manually"
 msgstr "Click aici pentru a introduce manual acreditivele"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1147
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1176
 msgid ""
 "Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) will appear?"
@@ -429,26 +341,26 @@ msgstr ""
 "Ce butoane PayPal (de exemplu, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact etc.) vor apărea?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1151
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1180
 msgid ""
 "The PayPal buttons are shown automatically based on several factors, "
 "including:"
 msgstr ""
 "Butonii PayPal sunt afișați automat pe baza mai multor factori, inclusiv:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1153
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1182
 msgid "The buyer’s country"
 msgstr "Țara cumpărătorului"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1154
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1183
 msgid "Their device type"
 msgstr "Tipul dispozitivului lor"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1155
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1184
 msgid "The funding sources they’ve enabled"
 msgstr "Sursele de finanțare pe care le-au activat"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1157
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1186
 msgid ""
 "As a result, each buyer may see a different set of buttons. Pay Later "
 "options vary by country and may display different buttons."
@@ -457,11 +369,11 @@ msgstr ""
 "Opțiunile de Plată Ulterioară variază în funcție de țară și pot afișa "
 "butoane diferite."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1163
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1192
 msgid "How can I hide specific PayPal buttons?"
 msgstr "Cum pot ascunde butoanele specifice PayPal?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1167
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1196
 msgid ""
 "By default, all PayPal buttons are enabled. To hide specific buttons, use "
 "the <strong>Disable Specific Payment Buttons</strong> option."
@@ -470,40 +382,41 @@ msgstr ""
 "butoane specifice, utilizați opțiunea <strong>Dezactivează butoanele de "
 "plată specifice</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1168
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1197
 msgid "Example: To hide the Pay Later button on the Checkout Page:"
 msgstr ""
 "Exemplu: Pentru a ascunde butonul Plătește mai târziu pe pagina de "
 "finalizare a comenzii:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1170
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1186
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1199
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1215
 msgid "Go to <strong>PayPal Settings</strong>."
 msgstr "Mergi la <strong>Setările PayPal</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1171
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1200
 msgid "Find the <strong>Disable Specific Payment Buttons</strong> setting."
 msgstr ""
 "Găsiți setarea <strong>Dezactivează butoanele de plată specifice</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1172
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1201
 msgid "Select <strong>Pay Later</strong> from the dropdown list."
 msgstr "Selectați <strong>Plătiți mai târziu</strong> din lista derulantă."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1173
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1188
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1194
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1210
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1216
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1202
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1223
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1239
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1245
 msgid "Click <strong>Save Changes</strong>."
 msgstr "Faceți clic pe <strong>Salvați modificările</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1179
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1208
 msgid "How can I show only the \"PayPal\" button on the Checkout page?"
 msgstr ""
-"Cum pot să afișez doar butonul \"PayPal\" pe pagina de finalizare a comenzii?"
+"Cum pot să afișez doar butonul \"PayPal\" pe pagina de finalizare a "
+"comenzii?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1183
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1212
 msgid ""
 "To display only the \"PayPal\" button on the Checkout page, follow these "
 "steps:"
@@ -511,44 +424,45 @@ msgstr ""
 "Pentru a afișa doar butonul \"PayPal\" pe pagina de finalizare a comenzii, "
 "urmați acești pași:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1184
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1206
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1213
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1235
 msgid "Step 1: Update PayPal Settings"
 msgstr "Pasul 1: Actualizați setările PayPal"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1187
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1216
 msgid ""
 "Under <strong>Disable Specific Payment Buttons</strong>, select "
-"<strong>Credit or Debit Card</strong> and any other methods you want to hide."
+"<strong>Credit or Debit Card</strong> and any other methods you want to "
+"hide."
 msgstr ""
 "Sub <strong>Dezactivează Butoanele de Plată Specifice</strong>, selectează "
 "<strong>Card de Credit sau Debit</strong> și orice alte metode pe care "
 "dorești să le ascunzi."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1190
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1219
 msgid "Step 2: Update Advanced Card Payments Settings"
 msgstr "Pasul 2: Actualizați setările pentru plățile avansate cu cardul"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1192
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1214
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1221
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1243
 msgid "Go to <strong>Advanced Card Payments</strong> settings."
 msgstr "Accesați setările <strong>Plăți Avansate cu Cardul</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1193
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1222
 msgid "Disable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr ""
-"Dezactivează opțiunea <strong>Activează cardul de credit/debit avansat</"
-"strong>."
+"Dezactivează opțiunea <strong>Activează cardul de credit/debit "
+"avansat</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1196
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1225
 msgid ""
 "Once you save the changes in both sections, only the \"PayPal\" button will "
 "appear on the Checkout page."
 msgstr ""
-"Odată ce salvezi modificările în ambele secțiuni, doar butonul \"PayPal\" va "
-"apărea pe pagina de Checkout."
+"Odată ce salvezi modificările în ambele secțiuni, doar butonul \"PayPal\" va"
+" apărea pe pagina de Checkout."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1201
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1230
 msgid ""
 "How can I show only the \"Credit or Debit Card\" payment method on the "
 "Checkout page?"
@@ -556,7 +470,7 @@ msgstr ""
 "Cum pot să afișez doar metoda de plată \"Card de Credit sau Debit\" pe "
 "pagina de finalizare a comenzii?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1205
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1234
 msgid ""
 "To display only the \"Credit or Debit Card\" payment method on the Checkout "
 "page, follow these steps:"
@@ -564,24 +478,25 @@ msgstr ""
 "Pentru a afișa doar metoda de plată \"Card de credit sau debit\" pe pagina "
 "de finalizare a comenzii, urmați acești pași:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1208
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1237
 msgid "Go to <strong>PayPal Settings > Checkout Page Settings</strong>."
-msgstr "Mergi la <strong>Setările PayPal > Setările paginii de plată</strong>."
+msgstr ""
+"Mergi la <strong>Setările PayPal > Setările paginii de plată</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1209
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1238
 msgid "Disable the <strong>Enable PayPal</strong> option."
 msgstr "Dezactivează opțiunea <strong>Activează PayPal</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1212
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1241
 msgid "Step 2: Enable Advanced Credit/Debit Card Payments"
 msgstr "Pasul 2: Activează plățile avansate cu cardul de credit/debit"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1215
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1244
 msgid "Enable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr ""
 "Activați opțiunea <strong>Activare Card de Credit/De Debit Avansat</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1218
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1247
 msgid ""
 "Once you save the changes in both sections, only the \"Credit or Debit "
 "Card\" payment method will appear on the Checkout page."
@@ -589,11 +504,11 @@ msgstr ""
 "Odată ce salvezi modificările în ambele secțiuni, doar metoda de plată "
 "\"Card de Credit sau Debit\" va apărea pe pagina de Checkout."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1223
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1252
 msgid "What is PayPal Pay Later?"
 msgstr "Ce este PayPal Pay Later?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1227
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1256
 msgid ""
 "PayPal Pay Later lets your customers split their purchases into interest-"
 "free payments over time, such as \"Pay in 4\" or monthly installments. You "
@@ -604,7 +519,7 @@ msgstr ""
 "Dumneavoastră primiți plata integrală în avans, în timp ce clienții se "
 "bucură de opțiuni flexibile de plată."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1228
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1257
 msgid ""
 "This can help increase your sales, with many merchants seeing higher "
 "conversion rates and larger order sizes."
@@ -612,52 +527,52 @@ msgstr ""
 "Acest lucru poate ajuta la creșterea vânzărilor tale, mulți comercianți "
 "observând rate de conversie mai mari și dimensiuni mai mari ale comenzilor."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1231
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1260
 msgid "Learn more about Pay Later on PayPal’s website."
 msgstr "Aflați mai multe despre Pay Later pe site-ul PayPal."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1239
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1268
 msgid "How can I contact support or request a new functionality?"
 msgstr "Cum pot contacta suportul sau solicita o nouă funcționalitate?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1243
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1272
 msgid ""
 "If you have any questions, encounter an issue, or have a new functionality "
 "request, please create a support ticket on our official support page at: "
 msgstr ""
-"Dacă aveți întrebări, întâmpinați o problemă sau aveți o solicitare pentru o "
-"nouă funcționalitate, vă rugăm să creați un tichet de suport pe pagina "
+"Dacă aveți întrebări, întâmpinați o problemă sau aveți o solicitare pentru o"
+" nouă funcționalitate, vă rugăm să creați un tichet de suport pe pagina "
 "noastră oficială de suport la: "
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1369
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1398
 msgid "Click to Enable Google Pay"
 msgstr "Faceți clic pentru a activa Google Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1391
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1420
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1449
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1478
 msgid "Important: "
 msgstr "Important: "
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1518
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1547
 msgid "Click to Enable Apple Pay"
 msgstr "Click pentru a activa Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1551
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1580
 msgid "Register Your Domain with Apple Pay"
 msgstr "Înregistrează-ți domeniul cu Apple Pay"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1555
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1584
 msgid ""
 "Any (sub)domain displaying an Apple Pay button must be registered on the "
-"PayPal website. If the domain is not registered, the payment method will not "
-"work."
+"PayPal website. If the domain is not registered, the payment method will not"
+" work."
 msgstr ""
 "Orice (sub)domeniu care afișează un buton Apple Pay trebuie să fie "
 "înregistrat pe site-ul PayPal. Dacă domeniul nu este înregistrat, metoda de "
 "plată nu va funcționa."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1578
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1607
 msgid ""
 "Accept PayPal, Pay Later, and major cards in WooCommerce using the PayPal "
 "Commerce Platform."
@@ -665,34 +580,34 @@ msgstr ""
 "Acceptați PayPal, Plătiți mai târziu și carduri majore în WooCommerce "
 "folosind PayPal Commerce Platform."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1580
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1600
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1620
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1630
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1609
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1629
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1649
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1659
 msgid "By Easy Payment"
 msgstr "Prin Plată Ușoară"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1616
 msgid "AI Product Description Generator for WooCommerce"
 msgstr "Generator de Descriere a Produselor AI pentru WooCommerce"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1617
 msgid ""
-"Generate SEO-friendly titles, descriptions, and attributes with AI. Includes "
-"bulk tools and templates."
+"Generate SEO-friendly titles, descriptions, and attributes with AI. Includes"
+" bulk tools and templates."
 msgstr ""
 "Generați titluri, descrieri și atribute prietenoase cu SEO folosind AI. "
 "Includeți instrumente și șabloane pentru procesare în masă."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1590
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1619
 msgid "By nexaplugins"
 msgstr "De nexaplugins"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1626
 msgid "Payment Gateway for Authorize.Net for WooCommerce"
 msgstr "Gateway de plată pentru Authorize.Net pentru WooCommerce"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1598
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1627
 msgid ""
 "Accept credit and debit cards via Authorize.Net with a secure, seamless "
 "WooCommerce checkout."
@@ -700,11 +615,11 @@ msgstr ""
 "Acceptați carduri de credit și debit prin Authorize.Net cu un proces de "
 "plată WooCommerce sigur și fără întreruperi."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1607
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1636
 msgid "Widgets for Google Business Reviews and Ratings"
 msgstr "Widgets pentru Recenzii și Evaluări Google Business"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1608
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1637
 msgid ""
 "Showcase your Google Business Profile reviews and star rating with "
 "customizable widgets."
@@ -712,27 +627,27 @@ msgstr ""
 "Afișează recenziile și evaluarea cu stele ale profilului tău de afaceri "
 "Google cu widgeturi personalizabile."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1610
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1639
 msgid "By Repocean"
 msgstr "De Repocean"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1646
 msgid "Payment Gateway for PhonePe and for WooCommerce"
 msgstr "Gateway de plată pentru PhonePe și pentru WooCommerce"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1618
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1647
 msgid ""
-"Accept PhonePe UPI, Wallet, and Cards with a fast, secure payment experience "
-"in WooCommerce."
+"Accept PhonePe UPI, Wallet, and Cards with a fast, secure payment experience"
+" in WooCommerce."
 msgstr ""
 "Acceptați PhonePe UPI, Wallet și Carduri cu o experiență de plată rapidă și "
 "sigură în WooCommerce."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1627
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1656
 msgid "Payment Gateway for Razorpay and for WooCommerce"
 msgstr "Gateway de plată pentru Razorpay și WooCommerce"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1628
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1657
 msgid ""
 "Accept UPI, Cards, and Net Banking via Razorpay with a reliable, optimized "
 "WooCommerce integration."
@@ -740,7 +655,7 @@ msgstr ""
 "Acceptați UPI, carduri și Net Banking prin Razorpay cu o integrare "
 "WooCommerce fiabilă și optimizată."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1657
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1686
 msgid ""
 "Start by adding helpful extensions to your store—payments, product content, "
 "reviews and more."
@@ -748,18 +663,30 @@ msgstr ""
 "Începe prin a adăuga extensii utile la magazinul tău—plăți, conținut de "
 "produse, recenzii și multe altele."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1694
 msgid "Plugin logo"
 msgstr "Logo plugin"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1680
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1709
 msgid "Install Now"
 msgstr "Instalează acum"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1687
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1716
 msgid "No matching plugins found for your store settings."
 msgstr ""
 "Nu au fost găsite pluginuri corespunzătoare pentru setările magazinului tău."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1763
+msgid "Try This AI Plugin"
+msgstr "Încearcă acest plugin AI"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1767
+msgid ""
+"%1$s💡%2$s Save hours writing product descriptions — AI creates high-quality "
+"content in minutes. %3$s"
+msgstr ""
+"%1$s💡%2$s Economisește ore scriind descrieri de produse — AI creează "
+"conținut de înaltă calitate în câteva minute. %3$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3036
@@ -802,21 +729,21 @@ msgstr "Continuă către plată"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:716
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1530
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2718
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1264
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1416
 msgid "Card Details"
 msgstr "Detalii Card"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:727
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1541
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2729
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1275
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1427
 msgid "Address Verification Result"
 msgstr "Rezultatul verificării adresei"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:736
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1550
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2738
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1284
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1436
 msgid "Card Security Code Result"
 msgstr "Rezultatul codului de securitate al cardului"
 
@@ -836,19 +763,19 @@ msgstr "Plata prin %1$s : %2$s."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:898
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1571
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2769
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1311
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1463
 msgid "%1$s Transaction ID: %2$s"
 msgstr "%1$s ID-ul tranzacției: %2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:901
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1925
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1332
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1484
 msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
 msgstr ""
-"Plata autorizată. Schimbați starea plății în procesare sau completă pentru a "
-"captura fondurile."
+"Plata autorizată. Schimbați starea plății în procesare sau completă pentru a"
+" captura fondurile."
 
 #. translators: 1: Refunded amount, 2: Refund transaction ID.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1270
@@ -897,10 +824,10 @@ msgstr ""
 msgid "Return to your shop."
 msgstr "Întoarce-te la magazinul tău."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:319
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:320
 msgid ""
-"Pay via PayPal; you can pay with your credit card if you don’t have a PayPal "
-"account"
+"Pay via PayPal; you can pay with your credit card if you don’t have a PayPal"
+" account"
 msgstr ""
 "Plătește prin PayPal; poți plăti cu cardul tău de credit dacă nu ai un cont "
 "PayPal"
@@ -919,7 +846,8 @@ msgid ""
 "(no real transactions will occur) or \"Production\" for live transactions."
 msgstr ""
 "Alegeți mediul PayPal. Selectați \"Sandbox\" pentru testarea tranzacțiilor "
-"(nu vor avea loc tranzacții reale) sau \"Production\" pentru tranzacții live."
+"(nu vor avea loc tranzacții reale) sau \"Production\" pentru tranzacții "
+"live."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:93
 msgid "Sandbox (Test Mode)"
@@ -993,12 +921,12 @@ msgstr "Introduceți adresa de email Sandbox PayPal."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:202
 msgid ""
 "When enabled, Payment methods will only be visible to site administrators "
-"and store managers. This allows you to test PayPal on your live site without "
-"customers seeing them."
+"and store managers. This allows you to test PayPal on your live site without"
+" customers seeing them."
 msgstr ""
 "Când este activat, metodele de plată vor fi vizibile doar pentru "
-"administratorii site-ului și managerii de magazin. Acest lucru vă permite să "
-"testați PayPal pe site-ul dvs. live fără ca clienții să le vadă."
+"administratorii site-ului și managerii de magazin. Acest lucru vă permite să"
+" testați PayPal pe site-ul dvs. live fără ca clienții să le vadă."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
 msgid "Select Height"
@@ -1145,7 +1073,8 @@ msgstr "Dispunerea butoanelor"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:581
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:644
 msgid ""
-"Select Vertical for stacked buttons, and Horizontal for side-by-side buttons."
+"Select Vertical for stacked buttons, and Horizontal for side-by-side "
+"buttons."
 msgstr ""
 "Selectați Vertical pentru butoane stivuite și Horizontal pentru butoane "
 "alăturate."
@@ -1453,8 +1382,8 @@ msgstr "Poziția butonului PayPal (Numai pentru coșul clasic)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:447
 msgid ""
-"Choose where the PayPal buttons should appear on the cart page, either above "
-"or below the \"Proceed to Checkout\" button. This applies only to classic "
+"Choose where the PayPal buttons should appear on the cart page, either above"
+" or below the \"Proceed to Checkout\" button. This applies only to classic "
 "cart templates, not the new Cart Blocks layout."
 msgstr ""
 "Alege unde ar trebui să apară butoanele PayPal pe pagina de coș, fie "
@@ -1502,8 +1431,8 @@ msgid ""
 "When enabled, a redirect icon and message will appear to let customers know "
 "they will be taken to PayPal to complete their payment."
 msgstr ""
-"Când este activat, un icon de redirecționare și un mesaj vor apărea pentru a "
-"informa clienții că vor fi duși la PayPal pentru a-și finaliza plata."
+"Când este activat, un icon de redirecționare și un mesaj vor apărea pentru a"
+" informa clienții că vor fi duși la PayPal pentru a-și finaliza plata."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:561
 msgid "Use Place Order Button"
@@ -1524,8 +1453,8 @@ msgid ""
 "To use Advanced Card Payments, ensure your PayPal account is eligible and "
 "enabled:<br><br>1. Visit developer.paypal.com → Apps & Credentials → API "
 "Credentials.<br>2. Click your App Name.<br>3. Under \"Features\" → Accept "
-"Payments, check if \"Advanced Credit and Debit Card Payments\" is enabled."
-"<br>4. If missing, your account or region may not support it."
+"Payments, check if \"Advanced Credit and Debit Card Payments\" is "
+"enabled.<br>4. If missing, your account or region may not support it."
 msgstr ""
 "Pentru a utiliza Plățile Avansate cu Cardul, asigurați-vă că contul dvs. "
 "PayPal este eligibil și activat:<br><br>1. Vizitați developer.paypal.com → "
@@ -1570,8 +1499,8 @@ msgid ""
 "Set the title for the Advanced Credit/Debit Card payment method as it will "
 "appear on the checkout page (e.g., 'Pay with Credit/Debit Card').."
 msgstr ""
-"Setați titlul pentru metoda de plată Avansată cu Card de Credit/De Debit așa "
-"cum va apărea pe pagina de finalizare a comenzii (de exemplu, 'Plătiți cu "
+"Setați titlul pentru metoda de plată Avansată cu Card de Credit/De Debit așa"
+" cum va apărea pe pagina de finalizare a comenzii (de exemplu, 'Plătiți cu "
 "Card de Credit/De Debit')."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:750
@@ -1587,8 +1516,8 @@ msgid ""
 "By default all possible credit cards will be accepted. You can disable some "
 "cards, if you wish."
 msgstr ""
-"În mod implicit, toate cardurile de credit posibile vor fi acceptate. Puteți "
-"dezactiva unele carduri, dacă doriți."
+"În mod implicit, toate cardurile de credit posibile vor fi acceptate. Puteți"
+" dezactiva unele carduri, dacă doriți."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:767
 msgid "Contingency for 3D Secure"
@@ -1608,8 +1537,8 @@ msgid ""
 "layer of verification using Verified by Visa, MasterCard SecureCode and "
 "American Express SafeKey."
 msgstr ""
-"3D Secure beneficiază deținătorii de carduri și comercianții prin furnizarea "
-"unei straturi suplimentare de verificare utilizând Verified by Visa, "
+"3D Secure beneficiază deținătorii de carduri și comercianții prin furnizarea"
+" unei straturi suplimentare de verificare utilizând Verified by Visa, "
 "MasterCard SecureCode și American Express SafeKey."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:779
@@ -1633,17 +1562,17 @@ msgid ""
 "Advanced Credit/Debit Card payments are not enabled in your PayPal account. "
 "<br><br><strong>Supported Countries:</strong><br>Australia, Austria, "
 "Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, "
-"Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan, "
-"Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, "
+"Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan,"
+" Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, "
 "Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, "
 "United States, United Kingdom<br><br>"
 msgstr ""
 "Plățile avansate cu carduri de credit/debit nu sunt activate în contul "
-"dumneavoastră PayPal. <br><br><strong>Țări acceptate:</strong><br>Australia, "
-"Austria, Belgia, Bulgaria, Canada, China, Cipru, Republica Cehă, Danemarca, "
-"Estonia, Finlanda, Franța, Germania, Grecia, Hong Kong, Ungaria, Irlanda, "
-"Italia, Japonia, Letonia, Liechtenstein, Lituania, Luxemburg, Malta, Olanda, "
-"Norvegia, Polonia, Portugalia, România, Singapore, Slovacia, Slovenia, "
+"dumneavoastră PayPal. <br><br><strong>Țări acceptate:</strong><br>Australia,"
+" Austria, Belgia, Bulgaria, Canada, China, Cipru, Republica Cehă, Danemarca,"
+" Estonia, Finlanda, Franța, Germania, Grecia, Hong Kong, Ungaria, Irlanda, "
+"Italia, Japonia, Letonia, Liechtenstein, Lituania, Luxemburg, Malta, Olanda,"
+" Norvegia, Polonia, Portugalia, România, Singapore, Slovacia, Slovenia, "
 "Spania, Suedia, Statele Unite, Regatul Unit<br><br>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:800
@@ -1779,25 +1708,29 @@ msgstr "Abonează-te"
 #. currencies list.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1062
 msgid ""
-"Google Pay is not enabled in your PayPal account. Click below to enable it."
-"<br><br><strong>Supported Countries:</"
-"strong><br>%1$s<br><br><strong>Supported Currencies:</strong><br>%2$s"
+"Google Pay is not enabled in your PayPal account. Click below to enable "
+"it.<br><br><strong>Supported "
+"Countries:</strong><br>%1$s<br><br><strong>Supported "
+"Currencies:</strong><br>%2$s"
 msgstr ""
 "Google Pay nu este activat în contul tău PayPal. Fă clic mai jos pentru a-l "
-"activa.<br><br><strong>Țări acceptate:</"
-"strong><br>%1$s<br><br><strong>Valute acceptate:</strong><br>%2$s"
+"activa.<br><br><strong>Țări "
+"acceptate:</strong><br>%1$s<br><br><strong>Valute "
+"acceptate:</strong><br>%2$s"
 
 #. translators: %1$s is the list of supported countries. %2$s is the list of
 #. supported currencies.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1084
 msgid ""
-"Apple Pay is not enabled in your PayPal account. Click below to enable it."
-"<br><br><strong>Supported Countries:</"
-"strong><br>%1$s<br><br><strong>Supported Currencies:</strong><br>%2$s"
+"Apple Pay is not enabled in your PayPal account. Click below to enable "
+"it.<br><br><strong>Supported "
+"Countries:</strong><br>%1$s<br><br><strong>Supported "
+"Currencies:</strong><br>%2$s"
 msgstr ""
 "Apple Pay nu este activat în contul tău PayPal. Fă clic mai jos pentru a-l "
-"activa.<br><br><strong>Țări acceptate:</"
-"strong><br>%1$s<br><br><strong>Valute acceptate:</strong><br>%2$s"
+"activa.<br><br><strong>Țări "
+"acceptate:</strong><br>%1$s<br><br><strong>Valute "
+"acceptate:</strong><br>%2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1090
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1127
@@ -1860,18 +1793,19 @@ msgstr "Alb cu contur"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1370
 msgid ""
-"Your customers can already buy now and pay later with PayPal — add messaging "
-"to your site to let them know. PayPal’s Pay Later helps boost merchants' "
+"Your customers can already buy now and pay later with PayPal — add messaging"
+" to your site to let them know. PayPal’s Pay Later helps boost merchants' "
 "conversion rates and increases cart sizes by 39%.¹ You get paid in full up "
-"front. <a target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-"
+"front. <a target=\"_blank\" "
+"href=\"https://www.paypal.com/us/business/accept-"
 "payments/checkout/installments\">More about Pay Later</a>"
 msgstr ""
-"Clienții tăi pot deja să cumpere acum și să plătească mai târziu cu PayPal — "
-"adaugă mesaje pe site-ul tău pentru a-i informa. PayPal's Pay Later ajută la "
-"creșterea ratelor de conversie ale comercianților și la mărirea dimensiunii "
-"coșului cu 39%.¹ Tu primești plata integrală în avans. <a target=\"_blank\" "
-"href=\"https://www.paypal.com/us/business/accept-payments/checkout/"
-"installments\">Mai multe despre Pay Later</a>"
+"Clienții tăi pot deja să cumpere acum și să plătească mai târziu cu PayPal —"
+" adaugă mesaje pe site-ul tău pentru a-i informa. PayPal's Pay Later ajută "
+"la creșterea ratelor de conversie ale comercianților și la mărirea "
+"dimensiunii coșului cu 39%.¹ Tu primești plata integrală în avans. <a "
+"target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-"
+"payments/checkout/installments\">Mai multe despre Pay Later</a>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1378
 msgid "Enable Pay Later Messaging"
@@ -2230,8 +2164,8 @@ msgstr "Plăți Instantanee "
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1862
 msgid ""
-"If you enable this setting, PayPal will be instructed not to allow the buyer "
-"to use funding sources that take additional time to complete (for example, "
+"If you enable this setting, PayPal will be instructed not to allow the buyer"
+" to use funding sources that take additional time to complete (for example, "
 "eChecks). Instead, the buyer will be required to use an instant funding "
 "source, such as an instant transfer, a credit/debit card, or PayPal Credit."
 msgstr ""
@@ -2274,8 +2208,9 @@ msgid ""
 "Include all line item details in the payment request to PayPal so that they "
 "can be seen from the PayPal transaction details page."
 msgstr ""
-"Include toate detaliile articolelor în cererea de plată către PayPal, astfel "
-"încât acestea să poată fi vizibile pe pagina de detalii a tranzacției PayPal."
+"Include toate detaliile articolelor în cererea de plată către PayPal, astfel"
+" încât acestea să poată fi vizibile pe pagina de detalii a tranzacției "
+"PayPal."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1883
 msgid "Invoice prefix"
@@ -2394,13 +2329,14 @@ msgstr ""
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:251
 msgid "PENDING_REVIEW: The captured payment is pending manual review."
-msgstr "PENDING_REVIEW: Plata capturată este în așteptarea revizuirii manuale."
+msgstr ""
+"PENDING_REVIEW: Plata capturată este în așteptarea revizuirii manuale."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:254
 msgid ""
 "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: The payee has not yet set up "
-"appropriate receiving preferences for their account. This may occur when the "
-"payment currency differs from the primary currency."
+"appropriate receiving preferences for their account. This may occur when the"
+" payment currency differs from the primary currency."
 msgstr ""
 "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION: Beneficiarul nu a configurat "
 "încă preferințele de primire corespunzătoare pentru contul său. Acest lucru "
@@ -2457,45 +2393,45 @@ msgstr "Plata prin %1$s a fost rambursată. Motiv PayPal: %2$s."
 msgid "Payment via %1$s failed. PayPal reason: %2$s."
 msgstr "Plata prin %1$s a eșuat. Motivul PayPal: %2$s."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:524
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:541
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:538
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:555
 msgctxt "Important"
 msgid "Or"
 msgstr "Sau"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:670
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:752
 msgctxt "Important"
 msgid "Express Checkout"
 msgstr "Plata Rapidă"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:690
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:772
 msgctxt "Important"
 msgid "Or continue below"
 msgstr "Sau continuă mai jos"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:919
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1070
 msgid "Billing &amp; Shipping"
 msgstr "Facturare &amp; Expediere"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:919
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:921
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:937
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1070
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1072
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1088
 msgid "Edit"
 msgstr "Editeaza"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:921
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1072
 msgid "Billing details"
 msgstr "Detalii de facturare"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:937
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1088
 msgid "Shipping details"
 msgstr "Detalii de livrare"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1095
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1246
 msgid "Create an account?"
 msgstr "Creează un cont?"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1102
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1253
 msgid ""
 "Create an account by entering the information below. If you are a returning "
 "customer please login at the top of the page."
@@ -2505,23 +2441,23 @@ msgstr ""
 
 #. translators: %1$s is the payment method title, %2$s is the formatted
 #. payment status.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1304
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1456
 msgid "Payment via %1$s: %2$s."
 msgstr "Plata prin %1$s: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the pending reason
 #. from PayPal.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1320
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1472
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
 msgstr "Plata prin %1$s în așteptare. Motiv PayPal: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1329
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1481
 msgid "Payment via %1$s. Transaction ID: %2$s"
 msgstr "Plata prin %1$s. ID-ul tranzacției: %2$s"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1512
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1664
 msgctxt "Important"
 msgid ""
 "<strong>You're almost done!</strong><br>Review your information before you "
@@ -2530,30 +2466,102 @@ msgstr ""
 "<strong>Ai terminat aproape!</strong><br>Revizuiește informațiile tale "
 "înainte de a plasa comanda."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1567
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1719
 msgid "Capture Charge"
 msgstr "Captură Taxă"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1705
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1857
 msgctxt "Important"
 msgid "Cancel order"
 msgstr "Anulează comanda"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1778
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1930
 msgid ""
-"We cannot process your order with the payment information that you provided. "
-"Please use an alternate payment method."
+"We cannot process your order with the payment information that you provided."
+" Please use an alternate payment method."
 msgstr ""
 "Nu putem procesa comanda dumneavoastră cu informațiile de plată pe care le-"
 "ați furnizat. Vă rugăm să folosiți o metodă de plată alternativă."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1786
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1938
 msgid "Something went wrong. Please try again."
 msgstr "Ceva a mers prost. Te rugăm să încerci din nou."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1828
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1980
 msgid "3D Secure response"
 msgstr "Răspuns 3D Secure"
+
+#~ msgid "Return"
+#~ msgstr "Întoarce-te"
+
+#~ msgid "We’re sorry to see you go! 💔"
+#~ msgstr "Ne pare rău să te vedem plecând! 💔"
+
+#~ msgid "Close"
+#~ msgstr "Închis"
+
+#~ msgid ""
+#~ "Can you please tell us why you’re deactivating the plugin? Your feedback "
+#~ "helps us make it better."
+#~ msgstr ""
+#~ "Ne poți spune, te rugăm, de ce dezactivezi pluginul? Feedback-ul tău ne "
+#~ "ajută să-l îmbunătățim."
+
+#~ msgid "Temporary deactivation (troubleshooting)"
+#~ msgstr "Dezactivare temporară (depistarea problemelor)"
+
+#~ msgid "Compatibility issue"
+#~ msgstr "Problema de compatibilitate"
+
+#~ msgid "Please describe what part of the layout or functionality was affected."
+#~ msgstr ""
+#~ "Te rog să descrii ce parte a layout-ului sau a funcționalității a fost "
+#~ "afectată."
+
+#~ msgid "Difficult to set up"
+#~ msgstr "Dificil de configurat"
+
+#~ msgid "What part of the setup was confusing or unclear?"
+#~ msgstr "Ce parte a configurării a fost confuză sau neclară?"
+
+#~ msgid "Missing features"
+#~ msgstr "Funcții lipsă"
+
+#~ msgid "Which features were you looking for?"
+#~ msgstr "Ce caracteristici căutai?"
+
+#~ msgid "Other"
+#~ msgstr "Altul"
+
+#~ msgid ""
+#~ "Please share why you’re deactivating the PayPal plugin so we can make "
+#~ "improvements."
+#~ msgstr ""
+#~ "Te rugăm să ne împărtășești de ce dezactivezi pluginul PayPal, astfel încât "
+#~ "să putem face îmbunătățiri."
+
+#~ msgid ""
+#~ "Your privacy is important to us. No personal data is collected with this "
+#~ "form—just your valuable feedback and basic system information (such as "
+#~ "WordPress and plugin versions) to help us improve our plugin."
+#~ msgstr ""
+#~ "Confidențialitatea dumneavoastră este importantă pentru noi. Nu sunt "
+#~ "colectate date personale cu acest formular—doar feedback-ul dumneavoastră "
+#~ "valoros și informații de bază despre sistem (cum ar fi versiunile WordPress "
+#~ "și plugin-urilor) pentru a ne ajuta să ne îmbunătățim plugin-ul."
+
+#, fuzzy
+#~ msgid "Visit our support page for assistance"
+#~ msgstr "Vizitați pagina noastră de suport pentru asistență."
+
+#~ msgid "Get Support"
+#~ msgstr "Obțineți suport"
+
+#~ msgid "Send & Deactivate"
+#~ msgstr "Trimite și Dezactivează"
+
+#~ msgid "I rather wouldn't say"
+#~ msgstr "Prefer să nu spun."
 
 #~ msgid ""
 #~ "Accept payments through UPI, Cards, and Net Banking using Razorpay — "

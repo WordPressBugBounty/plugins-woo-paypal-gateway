@@ -1,0 +1,23 @@
+.wpg_lamp_icon {
+    font-size: 18px;
+    color: #2271b1;
+}
+.wpg-notice-ai p {
+    display: flow-root;
+    margin: .5em 0;
+}
+.wpg-notice-ai .emoji {
+    height: 18px;
+    width: 18px;
+    vertical-align: text-bottom;
+}
+.wpg-notice-ai .button.alignright {
+    margin-left: .75rem;
+}
+@media (max-width: 782px) {
+    .wpg-notice-ai .button.alignright {
+        float: none;
+        display: inline-block;
+        margin: .5rem 0 0;
+    }
+}

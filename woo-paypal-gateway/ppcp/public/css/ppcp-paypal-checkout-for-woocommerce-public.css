@@ -1274,7 +1274,7 @@ apple-pay-button {
 
 #ppcp_product, #ppcp_cart, #ppcp_mini_cart, #ppcp_checkout_top, #ppcp_checkout, #ppcp_checkout_top_alternative, .google-pay-container, .apple-pay-container {
   position:relative;
-  z-index:999999;
+  z-index:99;
   border-radius:var(--wpg-skel-radius);
   overflow:hidden;
   border:0;
@@ -1320,4 +1320,11 @@ apple-pay-button {
   background: none !important;
   background-color: transparent !important;
 }
-[id^="zoid-paypal-card"] { height: 57px !important; }
+[id^="zoid-paypal-card"] { min-height: 57px !important; }
+.wp-theme-hello-shoppable .ppcp-button-container {
+  display: contents;
+}
+li.payment_method_wpg_paypal_checkout > .payment_box:not(:has(*)),
+li.payment_method_wpg_paypal_checkout > .payment_box:empty {
+  display: none !important;
+}

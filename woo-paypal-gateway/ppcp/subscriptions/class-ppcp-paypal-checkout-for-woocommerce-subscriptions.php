@@ -29,8 +29,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions extends PPCP_Paypal_Che
                 return parent::subscription_change_payment($order_id);
             } elseif ($this->free_signup_with_token_payment_tokenization($order_id) == true) {
                 return parent::free_signup_order_payment($order_id);
-            } elseif ($this->wpg_is_free_signup_with_free_trial() === true) {
-                return parent::wpg_process_free_signup_with_free_trial($order_id);
             } else {
                 return parent::process_payment($order_id);
             }

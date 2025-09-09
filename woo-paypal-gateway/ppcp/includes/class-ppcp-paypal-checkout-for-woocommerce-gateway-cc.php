@@ -202,7 +202,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             ppcp_set_session('ppcp_woo_order_id', $woo_order_id);
             $checkout_post = ppcp_get_session('wpg_ppcp_block_checkout_post');
             if (!empty($checkout_post)) {
-                $order->set_created_via( 'store-api' );
+                $order->set_created_via('store-api');
                 $order->save();
             }
             $this->request->ppcp_create_order_request($woo_order_id);
@@ -274,6 +274,29 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             }
             $order_id = $order->get_id();
             $this->payment_request->wpg_ppcp_capture_order_using_payment_method_token($order_id);
+        } catch (Exception $ex) {
+            
+        }
+    }
+
+    public function free_signup_order_payment($order_id) {
+        try {
+            if ((!empty($_POST['wc-angelleye_ppcp-payment-token']) && $_POST['wc-angelleye_ppcp-payment-token'] != 'new')) {
+                if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
+                    include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+                    $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+                }
+                $order = wc_get_order($order_id);
+                $token_id = wc_clean($_POST['wc-wpg_paypal_checkout_cc-payment-token']);
+                $token = WC_Payment_Tokens::get($token_id);
+                $order->payment_complete($token->get_token());
+                $this->payment_request->save_payment_token($order, $token->get_token());
+                WC()->cart->empty_cart();
+                return array(
+                    'result' => 'success',
+                    'redirect' => $this->get_return_url($order)
+                );
+            }
         } catch (Exception $ex) {
             
         }
