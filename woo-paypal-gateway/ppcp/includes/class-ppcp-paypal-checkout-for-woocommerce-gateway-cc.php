@@ -31,7 +31,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         $this->init_form_fields();
         $this->plugin_name = 'ppcp-paypal-checkout-cc';
         $this->title = $this->advanced_card_payments_title;
-        $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_cards.png');
+        $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/paypal-monogram.svg');
         $this->id = 'wpg_paypal_checkout_cc';
         $this->has_fields = true;
         $this->method_title = _x('Credit or Debit Card (PayPal) By Easy Payment', 'Important', 'woo-paypal-gateway');

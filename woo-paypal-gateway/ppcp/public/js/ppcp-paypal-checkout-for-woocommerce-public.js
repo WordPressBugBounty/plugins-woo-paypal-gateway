@@ -19,6 +19,7 @@
                 console.log("PPCP Manager configuration is undefined.");
                 return false;
             }
+            this.debouncedTogglePlaceOrderButton = this.debounce_place_order(this.togglePlaceOrderButton.bind(this), 4);
             if (this.ppcp_manager.enabled_google_pay === 'yes') {
                 this.loadGooglePaySdk();
             }
@@ -27,22 +28,36 @@
             }
             this.manageVariations('#ppcp_product, .google-pay-container, .apple-pay-container');
             this.bindCheckoutEvents();
-            this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 500);
+            if (this.ppcp_manager.advanced_card_payments === 'yes') {
+                this.debouncedUpdatePaypalCC = this.debounce_cc(this.update_paypal_cc.bind(this), 500);
+            }
             this.debouncedUpdatePaypalCheckout = this.debounce(this.update_paypal_checkout.bind(this), 500);
-            this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 500);
-            this.debouncedUpdateApplePay = this.debounce_apple(this.update_apple_pay.bind(this), 500);
+            if (this.ppcp_manager.enabled_google_pay === 'yes') {
+                this.debouncedUpdateGooglePay = this.debounce_google(this.update_google_pay.bind(this), 500);
+            }
+            if (this.ppcp_manager.enabled_apple_pay === 'yes') {
+                this.debouncedUpdateApplePay = this.debounce_apple(this.update_apple_pay.bind(this), 500);
+            }
             if (this.isCheckoutPage() === false) {
                 this.debouncedUpdatePaypalCheckout();
-                this.debouncedUpdateGooglePay();
-                this.debouncedUpdateApplePay();
-
+                if (this.ppcp_manager.enabled_google_pay === 'yes') {
+                    this.debouncedUpdateGooglePay();
+                }
+                if (this.ppcp_manager.enabled_apple_pay === 'yes') {
+                    this.debouncedUpdateApplePay();
+                }
             } else {
                 this.debouncedUpdatePaypalCheckout();
-                this.debouncedUpdateGooglePay();
-                this.debouncedUpdateApplePay();
-                this.debouncedUpdatePaypalCC();
+                if (this.ppcp_manager.enabled_google_pay === 'yes') {
+                    this.debouncedUpdateGooglePay();
+                }
+                if (this.ppcp_manager.enabled_apple_pay === 'yes') {
+                    this.debouncedUpdateApplePay();
+                }
+                if (this.ppcp_manager.advanced_card_payments === 'yes') {
+                    this.debouncedUpdatePaypalCC();
+                }
             }
-
             setTimeout(function () {
                 $('#wfacp_smart_buttons.wfacp-dynamic-checkout-loading .dynamic-checkout__skeleton').hide();
             }, 1000);
@@ -190,6 +205,14 @@
             };
         }
 
+        debounce_place_order(func, delay) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
         debounce_cc(func, delay) {
             let timer;
             return function (...args) {
@@ -199,6 +222,13 @@
         }
 
         bindCheckoutEvents() {
+            $('form.checkout').on('click', 'input[name="payment_method"]', () => {
+                this.debouncedTogglePlaceOrderButton();
+                $(document.body).trigger('wpg_change_method');
+            });
+            $(document.body).on('ppcp_cc_checkout_updated ppcp_checkout_updated ppcp_cc_block_ready ppcp_block_ready', () => {
+                this.debouncedTogglePlaceOrderButton();
+            });
             $('form.checkout').on('checkout_place_order_wpg_paypal_checkout_cc', (event) => {
                 event.preventDefault();
                 return this.handleCheckoutSubmit(event);
@@ -207,20 +237,24 @@
                 event.preventDefault();
                 return this.handleCheckoutSubmit();
             });
+
             const eventSelectors = 'added_to_cart updated_cart_totals wc_fragments_refreshed wc_fragment_refresh wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method fkwcs_express_button_init';
             const checkoutSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_cc_block_ready ppcp_cc_checkout_updated update_checkout wpg_change_method';
             $(document.body).on(eventSelectors, (event) => {
                 this.debouncedUpdatePaypalCheckout();
-                this.debouncedUpdateGooglePay();
-                this.debouncedUpdateApplePay();
+                if (this.ppcp_manager.enabled_google_pay === 'yes') {
+                    this.debouncedUpdateGooglePay();
+                }
+                if (this.ppcp_manager.enabled_apple_pay === 'yes') {
+                    this.debouncedUpdateApplePay();
+                }
             });
-            $(document.body).on(checkoutSelectors, () => {
-                this.debouncedUpdatePaypalCC();
-            });
-            $('form.checkout').on('click', 'input[name="payment_method"]', () => {
-                $(document.body).trigger('wpg_change_method');
-                this.togglePlaceOrderButton();
-            });
+            if (this.ppcp_manager.advanced_card_payments === 'yes') {
+                $(document.body).on(checkoutSelectors, () => {
+                    this.debouncedUpdatePaypalCC();
+                });
+            }
+
         }
 
         handleCheckoutSubmit() {
@@ -240,7 +274,6 @@
 
         update_paypal_checkout() {
             this.ppcp_cart_css();
-            this.togglePlaceOrderButton();
             this.renderSmartButton();
             if ($('#ppcp_checkout_top').length === 0) {
                 const $applePay = $('div.apple-pay-container[data-context="express_checkout"]');
@@ -267,7 +300,7 @@
                 if (this.isPpcpCCSelected())
                     $('#payment_method_wpg_paypal_checkout').prop('checked', true).trigger('click');
             }
-            this.togglePlaceOrderButton();
+
         }
 
         isPpcpSelected() {
@@ -289,31 +322,39 @@
             const isPpcpSelected = this.isPpcpSelected();
             const isPpcpCCSelected = this.isPpcpCCSelected();
             const usePlaceOrder = this.ppcp_manager.use_place_order === '1';
-            const showElement = (selector) => {
-                document.querySelectorAll(selector).forEach(el => {
-                    el.style.removeProperty('display');
-                });
+            const PO_CLASSIC = '#place_order';
+            const PO_BLOCKS = '.wc-block-components-checkout-place-order-button';
+            const WALLETS = '#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout';
+            const setVisible = (sel, visible, displayShown = '') => {
+                const $el = jQuery(sel);
+                $el.toggleClass('wpg_place_order_hide', !visible);
+                $el.css('display', visible ? (displayShown || '') : 'none');
             };
-            const hideElement = (selector) => {
-                document.querySelectorAll(selector).forEach(el => {
-                    el.style.setProperty('display', 'none', 'important');
-                });
+            const showPO = () => {
+                setVisible(PO_CLASSIC, true, 'inline-block');
+                setVisible(PO_BLOCKS, true, 'inline-flex');
             };
+            const hidePO = () => {
+                setVisible(PO_CLASSIC, false);
+                setVisible(PO_BLOCKS, false);
+            };
+            const showWallets = () => setVisible(WALLETS, true);
+            const hideWallets = () => setVisible(WALLETS, false);
             if (isPpcpSelected) {
                 if (usePlaceOrder) {
-                    showElement('#place_order, .wc-block-components-checkout-place-order-button');
-                    hideElement('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout');
+                    hideWallets();
+                    showPO();
                 } else {
-                    showElement('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout');
-                    hideElement('#place_order, .wc-block-components-checkout-place-order-button');
+                    hidePO();
+                    showWallets();
                 }
             } else {
-                hideElement('#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout');
-                showElement('#place_order, .wc-block-components-checkout-place-order-button');
+                showPO();
+                hideWallets();
             }
-
             if (isPpcpCCSelected && this.isCardFieldEligible()) {
-                showElement('#place_order, .wc-block-components-checkout-place-order-button');
+                showPO();
+                hideWallets();
             }
         }
 
@@ -753,7 +794,7 @@
                 }
             });
             if (cardFields.isEligible()) {
-                if ($("#wpg_paypal_checkout_cc-card-number").html().trim() === "") {
+                if (($("#wpg_paypal_checkout_cc-card-number").html() || "").trim() === "") {
                     const numberField = cardFields.NumberField();
                     $("#wpg_paypal_checkout_cc-card-number").empty();
                     $("#wpg_paypal_checkout_cc-card-expiry").empty();
@@ -926,7 +967,11 @@
         }
 
         ppcp_cart_css() {
-
+            $('.payment_box.payment_method_wpg_paypal_checkout').each(function () {
+                if (($(this).html() || '').trim() === '') {
+                    $(this).hide();
+                }
+            });
         }
 
         manageVariations(selector) {
@@ -1807,6 +1852,7 @@
     }
 
     $(function () {
+        $('.woocommerce #payment #place_order, .woocommerce-page #payment #place_order').hide();
         window.PPCPManager = PPCPManager;
         const ppcp_manager = window.ppcp_manager || {};
         window.ppcpManagerInstance = new PPCPManager(ppcp_manager);

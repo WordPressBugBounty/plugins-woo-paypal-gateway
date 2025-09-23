@@ -242,7 +242,7 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'css' => 'width: 350px;',
                     'class' => 'wc-enhanced-select',
                     'desc_tip' => true,
-                    'default' => array('express_checkout', 'checkout', 'mini_cart'),
+                    'default' => array('express_checkout', 'checkout'),
                     'options' => array(
                         'product' => __('Product Page', 'woo-paypal-gateway'),
                         'cart' => __('Cart Page', 'woo-paypal-gateway'),

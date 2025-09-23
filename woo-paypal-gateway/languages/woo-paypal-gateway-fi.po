@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.39\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
-"POT-Creation-Date: 2025-09-08T10:54:19+00:00\n"
+"POT-Creation-Date: 2025-09-23T10:42:01+00:00\n"
 "PO-Revision-Date: 2025-08-07T09:49:54+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: woo-paypal-gateway.php
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1606
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1612
 msgid "Payment Gateway for PayPal on WooCommerce"
 msgstr "Maksuportti PayPalille WooCommercessa"
 
@@ -29,7 +29,6 @@ msgstr ""
 
 #. Description of the plugin
 #: woo-paypal-gateway.php
-#, fuzzy
 msgid ""
 "PayPal, Credit/Debit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, "
 "iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal "
@@ -48,6 +47,142 @@ msgstr ""
 #: woo-paypal-gateway.php
 msgid "https://profiles.wordpress.org/easypayment/"
 msgstr ""
+
+#: admin/feedback/deactivation-feedback-form.php:8
+msgid "Return"
+msgstr "Palauta"
+
+#: admin/feedback/deactivation-feedback-form.php:9
+msgid "We’re sorry to see you go! 💔"
+msgstr "Olemme pahoillamme, että lähdet! 💔"
+
+#: admin/feedback/deactivation-feedback-form.php:11
+msgid "Close"
+msgstr "Lähellä"
+
+#: admin/feedback/deactivation-feedback-form.php:15
+msgid ""
+"Can you please tell us why you’re deactivating the plugin? Your feedback "
+"helps us make it better."
+msgstr ""
+"Voitko kertoa meille, miksi poistat liitännäisen käytöstä? Palautteesi "
+"auttaa meitä parantamaan sitä."
+
+#: admin/feedback/deactivation-feedback-form.php:19
+msgid "Temporary deactivation (troubleshooting)"
+msgstr "Tilapäinen deaktivointi (vianetsintä)"
+
+#: admin/feedback/deactivation-feedback-form.php:23
+msgid "Compatibility issue"
+msgstr "Yhteensopivuusongelma"
+
+#: admin/feedback/deactivation-feedback-form.php:25
+msgid "Please describe what part of the layout or functionality was affected."
+msgstr ""
+"Ole hyvä ja kuvaa, mikä osa asettelusta tai toiminnallisuudesta vaikutti."
+
+#: admin/feedback/deactivation-feedback-form.php:30
+msgid "Difficult to set up"
+msgstr "Vaikea asentaa"
+
+#: admin/feedback/deactivation-feedback-form.php:32
+msgid "What part of the setup was confusing or unclear?"
+msgstr "Mikä osa asetuksesta oli hämmentävä tai epäselvä?"
+
+#: admin/feedback/deactivation-feedback-form.php:37
+msgid "Missing features"
+msgstr "Puuttuvat ominaisuudet"
+
+#: admin/feedback/deactivation-feedback-form.php:39
+msgid "Which features were you looking for?"
+msgstr "Mitä ominaisuuksia etsit?"
+
+#: admin/feedback/deactivation-feedback-form.php:44
+msgid "Other"
+msgstr "Muu"
+
+#: admin/feedback/deactivation-feedback-form.php:46
+msgid ""
+"Please share why you’re deactivating the PayPal plugin so we can make "
+"improvements."
+msgstr ""
+"Ole hyvä ja kerro, miksi poistat PayPal-laajennuksen käytöstä, jotta voimme "
+"tehdä parannuksia."
+
+#: admin/feedback/deactivation-feedback-form.php:58
+msgid ""
+"Your privacy is important to us. No personal data is collected with this "
+"form—just your valuable feedback and basic system information (such as "
+"WordPress and plugin versions) to help us improve our plugin."
+msgstr ""
+"Yksityisyytesi on meille tärkeä. Tällä lomakkeella ei kerätä "
+"henkilökohtaisia tietoja—vain arvokasta palautettasi ja perustietoja "
+"järjestelmästä (kuten WordPress- ja lisäosaversiot) auttaaksemme meitä "
+"parantamaan lisäosaa."
+
+#: admin/feedback/deactivation-feedback-form.php:63
+msgid "Visit our support page for assistance"
+msgstr "Vieraile tukisivullamme saadaksesi apua"
+
+#: admin/feedback/deactivation-feedback-form.php:63
+msgid "Get Support"
+msgstr "Hanki tukea"
+
+#: admin/feedback/deactivation-feedback-form.php:65
+msgid "Send & Deactivate"
+msgstr "Lähetä & Poista käytöstä"
+
+#: admin/feedback/deactivation-feedback-form.php:67
+msgid "I rather wouldn't say"
+msgstr "Enpä sanoisi."
+
+#: class-woo-paypal-gateway.php:260
+msgid "Settings"
+msgstr "API-asetukset"
+
+#: class-woo-paypal-gateway.php:270
+msgid "Community support"
+msgstr "Yhteisön tuki"
+
+#: class-woo-paypal-gateway.php:271
+msgid "Rate our plugin"
+msgstr "Arvostele liitämme"
+
+#. translators: %s: plugin name
+#: class-woo-paypal-gateway.php:401
+msgid "Thank you for using %s 💕"
+msgstr "Kiitos, että käytät %s 💕"
+
+#. translators: %1$s: review URL
+#: class-woo-paypal-gateway.php:410
+msgid ""
+"If you have a moment, we'd love it if you could leave us a <b><a "
+"target=\"_blank\" href=\"%1$s\">quick review</a>.</b> it motivates us and "
+"helps us keep improving. 💫 <br>Have feature ideas? Include them in your "
+"review — your feedback shapes our roadmap, and we love turning your ideas "
+"into reality."
+msgstr ""
+"Jos sinulla on hetki aikaa, arvostaisimme, jos voisit jättää meille <b><a "
+"target=\"_blank\" href=\"%1$s\">nopean arvion</a>.</b> Se motivoi meitä ja "
+"auttaa meitä parantamaan. 💫 <br>Onko sinulla ideoita ominaisuuksista? "
+"Sisällytä ne arvioosi — palautteesi muokkaa tiekarttaamme, ja rakastamme "
+"ideoidesi toteuttamista."
+
+#: class-woo-paypal-gateway.php:419
+msgid "Write Review"
+msgstr "Kirjoita arvio"
+
+#: class-woo-paypal-gateway.php:422
+msgid "Done!"
+msgstr "Valmis!"
+
+#: class-woo-paypal-gateway.php:426
+msgid "Remind me later"
+msgstr "Muistuta myöhemmin"
+
+#: class-woo-paypal-gateway.php:429
+msgid "Hide"
+msgstr "Piilota"
 
 #: ppcp/admin/class-paypal-ppcp-apple-pay-configurations.php:57
 msgid "Invalid domain name."
@@ -101,7 +236,7 @@ msgid "Confirm Your PayPal Order"
 msgstr "Vahvista PayPal-tilauksesi"
 
 #: ppcp/checkout-block/ppcp-checkout-block.php:114
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:69
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:70
 msgctxt "Important"
 msgid "Proceed to PayPal"
 msgstr "Siirry PayPaliin"
@@ -152,7 +287,7 @@ msgstr ""
 "voimassaoloaika ja mikä tahansa CVV."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:247
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:665
 msgid "Refund failed."
 msgstr "Palautus epäonnistui."
 
@@ -161,18 +296,18 @@ msgctxt "Important"
 msgid "Credit or Debit Card"
 msgstr "Luottokortti tai Debit-kortti"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:67
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:797
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:68
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:798
 msgctxt "Important"
 msgid "Confirm your PayPal order"
 msgstr "Vahvista PayPal-tilauksesi"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:99
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:101
 msgctxt "Important"
 msgid "PayPal Gateway By Easy Payment"
 msgstr "PayPal-maksuportti Easy Paymentin kautta"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:100
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:102
 msgctxt "Important"
 msgid ""
 "PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and "
@@ -181,12 +316,12 @@ msgstr ""
 "PayPal, Maksa myöhemmin, Venmo, Luotto- ja pankkikortit, Google Pay, Apple "
 "Pay — ja monia muita."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:323
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:325
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
 msgid "Admin Only Mode"
 msgstr "Vain ylläpitäjille tarkoitettu tila"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:324
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:326
 msgid ""
 "is currently enabled. PayPal payment methods are visible only to site "
 "administrators and store managers. Disable this mode after testing to make "
@@ -196,16 +331,16 @@ msgstr ""
 "ylläpitäjille ja kauppojen hallinnoijille. Poista tämä tila käytöstä "
 "testauksen jälkeen, jotta ne ovat asiakkaiden saatavilla."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:336
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:338
 msgid "Please verify the PayPal account to receive the payments."
 msgstr "Ole hyvä ja vahvista PayPal-tili saadaksesi maksut."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:348
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:350
 msgid "PayPal onboarding process successfully completed."
 msgstr "PayPalin käyttöönotto prosessi on onnistuneesti suoritettu."
 
 #. translators: %1$s: URL to the PayPal API settings page.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:379
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:381
 msgid ""
 "<strong>PayPal Setup Required:</strong> Connect your PayPal account or enter"
 " your Client ID and Secret in the <a href=\"%1$s\">API settings</a> to begin"
@@ -215,85 +350,80 @@ msgstr ""
 "tilisi tai syötä Asiakastunnuksesi ja Salaisuutesi <a href=\"%1$s\">API-"
 "asetuksissa</a> aloittaaksesi maksujen vastaanottamisen."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:397
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:400
 msgid "Click the PayPal button to add your payment method."
 msgstr "Napsauta PayPal-painiketta lisätäksesi maksutapasi."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:400
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:403
 msgid "Click the \"%s\" button below to process your order."
 msgstr "Napsauta alla olevaa \"%s\" painiketta käsitelläksesi tilauksesi."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:404
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:407
 msgid "Click a payment option below to process your order."
 msgstr "Valitse alla oleva maksuvaihtoehto tilauksesi käsittelemiseksi."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:486
-msgid "Return to payments"
-msgstr "Palaa maksuihin"
-
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:511
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:517
 msgid "API Settings"
 msgstr "API-asetukset"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:512
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:518
 msgid "PayPal Settings"
 msgstr "PayPal-asetukset"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:513
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:519
 msgid "Advanced Card Payments"
 msgstr "Edistyneet korttimaksut"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:514
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:520
 msgid "Google Pay"
 msgstr ""
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:515
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:521
 msgid "Apple Pay"
 msgstr ""
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:516
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:522
 msgid "Pay Later Messaging"
 msgstr "Maksa myöhemmin -viestintä"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:517
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:523
 msgid "Additional Settings"
 msgstr "Lisäasetukset"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:518
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:524
 msgid "FAQ"
 msgstr "UKK"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:519
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1684
-#, fuzzy
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:525
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1690
 msgid "Recommended Plugins"
 msgstr "Suositellut liitännäiset"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:715
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:721
 msgid "This represents the fee PayPal collects for the transaction."
 msgstr "Tämä edustaa maksua, jonka PayPal perii tapahtumasta."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:716
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:722
 msgid "PayPal Fee:"
 msgstr "PayPal-maksu:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:776
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:782
 msgid "Disconnect"
 msgstr "Katkaise yhteys"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:852
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:858
 msgid "PayPal Account Successfully Connected!"
 msgstr "PayPal-tili on yhdistetty onnistuneesti!"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:857
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:863
 msgid "Connected Email:"
 msgstr "Yhdistetty sähköposti:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:863
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:869
 msgid "Disconnect PayPal Account"
 msgstr "Irrota PayPal-tili"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:925
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:931
 msgid ""
 "The PayPal Client ID and Secret key you entered are invalid. Ensure you are "
 "using the correct credentials for the selected environment (Sandbox or "
@@ -303,31 +433,31 @@ msgstr ""
 "Varmista, että käytät oikeita tunnistetietoja valitulle ympäristölle "
 "(Sandbox tai Live)."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:984
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:990
 msgid "Click to Connect PayPal"
 msgstr "Klikkaa yhdistääksesi PayPalin"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1011
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1017
 msgid "The Connect to PayPal service is temporarily unavailable."
 msgstr "Connect to PayPal -palvelu ei ole tällä hetkellä saatavilla."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1013
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1019
 msgid "Toggle to manual credential input"
 msgstr "Vaihda manuaaliseen tunnistetietojen syöttöön"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1037
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1043
 msgid "Recommended"
 msgstr "Suositeltu"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1042
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1048
 msgid "OR"
 msgstr "TAI"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1047
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1053
 msgid "Click here to insert credentials manually"
 msgstr "Klikkaa tästä syöttääksesi tunnistetiedot manuaalisesti"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1176
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1182
 msgid ""
 "Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) will appear?"
@@ -335,7 +465,7 @@ msgstr ""
 "Mitkä PayPal-painikkeet (esim. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact jne.) tulevat näkymään?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1180
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1186
 msgid ""
 "The PayPal buttons are shown automatically based on several factors, "
 "including:"
@@ -343,19 +473,19 @@ msgstr ""
 "PayPal-napit näytetään automaattisesti useiden tekijöiden perusteella, "
 "mukaan lukien:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1182
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1188
 msgid "The buyer’s country"
 msgstr "Ostajan maa"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1183
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1189
 msgid "Their device type"
 msgstr "Heidän laitetyyppinsä"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1184
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1190
 msgid "The funding sources they’ve enabled"
 msgstr "Rahoituslähteet, jotka he ovat mahdollistaneet"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1186
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1192
 msgid ""
 "As a result, each buyer may see a different set of buttons. Pay Later "
 "options vary by country and may display different buttons."
@@ -363,11 +493,11 @@ msgstr ""
 "Tuloksena jokainen ostaja saattaa nähdä erilaisen painikejoukon. Pay Later "
 "-vaihtoehdot vaihtelevat maittain ja voivat näyttää erilaisia painikkeita."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1192
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1198
 msgid "How can I hide specific PayPal buttons?"
 msgstr "Kuinka voin piilottaa tietyt PayPal-napit?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1196
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1202
 msgid ""
 "By default, all PayPal buttons are enabled. To hide specific buttons, use "
 "the <strong>Disable Specific Payment Buttons</strong> option."
@@ -376,48 +506,48 @@ msgstr ""
 "painikkeet, käytä <strong>Poista käytöstä tietyt maksupainikkeet</strong> "
 "-vaihtoehtoa."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1197
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1203
 msgid "Example: To hide the Pay Later button on the Checkout Page:"
 msgstr "Esimerkki: Piilota \"Maksa myöhemmin\" -painike kassasivulla:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1199
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1215
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1205
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1221
 msgid "Go to <strong>PayPal Settings</strong>."
 msgstr "Siirry <strong>PayPal-asetuksiin</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1200
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1206
 msgid "Find the <strong>Disable Specific Payment Buttons</strong> setting."
 msgstr "Etsi <strong>Poista käytöstä tietyt maksupainikkeet</strong> -asetus."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1201
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1207
 msgid "Select <strong>Pay Later</strong> from the dropdown list."
 msgstr "Valitse <strong>Maksa myöhemmin</strong> pudotusvalikosta."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1202
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1208
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1223
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1239
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1229
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1245
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1251
 msgid "Click <strong>Save Changes</strong>."
 msgstr "Napsauta <strong>Tallenna muutokset</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1208
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1214
 msgid "How can I show only the \"PayPal\" button on the Checkout page?"
 msgstr "Kuinka voin näyttää vain \"PayPal\" painikkeen Kassasivulla?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1212
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1218
 msgid ""
 "To display only the \"PayPal\" button on the Checkout page, follow these "
 "steps:"
 msgstr ""
 "Näyttääksesi vain \"PayPal\" painikkeen Kassasivulla, seuraa näitä vaiheita:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1213
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1235
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1219
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1241
 msgid "Step 1: Update PayPal Settings"
 msgstr "Vaihe 1: Päivitä PayPal-asetukset"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1216
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1222
 msgid ""
 "Under <strong>Disable Specific Payment Buttons</strong>, select "
 "<strong>Credit or Debit Card</strong> and any other methods you want to "
@@ -427,22 +557,22 @@ msgstr ""
 "<strong>Luottokortti tai Debit-kortti</strong> sekä muut menetelmät, joita "
 "haluat piilottaa."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1219
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1225
 msgid "Step 2: Update Advanced Card Payments Settings"
 msgstr "Vaihe 2: Päivitä kehittyneiden korttimaksujen asetukset"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1221
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1243
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1227
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1249
 msgid "Go to <strong>Advanced Card Payments</strong> settings."
 msgstr "Siirry <strong>Edistyneet korttimaksut</strong> -asetuksiin."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1222
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1228
 msgid "Disable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr ""
 "Poista käytöstä vaihtoehto <strong>Ota käyttöön edistyksellinen "
 "luotto-/pankkikortti</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1225
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1231
 msgid ""
 "Once you save the changes in both sections, only the \"PayPal\" button will "
 "appear on the Checkout page."
@@ -450,7 +580,7 @@ msgstr ""
 "Kun olet tallentanut muutokset molemmissa osioissa, vain \"PayPal\" -painike"
 " näkyy Kassasivulla."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1230
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1236
 msgid ""
 "How can I show only the \"Credit or Debit Card\" payment method on the "
 "Checkout page?"
@@ -458,7 +588,7 @@ msgstr ""
 "Kuinka voin näyttää vain \"Luotto- tai pankkikortti\" maksutavan "
 "Kassasivulla?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1234
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1240
 msgid ""
 "To display only the \"Credit or Debit Card\" payment method on the Checkout "
 "page, follow these steps:"
@@ -466,25 +596,25 @@ msgstr ""
 "Näyttääksesi vain \"Luotto- tai Debit-kortti\" maksutavan Kassasivulla, "
 "noudata näitä vaiheita:"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1237
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1243
 msgid "Go to <strong>PayPal Settings > Checkout Page Settings</strong>."
 msgstr "Siirry <strong>PayPal-asetukset > Kassasivun asetukset</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1238
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1244
 msgid "Disable the <strong>Enable PayPal</strong> option."
 msgstr "Poista käytöstä <strong>Ota PayPal käyttöön</strong> -vaihtoehto."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1241
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1247
 msgid "Step 2: Enable Advanced Credit/Debit Card Payments"
 msgstr "Vaihe 2: Ota käyttöön kehittyneet luotto-/pankkikorttimaksut"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1244
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1250
 msgid "Enable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr ""
 "Ota käyttöön vaihtoehto <strong>Ota käyttöön edistyneet "
 "luotto-/pankkikortit</strong>."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1253
 msgid ""
 "Once you save the changes in both sections, only the \"Credit or Debit "
 "Card\" payment method will appear on the Checkout page."
@@ -492,11 +622,11 @@ msgstr ""
 "Kun olet tallentanut muutokset molemmissa osioissa, vain \"Luotto- tai "
 "pankkikortti\" maksutapa näkyy Kassasivulla."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1252
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1258
 msgid "What is PayPal Pay Later?"
 msgstr "Mikä on PayPal Pay Later?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1256
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1262
 msgid ""
 "PayPal Pay Later lets your customers split their purchases into interest-"
 "free payments over time, such as \"Pay in 4\" or monthly installments. You "
@@ -507,7 +637,7 @@ msgstr ""
 "kuukausittaisiin maksuihin. Saat maksun kokonaisuudessaan etukäteen, kun "
 "taas asiakkaat nauttivat joustavista maksuvaihtoehdoista."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1257
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1263
 msgid ""
 "This can help increase your sales, with many merchants seeing higher "
 "conversion rates and larger order sizes."
@@ -515,15 +645,15 @@ msgstr ""
 "Tämä voi auttaa lisäämään myyntiäsi, ja monet kauppiaat ovat havainneet "
 "korkeampia konversioprosentteja ja suurempia tilauskokoja."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1260
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1266
 msgid "Learn more about Pay Later on PayPal’s website."
 msgstr "Lisää tietoa Pay Later -palvelusta PayPalin verkkosivustolla."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1268
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1274
 msgid "How can I contact support or request a new functionality?"
 msgstr "Kuinka voin ottaa yhteyttä tukeen tai pyytää uutta toimintoa?"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1272
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1278
 msgid ""
 "If you have any questions, encounter an issue, or have a new functionality "
 "request, please create a support ticket on our official support page at: "
@@ -532,25 +662,25 @@ msgstr ""
 "toiminnallisuuspyyntö, luo tukipyyntö viralliselle tukisivullemme "
 "osoitteessa: "
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1398
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1404
 msgid "Click to Enable Google Pay"
 msgstr "Napsauta ottaaksesi Google Payn käyttöön"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1420
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1449
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1478
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1426
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1455
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1484
 msgid "Important: "
 msgstr "Tärkeää: "
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1547
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1553
 msgid "Click to Enable Apple Pay"
 msgstr "Napsauta ottaaksesi Apple Pay käyttöön"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1580
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1586
 msgid "Register Your Domain with Apple Pay"
 msgstr "Rekisteröi verkkotunnuksesi Apple Payn avulla"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1584
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1590
 msgid ""
 "Any (sub)domain displaying an Apple Pay button must be registered on the "
 "PayPal website. If the domain is not registered, the payment method will not"
@@ -560,7 +690,7 @@ msgstr ""
 "rekisteröitävä PayPal-verkkosivustolla. Jos domainia ei ole rekisteröity, "
 "maksutapa ei toimi."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1607
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1613
 msgid ""
 "Accept PayPal, Pay Later, and major cards in WooCommerce using the PayPal "
 "Commerce Platform."
@@ -568,19 +698,18 @@ msgstr ""
 "Hyväksy PayPal, Maksa myöhemmin ja suuret kortit WooCommercessa käyttämällä "
 "PayPal Commerce Platformia."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1609
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1629
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1649
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1659
-#, fuzzy
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1615
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1635
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1655
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1665
 msgid "By Easy Payment"
 msgstr "Helppoa maksua varten"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1616
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1622
 msgid "AI Product Description Generator for WooCommerce"
 msgstr "AI-tuotekuvausten generaattori WooCommercea varten"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1623
 msgid ""
 "Generate SEO-friendly titles, descriptions, and attributes with AI. Includes"
 " bulk tools and templates."
@@ -588,16 +717,15 @@ msgstr ""
 "Tuota SEO-ystävällisiä otsikoita, kuvauksia ja attribuutteja tekoälyn "
 "avulla. Sisältää suurten määrien työkaluja ja malleja."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1619
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1625
 msgid "By nexaplugins"
 msgstr "nexaplugins"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1626
-#, fuzzy
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1632
 msgid "Payment Gateway for Authorize.Net for WooCommerce"
 msgstr "Maksuportti Authorize.Netille WooCommerceen"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1627
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1633
 msgid ""
 "Accept credit and debit cards via Authorize.Net with a secure, seamless "
 "WooCommerce checkout."
@@ -605,11 +733,11 @@ msgstr ""
 "Hyväksy luotto- ja pankkikortit Authorize.Netin kautta turvallisella ja "
 "saumattomalla WooCommerce-kassalla."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1636
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1642
 msgid "Widgets for Google Business Reviews and Ratings"
 msgstr "Widgetit Google Business -arvosteluille ja -luokituksille"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1637
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1643
 msgid ""
 "Showcase your Google Business Profile reviews and star rating with "
 "customizable widgets."
@@ -617,16 +745,15 @@ msgstr ""
 "Näytä Google Business Profile -arvostelusi ja tähtiluokituksesi "
 "muokattavilla widgeteillä."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1639
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1645
 msgid "By Repocean"
 msgstr "Repoceanin toimesta"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1646
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1652
 msgid "Payment Gateway for PhonePe and for WooCommerce"
 msgstr "Maksuportti PhonePe:lle ja WooCommerce:lle"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1647
-#, fuzzy
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1653
 msgid ""
 "Accept PhonePe UPI, Wallet, and Cards with a fast, secure payment experience"
 " in WooCommerce."
@@ -634,12 +761,11 @@ msgstr ""
 "Hyväksy PhonePe UPI, lompakot ja kortit nopealla, turvallisella "
 "maksukokemuksella WooCommercessa."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1656
-#, fuzzy
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1662
 msgid "Payment Gateway for Razorpay and for WooCommerce"
 msgstr "Maksuportti Razorpaylle ja WooCommerceen"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1657
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1663
 msgid ""
 "Accept UPI, Cards, and Net Banking via Razorpay with a reliable, optimized "
 "WooCommerce integration."
@@ -647,7 +773,7 @@ msgstr ""
 "Hyväksy UPI, kortit ja verkkopankki Razorpayn kautta luotettavalla, "
 "optimoidulla WooCommerce-integraatiolla."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1686
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1692
 msgid ""
 "Start by adding helpful extensions to your store—payments, product content, "
 "reviews and more."
@@ -655,24 +781,23 @@ msgstr ""
 "Aloita lisäämällä hyödyllisiä laajennuksia kauppaasi—maksut, tuotekuvaus, "
 "arvostelut ja paljon muuta."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1694
-#, fuzzy
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1700
 msgid "Plugin logo"
 msgstr "Laajennuksen logo"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1715
 msgid "Install Now"
 msgstr "Asenna nyt"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1716
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1722
 msgid "No matching plugins found for your store settings."
 msgstr "Yhteensopivia lisäosia ei löytynyt kauppasi asetuksille."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1763
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1769
 msgid "Try This AI Plugin"
 msgstr "Kokeile tätä AI-laajennusta"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1767
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1773
 msgid ""
 "%1$s💡%2$s Save hours writing product descriptions — AI creates high-quality "
 "content in minutes. %3$s"
@@ -719,21 +844,21 @@ msgstr "Jatka maksamiseen"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:716
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1530
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2718
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1416
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1417
 msgid "Card Details"
 msgstr "Kortin tiedot"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:727
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1541
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2729
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1427
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1428
 msgid "Address Verification Result"
 msgstr "Osoitteen vahvistuksen tulos"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:736
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1550
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2738
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1436
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1437
 msgid "Card Security Code Result"
 msgstr "Kortin turvakoodin tulos"
 
@@ -753,13 +878,13 @@ msgstr "Maksu kautta %1$s : %2$s."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:898
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1571
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2769
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1463
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1464
 msgid "%1$s Transaction ID: %2$s"
 msgstr "%1$s Tapahtuman ID: %2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:901
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1925
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1484
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1485
 msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
@@ -879,7 +1004,6 @@ msgid "Live PayPal Email"
 msgstr "Live PayPal-sähköposti"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:131
-#, fuzzy
 msgid "Enter Live PayPal Email."
 msgstr "Syötä Live PayPal -sähköpostiosoite."
 
@@ -905,7 +1029,6 @@ msgid "Sandbox PayPal Email"
 msgstr "Sandbox PayPal Sähköposti"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:181
-#, fuzzy
 msgid "Enter Sandbox PayPal Email."
 msgstr "Syötä Sandbox PayPal -sähköposti."
 
@@ -2359,45 +2482,45 @@ msgstr "Maksu %1$s palautettu. PayPal syy: %2$s."
 msgid "Payment via %1$s failed. PayPal reason: %2$s."
 msgstr "Maksu %1$s epäonnistui. PayPal syy: %2$s."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:538
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:555
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:539
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:556
 msgctxt "Important"
 msgid "Or"
 msgstr "Tai"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:752
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:753
 msgctxt "Important"
 msgid "Express Checkout"
 msgstr "Nopea kassalle siirtyminen"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:772
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:773
 msgctxt "Important"
 msgid "Or continue below"
 msgstr "Tai jatka alla"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1070
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1071
 msgid "Billing &amp; Shipping"
 msgstr "Laskutus &amp; Toimitus"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1070
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1072
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1088
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1071
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1073
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1089
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1072
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1073
 msgid "Billing details"
 msgstr "Laskutustiedot"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1088
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1089
 msgid "Shipping details"
 msgstr "Toimitustiedot"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1246
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1247
 msgid "Create an account?"
 msgstr "Luo tili?"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1253
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1254
 msgid ""
 "Create an account by entering the information below. If you are a returning "
 "customer please login at the top of the page."
@@ -2407,23 +2530,23 @@ msgstr ""
 
 #. translators: %1$s is the payment method title, %2$s is the formatted
 #. payment status.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1456
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1457
 msgid "Payment via %1$s: %2$s."
 msgstr "Maksu kautta %1$s: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the pending reason
 #. from PayPal.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1472
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1473
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
 msgstr "Maksu %1$s odottaa. PayPal syy: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1481
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1482
 msgid "Payment via %1$s. Transaction ID: %2$s"
 msgstr "Maksu kautta %1$s. Transaktio-ID: %2$s"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1664
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1665
 msgctxt "Important"
 msgid ""
 "<strong>You're almost done!</strong><br>Review your information before you "
@@ -2432,16 +2555,16 @@ msgstr ""
 "<strong>Olet melkein valmis!</strong><br>Tarkista tietosi ennen kuin teet "
 "tilauksen."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1719
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1720
 msgid "Capture Charge"
 msgstr "Kaappausmaksu"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1857
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1858
 msgctxt "Important"
 msgid "Cancel order"
 msgstr "Peruuta tilaus"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1930
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1931
 msgid ""
 "We cannot process your order with the payment information that you provided."
 " Please use an alternate payment method."
@@ -2449,95 +2572,10 @@ msgstr ""
 "Emme voi käsitellä tilaustasi antamillasi maksutiedoilla. Käytäthän "
 "vaihtoehtoista maksutapaa."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1938
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1939
 msgid "Something went wrong. Please try again."
 msgstr "Jokin meni pieleen. Ole hyvä ja yritä uudelleen."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1980
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1981
 msgid "3D Secure response"
 msgstr "3D Secure -vastaus"
-
-#~ msgid "Return"
-#~ msgstr "Palauta"
-
-#~ msgid "We’re sorry to see you go! 💔"
-#~ msgstr "Olemme pahoillamme, että lähdet! 💔"
-
-#~ msgid "Close"
-#~ msgstr "Lähellä"
-
-#~ msgid ""
-#~ "Can you please tell us why you’re deactivating the plugin? Your feedback "
-#~ "helps us make it better."
-#~ msgstr ""
-#~ "Voitko kertoa meille, miksi poistat liitännäisen käytöstä? Palautteesi "
-#~ "auttaa meitä parantamaan sitä."
-
-#~ msgid "Temporary deactivation (troubleshooting)"
-#~ msgstr "Tilapäinen deaktivointi (vianetsintä)"
-
-#~ msgid "Compatibility issue"
-#~ msgstr "Yhteensopivuusongelma"
-
-#~ msgid "Please describe what part of the layout or functionality was affected."
-#~ msgstr ""
-#~ "Ole hyvä ja kuvaa, mikä osa asettelusta tai toiminnallisuudesta vaikutti."
-
-#~ msgid "Difficult to set up"
-#~ msgstr "Vaikea asentaa"
-
-#~ msgid "What part of the setup was confusing or unclear?"
-#~ msgstr "Mikä osa asetuksesta oli hämmentävä tai epäselvä?"
-
-#~ msgid "Missing features"
-#~ msgstr "Puuttuvat ominaisuudet"
-
-#~ msgid "Which features were you looking for?"
-#~ msgstr "Mitä ominaisuuksia etsit?"
-
-#~ msgid "Other"
-#~ msgstr "Muu"
-
-#~ msgid ""
-#~ "Please share why you’re deactivating the PayPal plugin so we can make "
-#~ "improvements."
-#~ msgstr ""
-#~ "Ole hyvä ja kerro, miksi poistat PayPal-laajennuksen käytöstä, jotta voimme "
-#~ "tehdä parannuksia."
-
-#~ msgid ""
-#~ "Your privacy is important to us. No personal data is collected with this "
-#~ "form—just your valuable feedback and basic system information (such as "
-#~ "WordPress and plugin versions) to help us improve our plugin."
-#~ msgstr ""
-#~ "Yksityisyytesi on meille tärkeä. Tällä lomakkeella ei kerätä "
-#~ "henkilökohtaisia tietoja—vain arvokasta palautettasi ja perustietoja "
-#~ "järjestelmästä (kuten WordPress- ja lisäosaversiot) auttaaksemme meitä "
-#~ "parantamaan lisäosaa."
-
-#~ msgid "Visit our support page for assistance"
-#~ msgstr "Vieraile tukisivullamme saadaksesi apua"
-
-#~ msgid "Get Support"
-#~ msgstr "Hanki tukea"
-
-#~ msgid "Send & Deactivate"
-#~ msgstr "Lähetä & Poista käytöstä"
-
-#~ msgid "I rather wouldn't say"
-#~ msgstr "Enpä sanoisi."
-
-#~ msgid ""
-#~ "Accept payments through UPI, Cards, and Net Banking using Razorpay — "
-#~ "developed by an official Razorpay Partner."
-#~ msgstr ""
-#~ "Hyväksy maksut UPI:n, korttien ja verkkopankin kautta Razorpayn avulla — "
-#~ "kehittänyt virallinen Razorpay-kumppani."
-
-#~ msgid "Recommended payment method for Indian merchants"
-#~ msgstr "Suositeltu maksutapa intialaisille kauppiaille"
-
-#~ msgid "By"
-#~ msgstr ""
-#~ "Olen pahoillani, mutta tarvitsisin lisää kontekstia tai tekstiä, jota haluat"
-#~ " käännettävän suomeksi. Voisitko antaa lisää tietoa?"

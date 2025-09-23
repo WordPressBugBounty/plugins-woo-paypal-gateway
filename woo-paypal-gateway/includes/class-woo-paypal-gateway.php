@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.44';
+            $this->version = '9.0.45';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -85,6 +85,7 @@ class Woo_Paypal_Gateway {
         add_action('admin_notices', array($this, 'leaverev'));
         add_action('wp_ajax_wpg_handle_review_action', array($this, 'handle_review_action'));
         add_action('admin_enqueue_scripts', array($this, 'wpg_enqueue_scripts'));
+        add_filter('safe_style_css', array($this, 'wpg_allowed_css_properties'));
     }
 
     /**
@@ -376,56 +377,92 @@ class Woo_Paypal_Gateway {
     }
 
     public function leaverev() {
-        $activation_time = get_option('wpg_activation_time');
-        if ($activation_time == '') {
+        if (!isset($_GET['section']) || 'wpg_paypal_checkout' !== $_GET['section']) {
+            return;
+        }
+        $plugin_name = 'PayPal Gateway by Easy Payment';
+        $review_url = 'https://wordpress.org/support/plugin/woo-paypal-gateway/reviews/#new-post';
+        $activation_time = (int) get_option('wpg_activation_time');
+        if (empty($activation_time)) {
             $activation_time = time();
             update_option('wpg_activation_time', $activation_time);
         }
-        $rev_notice_hide = get_option('wpg_review_notice_hide_v1');
-        $next_show_time = get_option('wpg_next_show_time', time());
-        $days_since_activation = (time() - $activation_time) / 86400;
-        if ($rev_notice_hide !== 'never' && $days_since_activation >= 10 && time() >= $next_show_time) {
-            $class = 'notice notice-info';
-            $notice = '<div class="wpg-review-notice">' .
-                    '<p style="font-weight:normal;font-size:15px;">' .
-                    '<strong>Hi there,</strong><br>' .
-                    'We’re glad to see you’ve been using <b>PayPal Plugin</b>!<br>' .
-                    'Could you share your experience by leaving a review on WordPress? Your feedback means a lot to us.<br>' .
-                    '<br>Thank you!<br>Team EasyPayment' .
-                    '</p>' .
-                    '<p style="margin-bottom:10px;">' .
-                    '<a href="https://wordpress.org/support/plugin/woo-paypal-gateway/reviews/#new-post" style="text-decoration:none;" target="_blank">' .
-                    '<button class="button button-primary wpg-action-button" data-action="reviewed" style="margin-right:5px;" type="button">OK, you deserve it</button>' .
-                    '</a>' .
-                    '<button class="button button-secondary wpg-action-button" data-action="later" style="margin-right:5px;">Not now, maybe later</button>' .
-                    '<button class="button button-secondary wpg-action-button" data-action="never" style="float:right;">Don’t remind me again</button>' .
-                    '</p>' .
-                    '</div>';
-            printf(
-                    '<div class="wpg-review-notice %1$s" style="position:fixed;bottom:50px;right:20px;padding-right:30px;z-index:2;margin-left:20px">%2$s</div>',
-                    esc_attr($class),
-                    wp_kses_post($notice)
-            );
+        $hide_state = get_option('wpg_review_notice_hide_v2', ''); // '', 'later', 'never'
+        $next_show_time = (int) get_option('wpg_next_show_time', time());
+        $days_since_activation = ( time() - $activation_time ) / DAY_IN_SECONDS;
+        if ('never' === $hide_state || $days_since_activation < 10 || time() < $next_show_time) {
+            return;
         }
+        $html = '<div class="notice notice-success wpg-review-notice">';
+        $html .= '<p style="font-size: 100%"></p>';
+        $html .= '<h2 style="margin: 0" class="title">' .
+                sprintf(
+                        /* translators: %s: plugin name */
+                        esc_html__('Thank you for using %s 💕', 'woo-paypal-gateway'),
+                        '<b>' . esc_html($plugin_name) . '</b>'
+                ) .
+                '</h2>';
+
+        $html .= '<p>' .
+                sprintf(
+                        wp_kses(
+                                /* translators: %1$s: review URL */
+                                __('If you have a moment, we\'d love it if you could leave us a <b><a target="_blank" href="%1$s">quick review</a>.</b> it motivates us and helps us keep improving. 💫 <br>Have feature ideas? Include them in your review — your feedback shapes our roadmap, and we love turning your ideas into reality.', 'woo-paypal-gateway'),
+                                ['b' => [], 'a' => ['href' => [], 'target' => []], 'br' => []]
+                        ),
+                        esc_url($review_url)
+                ) .
+                '</p>';
+
+        $html .= '<div style="padding: 5px 0 12px 0; display: flex; align-items: center;">';
+        $html .= '<a target="_blank" class="button button-primary wpg-action-button" data-action="reviewed" style="margin-right: 10px;" href="' . esc_url($review_url) . '">✏️ ' .
+                esc_html__('Write Review', 'woo-paypal-gateway') .
+                '</a>';
+        $html .= '<button type="button" class="button button-secondary wpg-action-button" data-action="never" style="margin-right: 10px;">✌️ ' .
+                esc_html__('Done!', 'woo-paypal-gateway') .
+                '</button>';
+        $html .= '<div style="flex: auto;"></div>';
+        $html .= '<button type="button" class="button button-secondary wpg-action-button" data-action="later" style="margin-right: 10px;">⏰ ' .
+                esc_html__('Remind me later', 'woo-paypal-gateway') .
+                '</button>';
+        $html .= '<a href="#" class="button-link wpg-action-button" data-action="never" style="font-size: small;">' .
+                esc_html__('Hide', 'woo-paypal-gateway') .
+                '</a>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        echo wp_kses($html, [
+            'div' => [
+                'class' => [],
+                'style' => [],
+                'data-rating-date' => [],
+            ],
+            'p' => ['style' => []],
+            'h2' => ['class' => [], 'style' => []],
+            'b' => [],
+            'br' => [],
+            'a' => [
+                'href' => [], 'target' => [], 'class' => [], 'style' => [], 'data-action' => [],
+            ],
+            'button' => [
+                'type' => [], 'class' => [], 'style' => [], 'data-action' => [],
+            ],
+            'span' => ['style' => [], 'class' => []],
+        ]);
     }
 
     public function handle_review_action() {
         check_ajax_referer('wpg_review_nonce', 'nonce');
-
         $action = isset($_POST['review_action']) ? sanitize_text_field($_POST['review_action']) : '';
-
         if ($action === 'later') {
-            // Hide the notice for 1 week
-            $next_show_time = time() + (86400 * 7); // 7 days from now
+            $next_show_time = time() + (86400 * 7);
             update_option('wpg_next_show_time', $next_show_time);
-            update_option('wpg_review_notice_hide_v1', 'later');
+            update_option('wpg_review_notice_hide_v2', 'later');
         } elseif ($action === 'never' || $action === 'reviewed') {
-            // Hide the notice permanently
-            update_option('wpg_review_notice_hide_v1', 'never');
+            update_option('wpg_review_notice_hide_v2', 'never');
         } else {
             wp_send_json_error('Invalid action');
         }
-
         wp_send_json_success();
     }
 
@@ -441,5 +478,13 @@ class Woo_Paypal_Gateway {
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('wpg_review_nonce')
         ));
+    }
+    
+    public function wpg_allowed_css_properties($styles) {
+        $styles[] = 'display';
+        $styles[] = 'align-items';
+        $styles[] = 'flex';
+        $styles[] = 'auto';
+        return $styles;
     }
 }

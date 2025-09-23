@@ -89,7 +89,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
 
     public function is_paypal_enable_for_page($page = '') {
         if (!isset($this->settings['paypal_button_pages'])) {
-            $this->settings['paypal_button_pages'] = array('express_checkout', 'checkout', 'mini_cart');
+            $this->settings['paypal_button_pages'] = array('express_checkout', 'checkout');
         }
         if (isset($this->settings['enabled']) && $this->settings['enabled'] === 'no') {
             return false;

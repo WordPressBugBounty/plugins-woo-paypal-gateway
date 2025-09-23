@@ -3,12 +3,12 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.8.2
-Stable tag: 9.0.44  
+Stable tag: 9.0.45  
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
 
-PayPal, Credit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Bancontact & more - by an official PayPal Partner
+PayPal, Credit/Debit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Bancontact & more - by an official PayPal Partner
 
 == Description ==
 
@@ -100,6 +100,10 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.45 – 2025-09-23 =
+* Enhanced – PayPal button layout updated from vertical to horizontal in Checkout Block for improved design consistency.
+* Fixed – Resolved friction with the Place Order button on the checkout page.
 
 = 9.0.44 – 2025-09-08 =
 * Enhanced – Added WooCommerce Subscriptions compatibility for Advanced Card Payments.
