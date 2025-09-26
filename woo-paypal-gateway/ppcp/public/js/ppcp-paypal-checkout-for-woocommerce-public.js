@@ -21,7 +21,7 @@
             }
             this.debouncedTogglePlaceOrderButton = this.debounce_place_order(this.togglePlaceOrderButton.bind(this), 4);
             if (this.ppcp_manager.enabled_google_pay === 'yes') {
-                this.loadGooglePaySdk();
+                //this.loadGooglePaySdk();
             }
             if (this.ppcp_manager.enabled_apple_pay === 'yes') {
                 this.loadApplePaySdk();

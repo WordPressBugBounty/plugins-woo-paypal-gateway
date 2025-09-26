@@ -277,7 +277,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         add_action('wp_ajax_nopriv_ppcp_get_updated_total', array($this, 'ppcp_get_updated_total'));
         add_action('wp_ajax_ppcp_get_product_total', array($this, 'ppcp_get_product_total'));
         add_action('wp_ajax_nopriv_ppcp_get_product_total', array($this, 'ppcp_get_product_total'));
-        add_filter( 'woocommerce_order_button_html', [ $this, 'add_custom_class_to_place_order_button' ], 20 );
+        add_filter('woocommerce_order_button_html', [$this, 'add_custom_class_to_place_order_button'], 20);
     }
 
     public function enqueue_scripts() {
@@ -346,6 +346,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                     $button_selector['ppcp_checkout'] = '#ppcp_checkout';
                     $button_selector['ppcp_checkout_top'] = '#ppcp_checkout_top';
                 }
+            }
+            if ($this->should_enable_google_pay_for_page($page)) {
+                wp_enqueue_script(
+                        'google-pay-sdk',
+                        'https://pay.google.com/gp/p/js/pay.js',
+                        array(),
+                        null,
+                        false
+                );
             }
             if ($this->show_on_mini_cart) {
                 $button_selector['ppcp_mini_cart'] = '#ppcp_mini_cart';
@@ -1071,10 +1080,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 <h3><?php esc_html_e('Billing &amp; Shipping', 'woo-paypal-gateway'); ?>&nbsp;&nbsp;&nbsp;<a class="ppcp_edit_billing_address"><?php _e('Edit', 'woo-paypal-gateway'); ?></a></h3>
             <?php else : ?>
                 <h3><?php esc_html_e('Billing details', 'woo-paypal-gateway'); ?>&nbsp;&nbsp;&nbsp;<a class="ppcp_edit_billing_address"><?php _e('Edit', 'woo-paypal-gateway'); ?></a></h3>
-        <?php
-        endif;
-        echo WC()->countries->get_formatted_address($this->get_mapped_billing_address($this->checkout_details));
-        ?>
+            <?php
+            endif;
+            echo WC()->countries->get_formatted_address($this->get_mapped_billing_address($this->checkout_details));
+            ?>
 
         </div>
         <?php
@@ -1087,7 +1096,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         ?>
         <div class="ppcp_shipping_details">
             <h3><?php _e('Shipping details', 'woo-paypal-gateway'); ?>&nbsp;&nbsp;&nbsp;<a class="ppcp_edit_shipping_address"><?php _e('Edit', 'woo-paypal-gateway'); ?></a></h3>
-        <?php echo WC()->countries->get_formatted_address($this->get_mapped_shipping_address($this->checkout_details)); ?>
+            <?php echo WC()->countries->get_formatted_address($this->get_mapped_shipping_address($this->checkout_details)); ?>
         </div><?php
     }
 
@@ -1252,9 +1261,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 ?>
                 <div class="create-account">
                     <p><?php _e('Create an account by entering the information below. If you are a returning customer please login at the top of the page.', 'woo-paypal-gateway'); ?></p>
-                <?php foreach ($checkout->checkout_fields['account'] as $key => $field) : ?>
-                    <?php woocommerce_form_field($key, $field, $checkout->get_value($key)); ?>
-                <?php endforeach; ?>
+                    <?php foreach ($checkout->checkout_fields['account'] as $key => $field) : ?>
+                        <?php woocommerce_form_field($key, $field, $checkout->get_value($key)); ?>
+                    <?php endforeach; ?>
                     <div class="clear"></div>
                 </div>
                 <?php
@@ -1661,9 +1670,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             ?>
             <div class="order_review_page_description">
                 <p>
-            <?php
-            echo wp_kses_post(_x("<strong>You're almost done!</strong><br>Review your information before you place your order.", 'Important', 'woo-paypal-gateway'));
-            ?>
+                    <?php
+                    echo wp_kses_post(_x("<strong>You're almost done!</strong><br>Review your information before you place your order.", 'Important', 'woo-paypal-gateway'));
+                    ?>
                 </p>
             </div>
             <?php
@@ -2519,12 +2528,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
         return $output;
     }
-    
-    public function add_custom_class_to_place_order_button( $button_html ) {
+
+    public function add_custom_class_to_place_order_button($button_html) {
         $button_html = str_replace(
-            'class="button',
-            'class="button wpg_place_order_hide',
-            $button_html
+                'class="button',
+                'class="button wpg_place_order_hide',
+                $button_html
         );
         return $button_html;
     }
