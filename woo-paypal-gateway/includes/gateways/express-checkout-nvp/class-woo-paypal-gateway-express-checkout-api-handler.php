@@ -304,7 +304,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 'USER' => $this->username,
                 'PWD' => $this->password,
                 'SIGNATURE' => $this->signature,
-                'BUTTONSOURCE' => 'MBJTechnolabs_SI_SPB',
+                'BUTTONSOURCE' => 'mbjtechnolabs_SP',
                 'TOKEN' => $this->token,
                 'PAYERID' => $this->payerid,
                 'LANDINGPAGE' => '',

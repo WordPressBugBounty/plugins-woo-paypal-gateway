@@ -32,7 +32,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Tracking {
             return;
         }
         global $pagenow;
-        if (( 'shop_order' === $screen->id && 'post-new.php' === $pagenow ) || ( 'woocommerce_page_wc-orders' === $screen->id )) {
+        if (('shop_order' === $screen->id && 'post-new.php' === $pagenow) || ('woocommerce_page_wc-orders' === $screen->id)) {
             $this->screen_id = $screen->id;
             add_action('add_meta_boxes', array($this, 'add_tracking_meta_box'), 1);
         }
@@ -143,12 +143,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Tracking {
     }
 
     public function render_tracking_meta_box($post_or_order_object) {
-        $wc_order = ( $post_or_order_object instanceof WP_Post ) ? wc_get_order($post_or_order_object->ID) : $post_or_order_object;
+        $wc_order = ($post_or_order_object instanceof WP_Post) ? wc_get_order($post_or_order_object->ID) : $post_or_order_object;
         if (!is_a($wc_order, 'WC_Order')) {
             return;
         }
         wp_enqueue_style('ppcp-paypal-checkout-for-woocommerce-admin', WPG_PLUGIN_ASSET_URL . 'ppcp/admin/css/ppcp-paypal-checkout-for-woocommerce-tracking.css', array(), WPG_PLUGIN_VERSION, 'all');
         wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-admin', WPG_PLUGIN_ASSET_URL . 'ppcp/admin/js/ppcp-paypal-checkout-for-woocommerce-tracking.js', array('jquery'), WPG_PLUGIN_VERSION, false);
+        $nonce = wp_create_nonce('ppcp-tracking');
+        wp_localize_script(
+                'ppcp-paypal-checkout-for-woocommerce-admin',
+                'ppcp_tracking_ajax',
+                [
+                    'ajaxurl' => admin_url('admin-ajax.php'),
+                    'nonce' => $nonce,
+                ]
+        );
         $capture_id = $wc_order->get_transaction_id();
         $shipments = $wc_order->get_meta('_ppcp_tracking_info');
         $this->carriers = $this->carrier_name();
@@ -214,25 +223,36 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Tracking {
     }
 
     public function save_tracking_details() {
+        if (!current_user_can('edit_shop_orders') && !current_user_can('manage_woocommerce')) {
+            wp_send_json_error('Forbidden.', 403);
+        }
+        if (!isset($_POST['nonce'])) {
+            wp_send_json_error('Invalid request.', 403);
+        }
+        check_ajax_referer('ppcp-tracking', 'nonce');
         if (isset($_POST['capture_id'], $_POST['tracking_number'], $_POST['status'], $_POST['carrier'], $_POST['order_id'])) {
-            $capture_id = sanitize_text_field($_POST['capture_id']);
-            $tracking_number = sanitize_text_field($_POST['tracking_number']);
-            $status = sanitize_text_field($_POST['status']);
-            $carrier = sanitize_text_field($_POST['carrier']);
-            $order_id = sanitize_text_field($_POST['order_id']);
-            $wc_order = wc_get_order($order_id);
-            if ($wc_order) {
-                $ppcp_tracking_info = array(
-                    'trackers' => array(
-                        array(
-                            'transaction_id' => $capture_id,
-                            'tracking_number' => $tracking_number,
-                            'status' => $status,
-                            'carrier' => $carrier
-                        )
-                    )
-                );
+            $capture_id = sanitize_text_field(wp_unslash($_POST['capture_id']));
+            $tracking_number = sanitize_text_field(wp_unslash($_POST['tracking_number']));
+            $status = sanitize_text_field(wp_unslash($_POST['status']));
+            $carrier = sanitize_text_field(wp_unslash($_POST['carrier']));
+            $order_id = absint(wp_unslash($_POST['order_id']));
+            if (!$order_id || !current_user_can('edit_post', $order_id)) {
+                wp_send_json_error('Forbidden.', 403);
             }
+            $wc_order = wc_get_order($order_id);
+            if (!$wc_order) {
+                wp_send_json_error('Order not found.', 404);
+            }
+            $ppcp_tracking_info = array(
+                'trackers' => array(
+                    array(
+                        'transaction_id' => $capture_id,
+                        'tracking_number' => $tracking_number,
+                        'status' => $status,
+                        'carrier' => $carrier,
+                    ),
+                ),
+            );
             $wc_order->update_meta_data('_ppcp_tracking_info', $ppcp_tracking_info);
             $wc_order->save();
             $bool = $this->send_tracking_to_paypal($order_id, $ppcp_tracking_info);

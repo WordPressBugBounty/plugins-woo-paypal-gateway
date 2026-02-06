@@ -581,7 +581,7 @@ class Woo_PayPal_Gateway_Braintree extends WC_Payment_Gateway_CC {
             'storeInVaultOnSuccess' => true,
         );
 
-        $this->request['channel'] = 'MBJTechnolabs_SI_SPB';
+        $this->request['channel'] = 'mbjtechnolabs_SP';
     }
 
     public function wpg_init_braintree_lib() {

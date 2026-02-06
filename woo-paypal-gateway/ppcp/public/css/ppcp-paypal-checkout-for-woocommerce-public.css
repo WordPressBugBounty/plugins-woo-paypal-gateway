@@ -1331,9 +1331,6 @@ li.payment_method_wpg_paypal_checkout > .payment_box:not(:has(*)),
 li.payment_method_wpg_paypal_checkout > .payment_box:empty {
     display: none !important;
 }
-.wp-theme-woodmart #ppcp_product, .wp-theme-woodmart .google-pay-container {
-    display: block !important;
-}
 .gpay-card-info-container {
     min-width: 0 !important;
 }
@@ -1366,7 +1363,12 @@ li.payment_method_wpg_paypal_checkout > .payment_box:empty {
   align-items: center;
   gap: 6px;
 }
-
+.wp-theme-woodmart #ppcp_mini_cart.desktop.medium {
+    margin: 10px 10px 14px 0px;
+}
+.wpg_ppcp_full_width {
+    width: 100%;
+}
 /* mobile */
 @media (max-width: 480px) {
   #express-payment-method-wpg_paypal_checkout_top {

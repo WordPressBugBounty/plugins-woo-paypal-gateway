@@ -2,8 +2,8 @@
 Contributors: easypayment  
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
-Tested up to: 6.8.2
-Stable tag: 9.0.46  
+Tested up to: 6.9.1
+Stable tag: 9.0.56
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,53 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.56 - 2026-02-04 =
+* Added - Polylang compatibility.
+* Added - Notice prompting Classic payment method users to migrate to the new PPCP.
+* Fixed - Shipping address country is now correctly restricted based on the configured settings for Google Pay and Apple Pay.
+* Updated - Default environment switched from Sandbox to Production.
+
+= 9.0.55 - 2026-01-17 =
+* Added - Exclude PayPal SDK from Cache plugin.
+* Added - PayPal button preview in the setting panel.
+* Fixed - Google Pay button shape issue for express checkout.
+
+= 9.0.54 - 2025-12-15 =
+* Fixed - Access control and request validation for admin settings updates.
+* Fixed - WooCommerce pending order issue.
+* Fixed - Block checkout order note issue.
+
+= 9.0.53 - 2025-12-15 =
+* Added - Compatibility with YayCurrency for Express Checkout.
+* Fixed - Updated required capability from activate_plugins to deactivate_plugins for improved admin access handling.
+* Fixed - For Order Pay, ensured the final payment provider is correctly reflected on the order when checkout is completed via a different payment flow than initially selected.
+* Fixed - Field validation for Express Checkout.
+
+= 9.0.52 - 2025-11-27 =
+* Added - Option to skip the final Order Review page for faster checkout.
+* Fixed - Apple Pay and Google Pay validation issues on express checkout when the phone number field is set as required.
+
+= 9.0.51 - 2025-11-24 =
+* Added - Support for selecting shipping methods directly within PayPal, Google Pay, and Apple Pay pop-ups.
+
+= 9.0.50 - 2025-11-17 =
+* Added – Compatibility with YayCurrency Multi-Currency Switcher plugin for Express Checkout.
+* Fixed - Displaying decline reason on checkout page.
+
+= 9.0.49 - 2025-11-06 =
+* Fixed - Hide PayPal/Express buttons when order total is $0.
+* Fixed - Shipping not calculating for Express Checkout when using wallet's default shipping address (calculates correctly at final capture).
+* Fixed - Clear decline reason now displayed with improved logging.
+
+= 9.0.48 - 2025-10-14 =
+* Fixed - Hide place order button issue for order review page.
+
+= 9.0.47 - 2025-10-10 =
+* Fixed - In Block Checkout, Smart Buttons not reinitializing on subsequent page loads in some themes.
+* Fixed - Google Pay button appearing when Credit Card method is selected in a specific layout.
+* Fixed - "Place Order" button hidden when both Advanced Credit Card and Express Checkout options are disabled.
+* Fixed - Credit Card subscription renewal processing issue.
 
 = 9.0.46 - 2025-09-26 =
 * Fixed – Intermittent Google Pay button not rendering on first load.

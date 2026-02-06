@@ -91,7 +91,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     public $apple_pay_mini_cart_style_label;
     public $apple_pay_mini_cart_style_color;
     public $apple_pay_mini_cart_style_shape;
+    public $skip_order_review;
     protected static $_instance = null;
+    public const PPCP_LANG_SESSION_KEY = 'ppcp_lang';
 
     public static function instance() {
         if (is_null(self::$_instance)) {
@@ -124,6 +126,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
             $this->ppcp_add_hooks();
         }
+        
+        $this->exclude_cache_plugins_js_minification();
     }
 
     public function get_properties() {
@@ -147,8 +151,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         if ($this->enabled && 'yes' === $this->ppcp_get_settings('admin_mode')) {
             $this->enabled = current_user_can('administrator') || current_user_can('shop_manager');
         }
-        $this->ppcp_currency_list = array('AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'INR', 'ILS', 'JPY', 'MYR', 'MXN', 'TWD', 'NZD', 'NOK', 'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'THB', 'USD');
-        $this->ppcp_currency = in_array(get_woocommerce_currency(), $this->ppcp_currency_list) ? get_woocommerce_currency() : 'USD';
+        
 
         $paypal_button_pages = $this->ppcp_get_settings('paypal_button_pages', array('express_checkout', 'checkout'));
         $this->show_on_product_page = in_array('product', $paypal_button_pages, true);
@@ -185,6 +188,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $this->enabled_pay_later_messaging = false;
         }
         $this->set_billing_address = 'yes' === $this->ppcp_get_settings('set_billing_address', 'yes');
+        $this->skip_order_review = 'yes' === $this->ppcp_get_settings('skip_order_review', 'yes');
+        
         $this->set_billing_address = is_user_logged_in() ? false : true;
         if (wc_ship_to_billing_address_only()) {
             $this->set_billing_address = true;
@@ -220,7 +225,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function ppcp_add_hooks() {
-        add_action('wp', array($this, 'enqueue_scripts'));
+        add_action('wp', array($this, 'enqueue_scripts'), 9999);
         add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
         add_action('woocommerce_after_add_to_cart_form', array($this, 'display_paypal_button_product_page'), 1);
         add_action('woocommerce_proceed_to_checkout', array($this, 'display_paypal_button_cart_page'), $this->cart_priority);
@@ -261,7 +266,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             add_filter('wfacp_page_settings', array($this, 'wpg_enable_paypal_button_top_checkout_page'), 99, 1);
             add_filter('wfacp_smart_buttons', [$this, 'wpg_add_buttons'], 15);
             add_action('wfacp_smart_button_container_wpg_paypal_checkout', [$this, 'wpg_add_paypal_buttons']);
-            add_action('wfacp_internal_css', [$this, 'wpg_internal_css']);
         } else {
             if (!has_action('woocommerce_before_checkout_form', array($this, 'display_paypal_button_top_checkout_page'))) {
                 add_action('woocommerce_before_checkout_form', array($this, 'display_paypal_button_top_checkout_page'), 10);
@@ -272,16 +276,25 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         add_action('wp_loaded', array($this, 'ppcp_block_set_address'), 999);
         add_action('admin_init', array($this, 'ppcp_admin_init'), 100);
         add_action('wpg_ppcp_save_payment_method_details', array($this, 'wpg_ppcp_save_payment_method_details'), 10, 2);
-        add_filter('wpg_ppcp_currency', array($this, 'wpg_ppcp_currency'), 10, 1);
+        add_filter('wpg_ppcp_woocommerce_currency', array($this, 'wpg_ppcp_woocommerce_currency'), 99, 1);
         add_action('wp_ajax_ppcp_get_updated_total', array($this, 'ppcp_get_updated_total'));
         add_action('wp_ajax_nopriv_ppcp_get_updated_total', array($this, 'ppcp_get_updated_total'));
         add_action('wp_ajax_ppcp_get_product_total', array($this, 'ppcp_get_product_total'));
         add_action('wp_ajax_nopriv_ppcp_get_product_total', array($this, 'ppcp_get_product_total'));
-        add_filter('woocommerce_order_button_html', [$this, 'add_custom_class_to_place_order_button'], 20);
+        if($this->use_place_order === false) {
+            if(!isset($_GET['paypal_order_id'])) {
+                add_filter('woocommerce_order_button_html', [$this, 'add_custom_class_to_place_order_button'], 20);
+            }
+        }
+        add_action('wp_ajax_ppcp_validate_shipping_address', array($this, 'ppcp_validate_shipping_address'));
+        add_action('wp_ajax_nopriv_ppcp_validate_shipping_address', array($this, 'ppcp_validate_shipping_address'));
+        add_action('template_redirect', [$this, 'polylang_capture_language_on_cart_checkout'], 5);
+        add_filter('wpg_ppcp_cancel_order_url', [$this, 'polylang_handle_cancel_order_redirect'], 10, 1);
     }
 
     public function enqueue_scripts() {
         try {
+            
             if (is_checkout() && !empty($this->checkout_details) && !empty($_GET['paypal_order_id'])) {
                 wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-order-capture', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/ppcp-paypal-checkout-for-woocommerce-order-capture.js', array('jquery'), $this->version, false);
                 return;
@@ -292,7 +305,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $this->ppcp_paypal_button_style_properties();
             $ppcp_js_arg = array();
             $ppcp_js_arg['client-id'] = $this->client_id;
-            $ppcp_js_arg['currency'] = apply_filters('wpg_ppcp_currency', $this->ppcp_currency);
+            
             $disabled = array_map('strtolower', (array) $this->disable_funding);
             $to_enable = [];
             if (!in_array('venmo', $disabled, true)) {
@@ -318,7 +331,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                     $needs_shipping = true;
                 }
             }
-            if (WC()->cart && !WC()->cart->is_empty() && WC()->cart->needs_shipping()) {
+            if ( WC()->cart && method_exists( WC()->cart, 'needs_shipping' ) && !WC()->cart->is_empty() && WC()->cart->needs_shipping() ) {
                 $needs_shipping = true;
             }
             $page = '';
@@ -356,9 +369,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                         false
                 );
             }
+            if ($this->should_enable_apple_pay_for_page($page)) {
+                wp_enqueue_script(
+                        'apple-pay-sdk',
+                        'https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js',
+                        array(),
+                        null,
+                        false
+                );
+            }
             if ($this->show_on_mini_cart) {
                 $button_selector['ppcp_mini_cart'] = '#ppcp_mini_cart';
             }
+            $this->ppcp_currency_list = array('AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'INR', 'ILS', 'JPY', 'MYR', 'MXN', 'TWD', 'NZD', 'NOK', 'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'THB', 'USD');
+            $this->ppcp_currency = in_array(get_woocommerce_currency(), $this->ppcp_currency_list) ? get_woocommerce_currency() : 'USD';
+            $ppcp_js_arg['currency'] = apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_currency);
             $ppcp_js_arg['commit'] = ( $page === 'checkout' ) ? 'true' : 'false';
             $ppcp_js_arg['intent'] = ( $this->paymentaction === 'capture' ) ? 'capture' : 'authorize';
             $ppcp_js_arg['locale'] = $this->ppcp_locale->get_valid_locale();
@@ -404,7 +429,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'ppcp_action' => 'create_order',
                 'utm_nooverride' => '1',
                 'used' => 'card',
-                'from' => is_checkout_pay_page() ? 'pay_page' : $page,
+                'from' => is_checkout_pay_page() ? 'pay_page' : 'checkout',
             );
 
             if ($order_id > 0) {
@@ -457,7 +482,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'create_order_url_for_paypal' => add_query_arg(array('ppcp_action' => 'create_order', 'utm_nooverride' => '1', 'used' => 'paypal', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
                 'create_order_url_for_google_pay' => add_query_arg(array('ppcp_action' => 'create_order', 'utm_nooverride' => '1', 'used' => 'alternative_pay', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
                 'create_order_url_for_cc' => $create_order_url_for_cc,
-                'get_transaction_info_url' => add_query_arg(array('ppcp_action' => 'get_transaction_info', 'utm_nooverride' => '1', 'from' => is_checkout_pay_page() ? 'pay_page' : $page), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
+                'get_transaction_info_url' => add_query_arg(array('ppcp_action' => 'get_transaction_info', 'utm_nooverride' => '1'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
                 'cancel_url' => wc_get_cart_url(),
                 'paymentaction' => $this->paymentaction,
                 'advanced_card_payments' => ($this->advanced_card_payments === true) ? 'yes' : 'no',
@@ -475,14 +500,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'express_checkout_button_height' => $this->express_checkout_button_height,
                 'mini_cart_button_height' => $this->mini_cart_button_height,
                 'ajax_nonce' => wp_create_nonce('ppcp_ajax_nonce'),
-                'currency' => get_woocommerce_currency(),
+                'currency' => apply_filters('wpg_ppcp_woocommerce_currency', get_woocommerce_currency()),
                 'cart_total' => WC()->cart ? WC()->cart->get_total('edit') : '0.00',
                 'is_product_page' => $is_product_page,
                 'needs_shipping' => $needs_shipping ? '1' : '0',
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'use_place_order' => $this->use_place_order,
                 'product_id' => $product_id,
-                'is_block_enable' => wpg_is_using_block_cart_or_checkout() ? 'yes' : 'no'
+                'is_block_enable' => is_wpg_using_woocommerce_blocks() ? 'yes' : 'no',
+                'last_error' => wpg_ppcp_pop_last_error(),
+                'notices_context' => ( is_checkout() ? 'wc/checkout' : ( is_cart() ? 'wc/cart' : 'wc/checkout' ) ),
+                'skip_order_review' => $this->skip_order_review ? 'yes' : 'no'
                     )
             );
         } catch (Exception $ex) {
@@ -518,18 +546,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
             wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
             echo '<div class="ppcp-button-container">';
-            if ($this->show_on_product_page) {
-                echo '<div id="ppcp_product" class="' . $this->button_class . '" style="--button-height: ' . (int) $this->button_height . 'px;"></div>';
+            if ( $this->show_on_product_page ) {
+                echo '<div id="ppcp_product" class="' . esc_attr( $this->button_class ) . '" style="--button-height: ' . (int) $this->button_height . 'px;"></div>';
             }
             if ($this->is_google_pay_enable_for_page('product')) {
-                echo '<div data-context="product" class="google-pay-container product ' . $this->button_class . '" style="height: ' . (int) $this->button_height . 'px;"></div>';
+                echo '<div data-context="product" class="google-pay-container product ' . esc_attr( $this->button_class ) . '" style="height: ' . (int) $this->button_height . 'px;"></div>';
             }
             if ($this->is_apple_pay_enable_for_page('product')) {
                 $button_height = (int) $this->button_height;
                 $button_shape = $this->apple_pay_style_shape;
                 $button_radius = $this->calculate_button_radius($button_shape, $button_height);
                 $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
-                echo '<div data-context="product" class="apple-pay-container product ' . esc_attr($this->button_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
+                echo '<div data-context="product" class="apple-pay-container product ' . esc_attr( $this->button_class . ' ' . $shape_class ) . '" style="--button-height: ' . (int) $button_height . 'px; --button-radius: ' . (int) $button_radius . 'px; height: ' . (int) $button_height . 'px;"></div>';
             }
             echo '</div>';
         }
@@ -539,16 +567,19 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         if ($this->enabled === false) {
             return;
         }
+        if (WC()->cart->needs_payment() === false) {
+            return '';
+        }
         if ($this->show_on_cart || $this->is_google_pay_enable_for_page('cart') || $this->is_apple_pay_enable_for_page('cart')) {
             wp_enqueue_script('ppcp-checkout-js');
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
             wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
             echo '<div class="ppcp-button-container ppcp_cart">';
             if ($this->cart_priority === 30) {
-                echo '<div class="ppcp-proceed-to-checkout-button-separator ' . $this->button_class . '"><span>' . _x('Or', 'Important', 'woo-paypal-gateway') . '</span></div>';
+                echo '<div class="ppcp-proceed-to-checkout-button-separator ' . esc_attr( $this->button_class ) . '"><span>' . esc_html_x( 'Or', 'Important', 'woo-paypal-gateway' ) . '</span></div>';
             }
             if ($this->show_on_cart) {
-                echo '<div id="ppcp_cart" class="cart ' . $this->button_class . '" style="--button-height: ' . (int) $this->button_height . 'px;min-height: ' . (int) $this->button_height . 'px;"></div>';
+                echo '<div id="ppcp_cart" class="cart ' . esc_attr( $this->button_class ) . '" style="--button-height: ' . (int) $this->button_height . 'px;min-height: ' . (int) $this->button_height . 'px;"></div>';
             }
             if ($this->is_google_pay_enable_for_page('cart')) {
                 echo '<div data-context="cart" class="google-pay-container cart ' . esc_attr($this->button_class) . '" style="height: ' . (int) $this->button_height . 'px;"></div>';
@@ -558,11 +589,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 $button_shape = $this->apple_pay_style_shape;
                 $button_radius = $this->calculate_button_radius($button_shape, $button_height);
                 $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
-                echo '<div data-context="cart" class="apple-pay-container cart ' . esc_attr($this->button_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
+                echo '<div data-context="cart" class="apple-pay-container cart ' . esc_attr( $this->button_class . ' ' . $shape_class ) . '" style="--button-height: ' . (int) $button_height . 'px; --button-radius: ' . (int) $button_radius . 'px; height: ' . (int) $button_height . 'px;"></div>';
             }
-
             if ($this->cart_priority === 11) {
-                echo '<div class="ppcp-proceed-to-checkout-button-separator ' . $this->button_class . '"><span>' . _x('Or', 'Important', 'woo-paypal-gateway') . '</span></div>';
+                echo '<div class="ppcp-proceed-to-checkout-button-separator ' . esc_attr( $this->button_class ) . '"><span>' . esc_html_x( 'Or', 'Important', 'woo-paypal-gateway' ) . '</span></div>';
             }
             echo '</div>';
         }
@@ -571,6 +601,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     public function display_paypal_button_mini_cart_page() {
         if ($this->enabled === false) {
             return;
+        }
+        if (WC()->cart->needs_payment() === false) {
+            return '';
         }
         if (WC()->cart->needs_payment() === false) {
             return '';
@@ -597,7 +630,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
             $html .= '</div>';
         }
-        echo $html;
+        echo wp_kses_post( $html );
     }
 
     public function display_paypal_button_mini_cart_page_for_funnelkit_sliding_cart() {
@@ -605,6 +638,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             return;
         }
         if (is_null(WC()->cart) || WC()->cart->needs_payment() === false) {
+            return '';
+        }
+        if (WC()->cart->needs_payment() === false) {
             return '';
         }
         $html = '';
@@ -629,7 +665,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
             $html .= '</div></div>';
         }
-        echo $html;
+        echo wp_kses_post( $html );
     }
 
     public function display_paypal_button_checkout_page() {
@@ -642,6 +678,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
             return false;
         }
+        if (wpg_ppcp_get_order_total() === 0) {
+            return;
+        }
         if ($this->show_on_checkout_page || $this->is_google_pay_enable_for_page('checkout') || $this->is_apple_pay_enable_for_page('checkout')) {
             $this->ppcp_paypal_button_style_properties();
             if ($this->use_place_order === false) {
@@ -649,16 +688,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
                 wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
                 echo '<div class="ppcp-button-container">';
-                echo '<div id="ppcp_checkout" class="checkout ' . $this->button_class . '" style="--button-height: ' . (int) $this->button_height . 'px;"></div>';
+                echo '<div id="ppcp_checkout" class="checkout ' . esc_attr( $this->button_class ) . '" style="--button-height: ' . (int) $this->button_height . 'px;"></div>';
                 if ($this->is_google_pay_enable_for_page('checkout')) {
-                    echo '<div data-context="checkout" class="google-pay-container checkout ' . $this->button_class . '" style="height: ' . (int) $this->button_height . 'px;"></div>';
+                    echo '<div data-context="checkout" class="google-pay-container checkout ' . esc_attr( $this->button_class ) . '" style="height: ' . (int) $this->button_height . 'px;"></div>';
                 }
                 if ($this->is_apple_pay_enable_for_page('checkout')) {
                     $button_height = (int) $this->button_height;
                     $button_shape = $this->apple_pay_style_shape;
                     $button_radius = $this->calculate_button_radius($button_shape, $button_height);
                     $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
-                    echo '<div data-context="checkout" class="apple-pay-container checkout ' . esc_attr($this->button_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
+                    echo '<div data-context="checkout" class="apple-pay-container checkout ' . esc_attr( $this->button_class . ' ' . $shape_class ) . '" style="--button-height: ' . (int) $button_height . 'px; --button-radius: ' . (int) $button_radius . 'px; height: ' . (int) $button_height . 'px;"></div>';
                 }
                 echo '</div>';
             } elseif ($this->advanced_card_payments) {
@@ -695,23 +734,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         return $buttons;
     }
 
-    public function wpg_internal_css() {
-        $instance = wfacp_template();
-        if (!$instance instanceof WFACP_Template_Common) {
+    public function wpg_add_paypal_buttons() {
+        if (wpg_ppcp_get_order_total() === 0) {
             return;
         }
-        $bodyClass = "body";
-        if ('pre_built' !== $instance->get_template_type()) {
-
-            $bodyClass = "body #wfacp-e-form ";
-        }
-        $cssHtml = "<style>";
-        $cssHtml .= $bodyClass . "#wfacp_smart_buttons .wfacp_smart_button_inner .express_payment_method_ppcp {    height: auto;line-height: 1;}";
-        $cssHtml .= "</style>";
-        echo $cssHtml;
-    }
-
-    public function wpg_add_paypal_buttons() {
         $is_google_pay_enabled = $this->is_google_pay_enable_for_page('express_checkout');
         $is_apple_pay_enabled = $this->is_apple_pay_enable_for_page('express_checkout');
         $is_paypal_enabled = $this->enable_checkout_button_top === true;
@@ -722,20 +748,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
         echo '<div class="wc_ppcp_express_checkout_gateways">';
-        echo '<div class="express_payment_method_ppcp ' . $this->device_class . '">';
+        echo '<div class="express_payment_method_ppcp ' . esc_attr( $this->device_class ) . '">';
         if ($is_paypal_enabled) {
-            echo '<div id="ppcp_checkout_top" class="' . $this->device_class . '" style="--button-height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
-            echo '<div id="ppcp_checkout_top_alternative" class="' . $this->device_class . '" style="--button-height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
+            echo '<div id="ppcp_checkout_top" class="' . esc_attr( $this->device_class ) . '" style="--button-height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
+            echo '<div id="ppcp_checkout_top_alternative" class="' . esc_attr( $this->device_class ) . '" style="--button-height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
         }
         if ($is_google_pay_enabled) {
-            echo '<div data-context="express_checkout" class="google-pay-container express_checkout ' . $this->device_class . '" style="height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
+            echo '<div data-context="express_checkout" class="google-pay-container express_checkout ' . esc_attr( $this->device_class ) . '" style="height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
         }
         if ($is_apple_pay_enabled) {
             $button_height = (int) $this->express_checkout_button_height;
             $button_shape = $this->apple_pay_express_checkout_style_shape;
             $button_radius = $this->calculate_button_radius($button_shape, $button_height);
             $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
-            echo '<div data-context="express_checkout" class="apple-pay-container express_checkout ' . esc_attr($this->device_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
+            echo '<div data-context="express_checkout" class="apple-pay-container express_checkout ' . esc_attr( $this->device_class . ' ' . $shape_class ) . '" style="--button-height: ' . (int) $button_height . 'px; --button-radius: ' . (int) $button_radius . 'px; height: ' . (int) $button_height . 'px;"></div>';
         }
         echo '</div>';
         echo '</div>';
@@ -748,6 +774,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         if (ppcp_has_active_session() === true) {
             return false;
         }
+        if (wpg_ppcp_get_order_total() === 0) {
+            return;
+        }
         $is_google_pay_enabled = $this->is_google_pay_enable_for_page('express_checkout');
         $is_apple_pay_enabled = $this->is_apple_pay_enable_for_page('express_checkout');
         $is_paypal_enabled = $this->enable_checkout_button_top === true;
@@ -757,29 +786,29 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         wp_enqueue_script('ppcp-checkout-js');
         wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-        echo '<div class="ppcp-button-container">';
+        echo '<div class="ppcp-button-container wpg_ppcp_full_width">';
         echo '<fieldset>';
-        echo '<legend class="express-title" style="margin: 0 auto;display:block;">' . _x('Express Checkout', 'Important', 'woo-paypal-gateway') . '</legend>';
+        echo '<legend class="express-title" style="margin: 0 auto;display:block;">' . esc_html_x( 'Express Checkout', 'Important', 'woo-paypal-gateway' ) . '</legend>';
         echo '<div class="wc_ppcp_express_checkout_gateways">';
-        echo '<div class="express_payment_method_ppcp ' . $this->device_class . '">';
-        if ($is_paypal_enabled) {
-            echo '<div id="ppcp_checkout_top" class="' . $this->device_class . '" style="--button-height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
-            echo '<div id="ppcp_checkout_top_alternative" class="' . $this->device_class . '" style="--button-height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
+        echo '<div class="express_payment_method_ppcp ' . esc_attr( $this->device_class ) . '">';
+        if ( $is_paypal_enabled ) {
+            echo '<div id="ppcp_checkout_top" class="' . esc_attr( $this->device_class ) . '" style="--button-height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
+            echo '<div id="ppcp_checkout_top_alternative" class="' . esc_attr( $this->device_class ) . '" style="--button-height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
         }
         if ($is_google_pay_enabled) {
-            echo '<div data-context="express_checkout" class="google-pay-container express_checkout ' . $this->device_class . '" style="height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
+            echo '<div data-context="express_checkout" class="google-pay-container express_checkout ' . esc_attr( $this->device_class ) . '" style="height: ' . (int) $this->express_checkout_button_height . 'px;"></div>';
         }
         if ($is_apple_pay_enabled) {
             $button_height = (int) $this->express_checkout_button_height;
             $button_shape = $this->apple_pay_express_checkout_style_shape;
             $button_radius = $this->calculate_button_radius($button_shape, $button_height);
             $shape_class = $button_shape === 'pill' ? 'apple-shape-pill' : 'apple-shape-rect';
-            echo '<div data-context="express_checkout" class="apple-pay-container express_checkout ' . esc_attr($this->device_class . ' ' . $shape_class) . '" style="--button-height: ' . $button_height . 'px; --button-radius: ' . $button_radius . 'px; height: ' . $button_height . 'px;"></div>';
+            echo '<div data-context="express_checkout" class="apple-pay-container express_checkout ' . esc_attr( $this->device_class . ' ' . $shape_class ) . '" style="--button-height: ' . (int) $button_height . 'px; --button-radius: ' . (int) $button_radius . 'px; height: ' . (int) $button_height . 'px;"></div>';
         }
         echo '</div>';
         echo '</div>';
         echo '</fieldset>';
-        echo '<span class="express-divider">' . _x('Or continue below', 'Important', 'woo-paypal-gateway') . '</span>';
+        echo '<span class="express-divider">' . esc_html_x( 'Or continue below', 'Important', 'woo-paypal-gateway' ) . '</span>';
         echo '</div>';
         remove_action('woocommerce_before_checkout_form', array($this, 'display_paypal_button_top_checkout_page'), 10);
     }
@@ -824,7 +853,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                     break;
                 case "cancel_order":
                     unset(WC()->session->ppcp_session);
-                    wp_redirect(wc_get_cart_url());
+                    wp_safe_redirect(apply_filters('wpg_ppcp_cancel_order_url', wc_get_cart_url()));
                     exit();
                     break;
                 case "create_order":
@@ -854,7 +883,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                                 foreach ($shipping_address as $key => $address_value) {
                                     $address[$key] = $address_value;
                                 }
-
+                                if ( ! empty( $_POST['customer_note'] ) ) {
+                                    $address['customer_note'] = wc_clean( wp_unslash( $_POST['customer_note'] ) );
+                                }
+                                $address['ship_to_different_address'] = json_encode(array_map('strtolower', $billing_address)) !== json_encode(array_map('strtolower', $shipping_address)) ? '1' : '0';
                                 $_POST = $address;
                                 ppcp_set_session('wpg_ppcp_block_checkout_post', $address);
                                 if (!empty($shipping_address)) {
@@ -929,32 +961,32 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                         function wpg_ppcp_build_cart_payload_from_request($request_obj, $order_id = null) {
                             if ($order_id) {
                                 $details = $request_obj->ppcp_get_details_from_order($order_id);
-                                $order = wc_get_order($order_id);
+                                $order   = wc_get_order($order_id);
                             } else {
                                 $details = $request_obj->ppcp_get_details_from_cart();
-                                $order = null;
+                                $order   = null;
                             }
                             $order_total = isset($details['order_total']) ? (float) $details['order_total'] : (float) WC()->cart->total;
-                            $tax_total = isset($details['order_tax']) ? (float) $details['order_tax'] : (float) WC()->cart->get_total_tax();
-                            $shipping = isset($details['shipping']) ? (float) $details['shipping'] : (float) WC()->cart->get_shipping_total();
-                            $discounts = (float) ($details['discount'] ?? 0);
-                            $ship_disc = (float) ($details['ship_discount_amount'] ?? 0);
+                            $tax_total   = isset($details['order_tax'])   ? (float) $details['order_tax']   : (float) WC()->cart->get_total_tax();
+                            $shipping    = isset($details['shipping'])    ? (float) $details['shipping']    : (float) WC()->cart->get_shipping_total();
+                            $discounts      = (float) ($details['discount'] ?? 0);
+                            $ship_disc      = (float) ($details['ship_discount_amount'] ?? 0);
                             $discount_total = $discounts + $ship_disc;
                             if ($order) {
                                 $needs_shipping = ($order->get_shipping_total() > 0 || count($order->get_items('shipping')) > 0) ? '1' : '0';
                             } else {
                                 $needs_shipping = WC()->cart->needs_shipping() ? '1' : '0';
                             }
-                            $items = array();
+                            $items     = array();
                             $sub_items = (isset($details['items']) && is_array($details['items'])) ? $details['items'] : array();
                             if (!empty($sub_items)) {
                                 foreach ($sub_items as $li) {
-                                    $name = isset($li['name']) ? $li['name'] : __('Item', 'ppcp');
-                                    $amount = isset($li['amount']) ? (float) $li['amount'] : 0.0;
+                                    $name     = isset($li['name']) ? $li['name'] : __('Item', 'woo-paypal-gateway');
+                                    $amount   = isset($li['amount']) ? (float) $li['amount'] : 0.0;
                                     $quantity = isset($li['quantity']) ? (int) $li['quantity'] : 1;
                                     $items[] = array(
-                                        'name' => $name,
-                                        'price' => wc_format_decimal($amount, 2, false),
+                                        'name'     => $name,
+                                        'price'    => wc_format_decimal($amount, 2, false),
                                         'quantity' => max(1, $quantity),
                                         'subtotal' => wc_format_decimal($amount * max(1, $quantity), 2, false),
                                     );
@@ -963,21 +995,54 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                                 $total_item_amount = isset($details['total_item_amount']) ? (float) $details['total_item_amount'] : 0.0;
                                 if ($total_item_amount > 0) {
                                     $items[] = array(
-                                        'name' => __('Items', 'ppcp'),
-                                        'price' => wc_format_decimal($total_item_amount, 2, false),
+                                        'name'     => __('Items', 'woo-paypal-gateway'),
+                                        'price'    => wc_format_decimal($total_item_amount, 2, false),
                                         'quantity' => 1,
                                         'subtotal' => wc_format_decimal($total_item_amount, 2, false),
                                     );
                                 }
                             }
+                            $shipping_methods = array();
+                            if ('1' === $needs_shipping && WC()->cart) {
+                                if (null === WC()->cart || !WC()->cart->get_cart_contents_count()) {
+                                    wc_load_cart();
+                                }
+                                WC()->cart->calculate_shipping();
+                                $packages       = WC()->shipping()->get_packages();
+                                $chosen_methods = WC()->session->get('chosen_shipping_methods', array());
+                                if (!empty($packages)) {
+                                    foreach ($packages as $pkg_index => $pkg) {
+                                        if (empty($pkg['rates'])) {
+                                            continue;
+                                        }
+                                        if (empty($chosen_methods[$pkg_index])) {
+                                            $first_rate_id              = key($pkg['rates']);
+                                            $chosen_methods[$pkg_index] = $first_rate_id;
+                                        }
+                                        foreach ($pkg['rates'] as $rate_id => $rate) {
+                                            $shipping_methods[] = array(
+                                                'id'          => $rate_id,
+                                                'label'       => $rate->label,
+                                                'amount'      => wc_format_decimal($rate->cost, 2, false),
+                                                'is_selected' => (
+                                                    isset($chosen_methods[$pkg_index]) &&
+                                                    $chosen_methods[$pkg_index] === $rate_id
+                                                ),
+                                            );
+                                        }
+                                    }
+                                    WC()->session->set('chosen_shipping_methods', $chosen_methods);
+                                }
+                            }
                             return array(
-                                'currency' => get_woocommerce_currency(),
-                                'cart_total' => wc_format_decimal($order_total, 2, false),
-                                'needs_shipping' => $needs_shipping,
-                                'shipping_total' => wc_format_decimal($shipping, 2, false),
-                                'tax_total' => wc_format_decimal($tax_total, 2, false),
-                                'discount_total' => wc_format_decimal(max(0, $discount_total), 2, false),
-                                'cart_items' => $items,
+                                'currency'        => apply_filters('wpg_ppcp_woocommerce_currency', get_woocommerce_currency()),
+                                'cart_total'      => wc_format_decimal($order_total, 2, false),
+                                'needs_shipping'  => $needs_shipping,
+                                'shipping_total'  => wc_format_decimal($shipping, 2, false),
+                                'tax_total'       => wc_format_decimal($tax_total, 2, false),
+                                'discount_total'  => wc_format_decimal(max(0, $discount_total), 2, false),
+                                'cart_items'      => $items,
+                                'shipping_methods'=> $shipping_methods,
                             );
                         }
 
@@ -990,10 +1055,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                     } elseif (isset($_GET['from']) && 'checkout' === $_GET['from']) {
                         if (!empty($_POST)) {
                             if (isset($_POST['radio-control-wc-payment-method-options'])) {
-                                $address = array();
-                                $address['radio-control-wc-payment-method-options'] = wc_clean(wp_unslash($_POST['radio-control-wc-payment-method-options']));
-                                $address['payment_method'] = $address['radio-control-wc-payment-method-options'];
-                                $billing_address = json_decode(stripslashes($_POST['billing_address'] ?? ''), true);
+                                $address                                               = array();
+                                $address['radio-control-wc-payment-method-options']    = wc_clean(wp_unslash($_POST['radio-control-wc-payment-method-options']));
+                                $address['payment_method']                             = $address['radio-control-wc-payment-method-options'];
+                                $billing_address                                       = json_decode(stripslashes($_POST['billing_address'] ?? ''), true);
                                 if (is_array($billing_address)) {
                                     foreach ($billing_address as $key => $val) {
                                         $address[$key] = $val;
@@ -1012,18 +1077,36 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                                         return $fields;
                                     });
                                 }
+                                $order_id = absint(wc()->session->get('store_api_draft_order', 0));
+                                if ($order_id && $order_id > 0) {
+                                    WC()->session->set('order_awaiting_payment', $order_id);
+                                    try {
+                                        $order = wc_get_order($order_id);
+                                        if ($order && method_exists($order, 'update_status')) {
+                                            //$order->update_status('pending');
+                                        }
+                                    } catch (Exception $e) {
+                                        
+                                    }
+                                    
+                                }
                             }
                             add_action('woocommerce_after_checkout_validation', array($this, 'maybe_start_checkout'), 10, 2);
-                            WC()->checkout->process_checkout();
-                            if (wc_notice_count('error') > 0) {
-                                WC()->session->set('reload_checkout', true);
-                                $error_messages_data = wc_get_notices('error');
-                                $error_messages = array();
-                                foreach ($error_messages_data as $value) {
+                            if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Checkout')) {
+                                include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php';
+                            }
+                            $ppcp_checkout = PPCP_Paypal_Checkout_For_Woocommerce_Checkout::instance();
+                            $posted_data   = WC()->checkout()->get_posted_data();
+                            $ppcp_checkout->wpg_ppcp_validate_checkout( $posted_data );
+                            if ( wc_notice_count( 'error' ) > 0 ) {
+                                WC()->session->set( 'reload_checkout', true );
+                                $error_messages_data = wc_get_notices( 'error' );
+                                $error_messages      = array();
+                                foreach ( $error_messages_data as $value ) {
                                     $error_messages[] = $value['notice'];
                                 }
                                 wc_clear_notices();
-                                wp_send_json_error(array('messages' => $error_messages));
+                                wp_send_json_error( array( 'messages' => $error_messages ) );
                                 exit;
                             }
                             wp_send_json_success(wpg_ppcp_build_cart_payload_from_request($this->request));
@@ -1076,28 +1159,44 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
         ?>
         <div class="ppcp_billing_details">
-            <?php if (wc_ship_to_billing_address_only() && WC()->cart->needs_shipping()) : ?>
-                <h3><?php esc_html_e('Billing &amp; Shipping', 'woo-paypal-gateway'); ?>&nbsp;&nbsp;&nbsp;<a class="ppcp_edit_billing_address"><?php _e('Edit', 'woo-paypal-gateway'); ?></a></h3>
+            <?php if ( wc_ship_to_billing_address_only() && WC()->cart && method_exists( WC()->cart, 'needs_shipping' ) && WC()->cart->needs_shipping() ) : ?>
+                <h3>
+                    <?php esc_html_e( 'Billing &amp; Shipping', 'woo-paypal-gateway' ); ?>
+                    &nbsp;&nbsp;&nbsp;
+                    <a class="ppcp_edit_billing_address"><?php esc_html_e( 'Edit', 'woo-paypal-gateway' ); ?></a>
+                </h3>
             <?php else : ?>
-                <h3><?php esc_html_e('Billing details', 'woo-paypal-gateway'); ?>&nbsp;&nbsp;&nbsp;<a class="ppcp_edit_billing_address"><?php _e('Edit', 'woo-paypal-gateway'); ?></a></h3>
+                <h3>
+                    <?php esc_html_e( 'Billing details', 'woo-paypal-gateway' ); ?>
+                    &nbsp;&nbsp;&nbsp;
+                    <a class="ppcp_edit_billing_address"><?php esc_html_e( 'Edit', 'woo-paypal-gateway' ); ?></a>
+                </h3>
             <?php
             endif;
-            echo WC()->countries->get_formatted_address($this->get_mapped_billing_address($this->checkout_details));
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce returns formatted, trusted HTML.
+            echo WC()->countries->get_formatted_address( $this->get_mapped_billing_address( $this->checkout_details ) );
             ?>
-
         </div>
         <?php
     }
 
     public function paypal_shipping_details() {
-        if (empty($this->checkout_details)) {
+        if ( empty( $this->checkout_details ) ) {
             return false;
         }
         ?>
         <div class="ppcp_shipping_details">
-            <h3><?php _e('Shipping details', 'woo-paypal-gateway'); ?>&nbsp;&nbsp;&nbsp;<a class="ppcp_edit_shipping_address"><?php _e('Edit', 'woo-paypal-gateway'); ?></a></h3>
-            <?php echo WC()->countries->get_formatted_address($this->get_mapped_shipping_address($this->checkout_details)); ?>
-        </div><?php
+            <h3>
+                <?php esc_html_e( 'Shipping details', 'woo-paypal-gateway' ); ?>
+                &nbsp;&nbsp;&nbsp;
+                <a class="ppcp_edit_shipping_address"><?php esc_html_e( 'Edit', 'woo-paypal-gateway' ); ?></a>
+            </h3>
+            <?php
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce returns formatted, trusted HTML.
+            echo WC()->countries->get_formatted_address( $this->get_mapped_shipping_address( $this->checkout_details ) );
+            ?>
+        </div>
+        <?php
     }
 
     public function is_full_billing($billing) {
@@ -1185,7 +1284,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         if (empty($billing_address['address_1']) && $this->set_billing_address === true) {
             $shipping_address = $this->get_mapped_shipping_address();
             foreach ($billing_address as $key => $value) {
-                if (empty($value) && isset($shipping_address[$key]) && !empty($shipping_address[$key])) {
+                if (isset($shipping_address[$key]) && !empty($shipping_address[$key])) {
                     $billing_address[$key] = $shipping_address[$key];
                 }
             }
@@ -1253,16 +1352,32 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             if ($checkout->enable_guest_checkout) {
                 ?>
                 <p class="form-row form-row-wide create-account">
-                    <input class="input-checkbox" id="createaccount" <?php checked(( true === $checkout->get_value('createaccount') || ( true === apply_filters('woocommerce_create_account_default_checked', false) )), true) ?> type="checkbox" name="createaccount" value="1" /> <label for="createaccount" class="checkbox"><?php _e('Create an account?', 'woo-paypal-gateway'); ?></label>
+                    <input class="input-checkbox"
+                           id="createaccount"
+                           <?php checked( ( true === $checkout->get_value( 'createaccount' ) || true === apply_filters( 'woocommerce_create_account_default_checked', false ) ), true ); ?>
+                           type="checkbox"
+                           name="createaccount"
+                           value="1" />
+                    <label for="createaccount" class="checkbox">
+                        <?php esc_html_e( 'Create an account?', 'woo-paypal-gateway' ); ?>
+                    </label>
                 </p>
                 <?php
             }
             if (!empty($checkout->checkout_fields['account'])) {
                 ?>
                 <div class="create-account">
-                    <p><?php _e('Create an account by entering the information below. If you are a returning customer please login at the top of the page.', 'woo-paypal-gateway'); ?></p>
-                    <?php foreach ($checkout->checkout_fields['account'] as $key => $field) : ?>
-                        <?php woocommerce_form_field($key, $field, $checkout->get_value($key)); ?>
+                    <p>
+                        <?php esc_html_e(
+                            'Create an account by entering the information below. If you are a returning customer please login at the top of the page.',
+                            'woo-paypal-gateway'
+                        ); ?>
+                    </p>
+                    <?php foreach ( $checkout->checkout_fields['account'] as $key => $field ) : ?>
+                        <?php
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce outputs safe, escaped field HTML.
+                        woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
+                        ?>
                     <?php endforeach; ?>
                     <div class="clear"></div>
                 </div>
@@ -1303,7 +1418,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         if ($this->enabled === false) {
             return $fields;
         }
-        if (method_exists(WC()->cart, 'needs_shipping') && !WC()->cart->needs_shipping()) {
+        if ( WC()->cart && method_exists( WC()->cart, 'needs_shipping' ) && !WC()->cart->needs_shipping() ) {
             $not_required_fields = array('first_name', 'last_name', 'company', 'address_1', 'address_2', 'city', 'postcode', 'country');
             foreach ($not_required_fields as $not_required_field) {
                 if (array_key_exists($not_required_field, $fields)) {
@@ -1464,14 +1579,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 $order->payment_complete($transaction_id);
                 // translators: %1$s is the payment method title, %2$s is the formatted payment status.
                 $order->add_order_note(sprintf(__('Payment via %1$s: %2$s.', 'woo-paypal-gateway'), $this->title, ucfirst(strtolower($payment_status))));
+                apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $order_id);
+                // translators: %1$s is the payment method title, %2$s is the PayPal transaction ID.
+                $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $this->title, $transaction_id));
+                $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
             } else {
                 $payment_status_reason = $payment_status_reason = isset($this->checkout_details->purchase_units[0]->payments->authorizations[0]->status_details->reason) ? $this->checkout_details->purchase_units[0]->payments->authorizations[0]->status_details->reason : '';
-                ppcp_update_woo_order_status($order_id, $payment_status, $payment_status_reason);
+                ppcp_update_woo_order_status($order_id, $payment_status, $payment_status_reason, $processor_response);
             }
-            apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $order_id);
-            // translators: %1$s is the payment method title, %2$s is the PayPal transaction ID.
-            $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $this->title, $transaction_id));
-            $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
+            
         } elseif ($this->paymentaction === 'authorize' && !empty($this->checkout_details->status) && $this->checkout_details->status == 'COMPLETED' && $order !== false) {
             $transaction_id = isset($this->checkout_details->purchase_units[0]->payments->authorizations[0]->id) ? $this->checkout_details->purchase_units['0']->payments->authorizations[0]->id : '';
             $seller_protection = isset($this->checkout_details->purchase_units[0]->payments->authorizations[0]->seller_protection->status) ? $this->checkout_details->purchase_units[0]->payments->authorizations[0]->seller_protection->status : '';
@@ -1586,58 +1702,69 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
     }
 
-    function set_customer_data($data) {
+    
+    public function set_customer_data($data) {
         try {
             $customer = WC()->customer;
             $billing_first_name = empty($data['billing_first_name']) ? '' : wc_clean($data['billing_first_name']);
-            $billing_last_name = empty($data['billing_last_name']) ? '' : wc_clean($data['billing_last_name']);
-            $billing_country = empty($data['billing_country']) ? '' : wc_clean($data['billing_country']);
-            $billing_address_1 = empty($data['billing_address_1']) ? '' : wc_clean($data['billing_address_1']);
-            $billing_address_2 = empty($data['billing_address_2']) ? '' : wc_clean($data['billing_address_2']);
-            $billing_city = empty($data['billing_city']) ? '' : wc_clean($data['billing_city']);
-            $billing_state = empty($data['billing_state']) ? '' : wc_clean($data['billing_state']);
-            $billing_postcode = empty($data['billing_postcode']) ? '' : wc_clean($data['billing_postcode']);
-            $billing_phone = empty($data['billing_phone']) ? '' : wc_clean($data['billing_phone']);
-            $billing_email = empty($data['billing_email']) ? '' : wc_clean($data['billing_email']);
-            if (isset($data['ship_to_different_address'])) {
+            $billing_last_name  = empty($data['billing_last_name']) ? '' : wc_clean($data['billing_last_name']);
+            $billing_country    = empty($data['billing_country']) ? '' : wc_clean($data['billing_country']);
+            $billing_address_1  = empty($data['billing_address_1']) ? '' : wc_clean($data['billing_address_1']);
+            $billing_address_2  = empty($data['billing_address_2']) ? '' : wc_clean($data['billing_address_2']);
+            $billing_city       = empty($data['billing_city']) ? '' : wc_clean($data['billing_city']);
+            $billing_state      = empty($data['billing_state']) ? '' : wc_clean($data['billing_state']);
+            $billing_postcode   = empty($data['billing_postcode']) ? '' : wc_clean($data['billing_postcode']);
+            $billing_phone      = empty($data['billing_phone']) ? '' : wc_clean($data['billing_phone']);
+            $billing_email      = empty($data['billing_email']) ? '' : wc_clean($data['billing_email']);
+            $has_valid_shipping = (
+                !empty($data['shipping_first_name']) ||
+                !empty($data['shipping_last_name']) ||
+                !empty($data['shipping_country']) ||
+                !empty($data['shipping_address_1']) ||
+                !empty($data['shipping_city']) ||
+                !empty($data['shipping_postcode'])
+            );
+            if ( isset($data['ship_to_different_address']) || $has_valid_shipping ) {
                 $shipping_first_name = empty($data['shipping_first_name']) ? '' : wc_clean($data['shipping_first_name']);
-                $shipping_last_name = empty($data['shipping_last_name']) ? '' : wc_clean($data['shipping_last_name']);
-                $shipping_country = empty($data['shipping_country']) ? '' : wc_clean($data['shipping_country']);
-                $shipping_address_1 = empty($data['shipping_address_1']) ? '' : wc_clean($data['shipping_address_1']);
-                $shipping_address_2 = empty($data['shipping_address_2']) ? '' : wc_clean($data['shipping_address_2']);
-                $shipping_city = empty($data['shipping_city']) ? '' : wc_clean($data['shipping_city']);
-                $shipping_state = empty($data['shipping_state']) ? '' : wc_clean($data['shipping_state']);
-                $shipping_postcode = empty($data['shipping_postcode']) ? '' : wc_clean($data['shipping_postcode']);
+                $shipping_last_name  = empty($data['shipping_last_name']) ? '' : wc_clean($data['shipping_last_name']);
+                $shipping_country    = empty($data['shipping_country']) ? '' : wc_clean($data['shipping_country']);
+                $shipping_address_1  = empty($data['shipping_address_1']) ? '' : wc_clean($data['shipping_address_1']);
+                $shipping_address_2  = empty($data['shipping_address_2']) ? '' : wc_clean($data['shipping_address_2']);
+                $shipping_city       = empty($data['shipping_city']) ? '' : wc_clean($data['shipping_city']);
+                $shipping_state      = empty($data['shipping_state']) ? '' : wc_clean($data['shipping_state']);
+                $shipping_postcode   = empty($data['shipping_postcode']) ? '' : wc_clean($data['shipping_postcode']);
             } else {
                 $shipping_first_name = $billing_first_name;
-                $shipping_last_name = $billing_last_name;
-                $shipping_country = $billing_country;
-                $shipping_address_1 = $billing_address_1;
-                $shipping_address_2 = $billing_address_2;
-                $shipping_city = $billing_city;
-                $shipping_state = $billing_state;
-                $shipping_postcode = $billing_postcode;
+                $shipping_last_name  = $billing_last_name;
+                $shipping_country    = $billing_country;
+                $shipping_address_1  = $billing_address_1;
+                $shipping_address_2  = $billing_address_2;
+                $shipping_city       = $billing_city;
+                $shipping_state      = $billing_state;
+                $shipping_postcode   = $billing_postcode;
             }
-            $customer->set_shipping_country($shipping_country);
-            $customer->set_shipping_address($shipping_address_1);
-            $customer->set_shipping_address_2($shipping_address_2);
-            $customer->set_shipping_city($shipping_city);
-            $customer->set_shipping_state($shipping_state);
-            $customer->set_shipping_postcode($shipping_postcode);
-            $customer->set_shipping_first_name($shipping_first_name);
-            $customer->set_shipping_last_name($shipping_last_name);
-            $customer->set_billing_first_name($billing_first_name);
-            $customer->set_billing_last_name($billing_last_name);
-            $customer->set_billing_country($billing_country);
-            $customer->set_billing_address_1($billing_address_1);
-            $customer->set_billing_address_2($billing_address_2);
-            $customer->set_billing_city($billing_city);
-            $customer->set_billing_state($billing_state);
-            $customer->set_billing_postcode($billing_postcode);
-            $customer->set_billing_phone($billing_phone);
-            $customer->set_billing_email($billing_email);
-        } catch (Exception $ex) {
-            
+            $customer->set_shipping_country( $shipping_country );
+            $customer->set_shipping_address( $shipping_address_1 );
+            $customer->set_shipping_address_2( $shipping_address_2 );
+            $customer->set_shipping_city( $shipping_city );
+            $customer->set_shipping_state( $shipping_state );
+            $customer->set_shipping_postcode( $shipping_postcode );
+            $customer->set_shipping_first_name( $shipping_first_name );
+            $customer->set_shipping_last_name( $shipping_last_name );
+            $customer->set_billing_first_name( $billing_first_name );
+            $customer->set_billing_last_name( $billing_last_name );
+            $customer->set_billing_country( $billing_country );
+            $customer->set_billing_address_1( $billing_address_1 );
+            $customer->set_billing_address_2( $billing_address_2 );
+            $customer->set_billing_city( $billing_city );
+            $customer->set_billing_state( $billing_state );
+            $customer->set_billing_postcode( $billing_postcode );
+            $customer->set_billing_phone( $billing_phone );
+            $customer->set_billing_email( $billing_email );
+            $customer->save();
+
+        } catch ( Exception $ex ) {
+
         }
     }
 
@@ -1759,6 +1886,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token')) {
                 require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php';
             }
+            /*$tag = preg_replace(
+                '/([&?](amp;)?(v|ver)=[^\'"&]+)/',
+                '',
+                $tag
+            );*/
             /* $this->payment_token = PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token::instance();
               if ($this->payment_token->does_paypal_customer_id_exist($this->sandbox)) {
               $id_token = $this->request->ppcp_get_id_token();
@@ -1780,8 +1912,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function validate_checkout($country, $state, $sec) {
-        $state_value = '';
-        $valid_states = WC()->countries->get_states(isset($country) ? $country : ( 'billing' === $sec ? WC()->customer->get_country() : WC()->customer->get_shipping_country() ));
+        $state_value  = '';
+        $valid_states = WC()->countries->get_states(
+            isset($country)
+                ? $country
+                : ( 'billing' === $sec ? WC()->customer->get_country() : WC()->customer->get_shipping_country() )
+        );
+
         if (!empty($valid_states) && is_array($valid_states)) {
             $valid_state_values = array_flip(array_map('strtolower', $valid_states));
             if (isset($valid_state_values[strtolower($state)])) {
@@ -1791,8 +1928,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         } else {
             return $state;
         }
-        if (!empty($valid_states) && is_array($valid_states) && sizeof($valid_states) > 0) {
-            if (!in_array($state, array_keys($valid_states))) {
+
+        if (!empty($valid_states) && is_array($valid_states) && count($valid_states) > 0) {
+            if (!in_array($state, array_keys($valid_states), true)) {
+                $fuzzy = $this->fuzzy_match_state_label($state, $valid_states);
+                if ($fuzzy) {
+                    return $fuzzy;
+                }
                 return false;
             } else {
                 return $state;
@@ -1801,6 +1943,54 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
         return $state_value;
     }
+
+    protected function fuzzy_match_state_label($state, $valid_states) {
+        $state    = trim((string) $state);
+        $state_lc = strtolower($state);
+
+        if ($state_lc === '') {
+            return false;
+        }
+
+        foreach ($valid_states as $code => $label) {
+            if (strtolower($label) === $state_lc) {
+                return $code;
+            }
+        }
+
+        foreach ($valid_states as $code => $label) {
+            $label_lc = strtolower($label);
+            if (strpos($label_lc, $state_lc) !== false || strpos($state_lc, $label_lc) !== false) {
+                return $code;
+            }
+        }
+
+        $state_soundex = soundex($state_lc);
+        foreach ($valid_states as $code => $label) {
+            if (soundex(strtolower($label)) === $state_soundex) {
+                return $code;
+            }
+        }
+
+        $closest_code      = false;
+        $shortest_distance = null;
+
+        foreach ($valid_states as $code => $label) {
+            $label_lc = strtolower($label);
+            $distance = levenshtein($state_lc, $label_lc);
+            if ($shortest_distance === null || $distance < $shortest_distance) {
+                $shortest_distance = $distance;
+                $closest_code      = $code;
+            }
+        }
+
+        if ($shortest_distance !== null && $shortest_distance <= 3) {
+            return $closest_code;
+        }
+
+        return false;
+    }
+
 
     public function ppcp_update_checkout_field_details() {
         if (empty($this->checkout_details)) {
@@ -1863,10 +2053,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function ppcp_cancel_button() {
-        if (ppcp_has_active_session()) {
-            $order_button_text = _x('Cancel order', 'Important', 'woo-paypal-gateway');
-            $cancel_order_url = add_query_arg(array('ppcp_action' => 'cancel_order', 'utm_nooverride' => '1', 'from' => 'checkout'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager'));
-            echo apply_filters('ppcp_review_order_cance_button_html', '<a class="button alt ppcp_cancel" name="woocommerce_checkout_cancel_order" href="' . esc_attr($cancel_order_url) . '" >' . $order_button_text . '</a>');
+        if ( ppcp_has_active_session() ) {
+            $order_button_text = esc_html_x( 'Cancel order', 'Important', 'woo-paypal-gateway' );
+            $cancel_order_url = add_query_arg(
+                array(
+                    'ppcp_action'     => 'cancel_order',
+                    'utm_nooverride'  => '1',
+                    'from'            => 'checkout',
+                ),
+                WC()->api_request_url( 'PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager' )
+            );
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Filter returns trusted HTML for checkout button.
+            echo apply_filters(
+                'ppcp_review_order_cance_button_html',
+                '<a class="button alt ppcp_cancel" name="woocommerce_checkout_cancel_order" href="' . esc_url( $cancel_order_url ) . '">' . $order_button_text . '</a>'
+            );
         }
     }
 
@@ -1908,8 +2109,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                         $order = wc_get_order($order_id);
                         $this->request->ppcp_update_order($order);
                     } else {
-                        if (ob_get_length())
+                        if (ob_get_length()) {
                             ob_end_clean();
+                        }
                         $error_messages_data = wc_get_notices('error');
                         $error_messages = array();
                         foreach ($error_messages_data as $key => $value) {
@@ -1970,7 +2172,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 } else {
                     wp_send_json_success(array(
                         'result' => 'failure',
-                        'redirect' => wc_get_checkout_url(),
+                        'redirect' => wpg_get_checkout_url(),
                     ));
                 }
                 exit();
@@ -2037,9 +2239,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
     public function ppcp_add_order_id() {
         global $wp;
-        $order_id = absint($wp->query_vars['order-pay']);
+        $order_id = absint( $wp->query_vars['order-pay'] );
         ?>
-        <input type="hidden" name="woo_order_id" value="<?php echo $order_id; ?>" />
+        <input type="hidden" name="woo_order_id" value="<?php echo esc_attr( $order_id ); ?>" />
         <?php
     }
 
@@ -2139,69 +2341,144 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
     }
 
-    public function ppcp_prepare_order_data() {
-        // Use generic session key names
-        $session_billing = WC()->session->get('ppcp_billing_address');
-        $session_shipping = WC()->session->get('ppcp_shipping_address');
 
-        // Load fallback checkout details if session is empty
+    protected function normalize_state_code( $country, $state ) {
+        $country = strtoupper( (string) $country );
+        $state   = trim( (string) $state );
+        $state_lc = strtolower( $state );
+        if ( $country === '' || $state === '' ) {
+            return $state;
+        }
+        $valid_states = WC()->countries->get_states( $country );
+        if ( empty( $valid_states ) || ! is_array( $valid_states ) ) {
+            return $state;
+        }
+        foreach ( $valid_states as $code => $label ) {
+            if ( strtolower( $code ) === $state_lc ) {
+                return $code;
+            }
+        }
+        foreach ( $valid_states as $code => $label ) {
+            if ( strtolower( $label ) === $state_lc ) {
+                return $code;
+            }
+        }
+        foreach ( $valid_states as $code => $label ) {
+            if ( strpos( strtolower( $label ), $state_lc ) !== false ||
+                 strpos( $state_lc, strtolower( $label ) ) !== false ) {
+                return $code;
+            }
+        }
+        foreach ( $valid_states as $code => $label ) {
+            if ( soundex( $state_lc ) === soundex( strtolower( $label ) ) ) {
+                return $code;
+            }
+        }
+        $closest_code = $state;
+        $shortest_distance = 5; // max allowed edits
+        foreach ( $valid_states as $code => $label ) {
+            $distance = levenshtein( $state_lc, strtolower( $label ) );
+            if ( $distance < $shortest_distance ) {
+                $shortest_distance = $distance;
+                $closest_code      = $code;
+            }
+        }
+        if ( $closest_code !== $state ) {
+            return $closest_code;
+        }
+        return $state;
+    }
+
+    public function ppcp_prepare_order_data() {
+        $session_billing  = WC()->session->get('ppcp_billing_address');
+        $session_shipping = WC()->session->get('ppcp_shipping_address');
         if (empty($this->checkout_details)) {
             $this->checkout_details = ppcp_get_session('ppcp_paypal_transaction_details', false);
-
             if (empty($this->checkout_details)) {
                 $ppcp_order_id = ppcp_get_session('ppcp_paypal_order_id');
                 if (!empty($ppcp_order_id)) {
                     $this->checkout_details = $this->request->ppcp_get_checkout_details($ppcp_order_id);
                 }
             }
-
             if (!empty($this->checkout_details)) {
                 ppcp_set_session('ppcp_paypal_transaction_details', $this->checkout_details);
             }
         }
+        $billing_address = is_array($session_billing) && !empty($session_billing)
+            ? $session_billing
+            : $this->get_mapped_billing_address($this->checkout_details ?? [], !$this->set_billing_address);
 
-        // Final source: priority → session > checkout_details
-        $billing_address = is_array($session_billing) && !empty($session_billing) ? $session_billing : $this->get_mapped_billing_address($this->checkout_details ?? [], !$this->set_billing_address);
+        $shipping_address = is_array($session_shipping) && !empty($session_shipping)
+            ? $session_shipping
+            : $this->get_mapped_shipping_address($this->checkout_details ?? []);
 
-        $shipping_address = is_array($session_shipping) && !empty($session_shipping) ? $session_shipping : $this->get_mapped_shipping_address($this->checkout_details ?? []);
+        if (!empty($billing_address['state']) && !empty($billing_address['country'])) {
+            $billing_address['state'] = $this->normalize_state_code(
+                $billing_address['country'],
+                $billing_address['state']
+            );
+            $validated = $this->validate_checkout(
+                $billing_address['country'],
+                $billing_address['state'],
+                'billing'
+            );
+            if ($validated !== false && $validated !== '') {
+                $billing_address['state'] = $validated;
+            }
+        }
 
-        // Build order data
+        if (!empty($shipping_address['state']) && !empty($shipping_address['country'])) {
+            $shipping_address['state'] = $this->normalize_state_code(
+                $shipping_address['country'],
+                $shipping_address['state']
+            );
+            $validated = $this->validate_checkout(
+                $shipping_address['country'],
+                $shipping_address['state'],
+                'shipping'
+            );
+            if ($validated !== false && $validated !== '') {
+                $shipping_address['state'] = $validated;
+            }
+        }
+        
+        if (!empty($billing_address['phone']) && empty($shipping_address['phone'])) {
+            $shipping_address['phone'] = $billing_address['phone'];
+        } elseif (!empty($shipping_address['phone']) && empty($billing_address['phone'])) {
+            $billing_address['phone'] = $shipping_address['phone'];
+        }
+
         $order_data = [
-            'terms' => 1,
-            'createaccount' => 0,
-            'payment_method' => 'wpg_paypal_checkout',
+            'terms'                     => 1,
+            'createaccount'             => 0,
+            'payment_method'            => 'wpg_paypal_checkout',
             'ship_to_different_address' => false,
-            'order_comments' => '',
-            'shipping_method' => '',
-            // Billing from selected source
+            'order_comments'            => '',
+            'shipping_method'           => '',
             'billing_first_name' => $billing_address['first_name'] ?? '',
-            'billing_last_name' => $billing_address['last_name'] ?? '',
-            'billing_email' => $billing_address['email'] ?? '',
-            'billing_company' => $billing_address['company'] ?? '',
-            'billing_address_1' => $billing_address['address_1'] ?? '',
-            'billing_address_2' => $billing_address['address_2'] ?? '',
-            'billing_city' => $billing_address['city'] ?? '',
-            'billing_state' => $billing_address['state'] ?? '',
-            'billing_postcode' => $billing_address['postcode'] ?? '',
-            'billing_country' => $billing_address['country'] ?? '',
-            'billing_phone' => $billing_address['phone'] ?? '',
-            // Shipping from selected source
+            'billing_last_name'  => $billing_address['last_name'] ?? '',
+            'billing_email'      => $billing_address['email'] ?? '',
+            'billing_company'    => $billing_address['company'] ?? '',
+            'billing_address_1'  => $billing_address['address_1'] ?? '',
+            'billing_address_2'  => $billing_address['address_2'] ?? '',
+            'billing_city'       => $billing_address['city'] ?? '',
+            'billing_state'      => $billing_address['state'] ?? '',
+            'billing_postcode'   => $billing_address['postcode'] ?? '',
+            'billing_country'    => $billing_address['country'] ?? '',
+            'billing_phone'      => $billing_address['phone'] ?? '',
             'shipping_first_name' => $shipping_address['first_name'] ?? '',
-            'shipping_last_name' => $shipping_address['last_name'] ?? '',
-            'shipping_company' => $shipping_address['company'] ?? '',
-            'shipping_address_1' => $shipping_address['address_1'] ?? '',
-            'shipping_address_2' => $shipping_address['address_2'] ?? '',
-            'shipping_city' => $shipping_address['city'] ?? '',
-            'shipping_state' => $shipping_address['state'] ?? '',
-            'shipping_postcode' => $shipping_address['postcode'] ?? '',
-            'shipping_country' => $shipping_address['country'] ?? '',
-            'shipping_phone' => $shipping_address['phone'] ?? '',
+            'shipping_last_name'  => $shipping_address['last_name'] ?? '',
+            'shipping_company'    => $shipping_address['company'] ?? '',
+            'shipping_address_1'  => $shipping_address['address_1'] ?? '',
+            'shipping_address_2'  => $shipping_address['address_2'] ?? '',
+            'shipping_city'       => $shipping_address['city'] ?? '',
+            'shipping_state'      => $shipping_address['state'] ?? '',
+            'shipping_postcode'   => $shipping_address['postcode'] ?? '',
+            'shipping_country'    => $shipping_address['country'] ?? '',
+            'shipping_phone'      => $shipping_address['phone'] ?? '',
         ];
-
-        // Clean up sessions after use
         WC()->session->__unset('ppcp_billing_address');
         WC()->session->__unset('ppcp_shipping_address');
-
         return $order_data;
     }
 
@@ -2321,149 +2598,306 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         return $methods;
     }
 
-    public function wpg_ppcp_currency($ppcp_currency) {
-        if (class_exists('Yay_Currency\Helpers\YayCurrencyHelper')) {
-            $apply_currency = Yay_Currency\Helpers\YayCurrencyHelper::detect_current_currency();
-            if (isset($apply_currency['currency'])) {
-                return $apply_currency['currency'];
+    public function wpg_ppcp_woocommerce_currency( $ppcp_currency ) {
+        if ( class_exists( 'Yay_Currency\Helpers\YayCurrencyHelper' ) ) {
+            if ( 
+                method_exists('Yay_Currency\Helpers\YayCurrencyHelper', 'detect_current_currency') &&
+                method_exists('Yay_Currency\Helpers\YayCurrencyHelper', 'is_dis_checkout_diff_currency') &&
+                method_exists('Yay_Currency\Helpers\YayCurrencyHelper', 'converted_currency') &&
+                method_exists('Yay_Currency\Helpers\YayCurrencyHelper', 'get_currency_by_currency_code')
+            ) {
+                $apply_currency = Yay_Currency\Helpers\YayCurrencyHelper::detect_current_currency();
+                if ( isset( $apply_currency['currency'] ) ) {
+                    $is_dis_checkout_diff_currency = Yay_Currency\Helpers\YayCurrencyHelper::is_dis_checkout_diff_currency( $apply_currency );
+                    $converted_currency = Yay_Currency\Helpers\YayCurrencyHelper::converted_currency();
+                    $fallback_currency  = Yay_Currency\Helpers\YayCurrencyHelper::get_currency_by_currency_code( '', $converted_currency );
+                    if ($is_dis_checkout_diff_currency && ( (isset($_GET['from']) && in_array($_GET['from'], ['checkout','express_checkout'], true)) || is_checkout() )) {
+                        if ($fallback_currency && isset($fallback_currency['currency'])) {
+                            return $fallback_currency['currency'];
+                        }
+                    } elseif ( (isset($_GET['from']) && in_array($_GET['from'], ['product','cart'], true)) || is_product() || is_cart() ) {
+                        return $apply_currency['currency'];
+                    } else {
+                        return get_option('woocommerce_currency');
+                    }
+                    return $apply_currency['currency'];
+                }
             }
         }
         return $ppcp_currency;
     }
 
     public function ppcp_get_updated_total() {
-        if (null === WC()->cart || !WC()->cart->get_cart_contents_count()) {
+        if ( empty($_POST['security']) ) {
+            wp_send_json_error(['message' => 'Invalid request.'], 403);
+        }
+        $nonce = sanitize_text_field( wp_unslash($_POST['security']) );
+        if ( ! wp_verify_nonce( $nonce, 'ppcp_ajax_nonce' ) ) {
+            wp_send_json_error(['message' => 'Invalid nonce.'], 403);
+        }
+        // Ensure cart is loaded
+        if ( null === WC()->cart || ! WC()->cart->get_cart_contents_count() ) {
             wc_load_cart();
         }
-        $shipping_address = !empty($_POST['shipping_address']) ? json_decode(stripslashes(sanitize_textarea_field(wp_unslash($_POST['shipping_address']))), true) : [];
-        $billing_address = !empty($_POST['billing_address']) ? json_decode(stripslashes(sanitize_textarea_field(wp_unslash($_POST['billing_address']))), true) : [];
-        $split_name = function ($full_name) {
-            if (!is_string($full_name) || trim($full_name) === '') {
-                return ['', ''];
+
+        // Parse input
+        $shipping_address = ! empty( $_POST['shipping_address'] )
+            ? json_decode( stripslashes( sanitize_textarea_field( wp_unslash( $_POST['shipping_address'] ) ) ), true )
+            : [];
+        $billing_address  = ! empty( $_POST['billing_address'] )
+            ? json_decode( stripslashes( sanitize_textarea_field( wp_unslash( $_POST['billing_address'] ) ) ), true )
+            : [];
+
+        $selected_shipping_id = ! empty( $_POST['selected_shipping_id'] ) ? sanitize_text_field( wp_unslash( $_POST['selected_shipping_id'] ) ) : '';
+        // Helper
+        $split_name = function ( $full_name ) {
+            if ( ! is_string( $full_name ) || trim( $full_name ) === '' ) {
+                return [ '', '' ];
             }
-            $parts = preg_split('/\s+/', trim($full_name));
+            $parts = preg_split( '/\s+/', trim( $full_name ) );
             $first = $parts[0] ?? '';
-            $last = isset($parts[1]) ? implode(' ', array_slice($parts, 1)) : '';
-            return [$first, $last];
+            $last  = isset( $parts[1] ) ? implode( ' ', array_slice( $parts, 1 ) ) : '';
+            return [ $first, $last ];
         };
-        WC()->session->__unset('ppcp_billing_address');
-        WC()->session->__unset('ppcp_shipping_address');
-        if (!empty($shipping_address)) {
-            [$first_name, $last_name] = $split_name($shipping_address['name'] ?? '');
-            if (empty($last_name)) {
-                $last_name = $shipping_address['surname'] ?? '';
+
+        // Clear any previously stored session addresses so WC recalculates cleanly
+        WC()->session->__unset( 'ppcp_billing_address' );
+        WC()->session->__unset( 'ppcp_shipping_address' );
+
+        // ---- Apply SHIPPING address (if provided) ----
+        if ( ! empty( $shipping_address ) ) {
+            [ $s_first, $s_last ] = $split_name( $shipping_address['name'] ?? '' );
+            if ( empty( $s_last ) ) {
+                $s_last = $shipping_address['surname'] ?? '';
             }
-            WC()->customer->set_shipping_first_name($first_name);
-            WC()->customer->set_shipping_last_name($last_name);
-            WC()->customer->set_shipping_address_1($shipping_address['address1'] ?? '');
-            WC()->customer->set_shipping_address_2($shipping_address['address2'] ?? '');
-            WC()->customer->set_shipping_city($shipping_address['city'] ?? '');
-            WC()->customer->set_shipping_postcode($shipping_address['postcode'] ?? '');
-            WC()->customer->set_shipping_state($shipping_address['state'] ?? '');
-            WC()->customer->set_shipping_country($shipping_address['country'] ?? '');
-            WC()->session->set('customer_shipping_country', $shipping_address['country'] ?? '');
-            WC()->session->set('customer_shipping_state', $shipping_address['state'] ?? '');
-            WC()->session->set('customer_shipping_postcode', $shipping_address['postcode'] ?? '');
-            WC()->session->set('customer_shipping_city', $shipping_address['city'] ?? '');
-            WC()->session->set('customer_shipping_address', $shipping_address['address1'] ?? '');
-            WC()->session->set('customer_shipping_address_1', $shipping_address['address1'] ?? '');
-            WC()->session->set('customer_shipping_address_2', $shipping_address['address2'] ?? '');
-            WC()->session->set('ppcp_shipping_address', [
-                'first_name' => $first_name,
-                'last_name' => $last_name,
-                'address_1' => $shipping_address['address1'] ?? '',
-                'address_2' => $shipping_address['address2'] ?? '',
-                'city' => $shipping_address['city'] ?? '',
-                'postcode' => $shipping_address['postcode'] ?? '',
-                'state' => $shipping_address['state'] ?? '',
-                'country' => $shipping_address['country'] ?? '',
-                'phone' => $shipping_address['phoneNumber'] ?? '',
-            ]);
+
+            // Set on WC customer
+            WC()->customer->set_shipping_first_name( $s_first );
+            WC()->customer->set_shipping_last_name( $s_last );
+            WC()->customer->set_shipping_address_1( $shipping_address['address1'] ?? '' );
+            WC()->customer->set_shipping_address_2( $shipping_address['address2'] ?? '' );
+            WC()->customer->set_shipping_city( $shipping_address['city'] ?? '' );
+            WC()->customer->set_shipping_postcode( $shipping_address['postcode'] ?? '' );
+            WC()->customer->set_shipping_state( $shipping_address['state'] ?? '' );
+            WC()->customer->set_shipping_country( $shipping_address['country'] ?? '' );
+
+            // Also mirror to session so WC shipping zones trigger correctly
+            WC()->session->set( 'customer_shipping_country',   $shipping_address['country'] ?? '' );
+            WC()->session->set( 'customer_shipping_state',     $shipping_address['state'] ?? '' );
+            WC()->session->set( 'customer_shipping_postcode',  $shipping_address['postcode'] ?? '' );
+            WC()->session->set( 'customer_shipping_city',      $shipping_address['city'] ?? '' );
+            WC()->session->set( 'customer_shipping_address',   $shipping_address['address1'] ?? '' );
+            WC()->session->set( 'customer_shipping_address_1', $shipping_address['address1'] ?? '' );
+            WC()->session->set( 'customer_shipping_address_2', $shipping_address['address2'] ?? '' );
+            
+            // Save a copy (optional)
+            WC()->session->set( 'ppcp_shipping_address', [
+                'first_name' => $s_first,
+                'last_name'  => $s_last,
+                'address_1'  => $shipping_address['address1'] ?? '',
+                'address_2'  => $shipping_address['address2'] ?? '',
+                'city'       => $shipping_address['city'] ?? '',
+                'postcode'   => $shipping_address['postcode'] ?? '',
+                'state'      => $shipping_address['state'] ?? '',
+                'country'    => $shipping_address['country'] ?? '',
+                'phone'      => $shipping_address['phoneNumber'] ?? '',
+            ] );
         }
-        if (!empty($billing_address)) {
-            [$first_name, $last_name] = $split_name($billing_address['name'] ?? '');
-            if (empty($last_name)) {
-                $last_name = $billing_address['surname'] ?? '';
+
+        // ---- Apply BILLING address (if provided) ----
+        if ( ! empty( $billing_address ) ) {
+            [ $b_first, $b_last ] = $split_name( $billing_address['name'] ?? '' );
+            if ( empty( $b_last ) ) {
+                $b_last = $billing_address['surname'] ?? '';
             }
-            WC()->customer->set_billing_first_name($first_name);
-            WC()->customer->set_billing_last_name($last_name);
-            WC()->customer->set_billing_address_1($billing_address['address1'] ?? '');
-            WC()->customer->set_billing_address_2($billing_address['address2'] ?? '');
-            WC()->customer->set_billing_city($billing_address['city'] ?? '');
-            WC()->customer->set_billing_postcode($billing_address['postcode'] ?? '');
-            WC()->customer->set_billing_state($billing_address['state'] ?? '');
-            WC()->customer->set_billing_country($billing_address['country'] ?? '');
-            WC()->customer->set_billing_email($billing_address['emailAddress'] ?? '');
-            WC()->customer->set_billing_phone($billing_address['phoneNumber'] ?? '');
-            WC()->session->set('customer_billing_country', $billing_address['country'] ?? '');
-            WC()->session->set('customer_billing_state', $billing_address['state'] ?? '');
-            WC()->session->set('customer_billing_postcode', $billing_address['postcode'] ?? '');
-            WC()->session->set('customer_billing_city', $billing_address['city'] ?? '');
-            WC()->session->set('customer_billing_address', $billing_address['address1'] ?? '');
-            WC()->session->set('customer_billing_address_1', $billing_address['address1'] ?? '');
-            WC()->session->set('customer_billing_address_2', $billing_address['address2'] ?? '');
-            WC()->session->set('ppcp_billing_address', [
-                'first_name' => $first_name,
-                'last_name' => $last_name,
-                'email' => $billing_address['emailAddress'] ?? '',
-                'address_1' => $billing_address['address1'] ?? '',
-                'address_2' => $billing_address['address2'] ?? '',
-                'city' => $billing_address['city'] ?? '',
-                'postcode' => $billing_address['postcode'] ?? '',
-                'state' => $billing_address['state'] ?? '',
-                'country' => $billing_address['country'] ?? '',
-                'phone' => $billing_address['phoneNumber'] ?? '',
-            ]);
+
+            WC()->customer->set_billing_first_name( $b_first );
+            WC()->customer->set_billing_last_name( $b_last );
+            WC()->customer->set_billing_address_1( $billing_address['address1'] ?? '' );
+            WC()->customer->set_billing_address_2( $billing_address['address2'] ?? '' );
+            WC()->customer->set_billing_city( $billing_address['city'] ?? '' );
+            WC()->customer->set_billing_postcode( $billing_address['postcode'] ?? '' );
+            WC()->customer->set_billing_state( $billing_address['state'] ?? '' );
+            WC()->customer->set_billing_country( $billing_address['country'] ?? '' );
+            WC()->customer->set_billing_email( $billing_address['emailAddress'] ?? '' );
+            WC()->customer->set_billing_phone( $billing_address['phoneNumber'] ?? '' );
+
+            WC()->session->set( 'customer_billing_country',   $billing_address['country'] ?? '' );
+            WC()->session->set( 'customer_billing_state',     $billing_address['state'] ?? '' );
+            WC()->session->set( 'customer_billing_postcode',  $billing_address['postcode'] ?? '' );
+            WC()->session->set( 'customer_billing_city',      $billing_address['city'] ?? '' );
+            WC()->session->set( 'customer_billing_address',   $billing_address['address1'] ?? '' );
+            WC()->session->set( 'customer_billing_address_1', $billing_address['address1'] ?? '' );
+            WC()->session->set( 'customer_billing_address_2', $billing_address['address2'] ?? '' );
+
+            WC()->session->set( 'ppcp_billing_address', [
+                'first_name' => $b_first,
+                'last_name'  => $b_last,
+                'email'      => $billing_address['emailAddress'] ?? '',
+                'address_1'  => $billing_address['address1'] ?? '',
+                'address_2'  => $billing_address['address2'] ?? '',
+                'city'       => $billing_address['city'] ?? '',
+                'postcode'   => $billing_address['postcode'] ?? '',
+                'state'      => $billing_address['state'] ?? '',
+                'country'    => $billing_address['country'] ?? '',
+                'phone'      => $billing_address['phoneNumber'] ?? '',
+            ] );
         }
+
         try {
-            WC()->customer->set_calculated_shipping(false);
+            // 🔹 If Google Pay passed a selected shipping method, apply it to Woo session
+            if ( ! empty( $selected_shipping_id ) && WC()->cart ) {
+                $chosen_methods = WC()->session->get( 'chosen_shipping_methods', [] );
+
+                // Typical stores have 1 package; apply to all packages just in case
+                $packages = WC()->shipping()->get_packages();
+                if ( empty( $packages ) ) {
+                    // make sure packages exist before using chosen method
+                    WC()->cart->calculate_shipping();
+                    $packages = WC()->shipping()->get_packages();
+                }
+
+                if ( ! empty( $packages ) ) {
+                    foreach ( $packages as $index => $pkg ) {
+                        $chosen_methods[ $index ] = $selected_shipping_id;
+                    }
+                    WC()->session->set( 'chosen_shipping_methods', $chosen_methods );
+                }
+            }
+
+            // When address / shipping changes, nuke cached shipping rates so WC recomputes packages
+            $packages = WC()->cart->get_shipping_packages();
+            foreach ( $packages as $i => $pkg ) {
+                WC()->session->__unset( "shipping_for_package_{$i}" );
+            }
+
+            // Force recalculation
+            WC()->customer->set_calculated_shipping( false );
             WC()->customer->save();
             WC()->cart->calculate_shipping();
             WC()->cart->calculate_totals();
-            $raw_total = WC()->cart->get_total('edit');
-            wp_send_json_success([
-                'total' => (string) $raw_total,
-            ]);
-        } catch (Exception $e) {
-            wp_send_json_error([
-                'message' => 'Failed to update cart total.',
-                'error' => $e->getMessage(),
-            ]);
+
+            // Re-fetch packages after calculation
+            $packages       = WC()->shipping()->get_packages();
+            $chosen_methods = WC()->session->get( 'chosen_shipping_methods', [] );
+
+            // Build items for Google Pay sheet (subtotal per line, excl. shipping; taxes reported separately)
+            $cart_items = [];
+            foreach ( WC()->cart->get_cart() as $cart_item ) {
+                /** @var WC_Product $product */
+                $product   = $cart_item['data'];
+                $qty       = (int) $cart_item['quantity'];
+                $line_subtotal = isset( $cart_item['line_subtotal'] ) ? (float) $cart_item['line_subtotal'] : 0.0; // excl. tax
+                $unit_price    = $qty > 0 ? $line_subtotal / $qty : $line_subtotal;
+
+                $cart_items[] = [
+                    'name'     => html_entity_decode( $product->get_name(), ENT_QUOTES ),
+                    'quantity' => $qty,
+                    // Either provide unit 'price' OR full line 'subtotal'; your JS handles both.
+                    'price'    => wc_format_decimal( $unit_price, 2 ),
+                    'subtotal' => wc_format_decimal( $line_subtotal, 2 ),
+                ];
+            }
+
+            // Pull numeric totals from cart
+            $currency        = apply_filters('wpg_ppcp_woocommerce_currency', get_woocommerce_currency());
+            $total           = wc_format_decimal( (float) WC()->cart->get_total( 'edit' ), 2 );         // grand total (incl tax)
+            $shipping_total  = wc_format_decimal( (float) WC()->cart->get_shipping_total(), 2 );        // shipping excl tax
+            $tax_total       = wc_format_decimal( (float) WC()->cart->get_total_tax(), 2 );             // all taxes (items + shipping)
+            $discount_total  = wc_format_decimal( (float) WC()->cart->get_discount_total(), 2 );        // coupons etc.
+            $needs_shipping  = WC()->cart->needs_shipping() ? '1' : '0';
+
+            // 🔹 Build shipping_methods list (same structure you saw in get_transaction_info)
+            $shipping_methods = [];
+            if ( '1' === $needs_shipping && ! empty( $packages ) ) {
+                foreach ( $packages as $pkg_index => $pkg ) {
+                    if ( empty( $pkg['rates'] ) ) {
+                        continue;
+                    }
+
+                    // Ensure there is a chosen method for this package
+                    if ( empty( $chosen_methods[ $pkg_index ] ) ) {
+                        $first_rate_id              = key( $pkg['rates'] );
+                        $chosen_methods[ $pkg_index ] = $first_rate_id;
+                    }
+
+                    foreach ( $pkg['rates'] as $rate_id => $rate ) {
+                        $shipping_methods[] = [
+                            'id'          => $rate_id,
+                            'label'       => $rate->label,
+                            'amount'      => wc_format_decimal( $rate->cost, 2, false ),
+                            'is_selected' => (
+                                isset( $chosen_methods[ $pkg_index ] ) &&
+                                $chosen_methods[ $pkg_index ] === $rate_id
+                            ),
+                        ];
+                    }
+                }
+                // Persist chosen methods so Woo uses them consistently
+                WC()->session->set( 'chosen_shipping_methods', $chosen_methods );
+            }
+
+            // Return a full breakdown so your JS can fill displayItems and totals
+            wp_send_json_success( [
+                'currency'        => $currency,
+                'cart_items'      => $cart_items,
+                'shipping_total'  => (string) $shipping_total,  // excl. tax
+                'tax_total'       => (string) $tax_total,
+                'discount_total'  => (string) $discount_total,
+                'total'           => (string) $total,           // grand total incl. tax
+                'cart_total'      => (string) $total,           // for your JS convenience
+                'needs_shipping'  => $needs_shipping,
+                'shipping_methods'=> $shipping_methods,
+            ] );
+        } catch ( Exception $e ) {
+            wp_send_json_error( [
+                'message' => 'Failed to update cart totals.',
+                'error'   => $e->getMessage(),
+            ] );
         }
     }
+    
 
     public function ppcp_get_product_total() {
+        if (empty($_POST['security'])) {
+            wp_send_json_error(['message' => 'Invalid request.'], 403);
+        }
+
+        $nonce = sanitize_text_field(wp_unslash($_POST['security']));
+        if (!wp_verify_nonce($nonce, 'ppcp_ajax_nonce')) {
+            wp_send_json_error(['message' => 'Invalid nonce.'], 403);
+        }
+
         $product_id = absint($_POST['product_id'] ?? 0);
-        $qty = floatval($_POST['quantity'] ?? 1);
+        $qty = (float) ($_POST['quantity'] ?? 1);
+        $qty = $qty > 0 ? $qty : 1;
+
+        // Use full cart total (more accurate for "payable total")
+        $cart_total = (WC()->cart) ? (float) WC()->cart->total : 0.0;
+
+        // If no product id, just return cart total
+        if ($product_id === 0) {
+            wp_send_json_success([
+                'product_price' => wc_format_decimal(0, 2),
+                'cart_total' => wc_format_decimal($cart_total, 2),
+                'combined_total' => wc_format_decimal($cart_total, 2),
+            ]);
+        }
+
         $product = wc_get_product($product_id);
-
-        if (!$product || $qty <= 0) {
-            wp_send_json_error(['message' => 'Invalid product or quantity']);
+        if (!$product) {
+            wp_send_json_error(['message' => 'Invalid product.'], 400);
         }
 
-        // Check if the product or variation is already in the cart
-        $is_in_cart = false;
-        if (WC()->cart && !WC()->cart->is_empty()) {
-            foreach (WC()->cart->get_cart() as $cart_item) {
-                $cart_product_id = (int) $cart_item['product_id'];
-                $cart_variation_id = (int) $cart_item['variation_id'];
+        $unit_price = (float) wc_get_price_to_display($product);
+        $product_price = $unit_price * $qty;
 
-                if ($cart_product_id === $product_id || $cart_variation_id === $product_id) {
-                    $is_in_cart = true;
-                    break;
-                }
-            }
-        }
-
-        // Only include product price if NOT already in cart
-        $product_price = $is_in_cart ? 0 : wc_get_price_to_display($product) * $qty;
-        $cart_total = WC()->cart ? WC()->cart->get_cart_contents_total() : 0;
-        $combined = wc_format_decimal($product_price + $cart_total, 2);
+        $combined = $cart_total + $product_price;
 
         wp_send_json_success([
             'product_price' => wc_format_decimal($product_price, 2),
             'cart_total' => wc_format_decimal($cart_total, 2),
-            'combined_total' => $combined,
+            'combined_total' => wc_format_decimal($combined, 2),
         ]);
     }
 
@@ -2523,18 +2957,287 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $output['enable_smart_buttons'] = true;
             $output['smart_button_position'] = [
                 'id' => 'wfacp_form_single_step_start',
-                'name' => __('At top of checkout Page', 'funnel-builder'),
+                'name' => __('At top of checkout Page', 'woo-paypal-gateway'),
             ];
         }
         return $output;
     }
 
     public function add_custom_class_to_place_order_button($button_html) {
-        $button_html = str_replace(
-                'class="button',
-                'class="button wpg_place_order_hide',
-                $button_html
-        );
+        global $wp;
+        if (WC()->cart->needs_payment() === false) {
+            return $button_html;
+        }
+        if(isset($wp->query_vars['order-pay'])) {
+            return $button_html;
+        }
+        $button_html = str_replace('class="button','class="button wpg_place_order_hide', $button_html);
         return $button_html;
+    }
+    
+    public function ppcp_validate_shipping_address() {
+        try {
+            if ( empty($_POST['security']) ) {
+                wp_send_json_error('Security verification failed', 403);
+            }
+            $nonce = sanitize_text_field( wp_unslash($_POST['security']) );
+            if ( ! wp_verify_nonce( $nonce, 'ppcp_ajax_nonce' ) ) {
+                wp_send_json_error('Security verification failed', 403);
+            }
+            if ( ! isset( $_POST['shipping_address'] ) ) {
+                wp_send_json_error( 'No shipping address data received' );
+                return;
+            }
+
+            $shipping_address = json_decode( wp_unslash( $_POST['shipping_address'] ), true );
+            if ( ! $shipping_address || empty( $shipping_address['countryCode'] ) ) {
+                wp_send_json_error( 'Invalid shipping address' );
+                return;
+            }
+
+            $countries = WC()->countries->get_shipping_countries();
+            if ( ! isset( $countries[ $shipping_address['countryCode'] ] ) ) {
+                wp_send_json_error( 'We do not ship to this country' );
+                return;
+            }
+
+            if ( empty( $shipping_address['postalCode'] ) || empty( $shipping_address['city'] ) ) {
+                wp_send_json_error( 'Please complete all required fields' );
+                return;
+            }
+
+            // NEW: read selected shipping from PayPal (if provided)
+            $selected_shipping_id = isset( $_POST['selected_shipping_id'] )
+                ? wc_clean( wp_unslash( $_POST['selected_shipping_id'] ) )
+                : '';
+
+            $customer = WC()->customer;
+            if ( $customer && is_a( $customer, 'WC_Customer' ) ) {
+                try {
+                    $country_code = $shipping_address['countryCode'] ?? '';
+
+                    $customer->set_shipping_country( $country_code );
+                    $customer->set_shipping_postcode( $shipping_address['postalCode'] ?? '' );
+                    $customer->set_shipping_city( $shipping_address['city'] ?? '' );
+
+                    // -----------------------------
+                    // State normalization + validate
+                    // -----------------------------
+                    $raw_state = $shipping_address['state'] ?? '';
+
+                    if ( $raw_state !== '' && $country_code !== '' ) {
+                        // 1. Normalize state from any format (name/code, any case) → WC code
+                        $normalized_state = $this->normalize_state_code( $country_code, $raw_state );
+
+                        // 2. Let existing system-wide validation run (unchanged logic)
+                        $validated_state = $this->validate_checkout(
+                            $country_code,
+                            $normalized_state,
+                            'shipping'
+                        );
+
+                        if ( $validated_state !== false && $validated_state !== '' ) {
+                            $customer->set_shipping_state( $validated_state );
+                        } else {
+                            // Fall back to normalized value if validate_checkout can't resolve
+                            $customer->set_shipping_state( $normalized_state );
+                        }
+                    } else {
+                        // Some countries don't use states
+                        $customer->set_shipping_state( '' );
+                    }
+
+                    if ( isset( $shipping_address['address_line_1'] ) ) {
+                        $customer->set_shipping_address_1( $shipping_address['address_line_1'] );
+                    }
+                    if ( isset( $shipping_address['address_line_2'] ) ) {
+                        $customer->set_shipping_address_2( $shipping_address['address_line_2'] );
+                    }
+                    if ( isset( $shipping_address['name']['full_name'] ) ) {
+                        $name_parts = explode( ' ', $shipping_address['name']['full_name'], 2 );
+                        $customer->set_shipping_first_name( $name_parts[0] ?? '' );
+                        $customer->set_shipping_last_name( $name_parts[1] ?? '' );
+                    }
+
+                    $customer->save();
+                } catch ( Exception $e ) {
+                    error_log( 'Error updating customer shipping address: ' . $e->getMessage() );
+                }
+            }
+
+            // Build & calculate shipping packages + set chosen_shipping_methods
+            if ( WC()->cart && ! WC()->cart->is_empty() ) {
+
+                $packages = WC()->cart->get_shipping_packages();
+                WC()->shipping()->calculate_shipping( $packages );
+
+                // Now WC()->shipping()->get_packages() has the rates
+                $packages = WC()->shipping()->get_packages();
+
+                if ( ! empty( $selected_shipping_id ) && ! empty( $packages ) ) {
+                    $chosen_methods = WC()->session->get( 'chosen_shipping_methods', array() );
+
+                    foreach ( $packages as $package_index => $package ) {
+                        if ( ! empty( $package['rates'] ) && isset( $package['rates'][ $selected_shipping_id ] ) ) {
+                            $chosen_methods[ $package_index ] = $selected_shipping_id;
+                            break; // found matching rate; no need to continue
+                        }
+                    }
+
+                    WC()->session->set( 'chosen_shipping_methods', $chosen_methods );
+                }
+
+                // Recalculate totals using new address + chosen method
+                WC()->cart->calculate_totals();
+            }
+
+            // Keep original behavior: update PayPal order from cart
+            $this->request->ppcp_update_order_from_cart();
+
+            wp_send_json_success( 'Address is valid' );
+        } catch ( Exception $e ) {
+            wp_send_json_error( 'Unable to validate address' );
+        }
+    }
+    
+    public function exclude_cache_plugins_js_minification() {
+        try {
+            $ppcp_script_file_names = [
+                'paypal.com/sdk/js',
+                'www.paypal.com/sdk/js',
+                'api-m.paypal.com/sdk/js',
+                'sandbox.paypal.com/sdk/js',
+                'www.sandbox.paypal.com/sdk/js',
+                'pay.google.com/gp/p/js/pay.js',
+                'applepay.cdn-apple.com/jsapi',
+                'ppcp/public/js/',
+                'ppcp-paypal-checkout-for-woocommerce',
+            ];
+            $ppcp_inline_patterns = [
+                'paypal',
+                'paypal_sdk',
+                'paypal-checkout',
+                'fundingEligibility',
+                'funding-eligibility',
+                'googlepay',
+                'applepay',
+                'ppcp',
+                'PPCP',
+                'paypal.Buttons',
+                'paypal.Googlepay',
+                'paypal.Applepay',
+            ];
+            $merge_unique = static function ($existing, array $to_add): array {
+                $existing = is_array($existing) ? $existing : (array) $existing;
+                return array_values(array_unique(array_filter(array_merge($existing, $to_add))));
+            };
+            $array_filters = [
+                'rocket_exclude_js',
+                'rocket_delay_js_exclusions',
+                'rocket_exclude_js_files',
+                'litespeed_optimize_js_excludes',
+                'litespeed_optimize_js_delay_excludes',
+                'perfmatters_js_exclusions',
+                'perfmatters_delay_js_exclusions',
+                'flying_press_delay_js_exclusions',
+                'flying_press_js_excludes',
+                'flying_press_js_excludes_from_optimization',
+                'wphb_js_exclude',
+                'swift_performance_js_exclude',
+                'wpfc_excluded_js',
+                'wpfc_exclude_scripts',
+                'jetpack_boost_js_exclude',
+                'cache_enabler_exclude_js',
+            ];
+            foreach ($array_filters as $filter) {
+                add_filter($filter, static function ($excluded) use ($merge_unique, $ppcp_script_file_names) {
+                    return $merge_unique($excluded, $ppcp_script_file_names);
+                }, 20);
+            }
+            add_filter('autoptimize_filter_js_exclude', static function ($exclude) use ($ppcp_script_file_names) {
+                $exclude_str = is_string($exclude) ? $exclude : '';
+                $parts       = preg_split('/\s*,\s*/', $exclude_str, -1, PREG_SPLIT_NO_EMPTY);
+                $merged      = array_merge($parts, $ppcp_script_file_names);
+                $merged      = array_unique(array_filter(array_map('trim', $merged)));
+                return implode(',', $merged);
+            }, 20);
+            add_filter('rocket_exclude_inline_js', static function ($patterns) use ($merge_unique, $ppcp_inline_patterns) {
+                return $merge_unique($patterns, $ppcp_inline_patterns);
+            }, 20);
+            add_filter('sgo_js_minify_exclude', static function ($handles) {
+                $handles = is_array($handles) ? $handles : [];
+                $handles[] = 'ppcp-checkout-js';
+                $handles[] = 'ppcp-paypal-checkout-for-woocommerce-order-capture';
+                $handles[] = 'google-pay-sdk';
+                $handles[] = 'apple-pay-sdk';
+                return array_values(array_unique($handles));
+            }, 20);
+            add_filter('breeze_minify_js_exclude', static function ($exclude) use ($ppcp_script_file_names) {
+                if (is_array($exclude)) {
+                    return array_values(array_unique(array_merge($exclude, $ppcp_script_file_names)));
+                }
+                $exclude_str = is_string($exclude) ? $exclude : '';
+                $parts = preg_split('/\s*,\s*/', $exclude_str, -1, PREG_SPLIT_NO_EMPTY);
+                $merged = array_unique(array_filter(array_map('trim', array_merge($parts, $ppcp_script_file_names))));
+                return implode(',', $merged);
+            }, 20);
+            add_filter('wp_optimize_minify_js_exceptions', static function ($exceptions) use ($ppcp_script_file_names) {
+                if (is_array($exceptions)) {
+                    return array_values(array_unique(array_merge($exceptions, $ppcp_script_file_names)));
+                }
+                $exceptions_str = is_string($exceptions) ? $exceptions : '';
+                $parts = preg_split('/\s*,\s*/', $exceptions_str, -1, PREG_SPLIT_NO_EMPTY);
+                $merged = array_unique(array_filter(array_map('trim', array_merge($parts, $ppcp_script_file_names))));
+                return implode(',', $merged);
+            }, 20);
+            add_filter('w3tc_minify_js_do_tag_minification', static function (bool $do_tag_minification, string $script_tag, $file) {
+                $pattern  = '/(paypal\.com\/sdk\/js|googlepay|applepay|ppcp[-\/])/i';
+                $haystack = !empty($file) ? (string) $file : (string) $script_tag;
+                return preg_match($pattern, $haystack) ? false : $do_tag_minification;
+            }, 20, 3);
+
+        } catch (Exception $e) {
+            
+        }
+    }
+    
+    public function polylang_capture_language_on_cart_checkout() {
+        if (!function_exists('pll_current_language') || !function_exists('WC') || !WC() || empty(WC()->session)) {
+            return;
+        }
+        if (!is_cart() && !is_checkout()) {
+            return;
+        }
+        $lang = pll_current_language('slug');
+        $lang = $lang ? sanitize_key($lang) : '';
+        if ($lang) {
+            WC()->session->set(self::PPCP_LANG_SESSION_KEY, $lang);
+        }
+    }
+
+    public function polylang_handle_cancel_order_redirect($cart_url) {
+        $lang = $this->ppcp_get_lang_from_session_or_cookie();
+        if ($lang && function_exists('pll_get_post')) {
+            $cart_id = wc_get_page_id('cart');
+            $translated_id = $cart_id ? (int) pll_get_post($cart_id, $lang) : 0;
+            if ($translated_id) {
+                $translated_url = get_permalink($translated_id);
+                if ($translated_url) {
+                    return $translated_url;
+                }
+            }
+        }
+        return $cart_url;
+    }
+
+    private function ppcp_get_lang_from_session_or_cookie() {
+        $lang = '';
+        if (function_exists('WC') && WC() && !empty(WC()->session)) {
+            $lang = (string) WC()->session->get(self::PPCP_LANG_SESSION_KEY);
+        }
+        if (!$lang && defined('PLL_COOKIE') && !empty($_COOKIE[PLL_COOKIE])) {
+            $lang = (string) $_COOKIE[PLL_COOKIE];
+        }
+        return $lang ? sanitize_key($lang) : '';
     }
 }

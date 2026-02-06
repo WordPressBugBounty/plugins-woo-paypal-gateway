@@ -6,13 +6,14 @@ $(document).ready(function () {
     }
     $("#deactivation-no-reason").on("click", function (e) {
         e.preventDefault();
-        $('.deactivation-Modal').block({ message: null, overlayCSS: { background: '#fff', opacity: 0.6 } });
+        $('.deactivation-Modal').block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
         const $link = $(this);
         const url = $link.attr("href");
         const data = {
             action: 'wpg_send_deactivation',
             reason: 'reason-other',
-            reason_details: 'other'
+            reason_details: 'other',
+            nonce: wpg_feedback_form_ajax_data.nonce
         };
         $.post(ajaxurl, data)
                 .always(function () {
@@ -23,7 +24,7 @@ $(document).ready(function () {
 
     $("#mixpanel-send-deactivation").on("click", function (e) {
         e.preventDefault();
-        $('.deactivation-Modal').block({ message: null, overlayCSS: { background: '#fff', opacity: 0.6 } });
+        $('.deactivation-Modal').block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
         const $button = $('#mixpanel-send-deactivation');
         const selected = $("input[name='reason']:checked");
         const reason = selected.val();
@@ -39,6 +40,7 @@ $(document).ready(function () {
         const data = {
             action: 'wpg_send_deactivation',
             reason: reason,
+            nonce: wpg_feedback_form_ajax_data.nonce,
             reason_details: reasonDetails || ''
         };
 

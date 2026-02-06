@@ -158,6 +158,12 @@ var {addAction} = wp.hooks;
                 };
                 const ContentPPCPCheckout = (props) => {
                     const {billing, shippingData, ...i} = props;
+                    useEffect(() => {
+                        jQuery(document.body).trigger("ppcp_checkout_updated");
+                    }, []);
+                    if (l.is_order_confirm_page === 'yes') {
+                        return null; // empty element
+                      }
                     if (l.use_place_order === true) {
                         if (l.show_redirect_icon === 'yes') {
                             return createElement(

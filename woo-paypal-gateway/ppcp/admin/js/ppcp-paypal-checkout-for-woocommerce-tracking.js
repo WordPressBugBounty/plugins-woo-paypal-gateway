@@ -12,6 +12,7 @@
                 type: 'POST',
                 data: {
                     action: 'submit_tracking_info',
+                    nonce: ppcp_tracking_ajax.nonce,
                     capture_id: capture_id,
                     tracking_number: tracking_number,
                     status: status,

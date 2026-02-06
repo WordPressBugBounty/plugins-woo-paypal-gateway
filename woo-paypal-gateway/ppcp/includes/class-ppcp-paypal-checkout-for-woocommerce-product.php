@@ -10,17 +10,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
 
     public static function ppcp_add_to_cart_action($url = null) {
         try {
-            if (!isset($_REQUEST['ppcp-add-to-cart']) || !is_numeric(wp_unslash($_REQUEST['ppcp-add-to-cart']))) {
+            // phpcs:disable WordPress.Security.NonceVerification.Recommended
+            $product_id = isset($_REQUEST['ppcp-add-to-cart']) ? absint(wp_unslash($_REQUEST['ppcp-add-to-cart'])) : 0;
+            if (!$product_id) {
                 return;
             }
             wc_nocache_headers();
-            $product_id = apply_filters('woocommerce_add_to_cart_product_id', absint(wp_unslash($_REQUEST['ppcp-add-to-cart'])));
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            $product_id = apply_filters('woocommerce_add_to_cart_product_id', $product_id);
             $was_added_to_cart = false;
             $adding_to_cart = wc_get_product($product_id);
             if (!$adding_to_cart) {
                 return;
             }
             foreach (WC()->cart->get_cart() as $cart_item) {
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 if ((int) $cart_item['product_id'] === $product_id && (empty($_REQUEST['variation_id']) || (!empty($cart_item['variation_id']) && (int) $cart_item['variation_id'] === (int) $_REQUEST['variation_id']))) {
                     return;
                 }
@@ -36,16 +40,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                 $was_added_to_cart = self::add_to_cart_handler_simple($product_id);
             }
             wc_clear_notices();
+            // phpcs:enable WordPress.Security.NonceVerification.Recommended
         } catch (Exception $ex) {
-            
+            // Optional: log error
         }
     }
 
     private static function add_to_cart_handler_simple($product_id) {
         try {
-            $quantity = empty($_REQUEST['quantity']) ? 1 : wc_stock_amount(wp_unslash($_REQUEST['quantity']));
+            // phpcs:disable WordPress.Security.NonceVerification.Recommended
+            $quantity = 1;
+            if (isset($_REQUEST['quantity'])) {
+                $quantity = absint(wp_unslash($_REQUEST['quantity']));
+            }
+            $quantity = wc_stock_amount($quantity);
             $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $product_id, $quantity);
-
             if ($passed_validation && false !== WC()->cart->add_to_cart($product_id, $quantity)) {
                 wc_add_to_cart_message(array($product_id => $quantity), true);
                 return true;
@@ -60,7 +69,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
         try {
             $was_added_to_cart = false;
             $added_to_cart = array();
-            $items = isset($_REQUEST['quantity']) && is_array($_REQUEST['quantity']) ? wp_unslash($_REQUEST['quantity']) : array();
+            $items = array();
+            // phpcs:disable WordPress.Security.NonceVerification.Recommended
+            if (isset($_REQUEST['quantity']) && is_array($_REQUEST['quantity'])) {
+                $items = array_map(
+                        'absint',
+                        wp_unslash($_REQUEST['quantity'])
+                );
+            }
             if (!empty($items)) {
                 $quantity_set = false;
                 foreach ($items as $item => $quantity) {
@@ -98,8 +114,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
 
     private static function add_to_cart_handler_variable($product_id) {
         try {
+            // phpcs:disable WordPress.Security.NonceVerification.Recommended
             $variation_id = empty($_REQUEST['variation_id']) ? '' : absint(wp_unslash($_REQUEST['variation_id']));
-            $quantity = empty($_REQUEST['quantity']) ? 1 : wc_stock_amount(wp_unslash($_REQUEST['quantity']));
+            $quantity = wc_stock_amount(
+                    isset($_REQUEST['quantity']) ? absint(wp_unslash($_REQUEST['quantity'])) : 1
+            );
             $missing_attributes = array();
             $variations = array();
             $adding_to_cart = wc_get_product($product_id);
@@ -124,7 +143,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                     if ($attribute['is_taxonomy']) {
                         $value = sanitize_title(wp_unslash($_REQUEST[$attribute_key]));
                     } else {
-                        $value = html_entity_decode(wc_clean(wp_unslash($_REQUEST[$attribute_key])), ENT_QUOTES, get_bloginfo('charset'));
+                        $value = html_entity_decode(
+                                sanitize_text_field(wp_unslash($_REQUEST[$attribute_key])),
+                                ENT_QUOTES,
+                                get_bloginfo('charset')
+                        );
                     }
                     $posted_attributes[$attribute_key] = $value;
                 }

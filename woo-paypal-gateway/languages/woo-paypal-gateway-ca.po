@@ -1,0 +1,3469 @@
+# Copyright (C) 2025 easypayment
+# This file is distributed under the GNU General Public License v3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.54\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
+"POT-Creation-Date: 2025-12-31T11:56:42+00:00\n"
+"PO-Revision-Date: 2025-12-31 16:45+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: woo-paypal-gateway\n"
+"X-Generator: Poedit 3.6\n"
+
+#. Plugin Name of the plugin
+#: woo-paypal-gateway.php
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1776
+msgid "Payment Gateway for PayPal on WooCommerce"
+msgstr "Passarel·la de pagament per PayPal a WooCommerce"
+
+#. Plugin URI of the plugin
+#: woo-paypal-gateway.php
+msgid "https://profiles.wordpress.org/easypayment"
+msgstr "https://profiles.wordpress.org/easypayment"
+
+#. Description of the plugin
+#: woo-paypal-gateway.php
+msgid ""
+"PayPal, Credit/Debit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, "
+"iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal "
+"Partner"
+msgstr ""
+"PayPal, targetes de crèdit/dèbit, Google Pay, Apple Pay, Paga més tard, "
+"Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact i més - per un soci "
+"oficial de PayPal"
+
+#. Author of the plugin
+#: woo-paypal-gateway.php
+msgid "easypayment"
+msgstr "pagamentfàcil"
+
+#. Author URI of the plugin
+#: woo-paypal-gateway.php
+msgid "https://profiles.wordpress.org/easypayment/"
+msgstr "https://profiles.wordpress.org/easypayment/"
+
+#: admin/feedback/deactivation-feedback-form.php:8
+msgid "Return"
+msgstr "Torna"
+
+#: admin/feedback/deactivation-feedback-form.php:9
+msgid "We’re sorry to see you go! 💔"
+msgstr "Lamentem veure't marxar! 💔"
+
+#: admin/feedback/deactivation-feedback-form.php:11
+msgid "Close"
+msgstr "Tanca"
+
+#: admin/feedback/deactivation-feedback-form.php:15
+msgid ""
+"Can you please tell us why you’re deactivating the plugin? Your feedback "
+"helps us make it better."
+msgstr ""
+"Podeu dir-nos per què esteu desactivant el complement? El vostre comentari "
+"ens ajuda a millorar-lo."
+
+#: admin/feedback/deactivation-feedback-form.php:19
+msgid "Temporary deactivation (troubleshooting)"
+msgstr "Desactivació temporal (resolució de problemes)"
+
+#: admin/feedback/deactivation-feedback-form.php:23
+msgid "Compatibility issue"
+msgstr "Problema de compatibilitat"
+
+#: admin/feedback/deactivation-feedback-form.php:25
+msgid "Please describe what part of the layout or functionality was affected."
+msgstr ""
+"Si us plau, descriu quina part del disseny o funcionalitat es va veure "
+"afectada."
+
+#: admin/feedback/deactivation-feedback-form.php:30
+msgid "Difficult to set up"
+msgstr "Difícil de configurar"
+
+#: admin/feedback/deactivation-feedback-form.php:32
+msgid "What part of the setup was confusing or unclear?"
+msgstr "Quina part de la configuració era confusa o poc clara?"
+
+#: admin/feedback/deactivation-feedback-form.php:37
+msgid "Missing features"
+msgstr "Funcions que falten"
+
+#: admin/feedback/deactivation-feedback-form.php:39
+msgid "Which features were you looking for?"
+msgstr "Quines característiques estaves buscant?"
+
+#: admin/feedback/deactivation-feedback-form.php:44
+msgid "Other"
+msgstr "Altres"
+
+#: admin/feedback/deactivation-feedback-form.php:46
+msgid ""
+"Please share why you’re deactivating the PayPal plugin so we can make "
+"improvements."
+msgstr ""
+"Si us plau, comparteix per què estàs desactivant el complement de PayPal "
+"perquè puguem fer millores."
+
+#: admin/feedback/deactivation-feedback-form.php:58
+msgid ""
+"Your privacy is important to us. No personal data is collected with this "
+"form—just your valuable feedback and basic system information (such as "
+"WordPress and plugin versions) to help us improve our plugin."
+msgstr ""
+"La teva privadesa és important per a nosaltres. No es recull cap dada "
+"personal amb aquest formulari, només els teus comentaris valuosos i "
+"informació bàsica del sistema (com ara les versions de WordPress i dels "
+"plugins) per ajudar-nos a millorar el nostre plugin."
+
+#: admin/feedback/deactivation-feedback-form.php:63
+msgid "Visit our support page for assistance"
+msgstr "Visiteu la nostra pàgina de suport per obtenir assistència"
+
+#: admin/feedback/deactivation-feedback-form.php:63
+msgid "Get Support"
+msgstr "Obtenir suport"
+
+#: admin/feedback/deactivation-feedback-form.php:65
+msgid "Send & Deactivate"
+msgstr "Enviar i desactivar"
+
+#: admin/feedback/deactivation-feedback-form.php:67
+msgid "I rather wouldn't say"
+msgstr "Jo no diria"
+
+#: includes/class-woo-paypal-gateway.php:241
+msgid "Settings"
+msgstr "Configuració"
+
+#: includes/class-woo-paypal-gateway.php:251
+msgid "Community support"
+msgstr "Suport comunitari"
+
+#: includes/class-woo-paypal-gateway.php:252
+msgid "Rate our plugin"
+msgstr "Valora el nostre complement"
+
+#. translators: %s: plugin name
+#: includes/class-woo-paypal-gateway.php:359
+msgid "Thank you for using %s 💕"
+msgstr "Gràcies per utilitzar %s 496💕"
+
+#. translators: %1$s: review URL
+#: includes/class-woo-paypal-gateway.php:368
+msgid ""
+"If you have a moment, we'd love it if you could leave us a <b><a "
+"target=\"_blank\" href=\"%1$s\">quick review</a>.</b> it motivates us and "
+"helps us keep improving. 💫 <br>Have feature ideas? Include them in your "
+"review — your feedback shapes our roadmap, and we love turning your ideas "
+"into reality."
+msgstr ""
+"Si tens un moment, ens encantaria que poguessis deixar-nos una <b><a "
+"target=\"_blank\" href=\"%1$s\">valoració ràpida</a>.</b> ens motiva i ens "
+"ajuda a seguir millorant. 9c9 <br>Tens idees de funcions? Inclou-les a la "
+"teva valoració — els teus comentaris donen forma a la nostra fulla de ruta, "
+"i ens encanta convertir les teves idees en realitat."
+
+#: includes/class-woo-paypal-gateway.php:377
+msgid "Write Review"
+msgstr "Escriure valoració"
+
+#: includes/class-woo-paypal-gateway.php:380
+msgid "Done!"
+msgstr "Fet!"
+
+#: includes/class-woo-paypal-gateway.php:384
+msgid "Remind me later"
+msgstr "Recorda'm més tard"
+
+#: includes/class-woo-paypal-gateway.php:387
+msgid "Hide"
+msgstr "Amaga"
+
+#: ppcp/checkout-block/ppcp-cc-block.php:74
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:111
+msgctxt "Important"
+msgid "Card number"
+msgstr "Número de targeta"
+
+#: ppcp/checkout-block/ppcp-cc-block.php:75
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:118
+msgctxt "Important"
+msgid "Expiration date"
+msgstr "Data de caducitat"
+
+#: ppcp/checkout-block/ppcp-cc-block.php:76
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:124
+msgctxt "Important"
+msgid "Security code"
+msgstr "Codi de seguretat"
+
+#: ppcp/checkout-block/ppcp-checkout-block.php:115
+msgctxt "Important"
+msgid "Confirm Your PayPal Order"
+msgstr "Confirma la teva comanda de PayPal"
+
+#: ppcp/checkout-block/ppcp-checkout-block.php:117
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:71
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:74
+msgctxt "Important"
+msgid "Proceed to PayPal"
+msgstr "Procedir a PayPal"
+
+#. translators: %s: Order button text (e.g. Place order)
+#: ppcp/checkout-block/ppcp-checkout-block.php:157
+msgctxt "Important"
+msgid "Click the \"%s\" button below to process your order."
+msgstr "Feu clic al botó \"%s\" a continuació per processar la teva comanda."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:27
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:97
+msgid ""
+"Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return"
+" to shop</a>"
+msgstr ""
+"Ho sento, la teva sessió ha caducat. <a href=\"%s\" class=\"wc-"
+"backward\">Torna a la botiga</a>"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:70
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:157
+msgid "Unable to create order."
+msgstr "No es pot crear la comanda."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:37
+msgctxt "Important"
+msgid "Credit or Debit Card (PayPal) By Easy Payment"
+msgstr "Targeta de crèdit o dèbit (PayPal) per pagament fàcil"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:38
+msgctxt "Important"
+msgid "Advanced Card Processing."
+msgstr "Processament de targetes avançat."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:49
+msgid "Place order"
+msgstr "Fes la comanda"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:55
+msgctxt "Important"
+msgid "Sandbox Mode Enabled."
+msgstr "Mode de sandbox activat."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:56
+msgctxt "Important"
+msgid ""
+"Use test card 4111 1111 1111 1111 with any future expiration date and any "
+"CVV."
+msgstr ""
+"Utilitzeu la targeta de prova 4111 1111 1111 1111 amb qualsevol data "
+"d'expiració futura i qualsevol CVV."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:78
+msgid "Save to account"
+msgstr "Desa a l'compte"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:258
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:698
+msgid "Refund failed."
+msgstr "La devolució ha fallat."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:65
+msgctxt "Important"
+msgid "Credit or Debit Card"
+msgstr "Targeta de crèdit o de dèbit"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:69
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:833
+msgctxt "Important"
+msgid "Confirm your PayPal order"
+msgstr "Confirma la teva comanda de PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:110
+msgctxt "Important"
+msgid "PayPal Gateway By Easy Payment"
+msgstr "Passarel·la PayPal per Easy Payment"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:111
+msgctxt "Important"
+msgid ""
+"PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and "
+"many more."
+msgstr ""
+"PayPal, Paga més tard, Venmo, targetes de crèdit i dèbit, Google Pay, Apple "
+"Pay — i molts més."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:337
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
+msgid "Admin Only Mode"
+msgstr "Mode només per a administradors"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:338
+msgid ""
+"is currently enabled. PayPal payment methods are visible only to site "
+"administrators and store managers. Disable this mode after testing to make "
+"them available to customers."
+msgstr ""
+"està actualment habilitat. Els mètodes de pagament de PayPal són visibles "
+"només per als administradors del lloc i els gestors de la botiga. Desactiveu"
+" aquest mode després de les proves per fer-los disponibles als clients."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:351
+msgid "Please verify the PayPal account to receive the payments."
+msgstr "Si us plau, verifica el compte de PayPal per rebre els pagaments."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:363
+msgid "PayPal onboarding process successfully completed."
+msgstr "El procés d'integració de PayPal s'ha completat amb èxit."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:375
+msgid ""
+"We could not properly connect to PayPal. Please reload the page to continue."
+msgstr ""
+"No vam poder connectar correctament amb PayPal. Si us plau, torna a carregar"
+" la pàgina per continuar."
+
+#. translators: %1$s: URL to the PayPal Connection page.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:395
+msgid ""
+"<strong>PayPal Setup Required:</strong> Connect your PayPal account or enter"
+" your Client ID and Secret in the <a href=\"%1$s\">PayPal Connection</a> to "
+"begin accepting payments."
+msgstr ""
+"<strong>Configuració de PayPal requerida:</strong> Connecta el teu compte de"
+" PayPal o introdueix el teu ID de client i secret a la <a "
+"href=\"%1$s\">Connexió de PayPal</a> per començar a acceptar pagaments."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:418
+msgid "Click the PayPal button to add your payment method."
+msgstr "Feu clic al botó de PayPal per afegir el teu mètode de pagament."
+
+#. translators: %s: button label text
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:422
+msgid "Click the \"%s\" button below to process your order."
+msgstr "Feu clic al botó \"%s\" a continuació per processar la teva comanda."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:426
+msgid "Click a payment option below to process your order."
+msgstr ""
+"Feu clic en una opció de pagament a continuació per processar la teva "
+"comanda."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:509
+msgid "Return to payments"
+msgstr "Torna als pagaments"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:534
+msgid "PayPal Connection"
+msgstr "Connexió de PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:535
+msgid "PayPal Settings"
+msgstr "Configuració de PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:536
+msgid "Advanced Card Payments"
+msgstr "Pagaments de targeta avançats"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:537
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1072
+msgid "Google Pay"
+msgstr "Google Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:538
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1071
+msgid "Apple Pay"
+msgstr "Apple Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:539
+msgid "Pay Later Messaging"
+msgstr "Missatge de pagament posterior"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:540
+msgid "Additional Settings"
+msgstr "Configuració addicional"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:541
+msgid "FAQ"
+msgstr "FAQ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:756
+msgid "This represents the fee PayPal collects for the transaction."
+msgstr "Això representa la tarifa que PayPal cobra per la transacció."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:758
+msgid "PayPal Fee:"
+msgstr "Comissió de PayPal:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:842
+msgid "Disconnect"
+msgstr "Desconnectar"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:967
+msgid "PayPal Account Connected"
+msgstr "Compte de PayPal connectat"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:972
+msgid "Connected Account:"
+msgstr "Compte connectat:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:979
+msgid "Disconnect PayPal Account"
+msgstr "Desconnectar compte de PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1063
+msgid ""
+"The PayPal Client ID and Secret key you entered are invalid. Ensure you are "
+"using the correct credentials for the selected environment (Sandbox or "
+"Live)."
+msgstr ""
+"El Client ID i la clau secreta de PayPal que heu introduït no són vàlids. "
+"Assegureu-vos que esteu utilitzant les credencials correctes per a l'entorn "
+"seleccionat (Sandbox o Live)."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1135
+msgid "Click to Connect PayPal"
+msgstr "Feu clic per connectar PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1166
+msgid "The Connect to PayPal service is temporarily unavailable."
+msgstr "El servei Connect to PayPal està temporalment unavailable."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1170
+msgid "Toggle to manual credential input"
+msgstr "Canvia a l'entrada manual de credencials"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1197
+msgid "Recommended"
+msgstr "Recomanat"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1202
+msgid "OR"
+msgstr "O"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1207
+msgid "Click here to insert credentials manually"
+msgstr "Feu clic aquí per inserir les credencials manualment"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1336
+msgid ""
+"Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
+"Bancontact, etc.) will appear?"
+msgstr ""
+"Quins botons de PayPal (per exemple, Paga més tard, Venmo, SEPA, iDEAL, "
+"Mercado Pago, Bancontact, etc.) apareixeran?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1340
+msgid ""
+"The PayPal buttons are shown automatically based on several factors, "
+"including:"
+msgstr ""
+"Els botons de PayPal es mostren automàticament en funció de diversos "
+"factors, incloent:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1342
+msgid "The buyer’s country"
+msgstr "El país del comprador"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1343
+msgid "Their device type"
+msgstr "El seu tipus de dispositiu"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1344
+msgid "The funding sources they’ve enabled"
+msgstr "Les fonts de finançament que han habilitat"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1346
+msgid ""
+"As a result, each buyer may see a different set of buttons. Pay Later "
+"options vary by country and may display different buttons."
+msgstr ""
+"Com a conseqüència, cada comprador pot veure un conjunt diferent de botons. "
+"Les opcions de Pagament Posterior varien segons el país i poden mostrar "
+"botons diferents."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1352
+msgid "How can I hide specific PayPal buttons?"
+msgstr "Com puc amagar botons de PayPal específics?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1356
+msgid ""
+"By default, all PayPal buttons are enabled. To hide specific buttons, use "
+"the <strong>Disable Specific Payment Buttons</strong> option."
+msgstr ""
+"Per defecte, tots els botons de PayPal estan activats. Per amagar botons "
+"específics, utilitzeu l'opció <strong>Desactivar botons de pagament "
+"específics</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1357
+msgid "Example: To hide the Pay Later button on the Checkout Page:"
+msgstr "Exemple: Per amagar el botó de Paga més tard a la pàgina de pagament:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1359
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1376
+msgid "Go to <strong>PayPal Settings</strong> > Checkout Page"
+msgstr "Vés a <strong>Configuració de PayPal</strong> > Pàgina de pagament"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1360
+msgid "Find the <strong>Disable Specific Payment Buttons</strong> setting."
+msgstr ""
+"Troba la configuració de <strong>Desactivar botons de pagament "
+"específics</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1361
+msgid "Select <strong>Pay Later</strong> from the dropdown list."
+msgstr ""
+"Selecciona <strong>Pagament més tard</strong> de la llista desplegable."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1362
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1378
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1384
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1401
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1407
+msgid "Click <strong>Save Changes</strong>."
+msgstr "Feu clic a <strong>Desa els canvis</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1369
+msgid "How can I show only the \"PayPal\" button on the Checkout page?"
+msgstr "Com puc mostrar només el botó \"PayPal\" a la pàgina de pagament?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1373
+msgid ""
+"To display only the \"PayPal\" button on the Checkout page, follow these "
+"steps:"
+msgstr ""
+"Per mostrar només el botó \"PayPal\" a la pàgina de pagament, segueix "
+"aquests passos:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1374
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1397
+msgid "Step 1: Update PayPal Settings"
+msgstr "Pas 1: Actualitza la configuració de PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1377
+msgid ""
+"Under <strong>Disable Specific Payment Buttons</strong>, select "
+"<strong>Credit or Debit Card</strong> and any other methods you want to "
+"hide."
+msgstr ""
+"Sota <strong>Desactivar botons de pagament específics</strong>, selecciona "
+"<strong>Targeta de crèdit o dèbit</strong> i qualsevol altre mètode que "
+"vulguis amagar."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1380
+msgid "Step 2: Update Advanced Card Payments Settings"
+msgstr "Pas 2: Actualitza la configuració de pagaments amb targetes avançades"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1382
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1405
+msgid "Go to <strong>Advanced Card Payments</strong> settings."
+msgstr ""
+"Vés a la configuració de <strong>Pagaments de Targeta Avançats</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1383
+msgid "Disable the option <strong>Enable Advanced Credit/Debit Card</strong>."
+msgstr ""
+"Desactiva l'opció <strong>Habilitar targeta de crèdit/dèbit "
+"avançada</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1386
+msgid ""
+"Once you save the changes in both sections, only the \"PayPal\" button will "
+"appear on the Checkout page."
+msgstr ""
+"Un cop desis els canvis en ambdues seccions, només apareixerà el botó "
+"\"PayPal\" a la pàgina de pagament."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1392
+msgid ""
+"How can I show only the \"Credit or Debit Card\" payment method on the "
+"Checkout page?"
+msgstr ""
+"Com puc mostrar només el mètode de pagament \"Targeta de crèdit o dèbit\" a "
+"la pàgina de pagament?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1396
+msgid ""
+"To display only the \"Credit or Debit Card\" payment method on the Checkout "
+"page, follow these steps:"
+msgstr ""
+"Per mostrar només el mètode de pagament \"Targeta de crèdit o dèbit\" a la "
+"pàgina de pagament, segueix aquests passos:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1399
+msgid "Go to <strong>PayPal Settings > Checkout Page</strong>."
+msgstr "Vés a <strong>Configuració de PayPal > Pàgina de pagament</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1400
+msgid "Disable the <strong>Enable PayPal</strong> option."
+msgstr "Desactiva l'opció <strong>Habilitar PayPal</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1403
+msgid "Step 2: Enable Advanced Credit/Debit Card Payments"
+msgstr "Pas 2: Habilita els pagaments avançats amb targeta de crèdit/dèbit"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1406
+msgid "Enable the option <strong>Enable Advanced Credit/Debit Card</strong>."
+msgstr ""
+"Activa l'opció <strong>Activar targeta de crèdit/dèbit avançada</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1409
+msgid ""
+"Once you save the changes in both sections, only the \"Credit or Debit "
+"Card\" payment method will appear on the Checkout page."
+msgstr ""
+"Un cop desis els canvis en ambdues seccions, només apareixerà el mètode de "
+"pagament \"Targeta de crèdit o dèbit\" a la pàgina de pagament."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1415
+msgid "What is PayPal Pay Later?"
+msgstr "Què és PayPal Pay Later?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1419
+msgid ""
+"PayPal Pay Later lets your customers split their purchases into interest-"
+"free payments over time, such as \"Pay in 4\" or monthly installments. You "
+"get paid in full upfront, while customers enjoy flexible payment options."
+msgstr ""
+"PayPal Pay Later permet als teus clients dividir les seves compres en "
+"pagaments sense interessos al llarg del temps, com ara \"Paga en 4\" o "
+"pagaments mensuals. Tu reps el pagament complet per avançat, mentre que els "
+"clients gaudeixen d'opcions de pagament flexibles."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1420
+msgid ""
+"This can help increase your sales, with many merchants seeing higher "
+"conversion rates and larger order sizes."
+msgstr ""
+"Això pot ajudar a augmentar les teves vendes, amb molts comerciants veient "
+"taxes de conversió més altes i mides de comanda més grans."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1423
+msgid "Learn more about Pay Later on PayPal’s website."
+msgstr "Aprèn més sobre Pay Later al lloc web de PayPal."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1431
+msgid "How can I contact support or request a new functionality?"
+msgstr "Com puc contactar amb el suport o sol·licitar una nova funcionalitat?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1436
+msgid ""
+"If you have any questions, encounter an issue, or have a new functionality "
+"request, please create a support ticket on our official support page at:"
+msgstr ""
+"Si teniu alguna pregunta, trobeu un problema o teniu una nova sol·licitud de"
+" funcionalitat, si us plau, creeu un tiquet de suport a la nostra pàgina "
+"oficial de suport a:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1565
+msgid "Click to Enable Google Pay"
+msgstr "Feu clic per activar Google Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1616
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1645
+msgid "Important: "
+msgstr "Important: "
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1717
+msgid "Click to Enable Apple Pay"
+msgstr "Feu clic per activar Apple Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1750
+msgid "Register Your Domain with Apple Pay"
+msgstr "Registra el teu domini amb Apple Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1754
+msgid ""
+"Any (sub)domain displaying an Apple Pay button must be registered on the "
+"PayPal website. If the domain is not registered, the payment method will not"
+" work."
+msgstr ""
+"Qualsevol (sub)domini que mostri un botó d'Apple Pay ha d'estar registrat al"
+" lloc web de PayPal. Si el domini no està registrat, el mètode de pagament "
+"no funcionarà."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1777
+msgid ""
+"Accept PayPal, Pay Later, and major cards in WooCommerce using the PayPal "
+"Commerce Platform."
+msgstr ""
+"Accepta PayPal, paga més tard i les principals targetes a WooCommerce "
+"utilitzant la PayPal Commerce Platform."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1779
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1799
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1819
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1829
+msgid "By Easy Payment"
+msgstr "Per Pagament Fàcil"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1786
+msgid "AI Product Description Generator for WooCommerce"
+msgstr "Generador de descripcions de productes d'IA per a WooCommerce"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1787
+msgid ""
+"Generate SEO-friendly titles, descriptions, and attributes with AI. Includes"
+" bulk tools and templates."
+msgstr ""
+"Genera títols, descripcions i atributs amigables amb el SEO amb IA. Inclou "
+"eines i plantilles a granel."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1789
+msgid "By nexaplugins"
+msgstr "Per nexaplugins"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1796
+msgid "Payment Gateway for Authorize.Net for WooCommerce"
+msgstr "Passarel·la de pagament per Authorize.Net per WooCommerce"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1797
+msgid ""
+"Accept credit and debit cards via Authorize.Net with a secure, seamless "
+"WooCommerce checkout."
+msgstr ""
+"Accepta targetes de crèdit i dèbit a través d'Authorize.Net amb un procés de"
+" pagament WooCommerce segur i sense interrupcions."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1806
+msgid "Widgets for Google Business Reviews and Ratings"
+msgstr "Widgets per a les ressenyes i valoracions de Google Business"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1807
+msgid ""
+"Showcase your Google Business Profile reviews and star rating with "
+"customizable widgets."
+msgstr ""
+"Mostra les teves ressenyes i la valoració per estrelles del teu perfil de "
+"Google Business amb widgets personalitzables."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1809
+msgid "By Repocean"
+msgstr "Per Repocean"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1816
+msgid "Payment Gateway for PhonePe and for WooCommerce"
+msgstr "Passarel·la de pagament per a PhonePe i per a WooCommerce"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1817
+msgid ""
+"Accept PhonePe UPI, Wallet, and Cards with a fast, secure payment experience"
+" in WooCommerce."
+msgstr ""
+"Accepta PhonePe UPI, Wallet i Targetes amb una experiència de pagament "
+"ràpida i segura a WooCommerce."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1826
+msgid "Payment Gateway for Razorpay and for WooCommerce"
+msgstr "Passarel·la de pagament per a Razorpay i per a WooCommerce"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1827
+msgid ""
+"Accept UPI, Cards, and Net Banking via Razorpay with a reliable, optimized "
+"WooCommerce integration."
+msgstr ""
+"Accepta UPI, targetes i banca en línia a través de Razorpay amb una "
+"integració de WooCommerce fiable i optimitzada."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1854
+msgid "Recommended Plugins"
+msgstr "Plugins recomanats"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1856
+msgid ""
+"Start by adding helpful extensions to your store—payments, product content, "
+"reviews and more."
+msgstr ""
+"Comenceu afegint extensions útils a la vostra botiga: pagaments, contingut "
+"de productes, ressenyes i més."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1864
+msgid "Plugin logo"
+msgstr "Logotip del complement"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1879
+msgid "Install Now"
+msgstr "Instal·la ara"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1886
+msgid "No matching plugins found for your store settings."
+msgstr ""
+"No s'han trobat complements que coincideixin amb la configuració de la teva "
+"botiga."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1945
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:357
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:462
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:582
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:651
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:732
+msgid "Live Preview"
+msgstr "Vista prèvia en viu"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1946
+msgid "PayPal Smart Button Preview"
+msgstr "Previsualització del botó intel·ligent de PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1947
+msgid "Preview only. No payment will be processed."
+msgstr "Només vista prèvia. No es processarà cap pagament."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1984
+msgid "Congratulations! PayPal is Connected 🎉"
+msgstr "Felicitats! PayPal està connectat 🎉"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1988
+msgid "The primary setup is already complete."
+msgstr "La configuració principal ja està completa."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1992
+msgid ""
+"No further action is required unless additional customization is needed."
+msgstr ""
+"No s'exigeix cap acció addicional a menys que es necessiti personalització "
+"addicional."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1997
+msgid "Got it"
+msgstr "Entès"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3105
+msgid "Invalid or missing payment token fields."
+msgstr "Camp de token de pagament invàlid o que falta."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:97
+msgid ""
+"Please choose the quantity of items you wish to add to your cart&hellip;"
+msgstr ""
+"Si us plau, trieu la quantitat d'articles que desitgeu afegir al vostre "
+"carret&hellip;"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:106
+msgid "Please choose a product to add to your cart&hellip;"
+msgstr "Si us plau, trieu un producte per afegir al vostre carret&hellip;"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:160
+msgid "Please choose product options&hellip;"
+msgstr "Si us plau, trieu les opcions del producte&hellip;"
+
+#. translators: %s: Product attribute name.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:177
+msgid "Invalid value posted for %s"
+msgstr "Valor invàlid publicat per a %s"
+
+#. translators: %s: Comma-separated list of missing required product
+#. attributes.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:185
+msgid "%s is a required field"
+msgid_plural "%s are required fields"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:168
+msgid "Continue to payment"
+msgstr "Continua amb el pagament"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:739
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1578
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2773
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1538
+msgid "Card Details"
+msgstr "Detalls de la targeta"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:750
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1589
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2784
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1549
+msgid "Address Verification Result"
+msgstr "Resultat de la verificació de l'adreça"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:759
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1598
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2793
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1558
+msgid "Card Security Code Result"
+msgstr "Resultat del codi de seguretat de la targeta"
+
+#. translators: 1: Payment method title, 2: Payment status (e.g., Completed,
+#. Pending).
+#. translators: 1: Payment method title, 2: Payment status.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:781
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1625
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2815
+msgid "Payment via %1$s : %2$s."
+msgstr "Pagament a través de %1$s : %2$s."
+
+#. translators: 1: Payment method title, 2: Transaction ID.
+#. translators: 1: payment method title, 2: transaction ID
+#. translators: %1$s is the payment method title, %2$s is the PayPal
+#. transaction ID.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:785
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:797
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:942
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1619
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2820
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2827
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1581
+msgid "%1$s Transaction ID: %2$s"
+msgstr "%1$s ID de transacció: %2$s"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:945
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1976
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1607
+msgid ""
+"Payment authorized. Change payment status to processing or complete to "
+"capture funds."
+msgstr ""
+"Pagament autoritzat. Canvia l'estat del pagament a processant o complet per "
+"capturar els fons."
+
+#. translators: 1: Refunded amount, 2: Refund transaction ID.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1314
+msgid "Refunded %1$s - Refund ID: %2$s"
+msgstr "Reemborsat %1$s - ID de reemborsament: %2$s"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1490
+msgid "An error occurred while updating the order."
+msgstr "S'ha produït un error mentre s'actualitzava la comanda."
+
+#. translators: %s: Plugin version number.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1651
+msgid "Payment Gateway for PayPal on WooCommerce: %1$s"
+msgstr "Passarel·la de pagament per PayPal a WooCommerce: %1$s"
+
+#. translators: %s: WooCommerce version number.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1653
+msgid "WooCommerce Version: %1$s"
+msgstr "Versió de WooCommerce: %1$s"
+
+#. translators: 1: PayPal pending reason.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1980
+msgid "Payment pending (%1$s)."
+msgstr "Pagament pendent (%1$s)."
+
+#. translators: 1: refunded amount, 2: refunded currency
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2046
+msgid "Marked as refunded via PayPal. Total refunded: %1$s %2$s."
+msgstr ""
+"Marcat com a reemborsat a través de PayPal. Total reemborsat: %1$s %2$s."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2185
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2617
+msgid "Sorry, your session has expired."
+msgstr "Ho sento, la teva sessió ha caducat."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2394
+msgid ""
+"This payment was unable to be processed successfully. Please try again with "
+"another payment method."
+msgstr ""
+"Aquest pagament no s'ha pogut processar amb èxit. Si us plau, torneu-ho a "
+"intentar amb un altre mètode de pagament."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:125
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:148
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:175
+msgid "Return to your shop."
+msgstr "Torna a la teva botiga."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:335
+msgid ""
+"Pay via PayPal; you can pay with your credit card if you don't have a PayPal"
+" account"
+msgstr ""
+"Paga a través de PayPal; pots pagar amb la teva targeta de crèdit si no tens"
+" un compte de PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:84
+msgid "Environment"
+msgstr "Entorn"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:87
+msgid "Select PayPal Environment"
+msgstr "Seleccioneu l'entorn de PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:89
+msgid ""
+"Choose the PayPal environment. Select \"Sandbox\" for testing transactions "
+"(no real transactions will occur) or \"Production\" for live transactions."
+msgstr ""
+"Trieu l'entorn de PayPal. Selecciona \"Sandbox\" per a provar transaccions "
+"(no es realitzaran transaccions reals) o \"Production\" per a transaccions "
+"en viu."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:93
+msgid "Sandbox (Test Mode)"
+msgstr "Sandbox (Mode de test)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:94
+msgid "Production (Live)"
+msgstr "Producció (En directe)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:98
+msgid "Connect to PayPal"
+msgstr "Connecta't a PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:102
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:152
+msgid "Setup or link an existing PayPal account."
+msgstr "Configura o vincula un compte de PayPal existent."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:106
+msgid "Live Client ID"
+msgstr "ID de client en directe"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:108
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:158
+msgid "Enter PayPal Client ID."
+msgstr "Introdueix l'ID de client de PayPal."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:117
+msgid "Live Secret key"
+msgstr "Clau secreta en directe"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:119
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:169
+msgid "Enter PayPal Secret key."
+msgstr "Introduïu la clau secreta de PayPal."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:128
+msgid "Live PayPal Email"
+msgstr "Correu electrònic de PayPal en viu"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:131
+msgid "Enter Live PayPal Email."
+msgstr "Introduïu l'email de PayPal en viu."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:140
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:189
+msgid "Connection Status"
+msgstr "Estat de connexió"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:148
+msgid "Connect to PayPal Sandbox"
+msgstr "Connecta't al Sandbox de PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:156
+msgid "Sandbox Client ID"
+msgstr "ID del client de Sandbox"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:167
+msgid "Sandbox Secret key"
+msgstr "Clau secreta de Sandbox"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:178
+msgid "Sandbox PayPal Email"
+msgstr "Correu electrònic de PayPal de Sandbox"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:181
+msgid "Enter Sandbox PayPal Email."
+msgstr "Introduïu l'email de PayPal del Sandbox."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:202
+msgid ""
+"When enabled, Payment methods will only be visible to site administrators "
+"and store managers. This allows you to test PayPal on your live site without"
+" customers seeing them."
+msgstr ""
+"Quan està habilitat, els mètodes de pagament només seran visibles per als "
+"administradors del lloc i els gestors de la botiga. Això et permet provar "
+"PayPal al teu lloc en viu sense que els clients els vegin."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
+msgid "Select Height"
+msgstr "Selecciona l'alçada"
+
+#. translators: %d is the button height in pixels.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:213
+msgid "%d px"
+msgstr "%d px"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:776
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:865
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1178
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1513
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1600
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1686
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1772
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1858
+msgid "Enable/Disable"
+msgstr "Activar/Desactivar"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:219
+msgid "Enable PayPal"
+msgstr "Habilita PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:220
+msgid ""
+"Enable this option to activate the PayPal gateway. Uncheck to disable it."
+msgstr ""
+"Activa aquesta opció per activar la passarel·la de PayPal. Desmarca per "
+"desactivar-la."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:225
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:784
+msgid "Title"
+msgstr "Títol"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:227
+msgid "The title displayed to customers during checkout."
+msgstr "El títol que es mostra als clients durant el procés de pagament."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:228
+msgid "PayPal"
+msgstr "PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:232
+msgid "Description"
+msgstr "Descripció"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:235
+msgid "The description displayed to customers during checkout."
+msgstr "La descripció que es mostra als clients durant el procés de pagament."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:240
+msgid "Display PayPal Buttons On"
+msgstr "Mostra els botons de PayPal a"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:271
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:887
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1200
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1617
+msgid "Product Page"
+msgstr "Pàgina del producte"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:248
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:365
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:929
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1241
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1703
+msgid "Cart Page"
+msgstr "Pàgina del carro"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:249
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:590
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:881
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1013
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1194
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1323
+msgid "Express Checkout"
+msgstr "Checkout ràpid"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:250
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:471
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1055
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1364
+msgid "Checkout Page"
+msgstr "Pàgina de pagament"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:251
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:971
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1282
+msgid "Mini Cart (Side Cart)"
+msgstr "Mini Carret (Carret lateral)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:253
+msgid "Set the page(s) to display the PayPal Buttons."
+msgstr "Estableix la(s) pàgina(es) per mostrar els botons de PayPal."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:259
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:279
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:372
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:478
+msgid "Disable Specific Payment Buttons"
+msgstr "Desactivar botons de pagament específics"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:261
+msgid ""
+"PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
+"Bancontact, etc.) are shown automatically based on factors such as the "
+"buyer’s country and their device type. <br><br>By default, <b>all buttons "
+"are enabled.</b> To disable individual payment buttons, use the <b>\"Disable"
+" Specific Payment Buttons\"</b> setting available in each page section "
+"below.<br><br>For Express Checkout, it will follow the configuration from "
+"the Checkout Page.<br>For Mini Cart, this setting will follow the "
+"configuration from the Product Page."
+msgstr ""
+"Els botons de PayPal (per exemple, Pay Later, Venmo, SEPA, iDEAL, Mercado "
+"Pago, Bancontact, etc.) es mostren automàticament en funció de factors com "
+"el país del comprador i el tipus de dispositiu. <br><br>Per defecte, <b>tots"
+" els botons estan activats.</b> Per desactivar botons de pagament "
+"individuals, utilitzeu la configuració <b>\"Desactivar Botons de Pagament "
+"Específics\"</b> disponible a cada secció de la pàgina a "
+"continuació.<br><br>Per a la compra expressa, seguirà la configuració de la "
+"pàgina de pagament.<br>Per al Mini Carret, aquesta configuració seguirà la "
+"configuració de la pàgina del producte."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:287
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:380
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:486
+msgid "Select payment buttons to disable"
+msgstr "Seleccioneu els botons de pagament que voleu desactivar"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:291
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:384
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:490
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:666
+msgid "Button Layout"
+msgstr "Disseny del botó"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:294
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:387
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:493
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:600
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:669
+msgid ""
+"Select Vertical for stacked buttons, and Horizontal for side-by-side "
+"buttons."
+msgstr ""
+"Seleccione Vertical per a botons apilats, i Horitzontal per a botons un al "
+"costat de l'altre."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:298
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:604
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:673
+msgid "Horizontal (Recommended)"
+msgstr "Horitzontal (Recomanat)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:299
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:605
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:674
+msgid "Vertical"
+msgstr "Vertical"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:303
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:396
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:502
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:609
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:678
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:909
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:951
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:993
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1035
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1077
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1220
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1261
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1302
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1343
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1384
+msgid "Button Color"
+msgstr "Color del botó"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:308
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:401
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:507
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:683
+msgid "Gold (Recommended)"
+msgstr "Or (Recomanat)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:309
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:402
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:508
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:615
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:684
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "Blue"
+msgstr "Blau"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:310
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:403
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:509
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:616
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:685
+msgid "Silver"
+msgstr "Argent"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:311
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:404
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:686
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:915
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:957
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:999
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1041
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1083
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1226
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1267
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1308
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1349
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1390
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "White"
+msgstr "Blanc"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:312
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:405
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:511
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:618
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:687
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:914
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:956
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:998
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1040
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1082
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1225
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1266
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1307
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1348
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "Black"
+msgstr "Negre"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:316
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:409
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:515
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:622
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:691
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:919
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:961
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1003
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1045
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1087
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1231
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1272
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1313
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1354
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1395
+msgid "Button Shape"
+msgstr "Forma del botó"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:321
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:414
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:520
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:627
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:696
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:924
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:966
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1008
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1050
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1092
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1236
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1277
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1318
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1359
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
+msgid "Rect (Recommended)"
+msgstr "Rect (Recomanat)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:415
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:521
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:628
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:697
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:925
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:967
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1009
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1051
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1093
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1237
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1278
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1319
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1360
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1401
+msgid "Pill"
+msgstr "Pastilla"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:326
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:419
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:525
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:701
+msgid "Button Width"
+msgstr "Amplada del botó"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:331
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:424
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:530
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:706
+msgid "Small"
+msgstr "Petit"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:332
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:425
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:531
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:707
+msgid "Medium"
+msgstr "Mitjà"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:333
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:426
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:532
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:708
+msgid "Large"
+msgstr "Gran"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:334
+msgid "Responsive"
+msgstr "Responsiu"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:338
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:431
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:713
+msgid "Button Height"
+msgstr "Alçada del botó"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:345
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:438
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:544
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:639
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:720
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:893
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:935
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:977
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1019
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1061
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1206
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1288
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1329
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1370
+msgid "Button Label"
+msgstr "Etiqueta del botó"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:350
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:443
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:549
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:644
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:725
+msgid "PayPal (Recommended)"
+msgstr "PayPal (Recomanat)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:351
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:444
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:550
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:645
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:726
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:882
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:900
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:942
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:984
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1026
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1068
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1195
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1213
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1254
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1295
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1336
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1377
+msgid "Checkout"
+msgstr "Finalització de la compra"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:352
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:445
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:551
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:646
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:727
+msgid "Buy Now"
+msgstr "Compra ara"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:353
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:446
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:552
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:647
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:728
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:904
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:946
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:988
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1030
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1072
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1215
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1256
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1297
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1379
+msgid "Pay"
+msgstr "Paga"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:391
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:497
+msgid "Vertical (Recommended)"
+msgstr "Vertical (Recomanat)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:392
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:498
+msgid "Horizontal"
+msgstr "Horitzontal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:427
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:533
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:709
+msgid "Responsive (Recommended)"
+msgstr "Responsiu (Recomanat)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:450
+msgid "PayPal Button Position (Classic Cart Only)"
+msgstr "Posició del botó de PayPal (Només Carret Clàssic)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:453
+msgid ""
+"Choose where the PayPal buttons should appear on the cart page, either above"
+" or below the \"Proceed to Checkout\" button. This applies only to classic "
+"cart templates, not the new Cart Blocks layout."
+msgstr ""
+"Tria on haurien d'aparèixer els botons de PayPal a la pàgina del carro, ja "
+"sigui a sobre o a sota del botó \"Procedir a la compra\". Això s'aplica "
+"només a plantilles de carro clàssiques, no al nou disseny de Cart Blocks."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:457
+msgid "Below Proceed to Checkout button"
+msgstr "A sota del botó Procedir al pagament"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:458
+msgid "Above Proceed to Checkout button"
+msgstr "Per sobre del botó Procedir a la compra"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:556
+msgid "Icon"
+msgstr "Icona"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:560
+msgid "Monogram (PP)"
+msgstr "Monograma (PP)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:561
+msgid "Wordmark (PayPal)"
+msgstr "Logotip (PayPal)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:562
+msgid "Combination Mark (PP PayPal)"
+msgstr "Marca de combinació (PP PayPal)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:564
+msgid ""
+"Select the PayPal logo style displayed next to the payment method title on "
+"the checkout page."
+msgstr ""
+"Seleccione l'estil del logo de PayPal que es mostra al costat del títol del "
+"mètode de pagament a la pàgina de pagament."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:567
+msgid "Show Redirect Icon and Text"
+msgstr "Mostra l'icona i el text de redirecció"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:571
+msgid ""
+"When enabled, a redirect icon and message will appear to let customers know "
+"they will be taken to PayPal to complete their payment."
+msgstr ""
+"Quan està habilitat, apareixerà una icona de redirecció i un missatge per "
+"informar als clients que seran portats a PayPal per completar el seu "
+"pagament."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:574
+msgid "Use Place Order Button"
+msgstr "Utilitza el botó Fer comanda"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:578
+msgid ""
+"Enable this to use the default Place Order button on the checkout page "
+"instead of showing PayPal buttons. This setting does not affect Express "
+"Checkout."
+msgstr ""
+"Activa això per utilitzar el botó de Fer la comanda per defecte a la pàgina "
+"de pagament en comptes de mostrar els botons de PayPal. Aquesta configuració"
+" no afecta el Pagament Express."
+
+#. translators: Admin notice explaining how to enable PayPal Advanced Card
+#. Payments. HTML <br> tags are intentional for formatting.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:747
+msgid ""
+"To use Advanced Card Payments, ensure your PayPal account is eligible and enabled:<br><br>\r\n"
+"                <strong>Steps:</strong><br>\r\n"
+"                1. Visit developer.paypal.com → Apps & Credentials → API Credentials.<br>\r\n"
+"                2. Click your App Name.<br>\r\n"
+"                3. Under \"Features\" → Accept Payments, check if \"Advanced Credit and Debit Card Payments\" is enabled.<br>\r\n"
+"                4. If missing, your account or region may not support it."
+msgstr ""
+"Per utilitzar els Pagaments Avançats amb Targeta, assegureu-vos que el vostre compte de PayPal sigui elegible i estigui habilitat:<br><br>\r\n"
+"                <strong>Passos:</strong><br>\r\n"
+"                1. Visiteu developer.paypal.com → Apps i Credencials → Credencials API.<br>\r\n"
+"                2. Feu clic al nom de la vostra aplicació.<br>\r\n"
+"                3. A \"Funcions\" → Acceptar Pagaments, comproveu si \"Pagaments Avançats amb Targeta de Crèdit i de Débit\" està habilitat.<br>\r\n"
+"                4. Si falta, el vostre compte o regió potser no ho suporti."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:771
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:829
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:860
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1102
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1124
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1167
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1418
+msgid "Important Note"
+msgstr "Nota important"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:778
+msgid "Enable Advanced Credit/Debit Card"
+msgstr "Habilita la targeta de crèdit/dèbit avançada"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:780
+msgid ""
+"Enable the Advanced Credit/Debit Card payment option as a separate gateway "
+"on the checkout page. This gateway typically offers a lower PayPal fee "
+"compared to the PayPal Smart Button. The fee is 2.59% + $0.49* per "
+"transaction for Advanced Credit/Debit Card payments and 3.49% + $0.49* for "
+"PayPal Smart Buttons. It supports major cards like Visa, Mastercard, and "
+"American Express, providing a secure and streamlined payment experience."
+msgstr ""
+"Activa l'opció de pagament amb targeta de crèdit/dèbit avançada com a un "
+"portal separat a la pàgina de pagament. Aquest portal ofereix normalment una"
+" tarifa de PayPal més baixa en comparació amb el Botó Intel·ligent de "
+"PayPal. La tarifa és del 2,59% + $0,49* per transacció per a pagaments amb "
+"targeta de crèdit/dèbit avançada i del 3,49% + $0,49* per als Botons "
+"Intel·ligents de PayPal. Admet targetes principals com Visa, Mastercard i "
+"American Express, proporcionant una experiència de pagament segura i "
+"optimitzada."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:786
+msgid ""
+"Set the title for the Advanced Credit/Debit Card payment method as it will "
+"appear on the checkout page (e.g., 'Pay with Credit/Debit Card').."
+msgstr ""
+"Estableix el títol per al mètode de pagament amb targeta de crèdit/dèbit tal"
+" com apareixerà a la pàgina de pagament (per exemple, 'Paga amb targeta de "
+"crèdit/dèbit')."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:787
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1058
+msgid "Credit or Debit Card"
+msgstr "Targeta de crèdit o de dèbit"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:791
+msgid "Disable specific credit cards"
+msgstr "Desactivar targetes de crèdit específiques"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:797
+msgid ""
+"By default all possible credit cards will be accepted. You can disable some "
+"cards, if you wish."
+msgstr ""
+"Per defecte, s'acceptaran totes les targetes de crèdit possibles. Podeu "
+"desactivar algunes targetes, si ho desitgeu."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:804
+msgid "Contingency for 3D Secure"
+msgstr "Contingència per a 3D Secure"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:808
+msgid "3D Secure when required"
+msgstr "3D Secure quan és necessari"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:809
+msgid "Always trigger 3D Secure"
+msgstr "Sempre activa 3D Secure"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:813
+msgid ""
+"3D Secure benefits cardholders and merchants by providing an additional "
+"layer of verification using Verified by Visa, MasterCard SecureCode and "
+"American Express SafeKey."
+msgstr ""
+"3D Secure beneficia als titulars de targetes i als comerciants proporcionant"
+" una capa addicional de verificació mitjançant Verified by Visa, MasterCard "
+"SecureCode i American Express SafeKey."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:816
+msgid "Card Save Enabled"
+msgstr "Desa de targeta activada"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:817
+msgid "Enable card saving at checkout"
+msgstr "Activa la guardada de targetes a la finalització de la compra"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:820
+msgid ""
+"When enabled, customers can securely save their card details using PayPal "
+"for faster future checkouts."
+msgstr ""
+"Quan està habilitat, els clients poden desar de manera segura els detalls de"
+" la seva targeta mitjançant PayPal per a un pagament més ràpid en el futur."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:831
+msgid ""
+"Advanced Credit/Debit Card payments are not enabled in your PayPal account. "
+"<br><br><strong>Supported Countries:</strong><br>Australia, Austria, "
+"Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, "
+"Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan,"
+" Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, "
+"Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, "
+"United States, United Kingdom<br><br>"
+msgstr ""
+"Els pagaments avançats amb targeta de crèdit/dèbit no estan activats al "
+"vostre compte de PayPal. <br><br><strong>Països "
+"suportats:</strong><br>Austràlia, Àustria, Bèlgica, Bulgària, Canadà, Xina, "
+"Xipre, República Txeca, Dinamarca, Estònia, Finlàndia, França, Alemanya, "
+"Grècia, Hong Kong, Hongria, Irlanda, Itàlia, Japó, Letònia, Liechtenstein, "
+"Lituània, Luxemburg, Malta, Països Baixos, Noruega, Polònia, Portugal, "
+"Romania, Singapur, Eslovàquia, Eslovènia, Espanya, Suècia, Estats Units, "
+"Regne Unit<br><br>"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
+msgid "Please ensure that Google Pay is enabled in your PayPal account."
+msgstr ""
+"Si us plau, assegura't que Google Pay estigui activat al teu compte de "
+"PayPal."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
+msgid "Check this box to display the Google Pay button on selected pages."
+msgstr ""
+"Marqueu aquesta casella per mostrar el botó de Google Pay a les pàgines "
+"seleccionades."
+
+#. translators: 1: Google Pay setup guide link, 2: supported countries and
+#. currencies link
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:842
+msgid ""
+"Google Pay must be enabled in your PayPal account (%1$s). Please ensure your"
+" country and currency are supported (%2$s)."
+msgstr ""
+"Google Pay s'ha d'habilitar al teu compte de PayPal (%1$s). Si us plau, "
+"assegura't que el teu país i moneda són compatibles (%2$s)."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:847
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1154
+msgid "setup guide"
+msgstr "guia d'instal·lació"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:850
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1157
+msgid "supported countries and currencies"
+msgstr "països i monedes suportats"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:855
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1162
+msgid "The page must be served over a secure (HTTPS) connection."
+msgstr "La pàgina s'ha de servir a través d'una connexió segura (HTTPS)."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:857
+msgid "To show the Google Pay button,"
+msgstr "Per mostrar el botó de Google Pay,"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:866
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1112
+msgid "Enable Google Pay"
+msgstr "Activa Google Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:872
+msgid "Display Google Pay Button On"
+msgstr "Mostra el botó de Google Pay activat"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:878
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1191
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
+msgid "Product"
+msgstr "Producte"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:879
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1192
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
+msgid "Cart"
+msgstr "Carret"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:880
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1193
+msgid "Mini Cart"
+msgstr "Mini Carret"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:884
+msgid "Set the page(s) to display the Google Pay button."
+msgstr "Estableix la(s) pàgina(s) per mostrar el botó de Google Pay."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:898
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:940
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:982
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1024
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1066
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1211
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1252
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1293
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1334
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1375
+msgid "Plain"
+msgstr "Pla"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:899
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:941
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:983
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1025
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1067
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1212
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1253
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1294
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1335
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1376
+msgid "Buy"
+msgstr "Comprar"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:901
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:943
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:985
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1027
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1069
+msgid "Donate"
+msgstr "Dona"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:902
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:944
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:986
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1028
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1070
+msgid "Book"
+msgstr "Llibre"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:903
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:945
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:987
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1029
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1071
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1214
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1255
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1296
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1337
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1378
+msgid "Order"
+msgstr "Comanda"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:905
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:947
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:989
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1031
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1073
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1216
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1257
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1298
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1380
+msgid "Subscribe"
+msgstr "Subscriure"
+
+#. translators: %1$s is the supported countries list. %2$s is the supported
+#. currencies list.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1106
+msgid ""
+"Google Pay is not enabled in your PayPal account. Click below to enable "
+"it.<br><br><strong>Supported "
+"Countries:</strong><br>%1$s<br><br><strong>Supported "
+"Currencies:</strong><br>%2$s"
+msgstr ""
+"Google Pay no està habilitat al teu compte de PayPal. Fes clic a continuació"
+" per habilitar-ho.<br><br><strong>Països "
+"suportats:</strong><br>%1$s<br><br><strong>Monedes "
+"suportades:</strong><br>%2$s"
+
+#. translators: %1$s is the list of supported countries. %2$s is the list of
+#. supported currencies.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1128
+msgid ""
+"Apple Pay is not enabled in your PayPal account. Click below to enable "
+"it.<br><br><strong>Supported "
+"Countries:</strong><br>%1$s<br><br><strong>Supported "
+"Currencies:</strong><br>%2$s"
+msgstr ""
+"Apple Pay no està habilitat al teu compte de PayPal. Fes clic a continuació "
+"per habilitar-ho.<br><br><strong>Països "
+"suportats:</strong><br>%1$s<br><br><strong>Monedes "
+"suportades:</strong><br>%2$s"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1134
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1179
+msgid "Enable Apple Pay"
+msgstr "Activar Apple Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
+msgid "Please ensure that Apple Pay is enabled in your PayPal account."
+msgstr ""
+"Si us plau, assegureu-vos que Apple Pay està activat al vostre compte de "
+"PayPal."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
+msgid "Check this box to display the Apple Pay button on selected pages."
+msgstr ""
+"Marqueu aquesta casella per mostrar el botó d'Apple Pay a les pàgines "
+"seleccionades."
+
+#. translators: 1: Apple Pay setup guide link, 2: supported countries and
+#. currencies link
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1149
+msgid ""
+"Apple Pay must be enabled in your PayPal account (%1$s) and make sure your "
+"country and currency are supported (%2$s)."
+msgstr ""
+"Apple Pay s'ha d'habilitar al teu compte de PayPal (%1$s) i assegura't que "
+"el teu país i moneda són compatibles (%2$s)."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1164
+msgid "To show the Apple Pay button,"
+msgstr "Per mostrar el botó d'Apple Pay,"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1172
+msgid "Domain Registration"
+msgstr "Registre de domini"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1174
+msgid ""
+"Apple requires that the website domain be registered on PayPal. Payments "
+"will not be processed if the Apple Pay button is used on an unregistered "
+"domain."
+msgstr ""
+"Apple requereix que el domini del lloc web estigui registrat a PayPal. Els "
+"pagaments no es processaran si s'utilitza el botó Apple Pay en un domini no "
+"registrat."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1185
+msgid "Display Apple Pay Button On"
+msgstr "Mostra el botó de Apple Pay activat"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1197
+msgid "Set the page(s) to display the Apple Pay button."
+msgstr "Estableix la(s) pàgina(es) per mostrar el botó d'Apple Pay."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1227
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1268
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1309
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1350
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1391
+msgid "White with outline"
+msgstr "Blanc amb contorn"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1421
+msgid ""
+"Your customers can already buy now and pay later with PayPal — add messaging"
+" to your site to let them know. PayPal’s Pay Later helps boost merchants' "
+"conversion rates and increases cart sizes by 39%.¹ You get paid in full up "
+"front. <a target=\"_blank\" "
+"href=\"https://www.paypal.com/us/business/accept-"
+"payments/checkout/installments\">More about Pay Later</a>"
+msgstr ""
+"Els teus clients ja poden comprar ara i pagar més tard amb PayPal — afegeix "
+"missatges al teu lloc per fer-los-ho saber. El Pay Later de PayPal ajuda a "
+"augmentar les taxes de conversió dels comerciants i incrementa les mides "
+"dels carretets en un 39%.¹ Tu reps el pagament complet per avançat. <a "
+"target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-"
+"payments/checkout/installments\">Més informació sobre Pay Later</a>"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1429
+msgid "Enable Pay Later Messaging"
+msgstr "Habilita la missatgeria de pagar més tard"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1431
+msgid "Displays Pay Later messaging for available offers."
+msgstr "Mostra missatges de Paga més tard per a les ofertes disponibles."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1435
+msgid "Display Pay Later messaging On"
+msgstr "Mostra el missatge de Paga més tard activat"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
+msgid "Home"
+msgstr "Inici"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
+msgid "Category"
+msgstr "Categoria"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
+msgid "Payment"
+msgstr "Pagament"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1441
+msgid ""
+"Set the page(s) you want to display messaging on, and then adjust that "
+"page's display option below."
+msgstr ""
+"Estableix la(s) pàgina(s) en què vols mostrar missatges i després ajusta "
+"l'opció de visualització d'aquesta pàgina a continuació."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1444
+msgid "Home Page"
+msgstr "Pàgina d'inici"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
+msgid "Layout Type"
+msgstr "Tipus de disseny"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1456
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1543
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1629
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1715
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1801
+msgid "Text Layout"
+msgstr "Disseny de text"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1456
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1543
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1629
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1715
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1801
+msgid "Flex Layout"
+msgstr "Disseny Flex"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
+msgid "Logo Type"
+msgstr "Tipus de logotip"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1552
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1638
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1724
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
+msgid "Primary"
+msgstr "Primari"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1552
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1638
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1724
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
+msgid "Alternative"
+msgstr "Alternativa"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1552
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1638
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1724
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
+msgid "Inline"
+msgstr "En línia"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1552
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1638
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1724
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
+msgid "None"
+msgstr "Cap"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1468
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1555
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1641
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1727
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1813
+msgid "Logo Position"
+msgstr "Posició del logotip"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1474
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1561
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1647
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1733
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
+msgid "Left"
+msgstr "Esquerra"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1474
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1561
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1647
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1733
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
+msgid "Right"
+msgstr "Dret"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1474
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1561
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1647
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1733
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
+msgid "Top"
+msgstr "Superior"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1477
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1564
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1650
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1736
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1822
+msgid "Text Size"
+msgstr "Mida del text"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1486
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1573
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1745
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1831
+msgid "Text Color"
+msgstr "Color del text"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "Monochrome"
+msgstr "Monocrom"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "Grayscale"
+msgstr "Escala de gris"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1495
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1582
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1668
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1754
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1840
+msgid "Color"
+msgstr "Color"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "White (No Border)"
+msgstr "Blanc (Sense Bord)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "Gray"
+msgstr "Gris"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1504
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1591
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1677
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1763
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1849
+msgid "Ratio"
+msgstr "Rati"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
+msgid "Flexes between 120px and 300px wide"
+msgstr "Flexiona entre 120px i 300px d'ample"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
+msgid "160px wide"
+msgstr "160px d'ample"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
+msgid "Flexes between 250px and 768px wide"
+msgstr "Flexiona entre 250px i 768px d'ample"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
+msgid "Flexes between 250px and 1169px wide"
+msgstr "Flexiona entre 250px i 1169px d'ample"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1514
+msgid ""
+"I need a shortcode so that I can place the message in a better spot on Home "
+"page."
+msgstr ""
+"Necessito un shortcode perquè pugui col·locar el missatge en un millor lloc "
+"a la pàgina d'inici."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1521
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1608
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1694
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1780
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1866
+msgid "Shortcode"
+msgstr "Codi curt"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1530
+msgid "Category Page"
+msgstr "Pàgina de categoria"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
+msgid ""
+"I need a shortcode so that I can place the message in a better spot on "
+"category page."
+msgstr ""
+"Necessito un shortcode perquè pugui col·locar el missatge en un lloc millor "
+"a la pàgina de categoria."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
+msgid ""
+"I need a shortcode so that I can place the message in a better spot on "
+"product page."
+msgstr ""
+"Necessito un shortcode perquè pugui col·locar el missatge en un lloc millor "
+"a la pàgina del producte."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
+msgid ""
+"I need a shortcode so that I can place the message in a better spot on cart "
+"page."
+msgstr ""
+"Necessito un shortcode perquè pugui col·locar el missatge en un lloc millor "
+"a la pàgina del carro."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1789
+msgid "Payment Page"
+msgstr "Pàgina de pagament"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1859
+msgid ""
+"I need a shortcode so that I can place the message in a better spot on "
+"payment page."
+msgstr ""
+"Necessito un shortcode perquè pugui col·locar el missatge en un millor lloc "
+"a la pàgina de pagament."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1879
+msgid "Payment action"
+msgstr "Acció de pagament"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1882
+msgid ""
+"Choose whether you wish to capture funds immediately or authorize payment "
+"only."
+msgstr ""
+"Trieu si desitges capturar fons immediatament o només autoritzar el "
+"pagament."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1886
+msgid "Capture"
+msgstr "Captura"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1887
+msgid "Authorize"
+msgstr "Autoritzar"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1891
+msgid "Brand Name"
+msgstr "Nom de la marca"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1893
+msgid ""
+"This controls what users see as the brand / company name on PayPal review "
+"pages."
+msgstr ""
+"Això controla el que veuen els usuaris com a nom de marca / empresa a les "
+"pàgines de revisió de PayPal."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1898
+msgid "Landing Page"
+msgstr "Pàgina de destinació"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1901
+msgid ""
+"The type of landing page to show on the PayPal site for customer checkout. "
+"PayPal Account Optional must be checked for this option to be used."
+msgstr ""
+"El tipus de pàgina de destinació que s'ha de mostrar al lloc de PayPal per "
+"al pagament dels clients. S'ha de marcar l'opció 'Compte de PayPal opcional'"
+" perquè aquesta opció pugui ser utilitzada."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1902
+msgid "Login"
+msgstr "Iniciar sessió"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1903
+msgid "Billing"
+msgstr "Facturació"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1904
+msgid "No Preference"
+msgstr "Sense preferència"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1909
+msgid "Instant Payments "
+msgstr "Pagaments Instantanis "
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1913
+msgid ""
+"If you enable this setting, PayPal will be instructed not to allow the buyer"
+" to use funding sources that take additional time to complete (for example, "
+"eChecks). Instead, the buyer will be required to use an instant funding "
+"source, such as an instant transfer, a credit/debit card, or PayPal Credit."
+msgstr ""
+"Si activeu aquesta configuració, s'instruirà a PayPal que no permeti al "
+"comprador utilitzar fonts de finançament que necessitin temps addicional per"
+" completar (per exemple, els xecs electrònics). En canvi, el comprador haurà"
+" d'utilitzar una font de finançament instantània, com ara una transferència "
+"instantània, una targeta de crèdit/dèbit o PayPal Credit."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1916
+msgid "Require Instant Payment"
+msgstr "Requereix Pagament Instantani"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1919
+msgid "Billing Address"
+msgstr "Adreça de facturació"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1920
+msgid "Use PayPal Shipping Address as Billing"
+msgstr "Utilitza l'adreça d'enviament de PayPal com a facturació"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1921
+msgid ""
+"If the billing address is empty and PayPal provides a shipping address, the "
+"order will use the shipping address as the billing address."
+msgstr ""
+"Si l'adreça de facturació està buida i PayPal proporciona una adreça "
+"d'enviament, la comanda utilitzarà l'adreça d'enviament com a adreça de "
+"facturació."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1927
+msgid "Send Item Details"
+msgstr "Envia detalls de l'element"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1928
+msgid "Send line item details to PayPal"
+msgstr "Envia els detalls de l'article a PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1930
+msgid ""
+"Include all line item details in the payment request to PayPal so that they "
+"can be seen from the PayPal transaction details page."
+msgstr ""
+"Inclou tots els detalls dels articles en la sol·licitud de pagament a PayPal"
+" perquè es puguin veure des de la pàgina de detalls de la transacció de "
+"PayPal."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1934
+msgid "Order Review Page"
+msgstr "Pàgina de revisió de comandes"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1935
+msgid "Skip Order Review Page"
+msgstr "Saltar la pàgina de revisió de la comanda"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1937
+msgid ""
+"Payments from the Product or Cart page skip the review step and go straight "
+"to the Thank You page."
+msgstr ""
+"Els pagaments des de la pàgina del Producte o del Carretó salten el pas de "
+"revisió i van directament a la pàgina de Gràcies."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1944
+msgid "Invoice prefix"
+msgstr "Prefix de la factura"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1946
+msgid ""
+"Please enter a prefix for your invoice numbers. If you use your PayPal "
+"account for multiple stores ensure this prefix is unique as PayPal will not "
+"allow orders with the same invoice number."
+msgstr ""
+"Si us plau, introdueix un prefix per als teus números de factura. Si "
+"utilitzes el teu compte de PayPal per a múltiples botigues, assegura't que "
+"aquest prefix sigui únic, ja que PayPal no permetrà comandes amb el mateix "
+"número de factura."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1951
+msgid "Credit Card Statement Name"
+msgstr "Nom de l'estat de compte de la targeta de crèdit"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1953
+msgid ""
+"The value entered here will be displayed on the buyer's credit card "
+"statement."
+msgstr ""
+"El valor introduït aquí es mostrarà en l'estat de compte de la targeta de "
+"crèdit del comprador."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1959
+msgid "Debug log"
+msgstr "Registre de depuració"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1961
+msgid "Enable logging"
+msgstr "Habilita el registre"
+
+#. translators: %s is the path to the WooCommerce PayPal debug log file.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1965
+msgid "Log PayPal events, such as Webhook, Payment, Refund inside %s"
+msgstr ""
+"Registra esdeveniments de PayPal, com ara Webhook, Pagament, Reemborsament "
+"dins de %s"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:137
+msgid "PayPal Shipment Tracking"
+msgstr "Seguiment de l'enviament de PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:177
+msgid "Transaction Id"
+msgstr "Id de transacció"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:181
+msgid "Tracking Number*"
+msgstr "Número de seguiment*"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:185
+msgid "Status"
+msgstr "Estat"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:194
+msgid "Carrier"
+msgstr "Transportista"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:196
+msgid "Select Carrier"
+msgstr "Selecciona el transportista"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:210
+msgid "Carrier Name*"
+msgstr "Nom del transportista*"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:217
+msgid "Add tracking information"
+msgstr "Afegir informació de seguiment"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:292
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2147
+msgid "Something went wrong. Please try again."
+msgstr "Alguna cosa ha anat malament. Si us plau, torneu-ho a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:335
+msgid "Billing address didn’t match the card (AVS)."
+msgstr "L'adreça de facturació no coincidia amb la targeta (AVS)."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:339
+msgid "Security code (CVV) didn’t match."
+msgstr "El codi de seguretat (CVV) no coincideix."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:345
+msgid "The payer opened a dispute with PayPal."
+msgstr "El pagador va obrir una disputa amb PayPal."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:348
+msgid "The issuer reversed the charge (chargeback)."
+msgstr "L'emissor va revertir el càrrec (càrrec retroactiu)."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:351
+msgid "Payment by eCheck—awaiting clearance."
+msgstr "Pagament per eCheck—esperant la liquidació."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:354
+msgid "Action required in your PayPal account (international withdrawal)."
+msgstr "Acció requerida al teu compte de PayPal (retirada internacional)."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:357
+msgid "Payment pending manual review."
+msgstr "Pagament pendent de revisió manual."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:360
+msgid "Payee receiving preference requires action (often currency related)."
+msgstr ""
+"La preferència de recepció del beneficiari requereix acció (sovint "
+"relacionada amb la moneda)."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:363
+msgid "Funds were refunded."
+msgstr "Els fons han estat retornats."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:366
+msgid "Approved—waiting for payer to send funds."
+msgstr "Aprovat—esperant que el pagador enviï els fons."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:369
+msgid "Payee does not have a PayPal account."
+msgstr "El beneficiari no té un compte de PayPal."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:372
+msgid "Payee’s PayPal account requires verification."
+msgstr "El compte de PayPal del beneficiari requereix verificació."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:385
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1156
+msgid "The transaction could not be completed."
+msgstr "La transacció no es va poder completar."
+
+#. translators: 1: payment method title, 2: pending reason text
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:393
+msgid "Payment via %1$s pending. %2$s"
+msgstr "El pagament a través de %1$s està pendent. %2$s"
+
+#. translators: 1: payment method title, 2: decline reason text
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:405
+msgid "Payment via %1$s declined. %2$s"
+msgstr "El pagament a través de %1$s ha estat rebutjat. %2$s"
+
+#. translators: %s: payment failure reason
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:415
+msgid "Payment declined. %s"
+msgstr "Pagament rebutjat. %s"
+
+#. translators: 1: processor response code, 2: AVS result, 3: CVV result
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:428
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:465
+msgid "Processor response: code=%1$s, AVS=%2$s, CVV=%3$s"
+msgstr "Resposta del processador: codi=%1$s, AVS=%2$s, CVV=%3$s"
+
+#. translators: 1: payment method title, 2: failure reason
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:442
+msgid "Payment via %1$s failed. %2$s"
+msgstr "El pagament a través de %1$s ha fallat. %2$s"
+
+#. translators: %s: payment failure reason
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:452
+msgid "Payment failed. %s"
+msgstr "El pagament ha fallat. %s"
+
+#. translators: 1: payment method title, 2: PayPal refund reason
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:480
+msgid "Payment via %1$s partially refunded. PayPal reason: %2$s."
+msgstr ""
+"El pagament a través de %1$s ha estat parcialment reemborsat. Motiu de "
+"PayPal: %2$s."
+
+#. translators: 1: payment method title, 2: PayPal refund reason
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:493
+msgid "Payment via %1$s refunded. PayPal reason: %2$s."
+msgstr ""
+"El pagament a través de %1$s ha estat reemborsat. Motiu de PayPal: %2$s."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:509
+msgid "An error occurred while updating the order status."
+msgstr "S'ha produït un error mentre s'actualitzava l'estat de la comanda."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1059
+msgid "PayPal Credit"
+msgstr "Crèdit PayPal"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1060
+msgid "Bancontact"
+msgstr "Bancontact"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1061
+msgid "BLIK"
+msgstr "BLIK"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1062
+msgid "eps"
+msgstr "eps"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1063
+msgid "iDEAL"
+msgstr "iDEAL"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1064
+msgid "Mercado Pago"
+msgstr "Mercado Pago"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1065
+msgid "MyBank"
+msgstr "El meu banc"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1066
+msgid "Przelewy24"
+msgstr "Przelewy24"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1067
+msgid "SEPA-Lastschrift"
+msgstr "SEPA-Debit"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1068
+msgid "Venmo"
+msgstr "Venmo"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1069
+msgid "PayPal Pay Later"
+msgstr "PayPal Paga més tard"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1070
+msgid "PayPal Checkout"
+msgstr "Pagament amb PayPal"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1127
+msgid "Approved."
+msgstr "Aprovat."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1128
+msgid "The card security code (CVV) was incorrect."
+msgstr "El codi de seguretat de la targeta (CVV) era incorrecte."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1129
+msgid "Your bank needs to approve this. Please contact your card issuer."
+msgstr ""
+"El teu banc necessita aprovar això. Si us plau, contacta amb l'emissor de la"
+" teva targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1130
+msgid "We could not find this account. Please check your card details."
+msgstr ""
+"No hem pogut trobar aquest compte. Si us plau, comproveu els detalls de la "
+"vostra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1131
+msgid "The bank declined this transaction. Please try another payment method."
+msgstr ""
+"El banc va rebutjar aquesta transacció. Si us plau, proveu un altre mètode "
+"de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1132
+msgid "This transaction is not authorized. Please contact your card issuer."
+msgstr ""
+"Aquesta transacció no està autoritzada. Si us plau, contacteu amb l'emissor "
+"de la vostra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1133
+msgid "There was a processing issue. The payment was reversed."
+msgstr "Hi havia un problema de processament. El pagament va ser revertit."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1134
+msgid "A security check failed. Please try again."
+msgstr ""
+"Ha fallat una verificació de seguretat. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1135
+msgid "The PIN was not accepted."
+msgstr "El PIN no va ser acceptat."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1136
+msgid "Temporary system issue. Please try again later."
+msgstr ""
+"Problema temporal del sistema. Si us plau, torna-ho a provar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1137
+msgid "Payment was canceled."
+msgstr "El pagament va ser cancel·lat."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1138
+msgid "Only part of the amount was approved."
+msgstr "Només una part de l'import va ser aprovada."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1139
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1157
+msgid "The bank declined this transaction."
+msgstr "El banc va rebutjar aquesta transacció."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1140
+msgid "Invalid data format."
+msgstr "Format de dades no vàlid."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1141
+msgid "Invalid amount."
+msgstr "Quantitat no vàlida."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1142
+msgid "Card issuer/acquirer not allowed for this transaction."
+msgstr "Emissor/adquirent de targetes no permès per a aquesta transacció."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1143
+msgid "Invalid capture date."
+msgstr "Data de captura no vàlida."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1144
+msgid "Unsupported currency for this card."
+msgstr "Moneda no compatible per a aquesta targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1145
+msgid "Invalid account number."
+msgstr "Número de compte no vàlid."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1146
+msgid "This card is not allowed for recurring payments."
+msgstr "Aquesta targeta no està permesa per a pagaments recurrents."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1147
+msgid "Invalid terminal configuration."
+msgstr "Configuració de terminal no vàlida."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1148
+msgid "Invalid merchant configuration."
+msgstr "Configuració de comerciant no vàlida."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1149
+msgid "The account is restricted or inactive."
+msgstr "L'accés al compte està restringit o inactiu."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1150
+msgid "Invalid processing code."
+msgstr "Codi de processament invàlid."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1151
+msgid "Invalid merchant category."
+msgstr "Categoria de comerciant no vàlida."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1152
+msgid "Invalid card expiry date."
+msgstr "Data de caducitat de la targeta no vàlida."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1153
+msgid "Invalid card security code (CVV)."
+msgstr "Codi de seguretat de la targeta (CVV) no vàlid."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1154
+msgid "Invalid transaction state."
+msgstr "Estat de transacció no vàlid."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1155
+msgid "Invalid order."
+msgstr "Comanda no vàlida."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1158
+msgid "The card security code (CVV) did not match."
+msgstr "El codi de seguretat de la targeta (CVV) no coincideix."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1159
+msgid "Insufficient funds."
+msgstr "Fons insuficients."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1160
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1171
+msgid "Incorrect PIN."
+msgstr "PIN incorrect."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1161
+msgid "Too many incorrect PIN attempts."
+msgstr "Massa de intents de PIN incorrectes."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1162
+msgid "This card is closed."
+msgstr "Aquesta targeta està tancada."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1163
+msgid "Card capture requested by the bank."
+msgstr "Captura de targeta sol·licitada pel banc."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1164
+msgid "User not authorized for this transaction."
+msgstr "Usuari no autoritzat per a aquesta transacció."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1165
+msgid "Address verification failed."
+msgstr "La verificació de l'adreça ha fallat."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1166
+msgid "Invalid or restricted card."
+msgstr "Targeta no vàlida o restringida."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1167
+msgid "Address verification soft failure."
+msgstr "Falla suau en la verificació de l'adreça."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1168
+msgid "Duplicate transaction."
+msgstr "Transacció duplicada."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1169
+msgid "Invalid transaction."
+msgstr "Transacció no vàlida."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1170
+msgid "The card is expired."
+msgstr "La targeta ha caducat."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1172
+msgid "Strong customer authentication required."
+msgstr "S'autentificació forta del client requerida."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1173
+msgid "This type of transaction is not permitted."
+msgstr "Aquest tipus de transacció no està permès."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1174
+msgid "Too many attempts. Please try again later."
+msgstr "Massa intents. Si us plau, torna-ho a intentar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1175
+msgid "Invalid or restricted card. Please use another card."
+msgstr ""
+"Targeta no vàlida o restringida. Si us plau, utilitzeu una altra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1176
+msgid "Address verification soft failure. Please check your billing address."
+msgstr ""
+"Error de verificació de l'adreça. Si us plau, comproveu la vostra adreça de "
+"facturació."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1177
+msgid "Duplicate transaction. Please try again."
+msgstr "Transacció duplicada. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1178
+msgid "Invalid transaction. Please try again."
+msgstr "Transacció no vàlida. Si us plau, torneu a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1179
+msgid "Expired card. Please use another card."
+msgstr "Targeta caducada. Si us plau, utilitzeu una altra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1180
+msgid "Incorrect PIN. Please re-enter your PIN."
+msgstr "PIN incorrect. Si us plau, torna a introduir el teu PIN."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1181
+msgid "Strong customer authentication required. Please try again."
+msgstr ""
+"S'autenticació forta del client és necessària. Si us plau, torneu-ho a "
+"intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1182
+msgid "Transaction not permitted. Please use another payment method."
+msgstr ""
+"Transacció no permesa. Si us plau, utilitzeu un altre mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1183
+msgid "Transaction attempts exceed limit. Please try again later."
+msgstr ""
+"Els intents de transacció superen el límit. Si us plau, torneu-ho a intentar"
+" més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1184
+msgid "Reversal rejected. Please contact support."
+msgstr "Reversió rebutjada. Si us plau, contacteu amb el suport."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1185
+msgid "Invalid issue. Please try again."
+msgstr "Problema invàlid. Si us plau, torneu-ho a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1186
+msgid "Issuer not available. Please try again later."
+msgstr "Emissor no disponible. Si us plau, torna-ho a intentar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1187
+msgid "Issuer temporarily not available. Please try again shortly."
+msgstr ""
+"Emissor temporalment no disponible. Si us plau, torneu-ho a provar d'aquí a "
+"poc."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1188
+msgid "Card not activated. Please activate your card and try again."
+msgstr ""
+"Targeta no activada. Si us plau, activa la teva targeta i torna a provar-ho."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1189
+msgid "Updated card issued. Please use your new card."
+msgstr ""
+"S'ha emès una nova targeta actualitzada. Si us plau, utilitzeu la vostra "
+"nova targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1190
+msgid "Account not on file. Please check your card details."
+msgstr ""
+"Compte no registrat. Si us plau, comproveu els detalls de la vostra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1191
+msgid "Approved but not captured. No action needed."
+msgstr "Aprovat però no capturat. No cal cap acció."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1192
+msgid "3DS authentication error. Please try again."
+msgstr "Error d'autenticació 3DS. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1193
+msgid "Authentication failed. Please try again."
+msgstr "L'autenticació ha fallat. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1194
+msgid "BIN error. Please try another card."
+msgstr "Error de BIN. Si us plau, prova una altra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1195
+msgid "PIN error. Please try again with the correct PIN."
+msgstr "Error de PIN. Si us plau, torna a provar amb el PIN correcte."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1196
+msgid "Processor system error. Please try again later."
+msgstr ""
+"Error del sistema del processador. Si us plau, torneu-ho a provar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1197
+msgid "Host key error. Please try again."
+msgstr "Error de clau d'amfitrió. Si us plau, torneu-ho a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1198
+msgid "Configuration error. Please contact support."
+msgstr "Error de configuració. Si us plau, contacteu amb el suport."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1199
+msgid "Unsupported operation. Please try another payment method."
+msgstr ""
+"Operació no compatible. Si us plau, proveu un altre mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1200
+msgid "Communication error. Please try again later."
+msgstr "Error de comunicació. Si us plau, torneu-ho a intentar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1201
+msgid "Communication error. Please try again shortly."
+msgstr "Error de comunicació. Si us plau, torneu-ho a intentar aviat."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1202
+msgid "System unavailable. Please try again later."
+msgstr "Sistema no disponible. Si us plau, torna-ho a provar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1203
+msgid "Transaction declined. Please retry."
+msgstr "Transacció rebutjada. Si us plau, torna a provar-ho."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1204
+msgid "Suspected fraud. Please use another payment method."
+msgstr "Fraude sospitós. Si us plau, utilitzeu un altre mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1205
+msgid "Security violation. Please contact your card issuer."
+msgstr ""
+"Infracció de seguretat. Si us plau, contacteu amb l'emissor de la vostra "
+"targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1206
+msgid "Card reported lost or stolen. Please use another card."
+msgstr ""
+"Targeta reportada com a pèrdua o robada. Si us plau, utilitzeu una altra "
+"targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1207
+msgid "Hold - call center. Please contact your card issuer."
+msgstr ""
+"Mantingueu - centre de trucades. Si us plau, poseu-vos en contacte amb "
+"l'emissor de la vostra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1208
+msgid "Card refused. Please use another payment method."
+msgstr "Targeta rebutjada. Si us plau, utilitzeu un altre mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1209
+msgid "Unrecognized response code. Please try again later."
+msgstr ""
+"Codi de resposta no reconegut. Si us plau, torneu-ho a provar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1210
+msgid "Contingencies not resolved. Please try again."
+msgstr "Contingències no resoltes. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1211
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1224
+msgid "CVV verification failed. Please check your CVV."
+msgstr ""
+"La verificació del CVV ha fallat. Si us plau, comproveu el vostre CVV."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1212
+msgid "Account closed. Please use another card."
+msgstr "Compte tancat. Si us plau, utilitzeu una altra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1213
+msgid "Reattempt not permitted. Please use another payment method."
+msgstr ""
+"No es permet tornar a intentar. Si us plau, utilitzeu un altre mètode de "
+"pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1214
+msgid "Billing address error. Please check your billing details."
+msgstr ""
+"Error d'adreça de facturació. Si us plau, comproveu els vostres detalls de "
+"facturació."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1215
+msgid "Account blocked by issuer. Please contact your card issuer."
+msgstr ""
+"Compte bloquejat pel emisor. Si us plau, contacteu amb el vostre emisor de "
+"targetes."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1216
+msgid "American Express card disabled. Please use another card."
+msgstr ""
+"Targeta American Express desactivada. Si us plau, utilitza una altra "
+"targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1217
+msgid "Adult gaming not supported. Please use another payment method."
+msgstr ""
+"El joc per adults no és compatible. Si us plau, utilitzeu un altre mètode de"
+" pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1218
+msgid "Amount incompatible. Please try a different amount."
+msgstr "Importe incompatible. Si us plau, prova un import diferent."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1219
+msgid "Authorization result error. Please try again."
+msgstr ""
+"Error en el resultat d'autorització. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1220
+msgid "MCC code error. Please contact support."
+msgstr "Error de codi MCC. Si us plau, contacta amb el suport."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1221
+msgid "Address verification failed. Please check your billing address."
+msgstr ""
+"La verificació de l'adreça ha fallat. Si us plau, comproveu la vostra adreça"
+" de facturació."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1222
+msgid "Amount exceeded. Please try a smaller amount."
+msgstr ""
+"L'import ha superat el límit. Si us plau, proveu amb un import més petit."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1223
+msgid "Gaming transaction error. Please use another payment method."
+msgstr ""
+"Error de transacció de jocs. Si us plau, utilitzeu un altre mètode de "
+"pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1225
+msgid "Registration incomplete. Please complete registration."
+msgstr "Registreu incomplet. Si us plau, completeu la registre."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1226
+msgid "Country error. Please try another payment method."
+msgstr "Error de país. Si us plau, prova un altre mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1227
+msgid "Credit error. Please try another payment method."
+msgstr "Error de crèdit. Si us plau, prova un altre mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1228
+msgid "Card type not supported. Please use another card."
+msgstr ""
+"Tipus de targeta no suportat. Si us plau, utilitzeu una altra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1229
+msgid "Invalid currency. Please select a supported currency."
+msgstr "Moneda no vàlida. Si us plau, selecciona una moneda compatible."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1230
+msgid "3D Secure authentication error. Please try again."
+msgstr "Error d'autenticació 3D Secure. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1231
+msgid "Dynamic currency conversion not supported. Please try again."
+msgstr ""
+"La conversió dinàmica de moneda no és compatible. Si us plau, torneu-ho a "
+"provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1232
+msgid "Diners Club card rejected. Please use another card."
+msgstr ""
+"Targeta Diners Club rebutjada. Si us plau, utilitzeu una altra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1233
+msgid "Authentication message error. Please try again."
+msgstr "Error de missatge d'autenticació. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1234
+msgid "Decline threshold exceeded. Please try again later."
+msgstr ""
+"S'ha superat el llindar de rebuig. Si us plau, torneu-ho a intentar més "
+"tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1235
+msgid "Funding instrument expired. Please use another payment method."
+msgstr ""
+"L'instrument de finançament ha caducat. Si us plau, utilitzeu un altre "
+"mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1236
+msgid "Frequency limit exceeded. Please try again later."
+msgstr ""
+"S'ha superat el límit de freqüència. Si us plau, torneu-ho a intentar més "
+"tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1237
+msgid "System error. Please try again later."
+msgstr "Error del sistema. Si us plau, torneu-ho a provar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1238
+msgid "Expiry date error. Please check your card details."
+msgstr ""
+"Error de data de caducitat. Si us plau, comproveu els detalls de la vostra "
+"targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1239
+msgid "Funding source already exists. Please use another payment method."
+msgstr ""
+"La font de finançament ja existeix. Si us plau, utilitzeu un altre mètode de"
+" pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1240
+msgid "Invalid funding instrument. Please try another payment method."
+msgstr ""
+"Instrument de finançament invàlid. Si us plau, proveu un altre mètode de "
+"pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1241
+msgid "Restricted funding instrument. Please try another payment method."
+msgstr ""
+"Instrument de finançament restringit. Si us plau, proveu un altre mètode de "
+"pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1242
+msgid "Field validation failed. Please check your payment details."
+msgstr ""
+"La validació del camp ha fallat. Si us plau, comproveu els detalls del "
+"vostre pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1243
+msgid "Gaming refund error. Please contact support."
+msgstr "Error de reembossament de jocs. Si us plau, contacteu amb el suport."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1244
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1253
+msgid "Processing error. Please try again."
+msgstr "Error de processament. Si us plau, torneu-ho a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1245
+msgid "Idempotency failure. Please try again."
+msgstr "Error d'idempotència. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1246
+msgid "Invalid input. Please check your payment details."
+msgstr ""
+"Entrada no vàlida. Si us plau, comproveu els detalls del vostre pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1247
+msgid "ID mismatch. Please try again."
+msgstr "ID no coincideix. Si us plau, torna a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1248
+msgid "Invalid trace ID. Please try again."
+msgstr "ID de traçabilitat no vàlid. Si us plau, torneu-ho a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1249
+msgid "Late reversal. Please contact support."
+msgstr "Reversió tardana. Si us plau, contacteu amb el suport."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1250
+msgid "Status code error. Please try again."
+msgstr "Codi d'error de l'estat. Si us plau, torneu-ho a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1251
+msgid "Missing business rule or data. Please try again."
+msgstr "Regla o dada empresarial que falta. Si us plau, torneu-ho a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1252
+msgid "Mastercard blocked. Please use another card."
+msgstr "Mastercard bloquejat. Si us plau, utilitzeu una altra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1254
+msgid "Not supported. Please try another payment method."
+msgstr "No suportat. Si us plau, proveu un altre mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1255
+msgid "Network frequency limit exceeded. Please try again later."
+msgstr ""
+"S'ha superat el límit de freqüència de la xarxa. Si us plau, torneu-ho a "
+"intentar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1256
+msgid "Merchant ID not found. Please contact support."
+msgstr "ID de comerciant no trobat. Si us plau, contacteu amb el suport."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1257
+msgid "Network error. Please try again later."
+msgstr "Error de xarxa. Si us plau, torneu-ho a provar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1258
+msgid "Phone required for this transaction. Please update your details."
+msgstr ""
+"Es requereix un telèfon per a aquesta transacció. Si us plau, actualitzeu "
+"les vostres dades."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1259
+msgid "Invalid product. Please try another product."
+msgstr "Producte invàlid. Si us plau, proveu un altre producte."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1260
+msgid "Invalid payment method. Please try another payment method."
+msgstr ""
+"Mètode de pagament invàlid. Si us plau, proveu un altre mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1261
+msgid "Quasi-cash not supported. Please use another payment method."
+msgstr ""
+"Quasi-efectiu no és compatible. Si us plau, utilitzeu un altre mètode de "
+"pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1262
+msgid "Refund not supported on pending transactions. Please try again later."
+msgstr ""
+"El reemborsament no és compatible amb les transaccions pendents. Si us plau,"
+" torneu-ho a intentar més tard."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1263
+msgid "Invalid parent transaction status. Please try again."
+msgstr "Estat de transacció pare no vàlid. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1264
+msgid "Merchant not registered. Please contact support."
+msgstr "Comerç no registrat. Si us plau, contacteu amb el suport."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1265
+msgid "Bank authorization mismatch. Please try again."
+msgstr ""
+"Desajustament d'autorització bancària. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1266
+msgid "Bank authorization already settled. Please try again."
+msgstr ""
+"L'autorització bancària ja s'ha resolt. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1267
+msgid "Bank authorization voided. Please try again."
+msgstr "Autorització bancària anul·lada. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1268
+msgid "Bank authorization expired. Please try again."
+msgstr "L'autorització del banc ha caducat. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1269
+msgid "Currency mismatch. Please try again with the correct currency."
+msgstr ""
+"Desajustament de moneda. Si us plau, torneu a provar amb la moneda correcta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1270
+msgid "Credit card mismatch. Please check your card details."
+msgstr ""
+"Incompatibilitat de la targeta de crèdit. Si us plau, comproveu les dades de"
+" la vostra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1271
+msgid "Amount mismatch. Please try again with the correct amount."
+msgstr ""
+"Desajustament d'import. Si us plau, torneu a provar amb l'import correcte."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1272
+msgid "Score error. Please try again."
+msgstr "Error de puntuació. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1273
+msgid "Status description error. Please try again."
+msgstr "Error de descripció de l'estat. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1274
+msgid "American Express declined. Please use another card."
+msgstr ""
+"American Express ha estat rebutjat. Si us plau, utilitzeu una altra targeta."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1275
+msgid "Verification token expired. Please try again."
+msgstr "El token de verificació ha caducat. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1276
+msgid "Invalid trace reference. Please try again."
+msgstr "Referència de traç no vàlida. Si us plau, torneu-ho a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1277
+msgid "Invalid transaction ID. Please try again."
+msgstr "ID de transacció no vàlid. Si us plau, torneu-ho a provar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1278
+msgid "Verification token revoked. Please try again."
+msgstr ""
+"El token de verificació ha estat revocat. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1279
+msgid "Transaction type not supported. Please try another payment method."
+msgstr ""
+"Tipus de transacció no suportat. Si us plau, proveu un altre mètode de "
+"pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1280
+msgid "Invalid verification token. Please try again."
+msgstr "Token de verificació no vàlid. Si us plau, torneu-ho a intentar."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1281
+msgid "User not authorized. Please contact support."
+msgstr "Usuari no autoritzat. Si us plau, contacteu amb el suport."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1282
+msgid "Currency not supported. Please select a supported currency."
+msgstr "Moneda no suportada. Si us plau, selecciona una moneda suportada."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1283
+msgid "Entity not supported. Please try another payment method."
+msgstr "Entitat no suportada. Si us plau, proveu un altre mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1284
+msgid "Installment not supported. Please try another payment method."
+msgstr ""
+"La modalitat de pagament a terminis no és compatible. Si us plau, proveu un "
+"altre mètode de pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1285
+msgid "POS flag not supported. Please try another payment method."
+msgstr ""
+"La bandera POS no és compatible. Si us plau, prova un altre mètode de "
+"pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1286
+msgid "Reversal not supported. Please contact support."
+msgstr "Reversió no suportada. Si us plau, contacta amb el suport."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1287
+msgid "Currency validation error. Please select a supported currency."
+msgstr ""
+"Error de validació de moneda. Si us plau, seleccioneu una moneda compatible."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1288
+msgid "Validation error. Please check your payment details."
+msgstr ""
+"Error de validació. Si us plau, comproveu els detalls del vostre pagament."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1289
+msgid "Virtual terminal not supported. Please try another payment method."
+msgstr ""
+"Terminal virtual no suportat. Si us plau, prova un altre mètode de pagament."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:576
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:592
+msgctxt "Important"
+msgid "Or"
+msgstr "O"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:788
+msgctxt "Important"
+msgid "Express Checkout"
+msgstr "Checkout ràpid"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:808
+msgctxt "Important"
+msgid "Or continue below"
+msgstr "O continua a continuació"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:981
+msgid "Item"
+msgstr "Article"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:995
+msgid "Items"
+msgstr "Articles"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1161
+msgid "Billing &amp; Shipping"
+msgstr "Facturació i enviament"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1163
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1169
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1189
+msgid "Edit"
+msgstr "Editar"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1167
+msgid "Billing details"
+msgstr "Detalls de facturació"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1187
+msgid "Shipping details"
+msgstr "Detalls d'enviament"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1359
+msgid "Create an account?"
+msgstr "Crear un compte?"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1368
+msgid ""
+"Create an account by entering the information below. If you are a returning "
+"customer please login at the top of the page."
+msgstr ""
+"Crea un compte introduint la informació a continuació. Si ets un client que "
+"torna, si us plau, inicia sessió a la part superior de la pàgina."
+
+#. translators: %1$s is the payment method title, %2$s is the formatted
+#. payment status.
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1578
+msgid "Payment via %1$s: %2$s."
+msgstr "Pagament a través de %1$s: %2$s."
+
+#. translators: %1$s is the payment method title, %2$s is the pending reason
+#. from PayPal.
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1595
+msgid "Payment via %1$s Pending. PayPal reason: %2$s."
+msgstr "El pagament a través de %1$s està pendent. Motiu de PayPal: %2$s."
+
+#. translators: %1$s is the payment method title, %2$s is the PayPal
+#. transaction ID.
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1604
+msgid "Payment via %1$s. Transaction ID: %2$s"
+msgstr "Pagament a través de %1$s. ID de transacció: %2$s"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1798
+msgctxt "Important"
+msgid ""
+"<strong>You're almost done!</strong><br>Review your information before you "
+"place your order."
+msgstr ""
+"<strong>Estàs gairebé a punt!</strong><br>Revisa la teva informació abans de"
+" fer la teva comanda."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1853
+msgid "Capture Charge"
+msgstr "Captura de càrrec"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2054
+msgctxt "Important"
+msgid "Cancel order"
+msgstr "Cancel·la la comanda"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2139
+msgid ""
+"We cannot process your order with the payment information that you provided."
+" Please use an alternate payment method."
+msgstr ""
+"No podem processar la seva comanda amb la informació de pagament que ha "
+"proporcionat. Si us plau, utilitzeu un mètode de pagament alternatiu."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2189
+msgid "3D Secure response"
+msgstr "Resposta 3D Secure"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2957
+msgid "At top of checkout Page"
+msgstr "A la part superior de la pàgina de pagament"

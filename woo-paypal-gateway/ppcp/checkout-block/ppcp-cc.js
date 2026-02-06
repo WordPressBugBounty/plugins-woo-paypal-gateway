@@ -109,6 +109,10 @@ var {addAction} = wp.hooks;
                 const Content_PPCP_CC = (props) => {
                     const {eventRegistration, emitResponse } = props;
                     const {onPaymentSetup, onCheckoutValidation} = eventRegistration;
+                    
+                    useEffect(() => {
+                        jQuery(document.body).trigger("ppcp_cc_checkout_updated");
+                    }, []);
 
                     useEffect(() => {
                         const blockElements = '.wc-block-components-checkout-place-order-button, .wp-block-woocommerce-checkout-fields-block #contact-fields, .wp-block-woocommerce-checkout-fields-block #billing-fields, .wp-block-woocommerce-checkout-fields-block #payment-method';
@@ -249,7 +253,12 @@ var {addAction} = wp.hooks;
                             ),
                     content: createElement(Content_PPCP_CC, null),
                     edit: createElement(Content_PPCP_CC, null),
-                    canMakePayment: () => Promise.resolve(true),
+                    canMakePayment: () => {
+                        if (typeof wpg_paypal_sdk !== 'undefined' && wpg_paypal_sdk.CardFields().isEligible()) {
+                            return Promise.resolve(true);
+                        }
+                        return Promise.resolve(false);
+                    },
                     ariaLabel: Object(a.decodeEntities)(l.cc_title || Object(i.__)('Payment via PayPal', 'woo-gutenberg-products-block')),
                     supports: {
                         features: o != null ? o : l.supports,
@@ -257,13 +266,7 @@ var {addAction} = wp.hooks;
                         showSaveOption: l.enable_save_card
                     }
                 };
-
-
                 Object(c.registerPaymentMethod)(s);
-
-
-
-
             }
 ]);
 

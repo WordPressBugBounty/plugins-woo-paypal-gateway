@@ -227,3 +227,120 @@ class WPGPayPalSettingsUI {
 }
 
 jQuery(document).ready(() => new WPGPayPalSettingsUI());
+
+function wpg_ppcp_display_success_popup() {
+    const modal = document.getElementById('wpg_ppcp_display_success_popup');
+    const burstLayer = document.getElementById('wpg_ppcp_display_success_popup_burst_layer');
+
+    if (!modal || !burstLayer) {
+      return;
+    }
+
+    // A small, pleasant palette
+    const colors = [
+      '#22c55e', '#34d399', '#60a5fa', '#fbbf24',
+      '#fb7185', '#a78bfa', '#f472b6', '#94a3b8'
+    ];
+
+    function openModal() {
+      if (!modal || !burstLayer) return;
+      
+      modal.classList.add('is_open');
+      document.body.style.overflow = 'hidden';
+      crackerBurst();
+      setTimeout(crackerBurstCorners, 120);
+    }
+
+    function closeModal() {
+      if (!modal) return;
+      
+      modal.classList.remove('is_open');
+      document.body.style.overflow = '';
+      clearBurstLayer();
+    }
+
+    function clearBurstLayer() {
+      if (!burstLayer) return;
+      burstLayer.innerHTML = '';
+    }
+
+    // Burst from center of popup
+    function crackerBurst() {
+      burst(260, 140, 5);
+    }
+
+    // Two small bursts from top corners
+    function crackerBurstCorners() {
+      burst(80, 70, 5, 0.9);
+      burst(440, 70, 5, 0.9);
+    }
+
+    /**
+     * Create burst at (ox, oy) within modal.
+     */
+    function burst(ox, oy, count, power = 1) {
+      if (!burstLayer) return;
+      
+      const rect = burstLayer.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.className = 'wpg_ppcp_display_success_popup_confetti';
+
+        // Random color + size variety
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const w = 6 + Math.random() * 8;
+        const h = 4 + Math.random() * 6;
+        el.style.background = color;
+        el.style.width = w + 'px';
+        el.style.height = h + 'px';
+
+        // Start position
+        el.style.left = ox + 'px';
+        el.style.top = oy + 'px';
+
+        // Physics-ish randomness
+        const angle = (Math.random() * Math.PI * 2);
+        const dist = (60 + Math.random() * 200) * power;
+        const x1 = Math.cos(angle) * dist;
+        const y1 = Math.sin(angle) * dist + (90 * power);
+        const rot = (Math.random() * 720 - 360) + 'deg';
+
+        // Start offsets
+        el.style.setProperty('--wpg_ppcp_display_success_popup_x0', (Math.random() * 10 - 5) + 'px');
+        el.style.setProperty('--wpg_ppcp_display_success_popup_y0', (Math.random() * 10 - 5) + 'px');
+
+        // End offsets
+        el.style.setProperty('--wpg_ppcp_display_success_popup_x1', x1 + 'px');
+        el.style.setProperty('--wpg_ppcp_display_success_popup_y1', y1 + 'px');
+        el.style.setProperty('--wpg_ppcp_display_success_popup_rot', rot);
+
+        // Duration
+        const dur = (1500 + Math.random() * 700) + 'ms';
+        el.style.setProperty('--wpg_ppcp_display_success_popup_dur', dur);
+
+        burstLayer.appendChild(el);
+
+        // Cleanup after animation
+        setTimeout(() => el.remove(), 1300);
+      }
+    }
+
+    // Close handlers
+    modal.addEventListener('click', (e) => {
+      if (e.target.hasAttribute('data-wpg_ppcp_display_success_popup_close')) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Open the modal
+    openModal();
+  }
+
+  // Auto-open for demo purposes
+  window.addEventListener('load', function() {
+    wpg_ppcp_display_success_popup();
+  });

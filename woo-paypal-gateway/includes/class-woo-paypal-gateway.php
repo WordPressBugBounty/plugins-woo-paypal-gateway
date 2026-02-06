@@ -57,7 +57,7 @@ class Woo_Paypal_Gateway {
         if (defined('WPG_PLUGIN_VERSION')) {
             $this->version = WPG_PLUGIN_VERSION;
         } else {
-            $this->version = '9.0.46';
+            $this->version = '9.0.49';
         }
         $this->plugin_name = 'woo-paypal-gateway';
         if (!defined('WPG_PLUGIN_NAME')) {
@@ -77,8 +77,6 @@ class Woo_Paypal_Gateway {
         add_action('woocommerce_cart_emptied', array($this, 'wpg_clear_session'), 1);
         add_action('woocommerce_cart_item_removed', array($this, 'wpg_clear_session'), 1);
         add_filter('woocommerce_update_cart_action_cart_updated', array($this, 'wpg_cart_updated'), 10, 1);
-        add_action('wp_ajax_ppcp_admin_notice_action', array($this, 'ppcp_admin_notice_action'), 10);
-        add_action('wp_ajax_ppcp_dismiss_notice', array($this, 'ppcp_dismiss_notice'), 10);
         add_action('admin_footer', array($this, 'wpg_add_deactivation_feedback_form'));
         add_action('admin_enqueue_scripts', array($this, 'wpg_add_deactivation_feedback_form_scripts'));
         add_action('wp_ajax_wpg_send_deactivation', array($this, 'wpg_handle_plugin_deactivation_request'));
@@ -105,36 +103,19 @@ class Woo_Paypal_Gateway {
      * @access   private
      */
     private function load_dependencies() {
-
-        /**
-         * The class responsible for orchestrating the actions and filters of the
-         * core plugin.
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-gateway-loader.php';
-
-        /**
-         * The class responsible for defining internationalization functionality
-         * of the plugin.
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-gateway-i18n.php';
-
-        /**
-         * The class responsible for defining all actions that occur in the admin area.
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-woo-paypal-gateway-admin.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-woo-paypal-gateway-public.php';
-
-        /**
-         * The class responsible for defining all actions that occur in the public-facing
-         * side of the site.
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-gateway-functions.php';
-
-        if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
-            require_once plugin_dir_path(dirname(__FILE__)) . '/includes/class-woo-paypal-gateway-calculations.php';
+        try {
+            require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-gateway-loader.php';
+            require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-gateway-i18n.php';
+            require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-woo-paypal-gateway-admin.php';
+            require_once WPG_PLUGIN_DIR . '/public/class-woo-paypal-gateway-public.php';
+            require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-gateway-functions.php';
+            if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
+                require_once plugin_dir_path(dirname(__FILE__)) . '/includes/class-woo-paypal-gateway-calculations.php';
+            }
+            $this->loader = new Woo_Paypal_Gateway_Loader();
+        } catch (Exception $ex) {
+            
         }
-
-        $this->loader = new Woo_Paypal_Gateway_Loader();
     }
 
     /**
@@ -282,33 +263,6 @@ class Woo_Paypal_Gateway {
         wpg_clear_session_data();
     }
 
-    public function ppcp_admin_notice_action() {
-        if (isset($_POST['ppcp_admin_notice_action_type']) && 'later' === $_POST['ppcp_admin_notice_action_type']) {
-            set_transient('ppcp_wp_review_request', 'yes', MONTH_IN_SECONDS);
-        } elseif (isset($_POST['ppcp_admin_notice_action_type']) && 'add_review' === $_POST['ppcp_admin_notice_action_type']) {
-            global $current_user;
-            $user_id = $current_user->ID;
-            add_user_meta($user_id, 'ppcp_wp_review_request', 'true', true);
-        } elseif (isset($_POST['ppcp_admin_notice_action_type']) && 'review_closed' === $_POST['ppcp_admin_notice_action_type']) {
-            set_transient('ppcp_wp_review_request', 'yes', MONTH_IN_SECONDS);
-        } elseif (isset($_POST['ppcp_admin_notice_action_type']) && 'ppcp_wp_billing_phone_notice' === $_POST['ppcp_admin_notice_action_type']) {
-            global $current_user;
-            $user_id = $current_user->ID;
-            add_user_meta($user_id, 'ppcp_wp_billing_phone_notice', 'true', true);
-        }
-    }
-
-    public function ppcp_dismiss_notice() {
-        global $current_user;
-        $user_id = $current_user->ID;
-        if (!empty($_POST['action']) && $_POST['action'] == 'ppcp_dismiss_notice') {
-            if (!empty($_POST['action']) && $_POST['action'] === 'ppcp_dismiss_notice') {
-                add_user_meta($user_id, $_POST['data'], 'true', true);
-                wp_send_json_success();
-            }
-        }
-    }
-
     public function wpg_add_deactivation_feedback_form() {
         global $pagenow;
         if ('plugins.php' != $pagenow) {
@@ -329,8 +283,12 @@ class Woo_Paypal_Gateway {
     }
 
     public function wpg_handle_plugin_deactivation_request() {
-        $reason = isset($_POST['reason']) ? sanitize_text_field($_POST['reason']) : '';
-        $reason_details = isset($_POST['reason_details']) ? sanitize_text_field($_POST['reason_details']) : '';
+        if ( ! current_user_can('deactivate_plugins') ) {
+            wp_send_json_error(['message' => 'Forbidden'], 403);
+        }
+        check_ajax_referer('wpg-ajax', 'nonce');
+        $reason         = isset($_POST['reason']) ? sanitize_text_field(wp_unslash($_POST['reason'])) : '';
+        $reason_details = isset($_POST['reason_details']) ? sanitize_text_field(wp_unslash($_POST['reason_details'])) : '';
         $url = 'https://api.airtable.com/v0/appxxiU87VQWG6rOO/Sheet1';
         $api_key = 'patgeqj8DJfPjqZbS.9223810d432db4efccf27354c08513a7725e4a08d11a85fba75de07a539c8aeb';
         $data = array(
@@ -479,7 +437,7 @@ class Woo_Paypal_Gateway {
             'nonce' => wp_create_nonce('wpg_review_nonce')
         ));
     }
-    
+
     public function wpg_allowed_css_properties($styles) {
         $styles[] = 'display';
         $styles[] = 'align-items';

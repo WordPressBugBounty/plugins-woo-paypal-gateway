@@ -69,6 +69,9 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     }
 
     public function is_apple_pay_enable_for_page($page = '') {
+        if (is_ssl() === false) {
+            return false;
+        }
         if (!isset($this->settings['enabled_apple_pay'])) {
             return false;
         }

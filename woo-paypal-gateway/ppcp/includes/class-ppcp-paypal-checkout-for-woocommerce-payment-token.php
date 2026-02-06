@@ -136,8 +136,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token {
         $email_or_payer_id = $api_response['payment_source'][$source]['email_address'] ?? $api_response['payment_source'][$source]['payer_id'] ?? ucfirst($source);
         $token->set_card_type($email_or_payer_id);
         $token->set_last4(substr($token->get_token(), -4));
-        $token->set_expiry_month(date('m'));
-        $token->set_expiry_year(date('Y', strtotime('+20 years')));
+        $token->set_expiry_month( gmdate( 'm' ) );
+        $token->set_expiry_year( gmdate( 'Y', strtotime( '+20 years' ) ) );
     }
 
     private function process_token_for_card($token, $api_response, $source) {
@@ -150,8 +150,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token {
             $token->set_expiry_month($exp_month);
             $token->set_expiry_year($exp_year);
         } else {
-            $token->set_expiry_month(date('m'));
-            $token->set_expiry_year(date('Y', strtotime('+5 years')));
+            $token->set_expiry_month( gmdate( 'm' ) );
+            $token->set_expiry_year( gmdate( 'Y', strtotime( '+5 years' ) ) );
         }
     }
 

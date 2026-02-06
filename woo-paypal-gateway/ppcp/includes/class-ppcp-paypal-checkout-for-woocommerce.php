@@ -76,16 +76,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
     public function ppcp_woocommerce_payment_gateways($methods) {
         $this->subscription_support_enabled = class_exists('WC_Subscriptions') && function_exists('wcs_create_renewal_order');
         include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php';
-        if ($this->subscription_support_enabled) {
-            include_once WPG_PLUGIN_DIR . '/ppcp/subscriptions/class-ppcp-paypal-checkout-for-woocommerce-subscriptions.php';
-            include_once WPG_PLUGIN_DIR . '/ppcp/subscriptions/class-ppcp-paypal-checkout-for-woocommerce-subscriptions-cc.php';
-        }
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC')) {
             include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php';
         }
+        if ($this->subscription_support_enabled) {
+            if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions')) {
+                include_once WPG_PLUGIN_DIR . '/ppcp/subscriptions/class-ppcp-paypal-checkout-for-woocommerce-subscriptions.php';
+            }
+            if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions_CC')) {
+                include_once WPG_PLUGIN_DIR . '/ppcp/subscriptions/class-ppcp-paypal-checkout-for-woocommerce-subscriptions-cc.php';
+            }
+        }
         $methods[] = $this->subscription_support_enabled ? 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions_CC' : 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC';
         $methods[] = $this->subscription_support_enabled ? 'PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions' : 'PPCP_Paypal_Checkout_For_Woocommerce_Gateway';
-        array_reverse($methods);
+        $methods = array_reverse($methods);
         return $methods;
     }
 

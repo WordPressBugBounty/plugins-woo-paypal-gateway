@@ -1,0 +1,3333 @@
+# Copyright (C) 2025 easypayment
+# This file is distributed under the GNU General Public License v3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.54\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
+"POT-Creation-Date: 2025-12-31T11:56:42+00:00\n"
+"PO-Revision-Date: 2025-12-30 15:37+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: km\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: woo-paypal-gateway\n"
+"X-Generator: Poedit 3.6\n"
+
+#. Plugin Name of the plugin
+#: woo-paypal-gateway.php
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1776
+msgid "Payment Gateway for PayPal on WooCommerce"
+msgstr "ការទូទាត់តាមទ្វារទូទាត់សម្រាប់ PayPal នៅលើ WooCommerce"
+
+#. Plugin URI of the plugin
+#: woo-paypal-gateway.php
+msgid "https://profiles.wordpress.org/easypayment"
+msgstr "https://profiles.wordpress.org/easypayment"
+
+#. Description of the plugin
+#: woo-paypal-gateway.php
+msgid ""
+"PayPal, Credit/Debit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, "
+"iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal "
+"Partner"
+msgstr ""
+"PayPal, Kredit/Kredit Kartu, Google Pay, Apple Pay, Bayar Nanti, Venmo, "
+"SEPA, iDEAL, Mercado Pago, Sofort, Bancontact & lebih - oleh Mitra Resmi "
+"PayPal"
+
+#. Author of the plugin
+#: woo-paypal-gateway.php
+msgid "easypayment"
+msgstr "ងាយស្រួលបង់ប្រាក់"
+
+#. Author URI of the plugin
+#: woo-paypal-gateway.php
+msgid "https://profiles.wordpress.org/easypayment/"
+msgstr "https://profiles.wordpress.org/easypayment/"
+
+#: admin/feedback/deactivation-feedback-form.php:8
+msgid "Return"
+msgstr "វិលត្រឡប់"
+
+#: admin/feedback/deactivation-feedback-form.php:9
+msgid "We’re sorry to see you go! 💔"
+msgstr "យើងសូមអភ័យទោសដែលឃើញអ្នកចាកចេញ! 💔"
+
+#: admin/feedback/deactivation-feedback-form.php:11
+msgid "Close"
+msgstr "បិទ"
+
+#: admin/feedback/deactivation-feedback-form.php:15
+msgid ""
+"Can you please tell us why you’re deactivating the plugin? Your feedback "
+"helps us make it better."
+msgstr ""
+"តើអ្នកអាចប្រាប់យើងបានទេថាហេតុអ្វីបានជាអ្នកកំពុងបញ្ឈប់ការប្រើប្រាស់ផ្លុយគីន? "
+"មតិយោបល់របស់អ្នកជួយឱ្យយើងធ្វើឱ្យវាល្អប្រសើរឡើង។."
+
+#: admin/feedback/deactivation-feedback-form.php:19
+msgid "Temporary deactivation (troubleshooting)"
+msgstr "ការបញ្ឈប់ប្រើប្រាស់បណ្តោះអាសន្ន (ការជួសជុល)"
+
+#: admin/feedback/deactivation-feedback-form.php:23
+msgid "Compatibility issue"
+msgstr "បញ្ហាសមត្ថភាព"
+
+#: admin/feedback/deactivation-feedback-form.php:25
+msgid "Please describe what part of the layout or functionality was affected."
+msgstr "សូមពិពណ៌នាថាតើផ្នែកណានៃការរៀបចំឬមុខងារត្រូវបានប៉ះពាល់។."
+
+#: admin/feedback/deactivation-feedback-form.php:30
+msgid "Difficult to set up"
+msgstr "កំណត់ការកំណត់ពិបាក"
+
+#: admin/feedback/deactivation-feedback-form.php:32
+msgid "What part of the setup was confusing or unclear?"
+msgstr "Setup-ŋaŋaŋ kɔ́ŋ kɔ́ŋaŋ kɔ́ŋaŋ kɔ́ŋaŋ kɔ́ŋaŋ?"
+
+#: admin/feedback/deactivation-feedback-form.php:37
+msgid "Missing features"
+msgstr "លក្ខណៈដែលខ្វះ"
+
+#: admin/feedback/deactivation-feedback-form.php:39
+msgid "Which features were you looking for?"
+msgstr "Kuyimiphi imisebenzi obukufuna?"
+
+#: admin/feedback/deactivation-feedback-form.php:44
+msgid "Other"
+msgstr "ផ្សេង"
+
+#: admin/feedback/deactivation-feedback-form.php:46
+msgid ""
+"Please share why you’re deactivating the PayPal plugin so we can make "
+"improvements."
+msgstr ""
+"សូមចែករំលែកមូលហេតុដែលអ្នកកំពុងបិទការប្រើប្រាស់ផ្លុយគីន PayPal "
+"ដើម្បីឲ្យយើងអាចធ្វើការកែលម្អ។."
+
+#: admin/feedback/deactivation-feedback-form.php:58
+msgid ""
+"Your privacy is important to us. No personal data is collected with this "
+"form—just your valuable feedback and basic system information (such as "
+"WordPress and plugin versions) to help us improve our plugin."
+msgstr ""
+"អ្នកមានសិទ្ធិឯកជនសំខាន់សម្រាប់យើង។ "
+"មិនមានទិន្នន័យផ្ទាល់ខ្លួនណាមួយត្រូវបានប្រមូលជាមួយទម្រង់នេះ—គ្រាន់តែមតិយោបល់មានតម្លៃរបស់អ្នក"
+" និងព័ត៌មានមូលដ្ឋានអំពីប្រព័ន្ធ (ដូចជា កំណែ WordPress និងកំណែផ្លាកសញ្ញា) "
+"ដើម្បីជួយឱ្យយើងកែលម្អផ្លាកសញ្ញារបស់យើង។."
+
+#: admin/feedback/deactivation-feedback-form.php:63
+msgid "Visit our support page for assistance"
+msgstr "ចូលទៅកាន់ទំព័រគាំទ្ររបស់យើងសម្រាប់ជំនួយ"
+
+#: admin/feedback/deactivation-feedback-form.php:63
+msgid "Get Support"
+msgstr "ទទួលបានការគាំទ្រ"
+
+#: admin/feedback/deactivation-feedback-form.php:65
+msgid "Send & Deactivate"
+msgstr "ផ្ញើ និង បញ្ឈប់"
+
+#: admin/feedback/deactivation-feedback-form.php:67
+msgid "I rather wouldn't say"
+msgstr "ខ្ញុំមិនចង់និយាយទេ"
+
+#: includes/class-woo-paypal-gateway.php:241
+msgid "Settings"
+msgstr "កំណត់"
+
+#: includes/class-woo-paypal-gateway.php:251
+msgid "Community support"
+msgstr "គាំទ្រសហគមន៍"
+
+#: includes/class-woo-paypal-gateway.php:252
+msgid "Rate our plugin"
+msgstr "វាយតម្លៃផ្លុះរបស់យើង"
+
+#. translators: %s: plugin name
+#: includes/class-woo-paypal-gateway.php:359
+msgid "Thank you for using %s 💕"
+msgstr "%s សូមអរគុណសម្រាប់ការប្រើប្រាស់ 💕"
+
+#. translators: %1$s: review URL
+#: includes/class-woo-paypal-gateway.php:368
+msgid ""
+"If you have a moment, we'd love it if you could leave us a <b><a "
+"target=\"_blank\" href=\"%1$s\">quick review</a>.</b> it motivates us and "
+"helps us keep improving. 💫 <br>Have feature ideas? Include them in your "
+"review — your feedback shapes our roadmap, and we love turning your ideas "
+"into reality."
+msgstr ""
+"បើអ្នកមានពេលវេលា យើងនឹងស្រឡាញ់បើអ្នកអាចទុកមតិយោបល់ឲ្យយើងមួយ <b><a "
+"target=\"_blank\" href=\"%1$s\">មតិយោបល់ឆាប់រហ័ស</a>.</b> "
+"វាធ្វើឲ្យយើងមានមូលដ្ឋាន និងជួយឲ្យយើងបន្តកែលម្អ។ 💫 <br>មានគំនិតលក្ខណៈពិសេសទេ?"
+" សូមបញ្ចូលវានៅក្នុងមតិយោបល់របស់អ្នក - មតិយោបល់របស់អ្នកបង្កើតផែនទីរបស់យើង "
+"ហើយយើងស្រឡាញ់ការប្រែប្រាស់គំនិតរបស់អ្នកឲ្យក្លាយជាការពិត។."
+
+#: includes/class-woo-paypal-gateway.php:377
+msgid "Write Review"
+msgstr "សរសេរ​ពិនិត្យ"
+
+#: includes/class-woo-paypal-gateway.php:380
+msgid "Done!"
+msgstr "បានបញ្ចប់!"
+
+#: includes/class-woo-paypal-gateway.php:384
+msgid "Remind me later"
+msgstr "ខ្ញុំសូមរំលឹកខ្ញុំនៅពេលក្រោយ"
+
+#: includes/class-woo-paypal-gateway.php:387
+msgid "Hide"
+msgstr "លាក់"
+
+#: ppcp/checkout-block/ppcp-cc-block.php:74
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:111
+msgctxt "Important"
+msgid "Card number"
+msgstr "លេខកាត"
+
+#: ppcp/checkout-block/ppcp-cc-block.php:75
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:118
+msgctxt "Important"
+msgid "Expiration date"
+msgstr "ថ្ងៃផុតកំណត់"
+
+#: ppcp/checkout-block/ppcp-cc-block.php:76
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:124
+msgctxt "Important"
+msgid "Security code"
+msgstr "កូដសុវត្ថិភាព"
+
+#: ppcp/checkout-block/ppcp-checkout-block.php:115
+msgctxt "Important"
+msgid "Confirm Your PayPal Order"
+msgstr "បញ្ជាក់ការបញ្ជាទិញ PayPal របស់អ្នក"
+
+#: ppcp/checkout-block/ppcp-checkout-block.php:117
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:71
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:74
+msgctxt "Important"
+msgid "Proceed to PayPal"
+msgstr "បន្តទៅ PayPal"
+
+#. translators: %s: Order button text (e.g. Place order)
+#: ppcp/checkout-block/ppcp-checkout-block.php:157
+msgctxt "Important"
+msgid "Click the \"%s\" button below to process your order."
+msgstr "ចុចប៊ូតុង \"%s\" ខាងក្រោមដើម្បីដំណើរការការបញ្ជាទិញរបស់អ្នក។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:27
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:97
+msgid ""
+"Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return"
+" to shop</a>"
+msgstr ""
+"សូមអភ័យទោស, សម័យរបស់អ្នកបានផុតកំណត់។ <a href=\"%s\" class=\"wc-"
+"backward\">ត្រឡប់ទៅហាង</a>"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:70
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:157
+msgid "Unable to create order."
+msgstr "ការបង្កើតការបញ្ជាទិញមិនអាចធ្វើបាន។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:37
+msgctxt "Important"
+msgid "Credit or Debit Card (PayPal) By Easy Payment"
+msgstr "កាតឥណទាន ឬ កាតឥណទាន (PayPal) ដោយការទូទាត់ងាយ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:38
+msgctxt "Important"
+msgid "Advanced Card Processing."
+msgstr "កិច្ចប្រតិបត្តិការប័ណ្ណកាតកម្រិតខ្ពស់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:49
+msgid "Place order"
+msgstr "បញ្ជាទិញ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:55
+msgctxt "Important"
+msgid "Sandbox Mode Enabled."
+msgstr "Sandbox Mode បានបើក។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:56
+msgctxt "Important"
+msgid ""
+"Use test card 4111 1111 1111 1111 with any future expiration date and any "
+"CVV."
+msgstr ""
+"ប្រើកាតសាកល្បង 4111 1111 1111 1111 ដែលមានកាលបរិច្ឆេទផុតកំណត់អនាគតណាមួយ និង "
+"CVV ណាមួយ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:78
+msgid "Save to account"
+msgstr "រក្សាទុកទៅគណនី"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:258
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:698
+msgid "Refund failed."
+msgstr "ការបង្វិលប្រាក់បានបរាជ័យ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:65
+msgctxt "Important"
+msgid "Credit or Debit Card"
+msgstr "កាតឥណទានឬកាតឥណទាន"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:69
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:833
+msgctxt "Important"
+msgid "Confirm your PayPal order"
+msgstr "បញ្ជាក់ការបញ្ជាទិញ PayPal របស់អ្នក"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:110
+msgctxt "Important"
+msgid "PayPal Gateway By Easy Payment"
+msgstr "PayPal Gateway ដោយ Easy Payment"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:111
+msgctxt "Important"
+msgid ""
+"PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and "
+"many more."
+msgstr ""
+"PayPal, Pay Later, Venmo, កាតឥណទាន និងកាតឥណទាន, Google Pay, Apple Pay — "
+"និងច្រើនទៀត។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:337
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
+msgid "Admin Only Mode"
+msgstr "ម៉ូដគ្រប់គ្រងតែ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:338
+msgid ""
+"is currently enabled. PayPal payment methods are visible only to site "
+"administrators and store managers. Disable this mode after testing to make "
+"them available to customers."
+msgstr ""
+"បច្ចុប្បន្ននេះបានបើក។ វិធីសាស្ត្រ pembayaran PayPal "
+"មានស្រាប់តែសម្រាប់អ្នកគ្រប់គ្រងគេហទំព័រ និងអ្នកគ្រប់គ្រងហាង។ "
+"បិទមូដនេះបន្ទាប់ពីការសាកល្បងដើម្បីធ្វើឱ្យវាអាចប្រើបានសម្រាប់អតិថិជន។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:351
+msgid "Please verify the PayPal account to receive the payments."
+msgstr "សូមបញ្ជាក់គណនី PayPal ដើម្បីទទួលប្រាក់បង់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:363
+msgid "PayPal onboarding process successfully completed."
+msgstr "ដំណើរការចូលរួម PayPal បានបញ្ចប់ដោយជោគជ័យ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:375
+msgid ""
+"We could not properly connect to PayPal. Please reload the page to continue."
+msgstr ""
+"យើងមិនអាចភ្ជាប់ទៅកាន់ PayPal បានយ៉ាងត្រឹមត្រូវទេ។ "
+"សូមផ្ទុកទំព័រឡើងវិញដើម្បីបន្ត។."
+
+#. translators: %1$s: URL to the PayPal Connection page.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:395
+msgid ""
+"<strong>PayPal Setup Required:</strong> Connect your PayPal account or enter"
+" your Client ID and Secret in the <a href=\"%1$s\">PayPal Connection</a> to "
+"begin accepting payments."
+msgstr ""
+"<strong>ការកំណត់ PayPal ត្រូវការទេ:</strong> តភ្ជាប់គណនី PayPal របស់អ្នក "
+"ឬបញ្ចូល Client ID និង Secret របស់អ្នកនៅក្នុង <a href=\"%1$s\">ការតភ្ជាប់ "
+"PayPal</a> ដើម្បីចាប់ផ្តើមទទួលការទូទាត់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:418
+msgid "Click the PayPal button to add your payment method."
+msgstr "ចុចប៊ូតុង PayPal ដើម្បីបន្ថែមវិធីសាស្ត្របង់ប្រាក់របស់អ្នក។."
+
+#. translators: %s: button label text
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:422
+msgid "Click the \"%s\" button below to process your order."
+msgstr "ចុចប៊ូតុង \"%s\" ខាងក្រោមដើម្បីដំណើរការការបញ្ជាទិញរបស់អ្នក។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:426
+msgid "Click a payment option below to process your order."
+msgstr "ចុចជម្រើសការទូទាត់ខាងក្រោមដើម្បីដំណើរការការបញ្ជាទិញរបស់អ្នក។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:509
+msgid "Return to payments"
+msgstr "វិលត្រឡប់ទៅការទូទាត់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:534
+msgid "PayPal Connection"
+msgstr "PayPal ការតភ្ជាប់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:535
+msgid "PayPal Settings"
+msgstr "ការកំណត់ PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:536
+msgid "Advanced Card Payments"
+msgstr "ការទូទាត់កាតកម្រិតខ្ពស់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:537
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1072
+msgid "Google Pay"
+msgstr "Google Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:538
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1071
+msgid "Apple Pay"
+msgstr "អាផល បេ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:539
+msgid "Pay Later Messaging"
+msgstr "សារបង់ប្រាក់ក្រោយ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:540
+msgid "Additional Settings"
+msgstr "ការកំណត់បន្ថែម"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:541
+msgid "FAQ"
+msgstr "សំណួរញឹកញាប់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:756
+msgid "This represents the fee PayPal collects for the transaction."
+msgstr "នេះតំណាងឲ្យកម្រៃដែល PayPal ប្រមូលសម្រាប់ប្រតិបត្តិការ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:758
+msgid "PayPal Fee:"
+msgstr "ប្រាក់កម្រៃ PayPal:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:842
+msgid "Disconnect"
+msgstr "ភ្ជាប់ចេញ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:967
+msgid "PayPal Account Connected"
+msgstr "PayPal គណនីបានភ្ជាប់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:972
+msgid "Connected Account:"
+msgstr "គណនីដែលភ្ជាប់:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:979
+msgid "Disconnect PayPal Account"
+msgstr "ដកស្រង់គណនី PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1063
+msgid ""
+"The PayPal Client ID and Secret key you entered are invalid. Ensure you are "
+"using the correct credentials for the selected environment (Sandbox or "
+"Live)."
+msgstr ""
+"PayPal Client ID និង Secret key ដែលអ្នកបានបញ្ចូលគឺមិនត្រឹមត្រូវទេ។ "
+"សូមធានាថាអ្នកកំពុងប្រើឯកសារអត្តសញ្ញាណត្រឹមត្រូវសម្រាប់បរិយាកាសដែលបានជ្រើស "
+"(Sandbox ឬ Live)។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1135
+msgid "Click to Connect PayPal"
+msgstr "ចុចដើម្បីភ្ជាប់ PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1166
+msgid "The Connect to PayPal service is temporarily unavailable."
+msgstr "សេវាកម្មភ្ជាប់ទៅ PayPal មិនអាចប្រើបាននៅពេលនេះ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1170
+msgid "Toggle to manual credential input"
+msgstr "ប្ដូរទៅការបញ្ចូលអត្តសញ្ញាណដោយដៃ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1197
+msgid "Recommended"
+msgstr "សូមណែនាំ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1202
+msgid "OR"
+msgstr "ឬ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1207
+msgid "Click here to insert credentials manually"
+msgstr "ចុចទីនេះដើម្បីបញ្ចូលអត្តសញ្ញាណដោយដៃ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1336
+msgid ""
+"Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
+"Bancontact, etc.) will appear?"
+msgstr ""
+"Kuri PayPal buto (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
+"Bancontact, etc.) zizobonakala?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1340
+msgid ""
+"The PayPal buttons are shown automatically based on several factors, "
+"including:"
+msgstr ""
+"ប៊ូតុង PayPal ត្រូវបានបង្ហាញដោយស្វ័យប្រវត្តិអាស្រ័យលើកត្តាច្រើន រួមមាន៖:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1342
+msgid "The buyer’s country"
+msgstr "ប្រទេសរបស់អ្នកទិញ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1343
+msgid "Their device type"
+msgstr "ឧបករណ៍ប្រភេទរបស់ពួកគេ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1344
+msgid "The funding sources they’ve enabled"
+msgstr "ការប្រាក់ដែលពួកគេបានអនុញ្ញាត"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1346
+msgid ""
+"As a result, each buyer may see a different set of buttons. Pay Later "
+"options vary by country and may display different buttons."
+msgstr ""
+"លទ្ធផលគឺថា អ្នកទិញរាល់គ្នាអាចមើលឃើញសំណុំប៊ូតុងខុសគ្នា។ "
+"ជម្រើសបង់ក្រោយមានភាពខុសគ្នាតាមប្រទេស ហើយអាចបង្ហាញប៊ូតុងខុសគ្នា។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1352
+msgid "How can I hide specific PayPal buttons?"
+msgstr "ខ្ញុំអាចលាក់ប៊ូតុង PayPal ជាក់លាក់បានយ៉ាងដូចម្តេច?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1356
+msgid ""
+"By default, all PayPal buttons are enabled. To hide specific buttons, use "
+"the <strong>Disable Specific Payment Buttons</strong> option."
+msgstr ""
+"ដោយលំនាំដើម ប៊ូតុង PayPal ទាំងអស់ត្រូវបានបើក។ ដើម្បីលាក់ប៊ូតុងជាក់លាក់ "
+"អ្នកអាចប្រើជម្រើស <strong>បិទប៊ូតុងការទូទាត់ជាក់លាក់</strong>។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1357
+msgid "Example: To hide the Pay Later button on the Checkout Page:"
+msgstr "ឧទាហរណ៍: ដើម្បីលាក់ប៊ូតុង Pay Later នៅលើទំព័រ Checkout:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1359
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1376
+msgid "Go to <strong>PayPal Settings</strong> > Checkout Page"
+msgstr "ចូលទៅកាន់ <strong>ការកំណត់ PayPal</strong> > ទំព័រ Checkout"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1360
+msgid "Find the <strong>Disable Specific Payment Buttons</strong> setting."
+msgstr "ស្វែងរកការកំណត់ <strong>បិទប៊ូតុងការទូទាត់ជាក់លាក់</strong>។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1361
+msgid "Select <strong>Pay Later</strong> from the dropdown list."
+msgstr "ជ្រើសរើស <strong>បង់ក្រោយ</strong> ពីបញ្ជីជ្រើសរើស។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1362
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1378
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1384
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1401
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1407
+msgid "Click <strong>Save Changes</strong>."
+msgstr "ចុច <strong>រក្សាទុកការផ្លាស់ប្តូរ</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1369
+msgid "How can I show only the \"PayPal\" button on the Checkout page?"
+msgstr ""
+"ខ្ញុំអាចបង្ហាញប៊ូតុង \"PayPal\" តែប៉ុណ្ណោះនៅលើទំព័រ Checkout "
+"បានយ៉ាងដូចម្តេច?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1373
+msgid ""
+"To display only the \"PayPal\" button on the Checkout page, follow these "
+"steps:"
+msgstr ""
+"Checkout පිටුවේ \"PayPal\" බොත්තම පමණක් පෙන්වීමට, මෙම පියවර අනුගමනය කරන්න:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1374
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1397
+msgid "Step 1: Update PayPal Settings"
+msgstr "ជំហាន ១: ធ្វើបច្ចុប្បន្នភាពការកំណត់ PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1377
+msgid ""
+"Under <strong>Disable Specific Payment Buttons</strong>, select "
+"<strong>Credit or Debit Card</strong> and any other methods you want to "
+"hide."
+msgstr ""
+"ក្រោម <strong>បិទប៊ូតុងការទូទាត់ជាក់លាក់</strong> សូមជ្រើស "
+"<strong>កាតឥណទានឬកាតឥណទាន</strong> និងវិធីផ្សេងទៀតដែលអ្នកចង់លាក់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1380
+msgid "Step 2: Update Advanced Card Payments Settings"
+msgstr "ជំហានទី 2: ធ្វើបច្ចុប្បន្នភាពការកំណត់ការទូទាត់កាតកម្រិតខ្ពស់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1382
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1405
+msgid "Go to <strong>Advanced Card Payments</strong> settings."
+msgstr ""
+"Jangan pergi ke pengaturan <strong>Pembayaran Kartu Lanjutan</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1383
+msgid "Disable the option <strong>Enable Advanced Credit/Debit Card</strong>."
+msgstr "បិទជម្រើស <strong>បើកកាតឥណទាន/កាតឥណទានមួយ</strong>។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1386
+msgid ""
+"Once you save the changes in both sections, only the \"PayPal\" button will "
+"appear on the Checkout page."
+msgstr ""
+"មួយដងដែលអ្នកបានរក្សាទុកការផ្លាស់ប្តូរ​នៅក្នុងផ្នែកទាំងពីរ គ្រាន់តែប៊ូតុង "
+"\"PayPal\" នឹងបង្ហាញនៅលើទំព័រ Checkout។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1392
+msgid ""
+"How can I show only the \"Credit or Debit Card\" payment method on the "
+"Checkout page?"
+msgstr ""
+"ខ្ញុំអាចបង្ហាញវិធីសាស្ត្របង់ប្រាក់ \"កាតឥណទាន ឬ កាតឥណទាន\" នៅលើទំព័រ "
+"Checkout បានយ៉ាងដូចម្តេច?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1396
+msgid ""
+"To display only the \"Credit or Debit Card\" payment method on the Checkout "
+"page, follow these steps:"
+msgstr ""
+"Checkout පිටුවේ \"ක්‍රෙඩිට් හෝ ඩෙබිට් කාඩ්\" ගෙවීම් ක්‍රමය පමණක් පෙන්වීමට, "
+"මෙම පියවර අනුගමනය කරන්න:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1399
+msgid "Go to <strong>PayPal Settings > Checkout Page</strong>."
+msgstr "Jalan ka <strong>PayPal Settings > Halaman Checkout</strong>."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1400
+msgid "Disable the <strong>Enable PayPal</strong> option."
+msgstr "បិទជម្រើស <strong>អនុញ្ញាត PayPal</strong>។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1403
+msgid "Step 2: Enable Advanced Credit/Debit Card Payments"
+msgstr "ជំហានទី 2: បើកការទូទាត់កាតឥណទាន/កាតឥណទានកម្រិតខ្ពស់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1406
+msgid "Enable the option <strong>Enable Advanced Credit/Debit Card</strong>."
+msgstr "សូមបើកជម្រើស <strong>បើកកាតឥណទាន/កាតឥណទានមួយ</strong>។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1409
+msgid ""
+"Once you save the changes in both sections, only the \"Credit or Debit "
+"Card\" payment method will appear on the Checkout page."
+msgstr ""
+"អ្នកបានរក្សាទុកការផ្លាស់ប្តូរ​នៅក្នុងផ្នែកទាំងពីរ​ហើយ "
+"គ្រាន់តែវិធីសាស្ត្រ​បង់ប្រាក់ \"កាតឥណទាន ឬ កាតឥណទាន\" នឹងបង្ហាញនៅលើទំព័រ "
+"Checkout។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1415
+msgid "What is PayPal Pay Later?"
+msgstr "PayPal Pay Later គឺអ្វី?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1419
+msgid ""
+"PayPal Pay Later lets your customers split their purchases into interest-"
+"free payments over time, such as \"Pay in 4\" or monthly installments. You "
+"get paid in full upfront, while customers enjoy flexible payment options."
+msgstr ""
+"PayPal Pay Later ngam biar pelanggan anjeun ngabagi pamesananana kana "
+"pembayaran tanpa bunga salami waktos, sapertos \"Bayar dina 4\" atanapi "
+"cicilan bulanan. Anjeun dibayar sacara lengkep di awal, sedengkeun pelanggan"
+" nikmati pilihan pembayaran anu fleksibel."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1420
+msgid ""
+"This can help increase your sales, with many merchants seeing higher "
+"conversion rates and larger order sizes."
+msgstr ""
+"នេះអាចជួយបង្កើនការលក់របស់អ្នក ដោយមានអ្នកជួញដូរ​ច្រើនមើលឃើញអត្រាបំលែងខ្ពស់ "
+"និងទំហំការបញ្ជាទិញធំជាងមុន។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1423
+msgid "Learn more about Pay Later on PayPal’s website."
+msgstr "PayPal ၏ ဝက်ဘ်ဆိုက်တွင် Pay Later အကြောင်း ပိုမိုသိရှိပါ။."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1431
+msgid "How can I contact support or request a new functionality?"
+msgstr "ខ្ញុំអាចទំនាក់ទំនងនឹងការគាំទ្រឬស្នើសុំមុខងារថ្មីបានយ៉ាងដូចម្តេច?"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1436
+msgid ""
+"If you have any questions, encounter an issue, or have a new functionality "
+"request, please create a support ticket on our official support page at:"
+msgstr ""
+"ប្រសិនបើអ្នកមានសំណួរ ឬប្រទះបញ្ហា ឬមានការស្នើសុំមុខងារថ្មី "
+"សូមបង្កើតសំបុត្រគាំទ្រនៅលើទំព័រគាំទ្រផ្លូវការរបស់យើងនៅ៖:"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1565
+msgid "Click to Enable Google Pay"
+msgstr "ចុចដើម្បីបើក Google Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1587
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1616
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1645
+msgid "Important: "
+msgstr "សំខាន់: "
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1717
+msgid "Click to Enable Apple Pay"
+msgstr "ចុចដើម្បីបើក Apple Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1750
+msgid "Register Your Domain with Apple Pay"
+msgstr "ចុះឈ្មោះដែនដីរបស់អ្នកជាមួយ Apple Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1754
+msgid ""
+"Any (sub)domain displaying an Apple Pay button must be registered on the "
+"PayPal website. If the domain is not registered, the payment method will not"
+" work."
+msgstr ""
+"Koh (sub)domain yang menampilkan tombol Apple Pay mesti didaftarkan di situs"
+" web PayPal. Jika domain tidak terdaftar, metode pembayaran tidak akan "
+"berfungsi."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1777
+msgid ""
+"Accept PayPal, Pay Later, and major cards in WooCommerce using the PayPal "
+"Commerce Platform."
+msgstr ""
+"ទទួលប្រាក់ PayPal, បង់ក្រោយ, និងកាតសំខាន់ៗនៅក្នុង WooCommerce "
+"ដោយប្រើប្រាស់វេទិកាហិរញ្ញវត្ថុ PayPal។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1779
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1799
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1819
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1829
+msgid "By Easy Payment"
+msgstr "ដោយការទូទាត់ងាយ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1786
+msgid "AI Product Description Generator for WooCommerce"
+msgstr "AI ផលិតផលពិពណ៌នាដែលបង្កើតសម្រាប់ WooCommerce"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1787
+msgid ""
+"Generate SEO-friendly titles, descriptions, and attributes with AI. Includes"
+" bulk tools and templates."
+msgstr ""
+"AI-мен SEO-досустар, сүрөттөмөлөр жана атрибуттарды түзүңүз. Көптөгөн "
+"инструменттер жана шаблондорду камтыйт."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1789
+msgid "By nexaplugins"
+msgstr "ដោយ nexaplugins"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1796
+msgid "Payment Gateway for Authorize.Net for WooCommerce"
+msgstr "Payment Gateway pikeun Authorize.Net pikeun WooCommerce"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1797
+msgid ""
+"Accept credit and debit cards via Authorize.Net with a secure, seamless "
+"WooCommerce checkout."
+msgstr ""
+"Accept kredit sareng debit kartu ngalangkungan Authorize.Net kalayan "
+"checkout WooCommerce anu aman sareng lancar."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1806
+msgid "Widgets for Google Business Reviews and Ratings"
+msgstr "Widgets pikeun Ulasan sareng Penilaian Google Business"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1807
+msgid ""
+"Showcase your Google Business Profile reviews and star rating with "
+"customizable widgets."
+msgstr ""
+"បង្ហាញមតិយោបល់និងការវាយតម្លៃផ estrela របស់អ្នកនៅលើប្រព័ន្ធ Google Business "
+"Profile ជាមួយនឹងវីជិតដែលអាចកំណត់បាន។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1809
+msgid "By Repocean"
+msgstr "ដោយ Repocean"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1816
+msgid "Payment Gateway for PhonePe and for WooCommerce"
+msgstr "PhonePe និង WooCommerce សម្រាប់ច្រកទូទាត់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1817
+msgid ""
+"Accept PhonePe UPI, Wallet, and Cards with a fast, secure payment experience"
+" in WooCommerce."
+msgstr ""
+"ទទួលយក PhonePe UPI, កាបូប និងកាតជាមួយបទពិសោធន៍ការទូទាត់លឿន "
+"និងសុវត្ថិភាពក្នុង WooCommerce។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1826
+msgid "Payment Gateway for Razorpay and for WooCommerce"
+msgstr "Razorpay និង WooCommerce សម្រាប់ច្រកទូទាត់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1827
+msgid ""
+"Accept UPI, Cards, and Net Banking via Razorpay with a reliable, optimized "
+"WooCommerce integration."
+msgstr ""
+"Razorpay-এ একটি নির্ভরযোগ্য, অপ্টিমাইজড WooCommerce ইন্টিগ্রেশন দ্বারা UPI, "
+"কার্ড এবং নেট ব্যাংকিং গ্রহণ করুন।."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1854
+msgid "Recommended Plugins"
+msgstr "ផ្លាស់ប្តូរដែលបានណែនាំ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1856
+msgid ""
+"Start by adding helpful extensions to your store—payments, product content, "
+"reviews and more."
+msgstr ""
+"ចាប់ផ្តើមដោយបន្ថែមការពង្រឹងដែលមានប្រយោជន៍ទៅហាងរបស់អ្នក—ការទូទាត់, "
+"មាតិកាផលិតផល, ការពិនិត្យ និងច្រើនទៀត។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1864
+msgid "Plugin logo"
+msgstr "រូបសញ្ញា Plugin"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1879
+msgid "Install Now"
+msgstr "ដំឡើងឥឡូវនេះ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1886
+msgid "No matching plugins found for your store settings."
+msgstr "Store settings របស់អ្នកមិនមានផ្លុយគីនដែលសមស្រប។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1945
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:357
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:462
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:582
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:651
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:732
+msgid "Live Preview"
+msgstr "ការមើលជាក់ស្តែង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1946
+msgid "PayPal Smart Button Preview"
+msgstr "មើលមុនប៊ូតុង PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1947
+msgid "Preview only. No payment will be processed."
+msgstr "មើលមុនតែប៉ុណ្ណោះ។ មិនមានការទូទាត់ណាមួយនឹងត្រូវបានដំណើរការ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1984
+msgid "Congratulations! PayPal is Connected 🎉"
+msgstr "សូមអបអរសាទរ! PayPal ត្រូវបានភ្ជាប់រួចរាល់ 🎉"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1988
+msgid "The primary setup is already complete."
+msgstr "ការតំឡើងដើមគឺបានបញ្ចប់រួចរាល់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1992
+msgid ""
+"No further action is required unless additional customization is needed."
+msgstr "បន្ថែមសកម្មភាពមិនត្រូវការទេ ប្រសិនបើការប្ដូរបន្ថែមត្រូវការនោះ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1997
+msgid "Got it"
+msgstr "បានហើយ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3105
+msgid "Invalid or missing payment token fields."
+msgstr "កន្លែងបង់ប្រាក់ដែលមិនត្រឹមត្រូវ ឬខ្វះខាត។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:97
+msgid ""
+"Please choose the quantity of items you wish to add to your cart&hellip;"
+msgstr "សូមជ្រើសរើសបរិមាណនៃធាតុដែលអ្នកចង់បន្ថែមទៅកាន់កន្ត្រករបស់អ្នក&hellip;"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:106
+msgid "Please choose a product to add to your cart&hellip;"
+msgstr "សូមជ្រើសរើសផលិតផលមួយដើម្បីបន្ថែមទៅកាន់កន្ត្រាក់របស់អ្នក&hellip;"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:160
+msgid "Please choose product options&hellip;"
+msgstr "សូមជ្រើសរើសជម្រើសផលិតផល&hellip;"
+
+#. translators: %s: Product attribute name.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:177
+msgid "Invalid value posted for %s"
+msgstr "%s සඳහා පළ කරන ලද අසත්‍ය අගය"
+
+#. translators: %s: Comma-separated list of missing required product
+#. attributes.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:185
+msgid "%s is a required field"
+msgid_plural "%s are required fields"
+msgstr[0] ""
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:168
+msgid "Continue to payment"
+msgstr "បន្តទៅការទូទាត់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:739
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1578
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2773
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1538
+msgid "Card Details"
+msgstr "කාඩ් විස්තර"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:750
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1589
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2784
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1549
+msgid "Address Verification Result"
+msgstr "លទ្ធផលការពិនិត្យអាសយដ្ឋាន"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:759
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1598
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2793
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1558
+msgid "Card Security Code Result"
+msgstr "កូដសុវត្ថិភាពកាតលទ្ធផល"
+
+#. translators: 1: Payment method title, 2: Payment status (e.g., Completed,
+#. Pending).
+#. translators: 1: Payment method title, 2: Payment status.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:781
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1625
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2815
+msgid "Payment via %1$s : %2$s."
+msgstr "ការទូទាត់តាម %1$s : %2$s."
+
+#. translators: 1: Payment method title, 2: Transaction ID.
+#. translators: 1: payment method title, 2: transaction ID
+#. translators: %1$s is the payment method title, %2$s is the PayPal
+#. transaction ID.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:785
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:797
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:942
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1619
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2820
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2827
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1581
+msgid "%1$s Transaction ID: %2$s"
+msgstr "%1$s ការធ្វើប្រតិបត្តិ ID: %2$s"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:945
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1976
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1607
+msgid ""
+"Payment authorized. Change payment status to processing or complete to "
+"capture funds."
+msgstr ""
+"ការទូទាត់ត្រូវបានអនុម័ត។ ប្ដូរប្រភេទស្ថានភាពទូទាត់ទៅកាន់កំពុងដំណើរការ "
+"ឬបានបញ្ចប់ ដើម្បីចាប់យកប្រាក់។."
+
+#. translators: 1: Refunded amount, 2: Refund transaction ID.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1314
+msgid "Refunded %1$s - Refund ID: %2$s"
+msgstr "បានសងប្រាក់ %1$s - អត្តសញ្ញាណសងប្រាក់: %2$s"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1490
+msgid "An error occurred while updating the order."
+msgstr "ការកើតមានកំហុសនៅពេលកំពុងធ្វើបច្ចុប្បន្នភាពការបញ្ជាទិញ។."
+
+#. translators: %s: Plugin version number.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1651
+msgid "Payment Gateway for PayPal on WooCommerce: %1$s"
+msgstr "WooCommerce හි PayPal සඳහා ගෙවීම් මාර්ගය: %1$s"
+
+#. translators: %s: WooCommerce version number.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1653
+msgid "WooCommerce Version: %1$s"
+msgstr "WooCommerce កំណែ: %1$s"
+
+#. translators: 1: PayPal pending reason.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1980
+msgid "Payment pending (%1$s)."
+msgstr "ការទូទាត់កំពុងរង់ចាំ (%1$s)."
+
+#. translators: 1: refunded amount, 2: refunded currency
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2046
+msgid "Marked as refunded via PayPal. Total refunded: %1$s %2$s."
+msgstr "បានសម្គាល់ថាជាការបង្វិលតាមរយៈ PayPal។ ចំនួនដែលបានបង្វិល: %1$s %2$s។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2185
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2617
+msgid "Sorry, your session has expired."
+msgstr "សូមអភ័យទោស, សម័យរបស់អ្នកបានផុតកំណត់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2394
+msgid ""
+"This payment was unable to be processed successfully. Please try again with "
+"another payment method."
+msgstr ""
+"ការទូទាត់នេះមិនអាចដំណើរការបានដោយជោគជ័យទេ។ "
+"សូមព្យាយាមម្តងទៀតជាមួយវិធីទូទាត់ផ្សេងទៀត។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:125
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:148
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:175
+msgid "Return to your shop."
+msgstr "វិលត្រឡប់ទៅហាងរបស់អ្នក។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:335
+msgid ""
+"Pay via PayPal; you can pay with your credit card if you don't have a PayPal"
+" account"
+msgstr ""
+"Pay melalui PayPal; anda boleh membayar dengan kad kredit anda jika anda "
+"tidak mempunyai akaun PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:84
+msgid "Environment"
+msgstr "បរិស្ថាន"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:87
+msgid "Select PayPal Environment"
+msgstr "ជ្រើសរើសបរិយាកាស PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:89
+msgid ""
+"Choose the PayPal environment. Select \"Sandbox\" for testing transactions "
+"(no real transactions will occur) or \"Production\" for live transactions."
+msgstr ""
+"ជ្រើសរើសបរិយាកាស PayPal។ ជ្រើស \"Sandbox\" សម្រាប់សាកល្បងប្រតិបត្តិការនានា "
+"(មិនមានប្រតិបត្តិការពិតណាមួយនឹងកើតឡើង) ឬ \"Production\" "
+"សម្រាប់ប្រតិបត្តិការពិត។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:93
+msgid "Sandbox (Test Mode)"
+msgstr "Sandbox (ម៉ូដសាកល្បង)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:94
+msgid "Production (Live)"
+msgstr "ផលិតកម្ម (បង្ហាញ)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:98
+msgid "Connect to PayPal"
+msgstr "ភ្ជាប់ទៅកាន់ PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:102
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:152
+msgid "Setup or link an existing PayPal account."
+msgstr "Set up or link an existing PayPal account."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:106
+msgid "Live Client ID"
+msgstr "រស់ Client ID"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:108
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:158
+msgid "Enter PayPal Client ID."
+msgstr "បញ្ចូលលេខសម្គាល់អតិថិជន PayPal។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:117
+msgid "Live Secret key"
+msgstr "រស្មីសម្ងាត់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:119
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:169
+msgid "Enter PayPal Secret key."
+msgstr "បញ្ចូលកូនសោ PayPal សម្ងាត់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:128
+msgid "Live PayPal Email"
+msgstr "អ៊ីមែល PayPal ជាក់ស្តែង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:131
+msgid "Enter Live PayPal Email."
+msgstr "បញ្ចូលអ៊ីមែល PayPal ជាក់ស្តែង។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:140
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:189
+msgid "Connection Status"
+msgstr "ការស្ថិតិការតភ្ជាប់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:148
+msgid "Connect to PayPal Sandbox"
+msgstr "ភ្ជាប់ទៅកាន់ PayPal Sandbox"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:156
+msgid "Sandbox Client ID"
+msgstr "Sandbox Client ID"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:167
+msgid "Sandbox Secret key"
+msgstr "សោសម្ងាត់ Sandbox"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:178
+msgid "Sandbox PayPal Email"
+msgstr "Sandbox PayPal អ៊ីមែល"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:181
+msgid "Enter Sandbox PayPal Email."
+msgstr "បញ្ចូលអ៊ីមែល PayPal Sandbox។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:202
+msgid ""
+"When enabled, Payment methods will only be visible to site administrators "
+"and store managers. This allows you to test PayPal on your live site without"
+" customers seeing them."
+msgstr ""
+"បើបានបើក, វិធីសាស្ត្រ pembayaran "
+"នឹងត្រូវបានបង្ហាញតែសម្រាប់អ្នកគ្រប់គ្រងគេហទំព័រ និងអ្នកគ្រប់គ្រងហាង។ "
+"នេះអនុញ្ញាតឱ្យអ្នកសាកល្បង PayPal "
+"នៅលើគេហទំព័ររស់រវើករបស់អ្នកដោយគ្មានអតិថិជនមើលឃើញវា។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
+msgid "Select Height"
+msgstr "ជ្រើសរើសកម្ពស់"
+
+#. translators: %d is the button height in pixels.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:213
+msgid "%d px"
+msgstr "%d px"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:217
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:776
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:865
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1178
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1428
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1513
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1600
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1686
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1772
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1858
+msgid "Enable/Disable"
+msgstr "អនុញ្ញាត/បិទ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:219
+msgid "Enable PayPal"
+msgstr "បើក PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:220
+msgid ""
+"Enable this option to activate the PayPal gateway. Uncheck to disable it."
+msgstr ""
+"මෙම විකල්පය සක්‍රීය කිරීමට PayPal ගේට්ටුව සක්‍රීය කරන්න. අක්‍රීය කිරීමට "
+"අක්‍රීය කරන්න."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:225
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:784
+msgid "Title"
+msgstr "ចំណងជើង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:227
+msgid "The title displayed to customers during checkout."
+msgstr "ចំណងជើងដែលបង្ហាញទៅអតិថិជននៅពេលបង់ប្រាក់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:228
+msgid "PayPal"
+msgstr "PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:232
+msgid "Description"
+msgstr "ការពិពណ៌នា"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:235
+msgid "The description displayed to customers during checkout."
+msgstr "ការពិពណ៌នាដែលបង្ហាញទៅកាន់អតិថិជននៅពេលបង់ប្រាក់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:240
+msgid "Display PayPal Buttons On"
+msgstr "បង្ហាញប៊ូតុង PayPal នៅលើ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:271
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:887
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1200
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1617
+msgid "Product Page"
+msgstr "ទំព័រ​ផលិតផល"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:248
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:365
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:929
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1241
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1703
+msgid "Cart Page"
+msgstr "ទំព័រ​កន្ត្រក"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:249
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:590
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:881
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1013
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1194
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1323
+msgid "Express Checkout"
+msgstr "ចេញជូនឥតឈប់ឈរ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:250
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:471
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1055
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1364
+msgid "Checkout Page"
+msgstr "ទំព័រ​ពិនិត្យ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:251
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:971
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1282
+msgid "Mini Cart (Side Cart)"
+msgstr "កន្ត្រកតូច (កន្ត្រកខាង)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:253
+msgid "Set the page(s) to display the PayPal Buttons."
+msgstr "កំណត់ទំព័រ(ៗ) ដើម្បីបង្ហាញប៊ូតុង PayPal។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:259
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:279
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:372
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:478
+msgid "Disable Specific Payment Buttons"
+msgstr "បិទប៊ូតុងបង់ប្រាក់ជាក់លាក់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:261
+msgid ""
+"PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
+"Bancontact, etc.) are shown automatically based on factors such as the "
+"buyer’s country and their device type. <br><br>By default, <b>all buttons "
+"are enabled.</b> To disable individual payment buttons, use the <b>\"Disable"
+" Specific Payment Buttons\"</b> setting available in each page section "
+"below.<br><br>For Express Checkout, it will follow the configuration from "
+"the Checkout Page.<br>For Mini Cart, this setting will follow the "
+"configuration from the Product Page."
+msgstr ""
+"ប៊ូតុង PayPal (ឧ. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Bancontact, "
+"ល។) ត្រូវបានបង្ហាញដោយស្វ័យប្រវត្តិផ្អែកលើកត្តាដូចជា ប្រទេសរបស់អ្នកទិញ "
+"និងប្រភេទឧបករណ៍របស់ពួកគេ។ <br><br>ដោយលំនាំដើម "
+"<b>ប៊ូតុងទាំងអស់ត្រូវបានអនុញ្ញាត។</b> ដើម្បីបិទប៊ូតុងបង់ប្រាក់ជាក់លាក់មួយៗ "
+"សូមប្រើការកំណត់ <b>\"បិទប៊ូតុងបង់ប្រាក់ជាក់លាក់\"</b> "
+"ដែលមាននៅក្នុងផ្នែកទំព័រ ខាងក្រោម។<br><br>សម្រាប់ការទូទាត់បន្ទាន់ "
+"វានឹងអនុវត្តតាមការកំណត់ពីទំព័រទូទាត់។<br>សម្រាប់កន្ត្រកតូច "
+"ការកំណត់នេះនឹងអនុវត្តតាមការកំណត់ពីទំព័រផលិតផល។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:287
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:380
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:486
+msgid "Select payment buttons to disable"
+msgstr "ជ្រើសរើសប៊ូតុងបង់ប្រាក់ដើម្បីបិទ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:291
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:384
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:490
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:666
+msgid "Button Layout"
+msgstr "ប្លង់ប៊ូតុង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:294
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:387
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:493
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:600
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:669
+msgid ""
+"Select Vertical for stacked buttons, and Horizontal for side-by-side "
+"buttons."
+msgstr ""
+"ជ្រើសរើសទិសដៅសម្រាប់ប៊ូតុងដែលស្តុកគ្នា "
+"និងទិសដៅផ្ទាល់សម្រាប់ប៊ូតុងដែលនៅក្បែរគ្នា។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:298
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:604
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:673
+msgid "Horizontal (Recommended)"
+msgstr "Horisontal (Disarankan)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:299
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:605
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:674
+msgid "Vertical"
+msgstr "សេដ្ឋកិច្ច"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:303
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:396
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:502
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:609
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:678
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:909
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:951
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:993
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1035
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1077
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1220
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1261
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1302
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1343
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1384
+msgid "Button Color"
+msgstr "ពណ៌ប៊ូតុង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:308
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:401
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:507
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:614
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:683
+msgid "Gold (Recommended)"
+msgstr "មាស (បានណែនាំ)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:309
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:402
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:508
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:615
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:684
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "Blue"
+msgstr "ខៀវ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:310
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:403
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:509
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:616
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:685
+msgid "Silver"
+msgstr "ប្រាក់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:311
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:404
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:686
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:915
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:957
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:999
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1041
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1083
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1226
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1267
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1308
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1349
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1390
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "White"
+msgstr "សព្វ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:312
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:405
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:511
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:618
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:687
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:914
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:956
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:998
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1040
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1082
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1225
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1266
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1307
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1348
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1389
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "Black"
+msgstr "ខ្មៅ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:316
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:409
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:515
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:622
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:691
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:919
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:961
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1003
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1045
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1087
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1231
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1272
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1313
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1354
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1395
+msgid "Button Shape"
+msgstr "បែបផែនប៊ូតុង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:321
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:414
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:520
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:627
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:696
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:924
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:966
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1008
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1050
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1092
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1236
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1277
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1318
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1359
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
+msgid "Rect (Recommended)"
+msgstr "Rect (បានណែនាំ)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:415
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:521
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:628
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:697
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:925
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:967
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1009
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1051
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1093
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1237
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1278
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1319
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1360
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1401
+msgid "Pill"
+msgstr "ថ្នាំ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:326
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:419
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:525
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:701
+msgid "Button Width"
+msgstr "បណ្តោយប៊ូតុង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:331
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:424
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:530
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:706
+msgid "Small"
+msgstr "តូច"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:332
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:425
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:531
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:707
+msgid "Medium"
+msgstr "មធ្យម"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:333
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:426
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:532
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:708
+msgid "Large"
+msgstr "ធំ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:334
+msgid "Responsive"
+msgstr "ឆ្លើយតប"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:338
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:431
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:713
+msgid "Button Height"
+msgstr "បណ្តុំកម្ពស់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:345
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:438
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:544
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:639
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:720
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:893
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:935
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:977
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1019
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1061
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1206
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1247
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1288
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1329
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1370
+msgid "Button Label"
+msgstr "ប៊ូតុងស្លាក"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:350
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:443
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:549
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:644
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:725
+msgid "PayPal (Recommended)"
+msgstr "PayPal (បានណែនាំ)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:351
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:444
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:550
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:645
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:726
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:882
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:900
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:942
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:984
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1026
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1068
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1195
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1213
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1254
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1295
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1336
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1377
+msgid "Checkout"
+msgstr "ចេញពី"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:352
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:445
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:551
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:646
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:727
+msgid "Buy Now"
+msgstr "ទិញឥឡូវនេះ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:353
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:446
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:552
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:647
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:728
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:904
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:946
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:988
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1030
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1072
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1215
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1256
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1297
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1379
+msgid "Pay"
+msgstr "បង់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:391
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:497
+msgid "Vertical (Recommended)"
+msgstr "បញ្ចូលកម្ពស់ (បានណែនាំ)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:392
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:498
+msgid "Horizontal"
+msgstr "ហូរីសង់តល"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:427
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:533
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:709
+msgid "Responsive (Recommended)"
+msgstr "ឆ្លើយតប (បានណែនាំ)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:450
+msgid "PayPal Button Position (Classic Cart Only)"
+msgstr "ទីតាំងប៊ូតុង PayPal (គ្រាន់តែកន្ត្រកបុរាណ)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:453
+msgid ""
+"Choose where the PayPal buttons should appear on the cart page, either above"
+" or below the \"Proceed to Checkout\" button. This applies only to classic "
+"cart templates, not the new Cart Blocks layout."
+msgstr ""
+"ជ្រើសរើសកន្លែងដែលប៊ូតុង PayPal គួរត្រូវបង្ហាញនៅលើទំព័រការទិញទំនិញ "
+"មិនថានៅលើឬក្រោមប៊ូតុង \"បន្តទៅការទូទាត់\"។ នេះអនុវត្តតែសម្រាប់គំរូកាបូបបុរាណ"
+" មិនមែនសម្រាប់ទំរង់កាបូបថ្មីទេ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:457
+msgid "Below Proceed to Checkout button"
+msgstr "ក្រោមប៊ូតុងបញ្ជាទិញ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:458
+msgid "Above Proceed to Checkout button"
+msgstr "លើប៊ូតុងបញ្ចូលការទិញ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:556
+msgid "Icon"
+msgstr "រូបតំណាង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:560
+msgid "Monogram (PP)"
+msgstr "Monogram (PP)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:561
+msgid "Wordmark (PayPal)"
+msgstr "Wordmark (PayPal)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:562
+msgid "Combination Mark (PP PayPal)"
+msgstr "សញ្ញាសម្រង់បញ្ចូល (PP PayPal)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:564
+msgid ""
+"Select the PayPal logo style displayed next to the payment method title on "
+"the checkout page."
+msgstr ""
+"ជ្រើសរើសរចនាប័ទ្មរូបសញ្ញា PayPal "
+"ដែលបង្ហាញនៅក្បែរឈ្មោះវិធីសាស្ត្របង់ប្រាក់នៅលើទំព័របង់ប្រាក់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:567
+msgid "Show Redirect Icon and Text"
+msgstr "បង្ហាញរូបតំណាងនិងអត្ថបទបញ្ជូន"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:571
+msgid ""
+"When enabled, a redirect icon and message will appear to let customers know "
+"they will be taken to PayPal to complete their payment."
+msgstr ""
+"បើបានបើក, "
+"អាយកុងនិងសារការបញ្ជូននឹងបង្ហាញដើម្បីអោយអតិថិជនដឹងថាពួកគេនឹងត្រូវបានយកទៅ "
+"PayPal ដើម្បីបញ្ចប់ការទូទាត់របស់ពួកគេ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:574
+msgid "Use Place Order Button"
+msgstr "ប្រើប៊ូតុងដាក់ការបញ្ជាទិញ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:578
+msgid ""
+"Enable this to use the default Place Order button on the checkout page "
+"instead of showing PayPal buttons. This setting does not affect Express "
+"Checkout."
+msgstr ""
+"នេះត្រូវបានអនុញ្ញាតឱ្យប្រើប៊ូតុងដាក់ពាក្យសុំជាមូលដ្ឋាននៅលើទំព័របង់ប្រាក់ "
+"ជំនួសសម្រាប់ប៊ូតុង PayPal។ ការកំណត់នេះមិនមានឥទ្ធិពលលើការទូទាត់បន្ទាន់ទេ។."
+
+#. translators: Admin notice explaining how to enable PayPal Advanced Card
+#. Payments. HTML <br> tags are intentional for formatting.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:747
+msgid ""
+"To use Advanced Card Payments, ensure your PayPal account is eligible and enabled:<br><br>\r\n"
+"                <strong>Steps:</strong><br>\r\n"
+"                1. Visit developer.paypal.com → Apps & Credentials → API Credentials.<br>\r\n"
+"                2. Click your App Name.<br>\r\n"
+"                3. Under \"Features\" → Accept Payments, check if \"Advanced Credit and Debit Card Payments\" is enabled.<br>\r\n"
+"                4. If missing, your account or region may not support it."
+msgstr ""
+"Advanced Card Payments ប្រើប្រាស់បាន សូមធានាថាអាការប្រាក់ PayPal របស់អ្នកមានសិទ្ធិ និងបានបើកប្រើ:<br><br>\r\n"
+"                <strong>ជំហាន:</strong><br>\r\n"
+"                1. ចូលទៅកាន់ developer.paypal.com → កម្មវិធី & សញ្ញាបត្រ → សញ្ញាបត្រ API។<br>\r\n"
+"                2. ចុចឈ្មោះកម្មវិធីរបស់អ្នក។<br>\r\n"
+"                3. នៅក្រោម \"លក្ខណៈ\" → ទទួលប្រាក់ សូមពិនិត្យមើលថា \"Advanced Credit and Debit Card Payments\" តើបានបើកប្រើឬអត់។<br>\r\n"
+"                4. ប្រសិនបើខ្វះ អាការប្រាក់របស់អ្នកឬតំបន់អាចមិនគាំទ្រទេ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:771
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:829
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:860
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1102
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1124
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1167
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1418
+msgid "Important Note"
+msgstr "សម្គាល់សំខាន់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:778
+msgid "Enable Advanced Credit/Debit Card"
+msgstr "បើកកាតឥណទាន/កាតឥណទានមុខមាត់កម្រិតខ្ពស់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:780
+msgid ""
+"Enable the Advanced Credit/Debit Card payment option as a separate gateway "
+"on the checkout page. This gateway typically offers a lower PayPal fee "
+"compared to the PayPal Smart Button. The fee is 2.59% + $0.49* per "
+"transaction for Advanced Credit/Debit Card payments and 3.49% + $0.49* for "
+"PayPal Smart Buttons. It supports major cards like Visa, Mastercard, and "
+"American Express, providing a secure and streamlined payment experience."
+msgstr ""
+"សូមអនុញ្ញាតឱ្យជម្រើសការទូទាត់កាតឥណទាន/កាតឥណទានមួយដែលមានសមត្ថភាពខ្ពស់ជាផ្លូវចេញផ្សាយនៅលើទំព័រទិញ។"
+" ផ្លូវចេញផ្សាយនេះធម្មតាផ្តល់អត្រាការប្រាក់ PayPal ទាបជាងប៊ូតុង Smart PayPal។"
+" អត្រាគឺ 2.59% + $0.49* សម្រាប់ការទូទាត់កាតឥណទាន/កាតឥណទានដែលមានសមត្ថភាពខ្ពស់"
+" និង 3.49% + $0.49* សម្រាប់ប៊ូតុង Smart PayPal។ វគ្គគាំទ្រកាតសំខាន់ៗដូចជា "
+"Visa, Mastercard, និង American Express "
+"ដែលផ្តល់បទពិសោធន៍ការទូទាត់ដែលមានសុវត្ថិភាព និងរលូន។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:786
+msgid ""
+"Set the title for the Advanced Credit/Debit Card payment method as it will "
+"appear on the checkout page (e.g., 'Pay with Credit/Debit Card').."
+msgstr ""
+"កំណត់ចំណងជើងសម្រាប់វិធីសាស្រ្តបង់ប្រាក់កាតឥណទាន/កាតឥណទានដ៏ជ្រាលជ្រៅ "
+"ដូចដែលវានឹងបង្ហាញនៅលើទំព័របង់ប្រាក់ (ឧ. 'បង់ប្រាក់ដោយកាតឥណទាន/កាតឥណទាន').."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:787
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1058
+msgid "Credit or Debit Card"
+msgstr "កាតឥណទានឬកាតឥណទាន"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:791
+msgid "Disable specific credit cards"
+msgstr "បិទការប្រើកាតឥណទានជាក់លាក់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:797
+msgid ""
+"By default all possible credit cards will be accepted. You can disable some "
+"cards, if you wish."
+msgstr ""
+"ដោយលំនាំដើម កាតឥណទានទាំងអស់ដែលអាចមាននឹងត្រូវទទួលយក។ អ្នកអាចបិទកាតខ្លះៗ "
+"ប្រសិនបើអ្នកចង់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:804
+msgid "Contingency for 3D Secure"
+msgstr "ការប្រាក់សម្រាប់ 3D Secure"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:808
+msgid "3D Secure when required"
+msgstr "3D Secure khi cần thiết"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:809
+msgid "Always trigger 3D Secure"
+msgstr "តែងតែបង្កើន 3D Secure"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:813
+msgid ""
+"3D Secure benefits cardholders and merchants by providing an additional "
+"layer of verification using Verified by Visa, MasterCard SecureCode and "
+"American Express SafeKey."
+msgstr ""
+"3D Secure ផ្តល់អត្ថប្រយោជន៍ដល់អ្នកកាន់កាត និងអ្នកជួញដូរ "
+"ដោយផ្តល់ស្រទាប់បន្ថែមនៃការបញ្ជាក់ដោយប្រើ Verified by Visa, MasterCard "
+"SecureCode និង American Express SafeKey។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:816
+msgid "Card Save Enabled"
+msgstr "ការសន្សំកាតបានអនុញ្ញាត"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:817
+msgid "Enable card saving at checkout"
+msgstr "បើកការសន្សំកាតនៅពេលបង់ប្រាក់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:820
+msgid ""
+"When enabled, customers can securely save their card details using PayPal "
+"for faster future checkouts."
+msgstr ""
+"ពេលដែលបានបើក, អតិថិជនអាចរក្សាទុកព័ត៌មានកាតរបស់ពួកគេយ៉ាងសុវត្ថិភាពដោយប្រើ "
+"PayPal សម្រាប់ការទូទាត់ដែលលឿនជាងមុន។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:831
+msgid ""
+"Advanced Credit/Debit Card payments are not enabled in your PayPal account. "
+"<br><br><strong>Supported Countries:</strong><br>Australia, Austria, "
+"Belgium, Bulgaria, Canada, China, Cyprus, Czech Republic, Denmark, Estonia, "
+"Finland, France, Germany, Greece, Hong Kong, Hungary, Ireland, Italy, Japan,"
+" Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, "
+"Poland, Portugal, Romania, Singapore, Slovakia, Slovenia, Spain, Sweden, "
+"United States, United Kingdom<br><br>"
+msgstr ""
+"ការទូទាត់កាតឥណទាន/កាតឥណទានកម្រិតខ្ពស់មិនត្រូវបានបើកនៅក្នុងគណនី PayPal "
+"របស់អ្នកទេ។ <br><br><strong>ប្រទេសដែលគាំទ្រ:</strong><br>អូស្ត្រាលី, "
+"អូទ្រីស, បែលហ្សិក, ប៊ុលហ្គារី, កាណាដា, ចិន, ស៊ីព្រិស, សាខាខេក, ដាណឺម៉ាក, "
+"អេស្តូនី, ហ្វាំងឡង់, បារាំង, អាល្លឺម៉ង់, ក្រិក, ហុងកុង, ហុងគ្រី, អៀរ៉្លង់, "
+"អ៊ីតាលី, ជប៉ុន, លាតវីយ៉ា, លីខ្តេនស្តែន, លីទុយអានី, លុចសំបួរ, ម៉ាល់តា, "
+"នេដឺរ្លង់, ន័រវេ, ប៉ូឡូញ, ព័រទុយហ្គាល់, រ៉ូម៉ានី, សិង្ហបុរី, ស្លូវ៉ាគី, "
+"ស្លូវេនី, ស្ប៉ាញ, ស៊ុយអែត, សហរដ្ឋអាមេរិក, សហព័ន្ធអង់គ្លេស<br><br>"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
+msgid "Please ensure that Google Pay is enabled in your PayPal account."
+msgstr "សូមប្រាកដថា Google Pay ត្រូវបានបើកនៅក្នុងគណនី PayPal របស់អ្នក។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
+msgid "Check this box to display the Google Pay button on selected pages."
+msgstr ""
+"මෙම පෙට්ටිය පරීක්ෂා කරන්න, තෝරාගත් පිටු මත Google Pay බොත්තම පෙන්වීමට."
+
+#. translators: 1: Google Pay setup guide link, 2: supported countries and
+#. currencies link
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:842
+msgid ""
+"Google Pay must be enabled in your PayPal account (%1$s). Please ensure your"
+" country and currency are supported (%2$s)."
+msgstr ""
+"Google Pay ត្រូវបានបើកក្នុងគណនី PayPal របស់អ្នក (%1$s)។ សូមធានាថាប្រទេស "
+"និងរូបិយវត្ថុរបស់អ្នកត្រូវបានគាំទ្រ (%2$s)។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:847
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1154
+msgid "setup guide"
+msgstr "មគ្គុទេសក៍ការតំឡើង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:850
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1157
+msgid "supported countries and currencies"
+msgstr "ប្រទេស និងរូបិយប័ណ្ណដែលគាំទ្រ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:855
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1162
+msgid "The page must be served over a secure (HTTPS) connection."
+msgstr "ទំព័រត្រូវតែត្រូវបានផ្តល់ជូនតាមរយៈការតភ្ជាប់សុវត្ថិភាព (HTTPS)។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:857
+msgid "To show the Google Pay button,"
+msgstr "Google Pay බොත්තම පෙන්වීමට,"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:866
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1112
+msgid "Enable Google Pay"
+msgstr "Google Pay-អនុញ្ញាត"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:872
+msgid "Display Google Pay Button On"
+msgstr "បង្ហាញប៊ូតុង Google Pay នៅលើ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:878
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1191
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
+msgid "Product"
+msgstr "ផលិតផល"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:879
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1192
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
+msgid "Cart"
+msgstr "កន្ត្រាក់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:880
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1193
+msgid "Mini Cart"
+msgstr "មីនីកាត"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:884
+msgid "Set the page(s) to display the Google Pay button."
+msgstr "កំណត់ទំព័រ(ៗ) ដើម្បីបង្ហាញប៊ូតុង Google Pay។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:898
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:940
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:982
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1024
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1066
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1211
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1252
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1293
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1334
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1375
+msgid "Plain"
+msgstr "សាមញ្ញ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:899
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:941
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:983
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1025
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1067
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1212
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1253
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1294
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1335
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1376
+msgid "Buy"
+msgstr "ទិញ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:901
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:943
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:985
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1027
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1069
+msgid "Donate"
+msgstr "បរិច្ចាគ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:902
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:944
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:986
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1028
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1070
+msgid "Book"
+msgstr "សៀវភៅ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:903
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:945
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:987
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1029
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1071
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1214
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1255
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1296
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1337
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1378
+msgid "Order"
+msgstr "បញ្ជា"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:905
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:947
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:989
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1031
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1073
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1216
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1257
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1298
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1339
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1380
+msgid "Subscribe"
+msgstr "ចុះឈ្មោះ"
+
+#. translators: %1$s is the supported countries list. %2$s is the supported
+#. currencies list.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1106
+msgid ""
+"Google Pay is not enabled in your PayPal account. Click below to enable "
+"it.<br><br><strong>Supported "
+"Countries:</strong><br>%1$s<br><br><strong>Supported "
+"Currencies:</strong><br>%2$s"
+msgstr ""
+"Google Pay មិនត្រូវបានបើកនៅក្នុងគណនី PayPal របស់អ្នកទេ។ "
+"ចុចខាងក្រោមដើម្បីបើកវា។<br><br><strong>ប្រទេសដែលគាំទ្រ:</strong><br>%1$s<br><br><strong>រូបិយវត្ថុដែលគាំទ្រ:</strong><br>%2$s"
+
+#. translators: %1$s is the list of supported countries. %2$s is the list of
+#. supported currencies.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1128
+msgid ""
+"Apple Pay is not enabled in your PayPal account. Click below to enable "
+"it.<br><br><strong>Supported "
+"Countries:</strong><br>%1$s<br><br><strong>Supported "
+"Currencies:</strong><br>%2$s"
+msgstr ""
+"Apple Pay មិនត្រូវបានបើកនៅក្នុងគណនី PayPal របស់អ្នកទេ។ "
+"ចុចខាងក្រោមដើម្បីបើកវា។<br><br><strong>ប្រទេសដែលគាំទ្រ:</strong><br>%1$s<br><br><strong>រូបិយវត្ថុដែលគាំទ្រ:</strong><br>%2$s"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1134
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1179
+msgid "Enable Apple Pay"
+msgstr "បើកការទូទាត់តាម Apple Pay"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
+msgid "Please ensure that Apple Pay is enabled in your PayPal account."
+msgstr "សូមធានាថា Apple Pay ត្រូវបានបើកនៅក្នុងគណនី PayPal របស់អ្នក។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
+msgid "Check this box to display the Apple Pay button on selected pages."
+msgstr "මෙම පෙට්ටිය පරීක්ෂා කරන්න, තෝරාගත් පිටු මත Apple Pay බොත්තම පෙන්වීමට."
+
+#. translators: 1: Apple Pay setup guide link, 2: supported countries and
+#. currencies link
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1149
+msgid ""
+"Apple Pay must be enabled in your PayPal account (%1$s) and make sure your "
+"country and currency are supported (%2$s)."
+msgstr ""
+"Apple Pay ត្រូវតែបានបើកក្នុងគណនី PayPal របស់អ្នក (%1$s) "
+"ហើយត្រូវប្រាកដថាប្រទេស និងរូបិយវត្ថុរបស់អ្នកត្រូវបានគាំទ្រ (%2$s)."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1164
+msgid "To show the Apple Pay button,"
+msgstr "Apple Pay බොත්තම පෙන්වන්න,"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1172
+msgid "Domain Registration"
+msgstr "ការចុះឈ្មោះដែន"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1174
+msgid ""
+"Apple requires that the website domain be registered on PayPal. Payments "
+"will not be processed if the Apple Pay button is used on an unregistered "
+"domain."
+msgstr ""
+"Apple ត្រូវការឱ្យឌូមែនវេបសាយត្រូវបានចុះឈ្មោះនៅលើ PayPal។ "
+"ការទូទាត់នឹងមិនត្រូវបានដំណើរការបើកបង្ហាញប៊ូតុង Apple Pay "
+"នៅលើឌូមែនដែលមិនបានចុះឈ្មោះ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1185
+msgid "Display Apple Pay Button On"
+msgstr "បង្ហាញប៊ូតុង Apple Pay នៅលើ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1197
+msgid "Set the page(s) to display the Apple Pay button."
+msgstr "កំណត់ទំព័រ(ៗ) ដើម្បីបង្ហាញប៊ូតុង Apple Pay។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1227
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1268
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1309
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1350
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1391
+msgid "White with outline"
+msgstr "សព្វថ្ងៃជាមួយស៊ុម"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1421
+msgid ""
+"Your customers can already buy now and pay later with PayPal — add messaging"
+" to your site to let them know. PayPal’s Pay Later helps boost merchants' "
+"conversion rates and increases cart sizes by 39%.¹ You get paid in full up "
+"front. <a target=\"_blank\" "
+"href=\"https://www.paypal.com/us/business/accept-"
+"payments/checkout/installments\">More about Pay Later</a>"
+msgstr ""
+"អ្នកអាចឲ្យអតិថិជនរបស់អ្នកទិញឥឡូវនេះ និងបង់ក្រោយជាមួយ PayPal — "
+"បន្ថែមសារទៅកាន់គេហទំព័ររបស់អ្នកដើម្បីអោយពួកគេដឹង។ PayPal’s Pay Later "
+"ជួយបង្កើនអត្រាការបម្លែងរបស់អ្នកជួញដូរ និងបន្ថែមទំហំកន្ត្រកដោយ 39%។¹ "
+"អ្នកទទួលបានប្រាក់ពេញលេញមុន។ <a target=\"_blank\" "
+"href=\"https://www.paypal.com/us/business/accept-"
+"payments/checkout/installments\">ព័ត៌មានបន្ថែមអំពី Pay Later</a>"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1429
+msgid "Enable Pay Later Messaging"
+msgstr "បើកសារបង់ប្រាក់ក្រោយ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1431
+msgid "Displays Pay Later messaging for available offers."
+msgstr "បង្ហាញសារបង់ប្រាក់ក្រោយសម្រាប់ការផ្តល់ជូនដែលអាចប្រើបាន។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1435
+msgid "Display Pay Later messaging On"
+msgstr "បង្ហាញសារបង់ប្រាក់ក្រោយ បើក"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
+msgid "Home"
+msgstr "ផ្ទះ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
+msgid "Category"
+msgstr "ក្រុម"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
+msgid "Payment"
+msgstr "បង់ប្រាក់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1441
+msgid ""
+"Set the page(s) you want to display messaging on, and then adjust that "
+"page's display option below."
+msgstr ""
+"កំណត់ទំព័រ(ៗ) ដែលអ្នកចង់បង្ហាញសារលើ, "
+"ហើយបន្ទាប់មកកែសម្រួលជម្រើសបង្ហាញនៃទំព័រនោះខាងក្រោម។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1444
+msgid "Home Page"
+msgstr "ទំព័រ​ដើម"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1623
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
+msgid "Layout Type"
+msgstr "ប្រភេទរៀបចំ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1456
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1543
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1629
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1715
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1801
+msgid "Text Layout"
+msgstr "អត្ថបទរៀបចំ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1456
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1543
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1629
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1715
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1801
+msgid "Flex Layout"
+msgstr "Flex Layout"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1632
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1718
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1804
+msgid "Logo Type"
+msgstr "ប្រភេទឡូហ្គូ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1552
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1638
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1724
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
+msgid "Primary"
+msgstr "ដើម"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1552
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1638
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1724
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
+msgid "Alternative"
+msgstr "ជម្រើស"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1552
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1638
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1724
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
+msgid "Inline"
+msgstr "Inline"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1465
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1552
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1638
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1724
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
+msgid "None"
+msgstr "គ្មាន"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1468
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1555
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1641
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1727
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1813
+msgid "Logo Position"
+msgstr "ទីតាំងរូបសញ្ញា"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1474
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1561
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1647
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1733
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
+msgid "Left"
+msgstr "ឆ្វេង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1474
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1561
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1647
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1733
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
+msgid "Right"
+msgstr "ស្តីត្រឹមត្រូវ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1474
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1561
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1647
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1733
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
+msgid "Top"
+msgstr "កំពូល"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1477
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1564
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1650
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1736
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1822
+msgid "Text Size"
+msgstr "ទំហំអត្ថបទ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1486
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1573
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1659
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1745
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1831
+msgid "Text Color"
+msgstr "ពណ៌អក្សរ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "Monochrome"
+msgstr "មូណូខ្រូម"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1492
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1665
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1837
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "Grayscale"
+msgstr "ក្រេស្កេល"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1495
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1582
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1668
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1754
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1840
+msgid "Color"
+msgstr "ពណ៌"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "White (No Border)"
+msgstr "សព្វថ្ងៃ (គ្មានព្រំ)"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1674
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
+msgid "Gray"
+msgstr "ស្ដើង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1504
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1591
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1677
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1763
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1849
+msgid "Ratio"
+msgstr "អត្រា"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
+msgid "Flexes between 120px and 300px wide"
+msgstr "Flexes antara 120px dan 300px lebar"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
+msgid "160px wide"
+msgstr "160px ទទឹង"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
+msgid "Flexes between 250px and 768px wide"
+msgstr "Flexes antara 250px dan 768px lebar"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1683
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
+msgid "Flexes between 250px and 1169px wide"
+msgstr "Flexes antara 250px dan 1169px lebar"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1514
+msgid ""
+"I need a shortcode so that I can place the message in a better spot on Home "
+"page."
+msgstr ""
+"ខ្ញុំត្រូវការលេខកូដខ្លីដើម្បីអាចដាក់សារនៅកន្លែងល្អប្រសើរនៅលើទំព័រដើម។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1521
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1608
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1694
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1780
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1866
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1530
+msgid "Category Page"
+msgstr "ទំព័រ​ប្រភេទ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
+msgid ""
+"I need a shortcode so that I can place the message in a better spot on "
+"category page."
+msgstr ""
+"ខ្ញុំត្រូវការលេខកូដខ្លីមួយដើម្បីអាចដាក់សារនៅកន្លែងល្អប្រសើរនៅលើទំព័រក្រុមប្រភេទ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
+msgid ""
+"I need a shortcode so that I can place the message in a better spot on "
+"product page."
+msgstr ""
+"ខ្ញុំត្រូវការលេខកូដខ្លីដើម្បីឲ្យខ្ញុំអាចដាក់សារនៅកន្លែងល្អប្រសើរនៅលើទំព័រផលិតផល។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
+msgid ""
+"I need a shortcode so that I can place the message in a better spot on cart "
+"page."
+msgstr ""
+"ខ្ញុំត្រូវការលេខកូដខ្លីដើម្បីអាចដាក់សារនៅកន្លែងល្អប្រសើរនៅលើទំព័រទិញទំនិញ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1789
+msgid "Payment Page"
+msgstr "ទំព័របង់ប្រាក់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1859
+msgid ""
+"I need a shortcode so that I can place the message in a better spot on "
+"payment page."
+msgstr ""
+"ខ្ញុំត្រូវការលេខកូដខ្លីមួយ "
+"ដើម្បីអាចដាក់សារនៅកន្លែងល្អប្រសើរនៅលើទំព័របង់ប្រាក់។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1879
+msgid "Payment action"
+msgstr "សកម្មភាពការទូទាត់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1882
+msgid ""
+"Choose whether you wish to capture funds immediately or authorize payment "
+"only."
+msgstr ""
+"ជ្រើសរើសថាតើអ្នកចង់ចាប់យកប្រាក់ភ្លាមៗឬអនុញ្ញាតឱ្យបង់ប្រាក់តែប៉ុណ្ណោះ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1886
+msgid "Capture"
+msgstr "ចាប់យក"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1887
+msgid "Authorize"
+msgstr "អនុញ្ញាត"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1891
+msgid "Brand Name"
+msgstr "ម៉ាកឈ្មោះ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1893
+msgid ""
+"This controls what users see as the brand / company name on PayPal review "
+"pages."
+msgstr ""
+"នេះគ្រប់គ្រងអ្វីដែលអ្នកប្រើប្រាស់ឃើញជាឈ្មោះម៉ាក / "
+"ក្រុមហ៊ុននៅលើទំព័រត្រួតពិនិត្យ PayPal។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1898
+msgid "Landing Page"
+msgstr "ទំព័រ​ចុះ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1901
+msgid ""
+"The type of landing page to show on the PayPal site for customer checkout. "
+"PayPal Account Optional must be checked for this option to be used."
+msgstr ""
+"PayPal වෙබ් අඩවියේ ගනුදෙනුකරුවන්ගේ ගෙවීම් සඳහා පෙන්විය යුතු ලැන්ඩින් පිටුවේ "
+"වර්ගය. මෙම විකල්පය භාවිතා කිරීමට PayPal ගිණුම අනිවාර්යයෙන්ම පරීක්ෂා කළ "
+"යුතුය."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1902
+msgid "Login"
+msgstr "ចូល"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1903
+msgid "Billing"
+msgstr "វិក្កយបត្រ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1904
+msgid "No Preference"
+msgstr "មិនមានចំណូលចិត្ត"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1909
+msgid "Instant Payments "
+msgstr "ការទូទាត់ភ្លាមៗ "
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1913
+msgid ""
+"If you enable this setting, PayPal will be instructed not to allow the buyer"
+" to use funding sources that take additional time to complete (for example, "
+"eChecks). Instead, the buyer will be required to use an instant funding "
+"source, such as an instant transfer, a credit/debit card, or PayPal Credit."
+msgstr ""
+"បើអ្នកបើកការកំណត់នេះ, PayPal "
+"នឹងត្រូវបានបញ្ជាឲ្យមិនអនុញ្ញាតឱ្យអ្នកទិញប្រើប្រភពហិរញ្ញវត្ថុដែលត្រូវការពេលវេលាបន្ថែមដើម្បីបញ្ចប់"
+" (ឧទាហរណ៍, eChecks)។ ជំនួស, "
+"អ្នកទិញនឹងត្រូវបានទាមទារឲ្យប្រើប្រភពហិរញ្ញវត្ថុភ្លាម, ដូចជា ការផ "
+"transferencia ភ្លាម, កាតឥណទាន/កាតឥណទាន, ឬ PayPal Credit។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1916
+msgid "Require Instant Payment"
+msgstr "ត្រូវការបង់ប្រាក់ភ្លាមៗ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1919
+msgid "Billing Address"
+msgstr "អាសយដ្ឋានវិក្កយបត្រ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1920
+msgid "Use PayPal Shipping Address as Billing"
+msgstr "ប្រើអាសយដ្ឋានដឹកជញ្ជូន PayPal ជាអាសយដ្ឋានបង់ប្រាក់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1921
+msgid ""
+"If the billing address is empty and PayPal provides a shipping address, the "
+"order will use the shipping address as the billing address."
+msgstr ""
+"បើអាសយដ្ឋានវិក័យប័ត្រមិនមាន និង PayPal ផ្តល់អាសយដ្ឋានដឹកជញ្ជូន "
+"អាក្រាតនឹងប្រើអាសយដ្ឋានដឹកជញ្ជូនជាអាសយដ្ឋានវិក័យប័ត្រ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1927
+msgid "Send Item Details"
+msgstr "ផ្ញើព័ត៌មានលម្អិតអំពីវត្ថុ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1928
+msgid "Send line item details to PayPal"
+msgstr "ផ្ញើព័ត៌មានលម្អិតអំពីអត្ថបទទៅ PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1930
+msgid ""
+"Include all line item details in the payment request to PayPal so that they "
+"can be seen from the PayPal transaction details page."
+msgstr ""
+"PayPal-ге төлем сұрауында барлық жол элементінің мәліметтерін қосыңыз, сонда"
+" олар PayPal транзакциясының мәліметтер бетінде көрінеді."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1934
+msgid "Order Review Page"
+msgstr "ទំព័រ​ពិនិត្យ​កម្មង់"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1935
+msgid "Skip Order Review Page"
+msgstr "កុំអានទំព័រ​ពិនិត្យ​បញ្ជា"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1937
+msgid ""
+"Payments from the Product or Cart page skip the review step and go straight "
+"to the Thank You page."
+msgstr ""
+"ការទូទាត់ពីទំព័រផលិតផលឬកន្ត្រករៀបចំឱ្យឆ្លងកាត់ជំហានពិនិត្យ និងទៅដល់ទំព័រ "
+"អរគុណភ្លាម។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1944
+msgid "Invoice prefix"
+msgstr "អក្សរសញ្ញាអ៊ីនវ៉ាយស"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1946
+msgid ""
+"Please enter a prefix for your invoice numbers. If you use your PayPal "
+"account for multiple stores ensure this prefix is unique as PayPal will not "
+"allow orders with the same invoice number."
+msgstr ""
+"សូមបញ្ចូលអក្សរសញ្ញាសម្រាប់លេខវិក័យប័ត្ររបស់អ្នក។ ប្រសិនបើអ្នកប្រើគណនី PayPal"
+" របស់អ្នកសម្រាប់ហាងច្រើន សូមធានាថាអក្សរសញ្ញានេះមានអត្តសញ្ញាណឯកត្តជាមួយគ្នា "
+"ពីព្រោះ PayPal នឹងមិនអនុញ្ញាតឱ្យមានការបញ្ជាទិញដែលមានលេខវិក័យប័ត្រដូចគ្នា។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1951
+msgid "Credit Card Statement Name"
+msgstr "ឈ្មោះសេចក្តីថ្លែងការណ៍កាតឥណទាន"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1953
+msgid ""
+"The value entered here will be displayed on the buyer's credit card "
+"statement."
+msgstr ""
+"តម្លៃដែលបានបញ្ចូលនៅទីនេះនឹងត្រូវបង្ហាញនៅលើសេចក្តីថ្លៃកាតឥណទានរបស់អ្នកទិញ។."
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1959
+msgid "Debug log"
+msgstr "កំណត់ហេតុ Debug"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1961
+msgid "Enable logging"
+msgstr "បើកការកត់ត្រា"
+
+#. translators: %s is the path to the WooCommerce PayPal debug log file.
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1965
+msgid "Log PayPal events, such as Webhook, Payment, Refund inside %s"
+msgstr "កត់ត្រាព្រឹត្តិការណ៍ PayPal ដូចជា Webhook, Payment, Refund នៅក្នុង %s"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:137
+msgid "PayPal Shipment Tracking"
+msgstr "ការតាមដានការដឹកជញ្ជូន PayPal"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:177
+msgid "Transaction Id"
+msgstr "ប្រតិបត្តិការលេខ"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:181
+msgid "Tracking Number*"
+msgstr "លេខតាមដាន*"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:185
+msgid "Status"
+msgstr "ស្ថានភាព"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:194
+msgid "Carrier"
+msgstr "អ្នកដឹកជញ្ជូន"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:196
+msgid "Select Carrier"
+msgstr "ជ្រើសរើសអ្នកដឹកជញ្ជូន"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:210
+msgid "Carrier Name*"
+msgstr "ឈ្មោះអ្នកដឹកជញ្ជូន*"
+
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:217
+msgid "Add tracking information"
+msgstr "បន្ថែមព័ត៌មានតាមដាន"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:292
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2147
+msgid "Something went wrong. Please try again."
+msgstr "អ្វីមួយបានខុស។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:335
+msgid "Billing address didn’t match the card (AVS)."
+msgstr "Billing address មិនត្រូវនឹងកាត (AVS)។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:339
+msgid "Security code (CVV) didn’t match."
+msgstr "សូម្បីតែលេខកូដសុវត្ថិភាព (CVV) មិនត្រូវគ្នាទេ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:345
+msgid "The payer opened a dispute with PayPal."
+msgstr "អ្នកបង់ប្រាក់បានបើកការប្រកាន់ជាមួយ PayPal។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:348
+msgid "The issuer reversed the charge (chargeback)."
+msgstr "អ្នកចេញផ្សាយបានត្រឡប់វិញការបង់ប្រាក់ (ការបង់ប្រាក់ត្រឡប់)។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:351
+msgid "Payment by eCheck—awaiting clearance."
+msgstr "ការទូទាត់ដោយ eCheck—កំពុងរង់ចាំការបញ្ជាក់។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:354
+msgid "Action required in your PayPal account (international withdrawal)."
+msgstr "សកម្មភាពត្រូវការនៅក្នុងគណនី PayPal របស់អ្នក (ការដកប្រាក់អន្តរជាតិ)។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:357
+msgid "Payment pending manual review."
+msgstr "ការទូទាត់កំពុងរង់ចាំការត្រួតពិនិត្យដោយដៃ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:360
+msgid "Payee receiving preference requires action (often currency related)."
+msgstr ""
+"ការទទួលបានចំណូលពីអ្នកទទួលត្រូវការការប្រតិបត្តិ "
+"(ជាញឹកញាប់ពាក់ព័ន្ធនឹងរូបិយវត្ថុ)។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:363
+msgid "Funds were refunded."
+msgstr "ប្រាក់បានត្រឡប់មកវិញ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:366
+msgid "Approved—waiting for payer to send funds."
+msgstr "អនុម័ត—កំពុងរង់ចាំអ្នកបង់ប្រាក់ដើម្បីផ្ញើប្រាក់។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:369
+msgid "Payee does not have a PayPal account."
+msgstr "Payee មិនមានគណនី PayPal ទេ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:372
+msgid "Payee’s PayPal account requires verification."
+msgstr "គណនី PayPal របស់អ្នកទទួលប្រាក់ត្រូវការការបញ្ជាក់។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:385
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1156
+msgid "The transaction could not be completed."
+msgstr "ប្រតិបត្តិការនេះមិនអាចបញ្ចប់បានទេ។."
+
+#. translators: 1: payment method title, 2: pending reason text
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:393
+msgid "Payment via %1$s pending. %2$s"
+msgstr "ការទូទាត់តាម %1$s កំពុងរង់ចាំ។ %2$s"
+
+#. translators: 1: payment method title, 2: decline reason text
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:405
+msgid "Payment via %1$s declined. %2$s"
+msgstr "ការទូទាត់តាម %1$s បានបដិសេធ។ %2$s"
+
+#. translators: %s: payment failure reason
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:415
+msgid "Payment declined. %s"
+msgstr "ការទូទាត់ត្រូវបានបដិសេធ។ %s"
+
+#. translators: 1: processor response code, 2: AVS result, 3: CVV result
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:428
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:465
+msgid "Processor response: code=%1$s, AVS=%2$s, CVV=%3$s"
+msgstr "Processor response: code=%1$s, AVS=%2$s, CVV=%3$s"
+
+#. translators: 1: payment method title, 2: failure reason
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:442
+msgid "Payment via %1$s failed. %2$s"
+msgstr "ការទូទាត់តាម %1$s បានបរាជ័យ។ %2$s"
+
+#. translators: %s: payment failure reason
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:452
+msgid "Payment failed. %s"
+msgstr "ការទូទាត់បានបរាជ័យ។ %s"
+
+#. translators: 1: payment method title, 2: PayPal refund reason
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:480
+msgid "Payment via %1$s partially refunded. PayPal reason: %2$s."
+msgstr "ការទូទាត់តាម %1$s ត្រូវបានសងវិញផ្នែកមួយ។ មូលហេតុ PayPal: %2$s។."
+
+#. translators: 1: payment method title, 2: PayPal refund reason
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:493
+msgid "Payment via %1$s refunded. PayPal reason: %2$s."
+msgstr "ការបង់ប្រាក់តាម %1$s ត្រូវបានសងវិញ។ មូលហេតុ PayPal: %2$s។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:509
+msgid "An error occurred while updating the order status."
+msgstr "កំហុសមួយបានកើតឡើងនៅពេលកំពុងអាប់ដេតស្ថានភាពការបញ្ជាទិញ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1059
+msgid "PayPal Credit"
+msgstr "PayPal Kredit"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1060
+msgid "Bancontact"
+msgstr "Bancontact"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1061
+msgid "BLIK"
+msgstr "BLIK"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1062
+msgid "eps"
+msgstr "eps"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1063
+msgid "iDEAL"
+msgstr "iDEAL"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1064
+msgid "Mercado Pago"
+msgstr "Mercado Pago"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1065
+msgid "MyBank"
+msgstr "MyBank"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1066
+msgid "Przelewy24"
+msgstr "Przelewy24"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1067
+msgid "SEPA-Lastschrift"
+msgstr "SEPA-Lastschrift"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1068
+msgid "Venmo"
+msgstr "Venmo"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1069
+msgid "PayPal Pay Later"
+msgstr "PayPal បង់ក្រោយ"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1070
+msgid "PayPal Checkout"
+msgstr "PayPal Checkout"
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1127
+msgid "Approved."
+msgstr "អនុម័ត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1128
+msgid "The card security code (CVV) was incorrect."
+msgstr "កូដសុវត្ថិភាពកាត (CVV) មិនត្រឹមត្រូវទេ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1129
+msgid "Your bank needs to approve this. Please contact your card issuer."
+msgstr ""
+"ក្រុមហ៊ុនធនាគាររបស់អ្នកត្រូវការអនុម័តនេះ។ "
+"សូមទំនាក់ទំនងទៅកាន់អ្នកចេញកាតរបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1130
+msgid "We could not find this account. Please check your card details."
+msgstr "យើងមិនអាចរកឃើញគណនីនេះទេ។ សូមពិនិត្យព័ត៌មានកាតរបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1131
+msgid "The bank declined this transaction. Please try another payment method."
+msgstr "ធនាគារបដិសេធប្រតិបត្តិការនេះ។ សូមព្យាយាមវិធីបង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1132
+msgid "This transaction is not authorized. Please contact your card issuer."
+msgstr ""
+"ប្រតិបត្តិការនេះមិនត្រូវបានអនុញ្ញាតទេ។ "
+"សូមទំនាក់ទំនងទៅកាន់អ្នកចេញកាតរបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1133
+msgid "There was a processing issue. The payment was reversed."
+msgstr "មានបញ្ហាការប្រតិបត្តិ។ ការទូទាត់ត្រូវបានត្រឡប់វិញ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1134
+msgid "A security check failed. Please try again."
+msgstr "ការត្រួតពិនិត្យសុវត្ថិភាពមួយបានបរាជ័យ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1135
+msgid "The PIN was not accepted."
+msgstr "PIN មិនត្រូវបានទទួលយក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1136
+msgid "Temporary system issue. Please try again later."
+msgstr "បញ្ហាប្រព័ន្ធបណ្តោះអាសន្ន។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1137
+msgid "Payment was canceled."
+msgstr "ការទូទាត់ត្រូវបានបោះបង់។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1138
+msgid "Only part of the amount was approved."
+msgstr "តែផ្នែកមួយនៃចំនួនត្រូវបានអនុម័ត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1139
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1157
+msgid "The bank declined this transaction."
+msgstr "បង់កបានបដិសេធប្រតិបត្តិការនេះ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1140
+msgid "Invalid data format."
+msgstr "ទម្រង់ទិន្នន័យមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1141
+msgid "Invalid amount."
+msgstr "ចំនួនមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1142
+msgid "Card issuer/acquirer not allowed for this transaction."
+msgstr "អ្នកចេញកាត/អ្នកទិញមិនអនុញ្ញាតសម្រាប់ប្រតិបត្តិការនេះ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1143
+msgid "Invalid capture date."
+msgstr "កាលបរិច្ឆេទចាប់យកមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1144
+msgid "Unsupported currency for this card."
+msgstr "កាសែតនេះមិនគាំទ្រទឹកប្រាក់សម្រាប់កាតនេះទេ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1145
+msgid "Invalid account number."
+msgstr "លេខគណនីមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1146
+msgid "This card is not allowed for recurring payments."
+msgstr "នេះកាតមិនអនុញ្ញាតសម្រាប់ការទូទាត់ជាប្រចាំទេ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1147
+msgid "Invalid terminal configuration."
+msgstr "កំណត់រចនាសម្ព័ន្ធបញ្ចូលមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1148
+msgid "Invalid merchant configuration."
+msgstr "កំណត់រចនាសម្ព័ន្ធអ្នកជួញដូរ​មិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1149
+msgid "The account is restricted or inactive."
+msgstr "គណនីត្រូវបានកំណត់ឬមិនសកម្ម។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1150
+msgid "Invalid processing code."
+msgstr "កូដដំណើរការមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1151
+msgid "Invalid merchant category."
+msgstr "ក្រុមប្រភេទពាណិជ្ជកម្មមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1152
+msgid "Invalid card expiry date."
+msgstr "កាលបរិច្ឆេទផុតកំណត់កាតមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1153
+msgid "Invalid card security code (CVV)."
+msgstr "កូដសុវត្ថិភាពកាត (CVV) មិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1154
+msgid "Invalid transaction state."
+msgstr "ស្ថានភាពប្រតិបត្តិការមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1155
+msgid "Invalid order."
+msgstr "ការបញ្ជាទិញមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1158
+msgid "The card security code (CVV) did not match."
+msgstr "កូដសុវត្ថិភាពកាត (CVV) មិនត្រូវគ្នាទេ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1159
+msgid "Insufficient funds."
+msgstr "ប្រាក់មិនគ្រប់គ្រាន់។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1160
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1171
+msgid "Incorrect PIN."
+msgstr "PIN មិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1161
+msgid "Too many incorrect PIN attempts."
+msgstr "PIN មិនត្រឹមត្រូវច្រើនពេក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1162
+msgid "This card is closed."
+msgstr "នេះកាតត្រូវបានបិទ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1163
+msgid "Card capture requested by the bank."
+msgstr "ការចាប់យកកាតបានស្នើសុំដោយធនាគារ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1164
+msgid "User not authorized for this transaction."
+msgstr "អ្នកប្រើប្រាស់មិនមានសិទ្ធិសម្រាប់ប្រតិបត្តិការនេះ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1165
+msgid "Address verification failed."
+msgstr "ការពិនិត្យអាសយដ្ឋានបានបរាជ័យ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1166
+msgid "Invalid or restricted card."
+msgstr "កាតមិនត្រឹមត្រូវ ឬមានកំណត់។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1167
+msgid "Address verification soft failure."
+msgstr "អាសយដ្ឋានការពិនិត្យមិនបានជោគជ័យ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1168
+msgid "Duplicate transaction."
+msgstr "ប្រតិបត្តិការដែលមានស្ទួន។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1169
+msgid "Invalid transaction."
+msgstr "ប្រតិបត្តិការមិនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1170
+msgid "The card is expired."
+msgstr "កាតបានផុតកំណត់។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1172
+msgid "Strong customer authentication required."
+msgstr "ការបញ្ជាក់អត្តសញ្ញាណអតិថិជនដែលមានកម្លាំងត្រូវការនេះ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1173
+msgid "This type of transaction is not permitted."
+msgstr "ប្រភេទនៃប្រតិបត្តិការនេះមិនអនុញ្ញាតទេ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1174
+msgid "Too many attempts. Please try again later."
+msgstr "ចំនួនការប៉ុនប៉ងច្រើនពេក។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1175
+msgid "Invalid or restricted card. Please use another card."
+msgstr "កាតមិនត្រឹមត្រូវ ឬកាតដែលមានកំណត់។ សូមប្រើកាតផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1176
+msgid "Address verification soft failure. Please check your billing address."
+msgstr ""
+"ការពិនិត្យអាសយដ្ឋានបានបរាជ័យ។ សូមពិនិត្យអាសយដ្ឋានវិក័យប័ត្រ​របស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1177
+msgid "Duplicate transaction. Please try again."
+msgstr "ប្រតិបត្តិការដែលមានស្រាប់។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1178
+msgid "Invalid transaction. Please try again."
+msgstr "ប្រតិបត្តិការមិនត្រឹមត្រូវ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1179
+msgid "Expired card. Please use another card."
+msgstr "កាតបានផុតកំណត់។ សូមប្រើកាតផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1180
+msgid "Incorrect PIN. Please re-enter your PIN."
+msgstr "PIN មិនត្រឹមត្រូវ។ សូមបញ្ចូល PIN របស់អ្នកម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1181
+msgid "Strong customer authentication required. Please try again."
+msgstr "ការផ្ទៀងផ្ទាត់អតិថិជនដែលមានកម្លាំងត្រូវការនេះ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1182
+msgid "Transaction not permitted. Please use another payment method."
+msgstr "ប្រតិបត្តិការមិនអនុញ្ញាត។ សូមប្រើវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1183
+msgid "Transaction attempts exceed limit. Please try again later."
+msgstr "ការប៉ុនប៉ងប្រតិបត្តិការលើសកំណត់។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1184
+msgid "Reversal rejected. Please contact support."
+msgstr "ការបដិសេធការបង្វិល។ សូមទំនាក់ទំនងទៅកាន់ការគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1185
+msgid "Invalid issue. Please try again."
+msgstr "បញ្ហាដែលមិនត្រឹមត្រូវ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1186
+msgid "Issuer not available. Please try again later."
+msgstr "អ្នកចេញសញ្ញាបត្រមិនអាចរកបាន។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1187
+msgid "Issuer temporarily not available. Please try again shortly."
+msgstr ""
+"អ្នកចេញផ្សាយមិនអាចប្រើបានជាបណ្តោះអាសន្ន។ សូមព្យាយាមម្តងទៀតក្នុងពេលខ្លី។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1188
+msgid "Card not activated. Please activate your card and try again."
+msgstr "កាតមិនត្រូវបានសកម្ម។ សូមសកម្មកាតរបស់អ្នកហើយព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1189
+msgid "Updated card issued. Please use your new card."
+msgstr "កាតដែលបានអាប់ដេតត្រូវបានចេញ។ សូមប្រើកាតថ្មីរបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1190
+msgid "Account not on file. Please check your card details."
+msgstr "គណនីមិនមាននៅក្នុងឯកសារ។ សូមពិនិត្យព័ត៌មានកាតរបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1191
+msgid "Approved but not captured. No action needed."
+msgstr "អនុម័តប៉ុន្តែមិនបានចាប់យក។ មិនចាំបាច់មានសកម្មភាព។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1192
+msgid "3DS authentication error. Please try again."
+msgstr "កំហុសសុវត្ថិភាព 3DS។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1193
+msgid "Authentication failed. Please try again."
+msgstr "ការផ្ទៀងផ្ទាត់មិនបានជោគជ័យ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1194
+msgid "BIN error. Please try another card."
+msgstr "BIN កំហុស។ សូមព្យាយាមកាតផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1195
+msgid "PIN error. Please try again with the correct PIN."
+msgstr "កំហុស PIN។ សូមព្យាយាមម្តងទៀតជាមួយ PIN ដែលត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1196
+msgid "Processor system error. Please try again later."
+msgstr "កំហុសប្រព័ន្ធប្រព័ន្ធ។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1197
+msgid "Host key error. Please try again."
+msgstr "កំហុសកូនសោមេត្រី។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1198
+msgid "Configuration error. Please contact support."
+msgstr "កំហុសកំណត់។ សូមទំនាក់ទំនងការគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1199
+msgid "Unsupported operation. Please try another payment method."
+msgstr "ការប្រតិបត្តិដែលមិនគាំទ្រ។ សូមព្យាយាមវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1200
+msgid "Communication error. Please try again later."
+msgstr "កំហុសក្នុងការទំនាក់ទំនង។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1201
+msgid "Communication error. Please try again shortly."
+msgstr "កំហុសក្នុងការទំនាក់ទំនង។ សូមព្យាយាមម្តងទៀតក្នុងពេលខ្លី។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1202
+msgid "System unavailable. Please try again later."
+msgstr "ប្រព័ន្ធមិនអាចប្រើបាន។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1203
+msgid "Transaction declined. Please retry."
+msgstr "ប្រតិបត្តិការបដិសេធ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1204
+msgid "Suspected fraud. Please use another payment method."
+msgstr "ការបោកប្រាស់ដែលគេសង្ស័យ។ សូមប្រើវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1205
+msgid "Security violation. Please contact your card issuer."
+msgstr "ការបំពានសុវត្ថិភាព។ សូមទំនាក់ទំនងទៅកាន់អ្នកចេញកាតរបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1206
+msgid "Card reported lost or stolen. Please use another card."
+msgstr "កាតត្រូវបានរាយការណ៍ថាបាត់ឬបានលួច។ សូមប្រើកាតផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1207
+msgid "Hold - call center. Please contact your card issuer."
+msgstr "រង់ចាំ - មជ្ឈមណ្ឌលទូរស័ព្ទ។ សូមទំនាក់ទំនងទៅកាន់អ្នកចេញកាតរបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1208
+msgid "Card refused. Please use another payment method."
+msgstr "កាតត្រូវបានបដិសេធ។ សូមប្រើវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1209
+msgid "Unrecognized response code. Please try again later."
+msgstr "កូដចម្លើយមិនស្គាល់។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1210
+msgid "Contingencies not resolved. Please try again."
+msgstr "ករណីដែលមិនបានដោះស្រាយ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1211
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1224
+msgid "CVV verification failed. Please check your CVV."
+msgstr "CVV ការពិនិត្យមិនបានជោគជ័យ។ សូមពិនិត្យមើល CVV របស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1212
+msgid "Account closed. Please use another card."
+msgstr "គណនីបានបិទ។ សូមប្រើកាតផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1213
+msgid "Reattempt not permitted. Please use another payment method."
+msgstr "ការប្រឡងម្តងទៀតមិនអនុញ្ញាតទេ។ សូមប្រើវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1214
+msgid "Billing address error. Please check your billing details."
+msgstr "កំហុសអាសយដ្ឋានវិក័យប័ត្រ។ សូមពិនិត្យព័ត៌មានវិក័យប័ត្ររបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1215
+msgid "Account blocked by issuer. Please contact your card issuer."
+msgstr ""
+"គណនីត្រូវបានបិទដោយអ្នកចេញផ្សាយ។ សូមទំនាក់ទំនងទៅអ្នកចេញផ្សាយកាតរបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1216
+msgid "American Express card disabled. Please use another card."
+msgstr "កាត American Express ត្រូវបានបិទ។ សូមប្រើកាតផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1217
+msgid "Adult gaming not supported. Please use another payment method."
+msgstr ""
+"ការលេងហ្គេមសម្រាប់មនុស្សពេញវ័យមិនត្រូវបានគាំទ្រ។ "
+"សូមប្រើវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1218
+msgid "Amount incompatible. Please try a different amount."
+msgstr "ចំនួនមិនសមស្រប។ សូមព្យាយាមចំនួនផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1219
+msgid "Authorization result error. Please try again."
+msgstr "កំហុសលទ្ធផលអនុញ្ញាត។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1220
+msgid "MCC code error. Please contact support."
+msgstr "កំហុសកូដ MCC។ សូមទំនាក់ទំនងការគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1221
+msgid "Address verification failed. Please check your billing address."
+msgstr "ការពិនិត្យអាសយដ្ឋានបានបរាជ័យ។ សូមពិនិត្យអាសយដ្ឋានវិក័យប័ត្ររបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1222
+msgid "Amount exceeded. Please try a smaller amount."
+msgstr "ចំនួនបានលើស។ សូមព្យាយាមចំនួនតិចជាងនេះ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1223
+msgid "Gaming transaction error. Please use another payment method."
+msgstr "កំហុសប្រតិបត្តិការការលេង។ សូមប្រើវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1225
+msgid "Registration incomplete. Please complete registration."
+msgstr "ការចុះឈ្មោះមិនពេញលេញ។ សូមបញ្ចប់ការចុះឈ្មោះ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1226
+msgid "Country error. Please try another payment method."
+msgstr "កំហុសប្រទេស។ សូមព្យាយាមវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1227
+msgid "Credit error. Please try another payment method."
+msgstr "កំហុសឥណទាន។ សូមព្យាយាមវិធីបង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1228
+msgid "Card type not supported. Please use another card."
+msgstr "ប្រភេទកាតមិនគាំទ្រ។ សូមប្រើកាតផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1229
+msgid "Invalid currency. Please select a supported currency."
+msgstr "ប្រាក់រូបិយវត្ថុមិនត្រឹមត្រូវ។ សូមជ្រើសរើសប្រាក់រូបិយវត្ថុដែលគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1230
+msgid "3D Secure authentication error. Please try again."
+msgstr "កំហុសក្នុងការផ្ទៀងផ្ទាត់ 3D Secure។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1231
+msgid "Dynamic currency conversion not supported. Please try again."
+msgstr "ការបម្លែងរូបិយវត្ថុដំណើរការដោយសកម្មភាពមិនគាំទ្រ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1232
+msgid "Diners Club card rejected. Please use another card."
+msgstr "កាត Diners Club ត្រូវបានបដិសេធ។ សូមប្រើកាតផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1233
+msgid "Authentication message error. Please try again."
+msgstr "កំហុសសារបញ្ជាក់អត្តសញ្ញាណ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1234
+msgid "Decline threshold exceeded. Please try again later."
+msgstr "សម្រង់ការធ្លាក់ចុះបានលើស។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1235
+msgid "Funding instrument expired. Please use another payment method."
+msgstr "ឧបករណ៍ហិរញ្ញវត្ថុបានផុតកំណត់។ សូមប្រើវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1236
+msgid "Frequency limit exceeded. Please try again later."
+msgstr "កម្រិតភាពជាញឹកញាប់បានលើស។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1237
+msgid "System error. Please try again later."
+msgstr "កំហុសប្រព័ន្ធ។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1238
+msgid "Expiry date error. Please check your card details."
+msgstr "កំហុសថ្ងៃផុតកំណត់។ សូមពិនិត្យព័ត៌មានកាតរបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1239
+msgid "Funding source already exists. Please use another payment method."
+msgstr "ប្រភពថវិកាមានរួចហើយ។ សូមប្រើវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1240
+msgid "Invalid funding instrument. Please try another payment method."
+msgstr "ឧបករណ៍ហិរញ្ញវត្ថុមិនត្រឹមត្រូវ។ សូមព្យាយាមវិធីបង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1241
+msgid "Restricted funding instrument. Please try another payment method."
+msgstr "ឧបករណ៍ហិរញ្ញវត្ថុដែលមានកំណត់។ សូមព្យាយាមវិធីបង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1242
+msgid "Field validation failed. Please check your payment details."
+msgstr "ការត្រួតពិនិត្យវាលបានបរាជ័យ។ សូមពិនិត្យព័ត៌មានការទូទាត់របស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1243
+msgid "Gaming refund error. Please contact support."
+msgstr "កំហុសការត្រឡប់ប្រាក់កាស៊ីណូ។ សូមទំនាក់ទំនងគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1244
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1253
+msgid "Processing error. Please try again."
+msgstr "កំហុសក្នុងការប្រតិបត្តិការ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1245
+msgid "Idempotency failure. Please try again."
+msgstr "Idempotensi gagal. Sila cuba lagi."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1246
+msgid "Invalid input. Please check your payment details."
+msgstr "ចំណុចបញ្ចូលមិនត្រឹមត្រូវ។ សូមពិនិត្យព័ត៌មានការទូទាត់របស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1247
+msgid "ID mismatch. Please try again."
+msgstr "ID មិនត្រូវគ្នា។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1248
+msgid "Invalid trace ID. Please try again."
+msgstr "ID trace yang tidak sah. Sila cuba lagi."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1249
+msgid "Late reversal. Please contact support."
+msgstr "ការបង្វិលយឺត។ សូមទំនាក់ទំនងទៅកាន់ការគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1250
+msgid "Status code error. Please try again."
+msgstr "កូដស្ថានភាពកំហុស។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1251
+msgid "Missing business rule or data. Please try again."
+msgstr "ច្បាប់អាជីវកម្មឬទិន្នន័យខ្វះ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1252
+msgid "Mastercard blocked. Please use another card."
+msgstr "Mastercard បានបិទ។ សូមប្រើកាតផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1254
+msgid "Not supported. Please try another payment method."
+msgstr "មិនគាំទ្រ។ សូមព្យាយាមវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1255
+msgid "Network frequency limit exceeded. Please try again later."
+msgstr "កម្រិតឌីជីថលបណ្តាញបានលើស។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1256
+msgid "Merchant ID not found. Please contact support."
+msgstr "Merchant ID មិនបានរកឃើញ។ សូមទំនាក់ទំនងការគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1257
+msgid "Network error. Please try again later."
+msgstr "កំហុសបណ្តាញ។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1258
+msgid "Phone required for this transaction. Please update your details."
+msgstr "Phone diperlukan untuk transaksi ini. Sila kemas kini butiran anda."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1259
+msgid "Invalid product. Please try another product."
+msgstr "ផលិតផលមិនត្រឹមត្រូវ។ សូមព្យាយាមផលិតផលផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1260
+msgid "Invalid payment method. Please try another payment method."
+msgstr ""
+"វិធីសាស្ត្របង់ប្រាក់មិនត្រឹមត្រូវ។ សូមព្យាយាមវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1261
+msgid "Quasi-cash not supported. Please use another payment method."
+msgstr "Quasi-cash មិនត្រូវបានគាំទ្រ។ សូមប្រើវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1262
+msgid "Refund not supported on pending transactions. Please try again later."
+msgstr ""
+"ការបង្វិលប្រាក់មិនគាំទ្រនៅលើប្រតិបត្តិការដែលកំពុងរង់ចាំ។ "
+"សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1263
+msgid "Invalid parent transaction status. Please try again."
+msgstr "ស្ថានភាពប្រតិបត្តិការមាតុភូមិមិនត្រឹមត្រូវ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1264
+msgid "Merchant not registered. Please contact support."
+msgstr "អ្នកជួញដូរ​មិនបានចុះឈ្មោះ។ សូមទំនាក់ទំនងការគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1265
+msgid "Bank authorization mismatch. Please try again."
+msgstr "ការអនុញ្ញាតធនាគារមិនត្រូវគ្នា។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1266
+msgid "Bank authorization already settled. Please try again."
+msgstr "អាជ្ញាប័ណ្ណធនាគារបានដោះស្រាយរួចរាល់។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1267
+msgid "Bank authorization voided. Please try again."
+msgstr "ការអនុញ្ញាតធនាគារត្រូវបានបោះបង់។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1268
+msgid "Bank authorization expired. Please try again."
+msgstr "ការអនុញ្ញាតធនាគារបានផុតកំណត់។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1269
+msgid "Currency mismatch. Please try again with the correct currency."
+msgstr "ប្រាក់កាសមិនត្រូវគ្នា។ សូមព្យាយាមម្តងទៀតជាមួយប្រាក់កាសត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1270
+msgid "Credit card mismatch. Please check your card details."
+msgstr "កាតឥណទានមិនត្រូវគ្នា។ សូមពិនិត្យព័ត៌មានកាតរបស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1271
+msgid "Amount mismatch. Please try again with the correct amount."
+msgstr "ចំនួនមិនត្រឹមត្រូវ។ សូមព្យាយាមម្តងទៀតជាមួយចំនួនត្រឹមត្រូវ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1272
+msgid "Score error. Please try again."
+msgstr "កំហុសពិន្ទុ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1273
+msgid "Status description error. Please try again."
+msgstr "ការពិពណ៌នាស្ថានភាពកំហុស។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1274
+msgid "American Express declined. Please use another card."
+msgstr "American Express បានបដិសេធ។ សូមប្រើកាតផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1275
+msgid "Verification token expired. Please try again."
+msgstr "Token verifikasi telah kedaluwarsa. Silakan coba lagi."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1276
+msgid "Invalid trace reference. Please try again."
+msgstr "ការយោងតាមត្រាបមិនត្រឹមត្រូវ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1277
+msgid "Invalid transaction ID. Please try again."
+msgstr "ID transaksi tidak sah. Sila cuba lagi."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1278
+msgid "Verification token revoked. Please try again."
+msgstr "Verification token đã bị thu hồi. Vui lòng thử lại."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1279
+msgid "Transaction type not supported. Please try another payment method."
+msgstr ""
+"ប្រភេទប្រតិបត្តិការមិនគាំទ្រ។ សូមព្យាយាមវិធីសាស្ត្របង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1280
+msgid "Invalid verification token. Please try again."
+msgstr "កូដបញ្ជាក់មិនត្រឹមត្រូវ។ សូមព្យាយាមម្តងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1281
+msgid "User not authorized. Please contact support."
+msgstr "អ្នកប្រើប្រាស់មិនមានអាជ្ញាប័ណ្ណ។ សូមទំនាក់ទំនងការគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1282
+msgid "Currency not supported. Please select a supported currency."
+msgstr "កាសែតមិនគាំទ្រ។ សូមជ្រើសរើសកាសែតដែលគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1283
+msgid "Entity not supported. Please try another payment method."
+msgstr "Entity មិនគាំទ្រ។ សូមព្យាយាមវិធីសាស្រ្តបង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1284
+msgid "Installment not supported. Please try another payment method."
+msgstr "ការបង់ប្រាក់តាមកំណត់មិនគាំទ្រ។ សូមព្យាយាមវិធីបង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1285
+msgid "POS flag not supported. Please try another payment method."
+msgstr "POS flag មិនគាំទ្រ។ សូមព្យាយាមវិធីសាស្រ្តបង់ប្រាក់ផ្សេងទៀត។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1286
+msgid "Reversal not supported. Please contact support."
+msgstr "Reversal tidak disokong. Sila hubungi sokongan."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1287
+msgid "Currency validation error. Please select a supported currency."
+msgstr "កំហុសក្នុងការត្រួតពិនិត្យរូបិយវត្ថុ។ សូមជ្រើសរើសរូបិយវត្ថុដែលគាំទ្រ។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1288
+msgid "Validation error. Please check your payment details."
+msgstr "កំហុសក្នុងការផ្ទៀងផ្ទាត់។ សូមពិនិត្យព័ត៌មានការទូទាត់របស់អ្នក។."
+
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1289
+msgid "Virtual terminal not supported. Please try another payment method."
+msgstr "Terminal virtual tidak disokong. Sila cuba kaedah pembayaran lain."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:576
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:592
+msgctxt "Important"
+msgid "Or"
+msgstr "ឬ"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:788
+msgctxt "Important"
+msgid "Express Checkout"
+msgstr "ចេញជូនឥតឈប់ឈរ"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:808
+msgctxt "Important"
+msgid "Or continue below"
+msgstr "ឬបន្តក្រោម"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:981
+msgid "Item"
+msgstr "អត្ថបទ"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:995
+msgid "Items"
+msgstr "អត្ថបទ"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1161
+msgid "Billing &amp; Shipping"
+msgstr "វិក្កយបត្រ និង ការដឹកជញ្ជូន"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1163
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1169
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1189
+msgid "Edit"
+msgstr "កែប្រែ"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1167
+msgid "Billing details"
+msgstr "ព័ត៌មានវិភាគ"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1187
+msgid "Shipping details"
+msgstr "ព័ត៌មានលម្អិតអំពីការដឹកជញ្ជូន"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1359
+msgid "Create an account?"
+msgstr "គេហទំព័រ​រៀបចំ​គណនីមួយ?"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1368
+msgid ""
+"Create an account by entering the information below. If you are a returning "
+"customer please login at the top of the page."
+msgstr ""
+"គ្រប់គ្រងគណនីមួយដោយបញ្ចូលព័ត៌មានខាងក្រោម។ "
+"ប្រសិនបើអ្នកជាអតិថិជនដែលត្រឡប់មកវិញ សូមចូលទៅកាន់កំពូលទំព័រ។."
+
+#. translators: %1$s is the payment method title, %2$s is the formatted
+#. payment status.
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1578
+msgid "Payment via %1$s: %2$s."
+msgstr "ការទូទាត់តាម %1$s: %2$s."
+
+#. translators: %1$s is the payment method title, %2$s is the pending reason
+#. from PayPal.
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1595
+msgid "Payment via %1$s Pending. PayPal reason: %2$s."
+msgstr "ការទូទាត់តាម %1$s កំពុងរង់ចាំ។ មូលហេតុ PayPal: %2$s។."
+
+#. translators: %1$s is the payment method title, %2$s is the PayPal
+#. transaction ID.
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1604
+msgid "Payment via %1$s. Transaction ID: %2$s"
+msgstr "ការទូទាត់តាម %1$s។ លេខសម្គាល់ប្រតិបត្តិការ: %2$s"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1798
+msgctxt "Important"
+msgid ""
+"<strong>You're almost done!</strong><br>Review your information before you "
+"place your order."
+msgstr ""
+"<strong>អ្នកជិតបញ្ចប់ហើយ!</strong><br>ពិនិត្យព័ត៌មានរបស់អ្នកមុនពេលដែលអ្នកដាក់ការបញ្ជាទិញ។."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1853
+msgid "Capture Charge"
+msgstr "ចាប់យកកម្រៃ"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2054
+msgctxt "Important"
+msgid "Cancel order"
+msgstr "បោះបង់ការបញ្ជាទិញ"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2139
+msgid ""
+"We cannot process your order with the payment information that you provided."
+" Please use an alternate payment method."
+msgstr ""
+"យើងមិនអាចដំណើរការការបញ្ជាទិញរបស់អ្នកជាមួយព័ត៌មានការទូទាត់ដែលអ្នកបានផ្តល់។ "
+"សូមប្រើវិធីទូទាត់ផ្សេងទៀត។."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2189
+msgid "3D Secure response"
+msgstr "3D Secure ප්‍රතිචාරය"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2957
+msgid "At top of checkout Page"
+msgstr "នៅកំពូលទំព័របង់ប្រាក់"
