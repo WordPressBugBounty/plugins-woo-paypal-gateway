@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.49\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
-"POT-Creation-Date: 2025-12-31T11:56:42+00:00\n"
+"POT-Creation-Date: 2026-03-02T05:16:03+00:00\n"
 "PO-Revision-Date: 2025-12-31 17:12+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -137,6 +137,17 @@ msgstr "ပို့ပါ & ဖျက်ပါ"
 #: admin/feedback/deactivation-feedback-form.php:67
 msgid "I rather wouldn't say"
 msgstr "ငါကတော့ မပြောချင်ဘူး"
+
+#: includes/class-woo-paypal-gateway-calculations.php:86
+#: includes/class-woo-paypal-gateway-calculations.php:185
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1037
+msgid "Item"
+msgstr "အရာ"
+
+#: includes/class-woo-paypal-gateway-calculations.php:102
+#: includes/class-woo-paypal-gateway-calculations.php:198
+msgid "Fee"
+msgstr "ကြေး"
 
 #: includes/class-woo-paypal-gateway.php:241
 msgid "Settings"
@@ -281,7 +292,7 @@ msgid "Credit or Debit Card"
 msgstr "ခရက်ဒစ် သို့မဟုတ် ဒေဘစ် ကတ်"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:69
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:833
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:889
 msgctxt "Important"
 msgid "Confirm your PayPal order"
 msgstr "သင်၏ PayPal အမှာစာကို အတည်ပြုပါ"
@@ -373,12 +384,12 @@ msgid "Advanced Card Payments"
 msgstr "အဆင့်မြင့်ကဒ်ငွေပေးချေမှုများ"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:537
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1072
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1126
 msgid "Google Pay"
 msgstr "ဂူဂဲလ် ပေး"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:538
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1071
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1125
 msgid "Apple Pay"
 msgstr "အပယ်လ်ပေး"
 
@@ -839,7 +850,7 @@ msgid "Got it"
 msgstr "နားလည်ပြီ"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3105
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3106
 msgid "Invalid or missing payment token fields."
 msgstr "ငွေပေးချေမှုအမှတ်အသားအကွက်များမှားယွင်းနေပါသည် သို့မဟုတ် မရှိပါ။."
 
@@ -874,33 +885,33 @@ msgstr[0] ""
 msgid "Continue to payment"
 msgstr "ငွေပေးချေမှုဆက်လက်လုပ်ဆောင်ပါ"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:739
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1578
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2773
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1538
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:740
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2774
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1594
 msgid "Card Details"
 msgstr "ကတ်အသေးစိတ်"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:750
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1589
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2784
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1549
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1590
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2785
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1605
 msgid "Address Verification Result"
 msgstr "လိပ်စာအတည်ပြုမှုရလဒ်"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:759
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1598
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2793
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1558
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1599
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2794
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1614
 msgid "Card Security Code Result"
 msgstr "ကတ်လုံခြုံရေးကုဒ်ရလဒ်"
 
 #. translators: 1: Payment method title, 2: Payment status (e.g., Completed,
 #. Pending).
 #. translators: 1: Payment method title, 2: Payment status.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:781
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1625
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2815
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:782
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1626
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2816
 msgid "Payment via %1$s : %2$s."
 msgstr "ငွေပေးချေမှု %1$s မှာ : %2$s။."
 
@@ -908,19 +919,19 @@ msgstr "ငွေပေးချေမှု %1$s မှာ : %2$s။."
 #. translators: 1: payment method title, 2: transaction ID
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:785
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:797
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:942
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1619
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2820
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2827
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1581
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:798
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:943
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1620
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2821
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2828
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1637
 msgid "%1$s Transaction ID: %2$s"
 msgstr "%1$s ငွေလွှဲ ID: %2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:945
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1976
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1607
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:946
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1977
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1663
 msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
@@ -929,42 +940,42 @@ msgstr ""
 "လုပ်ဆောင်နေသည် သို့မဟုတ် ပြီးပြည့်စုံသည် အဖြစ် ပြောင်းပါ။."
 
 #. translators: 1: Refunded amount, 2: Refund transaction ID.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1314
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1315
 msgid "Refunded %1$s - Refund ID: %2$s"
 msgstr "ပြန်အမ်း %1$s - ပြန်အမ်း ID: %2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1490
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1491
 msgid "An error occurred while updating the order."
 msgstr "အမှာစာကို အပ်ဒိတ်လုပ်နေစဉ် အမှားတစ်ခု ဖြစ်ပေါ်ခဲ့သည်။."
 
 #. translators: %s: Plugin version number.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1651
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1652
 msgid "Payment Gateway for PayPal on WooCommerce: %1$s"
 msgstr "WooCommerce တွင် PayPal အတွက် ငွေပေးချေမှု ဂိတ်ဝေ့: %1$s"
 
 #. translators: %s: WooCommerce version number.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1653
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1654
 msgid "WooCommerce Version: %1$s"
 msgstr "WooCommerce ဗားရှင်း: %1$s"
 
 #. translators: 1: PayPal pending reason.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1980
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1981
 msgid "Payment pending (%1$s)."
 msgstr "ငွေပေးချေမှု မပြီးစီးသေးပါ (%1$s)။."
 
 #. translators: 1: refunded amount, 2: refunded currency
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2046
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2047
 msgid "Marked as refunded via PayPal. Total refunded: %1$s %2$s."
 msgstr ""
 "PayPal မှ ပြန်လည်ငွေပေးချေမှုအဖြစ် အမှတ်အသားပြုထားသည်။ စုစုပေါင်း "
 "ပြန်လည်ငွေပေးချေမှု: %1$s %2$s။."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2185
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2186
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2618
 msgid "Sorry, your session has expired."
 msgstr "တောင်းပန်ပါတယ်၊ သင်၏အစည်းအဝေးသည် အဆုံးသတ်သွားပါပြီ။."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2394
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2395
 msgid ""
 "This payment was unable to be processed successfully. Please try again with "
 "another payment method."
@@ -1668,7 +1679,7 @@ msgstr ""
 "Card ဖြင့် ငွေပေးချေပါ').."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:787
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1058
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1112
 msgid "Credit or Debit Card"
 msgstr "ခရက်ဒစ် သို့မဟုတ် ဒေဘစ် ကတ်"
 
@@ -2486,7 +2497,7 @@ msgid "Add tracking information"
 msgstr "ထောက်လှမ်းမှုအချက်အလက်ထည့်ပါ"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:292
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2147
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2203
 msgid "Something went wrong. Please try again."
 msgstr "အမှားတစ်ခုဖြစ်ပွားခဲ့သည်။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
@@ -2545,7 +2556,7 @@ msgid "Payee’s PayPal account requires verification."
 msgstr "Payee ၏ PayPal အကောင့်ကို အတည်ပြုရန် လိုအပ်သည်။."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:385
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1156
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1210
 msgid "The transaction could not be completed."
 msgstr "ငွေလွှဲမှုကိုပြီးစီးမရပါ။."
 
@@ -2598,826 +2609,903 @@ msgstr ""
 msgid "An error occurred while updating the order status."
 msgstr "အမှာစာအခြေအနေကို အပ်ဒိတ်လုပ်နေစဉ် အမှားတစ်ခု ဖြစ်ပေါ်ခဲ့သည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1059
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1113
 msgid "PayPal Credit"
 msgstr "PayPal ခရက်ဒစ်"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1060
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1114
 msgid "Bancontact"
 msgstr "ဘန်ကွန်တက်"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1061
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1115
 msgid "BLIK"
 msgstr "ဘလစ်ခ်"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1062
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1116
 msgid "eps"
 msgstr "eps"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1063
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1117
 msgid "iDEAL"
 msgstr "iDEAL"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1064
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1118
 msgid "Mercado Pago"
 msgstr "မက်ကာဒို ပေဂို"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1065
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1119
 msgid "MyBank"
 msgstr "မိုင်ဘဏ်"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1066
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1120
 msgid "Przelewy24"
 msgstr "Przelewy24"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1067
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1121
 msgid "SEPA-Lastschrift"
 msgstr "SEPA-လက်မှတ်"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1068
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1122
 msgid "Venmo"
 msgstr "ဗင်မို"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1069
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1123
 msgid "PayPal Pay Later"
 msgstr "PayPal နောက်ပိုင်းငွေပေးချေမှု"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1070
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1124
 msgid "PayPal Checkout"
 msgstr "PayPal ငွေပေးချေမှု"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1127
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1181
 msgid "Approved."
 msgstr "အတည်ပြုပြီးပါပြီ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1128
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1182
 msgid "The card security code (CVV) was incorrect."
 msgstr "ကတ်အာမခံကုဒ် (CVV) မှားယွင်းခဲ့သည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1129
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1183
 msgid "Your bank needs to approve this. Please contact your card issuer."
 msgstr "သင်၏ဘဏ်သည်ဤကိုအတည်ပြုရန်လိုအပ်သည်။ သင်၏ကဒ်ထုတ်လုပ်သူနှင့်ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1130
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1184
 msgid "We could not find this account. Please check your card details."
 msgstr "ဤအကောင့်ကို မတွေ့ပါ။ သင့်ကဒ်အသေးစိတ်များကို စစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1131
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1185
 msgid "The bank declined this transaction. Please try another payment method."
 msgstr ""
 "ဘဏ်သည် ဤငွေလွှဲမှုကို ပယ်ဖျက်လိုက်သည်။ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို "
 "ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1132
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1186
 msgid "This transaction is not authorized. Please contact your card issuer."
 msgstr ""
 "ဤငွေလွှဲပြောင်းမှုသည် အတည်ပြုထားခြင်းမရှိပါ။ ကျေးဇူးပြု၍ သင်၏ "
 "ကတ်ထုတ်လုပ်သူနှင့် ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1133
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1187
 msgid "There was a processing issue. The payment was reversed."
 msgstr ""
 "လုပ်ဆောင်မှုဆိုင်ရာပြဿနာတစ်ခုရှိခဲ့သည်။ "
 "ငွေပေးချေမှုကိုပြန်လည်ပြောင်းလဲခဲ့သည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1134
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1188
 msgid "A security check failed. Please try again."
 msgstr "လုံခြုံရေးစစ်ဆေးမှုမအောင်မြင်ပါ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1135
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1189
 msgid "The PIN was not accepted."
 msgstr "PIN ကို လက်ခံမထားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1136
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1190
 msgid "Temporary system issue. Please try again later."
 msgstr "အချိန်ပိုင်းစနစ်ပြဿနာ။ ကျေးဇူးပြု၍ နောက်မှပြန်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1137
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1191
 msgid "Payment was canceled."
 msgstr "ငွေပေးချေမှုကို ဖျက်သိမ်းခဲ့သည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1138
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1192
 msgid "Only part of the amount was approved."
 msgstr "ငွေပမာဏ၏ အပိုင်းတစ်ခုသာ အတည်ပြုခဲ့သည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1139
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1157
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1193
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1211
 msgid "The bank declined this transaction."
 msgstr "ဘဏ်သည် ဤငွေလွှဲပြောင်းမှုကို ငြင်းပယ်ခဲ့သည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1140
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1194
 msgid "Invalid data format."
 msgstr "မမှန်ကန်သော ဒေတာ ဖော်မတ်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1141
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1195
 msgid "Invalid amount."
 msgstr "မမှန်ကန်သောငွေပမာဏ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1142
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1196
 msgid "Card issuer/acquirer not allowed for this transaction."
 msgstr "ဤငွေပေးချေမှုအတွက် ကတ်ထုတ်သူ/အကောက်ခွန်သည် ခွင့်မပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1143
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1197
 msgid "Invalid capture date."
 msgstr "မမှန်ကန်သော ဖမ်းယူသည့်ရက်စွဲ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1144
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1198
 msgid "Unsupported currency for this card."
 msgstr "ဤကတ်အတွက် ထောက်ခံမထားသော ငွေကြေးဖြစ်သည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1145
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1199
 msgid "Invalid account number."
 msgstr "အမှားရှိသော အကောင့်နံပါတ်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1146
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1200
 msgid "This card is not allowed for recurring payments."
 msgstr "ဤကတ်သည် အကြိမ်ကြိမ်ငွေပေးချေမှုများအတွက် ခွင့်မပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1147
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1201
 msgid "Invalid terminal configuration."
 msgstr "မမှန်ကန်သော terminal ဖွဲ့စည်းမှု။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1148
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1202
 msgid "Invalid merchant configuration."
 msgstr "မမှန်ကန်သော ကုန်သည် ဖွဲ့စည်းမှု။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1149
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1203
 msgid "The account is restricted or inactive."
 msgstr "အကောင့်ကို ကန့်သတ်ထားသည် သို့မဟုတ် မသက်ဆိုင်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1150
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1204
 msgid "Invalid processing code."
 msgstr "မမှန်ကန်သော အလုပ်လုပ်ဆောင်မှု ကုဒ်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1151
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1205
 msgid "Invalid merchant category."
 msgstr "မမှန်ကန်သော ကုန်သည်အမျိုးအစား။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1152
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1206
 msgid "Invalid card expiry date."
 msgstr "ကဒ်သက်တမ်းကုန်ဆုံးချိန်မှားနေပါသည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1153
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1207
 msgid "Invalid card security code (CVV)."
 msgstr "မမှန်ကန်သော ကတ်လုံခြုံရေးကုဒ် (CVV)။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1154
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1208
 msgid "Invalid transaction state."
 msgstr "မမှန်ကန်သော ငွေလွှဲအခြေအနေ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1155
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1209
 msgid "Invalid order."
 msgstr "မမှန်ကန်သောအမှာစာ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1158
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1212
 msgid "The card security code (CVV) did not match."
 msgstr "ကတ်အာမခံကုဒ် (CVV) မကိုက်ညီပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1159
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1213
 msgid "Insufficient funds."
 msgstr "ငွေကြေးမလုံလောက်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1160
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1171
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1214
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1225
 msgid "Incorrect PIN."
 msgstr "မှားယွင်းသော PIN။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1161
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1215
 msgid "Too many incorrect PIN attempts."
 msgstr "PIN အမှားများကို ကြိုးစားမှုများ များပြားလွန်းသည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1162
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1216
 msgid "This card is closed."
 msgstr "ဤကတ်သည် ပိတ်ထားသည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1163
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1217
 msgid "Card capture requested by the bank."
 msgstr "ဘဏ်မှ ကတ်ဖမ်းခြင်းကို တောင်းဆိုထားသည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1164
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1218
 msgid "User not authorized for this transaction."
 msgstr "ဤငွေလွှဲချိန်အတွက် အသုံးပြုသူကို အခွင့်အရေးမရှိပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1165
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1219
 msgid "Address verification failed."
 msgstr "လိပ်စာအတည်ပြုမှု မအောင်မြင်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1166
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1220
 msgid "Invalid or restricted card."
 msgstr "မမှန်ကန်သော သို့မဟုတ် ကန့်သတ်ထားသော ကတ်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1167
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1221
 msgid "Address verification soft failure."
 msgstr "လိပ်စာအတည်ပြုမှု ဆော့ဖ်ဝဲ အောင်မြင်မှုမရှိပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1168
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1222
 msgid "Duplicate transaction."
 msgstr "အထပ်ထပ်ငွေလွှဲမှု။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1169
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1223
 msgid "Invalid transaction."
 msgstr "မမှန်ကန်သောငွေလွှဲမှု။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1170
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1224
 msgid "The card is expired."
 msgstr "ကတ်က သက်တမ်းကုန်ဆုံးပါပြီ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1172
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1226
 msgid "Strong customer authentication required."
 msgstr "အားကောင်းသောဖောက်သည်အတည်ပြုမှုလိုအပ်သည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1173
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1227
 msgid "This type of transaction is not permitted."
 msgstr "ဤအမျိုးအစားငွေလွှဲပြောင်းမှုသည် ခွင့်ပြုထားခြင်းမရှိပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1174
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1228
 msgid "Too many attempts. Please try again later."
 msgstr ""
 "ကြိုးစားမှုများအရေအတွက်များလွန်းပါသည်။ ကျေးဇူးပြု၍ နောက်မှပြန်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1175
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1229
 msgid "Invalid or restricted card. Please use another card."
 msgstr ""
 "မမှန်ကန်သော သို့မဟုတ် ကန့်သတ်ထားသော ကတ်။ အခြားကတ်တစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1176
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1230
 msgid "Address verification soft failure. Please check your billing address."
 msgstr ""
 "လိပ်စာအတည်ပြုမှု အဆင်မပြေပါ။ ကျေးဇူးပြု၍ သင်၏ ငွေပေးချေမှု လိပ်စာကို "
 "စစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1177
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1231
 msgid "Duplicate transaction. Please try again."
 msgstr "အတူတူငွေလွှဲမှု။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1178
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1232
 msgid "Invalid transaction. Please try again."
 msgstr "မမှန်ကန်သောငွေလွှဲမှု။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1179
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1233
 msgid "Expired card. Please use another card."
 msgstr "ကာဒ်သက်တမ်းကုန်ဆုံးပါပြီ။ အခြားကာဒ်တစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1180
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1234
 msgid "Incorrect PIN. Please re-enter your PIN."
 msgstr "မှားယွင်းသော PIN ဖြစ်သည်။ ကျေးဇူးပြု၍ သင်၏ PIN ကို ထပ်မံရိုက်ထည့်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1181
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1235
 msgid "Strong customer authentication required. Please try again."
 msgstr ""
 "အားသာသော ဖောက်သည် အတည်ပြုမှု လိုအပ်ပါသည်။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1182
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1236
 msgid "Transaction not permitted. Please use another payment method."
 msgstr ""
 "ငွေလွှဲမှုကို ခွင့်ပြုထားခြင်းမရှိပါ။ ကျေးဇူးပြု၍ "
 "အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1183
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1237
 msgid "Transaction attempts exceed limit. Please try again later."
 msgstr ""
 "ငွေလွှဲမှုကြိုးစားမှုများက အကန့်အသတ်ကို ကျော်လွန်နေပါသည်။ ကျေးဇူးပြု၍ "
 "နောက်မှ ထပ်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1184
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1238
 msgid "Reversal rejected. Please contact support."
 msgstr ""
 "ပြန်လည်ဖျက်သိမ်းခြင်းကို ငြင်းဆိုလိုက်သည်။ ကျေးဇူးပြု၍ အထောက်အကူပြုမှုကို "
 "ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1185
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1239
 msgid "Invalid issue. Please try again."
 msgstr "မမှန်ကန်သောပြဿနာ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1186
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1240
 msgid "Issuer not available. Please try again later."
 msgstr "ထုတ်လုပ်သူမရနိုင်ပါ။ ကျေးဇူးပြု၍ နောက်မှပြန်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1187
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1241
 msgid "Issuer temporarily not available. Please try again shortly."
 msgstr ""
 "ထုတ်လုပ်သူသည် ယာယီ ရရှိနိုင်ခြင်းမရှိပါ။ ကျေးဇူးပြု၍ မကြာမီ "
 "ပြန်လည်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1188
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1242
 msgid "Card not activated. Please activate your card and try again."
 msgstr ""
 "ကတ်ကို အတည်ပြုထားခြင်းမရှိပါ။ ကျေးဇူးပြု၍ သင်၏ ကတ်ကို အတည်ပြုပါ၊ "
 "ပြန်လည်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1189
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1243
 msgid "Updated card issued. Please use your new card."
 msgstr "ကတ်အသစ်ထုတ်ပေးပြီးပါပြီ။ သင့်ရဲ့ကတ်အသစ်ကိုအသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1190
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1244
 msgid "Account not on file. Please check your card details."
 msgstr "အကောင့်ကို ဖိုင်တွင် မရှိပါ။ သင်၏ ကတ်အသေးစိတ်များကို စစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1191
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1245
 msgid "Approved but not captured. No action needed."
 msgstr "အတည်ပြုပြီး သို့သော် ဖမ်းဆီးမထားပါ။ လုပ်ဆောင်မှုမလိုအပ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1192
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1246
 msgid "3DS authentication error. Please try again."
 msgstr "3DS အတည်ပြုမှု အမှား။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1193
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1247
 msgid "Authentication failed. Please try again."
 msgstr "အတည်ပြုခြင်း မအောင်မြင်ပါ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1194
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1248
 msgid "BIN error. Please try another card."
 msgstr "BIN အမှား။ ကျေးဇူးပြု၍ အခြားကတ်တစ်ခုကို ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1195
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1249
 msgid "PIN error. Please try again with the correct PIN."
 msgstr "PIN အမှား။ ကျေးဇူးပြု၍ မှန်ကန်သော PIN ဖြင့် ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1196
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1250
 msgid "Processor system error. Please try again later."
 msgstr "ပရိုဆက်ဆာစနစ်အမှား။ ကျေးဇူးပြု၍ နောက်ထပ်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1197
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1251
 msgid "Host key error. Please try again."
 msgstr "ဟုတ်ကဲ့သော ကီး အမှား။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1198
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1252
 msgid "Configuration error. Please contact support."
 msgstr "ကွန်ဖီဂျူးရေးရှင်းအမှား။ ကျေးဇူးပြု၍ အထောက်အကူပြုမှုကို ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1199
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1253
 msgid "Unsupported operation. Please try another payment method."
 msgstr ""
 "ထောက်ပံ့မှုမရသော လုပ်ဆောင်ချက်။ ကျေးဇူးပြု၍ "
 "အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1200
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1254
 msgid "Communication error. Please try again later."
 msgstr "ဆက်သွယ်မှုအမှား။ ကျေးဇူးပြု၍ နောက်မှပြန်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1201
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1255
 msgid "Communication error. Please try again shortly."
 msgstr "ဆက်သွယ်မှုအမှား။ ကျေးဇူးပြု၍ အနည်းငယ်အချိန်အတွင်း ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1202
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1256
 msgid "System unavailable. Please try again later."
 msgstr "စနစ်မရနိုင်ပါ။ ကျေးဇူးပြု၍ နောက်မှပြန်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1203
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1257
 msgid "Transaction declined. Please retry."
 msgstr "ငွေလွှဲမှုကို ငြင်းဆိုလိုက်ပါသည်။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1204
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1258
 msgid "Suspected fraud. Please use another payment method."
 msgstr ""
 "အကြောင်းအမျိုးမျိုးဖြစ်နိုင်သော လိမ်လည်မှု။ ကျေးဇူးပြု၍ "
 "အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1205
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1259
 msgid "Security violation. Please contact your card issuer."
 msgstr ""
 "လုံခြုံရေးချိုးဖောက်မှု။ ကျေးဇူးပြု၍ သင်၏ကဒ်ထုတ်လုပ်သူနှင့် ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1206
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1260
 msgid "Card reported lost or stolen. Please use another card."
 msgstr ""
 "ကတ်ကို ပျောက်ဆုံးသွားသည် သို့မဟုတ် ခိုးယူခံရသည်။ ကျေးဇူးပြု၍ "
 "အခြားကတ်တစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1207
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1261
 msgid "Hold - call center. Please contact your card issuer."
 msgstr "ထားပါ - ဖုန်းစင်တာ။ ကျေးဇူးပြု၍ သင်၏ ကတ်ထုတ်လုပ်သူနှင့် ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1208
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1262
 msgid "Card refused. Please use another payment method."
 msgstr ""
 "ကတ်ကို ငြင်းဆိုလိုက်သည်။ ကျေးဇူးပြု၍ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို "
 "အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1209
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1263
 msgid "Unrecognized response code. Please try again later."
 msgstr "မသိရှိသော တုံ့ပြန်မှု ကုဒ်။ ကျေးဇူးပြု၍ နောက်မှ ထပ်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1210
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1264
 msgid "Contingencies not resolved. Please try again."
 msgstr "အခြေအနေများကို ဖြေရှင်းမထားပါ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1211
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1224
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1265
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1278
 msgid "CVV verification failed. Please check your CVV."
 msgstr "CVV အတည်ပြုမှု မအောင်မြင်ပါ။ သင့် CVV ကို စစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1212
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1266
 msgid "Account closed. Please use another card."
 msgstr "အကောင့်ပိတ်ထားသည်။ ကျေးဇူးပြု၍ အခြားကတ်တစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1213
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1267
 msgid "Reattempt not permitted. Please use another payment method."
 msgstr ""
 "ပြန်လည်ကြိုးစားခြင်းမရပါ။ ကျေးဇူးပြု၍ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို "
 "အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1214
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1268
 msgid "Billing address error. Please check your billing details."
 msgstr ""
 "ဘီလ်ငွေပေးချေမှုလိပ်စာအမှား။ သင့်ဘီလ်ငွေပေးချေမှုအသေးစိတ်များကိုစစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1215
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1269
 msgid "Account blocked by issuer. Please contact your card issuer."
 msgstr ""
 "အကောင့်ကို ထုတ်ပေးသူက ပိတ်ထားသည်။ ကျေးဇူးပြု၍ သင်၏ ကတ်ထုတ်ပေးသူနှင့် "
 "ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1216
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1270
 msgid "American Express card disabled. Please use another card."
 msgstr "အမေရိကန်အက္ခရာကတ်ကို ပိတ်ထားသည်။ အခြားကတ်တစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1217
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1271
 msgid "Adult gaming not supported. Please use another payment method."
 msgstr ""
 "အရွယ်ရောက်သောဂိမ်းကစားခြင်းကိုထောက်ပံ့မထားပါ။ ကျေးဇူးပြု၍ "
 "အခြားငွေပေးချေမှုနည်းလမ်းကိုအသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1218
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1272
 msgid "Amount incompatible. Please try a different amount."
 msgstr "ငွေပမာဏမသင့်လျော်ပါ။ ကျေးဇူးပြု၍ အခြားငွေပမာဏတစ်ခုကို ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1219
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1273
 msgid "Authorization result error. Please try again."
 msgstr "အာဏာပေးမှုရလဒ်အမှား။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1220
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1274
 msgid "MCC code error. Please contact support."
 msgstr "MCC ကုဒ်အမှား။ ကျေးဇူးပြု၍ အထောက်အကူပြုမှုကို ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1221
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1275
 msgid "Address verification failed. Please check your billing address."
 msgstr ""
 "လိပ်စာအတည်ပြုမှု မအောင်မြင်ပါ။ ကျေးဇူးပြု၍ သင်၏ ငွေပေးချေမှု လိပ်စာကို "
 "စစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1222
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1276
 msgid "Amount exceeded. Please try a smaller amount."
 msgstr ""
 "ငွေပမာဏသည် ကျော်လွန်နေပါသည်။ ကျေးဇူးပြု၍ သေးငယ်သော ငွေပမာဏကို ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1223
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1277
 msgid "Gaming transaction error. Please use another payment method."
 msgstr ""
 "ဂိမ်းကစားမှုငွေလွှဲမှုအမှား။ ကျေးဇူးပြု၍ အခြားငွေပေးချေမှုနည်းလမ်းကို "
 "အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1225
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1279
 msgid "Registration incomplete. Please complete registration."
 msgstr "မှတ်ပုံတင်မှု မပြီးစီးပါ။ ကျေးဇူးပြု၍ မှတ်ပုံတင်မှုကို ပြီးစီးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1226
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1280
 msgid "Country error. Please try another payment method."
 msgstr ""
 "နိုင်ငံအမှား။ ကျေးဇူးပြု၍ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1227
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1281
 msgid "Credit error. Please try another payment method."
 msgstr "အကြွေးအမှား။ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကိုကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1228
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1282
 msgid "Card type not supported. Please use another card."
 msgstr ""
 "ကတ်အမျိုးအစားကိုထောက်ပံ့မထားပါ။ ကျေးဇူးပြု၍ အခြားကတ်တစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1229
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1283
 msgid "Invalid currency. Please select a supported currency."
 msgstr "မမှန်ကန်သောငွေကြေး။ ကျေးဇူးပြု၍ ထောက်ခံထားသောငွေကြေးကို ရွေးချယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1230
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1284
 msgid "3D Secure authentication error. Please try again."
 msgstr "3D Secure အတည်ပြုမှု အမှား။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1231
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1285
 msgid "Dynamic currency conversion not supported. Please try again."
 msgstr ""
 "ဒိုင်နမစ်ငွေကြေးပြောင်းလဲမှုကိုထောက်ပံ့မထားပါ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1232
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1286
 msgid "Diners Club card rejected. Please use another card."
 msgstr "Diners Club ကတ်ကို ပယ်ဖျက်လိုက်ပါပြီ။ အခြားကတ်တစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1233
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1287
 msgid "Authentication message error. Please try again."
 msgstr "အတည်ပြုချက်မက်ဆေ့ခ်ျအမှား။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1234
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1288
 msgid "Decline threshold exceeded. Please try again later."
 msgstr ""
 "လျော့ချမှု အဆင့်ကို ကျော်လွန်ခဲ့သည်။ ကျေးဇူးပြု၍ နောက်မှ ထပ်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1235
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1289
 msgid "Funding instrument expired. Please use another payment method."
 msgstr ""
 "ငွေပေးချေမှုကိရိယာ သက်တမ်းကုန်ဆုံးပါပြီ။ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို "
 "အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1236
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1290
 msgid "Frequency limit exceeded. Please try again later."
 msgstr ""
 "အကြိမ်ရေကန့်သတ်ကို ကျော်လွန်ခဲ့သည်။ ကျေးဇူးပြု၍ နောက်မှ ထပ်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1237
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1291
 msgid "System error. Please try again later."
 msgstr "စနစ်အမှား။ ကျေးဇူးပြု၍ နောက်မှ ထပ်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1238
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1292
 msgid "Expiry date error. Please check your card details."
 msgstr "သက်တမ်းကုန်ဆုံးရက်အမှား။ သင်၏ကတ်အသေးစိတ်များကိုစစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1239
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1293
 msgid "Funding source already exists. Please use another payment method."
 msgstr ""
 "ငွေပေးချေမှုနည်းလမ်းတစ်ခုကို အသုံးပြုပါ။ ငွေပေးချေမှုအရင်းအမြစ်သည် "
 "ရှိပြီးသားဖြစ်ပါသည်။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1240
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1294
 msgid "Invalid funding instrument. Please try another payment method."
 msgstr ""
 "မမှန်ကန်သောငွေပေးချေမှုကိရိယာ။ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကိုကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1241
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1295
 msgid "Restricted funding instrument. Please try another payment method."
 msgstr ""
 "ကန့်သတ်ထားသော ငွေပေးချေမှု ကိရိယာ။ ကျေးဇူးပြု၍ "
 "အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1242
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1296
 msgid "Field validation failed. Please check your payment details."
 msgstr ""
 "ကွက်လပ်အတည်ပြုမှု မအောင်မြင်ပါ။ ကျေးဇူးပြု၍ သင်၏ ငွေပေးချေမှု အသေးစိတ်ကို "
 "စစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1243
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1297
 msgid "Gaming refund error. Please contact support."
 msgstr "ဂိမ်းပြန်အမ်းအမှား။ ကျေးဇူးပြု၍ အထောက်အကူပြုမှုကို ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1244
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1253
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1298
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1307
 msgid "Processing error. Please try again."
 msgstr "လုပ်ဆောင်မှုအမှား။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1245
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1299
 msgid "Idempotency failure. Please try again."
 msgstr "Idempotency အောင်မြင်မှု မအောင်မြင်ပါ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1246
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1300
 msgid "Invalid input. Please check your payment details."
 msgstr "မမှန်ကန်သောအချက်အလက်။ သင်၏ငွေပေးချေမှုအသေးစိတ်ကိုစစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1247
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1301
 msgid "ID mismatch. Please try again."
 msgstr "ID မကိုက်ညီမှု။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1248
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1302
 msgid "Invalid trace ID. Please try again."
 msgstr "မမှန်ကန်သော trace ID ဖြစ်သည်။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1249
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1303
 msgid "Late reversal. Please contact support."
 msgstr ""
 "နောက်ကျသော ပြန်လည်ပြောင်းလဲမှု။ ကျေးဇူးပြု၍ အထောက်အကူပြုမှုကို ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1250
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1304
 msgid "Status code error. Please try again."
 msgstr "အခြေအနေ ကုဒ် အမှား။ ကျေးဇူးပြု၍ ထပ်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1251
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1305
 msgid "Missing business rule or data. Please try again."
 msgstr ""
 "စီးပွားရေးစည်းမျဉ်း သို့မဟုတ် ဒေတာပျောက်နေပါသည်။ ကျေးဇူးပြု၍ "
 "ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1252
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1306
 msgid "Mastercard blocked. Please use another card."
 msgstr "Mastercard ကို ပိတ်ထားပါသည်။ အခြားကတ်တစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1254
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1308
 msgid "Not supported. Please try another payment method."
 msgstr "ထောက်ပံ့မှုမရှိပါ။ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကိုကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1255
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1309
 msgid "Network frequency limit exceeded. Please try again later."
 msgstr ""
 "ကွန်ယက်အကြိမ်နှုန်းကန့်သတ်ကို ကျော်လွန်ခဲ့သည်။ ကျေးဇူးပြု၍ နောက်မှ "
 "ထပ်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1256
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1310
 msgid "Merchant ID not found. Please contact support."
 msgstr "ကုန်သည် ID မတွေ့ပါ။ ကျေးဇူးပြု၍ အထောက်အကူပြုမှုကို ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1257
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1311
 msgid "Network error. Please try again later."
 msgstr "ကွန်ယက်အမှား။ ကျေးဇူးပြု၍ နောက်မှ ထပ်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1258
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1312
 msgid "Phone required for this transaction. Please update your details."
 msgstr ""
 "ဤငွေလွှဲပြောင်းမှုအတွက် ဖုန်းလိုအပ်ပါသည်။ ကျေးဇူးပြု၍ သင်၏အသေးစိတ်ကို "
 "အပ်ဒိတ်လုပ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1259
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1313
 msgid "Invalid product. Please try another product."
 msgstr "ထုတ်ကုန်မမှန်ပါ။ အခြားထုတ်ကုန်တစ်ခုကို ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1260
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1314
 msgid "Invalid payment method. Please try another payment method."
 msgstr "ငွေပေးချေမှုနည်းလမ်းမမှန်ပါ။ အခြားငွေပေးချေမှုနည်းလမ်းကိုကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1261
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1315
 msgid "Quasi-cash not supported. Please use another payment method."
 msgstr ""
 "Quasi-cash ကိုထောက်ပံ့မထားပါ။ ကျေးဇူးပြု၍ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို "
 "အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1262
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1316
 msgid "Refund not supported on pending transactions. Please try again later."
 msgstr ""
 "ငွေပေးချေမှုမပြီးသေးသောငွေလွှဲများအတွက် ပြန်လည်ငွေပေးချေမှုကို "
 "ထောက်ခံမထားပါ။ ကျေးဇူးပြု၍ နောက်မှ ထပ်ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1263
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1317
 msgid "Invalid parent transaction status. Please try again."
 msgstr "မမှန်ကန်သော မိဘငွေလွှဲမှု အခြေအနေ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1264
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1318
 msgid "Merchant not registered. Please contact support."
 msgstr ""
 "ကုန်သည်မှတ်ပုံတင်ထားခြင်းမရှိပါ။ ကျေးဇူးပြု၍ အထောက်အကူပြုမှုကို ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1265
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1319
 msgid "Bank authorization mismatch. Please try again."
 msgstr "ဘဏ်အတည်ပြုချက် မကိုက်ညီပါ။ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1266
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1320
 msgid "Bank authorization already settled. Please try again."
 msgstr ""
 "ဘဏ်အတည်ပြုချက်သည် အရင်ဆုံးဖြစ်ပြီးပါပြီ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1267
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1321
 msgid "Bank authorization voided. Please try again."
 msgstr "ဘဏ်အတည်ပြုချက်ကို ဖျက်သိမ်းလိုက်ပါပြီ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1268
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1322
 msgid "Bank authorization expired. Please try again."
 msgstr "ဘဏ်အတည်ပြုချက်ကာလကုန်ဆုံးခဲ့သည်။ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1269
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1323
 msgid "Currency mismatch. Please try again with the correct currency."
 msgstr ""
 "ငွေကြေးမကိုက်ညီပါ။ ကျေးဇူးပြု၍ မှန်ကန်သောငွေကြေးဖြင့် ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1270
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1324
 msgid "Credit card mismatch. Please check your card details."
 msgstr "ကရက်ဒစ်ကတ် မကိုက်ညီပါ။ ကျေးဇူးပြု၍ သင်၏ ကတ်အသေးစိတ်များကို စစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1271
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1325
 msgid "Amount mismatch. Please try again with the correct amount."
 msgstr ""
 "ငွေပမာဏမကိုက်ညီပါ။ ကျေးဇူးပြု၍ မှန်ကန်သောငွေပမာဏဖြင့် ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1272
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1326
 msgid "Score error. Please try again."
 msgstr "အမှားအတွက် အမှတ်။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1273
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1327
 msgid "Status description error. Please try again."
 msgstr "အခြေအနေ ဖော်ပြချက် အမှား။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1274
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1328
 msgid "American Express declined. Please use another card."
 msgstr ""
 "အမေရိကန်အက္ခရာကို ပယ်ဖျက်လိုက်သည်။ ကျေးဇူးပြု၍ အခြားကတ်တစ်ခုကို အသုံးပြုပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1275
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1329
 msgid "Verification token expired. Please try again."
 msgstr ""
 "အတည်ပြုမှုအမှတ်အသားသည် အဆုံးသတ်ပြီးပါပြီ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1276
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1330
 msgid "Invalid trace reference. Please try again."
 msgstr "မမှန်ကန်သော trace ကိုးကားချက်။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1277
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1331
 msgid "Invalid transaction ID. Please try again."
 msgstr ""
 "မမှန်ကန်သော လုပ်ငန်းဆောင်ရွက်မှု ID ဖြစ်သည်။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1278
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1332
 msgid "Verification token revoked. Please try again."
 msgstr ""
 "အတည်ပြုမှုအမှတ်အသားကို ဖျက်သိမ်းလိုက်ပါပြီ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1279
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1333
 msgid "Transaction type not supported. Please try another payment method."
 msgstr ""
 "ငွေလွှဲမှုအမျိုးအစားကို ထောက်ခံမထားပါ။ ကျေးဇူးပြု၍ "
 "အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1280
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1334
 msgid "Invalid verification token. Please try again."
 msgstr "မမှန်ကန်သော အတည်ပြုမှု တိုကင် ဖြစ်သည်။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1281
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1335
 msgid "User not authorized. Please contact support."
 msgstr ""
 "အသုံးပြုသူကို အခွင့်အရေးမရှိပါ။ ကျေးဇူးပြု၍ အထောက်အကူပြုမှုကို ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1282
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1336
 msgid "Currency not supported. Please select a supported currency."
 msgstr ""
 "ငွေကြေးကို ထောက်ခံမထားပါ။ ကျေးဇူးပြု၍ ထောက်ခံထားသော ငွေကြေးကို ရွေးချယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1283
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1337
 msgid "Entity not supported. Please try another payment method."
 msgstr ""
 "အဖွဲ့အစည်းကို ထောက်ခံမထားပါ။ ကျေးဇူးပြု၍ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို "
 "ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1284
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1338
 msgid "Installment not supported. Please try another payment method."
 msgstr ""
 "အပိုင်းချိန်ကို ထောက်ပံ့မထားပါ။ ကျေးဇူးပြု၍ "
 "အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1285
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1339
 msgid "POS flag not supported. Please try another payment method."
 msgstr ""
 "POS အမှတ်အသားကို ထောက်ခံမထားပါ။ ကျေးဇူးပြု၍ "
 "အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို ကြိုးစားပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1286
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1340
 msgid "Reversal not supported. Please contact support."
 msgstr ""
 "ပြန်လည်ပြောင်းလဲမှုကို ထောက်ခံမထားပါ။ ကျေးဇူးပြု၍ အထောက်အကူပြုမှုကို "
 "ဆက်သွယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1287
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1341
 msgid "Currency validation error. Please select a supported currency."
 msgstr ""
 "ငွေကြေးအတည်ပြုမှုအမှား။ ကျေးဇူးပြု၍ ထောက်ခံထားသော ငွေကြေးကို ရွေးချယ်ပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1288
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1342
 msgid "Validation error. Please check your payment details."
 msgstr "အတည်ပြုမှုအမှား။ ကျေးဇူးပြု၍ သင်၏ငွေပေးချေမှုအသေးစိတ်ကိုစစ်ဆေးပါ။."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1289
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1343
 msgid "Virtual terminal not supported. Please try another payment method."
 msgstr ""
 "ဗီဒီယိုအဆင့်မထောက်ပံ့ပါ။ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကိုကြိုးစားပါ။."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:576
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:592
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:540
+#, fuzzy
+msgid "An unknown error occurred with your payment. Please try again."
+msgstr ""
+"စီးပွားရေးစည်းမျဉ်း သို့မဟုတ် ဒေတာပျောက်နေပါသည်။ ကျေးဇူးပြု၍ "
+"ထပ်မံကြိုးစားပါ။."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:541
+msgid "Please enter a valid card number."
+msgstr "ကျေးဇူးပြု၍ မှန်ကန်သော ကတ်နံပါတ်ကို ထည့်ပါ။"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:542
+msgid "Please enter a valid CVV."
+msgstr "ကျေးဇူးပြု၍ မှန်ကန်သော CVV ကို ထည့်ပါ။"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:543
+msgid "Please enter a valid expiration date."
+msgstr "ကျေးဇူးပြု၍ မှန်ကန်သော သက်တမ်းကုန်ဆုံးရက်ကို ထည့်ပါ။"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:545
+msgid "An unknown error occurred."
+msgstr "အမည်မသိ အမှားတစ်ခု ဖြစ်ပွားခဲ့သည်။"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:546
+msgid "Unknown error"
+msgstr "မသိသာသော အမှား"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:549
+#, fuzzy
+msgid "Google Pay failed."
+msgstr "ဂူဂဲလ် ပေး"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:552
+msgid "Apple Pay could not be initialized."
+msgstr "Apple Pay ကို စတင်၍ မရနိုင်ပါ။"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:553
+msgid "Apple Pay confirmation returned non-APPROVED status."
+msgstr "Apple Pay အတည်ပြုချက်သည် non-APPROVED အခြေအနေကို ပြန်လာသည်။"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:554
+#, fuzzy
+msgid "Apple Pay session cancelled."
+msgstr "ငွေပေးချေမှုကို ဖျက်သိမ်းခဲ့သည်။."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:557
+#, fuzzy
+msgid "Order creation failed."
+msgstr "လိပ်စာအတည်ပြုမှု မအောင်မြင်ပါ။."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:558
+msgid "Shipping address is incomplete."
+msgstr "ပို့ဆောင်ရန်လိပ်စာ မပြည့်စုံပါ။"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:559
+msgid "We do not ship to this address."
+msgstr "ဤလိပ်စာသို့ ပို့ဆောင်မှုမပြုလုပ်ပါ။"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:560
+#, fuzzy
+msgid "Invalid shipping method."
+msgstr "မမှန်ကန်သော အလုပ်လုပ်ဆောင်မှု ကုဒ်။."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:563
+#, fuzzy
+msgid "Shipping"
+msgstr "ပို့ဆောင်မှုအသေးစိတ်"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:564
+msgid "Tax"
+msgstr "အခွန်"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:565
+#, fuzzy
+msgid "Discount"
+msgstr "ချိတ်ဆက်မှုဖျက်ပါ"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:566
+msgid "Total"
+msgstr "စုစုပေါင်း"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:632
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:648
 msgctxt "Important"
 msgid "Or"
 msgstr "သို့"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:788
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:844
 msgctxt "Important"
 msgid "Express Checkout"
 msgstr "အထွေထွေငွေပေးချေမှု"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:808
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:864
 msgctxt "Important"
 msgid "Or continue below"
 msgstr "သို့မဟုတ် အောက်တွင် ဆက်လက်လုပ်ဆောင်ပါ"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:981
-msgid "Item"
-msgstr "အရာ"
-
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:995
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1051
 msgid "Items"
 msgstr "အရာများ"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1161
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1217
 msgid "Billing &amp; Shipping"
 msgstr "ဘီလ်နှင့် ပို့ဆောင်မှု"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1163
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1169
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1189
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1219
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1225
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1245
 msgid "Edit"
 msgstr "ပြင်ဆင်ပါ"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1167
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1223
 msgid "Billing details"
 msgstr "ဘီလ်အချက်အလက်များ"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1187
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1243
 msgid "Shipping details"
 msgstr "ပို့ဆောင်မှုအသေးစိတ်"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1359
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1415
 msgid "Create an account?"
 msgstr "အကောင့်တစ်ခုဖန်တီးမလား?"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1368
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1424
 msgid ""
 "Create an account by entering the information below. If you are a returning "
 "customer please login at the top of the page."
@@ -3427,23 +3515,23 @@ msgstr ""
 
 #. translators: %1$s is the payment method title, %2$s is the formatted
 #. payment status.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1578
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1634
 msgid "Payment via %1$s: %2$s."
 msgstr "ငွေပေးချေမှု %1$s မှတဆင့်: %2$s။."
 
 #. translators: %1$s is the payment method title, %2$s is the pending reason
 #. from PayPal.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1595
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1651
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
 msgstr "ငွေပေးချေမှု %1$s မှာ ရှိနေပါသည်။ PayPal အကြောင်းရင်း: %2$s။."
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1604
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1660
 msgid "Payment via %1$s. Transaction ID: %2$s"
 msgstr "ငွေပေးချေမှု %1$s မှတဆင့်။ လုပ်ငန်းအမှတ်အသား: %2$s"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1798
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1854
 msgctxt "Important"
 msgid ""
 "<strong>You're almost done!</strong><br>Review your information before you "
@@ -3452,16 +3540,16 @@ msgstr ""
 "<strong>သင်သည် အဆုံးသတ်ရန် အနီးနီးပါပြီ!</strong><br>သင်၏ အချက်အလက်များကို "
 "စစ်ဆေးပြီး သင်၏ အော်ဒါကို ထည့်သွင်းပါ။."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1853
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1909
 msgid "Capture Charge"
 msgstr "ခွဲခြားခွင့်"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2054
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2110
 msgctxt "Important"
 msgid "Cancel order"
 msgstr "အော်ဒါကို ဖျက်သိမ်းပါ"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2139
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2195
 msgid ""
 "We cannot process your order with the payment information that you provided."
 " Please use an alternate payment method."
@@ -3470,10 +3558,10 @@ msgstr ""
 "မလုပ်ဆောင်နိုင်ပါ။ ကျေးဇူးပြု၍ အခြားငွေပေးချေမှုနည်းလမ်းတစ်ခုကို "
 "အသုံးပြုပါ။."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2189
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2245
 msgid "3D Secure response"
 msgstr "3D Secure တုံ့ပြန်မှု"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2957
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:3013
 msgid "At top of checkout Page"
 msgstr "စျေးနှုန်းချိန်စာမျက်နှာ၏ အထက်ပိုင်းတွင်"

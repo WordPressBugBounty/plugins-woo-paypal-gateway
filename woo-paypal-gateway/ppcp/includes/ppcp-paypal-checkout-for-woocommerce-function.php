@@ -703,6 +703,10 @@ if (!function_exists('is_wpg_paypal_vault_required')) {
         if (isset($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']) && wc_string_to_bool(wc_clean($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']))) {
             return true;
         }
+        if ((class_exists('WFOCU_Core') || function_exists('WFOCU_Core') || defined('WFOCU_VERSION'))
+                && function_exists('is_checkout') && is_checkout()) {
+            return true;
+        }
         return false;
     }
 

@@ -1,7 +1,7 @@
 (function ($) {
     class PPCPManager {
         constructor(ppcp_manager) {
-            // 9.0.56
+            // 9.0.57
             this.ppcp_manager = ppcp_manager;
             this.productAddToCart = true;
             this.lastApiResponse = null;
@@ -65,6 +65,11 @@
             setTimeout(function () {
                 $('#wfacp_smart_buttons.wfacp-dynamic-checkout-loading .dynamic-checkout__skeleton').hide();
             }, 1000);
+        }
+        
+        t(key, fallback = '') {
+            const v = this.ppcp_manager && this.ppcp_manager[key] !== null ? String(this.ppcp_manager[key]) : '';
+            return v ? v : fallback;
         }
 
         getAddress(prefix) {
@@ -986,91 +991,115 @@
         handleCardFieldsError(errorString, checkoutSelector) {
             $('#place_order, #wc-wpg_paypal_checkout-cc-form').unblock();
             $(checkoutSelector).removeClass('processing paypal_cc_submitting CardFields createOrder').unblock();
-            let message = "An unknown error occurred with your payment. Please try again.";
+
+            const t = (key, fallback) => {
+              const v = (this.ppcp_manager && this.ppcp_manager[key]) ? String(this.ppcp_manager[key]) : '';
+              return v ? v : fallback;
+            };
+
+            const UNKNOWN_FALLBACK = "An unknown error occurred with your payment. Please try again.";
+            const INVALID_NUM_FALLBACK = "Please enter a valid card number.";
+            const INVALID_CVV_FALLBACK = "Please enter a valid CVV.";
+            const INVALID_EXP_FALLBACK = "Please enter a valid expiration date.";
+
+            let message = t('unknown_error', UNKNOWN_FALLBACK);
+
             let raw = errorString instanceof Error ? errorString.message : String(errorString);
             if (raw.includes('Expected reject')) {
-                return true;
+              return true;
             }
+
             try {
-                if (raw.includes('INVALID_NUMBER')) {
-                    message = 'Please enter a valid card number.';
-                } else if (raw.includes('INVALID_CVV')) {
-                    message = 'Please enter a valid CVV.';
-                } else if (raw.includes('INVALID_EXPIRATION') || raw.includes('INVALID_EXPIRY_DATE')) {
-                    message = 'Please enter a valid expiration date.';
-                } else {
-                    const jsonStart = raw.indexOf('{');
-                    const jsonEnd = raw.lastIndexOf('}') + 1;
-                    if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
-                        const jsonString = raw.slice(jsonStart, jsonEnd);
-                        const error = JSON.parse(jsonString);
-                        if ((error.message && error.message.includes('Expected reject')) ||
-                                (error.details?.[0]?.description && error.details[0].description.includes('Expected reject'))) {
-                            return true;
-                        }
-                        if (error.success === false && error.data && error.data.messages && Array.isArray(error.data.messages)) {
-                            if (error.data.messages.some(msg => msg.includes('Expected reject'))) {
-                                return true;
-                            }
-                            message = error.data.messages.map(msg => msg.replace(/<\/?[^>]+(>|$)/g, ''))
-                                    .join('\n');
-                        } else if (error.details && Array.isArray(error.details)) {
-                            const cardError = error.details.find(detail =>
-                                detail.issue === 'VALIDATION_ERROR' ||
-                                        detail.issue === 'INVALID_NUMBER' ||
-                                        detail.issue === 'INVALID_CVV' ||
-                                        detail.issue === 'INVALID_EXPIRY_DATE' ||
-                                        detail.field?.includes('/card/')
-                            );
-                            if (cardError) {
-                                switch (cardError.issue) {
-                                    case 'INVALID_NUMBER':
-                                        message = 'Please enter a valid card number.';
-                                        break;
-                                    case 'INVALID_CVV':
-                                        message = 'Please enter a valid CVV.';
-                                        break;
-                                    case 'INVALID_EXPIRY_DATE':
-                                        message = 'Please enter a valid expiration date.';
-                                        break;
-                                    case 'VALIDATION_ERROR':
-                                        if (cardError.field?.includes('/card/number')) {
-                                            message = 'Please enter a valid card number.';
-                                        } else if (cardError.field?.includes('/card/expiry')) {
-                                            message = 'Please enter a valid expiration date.';
-                                        } else if (cardError.field?.includes('/card/security_code')) {
-                                            message = 'Please enter a valid CVV.';
-                                        }
-                                        break;
-                                }
-                            }
-                        }
-                        if (message === "An unknown error occurred with your payment. Please try again.") {
-                            if (error.details?.[0]?.description) {
-                                message = error.details[0].description;
-                            } else if (error.message) {
-                                message = error.message;
-                            }
-                        }
+              if (raw.includes('INVALID_NUMBER')) {
+                message = t('invalid_number', INVALID_NUM_FALLBACK);
+              } else if (raw.includes('INVALID_CVV')) {
+                message = t('invalid_cvv', INVALID_CVV_FALLBACK);
+              } else if (raw.includes('INVALID_EXPIRATION') || raw.includes('INVALID_EXPIRY_DATE')) {
+                message = t('invalid_expiry', INVALID_EXP_FALLBACK);
+              } else {
+                const jsonStart = raw.indexOf('{');
+                const jsonEnd = raw.lastIndexOf('}') + 1;
+
+                if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+                  const jsonString = raw.slice(jsonStart, jsonEnd);
+                  const error = JSON.parse(jsonString);
+
+                  if (
+                    (error.message && error.message.includes('Expected reject')) ||
+                    (error.details?.[0]?.description && error.details[0].description.includes('Expected reject'))
+                  ) {
+                    return true;
+                  }
+
+                  if (error.success === false && error.data && error.data.messages && Array.isArray(error.data.messages)) {
+                    if (error.data.messages.some(msg => msg.includes('Expected reject'))) {
+                      return true;
                     }
+                    message = error.data.messages
+                      .map(msg => msg.replace(/<\/?[^>]+(>|$)/g, ''))
+                      .join('\n');
+
+                  } else if (error.details && Array.isArray(error.details)) {
+                    const cardError = error.details.find(detail =>
+                      detail.issue === 'VALIDATION_ERROR' ||
+                      detail.issue === 'INVALID_NUMBER' ||
+                      detail.issue === 'INVALID_CVV' ||
+                      detail.issue === 'INVALID_EXPIRY_DATE' ||
+                      detail.field?.includes('/card/')
+                    );
+
+                    if (cardError) {
+                      switch (cardError.issue) {
+                        case 'INVALID_NUMBER':
+                          message = t('invalid_number', INVALID_NUM_FALLBACK);
+                          break;
+                        case 'INVALID_CVV':
+                          message = t('invalid_cvv', INVALID_CVV_FALLBACK);
+                          break;
+                        case 'INVALID_EXPIRY_DATE':
+                          message = t('invalid_expiry', INVALID_EXP_FALLBACK);
+                          break;
+                        case 'VALIDATION_ERROR':
+                          if (cardError.field?.includes('/card/number')) {
+                            message = t('invalid_number', INVALID_NUM_FALLBACK);
+                          } else if (cardError.field?.includes('/card/expiry')) {
+                            message = t('invalid_expiry', INVALID_EXP_FALLBACK);
+                          } else if (cardError.field?.includes('/card/security_code')) {
+                            message = t('invalid_cvv', INVALID_CVV_FALLBACK);
+                          }
+                          break;
+                      }
+                    }
+                  }
+
+                  // If still default unknown message, try PayPal-provided message
+                  if (message === t('unknown_error', UNKNOWN_FALLBACK)) {
+                    if (error.details?.[0]?.description) {
+                      message = error.details[0].description;
+                    } else if (error.message) {
+                      message = error.message;
+                    }
+                  }
                 }
+              }
             } catch (err) {
-                if (raw.includes('INVALID_NUMBER')) {
-                    message = 'Please enter a valid card number.';
-                } else if (raw.includes('INVALID_CVV')) {
-                    message = 'Please enter a valid CVV.';
-                } else if (raw.includes('INVALID_EXPIRATION') || raw.includes('INVALID_EXPIRY_DATE')) {
-                    message = 'Please enter a valid expiration date.';
-                } else {
-                    const lastColon = raw.lastIndexOf(':');
-                    message = lastColon > 0 ? raw.slice(lastColon + 1).trim() : raw;
-                }
+              if (raw.includes('INVALID_NUMBER')) {
+                message = t('invalid_number', INVALID_NUM_FALLBACK);
+              } else if (raw.includes('INVALID_CVV')) {
+                message = t('invalid_cvv', INVALID_CVV_FALLBACK);
+              } else if (raw.includes('INVALID_EXPIRATION') || raw.includes('INVALID_EXPIRY_DATE')) {
+                message = t('invalid_expiry', INVALID_EXP_FALLBACK);
+              } else {
+                const lastColon = raw.lastIndexOf(':');
+                message = lastColon > 0 ? raw.slice(lastColon + 1).trim() : raw;
+              }
             }
-            message = message.replace(/\.$/, '').trim();
+
+            message = String(message || '').replace(/\.$/, '').trim();
             this.showError(message);
             this.hideSpinner();
             return false;
-        }
+          }
 
         getCheckoutSelectorCss() {
             return this.isCheckoutPage() ? 'form.checkout' : 'form.cart';
@@ -1158,7 +1187,7 @@
                             postalCode: mapped.postcode
                         });
                         if (!vr || vr.success !== true) {
-                            const msg = (vr && vr.data) ? String(vr.data) : 'We do not ship to this address.';
+                            const msg = (vr && vr.data) ? String(vr.data) : this.t('shipping_unserviceable', 'We do not ship to this address.');
                             return {
                                 error: {
                                     reason: 'SHIPPING_ADDRESS_UNSERVICEABLE',
@@ -1193,7 +1222,7 @@
                         postalCode: mapped.postcode
                     }, selectedShippingId);
                     if (!vr || vr.success !== true) {
-                        const msg = (vr && vr.data) ? String(vr.data) : 'We do not ship to this address.';
+                        const msg = (vr && vr.data) ? String(vr.data) : this.t('shipping_unserviceable', 'We do not ship to this address.');
                         return {
                             error: {
                                 reason: 'SHIPPING_ADDRESS_UNSERVICEABLE',
@@ -1991,7 +2020,7 @@
 
                             const shipping = event.shippingContact;
                             if (!shipping || !shipping.countryCode || !shipping.postalCode) {
-                                throw new Error("Shipping address is incomplete");
+                                throw new Error(this.t('shipping_address_incomplete', 'Shipping address is incomplete.'));
                             }
 
                             // ✅ Validate shipping country/address via the same AJAX endpoint used by PayPal onShippingChange
@@ -2002,7 +2031,7 @@
                                 postalCode: shipping.postalCode || ''
                             });
                             if (!vr || vr.success !== true) {
-                                const msg = (vr && vr.data) ? String(vr.data) : 'We do not ship to this address.';
+                                const msg = (vr && vr.data) ? String(vr.data) : this.t('shipping_unserviceable', 'We do not ship to this address.');
                                 const errors = [];
                                 if (window.ApplePayError) {
                                     errors.push(new ApplePayError('shippingContactInvalid', 'postalAddress', msg));
@@ -2057,7 +2086,7 @@
                         try {
                             const method = event.shippingMethod;
                             if (!method || !method.identifier) {
-                                throw new Error('Invalid shipping method.');
+                                throw new Error(this.t('invalid_shipping_method', 'Invalid shipping method.'));
                             }
 
                             // Map Apple safe ID back to Woo internal ID
@@ -2171,7 +2200,7 @@
                                         window.location.href = response.data.redirect;
                                     } else {
                                         if (response?.success === false) {
-                                            const messages = response.data?.messages ?? ['An unknown error occurred.'];
+                                            const messages = response.data?.messages ?? [this.t('unknown_error_short', 'An unknown error occurred.')];
                                             this.showError(messages);
                                             let redirectUrl = `${this.ppcp_manager.checkout_url}?paypal_order_id=${encodeURIComponent(order_id)}&from=${this.ppcp_manager.page}`;
                                             window.location.href = redirectUrl;
@@ -2188,7 +2217,7 @@
                                 this.hideSpinner();
                             }
                         } else {
-                            throw new Error("Apple Pay confirmation returned non-APPROVED status.");
+                            throw new Error(this.t('apple_pay_not_approved', 'Apple Pay confirmation returned non-APPROVED status.'));
                         }
                     } catch (error) {
                         session.completePayment({
@@ -2207,7 +2236,7 @@
                 session.begin();
             } catch (err) {
                 console.error('Apple Pay session initialization failed:', err);
-                this.showError("Apple Pay could not be initialized.");
+                this.showError(this.t('apple_pay_init_failed', 'Apple Pay could not be initialized.'));
                 this.hideSpinner();
             }
         }

@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.9.1
-Stable tag: 9.0.56
+Stable tag: 9.0.57
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,10 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.57 - 2026-03-03 =
+ * Added - Auto-complete paid orders option to automatically mark orders as Completed after successful payment.
+ * Updated - Improved Polylang compatibility.
 
 = 9.0.56 - 2026-02-04 =
 * Added - Polylang compatibility.

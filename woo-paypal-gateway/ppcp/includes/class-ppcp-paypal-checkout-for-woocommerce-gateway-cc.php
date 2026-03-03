@@ -70,7 +70,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
 
     public function save_payment_method_checkbox() {
         $html = sprintf(
-                '<p class="form-row woocommerce-SavedPaymentMethods-saveNew wpg_ppcp_save_card" style="display: none;">
+                '<p class="form-row woocommerce-SavedPaymentMethods-saveNew wpg_ppcp_save_card">
 				<input id="wc-%1$s-new-payment-method" name="wc-%1$s-new-payment-method" type="checkbox" value="true" style="width:auto;" />
 				<label for="wc-%1$s-new-payment-method" style="display:inline;">%2$s</label>
 			</p>',

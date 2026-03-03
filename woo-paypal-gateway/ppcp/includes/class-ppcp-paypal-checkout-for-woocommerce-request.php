@@ -708,6 +708,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
             $this->ppcp_add_log_details('Capture payment for order');
             $this->ppcp_log('Request : ' . wc_print_r($this->paypal_order_api . $paypal_order_id . '/capture', true));
+            do_action('wpg_ppcp_order_capture', $order);
             $response = wp_remote_post($this->paypal_order_api . $paypal_order_id . '/capture', array(
                 'timeout' => 60,
                 'redirection' => 5,
@@ -2607,7 +2608,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
     }
 
-    public function wpg_ppcp_capture_order_using_payment_method_token($woo_order_id = null) {
+    public function wpg_ppcp_capture_order_using_payment_method_token($woo_order_id = null, $invoice_id = '') {
         try {
             if ($this->access_token === false) {
                 $this->access_token = $this->ppcp_get_access_token();
@@ -2647,7 +2648,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 ),
             );
             $order = wc_get_order($woo_order_id);
-            $body_request['purchase_units'][0]['invoice_id'] = $this->invoice_id_prefix . str_replace("#", "", $order->get_order_number());
+            $body_request['purchase_units'][0]['invoice_id'] = $this->invoice_id_prefix . $invoice_id . str_replace("#", "", $order->get_order_number());
             $body_request['purchase_units'][0]['custom_id'] = apply_filters('ppcp_custom_id', $this->invoice_id_prefix . str_replace("#", "", $order->get_order_number()), $order);
             $body_request['purchase_units'][0]['payee']['merchant_id'] = $this->merchant_id;
             if ($this->send_items === true) {

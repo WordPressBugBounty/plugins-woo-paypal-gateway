@@ -92,8 +92,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     public $apple_pay_mini_cart_style_color;
     public $apple_pay_mini_cart_style_shape;
     public $skip_order_review;
+    public $auto_complete;
     protected static $_instance = null;
     public const PPCP_LANG_SESSION_KEY = 'ppcp_lang';
+    const PPCP_LANG_COOKIE_KEY = 'ppcp_wp_locale';
 
     public static function instance() {
         if (is_null(self::$_instance)) {
@@ -126,7 +128,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
             $this->ppcp_add_hooks();
         }
-        
+        add_action( 'wpg_ppcp_load_js_data', array( $this, 'store_polylang_in_wc_session' ), 20 );
+        add_action('wpg_ppcp_order_capture', array( $this, 'maybe_set_order_language_ppcp' ), 20, 1);
+        add_filter( 'determine_locale', array( $this, 'ppcp_determine_locale' ), 99 );
+        add_filter( 'woocommerce_payment_complete_order_status', array( $this, 'maybe_auto_complete_order' ), 20, 3);
         $this->exclude_cache_plugins_js_minification();
     }
 
@@ -194,6 +199,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         if (wc_ship_to_billing_address_only()) {
             $this->set_billing_address = true;
         }
+        $this->auto_complete = $this->ppcp_get_settings( 'auto_complete', 'no' );
         $this->AVSCodes = array("A" => "Address Matches Only (No ZIP)",
             "B" => "Address Matches Only (No ZIP)",
             "C" => "This tranaction was declined.",
@@ -262,10 +268,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         add_action('wp_loaded', array($this, 'ppcp_prevent_add_to_cart_woo_action'), 1);
         add_action('woocommerce_get_checkout_url', array($this, 'ppcp_woocommerce_get_checkout_url'), 9999, 1);
         add_filter('woocommerce_get_return_url', array($this, 'wpg_remove_paypal_order_id_from_return_url'), 9999, 2);
-        if (class_exists('WFFN_Core')) {
-            add_filter('wfacp_page_settings', array($this, 'wpg_enable_paypal_button_top_checkout_page'), 99, 1);
-            add_filter('wfacp_smart_buttons', [$this, 'wpg_add_buttons'], 15);
-            add_action('wfacp_smart_button_container_wpg_paypal_checkout', [$this, 'wpg_add_paypal_buttons']);
+        if ($this->is_funnelkit_compatibility_active()) {
+            $this->register_funnelkit_button_hooks();
         } else {
             if (!has_action('woocommerce_before_checkout_form', array($this, 'display_paypal_button_top_checkout_page'))) {
                 add_action('woocommerce_before_checkout_form', array($this, 'display_paypal_button_top_checkout_page'), 10);
@@ -288,8 +292,31 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
         add_action('wp_ajax_ppcp_validate_shipping_address', array($this, 'ppcp_validate_shipping_address'));
         add_action('wp_ajax_nopriv_ppcp_validate_shipping_address', array($this, 'ppcp_validate_shipping_address'));
-        add_action('template_redirect', [$this, 'polylang_capture_language_on_cart_checkout'], 5);
-        add_filter('wpg_ppcp_cancel_order_url', [$this, 'polylang_handle_cancel_order_redirect'], 10, 1);
+        
+    }
+
+    /**
+     * Register FunnelKit checkout/upsell/post-purchase smart button hooks.
+     */
+    private function register_funnelkit_button_hooks() {
+        add_filter('wfacp_page_settings', array($this, 'wpg_enable_paypal_button_top_checkout_page'), 99, 1);
+        add_filter('wfacp_smart_buttons', [$this, 'wpg_add_buttons'], 15);
+        add_action('wfacp_smart_button_container_wpg_paypal_checkout', [$this, 'wpg_add_paypal_buttons']);
+
+        add_filter('wfocu_smart_buttons', [$this, 'wpg_add_buttons'], 15);
+        add_action('wfocu_smart_button_container_wpg_paypal_checkout', [$this, 'wpg_add_paypal_buttons']);
+
+        add_filter('wffn_post_purchase_smart_buttons', [$this, 'wpg_add_buttons'], 15);
+        add_action('wffn_post_purchase_smart_button_container_wpg_paypal_checkout', [$this, 'wpg_add_paypal_buttons']);
+    }
+
+    /**
+     * Check whether FunnelKit checkout/upsell/post-purchase modules are active.
+     *
+     * @return bool
+     */
+    private function is_funnelkit_compatibility_active() {
+        return class_exists('WFFN_Core') || class_exists('WFACP_Core') || class_exists('WFOCU_Core') || class_exists('WFFN_Pro_Core') || class_exists('WFOB_Core');
     }
 
     public function enqueue_scripts() {
@@ -435,7 +462,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             if ($order_id > 0) {
                 $query_args['order_id'] = $order_id;
             }
-
+            
+            do_action('wpg_ppcp_load_js_data');
+            
             $create_order_url_for_cc = add_query_arg($query_args, WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager'));
 
             wp_localize_script('ppcp-paypal-checkout-for-woocommerce-public', 'ppcp_manager', array(
@@ -510,7 +539,34 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'is_block_enable' => is_wpg_using_woocommerce_blocks() ? 'yes' : 'no',
                 'last_error' => wpg_ppcp_pop_last_error(),
                 'notices_context' => ( is_checkout() ? 'wc/checkout' : ( is_cart() ? 'wc/cart' : 'wc/checkout' ) ),
-                'skip_order_review' => $this->skip_order_review ? 'yes' : 'no'
+                'skip_order_review' => $this->skip_order_review ? 'yes' : 'no',
+                'unknown_error' => __('An unknown error occurred with your payment. Please try again.', 'woo-paypal-gateway'),
+                'invalid_number' => __('Please enter a valid card number.', 'woo-paypal-gateway'),
+                'invalid_cvv' => __('Please enter a valid CVV.', 'woo-paypal-gateway'),
+                'invalid_expiry' => __('Please enter a valid expiration date.', 'woo-paypal-gateway'),
+                // Generic / fallback
+                'unknown_error_short' => __('An unknown error occurred.', 'woo-paypal-gateway'),
+                'unknown_error_label' => __('Unknown error', 'woo-paypal-gateway'),
+
+                // Google Pay
+                'google_pay_failed'   => __('Google Pay failed.', 'woo-paypal-gateway'),
+
+                // Apple Pay
+                'apple_pay_init_failed' => __('Apple Pay could not be initialized.', 'woo-paypal-gateway'),
+                'apple_pay_not_approved' => __('Apple Pay confirmation returned non-APPROVED status.', 'woo-paypal-gateway'),
+                'apple_pay_cancelled_log' => __('Apple Pay session cancelled.', 'woo-paypal-gateway'),
+
+                // Order / shipping errors
+                'order_creation_failed' => __('Order creation failed.', 'woo-paypal-gateway'),
+                'shipping_address_incomplete' => __('Shipping address is incomplete.', 'woo-paypal-gateway'),
+                'shipping_unserviceable' => __('We do not ship to this address.', 'woo-paypal-gateway'),
+                'invalid_shipping_method' => __('Invalid shipping method.', 'woo-paypal-gateway'),
+
+                // Google Pay transaction labels
+                'label_shipping' => __('Shipping', 'woo-paypal-gateway'),
+                'label_tax'      => __('Tax', 'woo-paypal-gateway'),
+                'label_discount' => __('Discount', 'woo-paypal-gateway'),
+                'label_total'    => __('Total', 'woo-paypal-gateway'),
                     )
             );
         } catch (Exception $ex) {
@@ -3201,43 +3257,162 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
     }
     
-    public function polylang_capture_language_on_cart_checkout() {
-        if (!function_exists('pll_current_language') || !function_exists('WC') || !WC() || empty(WC()->session)) {
+    public function store_polylang_in_wc_session() {
+        if ( ! function_exists( 'WC' ) || ! WC()->session ) {
             return;
         }
-        if (!is_cart() && !is_checkout()) {
+
+        if ( ! function_exists( 'PLL' ) || empty( PLL()->curlang ) || ! ( PLL()->curlang instanceof PLL_Language ) ) {
             return;
         }
-        $lang = pll_current_language('slug');
-        $lang = $lang ? sanitize_key($lang) : '';
-        if ($lang) {
-            WC()->session->set(self::PPCP_LANG_SESSION_KEY, $lang);
+
+        $lang = PLL()->curlang;
+
+        WC()->session->set( self::PPCP_LANG_SESSION_KEY, array(
+            'term_id' => (int) $lang->term_id,
+            'slug'    => (string) $lang->slug,
+            'locale'  => (string) $lang->locale,
+            'w3c'     => (string) $lang->w3c,
+        ) );
+
+        $this->ppcp_set_locale_cookie( (string) $lang->locale );
+    }
+    
+    private function ppcp_set_locale_cookie( $locale ) {
+        if ( headers_sent() || empty( $locale ) || ! is_string( $locale ) ) {
+            return;
         }
+
+        $locale = sanitize_text_field( $locale );
+
+        $secure   = is_ssl();
+        $httponly = true;
+        $expires  = time() + DAY_IN_SECONDS;
+
+        setcookie( self::PPCP_LANG_COOKIE_KEY, $locale, $expires, COOKIEPATH, COOKIE_DOMAIN, $secure, $httponly );
+
+        if ( COOKIEPATH !== SITECOOKIEPATH ) {
+            setcookie( self::PPCP_LANG_COOKIE_KEY, $locale, $expires, SITECOOKIEPATH, COOKIE_DOMAIN, $secure, $httponly );
+        }
+
+        $_COOKIE[ self::PPCP_LANG_COOKIE_KEY ] = $locale;
+    }
+    
+    public function get_ppcp_locale_from_cookie() {
+        if ( empty( $_COOKIE[ self::PPCP_LANG_COOKIE_KEY ] ) ) {
+            return false;
+        }
+
+        $locale = sanitize_text_field( (string) $_COOKIE[ self::PPCP_LANG_COOKIE_KEY ] );
+
+        return $locale !== '' ? $locale : false;
     }
 
-    public function polylang_handle_cancel_order_redirect($cart_url) {
-        $lang = $this->ppcp_get_lang_from_session_or_cookie();
-        if ($lang && function_exists('pll_get_post')) {
-            $cart_id = wc_get_page_id('cart');
-            $translated_id = $cart_id ? (int) pll_get_post($cart_id, $lang) : 0;
-            if ($translated_id) {
-                $translated_url = get_permalink($translated_id);
-                if ($translated_url) {
-                    return $translated_url;
+    public function get_pll_lang_from_session_object() {
+        if ( ! function_exists( 'WC' ) || ! WC()->session ) {
+            return false;
+        }
+        $data = WC()->session->get( self::PPCP_LANG_SESSION_KEY );
+        if ( empty( $data['term_id'] ) ) {
+            return false;
+        }
+        if ( ! function_exists( 'PLL' ) || empty( PLL()->model ) ) {
+            return false;
+        }
+        $lang = PLL()->model->get_language( (int) $data['term_id'] );
+        return ( $lang instanceof PLL_Language ) ? $lang : false;
+    }
+    
+    public function maybe_set_order_language_ppcp( $order ) {
+        if ( ! $order || ! is_a( $order, 'WC_Order' ) ) {
+            return;
+        }
+        $lang = $this->get_pll_lang_from_session_object();
+        if ( ! $lang ) {
+            return;
+        }
+        if ( class_exists( 'PLLWC_Data_Store' ) ) {
+            PLLWC_Data_Store::load( 'order_language' )->set_language( $order->get_id(), $lang );
+            return;
+        }
+        if ( function_exists( 'pll_set_post_language' ) ) {
+            pll_set_post_language( $order->get_id(), $lang->slug );
+        }
+    }
+    
+    public function ppcp_determine_locale( $locale ) {
+        if ( is_admin() ) {
+            return $locale;
+        }
+
+        if ( ! $this->is_ppcp_request_context() ) {
+            return $locale;
+        }
+
+        $detected_locale = '';
+
+        if ( function_exists( 'WC' ) && WC()->session ) {
+            $data = WC()->session->get( self::PPCP_LANG_SESSION_KEY );
+
+            if ( is_array( $data ) && ! empty( $data['locale'] ) && is_string( $data['locale'] ) ) {
+                $detected_locale = sanitize_text_field( $data['locale'] );
+            }
+        }
+
+        if ( empty( $detected_locale ) && function_exists( 'pll_current_language' ) ) {
+            $cookie_locale = $this->get_ppcp_locale_from_cookie();
+            if ( ! empty( $cookie_locale ) && is_string( $cookie_locale ) ) {
+                $detected_locale = sanitize_text_field( $cookie_locale );
+            } else {
+                $pll_locale = pll_current_language( 'locale' );
+                if ( ! empty( $pll_locale ) && is_string( $pll_locale ) ) {
+                    $detected_locale = sanitize_text_field( $pll_locale );
                 }
             }
         }
-        return $cart_url;
+
+        if ( empty( $detected_locale ) ) {
+            $lang = apply_filters( 'wpml_current_language', null );
+
+            if ( ! empty( $lang ) && is_string( $lang ) ) {
+                $wpml_locale = apply_filters( 'wpml_locale', null, $lang );
+
+                if ( ! empty( $wpml_locale ) && is_string( $wpml_locale ) ) {
+                    $detected_locale = sanitize_text_field( $wpml_locale );
+                }
+            }
+        }
+
+        if ( empty( $detected_locale ) ) {
+            return $locale;
+        }
+
+        $detected_locale = (string) apply_filters( 'wpg_ppcp_determine_locale', $detected_locale, $locale );
+
+        if ( $detected_locale === '' ) {
+            return $locale;
+        }
+
+        return $detected_locale;
     }
 
-    private function ppcp_get_lang_from_session_or_cookie() {
-        $lang = '';
-        if (function_exists('WC') && WC() && !empty(WC()->session)) {
-            $lang = (string) WC()->session->get(self::PPCP_LANG_SESSION_KEY);
+    private function is_ppcp_request_context() {
+        if(isset($_REQUEST['ppcp_action'])) {
+            return true;
         }
-        if (!$lang && defined('PLL_COOKIE') && !empty($_COOKIE[PLL_COOKIE])) {
-            $lang = (string) $_COOKIE[PLL_COOKIE];
+        return false;
+    }
+    
+    public function maybe_auto_complete_order( $status, $order_id, $order ) {
+        if ( ! $order instanceof WC_Order ) {
+            return $status;
         }
-        return $lang ? sanitize_key($lang) : '';
+        if ( ! in_array( $order->get_payment_method(), array('wpg_paypal_checkout','wpg_paypal_checkout_cc',), true ) ) {
+            return $status;
+        }
+        if ( 'yes' === $this->auto_complete ) {
+            return 'completed';
+        }
+        return $status;
     }
 }

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.39\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
-"POT-Creation-Date: 2025-12-31T11:56:42+00:00\n"
+"POT-Creation-Date: 2026-03-02T05:16:03+00:00\n"
 "PO-Revision-Date: 2025-11-14 15:37+0530\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -136,6 +136,17 @@ msgstr "Send & Deaktiver"
 #: admin/feedback/deactivation-feedback-form.php:67
 msgid "I rather wouldn't say"
 msgstr "Jeg vil helst ikke si"
+
+#: includes/class-woo-paypal-gateway-calculations.php:86
+#: includes/class-woo-paypal-gateway-calculations.php:185
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1037
+msgid "Item"
+msgstr "Vare"
+
+#: includes/class-woo-paypal-gateway-calculations.php:102
+#: includes/class-woo-paypal-gateway-calculations.php:198
+msgid "Fee"
+msgstr "Avgift"
 
 #: includes/class-woo-paypal-gateway.php:241
 msgid "Settings"
@@ -278,7 +289,7 @@ msgid "Credit or Debit Card"
 msgstr "Kreditt- eller debetkort"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:69
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:833
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:889
 msgctxt "Important"
 msgid "Confirm your PayPal order"
 msgstr "Bekreft din PayPal-bestilling"
@@ -369,12 +380,12 @@ msgid "Advanced Card Payments"
 msgstr "Avanserte kortbetalinger"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:537
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1072
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1126
 msgid "Google Pay"
 msgstr "Google Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:538
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1071
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1125
 msgid "Apple Pay"
 msgstr "Apple Pay"
 
@@ -821,7 +832,7 @@ msgid "Got it"
 msgstr "Fikk det"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3105
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3106
 msgid "Invalid or missing payment token fields."
 msgstr "Ugyldige eller manglende betalings-token-felt."
 
@@ -856,33 +867,33 @@ msgstr[1] ""
 msgid "Continue to payment"
 msgstr "Fortsett til betaling"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:739
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1578
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2773
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1538
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:740
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2774
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1594
 msgid "Card Details"
 msgstr "Kortdetaljer"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:750
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1589
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2784
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1549
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1590
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2785
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1605
 msgid "Address Verification Result"
 msgstr "Adresseverifiseringsresultat"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:759
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1598
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2793
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1558
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1599
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2794
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1614
 msgid "Card Security Code Result"
 msgstr "Resultat for kortsikkerhetskode"
 
 #. translators: 1: Payment method title, 2: Payment status (e.g., Completed,
 #. Pending).
 #. translators: 1: Payment method title, 2: Payment status.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:781
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1625
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2815
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:782
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1626
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2816
 msgid "Payment via %1$s : %2$s."
 msgstr "Betaling via %1$s : %2$s."
 
@@ -890,19 +901,19 @@ msgstr "Betaling via %1$s : %2$s."
 #. translators: 1: payment method title, 2: transaction ID
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:785
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:797
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:942
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1619
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2820
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2827
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1581
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:798
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:943
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1620
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2821
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2828
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1637
 msgid "%1$s Transaction ID: %2$s"
 msgstr "%1$s Transaksjons-ID: %2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:945
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1976
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1607
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:946
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1977
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1663
 msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
@@ -911,40 +922,40 @@ msgstr ""
 " å fange midler."
 
 #. translators: 1: Refunded amount, 2: Refund transaction ID.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1314
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1315
 msgid "Refunded %1$s - Refund ID: %2$s"
 msgstr "Refunderte %1$s - Refusjons-ID: %2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1490
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1491
 msgid "An error occurred while updating the order."
 msgstr "Det oppstod en feil under oppdatering av bestillingen."
 
 #. translators: %s: Plugin version number.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1651
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1652
 msgid "Payment Gateway for PayPal on WooCommerce: %1$s"
 msgstr "Betalingsgateway for PayPal på WooCommerce: %1$s"
 
 #. translators: %s: WooCommerce version number.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1653
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1654
 msgid "WooCommerce Version: %1$s"
 msgstr "WooCommerce versjon: %1$s"
 
 #. translators: 1: PayPal pending reason.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1980
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1981
 msgid "Payment pending (%1$s)."
 msgstr "Betaling venter (%1$s)."
 
 #. translators: 1: refunded amount, 2: refunded currency
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2046
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2047
 msgid "Marked as refunded via PayPal. Total refunded: %1$s %2$s."
 msgstr "Merket som refundert via PayPal. Totalt refundert: %1$s %2$s."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2185
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2186
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2618
 msgid "Sorry, your session has expired."
 msgstr "Beklager, økten din har utløpt."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2394
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2395
 msgid ""
 "This payment was unable to be processed successfully. Please try again with "
 "another payment method."
@@ -1640,7 +1651,7 @@ msgstr ""
 "vil vises på utsjekkingssiden (f.eks. 'Betal med kreditt-/debetkort')."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:787
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1058
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1112
 msgid "Credit or Debit Card"
 msgstr "Kreditt- eller debetkort"
 
@@ -2437,7 +2448,7 @@ msgid "Add tracking information"
 msgstr "Legg til sporingsinformasjon"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:292
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2147
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2203
 msgid "Something went wrong. Please try again."
 msgstr "Noe gikk galt. Vennligst prøv igjen."
 
@@ -2491,7 +2502,7 @@ msgid "Payee’s PayPal account requires verification."
 msgstr "Betalers PayPal-konto krever verifisering."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:385
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1156
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1210
 msgid "The transaction could not be completed."
 msgstr "Transaksjonen kunne ikke fullføres."
 
@@ -2540,758 +2551,833 @@ msgstr "Betaling via %1$s er refundert. PayPal grunn: %2$s."
 msgid "An error occurred while updating the order status."
 msgstr "Det oppstod en feil under oppdatering av ordrestatus."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1059
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1113
 msgid "PayPal Credit"
 msgstr "PayPal Kreditt"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1060
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1114
 msgid "Bancontact"
 msgstr "Bancontact"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1061
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1115
 msgid "BLIK"
 msgstr "BLIK"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1062
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1116
 msgid "eps"
 msgstr "eps"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1063
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1117
 msgid "iDEAL"
 msgstr "iDEAL"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1064
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1118
 msgid "Mercado Pago"
 msgstr "Mercado Pago"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1065
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1119
 msgid "MyBank"
 msgstr "MinBank"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1066
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1120
 msgid "Przelewy24"
 msgstr "Przelewy24"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1067
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1121
 msgid "SEPA-Lastschrift"
 msgstr "SEPA-Lastschrift"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1068
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1122
 msgid "Venmo"
 msgstr "Venmo"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1069
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1123
 msgid "PayPal Pay Later"
 msgstr "Betal senere med PayPal"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1070
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1124
 msgid "PayPal Checkout"
 msgstr "PayPal Kasse"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1127
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1181
 msgid "Approved."
 msgstr "Godkjent."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1128
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1182
 msgid "The card security code (CVV) was incorrect."
 msgstr "Kortets sikkerhetskode (CVV) var feil."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1129
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1183
 msgid "Your bank needs to approve this. Please contact your card issuer."
 msgstr "Din bank må godkjenne dette. Vennligst kontakt kortutstederen din."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1130
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1184
 msgid "We could not find this account. Please check your card details."
 msgstr ""
 "Vi kunne ikke finne denne kontoen. Vennligst sjekk kortdetaljene dine."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1131
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1185
 msgid "The bank declined this transaction. Please try another payment method."
 msgstr ""
 "Banken avslo denne transaksjonen. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1132
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1186
 msgid "This transaction is not authorized. Please contact your card issuer."
 msgstr ""
 "Denne transaksjonen er ikke autorisert. Vennligst kontakt kortutstederen "
 "din."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1133
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1187
 msgid "There was a processing issue. The payment was reversed."
 msgstr "Det oppstod et behandlingsproblem. Betalingen ble reversert."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1134
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1188
 msgid "A security check failed. Please try again."
 msgstr "En sikkerhetskontroll feilet. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1135
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1189
 msgid "The PIN was not accepted."
 msgstr "PIN-koden ble ikke akseptert."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1136
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1190
 msgid "Temporary system issue. Please try again later."
 msgstr "Midlertidig systemproblem. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1137
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1191
 msgid "Payment was canceled."
 msgstr "Betalingen ble kansellert."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1138
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1192
 msgid "Only part of the amount was approved."
 msgstr "Bare en del av beløpet ble godkjent."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1139
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1157
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1193
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1211
 msgid "The bank declined this transaction."
 msgstr "Banken avslo denne transaksjonen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1140
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1194
 msgid "Invalid data format."
 msgstr "Ugyldig dataformat."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1141
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1195
 msgid "Invalid amount."
 msgstr "Ugyldig beløp."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1142
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1196
 msgid "Card issuer/acquirer not allowed for this transaction."
 msgstr "Kortutsteder/innløser ikke tillatt for denne transaksjonen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1143
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1197
 msgid "Invalid capture date."
 msgstr "Ugyldig fangstdato."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1144
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1198
 msgid "Unsupported currency for this card."
 msgstr "Ustøttet valuta for dette kortet."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1145
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1199
 msgid "Invalid account number."
 msgstr "Ugyldig kontonummer."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1146
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1200
 msgid "This card is not allowed for recurring payments."
 msgstr "Dette kortet er ikke tillatt for gjentakende betalinger."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1147
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1201
 msgid "Invalid terminal configuration."
 msgstr "Ugyldig terminalkonfigurasjon."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1148
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1202
 msgid "Invalid merchant configuration."
 msgstr "Ugyldig handelskonfigurasjon."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1149
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1203
 msgid "The account is restricted or inactive."
 msgstr "Kontoen er begrenset eller inaktiv."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1150
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1204
 msgid "Invalid processing code."
 msgstr "Ugyldig behandlingskode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1151
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1205
 msgid "Invalid merchant category."
 msgstr "Ugyldig handelskategori."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1152
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1206
 msgid "Invalid card expiry date."
 msgstr "Ugyldig utløpsdato for kortet."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1153
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1207
 msgid "Invalid card security code (CVV)."
 msgstr "Ugyldig kort sikkerhetskode (CVV)."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1154
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1208
 msgid "Invalid transaction state."
 msgstr "Ugyldig transaksjonsstatus."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1155
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1209
 msgid "Invalid order."
 msgstr "Ugyldig bestilling."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1158
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1212
 msgid "The card security code (CVV) did not match."
 msgstr "Kortets sikkerhetskode (CVV) stemte ikke overens."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1159
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1213
 msgid "Insufficient funds."
 msgstr "Utilstrekkelige midler."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1160
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1171
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1214
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1225
 msgid "Incorrect PIN."
 msgstr "Feil PIN-kode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1161
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1215
 msgid "Too many incorrect PIN attempts."
 msgstr "For mange feil PIN-forsøk."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1162
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1216
 msgid "This card is closed."
 msgstr "Dette kortet er stengt."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1163
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1217
 msgid "Card capture requested by the bank."
 msgstr "Kortinnhenting forespurt av banken."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1164
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1218
 msgid "User not authorized for this transaction."
 msgstr "Bruker ikke autorisert for denne transaksjonen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1165
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1219
 msgid "Address verification failed."
 msgstr "Adresseverifisering mislyktes."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1166
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1220
 msgid "Invalid or restricted card."
 msgstr "Ugyldig eller begrenset kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1167
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1221
 msgid "Address verification soft failure."
 msgstr "Adresseverifisering myk feil."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1168
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1222
 msgid "Duplicate transaction."
 msgstr "Duplisert transaksjon."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1169
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1223
 msgid "Invalid transaction."
 msgstr "Ugyldig transaksjon."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1170
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1224
 msgid "The card is expired."
 msgstr "Kortet er utløpt."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1172
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1226
 msgid "Strong customer authentication required."
 msgstr "Sterk kundegodkjenning kreves."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1173
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1227
 msgid "This type of transaction is not permitted."
 msgstr "Denne typen transaksjon er ikke tillatt."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1174
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1228
 msgid "Too many attempts. Please try again later."
 msgstr "For mange forsøk. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1175
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1229
 msgid "Invalid or restricted card. Please use another card."
 msgstr "Ugyldig eller begrenset kort. Vennligst bruk et annet kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1176
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1230
 msgid "Address verification soft failure. Please check your billing address."
 msgstr "Adresseverifisering myk feil. Vennligst sjekk fakturaadressen din."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1177
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1231
 msgid "Duplicate transaction. Please try again."
 msgstr "Duplisert transaksjon. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1178
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1232
 msgid "Invalid transaction. Please try again."
 msgstr "Ugyldig transaksjon. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1179
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1233
 msgid "Expired card. Please use another card."
 msgstr "Utgått kort. Vennligst bruk et annet kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1180
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1234
 msgid "Incorrect PIN. Please re-enter your PIN."
 msgstr "Feil PIN. Vennligst skriv inn PIN-koden din på nytt."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1181
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1235
 msgid "Strong customer authentication required. Please try again."
 msgstr "Sterk kundegodkjenning kreves. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1182
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1236
 msgid "Transaction not permitted. Please use another payment method."
 msgstr "Transaksjon ikke tillatt. Vennligst bruk en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1183
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1237
 msgid "Transaction attempts exceed limit. Please try again later."
 msgstr "Transaksjonsforsøk overskrider grensen. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1184
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1238
 msgid "Reversal rejected. Please contact support."
 msgstr "Tilbakeføring avvist. Vennligst kontakt support."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1185
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1239
 msgid "Invalid issue. Please try again."
 msgstr "Ugyldig problem. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1186
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1240
 msgid "Issuer not available. Please try again later."
 msgstr "Utsteder ikke tilgjengelig. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1187
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1241
 msgid "Issuer temporarily not available. Please try again shortly."
 msgstr ""
 "Utsteder er midlertidig utilgjengelig. Vennligst prøv igjen om kort tid."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1188
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1242
 msgid "Card not activated. Please activate your card and try again."
 msgstr "Kortet er ikke aktivert. Vennligst aktiver kortet ditt og prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1189
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1243
 msgid "Updated card issued. Please use your new card."
 msgstr "Oppdatert kort utstedt. Vennligst bruk ditt nye kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1190
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1244
 msgid "Account not on file. Please check your card details."
 msgstr "Kontoen finnes ikke. Vennligst sjekk kortdetaljene dine."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1191
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1245
 msgid "Approved but not captured. No action needed."
 msgstr "Godkjent, men ikke registrert. Ingen tiltak nødvendig."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1192
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1246
 msgid "3DS authentication error. Please try again."
 msgstr "3DS autentiseringsfeil. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1193
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1247
 msgid "Authentication failed. Please try again."
 msgstr "Autentisering mislyktes. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1194
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1248
 msgid "BIN error. Please try another card."
 msgstr "BIN-feil. Vennligst prøv et annet kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1195
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1249
 msgid "PIN error. Please try again with the correct PIN."
 msgstr "PIN-feil. Vennligst prøv igjen med riktig PIN-kode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1196
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1250
 msgid "Processor system error. Please try again later."
 msgstr "Prosessor systemfeil. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1197
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1251
 msgid "Host key error. Please try again."
 msgstr "Vertnøkkel feil. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1198
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1252
 msgid "Configuration error. Please contact support."
 msgstr "Konfigurasjonsfeil. Vennligst kontakt support."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1199
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1253
 msgid "Unsupported operation. Please try another payment method."
 msgstr "Ustøttet operasjon. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1200
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1254
 msgid "Communication error. Please try again later."
 msgstr "Kommunikasjonsfeil. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1201
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1255
 msgid "Communication error. Please try again shortly."
 msgstr "Kommunikasjonsfeil. Vennligst prøv igjen om kort tid."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1202
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1256
 msgid "System unavailable. Please try again later."
 msgstr "Systemet er utilgjengelig. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1203
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1257
 msgid "Transaction declined. Please retry."
 msgstr "Transaksjonen ble avvist. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1204
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1258
 msgid "Suspected fraud. Please use another payment method."
 msgstr "Mistenkt svindel. Vennligst bruk en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1205
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1259
 msgid "Security violation. Please contact your card issuer."
 msgstr "Sikkerhetsbrudd. Vennligst kontakt kortutstederen din."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1206
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1260
 msgid "Card reported lost or stolen. Please use another card."
 msgstr ""
 "Kortet er rapportert tapt eller stjålet. Vennligst bruk et annet kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1207
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1261
 msgid "Hold - call center. Please contact your card issuer."
 msgstr "Hold - callsenter. Vennligst kontakt kortutstederen din."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1208
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1262
 msgid "Card refused. Please use another payment method."
 msgstr "Kortet ble avvist. Vennligst bruk en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1209
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1263
 msgid "Unrecognized response code. Please try again later."
 msgstr "Ukjent svarkode. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1210
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1264
 msgid "Contingencies not resolved. Please try again."
 msgstr "Uforutsette hendelser ikke løst. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1211
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1224
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1265
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1278
 msgid "CVV verification failed. Please check your CVV."
 msgstr "CVV-verifisering mislyktes. Vennligst sjekk CVV-en din."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1212
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1266
 msgid "Account closed. Please use another card."
 msgstr "Kontoen er stengt. Vennligst bruk et annet kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1213
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1267
 msgid "Reattempt not permitted. Please use another payment method."
 msgstr "Ny forsøk er ikke tillatt. Vennligst bruk en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1214
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1268
 msgid "Billing address error. Please check your billing details."
 msgstr ""
 "Feil i faktureringsadresse. Vennligst sjekk faktureringsdetaljene dine."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1215
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1269
 msgid "Account blocked by issuer. Please contact your card issuer."
 msgstr "Konto blokkert av utsteder. Vennligst kontakt kortutstederen din."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1216
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1270
 msgid "American Express card disabled. Please use another card."
 msgstr "American Express-kortet er deaktivert. Vennligst bruk et annet kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1217
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1271
 msgid "Adult gaming not supported. Please use another payment method."
 msgstr "Voksen spill støttes ikke. Vennligst bruk en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1218
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1272
 msgid "Amount incompatible. Please try a different amount."
 msgstr "Beløp inkompatibelt. Vennligst prøv et annet beløp."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1219
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1273
 msgid "Authorization result error. Please try again."
 msgstr "Autorisasjonsresultatfeil. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1220
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1274
 msgid "MCC code error. Please contact support."
 msgstr "MCC-kodefeil. Vennligst kontakt support."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1221
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1275
 msgid "Address verification failed. Please check your billing address."
 msgstr "Adresseverifisering mislyktes. Vennligst sjekk fakturaadressen din."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1222
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1276
 msgid "Amount exceeded. Please try a smaller amount."
 msgstr "Beløpet overskredet. Vennligst prøv et mindre beløp."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1223
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1277
 msgid "Gaming transaction error. Please use another payment method."
 msgstr "Feil ved spilltransaksjon. Vennligst bruk en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1225
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1279
 msgid "Registration incomplete. Please complete registration."
 msgstr "Registreringen er ufullstendig. Vennligst fullfør registreringen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1226
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1280
 msgid "Country error. Please try another payment method."
 msgstr "Landsfeil. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1227
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1281
 msgid "Credit error. Please try another payment method."
 msgstr "Kredittfeil. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1228
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1282
 msgid "Card type not supported. Please use another card."
 msgstr "Korttype støttes ikke. Vennligst bruk et annet kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1229
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1283
 msgid "Invalid currency. Please select a supported currency."
 msgstr "Ugyldig valuta. Vennligst velg en støttet valuta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1230
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1284
 msgid "3D Secure authentication error. Please try again."
 msgstr "3D Secure autentisering feil. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1231
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1285
 msgid "Dynamic currency conversion not supported. Please try again."
 msgstr "Dynamisk valutakonvertering støttes ikke. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1232
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1286
 msgid "Diners Club card rejected. Please use another card."
 msgstr "Diners Club-kortet ble avvist. Vennligst bruk et annet kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1233
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1287
 msgid "Authentication message error. Please try again."
 msgstr "Feilmelding ved autentisering. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1234
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1288
 msgid "Decline threshold exceeded. Please try again later."
 msgstr "Nedgangsterskelen er overskredet. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1235
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1289
 msgid "Funding instrument expired. Please use another payment method."
 msgstr ""
 "Finansieringsinstrumentet har utløpt. Vennligst bruk en annen "
 "betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1236
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1290
 msgid "Frequency limit exceeded. Please try again later."
 msgstr "Frekvensgrensen er overskredet. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1237
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1291
 msgid "System error. Please try again later."
 msgstr "Systemfeil. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1238
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1292
 msgid "Expiry date error. Please check your card details."
 msgstr "Utløpsdato feil. Vennligst sjekk kortdetaljene dine."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1239
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1293
 msgid "Funding source already exists. Please use another payment method."
 msgstr ""
 "Finansieringskilden eksisterer allerede. Vennligst bruk en annen "
 "betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1240
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1294
 msgid "Invalid funding instrument. Please try another payment method."
 msgstr ""
 "Ugyldig finansieringsinstrument. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1241
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1295
 msgid "Restricted funding instrument. Please try another payment method."
 msgstr ""
 "Begrenset finansieringsinstrument. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1242
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1296
 msgid "Field validation failed. Please check your payment details."
 msgstr "Validering av feltet feilet. Vennligst sjekk betalingsdetaljene dine."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1243
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1297
 msgid "Gaming refund error. Please contact support."
 msgstr "Feil ved refusjon av spill. Vennligst kontakt support."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1244
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1253
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1298
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1307
 msgid "Processing error. Please try again."
 msgstr "Behandlingsfeil. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1245
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1299
 msgid "Idempotency failure. Please try again."
 msgstr "Idempotensfeil. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1246
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1300
 msgid "Invalid input. Please check your payment details."
 msgstr "Ugyldig inndata. Vennligst sjekk betalingsdetaljene dine."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1247
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1301
 msgid "ID mismatch. Please try again."
 msgstr "ID-mismatch. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1248
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1302
 msgid "Invalid trace ID. Please try again."
 msgstr "Ugyldig spor-ID. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1249
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1303
 msgid "Late reversal. Please contact support."
 msgstr "Sen reversering. Vennligst kontakt support."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1250
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1304
 msgid "Status code error. Please try again."
 msgstr "Statuskodefeil. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1251
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1305
 msgid "Missing business rule or data. Please try again."
 msgstr "Mangler forretningsregel eller data. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1252
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1306
 msgid "Mastercard blocked. Please use another card."
 msgstr "Mastercard blokkert. Vennligst bruk et annet kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1254
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1308
 msgid "Not supported. Please try another payment method."
 msgstr "Ikke støttet. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1255
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1309
 msgid "Network frequency limit exceeded. Please try again later."
 msgstr "Nettverksfrekvensgrensen er overskredet. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1256
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1310
 msgid "Merchant ID not found. Please contact support."
 msgstr "Kjøpmanns-ID ble ikke funnet. Vennligst kontakt support."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1257
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1311
 msgid "Network error. Please try again later."
 msgstr "Nettverksfeil. Vennligst prøv igjen senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1258
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1312
 msgid "Phone required for this transaction. Please update your details."
 msgstr ""
 "Telefon er nødvendig for denne transaksjonen. Vennligst oppdater detaljene "
 "dine."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1259
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1313
 msgid "Invalid product. Please try another product."
 msgstr "Ugyldig produkt. Vennligst prøv et annet produkt."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1260
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1314
 msgid "Invalid payment method. Please try another payment method."
 msgstr "Ugyldig betalingsmetode. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1261
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1315
 msgid "Quasi-cash not supported. Please use another payment method."
 msgstr ""
 "Quasi-kontanter støttes ikke. Vennligst bruk en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1262
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1316
 msgid "Refund not supported on pending transactions. Please try again later."
 msgstr ""
 "Refusjon støttes ikke på ventende transaksjoner. Vennligst prøv igjen "
 "senere."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1263
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1317
 msgid "Invalid parent transaction status. Please try again."
 msgstr "Ugyldig status for foreldetransaksjon. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1264
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1318
 msgid "Merchant not registered. Please contact support."
 msgstr "Kjøpmann ikke registrert. Vennligst kontakt support."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1265
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1319
 msgid "Bank authorization mismatch. Please try again."
 msgstr "Bankautorisering samsvarer ikke. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1266
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1320
 msgid "Bank authorization already settled. Please try again."
 msgstr "Bankautoriseringen er allerede behandlet. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1267
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1321
 msgid "Bank authorization voided. Please try again."
 msgstr "Bankautorisering annullert. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1268
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1322
 msgid "Bank authorization expired. Please try again."
 msgstr "Bankautorisasjonen har utløpt. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1269
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1323
 msgid "Currency mismatch. Please try again with the correct currency."
 msgstr "Valuta mismatch. Vennligst prøv igjen med riktig valuta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1270
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1324
 msgid "Credit card mismatch. Please check your card details."
 msgstr ""
 "Kredittkortet stemmer ikke overens. Vennligst sjekk kortdetaljene dine."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1271
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1325
 msgid "Amount mismatch. Please try again with the correct amount."
 msgstr "Beløpene stemmer ikke overens. Vennligst prøv igjen med riktig beløp."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1272
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1326
 msgid "Score error. Please try again."
 msgstr "Poengfeil. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1273
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1327
 msgid "Status description error. Please try again."
 msgstr "Statusbeskrivelsefeil. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1274
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1328
 msgid "American Express declined. Please use another card."
 msgstr "American Express ble avslått. Vennligst bruk et annet kort."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1275
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1329
 msgid "Verification token expired. Please try again."
 msgstr "Bekreftelsestokenet har utløpt. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1276
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1330
 msgid "Invalid trace reference. Please try again."
 msgstr "Ugyldig sporreferanse. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1277
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1331
 msgid "Invalid transaction ID. Please try again."
 msgstr "Ugyldig transaksjons-ID. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1278
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1332
 msgid "Verification token revoked. Please try again."
 msgstr "Bekreftelsestokenet er tilbakekalt. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1279
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1333
 msgid "Transaction type not supported. Please try another payment method."
 msgstr ""
 "Transaksjonstype støttes ikke. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1280
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1334
 msgid "Invalid verification token. Please try again."
 msgstr "Ugyldig verifiseringstoken. Vennligst prøv igjen."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1281
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1335
 msgid "User not authorized. Please contact support."
 msgstr "Bruker ikke autorisert. Vennligst kontakt support."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1282
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1336
 msgid "Currency not supported. Please select a supported currency."
 msgstr "Valutaen støttes ikke. Vennligst velg en støttet valuta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1283
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1337
 msgid "Entity not supported. Please try another payment method."
 msgstr "Enheten støttes ikke. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1284
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1338
 msgid "Installment not supported. Please try another payment method."
 msgstr "Avdrag støttes ikke. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1285
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1339
 msgid "POS flag not supported. Please try another payment method."
 msgstr "POS-flagg støttes ikke. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1286
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1340
 msgid "Reversal not supported. Please contact support."
 msgstr "Tilbakeføring støttes ikke. Vennligst kontakt support."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1287
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1341
 msgid "Currency validation error. Please select a supported currency."
 msgstr "Valideringsfeil for valuta. Vennligst velg en støttet valuta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1288
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1342
 msgid "Validation error. Please check your payment details."
 msgstr "Valideringsfeil. Vennligst sjekk betalingsdetaljene dine."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1289
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1343
 msgid "Virtual terminal not supported. Please try another payment method."
 msgstr ""
 "Virtuell terminal støttes ikke. Vennligst prøv en annen betalingsmetode."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:576
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:592
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:540
+#, fuzzy
+msgid "An unknown error occurred with your payment. Please try again."
+msgstr "Mangler forretningsregel eller data. Vennligst prøv igjen."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:541
+msgid "Please enter a valid card number."
+msgstr "Vennligst skriv inn et gyldig kortnummer."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:542
+msgid "Please enter a valid CVV."
+msgstr "Vennligst oppgi en gyldig CVV."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:543
+msgid "Please enter a valid expiration date."
+msgstr "Vennligst oppgi en gyldig utløpsdato."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:545
+msgid "An unknown error occurred."
+msgstr "En ukjent feil oppstod."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:546
+msgid "Unknown error"
+msgstr "Ukjent feil"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:549
+#, fuzzy
+msgid "Google Pay failed."
+msgstr "Google Pay"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:552
+msgid "Apple Pay could not be initialized."
+msgstr "Apple Pay kunne ikke initialiseres."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:553
+msgid "Apple Pay confirmation returned non-APPROVED status."
+msgstr "Apple Pay-bekreftelse returnerte statusen IKKE GODKJENT."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:554
+#, fuzzy
+msgid "Apple Pay session cancelled."
+msgstr "Betalingen ble kansellert."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:557
+#, fuzzy
+msgid "Order creation failed."
+msgstr "Adresseverifisering mislyktes."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:558
+msgid "Shipping address is incomplete."
+msgstr "Fraktadresse er ufullstendig."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:559
+msgid "We do not ship to this address."
+msgstr "Vi sender ikke til denne adressen."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:560
+#, fuzzy
+msgid "Invalid shipping method."
+msgstr "Ugyldig behandlingskode."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:563
+#, fuzzy
+msgid "Shipping"
+msgstr "Fraktinformasjon"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:564
+msgid "Tax"
+msgstr "Skatt"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:565
+#, fuzzy
+msgid "Discount"
+msgstr "Koble fra"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:566
+msgid "Total"
+msgstr "Totalt"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:632
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:648
 msgctxt "Important"
 msgid "Or"
 msgstr "Eller"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:788
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:844
 msgctxt "Important"
 msgid "Express Checkout"
 msgstr "Express Kasse"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:808
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:864
 msgctxt "Important"
 msgid "Or continue below"
 msgstr "Eller fortsett nedenfor"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:981
-msgid "Item"
-msgstr "Vare"
-
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:995
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1051
 msgid "Items"
 msgstr "Elementer"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1161
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1217
 msgid "Billing &amp; Shipping"
 msgstr "Fakturering &amp; Frakt"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1163
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1169
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1189
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1219
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1225
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1245
 msgid "Edit"
 msgstr "Rediger"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1167
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1223
 msgid "Billing details"
 msgstr "Faktureringsdetaljer"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1187
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1243
 msgid "Shipping details"
 msgstr "Fraktinformasjon"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1359
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1415
 msgid "Create an account?"
 msgstr "Opprett en konto?"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1368
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1424
 msgid ""
 "Create an account by entering the information below. If you are a returning "
 "customer please login at the top of the page."
@@ -3301,23 +3387,23 @@ msgstr ""
 
 #. translators: %1$s is the payment method title, %2$s is the formatted
 #. payment status.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1578
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1634
 msgid "Payment via %1$s: %2$s."
 msgstr "Betaling via %1$s: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the pending reason
 #. from PayPal.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1595
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1651
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
 msgstr "Betaling via %1$s venter. PayPal årsak: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1604
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1660
 msgid "Payment via %1$s. Transaction ID: %2$s"
 msgstr "Betaling via %1$s. Transaksjons-ID: %2$s"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1798
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1854
 msgctxt "Important"
 msgid ""
 "<strong>You're almost done!</strong><br>Review your information before you "
@@ -3326,16 +3412,16 @@ msgstr ""
 "<strong>Du er nesten ferdig!</strong><br>Gå gjennom informasjonen din før du"
 " legger inn bestillingen."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1853
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1909
 msgid "Capture Charge"
 msgstr "Fangstavgift"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2054
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2110
 msgctxt "Important"
 msgid "Cancel order"
 msgstr "Avbryt bestilling"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2139
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2195
 msgid ""
 "We cannot process your order with the payment information that you provided."
 " Please use an alternate payment method."
@@ -3343,10 +3429,10 @@ msgstr ""
 "Vi kan ikke behandle bestillingen din med betalingsinformasjonen du oppga. "
 "Vennligst bruk en alternativ betalingsmetode."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2189
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2245
 msgid "3D Secure response"
 msgstr "3D Secure svar"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2957
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:3013
 msgid "At top of checkout Page"
 msgstr "På toppen av kassesiden"

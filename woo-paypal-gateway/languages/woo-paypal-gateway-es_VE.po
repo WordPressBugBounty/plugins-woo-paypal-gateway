@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.47\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
-"POT-Creation-Date: 2025-12-31T11:56:42+00:00\n"
+"POT-Creation-Date: 2026-03-02T05:16:03+00:00\n"
 "PO-Revision-Date: 2025-11-14 15:32+0530\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -135,6 +135,17 @@ msgstr "Enviar y Desactivar"
 #: admin/feedback/deactivation-feedback-form.php:67
 msgid "I rather wouldn't say"
 msgstr "Preferiría no decirlo"
+
+#: includes/class-woo-paypal-gateway-calculations.php:86
+#: includes/class-woo-paypal-gateway-calculations.php:185
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1037
+msgid "Item"
+msgstr "Artículo"
+
+#: includes/class-woo-paypal-gateway-calculations.php:102
+#: includes/class-woo-paypal-gateway-calculations.php:198
+msgid "Fee"
+msgstr "Tarifa"
 
 #: includes/class-woo-paypal-gateway.php:241
 msgid "Settings"
@@ -277,7 +288,7 @@ msgid "Credit or Debit Card"
 msgstr "Tarjeta de Crédito o Débito"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:69
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:833
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:889
 msgctxt "Important"
 msgid "Confirm your PayPal order"
 msgstr "Confirma tu pedido de PayPal"
@@ -368,12 +379,12 @@ msgid "Advanced Card Payments"
 msgstr "Pagos Avanzados con Tarjeta"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:537
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1072
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1126
 msgid "Google Pay"
 msgstr "Google Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:538
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1071
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1125
 msgid "Apple Pay"
 msgstr "Apple Pay"
 
@@ -830,7 +841,7 @@ msgid "Got it"
 msgstr "Entendido"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3105
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3106
 msgid "Invalid or missing payment token fields."
 msgstr "Campos de token de pago inválidos o faltantes."
 
@@ -866,33 +877,33 @@ msgstr[1] "%s es un campo obligatorio"
 msgid "Continue to payment"
 msgstr "Continuar al pago"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:739
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1578
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2773
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1538
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:740
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1579
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2774
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1594
 msgid "Card Details"
 msgstr "Detalles de la tarjeta"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:750
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1589
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2784
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1549
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:751
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1590
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2785
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1605
 msgid "Address Verification Result"
 msgstr "Resultado de verificación de dirección"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:759
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1598
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2793
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1558
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:760
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1599
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2794
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1614
 msgid "Card Security Code Result"
 msgstr "Resultado del código de seguridad de la tarjeta"
 
 #. translators: 1: Payment method title, 2: Payment status (e.g., Completed,
 #. Pending).
 #. translators: 1: Payment method title, 2: Payment status.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:781
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1625
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2815
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:782
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1626
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2816
 msgid "Payment via %1$s : %2$s."
 msgstr "Pago a través de %1$s : %2$s."
 
@@ -900,19 +911,19 @@ msgstr "Pago a través de %1$s : %2$s."
 #. translators: 1: payment method title, 2: transaction ID
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:785
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:797
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:942
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1619
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2820
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2827
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1581
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:786
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:798
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:943
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1620
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2821
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2828
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1637
 msgid "%1$s Transaction ID: %2$s"
 msgstr "ID de transacción %1$s: %2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:945
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1976
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1607
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:946
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1977
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1663
 msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
@@ -921,41 +932,41 @@ msgstr ""
 "capturar fondos."
 
 #. translators: 1: Refunded amount, 2: Refund transaction ID.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1314
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1315
 msgid "Refunded %1$s - Refund ID: %2$s"
 msgstr "Reembolsado %1$s - ID de reembolso: %2$s"
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1490
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1491
 msgid "An error occurred while updating the order."
 msgstr "Ocurrió un error al actualizar el pedido."
 
 #. translators: %s: Plugin version number.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1651
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1652
 msgid "Payment Gateway for PayPal on WooCommerce: %1$s"
 msgstr "Pasarela de pago para PayPal en WooCommerce: %1$s"
 
 #. translators: %s: WooCommerce version number.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1653
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1654
 msgid "WooCommerce Version: %1$s"
 msgstr "Versión de WooCommerce: %1$s"
 
 #. translators: 1: PayPal pending reason.
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1980
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1981
 msgid "Payment pending (%1$s)."
 msgstr "Pago pendiente (%1$s)."
 
 #. translators: 1: refunded amount, 2: refunded currency
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2046
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2047
 msgid "Marked as refunded via PayPal. Total refunded: %1$s %2$s."
 msgstr ""
 "Marcado como reembolsado a través de PayPal. Total reembolsado: %1$s %2$s."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2185
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2617
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2186
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2618
 msgid "Sorry, your session has expired."
 msgstr "Lo sentimos, su sesión ha expirado."
 
-#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2394
+#: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2395
 msgid ""
 "This payment was unable to be processed successfully. Please try again with "
 "another payment method."
@@ -1658,7 +1669,7 @@ msgstr ""
 "tarjeta de crédito/débito')."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:787
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1058
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1112
 msgid "Credit or Debit Card"
 msgstr "Tarjeta de Crédito o Débito"
 
@@ -2470,7 +2481,7 @@ msgid "Add tracking information"
 msgstr "Agregar información de seguimiento"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:292
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2147
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2203
 msgid "Something went wrong. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
@@ -2525,7 +2536,7 @@ msgid "Payee’s PayPal account requires verification."
 msgstr "La cuenta de PayPal del beneficiario requiere verificación."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:385
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1156
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1210
 msgid "The transaction could not be completed."
 msgstr "La transacción no pudo ser completada."
 
@@ -2575,795 +2586,870 @@ msgstr "Pago a través de %1$s reembolsado. Razón de PayPal: %2$s."
 msgid "An error occurred while updating the order status."
 msgstr "Ocurrió un error al actualizar el estado del pedido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1059
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1113
 msgid "PayPal Credit"
 msgstr "Crédito de PayPal"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1060
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1114
 msgid "Bancontact"
 msgstr "Bancontact"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1061
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1115
 msgid "BLIK"
 msgstr "BLIK"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1062
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1116
 msgid "eps"
 msgstr "eps"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1063
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1117
 msgid "iDEAL"
 msgstr "iDEAL"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1064
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1118
 msgid "Mercado Pago"
 msgstr "Mercado Pago"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1065
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1119
 msgid "MyBank"
 msgstr "MiBanco"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1066
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1120
 msgid "Przelewy24"
 msgstr "Przelewy24"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1067
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1121
 msgid "SEPA-Lastschrift"
 msgstr "SEPA-Debito"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1068
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1122
 msgid "Venmo"
 msgstr "Venmo"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1069
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1123
 msgid "PayPal Pay Later"
 msgstr "Paga más tarde con PayPal"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1070
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1124
 msgid "PayPal Checkout"
 msgstr "Pago con PayPal"
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1127
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1181
 msgid "Approved."
 msgstr "Aprobado."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1128
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1182
 msgid "The card security code (CVV) was incorrect."
 msgstr "El código de seguridad de la tarjeta (CVV) era incorrecto."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1129
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1183
 msgid "Your bank needs to approve this. Please contact your card issuer."
 msgstr ""
 "Su banco necesita aprobar esto. Por favor, contacte a su emisor de tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1130
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1184
 msgid "We could not find this account. Please check your card details."
 msgstr ""
 "No pudimos encontrar esta cuenta. Por favor, verifique los detalles de su "
 "tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1131
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1185
 msgid "The bank declined this transaction. Please try another payment method."
 msgstr ""
 "El banco rechazó esta transacción. Por favor, intente con otro método de "
 "pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1132
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1186
 msgid "This transaction is not authorized. Please contact your card issuer."
 msgstr ""
 "Esta transacción no está autorizada. Por favor, contacte a su emisor de "
 "tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1133
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1187
 msgid "There was a processing issue. The payment was reversed."
 msgstr "Hubo un problema al conectar con la pasarela de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1134
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1188
 msgid "A security check failed. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1135
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1189
 msgid "The PIN was not accepted."
 msgstr "El PIN no fue aceptado."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1136
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1190
 msgid "Temporary system issue. Please try again later."
 msgstr "Problema temporal del sistema. Por favor, intente de nuevo más tarde."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1137
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1191
 msgid "Payment was canceled."
 msgstr "El pago ha sido cancelado."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1138
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1192
 msgid "Only part of the amount was approved."
 msgstr "Solo se aprobó parte del monto."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1139
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1157
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1193
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1211
 msgid "The bank declined this transaction."
 msgstr "El banco rechazó esta transacción."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1140
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1194
 msgid "Invalid data format."
 msgstr "Nombre de dominio inválido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1141
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1195
 msgid "Invalid amount."
 msgstr "Nombre de dominio inválido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1142
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1196
 msgid "Card issuer/acquirer not allowed for this transaction."
 msgstr "Emisor/adquirente de tarjeta no permitido para esta transacción."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1143
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1197
 msgid "Invalid capture date."
 msgstr "Nombre de dominio inválido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1144
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1198
 msgid "Unsupported currency for this card."
 msgstr "Moneda no soportada para esta tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1145
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1199
 msgid "Invalid account number."
 msgstr "Nombre de dominio inválido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1146
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1200
 msgid "This card is not allowed for recurring payments."
 msgstr "Esta tarjeta no está permitida para pagos recurrentes."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1147
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1201
 msgid "Invalid terminal configuration."
 msgstr "Configuración de terminal no válida."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1148
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1202
 msgid "Invalid merchant configuration."
 msgstr "Configuración de comerciante no válida."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1149
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1203
 msgid "The account is restricted or inactive."
 msgstr "La cuenta está restringida o inactiva."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1150
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1204
 msgid "Invalid processing code."
 msgstr "Nombre de dominio inválido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1151
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1205
 msgid "Invalid merchant category."
 msgstr "Nombre de dominio inválido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1152
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1206
 msgid "Invalid card expiry date."
 msgstr "Nombre de dominio inválido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1153
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1207
 msgid "Invalid card security code (CVV)."
 msgstr "Código de seguridad de tarjeta (CVV) no válido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1154
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1208
 msgid "Invalid transaction state."
 msgstr "Nombre de dominio inválido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1155
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1209
 msgid "Invalid order."
 msgstr "Nombre de dominio inválido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1158
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1212
 msgid "The card security code (CVV) did not match."
 msgstr "El código de seguridad de la tarjeta (CVV) no coincidió."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1159
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1213
 msgid "Insufficient funds."
 msgstr "Fondos insuficientes."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1160
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1171
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1214
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1225
 msgid "Incorrect PIN."
 msgstr "PIN incorrecto."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1161
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1215
 msgid "Too many incorrect PIN attempts."
 msgstr "Demasiados intentos incorrectos de PIN."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1162
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1216
 msgid "This card is closed."
 msgstr "Esta tarjeta está cerrada."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1163
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1217
 msgid "Card capture requested by the bank."
 msgstr "Captura de tarjeta solicitada por el banco."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1164
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1218
 msgid "User not authorized for this transaction."
 msgstr "Usuario no autorizado para esta transacción."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1165
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1219
 msgid "Address verification failed."
 msgstr "Verificación de dirección fallida."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1166
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1220
 msgid "Invalid or restricted card."
 msgstr "Pague con su tarjeta de crédito."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1167
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1221
 msgid "Address verification soft failure."
 msgstr "Error leve en la verificación de la dirección."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1168
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1222
 msgid "Duplicate transaction."
 msgstr "Transacción duplicada."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1169
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1223
 msgid "Invalid transaction."
 msgstr "Nombre de dominio inválido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1170
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1224
 msgid "The card is expired."
 msgstr "La tarjeta ha expirado."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1172
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1226
 msgid "Strong customer authentication required."
 msgstr "Se requiere autenticación fuerte del cliente."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1173
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1227
 msgid "This type of transaction is not permitted."
 msgstr "Este tipo de transacción no está permitido."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1174
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1228
 msgid "Too many attempts. Please try again later."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1175
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1229
 msgid "Invalid or restricted card. Please use another card."
 msgstr "Tarjeta inválida o restringida. Por favor, use otra tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1176
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1230
 msgid "Address verification soft failure. Please check your billing address."
 msgstr ""
 "Fallo suave en la verificación de dirección. Por favor, verifique su "
 "dirección de facturación."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1177
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1231
 msgid "Duplicate transaction. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1178
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1232
 msgid "Invalid transaction. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1179
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1233
 msgid "Expired card. Please use another card."
 msgstr "Tarjeta expirada. Por favor, use otra tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1180
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1234
 msgid "Incorrect PIN. Please re-enter your PIN."
 msgstr "PIN incorrecto. Por favor, vuelva a ingresar su PIN."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1181
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1235
 msgid "Strong customer authentication required. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1182
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1236
 msgid "Transaction not permitted. Please use another payment method."
 msgstr "Transacción no permitida. Por favor, use otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1183
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1237
 msgid "Transaction attempts exceed limit. Please try again later."
 msgstr ""
 "Los intentos de transacción superan el límite. Por favor, inténtelo de nuevo"
 " más tarde."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1184
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1238
 msgid "Reversal rejected. Please contact support."
 msgstr "Reversión rechazada. Por favor, contacte al soporte."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1185
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1239
 msgid "Invalid issue. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1186
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1240
 msgid "Issuer not available. Please try again later."
 msgstr "Emisor no disponible. Por favor, inténtelo de nuevo más tarde."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1187
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1241
 msgid "Issuer temporarily not available. Please try again shortly."
 msgstr ""
 "Emisor temporalmente no disponible. Por favor, inténtelo de nuevo en breve."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1188
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1242
 msgid "Card not activated. Please activate your card and try again."
 msgstr ""
 "Tarjeta no activada. Por favor, active su tarjeta e inténtelo de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1189
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1243
 msgid "Updated card issued. Please use your new card."
 msgstr "Tarjeta actualizada emitida. Por favor, use su nueva tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1190
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1244
 msgid "Account not on file. Please check your card details."
 msgstr ""
 "Cuenta no registrada. Por favor, verifique los detalles de su tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1191
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1245
 msgid "Approved but not captured. No action needed."
 msgstr "Aprobado pero no capturado. No se necesita ninguna acción."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1192
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1246
 msgid "3DS authentication error. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1193
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1247
 msgid "Authentication failed. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1194
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1248
 msgid "BIN error. Please try another card."
 msgstr "Error de BIN. Por favor, intenta con otra tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1195
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1249
 msgid "PIN error. Please try again with the correct PIN."
 msgstr "Error de PIN. Por favor, intenta de nuevo con el PIN correcto."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1196
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1250
 msgid "Processor system error. Please try again later."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1197
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1251
 msgid "Host key error. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1198
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1252
 msgid "Configuration error. Please contact support."
 msgstr "Error de configuración. Por favor, contacta al soporte."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1199
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1253
 msgid "Unsupported operation. Please try another payment method."
 msgstr "Operación no soportada. Por favor, intenta con otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1200
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1254
 msgid "Communication error. Please try again later."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1201
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1255
 msgid "Communication error. Please try again shortly."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1202
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1256
 msgid "System unavailable. Please try again later."
 msgstr "Sistema no disponible. Por favor, intenta de nuevo más tarde."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1203
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1257
 msgid "Transaction declined. Please retry."
 msgstr "Transacción rechazada. Por favor, vuelve a intentarlo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1204
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1258
 msgid "Suspected fraud. Please use another payment method."
 msgstr "Fraude sospechoso. Por favor, utiliza otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1205
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1259
 msgid "Security violation. Please contact your card issuer."
 msgstr "Violación de seguridad. Por favor, contacta a tu emisor de tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1206
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1260
 msgid "Card reported lost or stolen. Please use another card."
 msgstr ""
 "Tarjeta reportada como perdida o robada. Por favor, utiliza otra tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1207
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1261
 msgid "Hold - call center. Please contact your card issuer."
 msgstr ""
 "En espera - centro de llamadas. Por favor, contacta a tu emisor de tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1208
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1262
 msgid "Card refused. Please use another payment method."
 msgstr "Tarjeta rechazada. Por favor, utiliza otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1209
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1263
 msgid "Unrecognized response code. Please try again later."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1210
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1264
 msgid "Contingencies not resolved. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1211
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1224
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1265
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1278
 msgid "CVV verification failed. Please check your CVV."
 msgstr "Verificación de CVV fallida. Por favor, verifica tu CVV."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1212
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1266
 msgid "Account closed. Please use another card."
 msgstr "Cuenta cerrada. Por favor, utiliza otra tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1213
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1267
 msgid "Reattempt not permitted. Please use another payment method."
 msgstr "Reintento no permitido. Por favor, utiliza otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1214
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1268
 msgid "Billing address error. Please check your billing details."
 msgstr ""
 "Error en la dirección de facturación. Por favor, verifica tus datos de "
 "facturación."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1215
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1269
 msgid "Account blocked by issuer. Please contact your card issuer."
 msgstr ""
 "Cuenta bloqueada por el emisor. Por favor, contacta a tu emisor de tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1216
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1270
 msgid "American Express card disabled. Please use another card."
 msgstr ""
 "Tarjeta American Express deshabilitada. Por favor, utiliza otra tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1217
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1271
 msgid "Adult gaming not supported. Please use another payment method."
 msgstr ""
 "Juegos para adultos no soportados. Por favor, utiliza otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1218
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1272
 msgid "Amount incompatible. Please try a different amount."
 msgstr "Monto incompatible. Por favor, intenta con un monto diferente."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1219
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1273
 msgid "Authorization result error. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1220
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1274
 msgid "MCC code error. Please contact support."
 msgstr "Error de código MCC. Por favor, contacta al soporte."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1221
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1275
 msgid "Address verification failed. Please check your billing address."
 msgstr ""
 "La verificación de la dirección falló. Por favor, verifica tu dirección de "
 "facturación."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1222
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1276
 msgid "Amount exceeded. Please try a smaller amount."
 msgstr "Monto excedido. Por favor, intenta con un monto menor."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1223
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1277
 msgid "Gaming transaction error. Please use another payment method."
 msgstr ""
 "Error en la transacción de juego. Por favor, utiliza otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1225
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1279
 msgid "Registration incomplete. Please complete registration."
 msgstr "Registro incompleto. Por favor, completa el registro."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1226
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1280
 msgid "Country error. Please try another payment method."
 msgstr "Error de país. Por favor, intenta con otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1227
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1281
 msgid "Credit error. Please try another payment method."
 msgstr "Error de crédito. Por favor, intenta con otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1228
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1282
 msgid "Card type not supported. Please use another card."
 msgstr "Tipo de tarjeta no soportado. Por favor, utiliza otra tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1229
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1283
 msgid "Invalid currency. Please select a supported currency."
 msgstr "Moneda no válida. Por favor, selecciona una moneda soportada."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1230
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1284
 msgid "3D Secure authentication error. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1231
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1285
 msgid "Dynamic currency conversion not supported. Please try again."
 msgstr ""
 "Conversión dinámica de moneda no soportada. Por favor, intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1232
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1286
 msgid "Diners Club card rejected. Please use another card."
 msgstr "Tarjeta Diners Club rechazada. Por favor, utiliza otra tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1233
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1287
 msgid "Authentication message error. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1234
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1288
 msgid "Decline threshold exceeded. Please try again later."
 msgstr "Límite de rechazo excedido. Por favor, intenta de nuevo más tarde."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1235
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1289
 msgid "Funding instrument expired. Please use another payment method."
 msgstr ""
 "Instrumento de financiación expirado. Por favor, utiliza otro método de "
 "pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1236
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1290
 msgid "Frequency limit exceeded. Please try again later."
 msgstr "Límite de frecuencia excedido. Por favor, intenta de nuevo más tarde."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1237
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1291
 msgid "System error. Please try again later."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1238
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1292
 msgid "Expiry date error. Please check your card details."
 msgstr ""
 "Error en la fecha de caducidad. Por favor, verifica los detalles de tu "
 "tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1239
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1293
 msgid "Funding source already exists. Please use another payment method."
 msgstr ""
 "La fuente de financiación ya existe. Por favor, utiliza otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1240
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1294
 msgid "Invalid funding instrument. Please try another payment method."
 msgstr ""
 "Instrumento de financiación no válido. Por favor, intenta con otro método de"
 " pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1241
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1295
 msgid "Restricted funding instrument. Please try another payment method."
 msgstr ""
 "Instrumento de financiación restringido. Por favor, intenta con otro método "
 "de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1242
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1296
 msgid "Field validation failed. Please check your payment details."
 msgstr ""
 "La validación del campo falló. Por favor, verifica los detalles de tu pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1243
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1297
 msgid "Gaming refund error. Please contact support."
 msgstr "Error en el reembolso de juego. Por favor, contacta al soporte."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1244
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1253
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1298
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1307
 msgid "Processing error. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1245
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1299
 msgid "Idempotency failure. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1246
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1300
 msgid "Invalid input. Please check your payment details."
 msgstr "Entrada no válida. Por favor, verifica los detalles de tu pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1247
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1301
 msgid "ID mismatch. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1248
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1302
 msgid "Invalid trace ID. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1249
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1303
 msgid "Late reversal. Please contact support."
 msgstr "Reverso tardío. Por favor, contacta al soporte."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1250
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1304
 msgid "Status code error. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1251
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1305
 msgid "Missing business rule or data. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1252
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1306
 msgid "Mastercard blocked. Please use another card."
 msgstr "Mastercard bloqueada. Por favor, utiliza otra tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1254
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1308
 msgid "Not supported. Please try another payment method."
 msgstr "No soportado. Por favor, intenta con otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1255
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1309
 msgid "Network frequency limit exceeded. Please try again later."
 msgstr ""
 "Límite de frecuencia de red excedido. Por favor, intenta de nuevo más tarde."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1256
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1310
 msgid "Merchant ID not found. Please contact support."
 msgstr "ID de comerciante no encontrado. Por favor, contacta al soporte."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1257
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1311
 msgid "Network error. Please try again later."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1258
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1312
 msgid "Phone required for this transaction. Please update your details."
 msgstr ""
 "Se requiere teléfono para esta transacción. Por favor, actualiza tus "
 "detalles."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1259
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1313
 msgid "Invalid product. Please try another product."
 msgstr "Producto no válido. Por favor, intenta con otro producto."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1260
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1314
 msgid "Invalid payment method. Please try another payment method."
 msgstr ""
 "Este pago no pudo ser procesado con éxito. Por favor, inténtelo de nuevo con"
 " otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1261
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1315
 msgid "Quasi-cash not supported. Please use another payment method."
 msgstr "Quasi-cash no soportado. Por favor, utiliza otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1262
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1316
 msgid "Refund not supported on pending transactions. Please try again later."
 msgstr ""
 "Reembolso no soportado en transacciones pendientes. Por favor, intenta de "
 "nuevo más tarde."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1263
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1317
 msgid "Invalid parent transaction status. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1264
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1318
 msgid "Merchant not registered. Please contact support."
 msgstr "Comerciante no registrado. Por favor, contacta al soporte."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1265
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1319
 msgid "Bank authorization mismatch. Please try again."
 msgstr "Desajuste de autorización bancaria. Por favor, intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1266
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1320
 msgid "Bank authorization already settled. Please try again."
 msgstr "Autorización bancaria ya liquidada. Por favor, intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1267
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1321
 msgid "Bank authorization voided. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1268
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1322
 msgid "Bank authorization expired. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1269
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1323
 msgid "Currency mismatch. Please try again with the correct currency."
 msgstr ""
 "Desajuste de moneda. Por favor, intenta de nuevo con la moneda correcta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1270
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1324
 msgid "Credit card mismatch. Please check your card details."
 msgstr ""
 "Desajuste de tarjeta de crédito. Por favor, verifica los detalles de tu "
 "tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1271
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1325
 msgid "Amount mismatch. Please try again with the correct amount."
 msgstr ""
 "Desajuste de monto. Por favor, intenta de nuevo con el monto correcto."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1272
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1326
 msgid "Score error. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1273
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1327
 msgid "Status description error. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1274
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1328
 msgid "American Express declined. Please use another card."
 msgstr "American Express rechazada. Por favor, utiliza otra tarjeta."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1275
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1329
 msgid "Verification token expired. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1276
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1330
 msgid "Invalid trace reference. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1277
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1331
 msgid "Invalid transaction ID. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1278
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1332
 msgid "Verification token revoked. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1279
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1333
 msgid "Transaction type not supported. Please try another payment method."
 msgstr ""
 "Este pago no pudo ser procesado con éxito. Por favor, inténtelo de nuevo con"
 " otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1280
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1334
 msgid "Invalid verification token. Please try again."
 msgstr "Algo salió mal. Por favor intenta de nuevo."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1281
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1335
 msgid "User not authorized. Please contact support."
 msgstr "Usuario no autorizado. Por favor, contacta al soporte."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1282
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1336
 msgid "Currency not supported. Please select a supported currency."
 msgstr "Moneda no soportada. Por favor, selecciona una moneda soportada."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1283
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1337
 msgid "Entity not supported. Please try another payment method."
 msgstr ""
 "Este pago no pudo ser procesado con éxito. Por favor, inténtelo de nuevo con"
 " otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1284
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1338
 msgid "Installment not supported. Please try another payment method."
 msgstr ""
 "Este pago no pudo ser procesado con éxito. Por favor, inténtelo de nuevo con"
 " otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1285
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1339
 msgid "POS flag not supported. Please try another payment method."
 msgstr ""
 "Bandera de POS no soportada. Por favor, intenta con otro método de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1286
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1340
 msgid "Reversal not supported. Please contact support."
 msgstr ""
 "Hubo un problema procesando tu orden. Por favor contacta al soporte al "
 "cliente."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1287
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1341
 msgid "Currency validation error. Please select a supported currency."
 msgstr ""
 "Error de validación de moneda. Por favor, seleccione una moneda soportada."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1288
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1342
 msgid "Validation error. Please check your payment details."
 msgstr "Error de validación. Por favor, verifique sus detalles de pago."
 
-#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1289
+#: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1343
 msgid "Virtual terminal not supported. Please try another payment method."
 msgstr ""
 "Este pago no pudo ser procesado con éxito. Por favor, inténtelo de nuevo con"
 " otro método de pago."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:576
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:592
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:540
+#, fuzzy
+msgid "An unknown error occurred with your payment. Please try again."
+msgstr "Algo salió mal. Por favor intenta de nuevo."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:541
+msgid "Please enter a valid card number."
+msgstr "Por favor, introduce un número de tarjeta válido."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:542
+msgid "Please enter a valid CVV."
+msgstr "Por favor, ingrese un CVV válido."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:543
+msgid "Please enter a valid expiration date."
+msgstr "Por favor, ingrese una fecha de vencimiento válida."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:545
+msgid "An unknown error occurred."
+msgstr "Ocurrió un error desconocido."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:546
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:549
+#, fuzzy
+msgid "Google Pay failed."
+msgstr "Google Pay"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:552
+msgid "Apple Pay could not be initialized."
+msgstr "No se pudo inicializar Apple Pay."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:553
+msgid "Apple Pay confirmation returned non-APPROVED status."
+msgstr "La confirmación de Apple Pay devolvió un estado no APROBADO."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:554
+#, fuzzy
+msgid "Apple Pay session cancelled."
+msgstr "El pago ha sido cancelado."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:557
+#, fuzzy
+msgid "Order creation failed."
+msgstr "Verificación de dirección fallida."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:558
+msgid "Shipping address is incomplete."
+msgstr "La dirección de envío está incompleta."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:559
+msgid "We do not ship to this address."
+msgstr "No hacemos envíos a esta dirección."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:560
+#, fuzzy
+msgid "Invalid shipping method."
+msgstr "Nombre de dominio inválido."
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:563
+#, fuzzy
+msgid "Shipping"
+msgstr "Detalles de envío"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:564
+msgid "Tax"
+msgstr "Impuesto"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:565
+#, fuzzy
+msgid "Discount"
+msgstr "Desconectar"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:566
+msgid "Total"
+msgstr "Total"
+
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:632
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:648
 msgctxt "Important"
 msgid "Or"
 msgstr "O"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:788
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:844
 msgctxt "Important"
 msgid "Express Checkout"
 msgstr "Pago exprés"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:808
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:864
 msgctxt "Important"
 msgid "Or continue below"
 msgstr "O continúa abajo"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:981
-msgid "Item"
-msgstr "Artículo"
-
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:995
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1051
 msgid "Items"
 msgstr "Artículos"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1161
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1217
 msgid "Billing &amp; Shipping"
 msgstr "Facturación y envío"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1163
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1169
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1189
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1219
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1225
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1245
 msgid "Edit"
 msgstr "Editar"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1167
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1223
 msgid "Billing details"
 msgstr "Detalles de facturación"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1187
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1243
 msgid "Shipping details"
 msgstr "Detalles de envío"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1359
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1415
 msgid "Create an account?"
 msgstr "¿Crear una cuenta?"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1368
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1424
 msgid ""
 "Create an account by entering the information below. If you are a returning "
 "customer please login at the top of the page."
@@ -3373,23 +3459,23 @@ msgstr ""
 
 #. translators: %1$s is the payment method title, %2$s is the formatted
 #. payment status.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1578
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1634
 msgid "Payment via %1$s: %2$s."
 msgstr "Pago a través de %1$s: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the pending reason
 #. from PayPal.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1595
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1651
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
 msgstr "Pago a través de %1$s Pendiente. Razón de PayPal: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1604
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1660
 msgid "Payment via %1$s. Transaction ID: %2$s"
 msgstr "Pago a través de %1$s. ID de transacción: %2$s"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1798
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1854
 msgctxt "Important"
 msgid ""
 "<strong>You're almost done!</strong><br>Review your information before you "
@@ -3398,16 +3484,16 @@ msgstr ""
 "<strong>¡Estás casi listo!</strong><br>Revisa tu información antes de "
 "realizar tu pedido."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1853
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1909
 msgid "Capture Charge"
 msgstr "Cargo de captura"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2054
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2110
 msgctxt "Important"
 msgid "Cancel order"
 msgstr "Cancelar pedido"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2139
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2195
 msgid ""
 "We cannot process your order with the payment information that you provided."
 " Please use an alternate payment method."
@@ -3415,10 +3501,10 @@ msgstr ""
 "No podemos procesar tu pedido con la información de pago que proporcionaste."
 " Por favor utiliza un método de pago alternativo."
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2189
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2245
 msgid "3D Secure response"
 msgstr "Respuesta 3D Secure"
 
-#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2957
+#: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:3013
 msgid "At top of checkout Page"
 msgstr "En la parte superior de la página de pago"

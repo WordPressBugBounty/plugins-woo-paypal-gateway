@@ -1955,6 +1955,14 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'desc_tip' => true,
                     'custom_attributes' => array('maxlength' => '22'),
                 ),
+                'auto_complete' => array(
+                    'title'       => __( 'Auto-complete paid orders', 'woo-paypal-gateway' ),
+                    'type'        => 'checkbox',
+                    'label'       => __( 'Mark orders as "Completed" after successful payment', 'woo-paypal-gateway' ),
+                    'default'     => 'no',
+                    'desc_tip' => true,
+                    'description' => __( 'WooCommerce normally sets Processing for physical products. Enable this only if you want all successful orders to become Completed automatically.', 'woo-paypal-gateway' ),
+                ),
                 'debug' => array(
                     'title' => __('Debug log', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
