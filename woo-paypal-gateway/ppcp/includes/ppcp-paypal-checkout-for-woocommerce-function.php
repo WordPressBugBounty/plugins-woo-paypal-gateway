@@ -57,12 +57,54 @@ if (!function_exists('ppcp_unset_session')) {
         }
     }
 
+
 }
+
+if (!function_exists('ppcp_set_paypal_order_session_data')) {
+
+    function ppcp_set_paypal_order_session_data($paypal_order_id, $status = 'created', $woo_order_id = 0) {
+        if (empty($paypal_order_id)) {
+            return;
+        }
+
+        ppcp_set_session('ppcp_paypal_order_data', array(
+            'id' => $paypal_order_id,
+            'status' => strtolower($status),
+            'woo_order_id' => absint($woo_order_id),
+        ));
+    }
+
+}
+
+if (!function_exists('ppcp_get_paypal_order_session_data')) {
+
+    function ppcp_get_paypal_order_session_data() {
+        $session_data = ppcp_get_session('ppcp_paypal_order_data');
+        return is_array($session_data) ? $session_data : array();
+    }
+
+}
+
+if (!function_exists('ppcp_get_paypal_order_id_from_session')) {
+
+    function ppcp_get_paypal_order_id_from_session() {
+        $session_data = ppcp_get_paypal_order_session_data();
+        $status = isset($session_data['status']) ? strtolower($session_data['status']) : '';
+
+        if ($status !== 'approved') {
+            return '';
+        }
+
+        return !empty($session_data['id']) ? $session_data['id'] : '';
+    }
+
+}
+
 if (!function_exists('ppcp_has_active_session')) {
 
     function ppcp_has_active_session() {
         $checkout_details = ppcp_get_session('ppcp_paypal_transaction_details');
-        $ppcp_paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
+        $ppcp_paypal_order_id = ppcp_get_paypal_order_id_from_session();
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check for query var, no state change.
         $has_paypal_order_id = isset($_GET['paypal_order_id']);
         if (!empty($checkout_details) && !empty($ppcp_paypal_order_id) && $has_paypal_order_id) {

@@ -49,33 +49,31 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell extends WFOCU_Gatewa
      */
     public function has_token($order) {
         if (!$order instanceof WC_Order) {
-            $order = wc_get_order($order);
-        }
-
-        if (!$order instanceof WC_Order) {
             return false;
         }
 
-        $meta_key = '_payment_tokens_id';
-
-        // Prevent stale meta cache issue
-        $order->read_meta_data(true);
-
-        $token = (string) $order->get_meta($meta_key, true);
-
-        // Fallback (in case FunnelKit or other helper stored it differently)
-        if ('' === $token && class_exists('WFOCU_Common')) {
-            $token = (string) WFOCU_Common::get_order_meta($order, $meta_key);
+        if (!empty($order->get_meta('_payment_tokens_id', true))) {
+            return true;
         }
 
-        return '' !== trim($token);
+        $parent_id = (int) $order->get_parent_id();
+        if ($parent_id <= 0) {
+            return false;
+        }
+
+        $parent_order = wc_get_order($parent_id);
+        if (!$parent_order instanceof WC_Order) {
+            return false;
+        }
+
+        return !empty($parent_order->get_meta('_payment_tokens_id', true));
+
     }
 
     /**
      * Process accepted upsell charge via stored PPCP token.
      *
      * @param WC_Order $order
-     * @param array    $args
      * @return array
      */
     public function process_charge($order) {

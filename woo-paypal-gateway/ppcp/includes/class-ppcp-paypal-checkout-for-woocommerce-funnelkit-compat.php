@@ -32,8 +32,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
             $gateways = [];
         }
 
-        $gateways['wpg_paypal_checkout_cc'] = 'PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell';
         $gateways['wpg_paypal_checkout'] = 'PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell_PayPal';
+        $gateways['wpg_paypal_checkout_cc'] = 'PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell';
 
         return $gateways;
     }
@@ -47,12 +47,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
      * @return bool
      */
     public static function ensure_tokenization_support_for_funnelkit($supports, $feature, $gateway) {
-        
-        if (!$gateway instanceof WC_Payment_Gateway) {
+        if ('tokenization' !== $feature) {
             return $supports;
         }
 
-        if (!in_array($gateway->id, ['wpg_paypal_checkout_cc', 'wpg_paypal_checkout'], true)) {
+        if (!in_array($gateway->id, ['wpg_paypal_checkout', 'wpg_paypal_checkout_cc'], true)) {
             return $supports;
         }
 
@@ -94,7 +93,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
         }
 
         if (!in_array($order->get_payment_method(), ['wpg_paypal_checkout', 'wpg_paypal_checkout_cc'], true)) {
-            $order->set_payment_method('wpg_paypal_checkout_cc');
+            $order->set_payment_method($parent_order->get_payment_method());
         }
 
         $child_payment_token = $order->get_meta('_payment_tokens_id', true);
@@ -132,13 +131,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
 
                 public function get_supported_gateways() {
                     $filtered = parent::get_supported_gateways();
-                    unset($filtered['wpg_paypal_checkout_cc']);
                     unset($filtered['wpg_paypal_checkout']);
+                    unset($filtered['wpg_paypal_checkout_cc']);
 
                     return array_merge(
                         [
-                            'wpg_paypal_checkout_cc' => 'PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell',
                             'wpg_paypal_checkout' => 'PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell_PayPal',
+                            'wpg_paypal_checkout_cc' => 'PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell',
+
                         ],
                         $filtered
                     );

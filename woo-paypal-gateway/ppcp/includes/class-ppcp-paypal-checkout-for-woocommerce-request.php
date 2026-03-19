@@ -35,6 +35,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     public $generate_token_url;
     public $client_token;
     public $paymentaction;
+    public $authorized_order_status;
     public $payee_preferred;
     public $invoice_id_prefix;
     public $soft_descriptor;
@@ -121,6 +122,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->tracking_api_url = 'https://api-m.paypal.com/v1/shipping/trackers-batch';
             }
             $this->paymentaction = $this->get_option('paymentaction', 'capture');
+            $this->authorized_order_status = $this->get_option('authorized_order_status', 'on-hold');
             $this->payee_preferred = 'yes' === $this->get_option('payee_preferred', 'no');
             $this->invoice_id_prefix = $this->get_option('invoice_id_prefix', 'WC-PPCP');
             $this->soft_descriptor = $this->get_option('soft_descriptor', '');
@@ -166,6 +168,39 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function localize_button_text() {
         $this->order_button_text = __('Continue to payment', 'woo-paypal-gateway');
+    }
+
+    private function ppcp_set_order_session_data($paypal_order_id, $status, $woo_order_id = 0) {
+        if (empty($paypal_order_id) || empty($status)) {
+            return;
+        }
+
+        ppcp_set_paypal_order_session_data($paypal_order_id, $status, $woo_order_id);
+    }
+
+    private function ppcp_get_order_session_data() {
+        return ppcp_get_paypal_order_session_data();
+    }
+
+
+    private function ppcp_get_paypal_order_id_from_session() {
+        return ppcp_get_paypal_order_id_from_session();
+    }
+
+    private function ppcp_validate_order_for_capture($paypal_order_id, $woo_order_id = 0) {
+        $order_details = $this->ppcp_get_checkout_details($paypal_order_id);
+        $paypal_status = is_object($order_details) && !empty($order_details->status) ? strtoupper($order_details->status) : '';
+
+        if ($paypal_status !== 'APPROVED') {
+            $this->ppcp_log('Capture skipped. PayPal order is not approved. Current status: ' . $paypal_status);
+            if (function_exists('wc_add_notice')) {
+                wc_add_notice(__('PayPal order is not approved yet. Please approve the payment before capture.', 'woo-paypal-gateway'), 'error');
+            }
+            return false;
+        }
+
+        $this->ppcp_set_order_session_data($paypal_order_id, 'approved', $woo_order_id);
+        return true;
     }
 
     public function request($url, $args, $action_name = 'default') {
@@ -604,10 +639,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $return_response['payer_action_url'] = $payer_action_url;
                     }
                     $return_response['orderID'] = $api_response['id'];
-                    ppcp_set_session('ppcp_paypal_order_id', $api_response['id']);
+                    $this->ppcp_set_order_session_data($api_response['id'], 'created', $woo_order_id);
                     if (!empty(isset($woo_order_id) && !empty($woo_order_id))) {
-                        $order->update_meta_data('_paypal_order_id', $api_response['id']);
-                        $order->save_meta_data();
                         ppcp_set_session('ppcp_paypal_transaction_details', $api_response);
                     }
                     wp_send_json($return_response, 200);
@@ -705,7 +738,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if ($need_to_update_order && is_object($order)) {
                 $this->ppcp_update_order($order);
             }
-            $paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
+            $session_order_data = $this->ppcp_get_order_session_data();
+            $paypal_order_id = !empty($session_order_data['id']) ? $session_order_data['id'] : $this->ppcp_get_paypal_order_id_from_session();
+            if (empty($paypal_order_id)) {
+                return false;
+            }
+            if (!$this->ppcp_validate_order_for_capture($paypal_order_id, $woo_order_id)) {
+                return false;
+            }
             $this->ppcp_add_log_details('Capture payment for order');
             $this->ppcp_log('Request : ' . wc_print_r($this->paypal_order_api . $paypal_order_id . '/capture', true));
             do_action('wpg_ppcp_order_capture', $order);
@@ -731,8 +771,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 if (isset($api_response['id']) && !empty($api_response['id'])) {
                     $this->ppcp_update_order_address_from_paypal_capture($woo_order_id, $api_response);
                     $return_response['paypal_order_id'] = $api_response['id'];
-                    $order->update_meta_data('_paypal_order_id', $api_response['id']);
-                    $order->save_meta_data();
+                    $this->ppcp_set_order_session_data($api_response['id'], 'capture', $woo_order_id);
                     if ($api_response['status'] == 'COMPLETED') {
                         do_action('wpg_ppcp_save_payment_method_details', $woo_order_id, $api_response);
                         $payment_source = isset($api_response['payment_source']) ? $api_response['payment_source'] : '';
@@ -901,7 +940,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (is_object($order)) {
                 $this->ppcp_update_order($order);
             }
-            $paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
+            $session_order_data = $this->ppcp_get_order_session_data();
+            $paypal_order_id = !empty($session_order_data['id']) ? $session_order_data['id'] : $this->ppcp_get_paypal_order_id_from_session();
             $this->ppcp_add_log_details('Authorize payment for order');
             $this->ppcp_log('Request : ' . wc_print_r($this->paypal_order_api . $paypal_order_id . '/authorize', true));
             $response = wp_remote_post($this->paypal_order_api . $paypal_order_id . '/authorize', array(
@@ -926,15 +966,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 if (!empty($api_response['id'])) {
                     $this->ppcp_update_order_address_from_paypal_capture($woo_order_id, $api_response);
                     $return_response['paypal_order_id'] = $api_response['id'];
-                    if (isset($woo_order_id) && !empty($woo_order_id)) {
-                        $order->update_meta_data('_paypal_order_id', $api_response['id']);
-                        $order->save_meta_data();
-                    }
+                    $this->ppcp_set_order_session_data($api_response['id'], 'approved', $woo_order_id);
                     if ($api_response['status'] == 'COMPLETED') {
                         $transaction_id = isset($api_response['purchase_units']['0']['payments']['authorizations']['0']['id']) ? $api_response['purchase_units']['0']['payments']['authorizations']['0']['id'] : '';
                         $seller_protection = isset($api_response['purchase_units']['0']['payments']['authorizations']['0']['seller_protection']['status']) ? $api_response['purchase_units']['0']['payments']['authorizations']['0']['seller_protection']['status'] : '';
                         $payment_status = isset($api_response['purchase_units']['0']['payments']['authorizations']['0']['status']) ? $api_response['purchase_units']['0']['payments']['authorizations']['0']['status'] : '';
-                        $order->update_meta_data('_transaction_id', $transaction_id);
+                        $order->set_transaction_id($transaction_id);
                         $order->update_meta_data('_payment_status', $payment_status);
                         $order->update_meta_data('_auth_transaction_id', $transaction_id);
                         $order->update_meta_data('_payment_action', $this->paymentaction);
@@ -942,8 +979,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         // translators: 1: Payment method title, 2: Transaction ID.
                         $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $transaction_id));
                         $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
-                        $order->update_status('on-hold');
-                        $order->add_order_note(__('Payment authorized. Change payment status to processing or complete to capture funds.', 'woo-paypal-gateway'));
+                        $order->update_status($this->authorized_order_status);
+                        $order->add_order_note($this->get_payment_authorized_note());
                     }
                     wpg_clear_ppcp_session_and_cart();
                     return true;
@@ -965,7 +1002,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (is_wc_endpoint_url('order-received')) {
                 return;
             }
-            $cached_id = ppcp_get_session('ppcp_paypal_order_id');
+            $cached_id = $this->ppcp_get_paypal_order_id_from_session();
             $cached_details = ppcp_get_session('ppcp_paypal_transaction_details');
             if ($cached_id === $paypal_order_id && !empty($cached_details)) {
                 return $cached_details;
@@ -996,7 +1033,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->ppcp_log('Response Code: ' . $code);
             $this->ppcp_log('Response Message: ' . $message);
             $this->ppcp_log('Response Body: ' . wc_print_r($body, true));
-            ppcp_set_session('ppcp_paypal_order_id', $paypal_order_id);
+            $normalized_status = isset($body->status) ? strtolower($body->status) : 'created';
+            if ($normalized_status === 'completed') {
+                $normalized_status = 'capture';
+            } elseif ($normalized_status === 'approved') {
+                $normalized_status = 'approved';
+            } else {
+                $normalized_status = 'created';
+            }
+            $this->ppcp_set_order_session_data($paypal_order_id, $normalized_status);
             ppcp_set_session('ppcp_paypal_transaction_details', $body);
             return $body;
         } catch (Exception $ex) {
@@ -1448,7 +1493,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $patch_request_json = json_encode($patch_request);
 
             // Retrieve the PayPal order ID and send the patch request to update the order
-            $paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
+            $paypal_order_id = $this->ppcp_get_paypal_order_id_from_session();
             $this->ppcp_add_log_details('Update order');
             $this->ppcp_log('Endpoint: ' . $this->paypal_order_api . $paypal_order_id);
             $this->ppcp_log('Request: ' . print_r($patch_request_json, true));
@@ -1572,8 +1617,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->ppcp_log('Response : ' . wc_print_r($api_response, true));
                 if (!empty($api_response['id'])) {
                     $return_response['paypal_order_id'] = $api_response['id'];
-                    $order->update_meta_data('_paypal_order_id', $api_response['id']);
-                    $order->save_meta_data();
+                    $this->ppcp_set_order_session_data($api_response['id'], 'capture', $woo_order_id);
                     $payment_source = isset($api_response['payment_source']) ? $api_response['payment_source'] : '';
                     if (!empty($payment_source['card'])) {
                         $card_response_order_note = __('Card Details', 'woo-paypal-gateway');
@@ -1943,7 +1987,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (isset($posted['resource']['status']) && isset($posted['resource']['id'])) {
                 switch ($posted['event_type']) {
                     case 'PAYMENT.AUTHORIZATION.CREATED' :
-                        $this->payment_status_on_hold($order, $posted);
+                        $this->payment_status_authorized($order);
                         break;
                     case 'PAYMENT.AUTHORIZATION.VOIDED' :
                         $this->payment_status_voided($order, $posted);
@@ -1974,7 +2018,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->payment_complete($order);
         } else {
             if ('created' === $posted['resource']['status']) {
-                $this->payment_on_hold($order, __('Payment authorized. Change payment status to processing or complete to capture funds.', 'woo-paypal-gateway'));
+                $this->payment_on_hold($order, $this->get_payment_authorized_note());
             } else {
                 if (!empty($posted['pending_reason'])) {
                     // translators: 1: PayPal pending reason.
@@ -1982,6 +2026,41 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 }
             }
         }
+    }
+
+    private function get_payment_authorized_note() {
+        $capture_statuses = $this->get_capture_order_statuses();
+
+        if (empty($capture_statuses)) {
+            return __('Payment authorized. Capture statuses are not configured.', 'woo-paypal-gateway');
+        }
+
+        $status_labels = array();
+        $order_statuses = wc_get_order_statuses();
+
+        foreach ($capture_statuses as $status) {
+            $status_key = 'wc-' . $status;
+            if (isset($order_statuses[$status_key])) {
+                $status_labels[] = $order_statuses[$status_key];
+            } else {
+                $status_labels[] = ucfirst(str_replace('-', ' ', $status));
+            }
+        }
+
+        // translators: %s is a comma-separated list of WooCommerce order status labels.
+        return sprintf(__('Payment authorized. Change the order to one of your configured capture statuses (%s) to capture funds.', 'woo-paypal-gateway'), implode(', ', $status_labels));
+    }
+
+    private function get_capture_order_statuses() {
+        $capture_statuses = $this->get_option('capture_order_statuses', array('processing', 'completed'));
+
+        if (!is_array($capture_statuses)) {
+            $capture_statuses = array('processing', 'completed');
+        }
+
+        $capture_statuses = array_values(array_filter(array_map('sanitize_key', $capture_statuses)));
+
+        return empty($capture_statuses) ? array('processing', 'completed') : $capture_statuses;
     }
 
     public function payment_complete($order, $txn_id = '', $note = '') {
@@ -2050,6 +2129,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     )
                 );
             }
+        }
+    }
+
+    public function payment_status_authorized($order) {
+        if ($order->has_status(array('pending'))) {
+            $order->update_status($this->authorized_order_status, $this->get_payment_authorized_note());
         }
     }
 
@@ -2363,11 +2448,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 }
                 $this->api_response = json_decode(wp_remote_retrieve_body($this->api_response), true);
                 if (!empty($this->api_response['status'])) {
-                    if (!empty(isset($woo_order_id) && !empty($woo_order_id))) {
-                        $order->update_meta_data('_paypal_order_id', $this->api_response['id']);
-                        $order->save();
-                    }
-                    ppcp_set_session('ppcp_paypal_order_id', $this->api_response['id']);
+                    $this->ppcp_set_order_session_data($this->api_response['id'], 'created', $woo_order_id);
                     if (!empty($this->api_response['links'])) {
                         foreach ($this->api_response['links'] as $key => $link_result) {
                             if ('approve' === $link_result['rel'] || 'payer-action' === $link_result['rel']) {
@@ -2442,7 +2523,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function ppcp_regular_capture() {
         if (isset($_GET['token']) && !empty($_GET['token'])) {
-            ppcp_set_session('ppcp_paypal_order_id', wc_clean($_GET['token']));
+            $paypal_order_id = wc_clean($_GET['token']);
+            $this->ppcp_set_order_session_data($paypal_order_id, 'approved');
         } else {
             wp_safe_redirect(wc_get_checkout_url());
             exit();
@@ -3238,7 +3320,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
             // Check if we have the necessary session data
             $reference_id    = ppcp_get_session('ppcp_reference_id');
-            $paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
+            $paypal_order_id = $this->ppcp_get_paypal_order_id_from_session();
 
             if (empty($reference_id) || empty($paypal_order_id)) {
                 $this->ppcp_log('Missing required session data: reference_id or paypal_order_id');

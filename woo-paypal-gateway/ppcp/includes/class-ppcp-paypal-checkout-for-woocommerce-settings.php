@@ -1874,6 +1874,8 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
         }
 
         public function wpg_advanced_settings() {
+            $order_status_options = $this->ppcp_get_order_status_options();
+
             $advanced_settings = array(
                 'paymentaction' => array(
                     'title' => __('Payment action', 'woo-paypal-gateway'),
@@ -1886,6 +1888,25 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                         'capture' => __('Capture', 'woo-paypal-gateway'),
                         'authorize' => __('Authorize', 'woo-paypal-gateway'),
                     ),
+                ),
+                'authorized_order_status' => array(
+                    'title' => __('Authorized Order Status', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select',
+                    'description' => __('If the transaction is authorized, this status will be applied to the order.', 'woo-paypal-gateway'),
+                    'default' => 'on-hold',
+                    'desc_tip' => true,
+                    'options' => $order_status_options,
+                ),
+                'capture_order_statuses' => array(
+                    'title' => __('Capture Order Statuses', 'woo-paypal-gateway'),
+                    'type' => 'multiselect',
+                    'class' => 'wc-enhanced-select',
+                    'description' => __('Authorized payments will be captured when the order moves to one of these statuses.', 'woo-paypal-gateway'),
+                    'default' => array('processing', 'completed'),
+                    'desc_tip' => true,
+                    'options' => $order_status_options,
+                    'custom_attributes' => array('data-placeholder' => __('Select order statuses', 'woo-paypal-gateway')),
                 ),
                 'brand_name' => array(
                     'title' => __('Brand Name', 'woo-paypal-gateway'),
@@ -1979,6 +2000,17 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 unset($advanced_settings['set_billing_address']);
             }
             return $advanced_settings;
+        }
+
+        private function ppcp_get_order_status_options() {
+            $order_statuses = wc_get_order_statuses();
+            $formatted_statuses = array();
+
+            foreach ($order_statuses as $status_key => $status_label) {
+                $formatted_statuses[str_replace('wc-', '', $status_key)] = $status_label;
+            }
+
+            return $formatted_statuses;
         }
 
         public function ppcp_setting_fields() {

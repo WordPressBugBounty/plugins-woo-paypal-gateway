@@ -218,7 +218,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             }
             $this->request->ppcp_create_order_request($woo_order_id);
             exit;
-        } elseif ($paypal_order_id = ppcp_get_session('ppcp_paypal_order_id')) {
+        } elseif ($paypal_order_id = ppcp_get_paypal_order_id_from_session()) {
             $is_success = ($this->paymentaction === 'capture') ? $this->request->ppcp_order_capture_request($woo_order_id) : $this->request->ppcp_order_auth_request($woo_order_id);
             $order->update_meta_data('_payment_action', $this->paymentaction);
             $order->update_meta_data('enviorment', $this->sandbox ? 'sandbox' : 'live');

@@ -19,7 +19,27 @@ class WPGPayPalSettingsUI {
         this.setupPayLaterMessaging();
         this.setupCollapsibles();
         this.setupAppleGooglePay();
+        this.setupPaymentActionFields();
         this.enforceReadonlySelect2Option('woocommerce_wpg_paypal_checkout_paypal_button_pages', ['checkout']);
+    }
+
+    setupPaymentActionFields() {
+        const $paymentAction = jQuery('#woocommerce_wpg_paypal_checkout_paymentaction');
+        const $authorizedOrderStatus = jQuery('#woocommerce_wpg_paypal_checkout_authorized_order_status').closest('tr');
+        const $captureOrderStatuses = jQuery('#woocommerce_wpg_paypal_checkout_capture_order_statuses').closest('tr');
+
+        if (!$paymentAction.length) {
+            return;
+        }
+
+        const toggleFields = () => {
+            const isAuthorize = $paymentAction.val() === 'authorize';
+            $authorizedOrderStatus.toggle(isAuthorize);
+            $captureOrderStatuses.toggle(isAuthorize);
+        };
+
+        $paymentAction.on('change', toggleFields);
+        toggleFields();
     }
 
     setupOnboarding() {

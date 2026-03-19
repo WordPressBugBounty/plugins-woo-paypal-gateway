@@ -636,7 +636,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             $this->request->ppcp_create_order_request($woo_order_id);
             exit();
         } else {
-            $ppcp_paypal_order_id = ppcp_get_session('ppcp_paypal_order_id');
+            $ppcp_paypal_order_id = ppcp_get_paypal_order_id_from_session();
             if (!empty($ppcp_paypal_order_id)) {
                 include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
                 $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
