@@ -188,10 +188,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     }
 
     private function ppcp_validate_order_for_capture($paypal_order_id, $woo_order_id = 0) {
+        // First check session status to avoid unnecessary API call
+        $session_data   = ppcp_get_paypal_order_session_data();
+        $session_status = ! empty( $session_data['status'] ) ? strtoupper( $session_data['status'] ) : '';
+
+        if ( $session_status === 'APPROVED' || $session_status === 'CAPTURE' ) {
+            $this->ppcp_set_order_session_data( $paypal_order_id, 'approved', $woo_order_id );
+            return true;
+        }
+
+        // Fall back to live API check
         $order_details = $this->ppcp_get_checkout_details($paypal_order_id);
         $paypal_status = is_object($order_details) && !empty($order_details->status) ? strtoupper($order_details->status) : '';
 
-        if ($paypal_status !== 'APPROVED') {
+        if ( $paypal_status !== 'APPROVED' && $paypal_status !== 'COMPLETED' ) {
             $this->ppcp_log('Capture skipped. PayPal order is not approved. Current status: ' . $paypal_status);
             if (function_exists('wc_add_notice')) {
                 wc_add_notice(__('PayPal order is not approved yet. Please approve the payment before capture.', 'woo-paypal-gateway'), 'error');
@@ -3320,7 +3330,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
             // Check if we have the necessary session data
             $reference_id    = ppcp_get_session('ppcp_reference_id');
-            $paypal_order_id = $this->ppcp_get_paypal_order_id_from_session();
+            $session_data    = ppcp_get_paypal_order_session_data();
+            $paypal_order_id = ! empty( $session_data['id'] ) ? $session_data['id'] : '';
 
             if (empty($reference_id) || empty($paypal_order_id)) {
                 $this->ppcp_log('Missing required session data: reference_id or paypal_order_id');

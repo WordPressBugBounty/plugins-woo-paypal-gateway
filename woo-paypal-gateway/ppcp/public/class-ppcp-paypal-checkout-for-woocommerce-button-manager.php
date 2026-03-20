@@ -3246,8 +3246,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 WC()->cart->calculate_totals();
             }
 
-            // Keep original behavior: update PayPal order from cart
-            $this->request->ppcp_update_order_from_cart();
+            // Only update PayPal order if an active session exists
+            $reference_id    = ppcp_get_session('ppcp_reference_id');
+            $session_data    = ppcp_get_paypal_order_session_data();
+            $paypal_order_id = ! empty( $session_data['id'] ) ? $session_data['id'] : '';
+
+            if ( ! empty( $reference_id ) && ! empty( $paypal_order_id ) ) {
+                $this->request->ppcp_update_order_from_cart();
+            }
 
             wp_send_json_success( 'Address is valid' );
         } catch ( Exception $e ) {

@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.9.4
-Stable tag: 9.0.58
+Stable tag: 9.0.59
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,9 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.59 - 2026-03-20 =
+* Fixed PayPal order capture skipped and shipping address update not applied due to session status race condition during express checkout flow.
 
 = 9.0.58 - 2026-03-19 =
 * Added - Settings to configure Authorized Order Status and Capture Order Statuses for better control over PayPal payment flow.
