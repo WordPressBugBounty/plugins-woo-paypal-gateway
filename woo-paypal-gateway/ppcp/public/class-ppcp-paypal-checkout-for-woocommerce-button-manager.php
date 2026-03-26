@@ -1580,6 +1580,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function ppcp_display_order_page() {
+        $is_success = false;
+        $is_handled = false;
         $this->checkout_details = $this->request->ppcp_get_checkout_details($_GET['paypal_order_id']);
         ppcp_set_session('ppcp_paypal_transaction_details', $this->checkout_details);
         if (empty($this->checkout_details)) {
@@ -1596,7 +1598,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
         $order = wc_get_order($order_id);
         $this->checkout_details = $this->checkout_details;
-        if ($this->paymentaction === 'capture' && !empty($this->checkout_details->status) && $this->checkout_details->status == 'COMPLETED' && $order !== false) {
+        if ($this->paymentaction === 'capture' && !empty($this->checkout_details->status) && $this->checkout_details->status === 'COMPLETED' && $order !== false) {
+            $is_handled = true;
             $transaction_id = isset($this->checkout_details->purchase_units[0]->payments->captures[0]->id) ? $this->checkout_details->purchase_units['0']->payments->captures[0]->id : '';
             $seller_protection = isset($this->checkout_details->purchase_units[0]->payments->captures[0]->seller_protection->status) ? $this->checkout_details->purchase_units[0]->payments->captures[0]->seller_protection->status : '';
             $payment_source = isset($this->checkout_details->payment_source) ? $this->checkout_details->payment_source : '';
@@ -1637,7 +1640,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 $order->save_meta_data();
             }
             $payment_status = isset($this->checkout_details->purchase_units[0]->payments->captures[0]->status) ? $this->checkout_details->purchase_units[0]->payments->captures[0]->status : '';
-            if ($payment_status == 'COMPLETED') {
+            $this->request->ppcp_log('ppcp_display_order_page capture: order #' . $order_id . ', capture status=' . ($payment_status ? $payment_status : 'N/A') . ', transaction_id=' . ($transaction_id ? $transaction_id : 'N/A'));
+            if ($payment_status === 'COMPLETED') {
                 wpg_set_order_payment_method_title_from_paypal_response($order, $this->checkout_details);
                 $order->payment_complete($transaction_id);
                 // translators: %1$s is the payment method title, %2$s is the formatted payment status.
@@ -1646,32 +1650,90 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 // translators: %1$s is the payment method title, %2$s is the PayPal transaction ID.
                 $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $this->title, $transaction_id));
                 $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
+                $is_success = true;
             } else {
-                $payment_status_reason = $payment_status_reason = isset($this->checkout_details->purchase_units[0]->payments->authorizations[0]->status_details->reason) ? $this->checkout_details->purchase_units[0]->payments->authorizations[0]->status_details->reason : '';
-                ppcp_update_woo_order_status($order_id, $payment_status, $payment_status_reason, $processor_response);
+                $payment_status_reason = isset($this->checkout_details->purchase_units[0]->payments->captures[0]->status_details->reason) ? $this->checkout_details->purchase_units[0]->payments->captures[0]->status_details->reason : '';
+                $is_success = ppcp_update_woo_order_status($order_id, $payment_status, $payment_status_reason, $processor_response);
             }
             
-        } elseif ($this->paymentaction === 'authorize' && !empty($this->checkout_details->status) && $this->checkout_details->status == 'COMPLETED' && $order !== false) {
+        } elseif ($this->paymentaction === 'authorize' && !empty($this->checkout_details->status) && $this->checkout_details->status === 'COMPLETED' && $order !== false) {
+            $is_handled = true;
             $transaction_id = isset($this->checkout_details->purchase_units[0]->payments->authorizations[0]->id) ? $this->checkout_details->purchase_units['0']->payments->authorizations[0]->id : '';
             $seller_protection = isset($this->checkout_details->purchase_units[0]->payments->authorizations[0]->seller_protection->status) ? $this->checkout_details->purchase_units[0]->payments->authorizations[0]->seller_protection->status : '';
-            $payment_status = isset($this->checkout_details->purchase_units[0]->payments->authorizations[0]->status) ? $this->checkout_details->purchase_units[0]->payments->authorizations[0]->status : '';
+            $payment_status = isset($this->checkout_details->purchase_units[0]->payments->authorizations[0]->status) ? strtoupper($this->checkout_details->purchase_units[0]->payments->authorizations[0]->status) : '';
             $payment_status_reason = isset($this->checkout_details->purchase_units[0]->payments->authorizations[0]->status_details->reason) ? $this->checkout_details->purchase_units[0]->payments->authorizations[0]->status_details->reason : '';
-            if (!empty($payment_status_reason)) {
-                // translators: %1$s is the payment method title, %2$s is the pending reason from PayPal.
-                $order->add_order_note(sprintf(__('Payment via %1$s Pending. PayPal reason: %2$s.', 'woo-paypal-gateway'), $this->title, $payment_status_reason));
+            $this->request->ppcp_log(
+                'ppcp_display_order_page authorize: order #' . $order_id .
+                ', PayPal order status=' . $this->checkout_details->status .
+                ', authorization status=' . ($payment_status ? $payment_status : 'N/A') .
+                ', transaction_id=' . ($transaction_id ? $transaction_id : 'N/A')
+            );
+            $order->add_order_note(sprintf(__('Authorize response status received from PayPal: %s.', 'woo-paypal-gateway'), $payment_status ? $payment_status : __('N/A', 'woo-paypal-gateway')));
+            if (in_array($payment_status, array('AUTHORIZED', 'CREATED'), true)) {
+                if (!empty($payment_status_reason)) {
+                    // translators: %1$s is the payment method title, %2$s is the pending reason from PayPal.
+                    $order->add_order_note(sprintf(__('Payment via %1$s Pending. PayPal reason: %2$s.', 'woo-paypal-gateway'), $this->title, $payment_status_reason));
+                }
+                apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $order_id);
+                $order->set_transaction_id($transaction_id);
+                $order->update_meta_data('_payment_status', $payment_status);
+                $order->update_meta_data('_auth_transaction_id', $transaction_id);
+                $order->update_meta_data('_payment_action', $this->paymentaction);
+                $order->save_meta_data();
+                // translators: %1$s is the payment method title, %2$s is the PayPal transaction ID.
+                $order->add_order_note(sprintf(__('Payment via %1$s. Transaction ID: %2$s', 'woo-paypal-gateway'), $this->title, $transaction_id));
+                $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
+                $order->update_status($this->authorized_order_status);
+                $order->add_order_note($this->get_payment_authorized_note());
+                $is_success = true;
+            } else {
+                $is_success = ppcp_update_woo_order_status($order_id, $payment_status ? $payment_status : 'FAILED', $payment_status_reason);
             }
-            apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $order_id);
-            $order->set_transaction_id($transaction_id);
-            $order->update_meta_data('_payment_status', $payment_status);
-            $order->update_meta_data('_auth_transaction_id', $transaction_id);
-            $order->update_meta_data('_payment_action', $this->paymentaction);
-            $order->save_meta_data();
-            // translators: %1$s is the payment method title, %2$s is the PayPal transaction ID.
-            $order->add_order_note(sprintf(__('Payment via %1$s. Transaction ID: %2$s', 'woo-paypal-gateway'), $this->title, $transaction_id));
-            $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
-            $order->update_status($this->authorized_order_status);
-            $order->add_order_note($this->get_payment_authorized_note());
         }
+
+        if ($is_handled && !$is_success) {
+            if (function_exists('wc_add_notice')) {
+                wc_add_notice(__('PayPal payment was not approved. Please try again or use a different payment method.', 'woo-paypal-gateway'), 'error');
+            }
+            if ($order) {
+                wp_safe_redirect($order->get_checkout_payment_url());
+            } else {
+                wp_safe_redirect(wc_get_checkout_url());
+            }
+            exit();
+        }
+
+        if (!$is_handled) {
+            $paypal_order_status = !empty($this->checkout_details->status) ? strtoupper($this->checkout_details->status) : 'UNKNOWN';
+            $this->request->ppcp_log(
+                'ppcp_display_order_page: order #' . $order_id . ' was not handled. ' .
+                'PayPal order status: ' . $paypal_order_status . '. ' .
+                'paymentaction: ' . $this->paymentaction . '. ' .
+                'Treating as failed to prevent incorrectly marking order as paid.'
+            );
+            if ($order) {
+                $order->add_order_note(
+                    sprintf(
+                        __('PayPal payment not completed. PayPal order status received: %s. Order marked as failed.', 'woo-paypal-gateway'),
+                        $paypal_order_status
+                    )
+                );
+                if (!$order->has_status(array('failed', 'cancelled'))) {
+                    $order->update_status('failed', sprintf(__('PayPal payment not completed. Status: %s', 'woo-paypal-gateway'), $paypal_order_status));
+                }
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice(__('PayPal payment was not completed. Please try again or use a different payment method.', 'woo-paypal-gateway'), 'error');
+                }
+                wp_safe_redirect($order->get_checkout_payment_url());
+            } else {
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice(__('PayPal payment was not completed. Please try again or use a different payment method.', 'woo-paypal-gateway'), 'error');
+                }
+                wp_safe_redirect(wc_get_checkout_url());
+            }
+            exit();
+        }
+
         wpg_clear_ppcp_session_and_cart();
         wp_safe_redirect($order->get_checkout_order_received_url());
         exit();
@@ -3057,46 +3119,28 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function should_enable_google_pay_for_page($page) {
-        // Condition 1: Check if Google Pay is explicitly enabled for the current page
         if ($this->is_google_pay_enable_for_page($page)) {
             return true;
         }
-
-        // Condition 2: If the current page is "product" or "cart"
-        // AND Google Pay is enabled for "mini_cart", treat it as enabled
         if (in_array($page, ['product', 'cart'], true) && $this->is_google_pay_enable_for_page('mini_cart')) {
             return true;
         }
-
-        // Condition 3: If the current page is "checkout"
-        // AND Express Checkout is enabled, then allow Google Pay
         if ($page === 'checkout' && $this->is_google_pay_enable_for_page('express_checkout')) {
             return true;
         }
-
-        // Default: Google Pay is not enabled for this context
         return false;
     }
 
     public function should_enable_apple_pay_for_page($page) {
-        // Condition 1: Check if Apple Pay is explicitly enabled for the current page
         if ($this->is_apple_pay_enable_for_page($page)) {
             return true;
         }
-
-        // Condition 2: If the current page is "product" or "cart"
-        // AND Apple Pay is enabled for "mini_cart", treat it as enabled
         if (in_array($page, ['product', 'cart'], true) && $this->is_apple_pay_enable_for_page('mini_cart')) {
             return true;
         }
-
-        // Condition 3: If the current page is "checkout"
-        // AND Express Checkout is enabled, then allow Apple Pay
         if ($page === 'checkout' && $this->is_apple_pay_enable_for_page('express_checkout')) {
             return true;
         }
-
-        // Default: Apple Pay is not enabled for this context
         return false;
     }
 

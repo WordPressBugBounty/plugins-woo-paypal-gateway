@@ -782,7 +782,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $this->ppcp_update_order_address_from_paypal_capture($woo_order_id, $api_response);
                     $return_response['paypal_order_id'] = $api_response['id'];
                     $this->ppcp_set_order_session_data($api_response['id'], 'capture', $woo_order_id);
-                    if ($api_response['status'] == 'COMPLETED') {
+                    $this->ppcp_log('Capture response for order #' . $woo_order_id . ': PayPal order status=' . (isset($api_response['status']) ? $api_response['status'] : 'N/A'));
+                    if (isset($api_response['status']) && $api_response['status'] === 'COMPLETED') {
                         do_action('wpg_ppcp_save_payment_method_details', $woo_order_id, $api_response);
                         $payment_source = isset($api_response['payment_source']) ? $api_response['payment_source'] : '';
                         if (!empty($payment_source['card'])) {
@@ -824,7 +825,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $transaction_id = isset($api_response['purchase_units']['0']['payments']['captures']['0']['id']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['id'] : '';
                         $seller_protection = isset($api_response['purchase_units']['0']['payments']['captures']['0']['seller_protection']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['seller_protection']['status'] : '';
                         $payment_status = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status'] : '';
-                        if ($payment_status == 'COMPLETED') {
+                        $this->ppcp_log('Capture payment_status for order #' . $woo_order_id . ': capture status=' . ($payment_status ? $payment_status : 'N/A') . ', transaction_id=' . ($transaction_id ? $transaction_id : 'N/A'));
+                        if ($payment_status === 'COMPLETED') {
                             wpg_set_order_payment_method_title_from_paypal_response($order, $api_response);
                             $order->payment_complete($transaction_id);
                             // translators: 1: Payment method title, 2: Payment status (e.g., Completed, Pending).
@@ -977,10 +979,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $this->ppcp_update_order_address_from_paypal_capture($woo_order_id, $api_response);
                     $return_response['paypal_order_id'] = $api_response['id'];
                     $this->ppcp_set_order_session_data($api_response['id'], 'approved', $woo_order_id);
-                    if ($api_response['status'] == 'COMPLETED') {
-                        $transaction_id = isset($api_response['purchase_units']['0']['payments']['authorizations']['0']['id']) ? $api_response['purchase_units']['0']['payments']['authorizations']['0']['id'] : '';
-                        $seller_protection = isset($api_response['purchase_units']['0']['payments']['authorizations']['0']['seller_protection']['status']) ? $api_response['purchase_units']['0']['payments']['authorizations']['0']['seller_protection']['status'] : '';
-                        $payment_status = isset($api_response['purchase_units']['0']['payments']['authorizations']['0']['status']) ? $api_response['purchase_units']['0']['payments']['authorizations']['0']['status'] : '';
+                    $transaction_id = isset($api_response['purchase_units']['0']['payments']['authorizations']['0']['id']) ? $api_response['purchase_units']['0']['payments']['authorizations']['0']['id'] : '';
+                    $seller_protection = isset($api_response['purchase_units']['0']['payments']['authorizations']['0']['seller_protection']['status']) ? $api_response['purchase_units']['0']['payments']['authorizations']['0']['seller_protection']['status'] : '';
+                    $payment_status = isset($api_response['purchase_units']['0']['payments']['authorizations']['0']['status']) ? strtoupper($api_response['purchase_units']['0']['payments']['authorizations']['0']['status']) : '';
+                    $payment_status_reason = isset($api_response['purchase_units']['0']['payments']['authorizations']['0']['status_details']['reason']) ? $api_response['purchase_units']['0']['payments']['authorizations']['0']['status_details']['reason'] : '';
+                    $this->ppcp_log('Authorize response status for order #' . $woo_order_id . ': order_status=' . (isset($api_response['status']) ? $api_response['status'] : 'N/A') . ', authorization_status=' . ($payment_status ? $payment_status : 'N/A'));
+                    if (in_array($payment_status, array('AUTHORIZED', 'CREATED'), true)) {
                         $order->set_transaction_id($transaction_id);
                         $order->update_meta_data('_payment_status', $payment_status);
                         $order->update_meta_data('_auth_transaction_id', $transaction_id);
@@ -991,6 +995,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
                         $order->update_status($this->authorized_order_status);
                         $order->add_order_note($this->get_payment_authorized_note());
+                    } else {
+                        $this->ppcp_log('Authorize request did not return a successful authorization status for order #' . $woo_order_id . '. Received status: ' . ($payment_status ? $payment_status : 'N/A'));
+                        ppcp_update_woo_order_status($woo_order_id, $payment_status ? $payment_status : 'FAILED', $payment_status_reason);
+                        $order->add_order_note(
+                            sprintf(
+                                __('PayPal authorization was not successful. Received status: %1$s.', 'woo-paypal-gateway'),
+                                $payment_status ? $payment_status : __('N/A', 'woo-paypal-gateway')
+                            )
+                        );
+                        return false;
                     }
                     wpg_clear_ppcp_session_and_cart();
                     return true;
@@ -1761,8 +1775,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $webhook_request['url'] = add_query_arg(array('ppcp_action' => 'webhook_handler', 'utm_nooverride' => '1'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager'));
                 $webhook_request['event_types'][] = array('name' => 'CHECKOUT.ORDER.APPROVED');
                 $webhook_request['event_types'][] = array('name' => 'PAYMENT.AUTHORIZATION.CREATED');
+                $webhook_request['event_types'][] = array('name' => 'PAYMENT.AUTHORIZATION.DENIED');
                 $webhook_request['event_types'][] = array('name' => 'PAYMENT.AUTHORIZATION.VOIDED');
                 $webhook_request['event_types'][] = array('name' => 'PAYMENT.CAPTURE.COMPLETED');
+                $webhook_request['event_types'][] = array('name' => 'PAYMENT.CAPTURE.DECLINED');
                 $webhook_request['event_types'][] = array('name' => 'PAYMENT.CAPTURE.DENIED');
                 $webhook_request['event_types'][] = array('name' => 'PAYMENT.CAPTURE.PENDING');
                 $webhook_request['event_types'][] = array('name' => 'PAYMENT.CAPTURE.REFUNDED');
@@ -1995,24 +2011,54 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->ppcp_log('PayPal Transaction ID: ' . $posted['resource']['id']);
             }
             if (isset($posted['resource']['status']) && isset($posted['resource']['id'])) {
-                switch ($posted['event_type']) {
-                    case 'PAYMENT.AUTHORIZATION.CREATED' :
+                $event_type     = isset($posted['event_type']) ? $posted['event_type'] : '';
+                $resource_status = isset($posted['resource']['status']) ? $posted['resource']['status'] : '';
+                $resource_id     = isset($posted['resource']['id']) ? $posted['resource']['id'] : '';
+                $this->ppcp_log(
+                    'Webhook event received: event_type=' . $event_type .
+                    ', resource_status=' . $resource_status .
+                    ', resource_id=' . $resource_id .
+                    ', order_id=' . ($order ? $order->get_id() : 'unknown')
+                );
+                switch ($event_type) {
+                    case 'CHECKOUT.ORDER.APPROVED':
+                        $this->ppcp_log(
+                            'CHECKOUT.ORDER.APPROVED webhook received for order #' .
+                            ($order ? $order->get_id() : 'unknown') .
+                            '. No order status change — awaiting capture or authorization event.'
+                        );
+                        break;
+                    case 'PAYMENT.AUTHORIZATION.CREATED':
+                        $this->ppcp_log('Processing PAYMENT.AUTHORIZATION.CREATED for order #' . ($order ? $order->get_id() : 'unknown'));
                         $this->payment_status_authorized($order);
                         break;
-                    case 'PAYMENT.AUTHORIZATION.VOIDED' :
-                        $this->payment_status_voided($order, $posted);
-                        break;
-                    case 'PAYMENT.CAPTURE.COMPLETED' :
-                        $this->payment_status_completed($order, $posted);
-                        break;
-                    case 'PAYMENT.CAPTURE.DENIED' :
+                    case 'PAYMENT.AUTHORIZATION.DENIED':
+                        $this->ppcp_log('Processing PAYMENT.AUTHORIZATION.DENIED for order #' . ($order ? $order->get_id() : 'unknown') . '. Marking as failed.');
                         $this->payment_status_denied($order, $posted);
                         break;
-                    case 'PAYMENT.CAPTURE.PENDING' :
+                    case 'PAYMENT.AUTHORIZATION.VOIDED':
+                        $this->ppcp_log('Processing PAYMENT.AUTHORIZATION.VOIDED for order #' . ($order ? $order->get_id() : 'unknown') . '. Marking as failed.');
+                        $this->payment_status_voided($order, $posted);
+                        break;
+                    case 'PAYMENT.CAPTURE.COMPLETED':
+                        $this->ppcp_log('Processing PAYMENT.CAPTURE.COMPLETED for order #' . ($order ? $order->get_id() : 'unknown'));
+                        $this->payment_status_completed($order, $posted);
+                        break;
+                    case 'PAYMENT.CAPTURE.DECLINED':
+                    case 'PAYMENT.CAPTURE.DENIED':
+                        $this->ppcp_log('Processing ' . $event_type . ' for order #' . ($order ? $order->get_id() : 'unknown') . '. Marking as failed.');
+                        $this->payment_status_denied($order, $posted);
+                        break;
+                    case 'PAYMENT.CAPTURE.PENDING':
+                        $this->ppcp_log('Processing PAYMENT.CAPTURE.PENDING for order #' . ($order ? $order->get_id() : 'unknown') . '. Setting on-hold.');
                         $this->payment_status_on_hold($order, $posted);
                         break;
-                    case 'PAYMENT.CAPTURE.REFUNDED' :
+                    case 'PAYMENT.CAPTURE.REFUNDED':
+                        $this->ppcp_log('Processing PAYMENT.CAPTURE.REFUNDED for order #' . ($order ? $order->get_id() : 'unknown'));
                         $this->payment_status_refunded($order, $posted);
+                        break;
+                    default:
+                        $this->ppcp_log('Unhandled webhook event_type: ' . $event_type . ' for order #' . ($order ? $order->get_id() : 'unknown'));
                         break;
                 }
             }
@@ -2024,16 +2070,22 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->ppcp_log('Aborting, Order #' . $order->get_id() . ' is already complete.');
             exit;
         }
-        if ('COMPLETED' === $posted['resource']['status']) {
+        $resource_status = isset($posted['resource']['status']) ? strtoupper($posted['resource']['status']) : '';
+        $this->ppcp_log('Webhook payment completion check for order #' . $order->get_id() . ': event=' . (isset($posted['event_type']) ? $posted['event_type'] : 'N/A') . ', resource_status=' . $resource_status);
+        if ('COMPLETED' === $resource_status) {
             $this->payment_complete($order);
         } else {
-            if ('created' === $posted['resource']['status']) {
+            if ('PENDING' === $resource_status) {
+                if (!empty($posted['resource']['status_details']['reason'])) {
+                    $this->payment_on_hold($order, sprintf(__('Payment pending (%1$s).', 'woo-paypal-gateway'), $posted['resource']['status_details']['reason']));
+                } else {
+                    $this->payment_on_hold($order, __('Payment is pending at PayPal.', 'woo-paypal-gateway'));
+                }
+            } elseif ('AUTHORIZED' === $resource_status || 'CREATED' === $resource_status) {
                 $this->payment_on_hold($order, $this->get_payment_authorized_note());
             } else {
-                if (!empty($posted['pending_reason'])) {
-                    // translators: 1: PayPal pending reason.
-                    $this->payment_on_hold($order, sprintf(__('Payment pending (%1$s).', 'woo-paypal-gateway'), $posted['pending_reason']));
-                }
+                $this->ppcp_log('Webhook payment status is not successful for order #' . $order->get_id() . '. Marking order as failed. Status: ' . $resource_status);
+                $this->payment_status_failed($order);
             }
         }
     }

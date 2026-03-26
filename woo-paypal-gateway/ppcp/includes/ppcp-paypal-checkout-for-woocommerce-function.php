@@ -353,6 +353,7 @@ if (!function_exists('ppcp_update_woo_order_status')) {
 
     function ppcp_update_woo_order_status($orderid, $payment_status, $pending_reason, $processor_response = null) {
         try {
+            $payment_status = strtoupper((string) $payment_status);
             if (empty($pending_reason)) {
                 $pending_reason = $payment_status;
             }
@@ -381,7 +382,7 @@ if (!function_exists('ppcp_update_woo_order_status')) {
                 $cvv_hint = __('Security code (CVV) didn’t match.', 'woo-paypal-gateway');
             }
             $pending_reason_text = '';
-            if (in_array(strtoupper($payment_status), ['DECLINED', 'PENDING'], true)) {
+            if (in_array($payment_status, ['DECLINED', 'PENDING'], true)) {
                 switch (strtoupper($pending_reason)) {
                     case 'BUYER_COMPLAINT':
                         $pending_reason_text = __('The payer opened a dispute with PayPal.', 'woo-paypal-gateway');
@@ -425,8 +426,25 @@ if (!function_exists('ppcp_update_woo_order_status')) {
                 $reasons[] = $pending_reason_text;
             }
             $final_detail = $reasons ? implode(' ', $reasons) : __('The transaction could not be completed.', 'woo-paypal-gateway');
-            $success = true;
-            switch (strtoupper($payment_status)) {
+            $order->add_order_note(sprintf(__('PayPal payment status received: %s', 'woo-paypal-gateway'), $payment_status ? $payment_status : __('N/A', 'woo-paypal-gateway')));
+            $success = false;
+            switch ($payment_status) {
+                case 'AUTHORIZED':
+                case 'CREATED':
+                    $settings = get_option('woocommerce_wpg_paypal_checkout_settings', array());
+                    $authorized_status = !empty($settings['authorized_order_status']) ? sanitize_key($settings['authorized_order_status']) : 'on-hold';
+                    if (strpos($authorized_status, 'wc-') === 0) {
+                        $authorized_status = substr($authorized_status, 3);
+                    }
+                    if (empty($authorized_status)) {
+                        $authorized_status = 'on-hold';
+                    }
+                    $order->update_status($authorized_status, __('Payment authorized. Awaiting capture.', 'woo-paypal-gateway'));
+                    $success = true;
+                    break;
+                case 'COMPLETED':
+                    $success = true;
+                    break;
                 case 'PENDING':
                     $order->update_status(
                             'on-hold',
@@ -540,9 +558,31 @@ if (!function_exists('ppcp_update_woo_order_status')) {
 
                     $success = true;
                     break;
+                case 'DENIED':
+                case 'VOIDED':
+                    $order->update_status(
+                            'failed',
+                            sprintf(
+                                    /* translators: 1: payment method title, 2: payment status */
+                                    __('Payment via %1$s %2$s.', 'woo-paypal-gateway'),
+                                    $order->get_payment_method_title(),
+                                    strtolower($payment_status)
+                            )
+                    );
+                    $success = false;
+                    break;
 
                 default:
-                    $success = true;
+                    $order->update_status(
+                            'failed',
+                            sprintf(
+                                    /* translators: 1: payment method title, 2: payment status */
+                                    __('Payment via %1$s returned unsupported status: %2$s.', 'woo-paypal-gateway'),
+                                    $order->get_payment_method_title(),
+                                    $payment_status ? $payment_status : __('UNKNOWN', 'woo-paypal-gateway')
+                            )
+                    );
+                    $success = false;
                     break;
             }
             return $success;
