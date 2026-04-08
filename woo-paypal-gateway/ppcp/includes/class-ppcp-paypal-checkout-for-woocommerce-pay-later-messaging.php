@@ -180,6 +180,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
     }
 
     public function is_paypal_pay_later_messaging_enable_for_page($page = '') {
+        if (is_wc_endpoint_url('order-received')) {  
+            return false;
+        }
         if (empty($page)) {
             return false;
         }
@@ -417,7 +420,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
         );
         wp_enqueue_script('ppcp-checkout-js');
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-        wp_enqueue_script('ppcp-pay-later-messaging-shortcode', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/pay-later-messaging/shortcode.js', array('jquery'), WPG_PLUGIN_VERSION, true);
+        wp_enqueue_script('ppcp-pay-later-messaging-shortcode', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/pay-later-messaging/shortcode.js', array('ppcp-checkout-js'), WPG_PLUGIN_VERSION, true);
         $this->ppcp_paypal_pay_later_messaging_js_enqueue($placement_default = 'shortcode', $atts);
         return '<div class="ppcp_message_shortcode"></div>';
     }

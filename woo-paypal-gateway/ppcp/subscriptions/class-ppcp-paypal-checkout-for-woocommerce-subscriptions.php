@@ -48,6 +48,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions extends PPCP_Paypal_Che
         if ($renewal_order->get_meta('_subscription_payment_processed') === 'yes') {
             return; // Skip the payment processing if it has already been processed
         }
+
+        // Mark as processing BEFORE payment to prevent concurrent processing
+        $renewal_order->update_meta_data('_subscription_payment_processed', 'yes');
+        $renewal_order->save();
+
         $payment_tokens_id = $renewal_order->get_meta('_payment_tokens_id', true);
         if (empty($payment_tokens_id) || $payment_tokens_id == false) {
             $this->wpg_scheduled_subscription_payment_retry_compability($renewal_order);
@@ -74,8 +79,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions extends PPCP_Paypal_Che
         $renewal_order->update_meta_data('_enviorment', ($this->sandbox) ? 'sandbox' : 'live');
         $renewal_order->save();
         parent::process_subscription_payment($renewal_order, $amount_to_charge);
-        $renewal_order->update_meta_data('_subscription_payment_processed', 'yes');
-        $renewal_order->save_meta_data();
     }
 
     public function add_subscription_payment_meta($payment_meta, $subscription) {

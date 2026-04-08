@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 6.9.4
-Stable tag: 9.0.60
+Stable tag: 9.0.62
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,14 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.62 - 2026-04-08 =
+ * Fixed - Pay Later Messaging shortcode not rendering on default WordPress/WooCommerce pages. (handled special case).
+ * Fixed - Inconsistent behavior of “Use Place Order Button” setting on Order Pay page.
+ * Fixed - Shipping-related issue.
+
+= 9.0.61 - 2026-03-30 =
+* Fixed - Apple Pay and Google Pay buttons not rendering in mini cart on non-product pages (e.g. homepage).
 
 = 9.0.60 - 2026-03-21 =
 * Fixed - Improved handling of authorization-only payments to ensure correct order status updates.

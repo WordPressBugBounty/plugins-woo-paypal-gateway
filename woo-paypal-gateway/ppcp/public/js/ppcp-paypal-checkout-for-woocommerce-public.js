@@ -1,7 +1,7 @@
 (function ($) {
     class PPCPManager {
         constructor(ppcp_manager) {
-            // 9.0.60
+            // 9.0.62
             this.ppcp_manager = ppcp_manager;
             this.productAddToCart = true;
             this.lastApiResponse = null;
@@ -235,6 +235,13 @@
                 this.debouncedTogglePlaceOrderButton();
                 $(document.body).trigger('wpg_change_method');
             });
+            $('#order_review').on('click', 'input[name="payment_method"]', () => {
+                this.debouncedTogglePlaceOrderButton();
+                $(document.body).trigger('wpg_change_method');
+            });
+            if (this.ppcp_manager.is_pay_page === 'yes') {
+                this.debouncedTogglePlaceOrderButton();
+            }
             $(document.body).on('ppcp_cc_checkout_updated ppcp_checkout_updated ppcp_cc_block_ready ppcp_block_ready', () => {
                 this.debouncedTogglePlaceOrderButton();
             });
@@ -337,7 +344,7 @@
             const usePlaceOrder = this.ppcp_manager.use_place_order === '1';
             const PO_CLASSIC = '#place_order';
             const PO_BLOCKS = '.wc-block-components-checkout-place-order-button';
-            const WALLETS = '#ppcp_checkout, .google-pay-container.checkout, .apple-pay-container.checkout';
+            const WALLETS = '#ppcp_checkout, #ppcp_order_pay, .google-pay-container.checkout, .apple-pay-container.checkout';
             const setVisible = (sel, visible, displayShown = '') => {
                 const $el = jQuery(sel);
                 $el.toggleClass('wpg_place_order_hide', !visible);
@@ -651,6 +658,7 @@
             if (selector === '#ppcp_cart') return 'cart';
             if (selector === '#ppcp_checkout_top') return 'express_checkout';
             if (selector === '#ppcp_checkout') return 'checkout';
+            if (selector === '#ppcp_order_pay') return 'pay_page';
 
             return 'checkout'; // fallback default
         }
