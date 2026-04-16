@@ -322,7 +322,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     'redirection' => 5,
                     'httpversion' => '1.1',
                     'blocking' => true,
-                    'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, 'Accept-Language' => 'en_US'),
+                    'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, 'Accept-Language' => 'en_US', 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB'),
                     'cookies' => array()
                         )
                 );
@@ -2383,10 +2383,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if ($woo_order_id != null) {
                 $order = wc_get_order($woo_order_id);
                 $body_request['purchase_units'][0]['invoice_id'] = $this->invoice_id_prefix . str_replace("#", "", $order->get_order_number());
-                $body_request['purchase_units'][0]['custom_id'] = apply_filters('ppcp_custom_id', $this->invoice_id_prefix . str_replace("#", "", $order->get_order_number()), $order);
+                $body_request['purchase_units'][0]['custom_id'] = wp_json_encode(
+                    array(
+                        'order_id' => $order->get_id(),
+                        'order_key' => $order->get_order_key(),
+                    )
+                );
             } else {
                 $body_request['purchase_units'][0]['invoice_id'] = $reference_id;
-                $body_request['purchase_units'][0]['custom_id'] = apply_filters('ppcp_custom_id', $reference_id, '');
+                $body_request['purchase_units'][0]['custom_id'] = wp_json_encode(
+                    array(
+                        'order_id' => $reference_id,
+                        'order_key' => $reference_id,
+                    )
+                );
             }
             $body_request['purchase_units'][0]['payee']['merchant_id'] = $this->merchant_id;
             if ($this->send_items === true) {
@@ -2809,7 +2819,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             );
             $order = wc_get_order($woo_order_id);
             $body_request['purchase_units'][0]['invoice_id'] = $this->invoice_id_prefix . $invoice_id . str_replace("#", "", $order->get_order_number());
-            $body_request['purchase_units'][0]['custom_id'] = apply_filters('ppcp_custom_id', $this->invoice_id_prefix . str_replace("#", "", $order->get_order_number()), $order);
+            $body_request['purchase_units'][0]['custom_id'] = wp_json_encode(
+                array(
+                    'order_id' => $order->get_id(),
+                    'order_key' => $order->get_order_key(),
+                )
+            );
             $body_request['purchase_units'][0]['payee']['merchant_id'] = $this->merchant_id;
             if ($this->send_items === true) {
             if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {

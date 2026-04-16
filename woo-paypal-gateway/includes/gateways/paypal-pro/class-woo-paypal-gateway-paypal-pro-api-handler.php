@@ -258,6 +258,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
             'USER' => $this->gateway->api_username,
             'PWD' => $this->gateway->api_password,
             'METHOD' => 'GetTransactionDetails',
+            'BUTTONSOURCE' => 'mbjtechnolabs_SP',
             'TRANSACTIONID' => $this->transaction_id
         );
         return $post_data;
@@ -271,6 +272,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                 'USER' => $this->gateway->api_username,
                 'PWD' => $this->gateway->api_password,
                 'SIGNATURE' => $this->gateway->api_signature,
+                'BUTTONSOURCE' => 'mbjtechnolabs_SP',
                 'TRANSACTIONID' => $this->order->get_transaction_id(),
                 'REFUNDTYPE' => $this->order->get_total() == $this->refund_amount ? 'Full' : 'Partial',
                 'AMT' => wpg_number_format($this->refund_amount),

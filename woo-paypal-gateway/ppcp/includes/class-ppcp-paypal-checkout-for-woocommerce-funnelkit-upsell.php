@@ -52,22 +52,31 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell extends WFOCU_Gatewa
             return false;
         }
 
-        if (!empty($order->get_meta('_payment_tokens_id', true))) {
+        $order_id = $order->get_id();
+        $fresh_order = wc_get_order($order_id);
+        if ($fresh_order instanceof WC_Order && !empty($fresh_order->get_meta('_payment_tokens_id', true))) {
             return true;
         }
 
         $parent_id = (int) $order->get_parent_id();
-        if ($parent_id <= 0) {
-            return false;
+        if ($parent_id > 0) {
+            $parent_order = wc_get_order($parent_id);
+            if ($parent_order instanceof WC_Order && !empty($parent_order->get_meta('_payment_tokens_id', true))) {
+                return true;
+            }
         }
 
-        $parent_order = wc_get_order($parent_id);
-        if (!$parent_order instanceof WC_Order) {
-            return false;
+        $user_id = (int) $order->get_customer_id();
+        if ($user_id > 0) {
+            foreach (['wpg_paypal_checkout', 'wpg_paypal_checkout_cc'] as $gateway_id) {
+                $tokens = WC_Payment_Tokens::get_customer_tokens($user_id, $gateway_id);
+                if (!empty($tokens)) {
+                    return true;
+                }
+            }
         }
 
-        return !empty($parent_order->get_meta('_payment_tokens_id', true));
-
+        return false;
     }
 
     /**
@@ -87,7 +96,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell extends WFOCU_Gatewa
 
         if (class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
             $request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
-            $invoice_id = '-wfocu-';
+            $invoice_id = '-wfocu-' . uniqid() . '-';
             $result = $request->wpg_ppcp_capture_order_using_payment_method_token($order->get_id(), $invoice_id);
             if ($result) {
                 if (!empty($order->get_transaction_id()) && function_exists('WFOCU_Core')) {

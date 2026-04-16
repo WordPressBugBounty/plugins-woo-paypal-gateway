@@ -78,7 +78,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
         $args = array(
             'method' => 'POST',
             'body' => $this->data(),
-            'headers' => array(),
+            'headers' => array(
+                'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
+            ),
         );
         return $this->api_request->request($host_url, $args, 'generate_signup_link');
     }
@@ -90,7 +92,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
         $args = array(
             'method' => 'POST',
             'body' => $this->google_pay_data(),
-            'headers' => array(),
+            'headers' => array(
+                'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
+            ),
         );
         return $this->api_request->request($host_url, $args, 'generate_signup_link');
     }
@@ -102,7 +106,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
         $args = array(
             'method' => 'POST',
             'body' => $this->apple_pay_data(),
-            'headers' => array(),
+            'headers' => array(
+                'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
+            ),
         );
         return $this->api_request->request($host_url, $args, 'generate_signup_link');
     }
@@ -217,6 +223,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 'method' => 'POST',
                 'headers' => array(
                     'Authorization' => 'Basic ' . base64_encode($sharedId . ':'),
+                    'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
                 ),
                 'body' => array(
                     'grant_type' => 'authorization_code',
@@ -246,6 +253,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 'headers' => array(
                     'Authorization' => 'Bearer ' . $token,
                     'Content-Type' => 'application/json',
+                    'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
                 ),
             );
             $result = $this->api_request->request($url, $args, 'get_credentials');
@@ -379,6 +387,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 'headers' => array(
                     'Authorization' => 'Bearer ' . $access_token,
                     'Content-Type' => 'application/json',
+                    'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
                 ),
             );
             $result = $this->api_request->request($url, $args, 'seller_onboarding_status');

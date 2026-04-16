@@ -2802,7 +2802,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 return;
             }
             $order = wc_get_order($woo_order_id);
-            $order->get_meta('_wpg_ppcp_used_payment_method', $wpg_payment_method);
+            $order->update_meta_data('_wpg_ppcp_used_payment_method', $wpg_payment_method);
             if (isset($api_response['payment_source'][$wpg_payment_method]['attributes']['vault']['customer']['id'])) {
                 $customer_id = $api_response['payment_source'][$wpg_payment_method]['attributes']['vault']['customer']['id'];
                 update_post_meta($woo_order_id, '_paypal_customer_id', $customer_id);

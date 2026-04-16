@@ -162,6 +162,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             $post_data['PWD'] = $this->gateway->paypal_password;
             $post_data['TRXTYPE'] = 'I';
             $post_data['ORIGID'] = $transaction_id;
+            $post_data['BUTTONSOURCE'] = 'mbjtechnolabs_SP';
             $response = wp_remote_post($url, array(
                 'method' => 'POST',
                 'body' => urldecode(http_build_query(apply_filters('woo-paypal-gateway_payflow_transaction_details_request', $post_data, null, '&'))),
@@ -205,6 +206,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             $post_data['PWD'] = $this->gateway->paypal_password;
             $post_data['TRXTYPE'] = 'C';
             $post_data['ORIGID'] = $order->get_transaction_id();
+            $post_data['BUTTONSOURCE'] = 'mbjtechnolabs_SP';
             if (!is_null($amount)) {
                 $post_data['AMT'] = number_format($amount, 2, '.', '');
                 $post_data['CURRENCY'] = $order->get_currency();
