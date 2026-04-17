@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 7.0
-Stable tag: 9.0.63
+Stable tag: 9.0.64
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -101,8 +101,11 @@ Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, y
 
 == Changelog ==
 
+= 9.0.64 - 2026-04-17 =
+ * Fixed - Google Pay [OR_BIBED_06] error on express payment when "Hide shipping costs until an address is entered" is enabled. 
+
 = 9.0.63 - 2026-04-16 =
- * Fixed - Fixed - Compatibility issue with FunnelKit Upsell in certain cases
+ * Fixed - Compatibility issue with FunnelKit Upsell in certain cases.
  
 = 9.0.62 - 2026-04-08 =
  * Fixed - Pay Later Messaging shortcode not rendering on default WordPress/WooCommerce pages. (handled special case).

@@ -1076,7 +1076,32 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function ppcp_get_details_from_cart() {
         try {
+            $ready_filter_added = false;
             if (WC()->cart->needs_shipping()) {
+                add_filter('woocommerce_cart_ready_to_calc_shipping', '__return_true', 1000);
+                $ready_filter_added = true;
+                if (WC()->customer && !WC()->customer->get_shipping_country()) {
+                    $base_location = wc_get_base_location();
+                    $seed_country  = WC()->customer->get_billing_country();
+                    if (empty($seed_country) && !empty($base_location['country'])) {
+                        $seed_country = $base_location['country'];
+                    }
+                    if (!empty($seed_country)) {
+                        WC()->customer->set_shipping_country($seed_country);
+                        if (!WC()->customer->get_shipping_state() && !WC()->customer->get_shipping_postcode()) {
+                            $seed_state    = WC()->customer->get_billing_state();
+                            $seed_postcode = WC()->customer->get_billing_postcode();
+                            if (!empty($seed_state)) {
+                                WC()->customer->set_shipping_state($seed_state);
+                            } elseif (!empty($seed_postcode)) {
+                                WC()->customer->set_shipping_postcode($seed_postcode);
+                            } elseif (!empty($base_location['postcode'])) {
+                                WC()->customer->set_shipping_postcode($base_location['postcode']);
+                            }
+                        }
+                        WC()->customer->set_calculated_shipping(true);
+                    }
+                }
                 WC()->cart->calculate_shipping();
                 WC()->cart->calculate_totals();
             }
@@ -1090,6 +1115,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'shipping_address' => $this->ppcp_get_address_from_customer(),
                 'email' => WC()->customer->get_billing_email(),
             );
+            if (!empty($ready_filter_added)) {
+                remove_filter('woocommerce_cart_ready_to_calc_shipping', '__return_true', 1000);
+            }
             return $this->ppcp_get_details($details, $discounts, $rounded_total, WC()->cart->total);
         } catch (Exception $ex) {
 

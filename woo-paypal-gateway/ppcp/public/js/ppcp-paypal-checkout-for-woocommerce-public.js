@@ -1,7 +1,7 @@
 (function ($) {
     class PPCPManager {
         constructor(ppcp_manager) {
-            // 9.0.63
+            // 9.0.64
             this.ppcp_manager = ppcp_manager;
             this.productAddToCart = true;
             this.lastApiResponse = null;
@@ -68,8 +68,12 @@
         }
         
         t(key, fallback = '') {
-            const v = this.ppcp_manager && this.ppcp_manager[key] !== null ? String(this.ppcp_manager[key]) : '';
-            return v ? v : fallback;
+            const raw = this.ppcp_manager ? this.ppcp_manager[key] : undefined;
+            if (raw === null || raw === undefined || raw === '') {
+                return fallback;
+            }
+            const v = String(raw);
+            return (v && v !== 'undefined' && v !== 'null') ? v : fallback;
         }
 
         getAddress(prefix) {
@@ -1205,20 +1209,14 @@
                             };
                         }
                         await this.fetchUpdatedTotalFromBackend(mapped);
-                    } else {
-                        const txInfo = await this.ppcpGettransactionInfo();
-                        if (txInfo?.success && txInfo.data && typeof this.setTotalsFromResponse === 'function') {
-                            this.setTotalsFromResponse(txInfo.data);
-                        }
+                        const tx = this.getGoogleTransactionInfo();
+                        tx.totalPriceStatus = 'ESTIMATED';
+                        return {
+                            newTransactionInfo: tx,
+                            newShippingOptionParameters: this.getGoogleShippingOptionParametersOrPlaceholder()
+                        };
                     }
-                    const tx = this.getGoogleTransactionInfo();
-                    tx.totalPriceStatus = 'ESTIMATED';
-                    const shippingOptionParameters = this.getGoogleShippingOptionParameters();
-                    const result = {newTransactionInfo: tx};
-                    if (shippingOptionParameters) {
-                        result.newShippingOptionParameters = shippingOptionParameters;
-                    }
-                    return result;
+                    return {};
                 }
                 if (callbackTrigger === 'SHIPPING_ADDRESS' && shippingAddress) {
                     const selectedShippingId = shippingOptionData && shippingOptionData.id ? shippingOptionData.id : '';
@@ -1242,27 +1240,31 @@
                     await this.fetchUpdatedTotalFromBackend(mapped, null, selectedShippingId);
                     const tx = this.getGoogleTransactionInfo();
                     tx.totalPriceStatus = 'ESTIMATED';
-                    const shippingOptionParameters = this.getGoogleShippingOptionParameters();
-                    const result = {newTransactionInfo: tx};
-                    if (shippingOptionParameters) {
-                        result.newShippingOptionParameters = shippingOptionParameters;
-                    }
-                    return result;
+                    return {
+                        newTransactionInfo: tx,
+                        newShippingOptionParameters: this.getGoogleShippingOptionParametersOrPlaceholder()
+                    };
                 }
                 if (callbackTrigger === 'SHIPPING_OPTION' && shippingOptionData && shippingOptionData.id) {
+                    if (shippingOptionData.id === 'pending') {
+                        const tx = this.getGoogleTransactionInfo();
+                        tx.totalPriceStatus = 'ESTIMATED';
+                        return {
+                            newTransactionInfo: tx,
+                            newShippingOptionParameters: this.getGoogleShippingOptionParametersOrPlaceholder()
+                        };
+                    }
                     const safeId = shippingOptionData.id;
-                    const internalId = (this.googleShippingIdMap && this.googleShippingIdMap[safeId]) ? this.googleShippingIdMap[safeId] : safeId; // fallback
+                    const internalId = (this.googleShippingIdMap && this.googleShippingIdMap[safeId]) ? this.googleShippingIdMap[safeId] : safeId;
                     this.googleSelectedShippingId = internalId;
                     const addr = shippingAddress ? mapAddr(shippingAddress) : {};
                     await this.fetchUpdatedTotalFromBackend(addr, null, internalId);
                     const tx = this.getGoogleTransactionInfo();
                     tx.totalPriceStatus = 'ESTIMATED';
-                    const shippingOptionParameters = this.getGoogleShippingOptionParameters();
-                    const result = { newTransactionInfo: tx };
-                    if (shippingOptionParameters) {
-                        result.newShippingOptionParameters = shippingOptionParameters;
-                    }
-                    return result;
+                    return {
+                        newTransactionInfo: tx,
+                        newShippingOptionParameters: this.getGoogleShippingOptionParametersOrPlaceholder()
+                    };
                 }
                 return {};
             } catch (e) {
@@ -1483,6 +1485,21 @@
             };
         }
 
+        getGoogleShippingOptionParametersOrPlaceholder() {
+            const real = this.getGoogleShippingOptionParameters();
+            if (real && Array.isArray(real.shippingOptions) && real.shippingOptions.length > 0) {
+                return real;
+            }
+            return {
+                defaultSelectedOptionId: 'pending',
+                shippingOptions: [{
+                    id: 'pending',
+                    label: this.t('calculating_shipping', 'Shipping'),
+                    description: this.t('calculating_shipping_desc', 'Calculated after address selection')
+                }]
+            };
+        }
+
         async getGooglePaymentDataRequest() {
             const {allowedPaymentMethods, merchantInfo} = await this.getGooglePayConfig();
             const shippingRequired = this.ppcp_manager.needs_shipping === "1" && this.pageContext !== 'checkout';
@@ -1504,11 +1521,8 @@
                 paymentDataRequest.shippingAddressParameters = {
                     phoneNumberRequired: true
                 };
-                const shippingOptionParameters = this.getGoogleShippingOptionParameters();
-                if (shippingOptionParameters && Array.isArray(shippingOptionParameters.shippingOptions) && shippingOptionParameters.shippingOptions.length > 0) {
-                    paymentDataRequest.shippingOptionRequired   = true;
-                    paymentDataRequest.shippingOptionParameters = shippingOptionParameters;
-                }
+                paymentDataRequest.shippingOptionRequired = true;
+                paymentDataRequest.shippingOptionParameters = this.getGoogleShippingOptionParametersOrPlaceholder();
             }
             return paymentDataRequest;
         }
@@ -1646,6 +1660,13 @@
                         phoneNumber: shippingRaw.phoneNumber || ''
                     };
                     await this.fetchUpdatedTotalFromBackend(shippingAddress, billingAddress);
+                }
+                if (this.googleSelectedShippingId === 'pending' || !this.googleSelectedShippingId) {
+                    const methods = Array.isArray(this.ppcp_manager.shipping_methods) ? this.ppcp_manager.shipping_methods : [];
+                    if (methods.length) {
+                        const pick = methods.find(m => m.is_selected) || methods[0];
+                        this.googleSelectedShippingId = pick.id;
+                    }
                 }
                 const orderId = await this.googleapplecreateOrder();
                 if (!orderId) {
@@ -1988,6 +2009,13 @@
                     const methods = this.getAppleShippingMethods();
                     if (methods.length) {
                         paymentRequest.shippingMethods = methods;
+                    } else {
+                        paymentRequest.shippingMethods = [{
+                            label: 'Shipping',
+                            amount: '0.00',
+                            identifier: 'pending',
+                            detail: 'Calculated after address selection'
+                        }];
                     }
                 } else {
                     paymentRequest.requiredShippingContactFields = ["name", "phone", "email"];
@@ -2046,7 +2074,6 @@
                                 }
                                 session.completeShippingContactSelection({
                                     errors,
-                                    newShippingMethods: [],
                                     newTotal: {
                                         label: this.ppcp_manager.store_label || "Store",
                                         amount: this.formatAmount(this.ppcp_manager.cart_total),
@@ -2079,14 +2106,18 @@
                             session.completeShippingContactSelection(update);
                         } catch (error) {
                             console.error('[ApplePay] onshippingcontactselected error:', error);
-                            session.completeShippingContactSelection({
+                            const fallbackMethods = this.getAppleShippingMethods();
+                            const update = {
                                 newTotal: {
                                     label: this.ppcp_manager.store_label || "Store",
                                     amount: this.formatAmount(this.ppcp_manager.cart_total),
                                     type: "final"
-                                },
-                                newShippingMethods: this.getAppleShippingMethods()
-                            });
+                                }
+                            };
+                            if (fallbackMethods.length) {
+                                update.newShippingMethods = fallbackMethods;
+                            }
+                            session.completeShippingContactSelection(update);
                         }
                     };
 
@@ -2096,8 +2127,16 @@
                             if (!method || !method.identifier) {
                                 throw new Error(this.t('invalid_shipping_method', 'Invalid shipping method.'));
                             }
-
-                            // Map Apple safe ID back to Woo internal ID
+                            if (method.identifier === 'pending') {
+                                session.completeShippingMethodSelection({
+                                    newTotal: {
+                                        label: this.ppcp_manager.store_label || "Store",
+                                        amount: this.formatAmount(this.ppcp_manager.cart_total),
+                                        type: "final"
+                                    }
+                                });
+                                return;
+                            }
                             const internalId = this.appleShippingIdMap[method.identifier] || method.identifier;
                             this.appleSelectedShippingId = internalId;
 

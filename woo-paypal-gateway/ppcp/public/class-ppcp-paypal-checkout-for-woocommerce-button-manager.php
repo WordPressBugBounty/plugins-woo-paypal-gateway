@@ -3284,8 +3284,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             // Build & calculate shipping packages + set chosen_shipping_methods
             if ( WC()->cart && ! WC()->cart->is_empty() ) {
 
+                // Invalidate cached shipping rates so address-sensitive methods
+                // (table-rate, zone-by-postcode, etc.) recompute against the new address.
                 $packages = WC()->cart->get_shipping_packages();
-                WC()->shipping()->calculate_shipping( $packages );
+                foreach ( $packages as $i => $pkg ) {
+                    WC()->session->__unset( "shipping_for_package_{$i}" );
+                }
+                WC()->customer->set_calculated_shipping( false );
+                WC()->customer->save();
+
+                WC()->cart->calculate_shipping();
 
                 // Now WC()->shipping()->get_packages() has the rates
                 $packages = WC()->shipping()->get_packages();
@@ -3306,12 +3314,24 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                     }
                 }
 
-                if ( ! empty( $selected_shipping_id ) && ! empty( $packages ) ) {
+                // Ensure a valid chosen shipping method exists per package. Honor PayPal's
+                // selected option when present; otherwise fall back to the first available
+                // rate. Without this, plugins with dynamic rate IDs (e.g. Bolder Elements
+                // Table Rate Shipping) can leave chosen_shipping_methods pointing at a stale
+                // ID, resulting in shipping_total = 0 and a PayPal capture missing the
+                // shipping/tax breakdown.
+                if ( ! empty( $packages ) ) {
                     $chosen_methods = WC()->session->get( 'chosen_shipping_methods', array() );
 
                     foreach ( $packages as $package_index => $package ) {
-                        if ( ! empty( $package['rates'] ) && isset( $package['rates'][ $selected_shipping_id ] ) ) {
+                        if ( empty( $package['rates'] ) ) {
+                            continue;
+                        }
+                        if ( ! empty( $selected_shipping_id ) && isset( $package['rates'][ $selected_shipping_id ] ) ) {
                             $chosen_methods[ $package_index ] = $selected_shipping_id;
+                        } elseif ( empty( $chosen_methods[ $package_index ] ) ||
+                                   ! isset( $package['rates'][ $chosen_methods[ $package_index ] ] ) ) {
+                            $chosen_methods[ $package_index ] = key( $package['rates'] );
                         }
                     }
 
