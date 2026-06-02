@@ -1,7 +1,7 @@
 (function ($) {
     class PPCPManager {
         constructor(ppcp_manager) {
-            // 9.0.64
+            // 9.0.65
             this.ppcp_manager = ppcp_manager;
             this.productAddToCart = true;
             this.lastApiResponse = null;
@@ -165,6 +165,46 @@
 
         isValidAddress(prefix, address) {
             return address && address[`${prefix}_address_1`];
+        }
+
+        // Convert a Google Pay / Apple Pay wallet address to WooCommerce form-field format.
+        // Used as a fallback when the Block Checkout form has not been filled in
+        // before the customer clicks the express wallet button. Apple Pay populates
+        // both `name` (given) and `surname` (family); Google Pay puts the full name
+        // in `name` only.
+        walletToWCFormat(walletAddr, prefix) {
+            if (!walletAddr) {
+                return {};
+            }
+            const rawName = (walletAddr.name || '').trim();
+            const rawSurname = (walletAddr.surname || '').trim();
+            let firstName = '';
+            let lastName = '';
+            if (rawName && rawSurname) {
+                firstName = rawName;
+                lastName = rawSurname;
+            } else if (rawName) {
+                const parts = rawName.split(/\s+/);
+                firstName = parts.shift() || '';
+                lastName = parts.join(' ');
+            } else if (rawSurname) {
+                lastName = rawSurname;
+            }
+            const result = {
+                [`${prefix}_first_name`]: firstName,
+                [`${prefix}_last_name`]: lastName,
+                [`${prefix}_address_1`]: walletAddr.address1 || '',
+                [`${prefix}_address_2`]: walletAddr.address2 || '',
+                [`${prefix}_city`]: walletAddr.city || '',
+                [`${prefix}_state`]: walletAddr.state || '',
+                [`${prefix}_postcode`]: walletAddr.postcode || '',
+                [`${prefix}_country`]: walletAddr.country || '',
+                [`${prefix}_phone`]: walletAddr.phoneNumber || ''
+            };
+            if (prefix === 'billing' && walletAddr.emailAddress) {
+                result.billing_email = walletAddr.emailAddress;
+            }
+            return result;
         }
 
         isCheckoutPage() {
@@ -728,8 +768,23 @@
                     if (isBlockCheckout && $('form.wc-block-checkout__form').length) {
                         const notes = jQuery('.wc-block-components-textarea').val() || '';
                         data += '&customer_note=' + encodeURIComponent(notes);
-                        const billingAddress = this.getBillingAddress();
-                        const shippingAddress = this.getShippingAddress();
+                        let billingAddress = this.getBillingAddress();
+                        let shippingAddress = this.getShippingAddress();
+                        // User-entered Block Checkout fields take precedence. Only fall back to
+                        // the wallet address when the customer clicked an express wallet button
+                        // without filling in the form, otherwise the WC order is created blank.
+                        if ((!billingAddress || !billingAddress.billing_address_1) && this.walletBillingAddress) {
+                            const walletBilling = this.walletToWCFormat(this.walletBillingAddress, 'billing');
+                            if (walletBilling.billing_address_1) {
+                                billingAddress = walletBilling;
+                            }
+                        }
+                        if ((!shippingAddress || !shippingAddress.shipping_address_1) && this.walletShippingAddress) {
+                            const walletShipping = this.walletToWCFormat(this.walletShippingAddress, 'shipping');
+                            if (walletShipping.shipping_address_1) {
+                                shippingAddress = walletShipping;
+                            }
+                        }
                         data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
                         data += '&shipping_address=' + encodeURIComponent(JSON.stringify(shippingAddress));
                         data += `&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
@@ -1632,33 +1687,37 @@
 
         async onPaymentAuthorized(paymentData) {
             try {
+                // Always extract wallet addresses so googleapplecreateOrder() can use them
+                // as a fallback when the Block Checkout form has not been filled.
+                const billingRaw  = paymentData?.paymentMethodData?.info?.billingAddress || {};
+                const shippingRaw = paymentData?.shippingAddress || {};
+                const email       = paymentData?.email || '';
+                const billingAddress = {
+                    name:         billingRaw.name || '',
+                    surname:      '',
+                    address1:     billingRaw.address1 || '',
+                    address2:     billingRaw.address2 || '',
+                    city:         billingRaw.locality || '',
+                    state:        billingRaw.administrativeArea || '',
+                    postcode:     billingRaw.postalCode || '',
+                    country:      billingRaw.countryCode || '',
+                    phoneNumber:  billingRaw.phoneNumber || '',
+                    emailAddress: email || ''
+                };
+                const shippingAddress = {
+                    name:        shippingRaw.name || '',
+                    surname:     '',
+                    address1:    shippingRaw.address1 || '',
+                    address2:    shippingRaw.address2 || '',
+                    city:        shippingRaw.locality || '',
+                    state:       shippingRaw.administrativeArea || '',
+                    postcode:    shippingRaw.postalCode || '',
+                    country:     shippingRaw.countryCode || '',
+                    phoneNumber: shippingRaw.phoneNumber || ''
+                };
+                this.walletBillingAddress = billingAddress;
+                this.walletShippingAddress = shippingAddress;
                 if (this.pageContext !== 'checkout') {
-                    const billingRaw  = paymentData?.paymentMethodData?.info?.billingAddress || {};
-                    const shippingRaw = paymentData?.shippingAddress || {};
-                    const email       = paymentData?.email || '';
-                    const billingAddress = {
-                        name:         billingRaw.name || '',
-                        surname:      '',
-                        address1:     billingRaw.address1 || '',
-                        address2:     billingRaw.address2 || '',
-                        city:         billingRaw.locality || '',
-                        state:        billingRaw.administrativeArea || '',
-                        postcode:     billingRaw.postalCode || '',
-                        country:      billingRaw.countryCode || '',
-                        phoneNumber:  billingRaw.phoneNumber || '',
-                        emailAddress: email || ''
-                    };
-                    const shippingAddress = {
-                        name:        shippingRaw.name || '',
-                        surname:     '',
-                        address1:    shippingRaw.address1 || '',
-                        address2:    shippingRaw.address2 || '',
-                        city:        shippingRaw.locality || '',
-                        state:       shippingRaw.administrativeArea || '',
-                        postcode:    shippingRaw.postalCode || '',
-                        country:     shippingRaw.countryCode || '',
-                        phoneNumber: shippingRaw.phoneNumber || ''
-                    };
                     await this.fetchUpdatedTotalFromBackend(shippingAddress, billingAddress);
                 }
                 if (this.googleSelectedShippingId === 'pending' || !this.googleSelectedShippingId) {
@@ -2187,33 +2246,36 @@
 
                         const billingRaw = event.payment?.billingContact || {};
                         const shippingRaw = event.payment?.shippingContact || {};
+                        const emailAddress = billingRaw.emailAddress || shippingRaw.emailAddress || billingRaw.email || shippingRaw.email || '';
+                        const billingAddress = {
+                            name: billingRaw.givenName || '',
+                            surname: billingRaw.familyName || '',
+                            address1: billingRaw.addressLines?.[0] || '',
+                            address2: billingRaw.addressLines?.[1] || '',
+                            city: billingRaw.locality || '',
+                            state: billingRaw.administrativeArea || '',
+                            postcode: billingRaw.postalCode || '',
+                            country: billingRaw.countryCode || '',
+                            phoneNumber: billingRaw.phoneNumber || '',
+                            emailAddress: emailAddress
+                        };
+                        const shippingAddress = {
+                            name: shippingRaw.givenName || '',
+                            surname: shippingRaw.familyName || '',
+                            address1: shippingRaw.addressLines?.[0] || '',
+                            address2: shippingRaw.addressLines?.[1] || '',
+                            city: shippingRaw.locality || '',
+                            state: shippingRaw.administrativeArea || '',
+                            postcode: shippingRaw.postalCode || '',
+                            country: shippingRaw.countryCode || '',
+                            phoneNumber: shippingRaw.phoneNumber || ''
+                        };
+                        // Store wallet addresses so googleapplecreateOrder() can fall back to
+                        // them when the Block Checkout form is empty.
+                        this.walletBillingAddress = billingAddress;
+                        this.walletShippingAddress = shippingAddress;
 
                         if (needsShipping) {
-                            const emailAddress = billingRaw.emailAddress || shippingRaw.emailAddress || billingRaw.email || shippingRaw.email || '';
-                            const billingAddress = {
-                                name: billingRaw.givenName || '',
-                                surname: billingRaw.familyName || '',
-                                address1: billingRaw.addressLines?.[0] || '',
-                                address2: billingRaw.addressLines?.[1] || '',
-                                city: billingRaw.locality || '',
-                                state: billingRaw.administrativeArea || '',
-                                postcode: billingRaw.postalCode || '',
-                                country: billingRaw.countryCode || '',
-                                phoneNumber: billingRaw.phoneNumber || '',
-                                emailAddress: emailAddress
-                            };
-                            const shippingAddress = {
-                                name: shippingRaw.givenName || '',
-                                surname: shippingRaw.familyName || '',
-                                address1: shippingRaw.addressLines?.[0] || '',
-                                address2: shippingRaw.addressLines?.[1] || '',
-                                city: shippingRaw.locality || '',
-                                state: shippingRaw.administrativeArea || '',
-                                postcode: shippingRaw.postalCode || '',
-                                country: shippingRaw.countryCode || '',
-                                phoneNumber: shippingRaw.phoneNumber || ''
-                            };
-
                             await this.fetchUpdatedTotalFromBackend(
                                 shippingAddress,
                                 billingAddress,

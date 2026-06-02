@@ -49,6 +49,7 @@ if (class_exists('WC_Checkout')) {
 
                     if ($order) {
                         $this->wpg_sync_order_from_cart($order);
+                        $order->save();
                         $order_id = $draft_order_id;
                     } else {
                         $order_id = $this->create_order($posted_data);
@@ -68,8 +69,6 @@ if (class_exists('WC_Checkout')) {
                 if (!$order) {
                     throw new Exception(__('Unable to create order.', 'woo-paypal-gateway'));
                 }
-
-                $this->wpg_finalize_order_totals($order);
 
                 do_action('woocommerce_checkout_order_processed', $order_id, $posted_data, $order);
 
@@ -138,6 +137,7 @@ if (class_exists('WC_Checkout')) {
 
                     if ($order) {
                         $this->wpg_sync_order_from_cart($order);
+                        $order->save();
                         $order_id = $draft_order_id;
                     } else {
                         $order_id = $this->create_order($posted_data);
@@ -157,8 +157,6 @@ if (class_exists('WC_Checkout')) {
                 if (!$order) {
                     throw new Exception(__('Unable to create order.', 'woo-paypal-gateway'));
                 }
-
-                $this->wpg_finalize_order_totals($order);
 
                 return $order_id;
 
@@ -181,18 +179,15 @@ if (class_exists('WC_Checkout')) {
         }
 
         protected function wpg_sync_order_from_cart($order) {
-            if (WC()->cart && WC()->cart->needs_shipping()) {
-                WC()->shipping()->calculate_shipping(
-                    WC()->cart->get_shipping_packages()
-                );
-            }
-
             try {
                 if (class_exists('\Automattic\WooCommerce\StoreApi\Utilities\OrderController')) {
                     $controller = new \Automattic\WooCommerce\StoreApi\Utilities\OrderController();
                     $controller->update_order_from_cart($order, true);
-                } elseif (WC()->checkout()) {
+                    return;
+                }
+                if (function_exists('WC') && WC()->checkout()) {
                     WC()->checkout()->set_data_from_cart($order);
+                    $order->calculate_totals(true);
                 }
             } catch (\Throwable $e) {
                 wc_get_logger()->error(
@@ -214,32 +209,6 @@ if (class_exists('WC_Checkout')) {
                 }
             }
             return $errors;
-        }
-
-        protected function wpg_finalize_order_totals($order) {
-            if (WC()->cart && WC()->cart->needs_shipping()) {
-                WC()->shipping()->calculate_shipping(
-                    WC()->cart->get_shipping_packages()
-                );
-            }
-
-            if (WC()->cart && WC()->cart->needs_shipping() && empty($order->get_items('shipping'))) {
-                $chosen_methods = WC()->session ? (array) WC()->session->get('chosen_shipping_methods') : array();
-                $packages       = WC()->shipping()->get_packages();
-
-                if (empty($chosen_methods) && !empty($packages)) {
-                    foreach ($packages as $index => $package) {
-                        if (!empty($package['rates'])) {
-                            $chosen_methods[$index] = reset(array_keys($package['rates']));
-                        }
-                    }
-                }
-
-                $this->create_order_shipping_lines($order, $chosen_methods, $packages);
-            }
-
-            $order->calculate_totals(true);
-            $order->save();
         }
 
         private function ppcp_load_button_manager() {

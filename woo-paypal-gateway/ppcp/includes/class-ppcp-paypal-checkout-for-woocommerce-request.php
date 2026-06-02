@@ -557,32 +557,62 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $shipping_postcode = $order->get_billing_postcode();
                         $shipping_country = $order->get_billing_country();
                     }
-                    if (!empty($shipping_first_name) && !empty($shipping_last_name)) {
-                        $body_request['purchase_units'][0]['shipping']['name']['full_name'] = $shipping_first_name . ' ' . $shipping_last_name;
+                    // PayPal requires shipping.name.full_name when shipping_preference is
+                    // SET_PROVIDED_ADDRESS. The PayPal Android app rejects orders that omit
+                    // it with a generic "Order cannot be delivered to this address" message
+                    // (desktop/iOS are more lenient). Fall back to billing name if either
+                    // shipping name part is missing.
+                    $full_name = trim($shipping_first_name . ' ' . $shipping_last_name);
+                    if ($full_name === '') {
+                        $full_name = trim($order->get_billing_first_name() . ' ' . $order->get_billing_last_name());
                     }
-                    $body_request['purchase_units'][0]['shipping']['address'] = array(
-                        'address_line_1' => $shipping_address_1,
-                        'address_line_2' => $shipping_address_2,
-                        'admin_area_2' => $shipping_city,
-                        'admin_area_1' => $shipping_state,
-                        'postal_code' => $shipping_postcode,
-                        'country_code' => $shipping_country,
-                    );
+                    if ($full_name !== '') {
+                        $body_request['purchase_units'][0]['shipping']['name']['full_name'] = $full_name;
+                    }
+                    // Normalize country code (uppercase ISO 3166-1 alpha-2) and postal code
+                    // (trim + uppercase) to match what PayPal expects. Mismatched case has
+                    // been observed to cause stricter validators (notably the PayPal Android
+                    // app) to reject otherwise-valid addresses.
+                    $shipping_country  = strtoupper(trim((string) $shipping_country));
+                    $shipping_postcode = strtoupper(trim((string) $shipping_postcode));
+                    if ($shipping_country !== '') {
+                        $body_request['purchase_units'][0]['shipping']['address'] = array(
+                            'address_line_1' => $shipping_address_1,
+                            'address_line_2' => $shipping_address_2,
+                            'admin_area_2' => $shipping_city,
+                            'admin_area_1' => $shipping_state,
+                            'postal_code' => $shipping_postcode,
+                            'country_code' => $shipping_country,
+                        );
+                    }
                 }
             } else {
                 if (true === WC()->cart->needs_shipping_address()) {
                     if (is_user_logged_in()) {
-                        if (!empty($cart['shipping_address']['first_name']) && !empty($cart['shipping_address']['last_name'])) {
-                            $body_request['purchase_units'][0]['shipping']['name']['full_name'] = $cart['shipping_address']['first_name'] . ' ' . $cart['shipping_address']['last_name'];
+                        $cart_first_name = $cart['shipping_address']['first_name'] ?? '';
+                        $cart_last_name  = $cart['shipping_address']['last_name']  ?? '';
+                        $full_name = trim($cart_first_name . ' ' . $cart_last_name);
+                        if ($full_name === '') {
+                            $billing_first = $cart['billing_address']['first_name'] ?? '';
+                            $billing_last  = $cart['billing_address']['last_name']  ?? '';
+                            $full_name = trim($billing_first . ' ' . $billing_last);
                         }
-                        if (!empty($cart['shipping_address']['address_1']) && !empty($cart['shipping_address']['city']) && !empty($cart['shipping_address']['state']) && !empty($cart['shipping_address']['postcode']) && !empty($cart['shipping_address']['country'])) {
+                        if ($full_name !== '') {
+                            $body_request['purchase_units'][0]['shipping']['name']['full_name'] = $full_name;
+                        }
+                        // Some countries (e.g. DE) don't use admin_area_1 (state) in WC, so
+                        // don't require it. Normalize country code (uppercase) and postal
+                        // code (trim + uppercase) - stricter PayPal clients (Android app)
+                        // have been observed to reject mismatched-case addresses with a
+                        // generic "Order cannot be delivered to this address" message.
+                        if (!empty($cart['shipping_address']['address_1']) && !empty($cart['shipping_address']['city']) && !empty($cart['shipping_address']['postcode']) && !empty($cart['shipping_address']['country'])) {
                             $body_request['purchase_units'][0]['shipping']['address'] = array(
                                 'address_line_1' => $cart['shipping_address']['address_1'],
-                                'address_line_2' => $cart['shipping_address']['address_2'],
+                                'address_line_2' => $cart['shipping_address']['address_2'] ?? '',
                                 'admin_area_2' => $cart['shipping_address']['city'],
-                                'admin_area_1' => $cart['shipping_address']['state'],
-                                'postal_code' => $cart['shipping_address']['postcode'],
-                                'country_code' => $cart['shipping_address']['country'],
+                                'admin_area_1' => $cart['shipping_address']['state'] ?? '',
+                                'postal_code' => strtoupper(trim((string) $cart['shipping_address']['postcode'])),
+                                'country_code' => strtoupper(trim((string) $cart['shipping_address']['country'])),
                             );
                         }
                     }
@@ -884,23 +914,86 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
 
         $payment_source = $capture_response['payment_source'] ?? [];
-        $source_data = reset($payment_source);
+        $payer = $capture_response['payer'] ?? [];
+        $shipping_unit = $capture_response['purchase_units'][0]['shipping'] ?? [];
 
-        $billing_address = $source_data['card']['billing_address'] ?? [];
-        $phone_number = $source_data['phone_number']['national_number'] ?? '';
-        $email = $source_data['email_address'] ?? '';
+        // Resolve the wallet/card source and the underlying card object.
+        // For card source, $card === $source_data. For google_pay/apple_pay, the card lives at $source_data['card'].
+        $source_data = [];
+        $card = [];
+        if (!empty($payment_source['google_pay'])) {
+            $source_data = $payment_source['google_pay'];
+            $card = is_array($source_data) ? ($source_data['card'] ?? []) : [];
+        } elseif (!empty($payment_source['apple_pay'])) {
+            $source_data = $payment_source['apple_pay'];
+            $card = is_array($source_data) ? ($source_data['card'] ?? []) : [];
+        } elseif (!empty($payment_source['card'])) {
+            $source_data = $payment_source['card'];
+            $card = $source_data;
+        } elseif (!empty($payment_source['paypal'])) {
+            $source_data = $payment_source['paypal'];
+        } elseif (!empty($payment_source) && is_array($payment_source)) {
+            $source_data = reset($payment_source);
+        }
+        if (!is_array($source_data)) {
+            $source_data = [];
+        }
+        if (!is_array($card)) {
+            $card = [];
+        }
 
+        // Billing address: prefer card.billing_address, fall back to payer.address.
+        $card_billing = $card['billing_address'] ?? [];
+        if (!is_array($card_billing)) {
+            $card_billing = [];
+        }
+        $has_card_billing = !empty($card_billing['address_line_1']) || !empty($card_billing['postal_code']) || !empty($card_billing['country_code']);
+        $billing_address = [];
+        if ($has_card_billing) {
+            $billing_address = $card_billing;
+        } elseif (!empty($payer['address']) && is_array($payer['address'])) {
+            $billing_address = $payer['address'];
+        }
+
+        // Shipping address: read from purchase_units[0].shipping.address.
+        // Fall back to billing as last resort (preserves previous behavior).
+        $shipping_address_raw = (is_array($shipping_unit) && !empty($shipping_unit['address']) && is_array($shipping_unit['address']))
+            ? $shipping_unit['address']
+            : [];
+        if (empty($shipping_address_raw['address_line_1']) && !empty($billing_address['address_line_1'])) {
+            $shipping_address_raw = $billing_address;
+        }
+
+        $phone_number = $source_data['phone_number']['national_number']
+            ?? ($payer['phone']['phone_number']['national_number'] ?? '');
+        $email = $source_data['email_address']
+            ?? ($payer['email_address'] ?? ($shipping_unit['email_address'] ?? ''));
+
+        // Billing name from source.name (string or {given_name, surname}); fall back to payer.name.
         $first_name = '';
         $last_name = '';
-        $name = $source_data['name'] ?? '';
-
+        $name = $source_data['name'] ?? ($card['name'] ?? '');
         if (is_array($name)) {
             $first_name = $name['given_name'] ?? '';
             $last_name = $name['surname'] ?? '';
-        } elseif (is_string($name)) {
+        } elseif (is_string($name) && $name !== '') {
             $name_parts = explode(' ', trim($name), 2);
             $first_name = $name_parts[0] ?? '';
             $last_name = $name_parts[1] ?? '';
+        }
+        if ($first_name === '' && $last_name === '' && !empty($payer['name']) && is_array($payer['name'])) {
+            $first_name = $payer['name']['given_name'] ?? '';
+            $last_name = $payer['name']['surname'] ?? '';
+        }
+
+        // Shipping name: prefer purchase_units[0].shipping.name.full_name, fall back to billing names.
+        $shipping_first_name = $first_name;
+        $shipping_last_name = $last_name;
+        $shipping_name_full = $shipping_unit['name']['full_name'] ?? '';
+        if (is_string($shipping_name_full) && trim($shipping_name_full) !== '') {
+            $sparts = explode(' ', trim($shipping_name_full), 2);
+            $shipping_first_name = $sparts[0] ?? $shipping_first_name;
+            $shipping_last_name = $sparts[1] ?? $shipping_last_name;
         }
 
         if (empty($order->get_billing_first_name()) && $first_name) {
@@ -912,6 +1005,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
         if (empty($order->get_billing_address_1()) && !empty($billing_address['address_line_1'])) {
             $order->set_billing_address_1($billing_address['address_line_1']);
+            if (method_exists($order, 'set_billing_address_2')) {
+                $order->set_billing_address_2($billing_address['address_line_2'] ?? '');
+            }
             $order->set_billing_city($billing_address['admin_area_2'] ?? '');
             $order->set_billing_state($billing_address['admin_area_1'] ?? '');
             $order->set_billing_postcode($billing_address['postal_code'] ?? '');
@@ -925,19 +1021,22 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $order->set_billing_email($email);
         }
 
-        if (empty($order->get_shipping_first_name()) && $first_name) {
-            $order->set_shipping_first_name($first_name);
+        if (empty($order->get_shipping_first_name()) && $shipping_first_name) {
+            $order->set_shipping_first_name($shipping_first_name);
         }
-        if (empty($order->get_shipping_last_name()) && $last_name) {
-            $order->set_shipping_last_name($last_name);
+        if (empty($order->get_shipping_last_name()) && $shipping_last_name) {
+            $order->set_shipping_last_name($shipping_last_name);
         }
 
-        if (empty($order->get_shipping_address_1()) && !empty($billing_address['address_line_1'])) {
-            $order->set_shipping_address_1($billing_address['address_line_1']);
-            $order->set_shipping_city($billing_address['admin_area_2'] ?? '');
-            $order->set_shipping_state($billing_address['admin_area_1'] ?? '');
-            $order->set_shipping_postcode($billing_address['postal_code'] ?? '');
-            $order->set_shipping_country($billing_address['country_code'] ?? '');
+        if (empty($order->get_shipping_address_1()) && !empty($shipping_address_raw['address_line_1'])) {
+            $order->set_shipping_address_1($shipping_address_raw['address_line_1']);
+            if (method_exists($order, 'set_shipping_address_2')) {
+                $order->set_shipping_address_2($shipping_address_raw['address_line_2'] ?? '');
+            }
+            $order->set_shipping_city($shipping_address_raw['admin_area_2'] ?? '');
+            $order->set_shipping_state($shipping_address_raw['admin_area_1'] ?? '');
+            $order->set_shipping_postcode($shipping_address_raw['postal_code'] ?? '');
+            $order->set_shipping_country($shipping_address_raw['country_code'] ?? '');
         }
 
         $order->save();
@@ -1076,35 +1175,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function ppcp_get_details_from_cart() {
         try {
-            $ready_filter_added = false;
-            if (WC()->cart->needs_shipping()) {
-                add_filter('woocommerce_cart_ready_to_calc_shipping', '__return_true', 1000);
-                $ready_filter_added = true;
-                if (WC()->customer && !WC()->customer->get_shipping_country()) {
-                    $base_location = wc_get_base_location();
-                    $seed_country  = WC()->customer->get_billing_country();
-                    if (empty($seed_country) && !empty($base_location['country'])) {
-                        $seed_country = $base_location['country'];
-                    }
-                    if (!empty($seed_country)) {
-                        WC()->customer->set_shipping_country($seed_country);
-                        if (!WC()->customer->get_shipping_state() && !WC()->customer->get_shipping_postcode()) {
-                            $seed_state    = WC()->customer->get_billing_state();
-                            $seed_postcode = WC()->customer->get_billing_postcode();
-                            if (!empty($seed_state)) {
-                                WC()->customer->set_shipping_state($seed_state);
-                            } elseif (!empty($seed_postcode)) {
-                                WC()->customer->set_shipping_postcode($seed_postcode);
-                            } elseif (!empty($base_location['postcode'])) {
-                                WC()->customer->set_shipping_postcode($base_location['postcode']);
-                            }
-                        }
-                        WC()->customer->set_calculated_shipping(true);
-                    }
-                }
-                WC()->cart->calculate_shipping();
-                WC()->cart->calculate_totals();
-            }
             $rounded_total = $this->ppcp_get_rounded_total_in_cart();
             $discounts = WC()->cart->get_cart_discount_total();
             $details = array(
@@ -1115,9 +1185,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'shipping_address' => $this->ppcp_get_address_from_customer(),
                 'email' => WC()->customer->get_billing_email(),
             );
-            if (!empty($ready_filter_added)) {
-                remove_filter('woocommerce_cart_ready_to_calc_shipping', '__return_true', 1000);
-            }
             return $this->ppcp_get_details($details, $discounts, $rounded_total, WC()->cart->total);
         } catch (Exception $ex) {
 
@@ -1296,28 +1363,49 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     public function ppcp_get_details_from_order($order_id) {
         try {
             $order = wc_get_order($order_id);
-            $shipping_total = $order->get_shipping_total();
-            $order_total = $order->get_total();
-            if (empty($shipping_total) || $shipping_total <= 0) {
-                if (function_exists('WC') && WC()->cart && !WC()->cart->is_empty() && WC()->cart->needs_shipping()) {
-                    WC()->cart->calculate_shipping();
-                    WC()->cart->calculate_totals();
-                    $cart_shipping = WC()->cart->get_shipping_total();
-                    if ($cart_shipping > 0) {
-                        $shipping_total = $cart_shipping;
-                        $order_total = WC()->cart->get_total('edit');
-                    }
-                }
+            if ($order) {
+                $this->ppcp_repair_shipping_total_if_zero($order);
             }
             $rounded_total = $this->ppcp_get_rounded_total_in_order($order);
             $details = array(
                 'total_item_amount' => ppcp_round($order->get_subtotal(), $this->decimals),
                 'order_tax' => ppcp_round($order->get_total_tax(), $this->decimals),
-                'shipping' => ppcp_round($shipping_total, $this->decimals),
+                'shipping' => ppcp_round($order->get_shipping_total(), $this->decimals),
                 'items' => $this->ppcp_get_paypal_line_items_from_order($order),
             );
-            $details = $this->ppcp_get_details($details, $order->get_total_discount(), $rounded_total, ppcp_round($order_total, $this->decimals));
+            $details = $this->ppcp_get_details($details, $order->get_total_discount(), $rounded_total, $order->get_total());
             return $details;
+        } catch (Exception $ex) {
+
+        }
+    }
+
+    /**
+     * WC_Checkout::create_order can persist an order with shipping_total = 0
+     * while shipping line items carry the correct cost — the line items read
+     * from WC()->shipping()->get_packages() rates cache while shipping_total
+     * reads from WC()->cart->get_shipping_total(), and the two diverge when
+     * the cart's shipping calculation hadn't completed at order-save time.
+     * Detect that exact mismatch and repair via calculate_totals(false), which
+     * sums existing line totals without recomputing taxes. No-op when the
+     * order is already consistent.
+     */
+    protected function ppcp_repair_shipping_total_if_zero($order) {
+        try {
+            if (!$order instanceof WC_Order) {
+                return;
+            }
+            if ((float) $order->get_shipping_total() > 0) {
+                return;
+            }
+            $shipping_items_total = 0.0;
+            foreach ($order->get_items('shipping') as $shipping_item) {
+                $shipping_items_total += (float) $shipping_item->get_total();
+            }
+            if ($shipping_items_total <= 0) {
+                return;
+            }
+            $order->calculate_totals(false);
         } catch (Exception $ex) {
 
         }
