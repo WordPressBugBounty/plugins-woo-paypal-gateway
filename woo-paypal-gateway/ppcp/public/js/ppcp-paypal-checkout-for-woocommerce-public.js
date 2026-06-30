@@ -1,7 +1,7 @@
 (function ($) {
     class PPCPManager {
         constructor(ppcp_manager) {
-            // 9.0.65
+            // 9.0.66
             this.ppcp_manager = ppcp_manager;
             this.productAddToCart = true;
             this.lastApiResponse = null;

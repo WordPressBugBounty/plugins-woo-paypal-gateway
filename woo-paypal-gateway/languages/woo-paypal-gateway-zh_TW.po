@@ -1,26 +1,25 @@
-# Copyright (C) 2025 easypayment
-# This file is distributed under the GNU General Public License v3.0.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.39\n"
+"Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.65\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
 "POT-Creation-Date: 2026-03-02T05:16:03+00:00\n"
-"PO-Revision-Date: 2025-11-14 15:51+0530\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-06-03 00:00+0000\n"
+"Last-Translator: easypayment\n"
+"Language-Team: zh_TW\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Domain: woo-paypal-gateway\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: WP-CLI 2.11.0\n"
 
 #. Plugin Name of the plugin
 #: woo-paypal-gateway.php
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1776
 msgid "Payment Gateway for PayPal on WooCommerce"
-msgstr "WooCommerce上的PayPal支付閘道"
+msgstr "WooCommerce PayPal 付款閘道"
 
 #. Plugin URI of the plugin
 #: woo-paypal-gateway.php
@@ -34,8 +33,8 @@ msgid ""
 "iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal "
 "Partner"
 msgstr ""
-"PayPal、信用卡/借記卡、Google Pay、Apple Pay、稍後付款、Venmo、SEPA、iDEAL、Mercado "
-"Pago、Sofort、Bancontact 等更多 - 由官方 PayPal 合作夥伴提供"
+"PayPal、信用卡/簽帳卡、Google Pay、Apple Pay、稍後付款、Venmo、SEPA、iDEAL、Mercado "
+"Pago、Sofort、Bancontact 等 - 由官方 PayPal 合作夥伴提供"
 
 #. Author of the plugin
 #: woo-paypal-gateway.php
@@ -53,7 +52,7 @@ msgstr "返回"
 
 #: admin/feedback/deactivation-feedback-form.php:9
 msgid "We’re sorry to see you go! 💔"
-msgstr "我們很遺憾看到你離開！💔"
+msgstr "很遺憾您要離開！💔"
 
 #: admin/feedback/deactivation-feedback-form.php:11
 msgid "Close"
@@ -63,11 +62,11 @@ msgstr "關閉"
 msgid ""
 "Can you please tell us why you’re deactivating the plugin? Your feedback "
 "helps us make it better."
-msgstr "請告訴我們您為什麼要停用這個插件？您的反饋有助於我們改進它。."
+msgstr "請告訴我們您停用外掛的原因好嗎？您的回饋有助於我們改進。"
 
 #: admin/feedback/deactivation-feedback-form.php:19
 msgid "Temporary deactivation (troubleshooting)"
-msgstr "臨時停用（故障排除）)"
+msgstr "暫時停用（疑難排解）"
 
 #: admin/feedback/deactivation-feedback-form.php:23
 msgid "Compatibility issue"
@@ -75,23 +74,23 @@ msgstr "相容性問題"
 
 #: admin/feedback/deactivation-feedback-form.php:25
 msgid "Please describe what part of the layout or functionality was affected."
-msgstr "請描述佈局或功能的哪一部分受到影響。."
+msgstr "請描述版面配置或功能的哪個部分受到了影響。"
 
 #: admin/feedback/deactivation-feedback-form.php:30
 msgid "Difficult to set up"
-msgstr "難以設置"
+msgstr "設定困難"
 
 #: admin/feedback/deactivation-feedback-form.php:32
 msgid "What part of the setup was confusing or unclear?"
-msgstr "設置的哪一部分讓您感到困惑或不清楚？?"
+msgstr "設定的哪個部分令人困惑或不清楚？"
 
 #: admin/feedback/deactivation-feedback-form.php:37
 msgid "Missing features"
-msgstr "缺少的功能"
+msgstr "缺少功能"
 
 #: admin/feedback/deactivation-feedback-form.php:39
 msgid "Which features were you looking for?"
-msgstr "您在尋找哪些功能？?"
+msgstr "您在尋找哪些功能？"
 
 #: admin/feedback/deactivation-feedback-form.php:44
 msgid "Other"
@@ -101,7 +100,7 @@ msgstr "其他"
 msgid ""
 "Please share why you’re deactivating the PayPal plugin so we can make "
 "improvements."
-msgstr "請分享您為什麼要停用 PayPal 外掛，以便我們進行改進。."
+msgstr "請分享您停用 PayPal 外掛的原因，以便我們進行改進。"
 
 #: admin/feedback/deactivation-feedback-form.php:58
 msgid ""
@@ -109,24 +108,23 @@ msgid ""
 "form—just your valuable feedback and basic system information (such as "
 "WordPress and plugin versions) to help us improve our plugin."
 msgstr ""
-"您的隱私對我們來說非常重要。此表單不會收集任何個人資料—僅收集您寶貴的反饋和基本系統資訊（例如 WordPress "
-"和插件版本），以幫助我們改進我們的插件。."
+"您的隱私對我們很重要。此表單不會收集任何個人資料——僅收集您的寶貴回饋和基本系統資訊（如 WordPress 和外掛版本），以協助我們改進外掛。"
 
 #: admin/feedback/deactivation-feedback-form.php:63
 msgid "Visit our support page for assistance"
-msgstr "請造訪我們的支援頁面以獲取協助"
+msgstr "請造訪我們的支援頁面以取得協助"
 
 #: admin/feedback/deactivation-feedback-form.php:63
 msgid "Get Support"
-msgstr "獲取支援"
+msgstr "取得支援"
 
 #: admin/feedback/deactivation-feedback-form.php:65
 msgid "Send & Deactivate"
-msgstr "發送 & 停用"
+msgstr "傳送並停用"
 
 #: admin/feedback/deactivation-feedback-form.php:67
 msgid "I rather wouldn't say"
-msgstr "我不太想說"
+msgstr "我不想說"
 
 #: includes/class-woo-paypal-gateway-calculations.php:86
 #: includes/class-woo-paypal-gateway-calculations.php:185
@@ -145,11 +143,11 @@ msgstr "設定"
 
 #: includes/class-woo-paypal-gateway.php:251
 msgid "Community support"
-msgstr "社區支持"
+msgstr "社群支援"
 
 #: includes/class-woo-paypal-gateway.php:252
 msgid "Rate our plugin"
-msgstr "評價我們的插件"
+msgstr "為我們的外掛評分"
 
 #. translators: %s: plugin name
 #: includes/class-woo-paypal-gateway.php:359
@@ -165,16 +163,17 @@ msgid ""
 "review — your feedback shapes our roadmap, and we love turning your ideas "
 "into reality."
 msgstr ""
-"如果您有空的話，我們會很高興您能給我們留下<b><a target=\"_blank\" href=\"%1$s\">快速評價</a>.</b> "
-"這會激勵我們並幫助我們不斷改進。💫 <br>有功能想法嗎？請在您的評價中包含它們——您的反饋塑造了我們的路線圖，我們喜歡將您的想法變為現實。."
+"如果您有空，我們希望您能給我們留下 <b><a target=\"_blank\" "
+"href=\"%1$s\">簡短評價</a>。</b>這能激勵我們並幫助我們不斷改進。💫 "
+"<br>有功能建議？請在評價中提出——您的回饋塑造了我們的路線圖，我們樂於將您的想法變為現實。"
 
 #: includes/class-woo-paypal-gateway.php:377
 msgid "Write Review"
-msgstr "撰寫評論"
+msgstr "撰寫評價"
 
 #: includes/class-woo-paypal-gateway.php:380
 msgid "Done!"
-msgstr "完成！!"
+msgstr "完成！"
 
 #: includes/class-woo-paypal-gateway.php:384
 msgid "Remind me later"
@@ -194,7 +193,7 @@ msgstr "卡號"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:118
 msgctxt "Important"
 msgid "Expiration date"
-msgstr "到期日"
+msgstr "有效期限"
 
 #: ppcp/checkout-block/ppcp-cc-block.php:76
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:124
@@ -218,59 +217,59 @@ msgstr "前往 PayPal"
 #: ppcp/checkout-block/ppcp-checkout-block.php:157
 msgctxt "Important"
 msgid "Click the \"%s\" button below to process your order."
-msgstr "請點擊下面的 \"%s\" 按鈕以處理您的訂單。."
+msgstr "點擊下方的「%s」按鈕來處理您的訂單。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:27
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:97
 msgid ""
 "Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return"
 " to shop</a>"
-msgstr "抱歉，您的會話已過期。<a href=\"%s\" class=\"wc-backward\">返回商店</a>"
+msgstr "抱歉，您的工作階段已過期。<a href=\"%s\" class=\"wc-backward\">返回商店</a>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:70
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:157
 msgid "Unable to create order."
-msgstr "無法建立訂單。."
+msgstr "無法建立訂單。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:37
 msgctxt "Important"
 msgid "Credit or Debit Card (PayPal) By Easy Payment"
-msgstr "信用卡或借記卡（PayPal）透過簡易付款"
+msgstr "信用卡或簽帳卡 (PayPal) By Easy Payment"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:38
 msgctxt "Important"
 msgid "Advanced Card Processing."
-msgstr "高級卡片處理。."
+msgstr "進階卡片處理。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:49
 msgid "Place order"
-msgstr "下訂單"
+msgstr "送出訂單"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:55
 msgctxt "Important"
 msgid "Sandbox Mode Enabled."
-msgstr "沙盒模式已啟用。."
+msgstr "沙盒模式已啟用。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:56
 msgctxt "Important"
 msgid ""
 "Use test card 4111 1111 1111 1111 with any future expiration date and any "
 "CVV."
-msgstr "使用測試卡號 4111 1111 1111 1111，搭配任何未來的到期日和任何 CVV。."
+msgstr "使用測試卡 4111 1111 1111 1111，任意未來的有效期限和任意 CVV。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:78
 msgid "Save to account"
-msgstr "儲存到帳戶"
+msgstr "儲存至帳戶"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:258
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:698
 msgid "Refund failed."
-msgstr "退款失敗。."
+msgstr "退款失敗。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:65
 msgctxt "Important"
 msgid "Credit or Debit Card"
-msgstr "信用卡或借記卡"
+msgstr "信用卡或簽帳卡"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:69
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:889
@@ -281,39 +280,39 @@ msgstr "確認您的 PayPal 訂單"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:110
 msgctxt "Important"
 msgid "PayPal Gateway By Easy Payment"
-msgstr "PayPal 閘道由 Easy Payment 提供"
+msgstr "PayPal Gateway By Easy Payment"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:111
 msgctxt "Important"
 msgid ""
 "PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and "
 "many more."
-msgstr "PayPal、稍後付款、Venmo、信用卡和借記卡、Google Pay、Apple Pay — 以及更多。."
+msgstr "PayPal、稍後付款、Venmo、信用卡和簽帳卡、Google Pay、Apple Pay——以及更多。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:337
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
 msgid "Admin Only Mode"
-msgstr "僅限管理員模式"
+msgstr "僅管理員模式"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:338
 msgid ""
 "is currently enabled. PayPal payment methods are visible only to site "
 "administrators and store managers. Disable this mode after testing to make "
 "them available to customers."
-msgstr "目前已啟用。PayPal 付款方式僅對網站管理員和商店管理員可見。測試後請禁用此模式，以便讓客戶能夠使用。."
+msgstr "目前已啟用。PayPal 付款方式僅對網站管理員和商店經理可見。測試後請停用此模式以向顧客開放。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:351
 msgid "Please verify the PayPal account to receive the payments."
-msgstr "請驗證 PayPal 帳戶以接收付款。."
+msgstr "請驗證 PayPal 帳戶以接收付款。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:363
 msgid "PayPal onboarding process successfully completed."
-msgstr "PayPal 入門流程已成功完成。."
+msgstr "PayPal 入駐流程已成功完成。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:375
 msgid ""
 "We could not properly connect to PayPal. Please reload the page to continue."
-msgstr "我們無法正確連接到 PayPal。請重新載入頁面以繼續。."
+msgstr "無法正確連接到 PayPal。請重新載入頁面以繼續。"
 
 #. translators: %1$s: URL to the PayPal Connection page.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:395
@@ -322,21 +321,21 @@ msgid ""
 " your Client ID and Secret in the <a href=\"%1$s\">PayPal Connection</a> to "
 "begin accepting payments."
 msgstr ""
-"<strong>需要設置 PayPal：</strong> 連接您的 PayPal 帳戶或在 <a href=\"%1$s\">PayPal "
-"連接</a> 中輸入您的客戶 ID 和密鑰以開始接受付款。."
+"<strong>需要設定 PayPal：</strong>連接您的 PayPal 帳戶或在 <a href=\"%1$s\">PayPal "
+"連線</a>中輸入您的 Client ID 和 Secret 以開始接受付款。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:418
 msgid "Click the PayPal button to add your payment method."
-msgstr "點擊 PayPal 按鈕以添加您的付款方式。."
+msgstr "點擊 PayPal 按鈕新增您的付款方式。"
 
 #. translators: %s: button label text
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:422
 msgid "Click the \"%s\" button below to process your order."
-msgstr "請點擊下面的 \"%s\" 按鈕以處理您的訂單。."
+msgstr "點擊下方的「%s」按鈕來處理您的訂單。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:426
 msgid "Click a payment option below to process your order."
-msgstr "請點擊下方的付款選項以處理您的訂單。."
+msgstr "點擊下方的付款選項來處理您的訂單。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:509
 msgid "Return to payments"
@@ -344,7 +343,7 @@ msgstr "返回付款"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:534
 msgid "PayPal Connection"
-msgstr "PayPal 連接"
+msgstr "PayPal 連線"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:535
 msgid "PayPal Settings"
@@ -352,7 +351,7 @@ msgstr "PayPal 設定"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:536
 msgid "Advanced Card Payments"
-msgstr "高級卡片支付"
+msgstr "進階卡片付款"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:537
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1126
@@ -366,27 +365,27 @@ msgstr "Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:539
 msgid "Pay Later Messaging"
-msgstr "延後付款訊息"
+msgstr "稍後付款訊息"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:540
 msgid "Additional Settings"
-msgstr "附加設定"
+msgstr "其他設定"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:541
 msgid "FAQ"
-msgstr "常見問題解答"
+msgstr "常見問題"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:756
 msgid "This represents the fee PayPal collects for the transaction."
-msgstr "這代表 PayPal 為該交易收取的費用。."
+msgstr "這代表 PayPal 為交易收取的費用。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:758
 msgid "PayPal Fee:"
-msgstr "PayPal 手續費：:"
+msgstr "PayPal 費用："
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:842
 msgid "Disconnect"
-msgstr "斷開連接"
+msgstr "中斷連線"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:967
 msgid "PayPal Account Connected"
@@ -394,34 +393,34 @@ msgstr "PayPal 帳戶已連接"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:972
 msgid "Connected Account:"
-msgstr "已連接的帳戶：:"
+msgstr "已連接帳戶："
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:979
 msgid "Disconnect PayPal Account"
-msgstr "斷開 PayPal 帳戶連結"
+msgstr "中斷 PayPal 帳戶連線"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1063
 msgid ""
 "The PayPal Client ID and Secret key you entered are invalid. Ensure you are "
 "using the correct credentials for the selected environment (Sandbox or "
 "Live)."
-msgstr "您輸入的 PayPal 客戶端 ID 和密鑰無效。請確保您使用的是所選環境（沙盒或實際環境）的正確憑證。."
+msgstr "您輸入的 PayPal Client ID 和 Secret 金鑰無效。請確保您使用的是所選環境（沙盒或正式）的正確憑證。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1135
 msgid "Click to Connect PayPal"
-msgstr "點擊以連接 PayPal"
+msgstr "點擊連接 PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1166
 msgid "The Connect to PayPal service is temporarily unavailable."
-msgstr "連接到 PayPal 的服務暫時無法使用。."
+msgstr "連接 PayPal 服務暫時無法使用。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1170
 msgid "Toggle to manual credential input"
-msgstr "切換到手動輸入憑證"
+msgstr "切換為手動輸入憑證"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1197
 msgid "Recommended"
-msgstr "推薦的"
+msgstr "推薦"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1202
 msgid "OR"
@@ -429,65 +428,64 @@ msgstr "或"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1207
 msgid "Click here to insert credentials manually"
-msgstr "點擊這裡手動插入憑證"
+msgstr "點擊此處手動輸入憑證"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1336
 msgid ""
 "Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) will appear?"
-msgstr ""
-"哪些 PayPal 按鈕（例如 Pay Later、Venmo、SEPA、iDEAL、Mercado Pago、Bancontact 等）將會顯示？?"
+msgstr "哪些 PayPal 按鈕（如稍後付款、Venmo、SEPA、iDEAL、Mercado Pago、Bancontact 等）會顯示？"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1340
 msgid ""
 "The PayPal buttons are shown automatically based on several factors, "
 "including:"
-msgstr "PayPal 按鈕會根據幾個因素自動顯示，包括：:"
+msgstr "PayPal 按鈕會根據以下因素自動顯示："
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1342
 msgid "The buyer’s country"
-msgstr "買方的國家"
+msgstr "買家所在國家"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1343
 msgid "Their device type"
-msgstr "他們的設備類型"
+msgstr "裝置類型"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1344
 msgid "The funding sources they’ve enabled"
-msgstr "他們所啟用的資金來源"
+msgstr "已啟用的資金來源"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1346
 msgid ""
 "As a result, each buyer may see a different set of buttons. Pay Later "
 "options vary by country and may display different buttons."
-msgstr "因此，每位買家可能會看到不同的按鈕組合。延後付款選項因國家而異，可能會顯示不同的按鈕。."
+msgstr "因此，每個買家可能會看到不同的按鈕組合。稍後付款選項因國家而異，可能會顯示不同的按鈕。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1352
 msgid "How can I hide specific PayPal buttons?"
-msgstr "如何隱藏特定的 PayPal 按鈕？?"
+msgstr "如何隱藏特定的 PayPal 按鈕？"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1356
 msgid ""
 "By default, all PayPal buttons are enabled. To hide specific buttons, use "
 "the <strong>Disable Specific Payment Buttons</strong> option."
-msgstr "預設情況下，所有 PayPal 按鈕都是啟用的。要隱藏特定按鈕，請使用 <strong>禁用特定付款按鈕</strong> 選項。."
+msgstr "預設情況下，所有 PayPal 按鈕都已啟用。要隱藏特定按鈕，請使用<strong>停用特定付款按鈕</strong>選項。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1357
 msgid "Example: To hide the Pay Later button on the Checkout Page:"
-msgstr "範例：在結帳頁面隱藏「稍後付款」按鈕：:"
+msgstr "範例：要在結帳頁面隱藏稍後付款按鈕："
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1359
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1376
 msgid "Go to <strong>PayPal Settings</strong> > Checkout Page"
-msgstr "前往 <strong>PayPal 設定</strong> > 結帳頁面"
+msgstr "前往<strong>PayPal 設定</strong> > 結帳頁面"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1360
 msgid "Find the <strong>Disable Specific Payment Buttons</strong> setting."
-msgstr "找到<strong>禁用特定付款按鈕</strong>設置。."
+msgstr "找到<strong>停用特定付款按鈕</strong>設定。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1361
 msgid "Select <strong>Pay Later</strong> from the dropdown list."
-msgstr "從下拉列表中選擇 <strong>稍後付款</strong>。."
+msgstr "從下拉清單中選擇<strong>稍後付款</strong>。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1362
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1378
@@ -495,17 +493,17 @@ msgstr "從下拉列表中選擇 <strong>稍後付款</strong>。."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1401
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1407
 msgid "Click <strong>Save Changes</strong>."
-msgstr "點擊 <strong>保存更改</strong>。."
+msgstr "點擊<strong>儲存變更</strong>。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1369
 msgid "How can I show only the \"PayPal\" button on the Checkout page?"
-msgstr "如何在結帳頁面上僅顯示「PayPal」按鈕？?"
+msgstr "如何在結帳頁面只顯示「PayPal」按鈕？"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1373
 msgid ""
 "To display only the \"PayPal\" button on the Checkout page, follow these "
 "steps:"
-msgstr "要在結帳頁面上僅顯示「PayPal」按鈕，請按照以下步驟操作：:"
+msgstr "要在結帳頁面只顯示「PayPal」按鈕，請按照以下步驟操作："
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1374
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1397
@@ -517,204 +515,201 @@ msgid ""
 "Under <strong>Disable Specific Payment Buttons</strong>, select "
 "<strong>Credit or Debit Card</strong> and any other methods you want to "
 "hide."
-msgstr ""
-"在<strong>禁用特定付款按鈕</strong>下，選擇<strong>信用卡或借記卡</strong>以及您想要隱藏的任何其他方法。."
+msgstr "在<strong>停用特定付款按鈕</strong>下，選擇<strong>信用卡或簽帳卡</strong>以及您要隱藏的其他付款方式。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1380
 msgid "Step 2: Update Advanced Card Payments Settings"
-msgstr "步驟 2：更新進階卡片支付設定"
+msgstr "步驟 2：更新進階卡片付款設定"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1382
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1405
 msgid "Go to <strong>Advanced Card Payments</strong> settings."
-msgstr "前往<strong>進階卡片支付</strong>設定。."
+msgstr "前往<strong>進階卡片付款</strong>設定。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1383
 msgid "Disable the option <strong>Enable Advanced Credit/Debit Card</strong>."
-msgstr "禁用選項 <strong>啟用進階信用卡/借記卡</strong>。."
+msgstr "停用<strong>啟用進階信用卡/簽帳卡</strong>選項。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1386
 msgid ""
 "Once you save the changes in both sections, only the \"PayPal\" button will "
 "appear on the Checkout page."
-msgstr "一旦您在兩個部分保存更改，結帳頁面上將只顯示「PayPal」按鈕。."
+msgstr "在兩個部分都儲存變更後，結帳頁面將只顯示「PayPal」按鈕。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1392
 msgid ""
 "How can I show only the \"Credit or Debit Card\" payment method on the "
 "Checkout page?"
-msgstr "如何在結帳頁面上僅顯示「信用卡或借記卡」付款方式？?"
+msgstr "如何在結帳頁面只顯示「信用卡或簽帳卡」付款方式？"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1396
 msgid ""
 "To display only the \"Credit or Debit Card\" payment method on the Checkout "
 "page, follow these steps:"
-msgstr "要在結帳頁面上僅顯示「信用卡或借記卡」付款方式，請按照以下步驟操作：:"
+msgstr "要在結帳頁面只顯示「信用卡或簽帳卡」付款方式，請按照以下步驟操作："
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1399
 msgid "Go to <strong>PayPal Settings > Checkout Page</strong>."
-msgstr "前往 <strong>PayPal 設定 > 結帳頁面</strong>。."
+msgstr "前往<strong>PayPal 設定 > 結帳頁面</strong>。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1400
 msgid "Disable the <strong>Enable PayPal</strong> option."
-msgstr "禁用<strong>啟用 PayPal</strong>選項。."
+msgstr "停用<strong>啟用 PayPal</strong>選項。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1403
 msgid "Step 2: Enable Advanced Credit/Debit Card Payments"
-msgstr "步驟 2：啟用進階信用卡/借記卡付款"
+msgstr "步驟 2：啟用進階信用卡/簽帳卡付款"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1406
 msgid "Enable the option <strong>Enable Advanced Credit/Debit Card</strong>."
-msgstr "啟用選項 <strong>啟用進階信用卡/借記卡</strong>。."
+msgstr "啟用<strong>啟用進階信用卡/簽帳卡</strong>選項。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1409
 msgid ""
 "Once you save the changes in both sections, only the \"Credit or Debit "
 "Card\" payment method will appear on the Checkout page."
-msgstr "一旦您在兩個部分保存更改，結帳頁面上將只顯示「信用卡或借記卡」付款方式。."
+msgstr "在兩個部分都儲存變更後，結帳頁面將只顯示「信用卡或簽帳卡」付款方式。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1415
 msgid "What is PayPal Pay Later?"
-msgstr "PayPal Pay Later 是什麼？?"
+msgstr "什麼是 PayPal 稍後付款？"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1419
 msgid ""
 "PayPal Pay Later lets your customers split their purchases into interest-"
 "free payments over time, such as \"Pay in 4\" or monthly installments. You "
 "get paid in full upfront, while customers enjoy flexible payment options."
-msgstr ""
-"PayPal Pay Later 讓您的客戶可以將購買金額分成無利息的分期付款，例如「分期付款 4 "
-"次」或每月分期付款。您可以立即全額收款，而客戶則享受靈活的付款選擇。."
+msgstr "PayPal 稍後付款讓您的顧客可以將購買分成免息分期付款，如「分4期付款」或每月分期。您將預先收到全額付款，而顧客享受靈活的付款選項。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1420
 msgid ""
 "This can help increase your sales, with many merchants seeing higher "
 "conversion rates and larger order sizes."
-msgstr "這可以幫助提高您的銷售，許多商家看到更高的轉換率和更大的訂單規模。."
+msgstr "這可以幫助增加您的銷售額，許多商家看到了更高的轉換率和更大的訂單規模。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1423
 msgid "Learn more about Pay Later on PayPal’s website."
-msgstr "在 PayPal 的網站上了解更多有關 Pay Later 的資訊。."
+msgstr "在 PayPal 網站上了解更多關於稍後付款的資訊。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1431
 msgid "How can I contact support or request a new functionality?"
-msgstr "您可以通過以下方式聯繫支援或請求新功能：?"
+msgstr "如何聯繫支援或請求新功能？"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1436
 msgid ""
 "If you have any questions, encounter an issue, or have a new functionality "
 "request, please create a support ticket on our official support page at:"
-msgstr "如果您有任何問題、遇到問題或有新的功能請求，請在我們的官方支援頁面上創建支援票據：:"
+msgstr "如果您有任何問題、遇到問題或有新功能請求，請在我們的官方支援頁面建立支援工單："
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1565
 msgid "Click to Enable Google Pay"
-msgstr "點擊以啟用 Google Pay"
+msgstr "點擊啟用 Google Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1587
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1616
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1645
 msgid "Important: "
-msgstr "重要：:"
+msgstr "重要："
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1717
 msgid "Click to Enable Apple Pay"
-msgstr "點擊以啟用 Apple Pay"
+msgstr "點擊啟用 Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1750
 msgid "Register Your Domain with Apple Pay"
-msgstr "使用 Apple Pay 註冊您的域名"
+msgstr "在 Apple Pay 註冊您的網域"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1754
 msgid ""
 "Any (sub)domain displaying an Apple Pay button must be registered on the "
 "PayPal website. If the domain is not registered, the payment method will not"
 " work."
-msgstr "任何顯示 Apple Pay 按鈕的 (子)域名必須在 PayPal 網站上註冊。如果該域名未註冊，則付款方式將無法使用。."
+msgstr "顯示 Apple Pay 按鈕的任何（子）網域都必須在 PayPal 網站上註冊。如果網域未註冊，付款方式將無法使用。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1777
 msgid ""
 "Accept PayPal, Pay Later, and major cards in WooCommerce using the PayPal "
 "Commerce Platform."
-msgstr "在 WooCommerce 中使用 PayPal Commerce Platform 接受 PayPal、稍後付款和主要信用卡。."
+msgstr "使用 PayPal Commerce Platform 在 WooCommerce 中接受 PayPal、稍後付款和主要銀行卡。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1779
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1799
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1819
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1829
 msgid "By Easy Payment"
-msgstr "透過簡易付款"
+msgstr "By Easy Payment"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1786
 msgid "AI Product Description Generator for WooCommerce"
-msgstr "WooCommerce 的 AI 產品描述生成器"
+msgstr "WooCommerce AI 產品說明產生器"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1787
 msgid ""
 "Generate SEO-friendly titles, descriptions, and attributes with AI. Includes"
 " bulk tools and templates."
-msgstr "生成 SEO 友好的標題、描述和屬性，搭配 AI 技術。包含批量工具和模板。."
+msgstr "使用 AI 產生 SEO 友善的標題、說明和屬性。包含批次工具和範本。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1789
 msgid "By nexaplugins"
-msgstr "由 nexaplugins 提供"
+msgstr "By nexaplugins"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1796
 msgid "Payment Gateway for Authorize.Net for WooCommerce"
-msgstr "WooCommerce 的 Authorize.Net 付款閘道"
+msgstr "WooCommerce Authorize.Net 付款閘道"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1797
 msgid ""
 "Accept credit and debit cards via Authorize.Net with a secure, seamless "
 "WooCommerce checkout."
-msgstr "透過 Authorize.Net 以安全、無縫的 WooCommerce 結帳接受信用卡和借記卡。."
+msgstr "透過 Authorize.Net 接受信用卡和簽帳卡，提供安全、無縫的 WooCommerce 結帳體驗。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1806
 msgid "Widgets for Google Business Reviews and Ratings"
-msgstr "Google 商業評論和評分的小工具"
+msgstr "Google 商業評價和評分小工具"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1807
 msgid ""
 "Showcase your Google Business Profile reviews and star rating with "
 "customizable widgets."
-msgstr "展示您的 Google 商業資料評論和星級評分，並使用可自訂的小工具。."
+msgstr "使用可自訂的小工具展示您的 Google 商業資料評價和星級評分。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1809
 msgid "By Repocean"
-msgstr "由 Repocean 提供"
+msgstr "By Repocean"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1816
 msgid "Payment Gateway for PhonePe and for WooCommerce"
-msgstr "PhonePe 和 WooCommerce 的支付閘道"
+msgstr "WooCommerce PhonePe 付款閘道"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1817
 msgid ""
 "Accept PhonePe UPI, Wallet, and Cards with a fast, secure payment experience"
 " in WooCommerce."
-msgstr "在 WooCommerce 中接受 PhonePe UPI、錢包和卡片，提供快速、安全的支付體驗。."
+msgstr "在 WooCommerce 中接受 PhonePe UPI、錢包和銀行卡，提供快速、安全的付款體驗。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1826
 msgid "Payment Gateway for Razorpay and for WooCommerce"
-msgstr "Razorpay 和 WooCommerce 的支付閘道"
+msgstr "WooCommerce Razorpay 付款閘道"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1827
 msgid ""
 "Accept UPI, Cards, and Net Banking via Razorpay with a reliable, optimized "
 "WooCommerce integration."
-msgstr "透過 Razorpay 以可靠且優化的 WooCommerce 整合接受 UPI、信用卡和網路銀行付款。."
+msgstr "透過 Razorpay 接受 UPI、銀行卡和網路銀行，提供可靠、最佳化的 WooCommerce 整合。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1854
 msgid "Recommended Plugins"
-msgstr "推薦的外掛"
+msgstr "推薦外掛"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1856
 msgid ""
 "Start by adding helpful extensions to your store—payments, product content, "
 "reviews and more."
-msgstr "首先，為您的商店添加有用的擴展功能—支付、產品內容、評論等。."
+msgstr "首先為您的商店新增有用的擴充功能——付款、產品內容、評價等。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1864
 msgid "Plugin logo"
-msgstr "外掛程式標誌"
+msgstr "外掛標誌"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1879
 msgid "Install Now"
@@ -722,7 +717,7 @@ msgstr "立即安裝"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1886
 msgid "No matching plugins found for your store settings."
-msgstr "未找到與您的商店設定相符的插件。."
+msgstr "未找到與您的商店設定相符的外掛。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1945
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:357
@@ -735,11 +730,11 @@ msgstr "即時預覽"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1946
 msgid "PayPal Smart Button Preview"
-msgstr "PayPal 智能按鈕預覽"
+msgstr "PayPal 智慧按鈕預覽"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1947
 msgid "Preview only. No payment will be processed."
-msgstr "僅供預覽。將不會處理任何付款。."
+msgstr "僅供預覽。不會處理任何付款。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1984
 msgid "Congratulations! PayPal is Connected 🎉"
@@ -747,30 +742,30 @@ msgstr "恭喜！PayPal 已連接 🎉"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1988
 msgid "The primary setup is already complete."
-msgstr "主要設置已經完成。."
+msgstr "基本設定已完成。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1992
 msgid ""
 "No further action is required unless additional customization is needed."
-msgstr "除非需要額外的自訂，否則不需要進一步的行動。."
+msgstr "除非需要額外自訂，否則無需進一步操作。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1997
 msgid "Got it"
-msgstr "明白了"
+msgstr "了解"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3106
 msgid "Invalid or missing payment token fields."
-msgstr "無效或缺少付款令牌欄位。."
+msgstr "付款權杖欄位無效或缺失。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:97
 msgid ""
 "Please choose the quantity of items you wish to add to your cart&hellip;"
-msgstr "請選擇您希望添加到購物車的商品數量&hellip;"
+msgstr "請選擇您要加入購物車的商品數量&hellip;"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:106
 msgid "Please choose a product to add to your cart&hellip;"
-msgstr "請選擇一個產品以添加到您的購物車&hellip;"
+msgstr "請選擇要加入購物車的產品&hellip;"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:160
 msgid "Please choose product options&hellip;"
@@ -779,14 +774,14 @@ msgstr "請選擇產品選項&hellip;"
 #. translators: %s: Product attribute name.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:177
 msgid "Invalid value posted for %s"
-msgstr "為 %s 發佈的值無效"
+msgstr "%s 提交的值無效"
 
 #. translators: %s: Comma-separated list of missing required product
 #. attributes.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:185
 msgid "%s is a required field"
 msgid_plural "%s are required fields"
-msgstr[0] "%s 為必填欄位"
+msgstr "%s 是必填欄位"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:168
 msgid "Continue to payment"
@@ -820,7 +815,7 @@ msgstr "卡片安全碼結果"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1626
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2816
 msgid "Payment via %1$s : %2$s."
-msgstr "透過 %1$s 付款 : %2$s。."
+msgstr "透過 %1$s 付款：%2$s。"
 
 #. translators: 1: Payment method title, 2: Transaction ID.
 #. translators: 1: payment method title, 2: transaction ID
@@ -834,7 +829,7 @@ msgstr "透過 %1$s 付款 : %2$s。."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2828
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1637
 msgid "%1$s Transaction ID: %2$s"
-msgstr "%1$s 交易識別碼：%2$s"
+msgstr "%1$s 交易 ID：%2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:946
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1977
@@ -842,21 +837,21 @@ msgstr "%1$s 交易識別碼：%2$s"
 msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
-msgstr "付款已授權。將付款狀態更改為處理中或已完成以捕獲資金。."
+msgstr "付款已授權。將付款狀態更改為處理中或已完成以擷取資金。"
 
 #. translators: 1: Refunded amount, 2: Refund transaction ID.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1315
 msgid "Refunded %1$s - Refund ID: %2$s"
-msgstr "已退款 %1$s - 退款 ID: %2$s"
+msgstr "已退款 %1$s - 退款 ID：%2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1491
 msgid "An error occurred while updating the order."
-msgstr "更新訂單時發生錯誤。."
+msgstr "更新訂單時發生錯誤。"
 
 #. translators: %s: Plugin version number.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1652
 msgid "Payment Gateway for PayPal on WooCommerce: %1$s"
-msgstr "WooCommerce 上的 PayPal 付款閘道：%1$s"
+msgstr "WooCommerce PayPal 付款閘道：%1$s"
 
 #. translators: %s: WooCommerce version number.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1654
@@ -866,35 +861,35 @@ msgstr "WooCommerce 版本：%1$s"
 #. translators: 1: PayPal pending reason.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1981
 msgid "Payment pending (%1$s)."
-msgstr "付款待處理 (%1$s)。."
+msgstr "付款待處理 (%1$s)。"
 
 #. translators: 1: refunded amount, 2: refunded currency
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2047
 msgid "Marked as refunded via PayPal. Total refunded: %1$s %2$s."
-msgstr "已通過 PayPal 標記為退款。總退款金額：%1$s %2$s。."
+msgstr "已標記為透過 PayPal 退款。總退款金額：%1$s %2$s。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2186
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2618
 msgid "Sorry, your session has expired."
-msgstr "抱歉，您的會話已過期。."
+msgstr "抱歉，您的工作階段已過期。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2395
 msgid ""
 "This payment was unable to be processed successfully. Please try again with "
 "another payment method."
-msgstr "此付款無法成功處理。請嘗試使用其他付款方式。."
+msgstr "此付款無法成功處理。請使用其他付款方式重試。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:125
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:148
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:175
 msgid "Return to your shop."
-msgstr "返回你的商店。."
+msgstr "返回您的商店。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:335
 msgid ""
 "Pay via PayPal; you can pay with your credit card if you don't have a PayPal"
 " account"
-msgstr "透過 PayPal 付款；如果您沒有 PayPal 帳戶，您可以使用信用卡付款"
+msgstr "透過 PayPal 付款；如果您沒有 PayPal 帳戶，可以使用信用卡付款"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:84
 msgid "Environment"
@@ -908,15 +903,15 @@ msgstr "選擇 PayPal 環境"
 msgid ""
 "Choose the PayPal environment. Select \"Sandbox\" for testing transactions "
 "(no real transactions will occur) or \"Production\" for live transactions."
-msgstr "選擇 PayPal 環境。選擇「Sandbox」以測試交易（不會發生真實交易）或選擇「Production」以進行實際交易。."
+msgstr "選擇 PayPal 環境。選擇「沙盒」進行測試交易（不會產生真實交易）或選擇「正式」進行實際交易。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:93
 msgid "Sandbox (Test Mode)"
-msgstr "沙盒（測試模式）)"
+msgstr "沙盒（測試模式）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:94
 msgid "Production (Live)"
-msgstr "生產 (直播)"
+msgstr "正式（線上）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:98
 msgid "Connect to PayPal"
@@ -925,33 +920,33 @@ msgstr "連接到 PayPal"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:102
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:152
 msgid "Setup or link an existing PayPal account."
-msgstr "設置或連結現有的 PayPal 帳戶。."
+msgstr "設定或連結現有的 PayPal 帳戶。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:106
 msgid "Live Client ID"
-msgstr "實時客戶端 ID"
+msgstr "正式 Client ID"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:108
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:158
 msgid "Enter PayPal Client ID."
-msgstr "輸入 PayPal 客戶端 ID。."
+msgstr "輸入 PayPal Client ID。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:117
 msgid "Live Secret key"
-msgstr "實時密鑰"
+msgstr "正式 Secret 金鑰"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:119
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:169
 msgid "Enter PayPal Secret key."
-msgstr "輸入 PayPal 秘密金鑰。."
+msgstr "輸入 PayPal Secret 金鑰。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:128
 msgid "Live PayPal Email"
-msgstr "即時 PayPal 電子郵件"
+msgstr "正式 PayPal 電子郵件"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:131
 msgid "Enter Live PayPal Email."
-msgstr "輸入即時 PayPal 電子郵件。."
+msgstr "輸入正式 PayPal 電子郵件。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:140
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:189
@@ -964,11 +959,11 @@ msgstr "連接到 PayPal 沙盒"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:156
 msgid "Sandbox Client ID"
-msgstr "沙盒客戶端 ID"
+msgstr "沙盒 Client ID"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:167
 msgid "Sandbox Secret key"
-msgstr "沙盒密鑰"
+msgstr "沙盒 Secret 金鑰"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:178
 msgid "Sandbox PayPal Email"
@@ -976,14 +971,14 @@ msgstr "沙盒 PayPal 電子郵件"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:181
 msgid "Enter Sandbox PayPal Email."
-msgstr "輸入 Sandbox PayPal 電子郵件。."
+msgstr "輸入沙盒 PayPal 電子郵件。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:202
 msgid ""
 "When enabled, Payment methods will only be visible to site administrators "
 "and store managers. This allows you to test PayPal on your live site without"
 " customers seeing them."
-msgstr "啟用後，付款方式將僅對網站管理員和商店經理可見。這使您可以在實際網站上測試 PayPal，而不讓客戶看到它們。."
+msgstr "啟用後，付款方式僅對網站管理員和商店經理可見。這允許您在正式網站上測試 PayPal，而顧客不會看到。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
 msgid "Select Height"
@@ -992,7 +987,7 @@ msgstr "選擇高度"
 #. translators: %d is the button height in pixels.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:213
 msgid "%d px"
-msgstr "%d 像素"
+msgstr "%d px"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:217
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:776
@@ -1005,7 +1000,7 @@ msgstr "%d 像素"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1772
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1858
 msgid "Enable/Disable"
-msgstr "啟用/禁用"
+msgstr "啟用/停用"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:219
 msgid "Enable PayPal"
@@ -1014,7 +1009,7 @@ msgstr "啟用 PayPal"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:220
 msgid ""
 "Enable this option to activate the PayPal gateway. Uncheck to disable it."
-msgstr "啟用此選項以啟動 PayPal 閘道。取消勾選以禁用它。."
+msgstr "啟用此選項以啟動 PayPal 閘道。取消勾選以停用。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:225
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:784
@@ -1023,7 +1018,7 @@ msgstr "標題"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:227
 msgid "The title displayed to customers during checkout."
-msgstr "顯示給顧客的結帳標題。."
+msgstr "結帳時向顧客顯示的標題。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:228
 msgid "PayPal"
@@ -1031,11 +1026,11 @@ msgstr "PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:232
 msgid "Description"
-msgstr "描述"
+msgstr "說明"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:235
 msgid "The description displayed to customers during checkout."
-msgstr "在結帳過程中顯示給客戶的描述。."
+msgstr "結帳時向顧客顯示的說明。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:240
 msgid "Display PayPal Buttons On"
@@ -1078,18 +1073,18 @@ msgstr "結帳頁面"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:971
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1282
 msgid "Mini Cart (Side Cart)"
-msgstr "迷你購物車（側邊購物車）)"
+msgstr "迷你購物車（側邊欄購物車）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:253
 msgid "Set the page(s) to display the PayPal Buttons."
-msgstr "設定頁面以顯示 PayPal 按鈕。."
+msgstr "設定顯示 PayPal 按鈕的頁面。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:259
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:279
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:372
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:478
 msgid "Disable Specific Payment Buttons"
-msgstr "禁用特定的付款按鈕"
+msgstr "停用特定付款按鈕"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:261
 msgid ""
@@ -1102,16 +1097,14 @@ msgid ""
 "the Checkout Page.<br>For Mini Cart, this setting will follow the "
 "configuration from the Product Page."
 msgstr ""
-"PayPal 按鈕（例如 Pay Later、Venmo、SEPA、iDEAL、Mercado Pago、Bancontact "
-"等）會根據買家的國家和設備類型等因素自動顯示。<br><br>預設情況下，<b>所有按鈕都是啟用的。</b> "
-"要禁用個別支付按鈕，請使用每個頁面部分下方可用的 <b>「禁用特定支付按鈕」</b> "
-"設定。<br><br>對於快速結帳，它將遵循結帳頁面的配置。<br>對於迷你購物車，此設定將遵循產品頁面的配置。."
+"PayPal 按鈕（如稍後付款、Venmo、SEPA、iDEAL、Mercado Pago、Bancontact "
+"等）會根據買家所在國家和裝置類型等因素自動顯示。<br><br>預設情況下，<b>所有按鈕都已啟用。</b>要停用個別付款按鈕，請使用下方每個頁面區段中的<b>「停用特定付款按鈕」</b>設定。<br><br>快速結帳將遵循結帳頁面的設定。<br>迷你購物車將遵循產品頁面的設定。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:287
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:380
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:486
 msgid "Select payment buttons to disable"
-msgstr "選擇要禁用的付款按鈕"
+msgstr "選擇要停用的付款按鈕"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:291
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:384
@@ -1119,7 +1112,7 @@ msgstr "選擇要禁用的付款按鈕"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:597
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:666
 msgid "Button Layout"
-msgstr "按鈕佈局"
+msgstr "按鈕版面配置"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:294
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:387
@@ -1129,13 +1122,13 @@ msgstr "按鈕佈局"
 msgid ""
 "Select Vertical for stacked buttons, and Horizontal for side-by-side "
 "buttons."
-msgstr "選擇垂直以顯示堆疊按鈕，選擇水平以顯示並排按鈕。."
+msgstr "選擇垂直排列堆疊按鈕，或選擇水平排列並排按鈕。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:298
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:604
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:673
 msgid "Horizontal (Recommended)"
-msgstr "橫向（推薦）)"
+msgstr "水平（推薦）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:299
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:605
@@ -1167,7 +1160,7 @@ msgstr "按鈕顏色"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:614
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:683
 msgid "Gold (Recommended)"
-msgstr "金色（推薦）)"
+msgstr "金色（推薦）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:309
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:402
@@ -1280,7 +1273,7 @@ msgstr "按鈕形狀"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1359
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
 msgid "Rect (Recommended)"
-msgstr "矩形 (推薦)"
+msgstr "矩形（推薦）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:415
@@ -1298,7 +1291,7 @@ msgstr "矩形 (推薦)"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1360
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1401
 msgid "Pill"
-msgstr "藥丸"
+msgstr "膠囊形"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:326
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:419
@@ -1312,21 +1305,21 @@ msgstr "按鈕寬度"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:530
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:706
 msgid "Small"
-msgstr "小型"
+msgstr "小"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:332
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:425
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:531
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:707
 msgid "Medium"
-msgstr "中等"
+msgstr "中"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:333
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:426
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:532
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:708
 msgid "Large"
-msgstr "大型"
+msgstr "大"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:334
 msgid "Responsive"
@@ -1364,7 +1357,7 @@ msgstr "按鈕標籤"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:644
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:725
 msgid "PayPal (Recommended)"
-msgstr "PayPal（推薦）)"
+msgstr "PayPal（推薦）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:351
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:444
@@ -1410,12 +1403,12 @@ msgstr "立即購買"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1338
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1379
 msgid "Pay"
-msgstr "支付"
+msgstr "付款"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:391
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:497
 msgid "Vertical (Recommended)"
-msgstr "垂直（推薦）)"
+msgstr "垂直（推薦）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:392
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:498
@@ -1426,11 +1419,11 @@ msgstr "水平"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:533
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:709
 msgid "Responsive (Recommended)"
-msgstr "響應式（推薦）)"
+msgstr "響應式（推薦）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:450
 msgid "PayPal Button Position (Classic Cart Only)"
-msgstr "PayPal 按鈕位置（僅限經典購物車）)"
+msgstr "PayPal 按鈕位置（僅限經典購物車）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:453
 msgid ""
@@ -1438,16 +1431,15 @@ msgid ""
 " or below the \"Proceed to Checkout\" button. This applies only to classic "
 "cart templates, not the new Cart Blocks layout."
 msgstr ""
-"選擇 PayPal "
-"按鈕應該出現在購物車頁面的哪個位置，無論是在「前往結帳」按鈕的上方還是下方。這僅適用於經典購物車模板，而不適用於新的購物車區塊佈局。."
+"選擇 PayPal 按鈕在購物車頁面的顯示位置，在「前往結帳」按鈕的上方或下方。此設定僅適用於經典購物車範本，不適用於新的購物車區塊版面配置。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:457
 msgid "Below Proceed to Checkout button"
-msgstr "在「結帳」按鈕下方"
+msgstr "在前往結帳按鈕下方"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:458
 msgid "Above Proceed to Checkout button"
-msgstr "在「Proceed to Checkout」按鈕上方"
+msgstr "在前往結帳按鈕上方"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:556
 msgid "Icon"
@@ -1459,7 +1451,7 @@ msgstr "字母組合 (PP)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:561
 msgid "Wordmark (PayPal)"
-msgstr "字標 (PayPal)"
+msgstr "文字標誌 (PayPal)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:562
 msgid "Combination Mark (PP PayPal)"
@@ -1469,28 +1461,28 @@ msgstr "組合標誌 (PP PayPal)"
 msgid ""
 "Select the PayPal logo style displayed next to the payment method title on "
 "the checkout page."
-msgstr "選擇在結帳頁面上顯示於付款方式標題旁邊的 PayPal 標誌樣式。."
+msgstr "選擇在結帳頁面付款方式標題旁邊顯示的 PayPal 標誌樣式。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:567
 msgid "Show Redirect Icon and Text"
-msgstr "顯示重定向圖示和文字"
+msgstr "顯示重新導向圖示和文字"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:571
 msgid ""
 "When enabled, a redirect icon and message will appear to let customers know "
 "they will be taken to PayPal to complete their payment."
-msgstr "啟用後，將會顯示一個重定向圖示和訊息，以告知客戶他們將被帶到 PayPal 完成付款。."
+msgstr "啟用後，將顯示重新導向圖示和訊息，讓顧客知道他們將被引導到 PayPal 完成付款。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:574
 msgid "Use Place Order Button"
-msgstr "使用下單按鈕"
+msgstr "使用送出訂單按鈕"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:578
 msgid ""
 "Enable this to use the default Place Order button on the checkout page "
 "instead of showing PayPal buttons. This setting does not affect Express "
 "Checkout."
-msgstr "啟用此選項以在結帳頁面上使用預設的「下訂單」按鈕，而不是顯示 PayPal 按鈕。此設定不影響快速結帳。."
+msgstr "啟用此選項以在結帳頁面使用預設的送出訂單按鈕，而不是顯示 PayPal 按鈕。此設定不影響快速結帳。"
 
 #. translators: Admin notice explaining how to enable PayPal Advanced Card
 #. Payments. HTML <br> tags are intentional for formatting.
@@ -1503,12 +1495,12 @@ msgid ""
 "                3. Under \"Features\" → Accept Payments, check if \"Advanced Credit and Debit Card Payments\" is enabled.<br>\r\n"
 "                4. If missing, your account or region may not support it."
 msgstr ""
-"要使用進階信用卡支付，請確保您的 PayPal 帳戶符合資格並已啟用：<br><br>\r\n"
+"要使用進階卡片付款，請確保您的 PayPal 帳戶符合資格並已啟用：<br><br>\r\n"
 "                <strong>步驟：</strong><br>\r\n"
-"                1. 訪問 developer.paypal.com → 應用程式與憑證 → API 憑證。<br>\r\n"
+"                1. 造訪 developer.paypal.com → 應用程式和憑證 → API 憑證。<br>\r\n"
 "                2. 點擊您的應用程式名稱。<br>\r\n"
-"                3. 在「功能」→ 接受付款下，檢查「進階信用卡和借記卡支付」是否已啟用。<br>\r\n"
-"                4. 如果缺少，您的帳戶或地區可能不支援此功能。."
+"                3. 在「功能」→ 接受付款下，檢查「進階信用卡和簽帳卡付款」是否已啟用。<br>\r\n"
+"                4. 如果缺少，您的帳戶或地區可能不支援。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:771
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:829
@@ -1522,7 +1514,7 @@ msgstr "重要提示"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:778
 msgid "Enable Advanced Credit/Debit Card"
-msgstr "啟用進階信用卡/借記卡"
+msgstr "啟用進階信用卡/簽帳卡"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:780
 msgid ""
@@ -1533,20 +1525,20 @@ msgid ""
 "PayPal Smart Buttons. It supports major cards like Visa, Mastercard, and "
 "American Express, providing a secure and streamlined payment experience."
 msgstr ""
-"在結帳頁面上將高級信用卡/借記卡支付選項作為單獨的支付閘道啟用。這個閘道通常提供比 PayPal 智能按鈕更低的 PayPal "
-"手續費。高級信用卡/借記卡支付的手續費為每筆交易 2.59% + $0.49*，而 PayPal 智能按鈕的手續費為 3.49% + "
-"$0.49*。它支持主要的卡片，如 Visa、Mastercard 和 American Express，提供安全且流暢的支付體驗。."
+"在結帳頁面將進階信用卡/簽帳卡付款選項作為單獨的閘道啟用。該閘道通常比 PayPal 智慧按鈕提供更低的 PayPal "
+"費用。進階信用卡/簽帳卡付款每筆交易費用為 2.59% + $0.49*，PayPal 智慧按鈕為 3.49% + $0.49*。支援 "
+"Visa、Mastercard 和 American Express 等主要銀行卡，提供安全且簡化的付款體驗。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:786
 msgid ""
 "Set the title for the Advanced Credit/Debit Card payment method as it will "
 "appear on the checkout page (e.g., 'Pay with Credit/Debit Card').."
-msgstr "將高級信用/借記卡支付方式的標題設置為結帳頁面上顯示的內容（例如，'使用信用/借記卡支付'）。."
+msgstr "設定進階信用卡/簽帳卡付款方式的標題，它將顯示在結帳頁面（例如「使用信用卡/簽帳卡付款」）.."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:787
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1112
 msgid "Credit or Debit Card"
-msgstr "信用卡或借記卡"
+msgstr "信用卡或簽帳卡"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:791
 msgid "Disable specific credit cards"
@@ -1556,15 +1548,15 @@ msgstr "停用特定信用卡"
 msgid ""
 "By default all possible credit cards will be accepted. You can disable some "
 "cards, if you wish."
-msgstr "預設情況下，所有可能的信用卡都將被接受。如果您願意，您可以禁用某些卡片。."
+msgstr "預設情況下，所有可能的信用卡都將被接受。如果您願意，可以停用某些卡。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:804
 msgid "Contingency for 3D Secure"
-msgstr "3D Secure 的應急措施"
+msgstr "3D Secure 條件"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:808
 msgid "3D Secure when required"
-msgstr "3D Secure 當需要時"
+msgstr "需要時啟用 3D Secure"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:809
 msgid "Always trigger 3D Secure"
@@ -1576,8 +1568,8 @@ msgid ""
 "layer of verification using Verified by Visa, MasterCard SecureCode and "
 "American Express SafeKey."
 msgstr ""
-"3D Secure 為持卡人和商家提供額外的驗證層，使用 Verified by Visa、MasterCard SecureCode 和 "
-"American Express SafeKey。."
+"3D Secure 透過使用 Verified by Visa、MasterCard SecureCode 和 American Express "
+"SafeKey 提供額外的驗證層，使持卡人和商家受益。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:816
 msgid "Card Save Enabled"
@@ -1591,7 +1583,7 @@ msgstr "在結帳時啟用卡片儲存"
 msgid ""
 "When enabled, customers can securely save their card details using PayPal "
 "for faster future checkouts."
-msgstr "啟用後，客戶可以安全地使用 PayPal 儲存他們的卡片詳細資訊，以便未來更快速的結帳。."
+msgstr "啟用後，顧客可以使用 PayPal 安全儲存其卡片資訊，以便將來更快結帳。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:831
 msgid ""
@@ -1604,15 +1596,15 @@ msgid ""
 "United States, United Kingdom<br><br>"
 msgstr ""
 "您的 PayPal "
-"帳戶未啟用進階信用卡/借記卡支付。<br><br><strong>支援國家：</strong><br>澳大利亞、奧地利、比利時、保加利亞、加拿大、中國、塞浦路斯、捷克共和國、丹麥、愛沙尼亞、芬蘭、法國、德國、希臘、香港、匈牙利、愛爾蘭、義大利、日本、拉脫維亞、列支敦士登、立陶宛、盧森堡、馬爾他、荷蘭、挪威、波蘭、葡萄牙、羅馬尼亞、新加坡、斯洛伐克、斯洛文尼亞、西班牙、瑞典、美國、英國<br><br>"
+"帳戶未啟用進階信用卡/簽帳卡付款。<br><br><strong>支援的國家：</strong><br>澳洲、奧地利、比利時、保加利亞、加拿大、中國、賽普勒斯、捷克共和國、丹麥、愛沙尼亞、芬蘭、法國、德國、希臘、香港、匈牙利、愛爾蘭、義大利、日本、拉脫維亞、列支敦士登、立陶宛、盧森堡、馬爾他、荷蘭、挪威、波蘭、葡萄牙、羅馬尼亞、新加坡、斯洛伐克、斯洛維尼亞、西班牙、瑞典、美國、英國<br><br>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
 msgid "Please ensure that Google Pay is enabled in your PayPal account."
-msgstr "請確保您的 PayPal 帳戶已啟用 Google Pay。."
+msgstr "請確保您的 PayPal 帳戶中已啟用 Google Pay。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
 msgid "Check this box to display the Google Pay button on selected pages."
-msgstr "勾選此框以在選定的頁面上顯示 Google Pay 按鈕。."
+msgstr "勾選此方塊以在選定頁面上顯示 Google Pay 按鈕。"
 
 #. translators: 1: Google Pay setup guide link, 2: supported countries and
 #. currencies link
@@ -1620,12 +1612,12 @@ msgstr "勾選此框以在選定的頁面上顯示 Google Pay 按鈕。."
 msgid ""
 "Google Pay must be enabled in your PayPal account (%1$s). Please ensure your"
 " country and currency are supported (%2$s)."
-msgstr "您的 PayPal 帳戶必須啟用 Google Pay (%1$s)。請確保您的國家和貨幣受到支持 (%2$s)。."
+msgstr "必須在您的 PayPal 帳戶中啟用 Google Pay (%1$s)。請確保您的國家和貨幣受支援 (%2$s)。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:847
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1154
 msgid "setup guide"
-msgstr "設置指南"
+msgstr "設定指南"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:850
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1157
@@ -1635,11 +1627,11 @@ msgstr "支援的國家和貨幣"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:855
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1162
 msgid "The page must be served over a secure (HTTPS) connection."
-msgstr "該頁面必須通過安全的 (HTTPS) 連接提供。."
+msgstr "頁面必須透過安全 (HTTPS) 連線提供。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:857
 msgid "To show the Google Pay button,"
-msgstr "要顯示 Google Pay 按鈕，,"
+msgstr "要顯示 Google Pay 按鈕，"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:866
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1112
@@ -1648,7 +1640,7 @@ msgstr "啟用 Google Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:872
 msgid "Display Google Pay Button On"
-msgstr "顯示 Google Pay 按鈕 開啟"
+msgstr "顯示 Google Pay 按鈕於"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:878
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1191
@@ -1669,7 +1661,7 @@ msgstr "迷你購物車"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:884
 msgid "Set the page(s) to display the Google Pay button."
-msgstr "設置頁面以顯示 Google Pay 按鈕。."
+msgstr "設定顯示 Google Pay 按鈕的頁面。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:898
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:940
@@ -1682,7 +1674,7 @@ msgstr "設置頁面以顯示 Google Pay 按鈕。."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1334
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1375
 msgid "Plain"
-msgstr "平面"
+msgstr "普通"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:899
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:941
@@ -1711,7 +1703,7 @@ msgstr "捐款"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1028
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1070
 msgid "Book"
-msgstr "書籍"
+msgstr "預訂"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:903
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:945
@@ -1749,7 +1741,7 @@ msgid ""
 "Currencies:</strong><br>%2$s"
 msgstr ""
 "您的 PayPal 帳戶未啟用 Google "
-"Pay。請點擊下方以啟用它。<br><br><strong>支援的國家：</strong><br>%1$s<br><br><strong>支援的貨幣：</strong><br>%2$s"
+"Pay。點擊下方啟用。<br><br><strong>支援的國家：</strong><br>%1$s<br><br><strong>支援的貨幣：</strong><br>%2$s"
 
 #. translators: %1$s is the list of supported countries. %2$s is the list of
 #. supported currencies.
@@ -1761,7 +1753,7 @@ msgid ""
 "Currencies:</strong><br>%2$s"
 msgstr ""
 "您的 PayPal 帳戶未啟用 Apple "
-"Pay。請點擊下方以啟用它。<br><br><strong>支援的國家：</strong><br>%1$s<br><br><strong>支援的貨幣：</strong><br>%2$s"
+"Pay。點擊下方啟用。<br><br><strong>支援的國家：</strong><br>%1$s<br><br><strong>支援的貨幣：</strong><br>%2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1134
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1179
@@ -1770,11 +1762,11 @@ msgstr "啟用 Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
 msgid "Please ensure that Apple Pay is enabled in your PayPal account."
-msgstr "請確保您的 PayPal 帳戶已啟用 Apple Pay。."
+msgstr "請確保您的 PayPal 帳戶中已啟用 Apple Pay。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
 msgid "Check this box to display the Apple Pay button on selected pages."
-msgstr "勾選此框以在選定的頁面上顯示 Apple Pay 按鈕。."
+msgstr "勾選此方塊以在選定頁面上顯示 Apple Pay 按鈕。"
 
 #. translators: 1: Apple Pay setup guide link, 2: supported countries and
 #. currencies link
@@ -1782,30 +1774,30 @@ msgstr "勾選此框以在選定的頁面上顯示 Apple Pay 按鈕。."
 msgid ""
 "Apple Pay must be enabled in your PayPal account (%1$s) and make sure your "
 "country and currency are supported (%2$s)."
-msgstr "必須在您的 PayPal 帳戶中啟用 Apple Pay (%1$s)，並確保您的國家和貨幣受到支持 (%2$s)。."
+msgstr "必須在您的 PayPal 帳戶中啟用 Apple Pay (%1$s)，並確保您的國家和貨幣受支援 (%2$s)。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1164
 msgid "To show the Apple Pay button,"
-msgstr "要顯示 Apple Pay 按鈕，,"
+msgstr "要顯示 Apple Pay 按鈕，"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1172
 msgid "Domain Registration"
-msgstr "域名註冊"
+msgstr "網域註冊"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1174
 msgid ""
 "Apple requires that the website domain be registered on PayPal. Payments "
 "will not be processed if the Apple Pay button is used on an unregistered "
 "domain."
-msgstr "Apple 要求網站域名必須在 PayPal 上註冊。如果在未註冊的域名上使用 Apple Pay 按鈕，則無法處理付款。."
+msgstr "Apple 要求網站網域在 PayPal 上註冊。如果在未註冊的網域上使用 Apple Pay 按鈕，付款將不會被處理。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1185
 msgid "Display Apple Pay Button On"
-msgstr "顯示 Apple Pay 按鈕 開啟"
+msgstr "顯示 Apple Pay 按鈕於"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1197
 msgid "Set the page(s) to display the Apple Pay button."
-msgstr "設定頁面以顯示 Apple Pay 按鈕。."
+msgstr "設定顯示 Apple Pay 按鈕的頁面。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1227
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1268
@@ -1813,7 +1805,7 @@ msgstr "設定頁面以顯示 Apple Pay 按鈕。."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1350
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1391
 msgid "White with outline"
-msgstr "白色帶輪廓"
+msgstr "白色帶邊框"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1421
 msgid ""
@@ -1824,10 +1816,10 @@ msgid ""
 "href=\"https://www.paypal.com/us/business/accept-"
 "payments/checkout/installments\">More about Pay Later</a>"
 msgstr ""
-"您的客戶現在可以使用 PayPal 先購買後付款 — 在您的網站上添加訊息以告知他們。PayPal "
-"的先付款功能有助於提高商家的轉換率，並使購物車大小增加 39%。¹ 您將全額提前獲得付款。<a target=\"_blank\" "
+"您的顧客已經可以透過 PayPal 先購買後付款——在您的網站上新增訊息讓他們知道。PayPal 的稍後付款有助於提高商家的轉換率，並將購物車規模提高 "
+"39%。¹ 您將預先收到全額付款。<a target=\"_blank\" "
 "href=\"https://www.paypal.com/us/business/accept-"
-"payments/checkout/installments\">了解更多關於先付款的資訊</a>"
+"payments/checkout/installments\">了解更多關於稍後付款</a>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1429
 msgid "Enable Pay Later Messaging"
@@ -1835,11 +1827,11 @@ msgstr "啟用稍後付款訊息"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1431
 msgid "Displays Pay Later messaging for available offers."
-msgstr "顯示可用優惠的「稍後付款」訊息。."
+msgstr "顯示可用優惠的稍後付款訊息。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1435
 msgid "Display Pay Later messaging On"
-msgstr "顯示稍後付款訊息 開啟"
+msgstr "顯示稍後付款訊息於"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
 msgid "Home"
@@ -1847,7 +1839,7 @@ msgstr "首頁"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
 msgid "Category"
-msgstr "類別"
+msgstr "分類"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
 msgid "Payment"
@@ -1857,7 +1849,7 @@ msgstr "付款"
 msgid ""
 "Set the page(s) you want to display messaging on, and then adjust that "
 "page's display option below."
-msgstr "設置您想要顯示消息的頁面，然後在下面調整該頁面的顯示選項。."
+msgstr "設定您想要顯示訊息的頁面，然後在下方調整該頁面的顯示選項。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1444
 msgid "Home Page"
@@ -1869,7 +1861,7 @@ msgstr "首頁"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1709
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1795
 msgid "Layout Type"
-msgstr "佈局類型"
+msgstr "版面配置類型"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1456
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1543
@@ -1877,7 +1869,7 @@ msgstr "佈局類型"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1715
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1801
 msgid "Text Layout"
-msgstr "文本佈局"
+msgstr "文字版面配置"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1456
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1543
@@ -1885,7 +1877,7 @@ msgstr "文本佈局"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1715
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1801
 msgid "Flex Layout"
-msgstr "彈性佈局"
+msgstr "彈性版面配置"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1459
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1546
@@ -1909,7 +1901,7 @@ msgstr "主要"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1724
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
 msgid "Alternative"
-msgstr "替代方案"
+msgstr "替代"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1465
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1552
@@ -1925,7 +1917,7 @@ msgstr "內嵌"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1724
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1810
 msgid "None"
-msgstr "沒有"
+msgstr "無"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1468
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1555
@@ -1941,7 +1933,7 @@ msgstr "標誌位置"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1733
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
 msgid "Left"
-msgstr "左邊"
+msgstr "左"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1474
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1561
@@ -1949,7 +1941,7 @@ msgstr "左邊"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1733
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
 msgid "Right"
-msgstr "好的"
+msgstr "右"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1474
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1561
@@ -2007,7 +1999,7 @@ msgstr "灰階"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1754
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1840
 msgid "Color"
-msgstr "顏色"
+msgstr "彩色"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
@@ -2015,7 +2007,7 @@ msgstr "顏色"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
 msgid "White (No Border)"
-msgstr "白色（無邊框）)"
+msgstr "白色（無邊框）"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
@@ -2039,7 +2031,7 @@ msgstr "比例"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
 msgid "Flexes between 120px and 300px wide"
-msgstr "在 120px 和 300px 之間彈性調整寬度"
+msgstr "在 120px 到 300px 寬度之間彈性調整"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
@@ -2055,7 +2047,7 @@ msgstr "160px 寬"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
 msgid "Flexes between 250px and 768px wide"
-msgstr "在 250px 和 768px 之間彈性調整"
+msgstr "在 250px 到 768px 寬度之間彈性調整"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
@@ -2063,13 +2055,13 @@ msgstr "在 250px 和 768px 之間彈性調整"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
 msgid "Flexes between 250px and 1169px wide"
-msgstr "在 250px 和 1169px 之間彈性調整"
+msgstr "在 250px 到 1169px 寬度之間彈性調整"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1514
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on Home "
 "page."
-msgstr "我需要一個短碼，以便我可以將消息放置在首頁的更好位置。."
+msgstr "我需要一個短代碼，以便將訊息放置在首頁更好的位置。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1521
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1608
@@ -2077,29 +2069,29 @@ msgstr "我需要一個短碼，以便我可以將消息放置在首頁的更好
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1780
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1866
 msgid "Shortcode"
-msgstr "短碼"
+msgstr "短代碼"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1530
 msgid "Category Page"
-msgstr "類別頁面"
+msgstr "分類頁面"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1601
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "category page."
-msgstr "我需要一個短碼，以便我可以將消息放置在分類頁面上的更好位置。."
+msgstr "我需要一個短代碼，以便將訊息放置在分類頁面更好的位置。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1687
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "product page."
-msgstr "我需要一個短代碼，以便我可以將消息放置在產品頁面的更好位置。."
+msgstr "我需要一個短代碼，以便將訊息放置在產品頁面更好的位置。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on cart "
 "page."
-msgstr "我需要一個短代碼，以便我可以將消息放置在購物車頁面的更好位置。."
+msgstr "我需要一個短代碼，以便將訊息放置在購物車頁面更好的位置。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1789
 msgid "Payment Page"
@@ -2109,21 +2101,21 @@ msgstr "付款頁面"
 msgid ""
 "I need a shortcode so that I can place the message in a better spot on "
 "payment page."
-msgstr "我需要一個短代碼，以便我可以將消息放置在付款頁面的更好位置。."
+msgstr "我需要一個短代碼，以便將訊息放置在付款頁面更好的位置。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1879
 msgid "Payment action"
-msgstr "付款操作"
+msgstr "付款動作"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1882
 msgid ""
 "Choose whether you wish to capture funds immediately or authorize payment "
 "only."
-msgstr "選擇您希望立即捕捉資金還是僅授權付款。."
+msgstr "選擇是立即擷取資金還是僅授權付款。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1886
 msgid "Capture"
-msgstr "捕捉"
+msgstr "擷取"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1887
 msgid "Authorize"
@@ -2137,17 +2129,17 @@ msgstr "品牌名稱"
 msgid ""
 "This controls what users see as the brand / company name on PayPal review "
 "pages."
-msgstr "這控制用戶在 PayPal 審核頁面上看到的品牌/公司名稱。."
+msgstr "這控制使用者在 PayPal 審核頁面上看到的品牌/公司名稱。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1898
 msgid "Landing Page"
-msgstr "登陸頁面"
+msgstr "登入頁面"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1901
 msgid ""
 "The type of landing page to show on the PayPal site for customer checkout. "
 "PayPal Account Optional must be checked for this option to be used."
-msgstr "在 PayPal 網站上顯示的結帳客戶登陸頁面的類型。必須勾選“PayPal 帳戶可選”才能使用此選項。."
+msgstr "在 PayPal 網站上為顧客結帳顯示的登入頁面類型。必須勾選 PayPal 帳戶選用才能使用此選項。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1902
 msgid "Login"
@@ -2172,9 +2164,9 @@ msgid ""
 "eChecks). Instead, the buyer will be required to use an instant funding "
 "source, such as an instant transfer, a credit/debit card, or PayPal Credit."
 msgstr ""
-"如果您啟用此設定，PayPal "
-"將指示不允許買家使用需要額外時間來完成的資金來源（例如，電子支票）。相反，買家將被要求使用即時資金來源，例如即時轉帳、信用卡/借記卡或 PayPal "
-"信用。."
+"如果啟用此設定，PayPal "
+"將被指示不允許買家使用需要額外時間完成的資金來源（例如電子支票）。買家將被要求使用即時資金來源，如即時轉帳、信用卡/簽帳卡或 PayPal "
+"Credit。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1916
 msgid "Require Instant Payment"
@@ -2186,27 +2178,27 @@ msgstr "帳單地址"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1920
 msgid "Use PayPal Shipping Address as Billing"
-msgstr "使用 PayPal 運送地址作為帳單地址"
+msgstr "將 PayPal 送貨地址用作帳單地址"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1921
 msgid ""
 "If the billing address is empty and PayPal provides a shipping address, the "
 "order will use the shipping address as the billing address."
-msgstr "如果帳單地址為空且 PayPal 提供了運送地址，則訂單將使用運送地址作為帳單地址。."
+msgstr "如果帳單地址為空且 PayPal 提供了送貨地址，訂單將使用送貨地址作為帳單地址。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1927
 msgid "Send Item Details"
-msgstr "發送項目詳情"
+msgstr "傳送商品詳情"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1928
 msgid "Send line item details to PayPal"
-msgstr "將項目詳細資訊發送至 PayPal"
+msgstr "向 PayPal 傳送商品明細"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1930
 msgid ""
 "Include all line item details in the payment request to PayPal so that they "
 "can be seen from the PayPal transaction details page."
-msgstr "在付款請求中包含所有項目詳細資訊，以便在 PayPal 交易詳細資訊頁面中查看。."
+msgstr "在向 PayPal 的付款請求中包含所有商品明細，以便從 PayPal 交易詳情頁面檢視。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1934
 msgid "Order Review Page"
@@ -2214,13 +2206,13 @@ msgstr "訂單審核頁面"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1935
 msgid "Skip Order Review Page"
-msgstr "跳過訂單審核頁面"
+msgstr "略過訂單審核頁面"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1937
 msgid ""
 "Payments from the Product or Cart page skip the review step and go straight "
 "to the Thank You page."
-msgstr "來自產品或購物車頁面的付款會跳過審核步驟，直接進入感謝頁面。."
+msgstr "從產品或購物車頁面的付款將略過審核步驟，直接前往感謝頁面。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1944
 msgid "Invoice prefix"
@@ -2231,19 +2223,17 @@ msgid ""
 "Please enter a prefix for your invoice numbers. If you use your PayPal "
 "account for multiple stores ensure this prefix is unique as PayPal will not "
 "allow orders with the same invoice number."
-msgstr ""
-"請為您的發票號碼輸入一個前綴。如果您使用您的 PayPal 帳戶來管理多個商店，請確保這個前綴是唯一的，因為 PayPal "
-"不允許具有相同發票號碼的訂單。."
+msgstr "請輸入發票號碼的前綴。如果您將 PayPal 帳戶用於多個商店，請確保此前綴唯一，因為 PayPal 不允許具有相同發票號碼的訂單。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1951
 msgid "Credit Card Statement Name"
-msgstr "信用卡對帳單名稱"
+msgstr "信用卡帳單名稱"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1953
 msgid ""
 "The value entered here will be displayed on the buyer's credit card "
 "statement."
-msgstr "在此輸入的數值將顯示在買家的信用卡對帳單上。."
+msgstr "此處輸入的值將顯示在買家的信用卡帳單上。"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1959
 msgid "Debug log"
@@ -2256,11 +2246,11 @@ msgstr "啟用日誌記錄"
 #. translators: %s is the path to the WooCommerce PayPal debug log file.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1965
 msgid "Log PayPal events, such as Webhook, Payment, Refund inside %s"
-msgstr "記錄 PayPal 事件，例如 Webhook、付款、退款在 %s 內"
+msgstr "在 %s 中記錄 PayPal 事件，如 Webhook、付款、退款"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:137
 msgid "PayPal Shipment Tracking"
-msgstr "PayPal 送貨追蹤"
+msgstr "PayPal 物流追蹤"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:177
 msgid "Transaction Id"
@@ -2276,98 +2266,98 @@ msgstr "狀態"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:194
 msgid "Carrier"
-msgstr "承運人"
+msgstr "承運商"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:196
 msgid "Select Carrier"
-msgstr "選擇運輸公司"
+msgstr "選擇承運商"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:210
 msgid "Carrier Name*"
-msgstr "運輸公司名稱*"
+msgstr "承運商名稱*"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:217
 msgid "Add tracking information"
-msgstr "添加追蹤資訊"
+msgstr "新增追蹤資訊"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:292
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2203
 msgid "Something went wrong. Please try again."
-msgstr "發生了一些錯誤。請再試一次。."
+msgstr "發生了錯誤。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:335
 msgid "Billing address didn’t match the card (AVS)."
-msgstr "帳單地址與卡片不符（AVS）。."
+msgstr "帳單地址與卡片不符 (AVS)。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:339
 msgid "Security code (CVV) didn’t match."
-msgstr "安全碼 (CVV) 不匹配。."
+msgstr "安全碼 (CVV) 不符。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:345
 msgid "The payer opened a dispute with PayPal."
-msgstr "付款人向 PayPal 提出了爭議。."
+msgstr "付款人在 PayPal 上發起了爭議。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:348
 msgid "The issuer reversed the charge (chargeback)."
-msgstr "發卡機構撤銷了這筆費用（退款）。."
+msgstr "發卡機構撤銷了收費（退單）。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:351
 msgid "Payment by eCheck—awaiting clearance."
-msgstr "透過電子支票付款—等待清算。."
+msgstr "透過電子支票付款——等待清算。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:354
 msgid "Action required in your PayPal account (international withdrawal)."
-msgstr "需要在您的 PayPal 帳戶中採取行動（國際提款）。."
+msgstr "您的 PayPal 帳戶需要操作（國際提款）。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:357
 msgid "Payment pending manual review."
-msgstr "付款待人工審核。."
+msgstr "付款待人工審核。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:360
 msgid "Payee receiving preference requires action (often currency related)."
-msgstr "收款人接收偏好需要行動（通常與貨幣相關）。."
+msgstr "收款人接收偏好需要操作（通常與貨幣相關）。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:363
 msgid "Funds were refunded."
-msgstr "資金已被退還。."
+msgstr "資金已退還。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:366
 msgid "Approved—waiting for payer to send funds."
-msgstr "已批准—等待付款方發送資金。."
+msgstr "已核准——等待付款人傳送資金。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:369
 msgid "Payee does not have a PayPal account."
-msgstr "收款人沒有 PayPal 帳戶。."
+msgstr "收款人沒有 PayPal 帳戶。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:372
 msgid "Payee’s PayPal account requires verification."
-msgstr "收款人的 PayPal 帳戶需要驗證。."
+msgstr "收款人的 PayPal 帳戶需要驗證。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:385
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1210
 msgid "The transaction could not be completed."
-msgstr "交易無法完成。."
+msgstr "交易無法完成。"
 
 #. translators: 1: payment method title, 2: pending reason text
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:393
 msgid "Payment via %1$s pending. %2$s"
-msgstr "透過 %1$s 的付款正在處理中。 %2$s"
+msgstr "透過 %1$s 的付款待處理。%2$s"
 
 #. translators: 1: payment method title, 2: decline reason text
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:405
 msgid "Payment via %1$s declined. %2$s"
-msgstr "透過 %1$s 的付款被拒絕。 %2$s"
+msgstr "透過 %1$s 的付款被拒絕。%2$s"
 
 #. translators: %s: payment failure reason
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:415
 msgid "Payment declined. %s"
-msgstr "付款被拒絕。 %s"
+msgstr "付款被拒絕。%s"
 
 #. translators: 1: processor response code, 2: AVS result, 3: CVV result
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:428
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:465
 msgid "Processor response: code=%1$s, AVS=%2$s, CVV=%3$s"
-msgstr "處理器回應：代碼=%1$s，AVS=%2$s，CVV=%3$s"
+msgstr "處理器回應：code=%1$s, AVS=%2$s, CVV=%3$s"
 
 #. translators: 1: payment method title, 2: failure reason
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:442
@@ -2382,20 +2372,20 @@ msgstr "付款失敗。%s"
 #. translators: 1: payment method title, 2: PayPal refund reason
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:480
 msgid "Payment via %1$s partially refunded. PayPal reason: %2$s."
-msgstr "透過 %1$s 的付款已部分退款。PayPal 原因：%2$s。."
+msgstr "透過 %1$s 的付款已部分退款。PayPal 原因：%2$s。"
 
 #. translators: 1: payment method title, 2: PayPal refund reason
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:493
 msgid "Payment via %1$s refunded. PayPal reason: %2$s."
-msgstr "通過 %1$s 的付款已退款。PayPal 原因：%2$s。."
+msgstr "透過 %1$s 的付款已退款。PayPal 原因：%2$s。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:509
 msgid "An error occurred while updating the order status."
-msgstr "更新訂單狀態時發生錯誤。."
+msgstr "更新訂單狀態時發生錯誤。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1113
 msgid "PayPal Credit"
-msgstr "PayPal 信用"
+msgstr "PayPal Credit"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1114
 msgid "Bancontact"
@@ -2407,7 +2397,7 @@ msgstr "BLIK"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1116
 msgid "eps"
-msgstr "每秒幀數"
+msgstr "eps"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1117
 msgid "iDEAL"
@@ -2419,7 +2409,7 @@ msgstr "Mercado Pago"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1119
 msgid "MyBank"
-msgstr "我的銀行"
+msgstr "MyBank"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1120
 msgid "Przelewy24"
@@ -2427,7 +2417,7 @@ msgstr "Przelewy24"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1121
 msgid "SEPA-Lastschrift"
-msgstr "SEPA-直接扣款"
+msgstr "SEPA-Lastschrift"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1122
 msgid "Venmo"
@@ -2435,7 +2425,7 @@ msgstr "Venmo"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1123
 msgid "PayPal Pay Later"
-msgstr "PayPal 後付款"
+msgstr "PayPal 稍後付款"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1124
 msgid "PayPal Checkout"
@@ -2443,644 +2433,643 @@ msgstr "PayPal 結帳"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1181
 msgid "Approved."
-msgstr "已批准。."
+msgstr "已核准。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1182
 msgid "The card security code (CVV) was incorrect."
-msgstr "卡片安全碼 (CVV) 不正確。."
+msgstr "卡片安全碼 (CVV) 不正確。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1183
 msgid "Your bank needs to approve this. Please contact your card issuer."
-msgstr "您的銀行需要批准此項。請聯繫您的卡片發行機構。."
+msgstr "您的銀行需要核准此交易。請聯繫您的發卡機構。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1184
 msgid "We could not find this account. Please check your card details."
-msgstr "我們找不到此帳戶。請檢查您的卡片詳細資訊。."
+msgstr "我們找不到此帳戶。請檢查您的卡片資訊。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1185
 msgid "The bank declined this transaction. Please try another payment method."
-msgstr "銀行拒絕了這筆交易。請嘗試其他付款方式。."
+msgstr "銀行拒絕了此交易。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1186
 msgid "This transaction is not authorized. Please contact your card issuer."
-msgstr "此交易未獲授權。請聯繫您的卡片發行機構。."
+msgstr "此交易未經授權。請聯繫您的發卡機構。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1187
 msgid "There was a processing issue. The payment was reversed."
-msgstr "發生了處理問題。付款已被撤回。."
+msgstr "處理出現問題。付款已撤銷。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1188
 msgid "A security check failed. Please try again."
-msgstr "安全檢查失敗。請再試一次。."
+msgstr "安全檢查失敗。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1189
 msgid "The PIN was not accepted."
-msgstr "該 PIN 碼未被接受。."
+msgstr "PIN 未被接受。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1190
 msgid "Temporary system issue. Please try again later."
-msgstr "暫時系統問題。請稍後再試。."
+msgstr "暫時性系統問題。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1191
 msgid "Payment was canceled."
-msgstr "付款已被取消。."
+msgstr "付款已取消。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1192
 msgid "Only part of the amount was approved."
-msgstr "只有部分金額被批准。."
+msgstr "僅核准了部分金額。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1193
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1211
 msgid "The bank declined this transaction."
-msgstr "銀行拒絕了這筆交易。."
+msgstr "銀行拒絕了此交易。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1194
 msgid "Invalid data format."
-msgstr "無效的數據格式。."
+msgstr "資料格式無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1195
 msgid "Invalid amount."
-msgstr "無效的金額。."
+msgstr "金額無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1196
 msgid "Card issuer/acquirer not allowed for this transaction."
-msgstr "此交易不允許卡片發行者/收單機構。."
+msgstr "此交易不允許使用該發卡機構/收單機構。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1197
 msgid "Invalid capture date."
-msgstr "無效的捕獲日期。."
+msgstr "擷取日期無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1198
 msgid "Unsupported currency for this card."
-msgstr "此卡不支持的貨幣。."
+msgstr "此卡不支援該貨幣。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1199
 msgid "Invalid account number."
-msgstr "無效的帳號。."
+msgstr "帳號無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1200
 msgid "This card is not allowed for recurring payments."
-msgstr "此卡不允許用於定期付款。."
+msgstr "此卡不允許用於定期付款。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1201
 msgid "Invalid terminal configuration."
-msgstr "無效的終端配置。."
+msgstr "終端設定無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1202
 msgid "Invalid merchant configuration."
-msgstr "無效的商家配置。."
+msgstr "商家設定無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1203
 msgid "The account is restricted or inactive."
-msgstr "該帳戶已被限制或不活躍。."
+msgstr "帳戶受限或未啟用。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1204
 msgid "Invalid processing code."
-msgstr "無效的處理代碼。."
+msgstr "處理碼無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1205
 msgid "Invalid merchant category."
-msgstr "無效的商戶類別。."
+msgstr "商家類別無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1206
 msgid "Invalid card expiry date."
-msgstr "無效的卡片到期日。."
+msgstr "卡片有效期限無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1207
 msgid "Invalid card security code (CVV)."
-msgstr "無效的卡片安全碼 (CVV)。."
+msgstr "卡片安全碼 (CVV) 無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1208
 msgid "Invalid transaction state."
-msgstr "無效的交易狀態。."
+msgstr "交易狀態無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1209
 msgid "Invalid order."
-msgstr "無效的訂單。."
+msgstr "訂單無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1212
 msgid "The card security code (CVV) did not match."
-msgstr "卡片安全碼 (CVV) 不匹配。."
+msgstr "卡片安全碼 (CVV) 不符。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1213
 msgid "Insufficient funds."
-msgstr "資金不足。."
+msgstr "餘額不足。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1214
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1225
 msgid "Incorrect PIN."
-msgstr "錯誤的 PIN 碼。."
+msgstr "PIN 不正確。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1215
 msgid "Too many incorrect PIN attempts."
-msgstr "嘗試輸入錯誤的 PIN 次數過多。."
+msgstr "錯誤的 PIN 輸入次數過多。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1216
 msgid "This card is closed."
-msgstr "這張卡片已關閉。."
+msgstr "此卡已關閉。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1217
 msgid "Card capture requested by the bank."
-msgstr "銀行要求進行卡片擷取。."
+msgstr "銀行請求卡片擷取。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1218
 msgid "User not authorized for this transaction."
-msgstr "用戶未獲授權進行此交易。."
+msgstr "使用者未被授權進行此交易。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1219
 msgid "Address verification failed."
-msgstr "地址驗證失敗。."
+msgstr "地址驗證失敗。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1220
 msgid "Invalid or restricted card."
-msgstr "無效或受限的卡片。."
+msgstr "卡片無效或受限。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1221
 msgid "Address verification soft failure."
-msgstr "地址驗證軟體失敗。."
+msgstr "地址驗證軟失敗。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1222
 msgid "Duplicate transaction."
-msgstr "重複的交易。."
+msgstr "重複交易。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1223
 msgid "Invalid transaction."
-msgstr "無效的交易。."
+msgstr "交易無效。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1224
 msgid "The card is expired."
-msgstr "這張卡已過期。."
+msgstr "卡片已過期。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1226
 msgid "Strong customer authentication required."
-msgstr "需要強客戶身份驗證。."
+msgstr "需要強客戶驗證。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1227
 msgid "This type of transaction is not permitted."
-msgstr "此類交易是不被允許的。."
+msgstr "不允許此類型的交易。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1228
 msgid "Too many attempts. Please try again later."
-msgstr "嘗試次數過多。請稍後再試。."
+msgstr "嘗試次數過多。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1229
 msgid "Invalid or restricted card. Please use another card."
-msgstr "無效或受限的卡片。請使用其他卡片。."
+msgstr "卡片無效或受限。請使用其他卡片。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1230
 msgid "Address verification soft failure. Please check your billing address."
-msgstr "地址驗證軟體失敗。請檢查您的帳單地址。."
+msgstr "地址驗證軟失敗。請檢查您的帳單地址。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1231
 msgid "Duplicate transaction. Please try again."
-msgstr "重複的交易。請再試一次。."
+msgstr "重複交易。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1232
 msgid "Invalid transaction. Please try again."
-msgstr "無效的交易。請再試一次。."
+msgstr "交易無效。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1233
 msgid "Expired card. Please use another card."
-msgstr "卡片已過期。請使用其他卡片。."
+msgstr "卡片已過期。請使用其他卡片。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1234
 msgid "Incorrect PIN. Please re-enter your PIN."
-msgstr "密碼錯誤。請重新輸入您的密碼。."
+msgstr "PIN 不正確。請重新輸入您的 PIN。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1235
 msgid "Strong customer authentication required. Please try again."
-msgstr "需要強客戶身份驗證。請再試一次。."
+msgstr "需要強客戶驗證。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1236
 msgid "Transaction not permitted. Please use another payment method."
-msgstr "交易不被允許。請使用其他付款方式。."
+msgstr "交易不被允許。請使用其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1237
 msgid "Transaction attempts exceed limit. Please try again later."
-msgstr "交易嘗試超過限制。請稍後再試。."
+msgstr "交易嘗試次數超出限制。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1238
 msgid "Reversal rejected. Please contact support."
-msgstr "撤銷被拒絕。請聯繫客服。."
+msgstr "撤銷被拒絕。請聯繫支援。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1239
 msgid "Invalid issue. Please try again."
-msgstr "無效的問題。請再試一次。."
+msgstr "無效問題。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1240
 msgid "Issuer not available. Please try again later."
-msgstr "發行者不可用。請稍後再試。."
+msgstr "發卡機構不可用。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1241
 msgid "Issuer temporarily not available. Please try again shortly."
-msgstr "發行者暫時無法使用。請稍後再試。."
+msgstr "發卡機構暫時不可用。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1242
 msgid "Card not activated. Please activate your card and try again."
-msgstr "卡片尚未啟用。請啟用您的卡片後再試一次。."
+msgstr "卡片未啟用。請啟用您的卡片並重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1243
 msgid "Updated card issued. Please use your new card."
-msgstr "已發出更新的卡片。請使用您的新卡。."
+msgstr "已發行新卡。請使用您的新卡。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1244
 msgid "Account not on file. Please check your card details."
-msgstr "帳戶不存在。請檢查您的卡片詳細資訊。."
+msgstr "帳戶不在檔。請檢查您的卡片資訊。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1245
 msgid "Approved but not captured. No action needed."
-msgstr "已批准但未捕獲。無需採取行動。."
+msgstr "已核准但未擷取。無需操作。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1246
 msgid "3DS authentication error. Please try again."
-msgstr "3DS 認證錯誤。請再試一次。."
+msgstr "3DS 驗證錯誤。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1247
 msgid "Authentication failed. Please try again."
-msgstr "身份驗證失敗。請再試一次。."
+msgstr "驗證失敗。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1248
 msgid "BIN error. Please try another card."
-msgstr "BIN 錯誤。請嘗試其他卡片。."
+msgstr "BIN 錯誤。請嘗試其他卡片。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1249
 msgid "PIN error. Please try again with the correct PIN."
-msgstr "PIN 錯誤。請使用正確的 PIN 再試一次。."
+msgstr "PIN 錯誤。請使用正確的 PIN 重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1250
 msgid "Processor system error. Please try again later."
-msgstr "處理器系統錯誤。請稍後再試。."
+msgstr "處理器系統錯誤。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1251
 msgid "Host key error. Please try again."
-msgstr "主機金鑰錯誤。請再試一次。."
+msgstr "主機金鑰錯誤。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1252
 msgid "Configuration error. Please contact support."
-msgstr "配置錯誤。請聯繫支援。."
+msgstr "設定錯誤。請聯繫支援。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1253
 msgid "Unsupported operation. Please try another payment method."
-msgstr "不支援的操作。請嘗試其他付款方式。."
+msgstr "不支援的操作。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1254
 msgid "Communication error. Please try again later."
-msgstr "通訊錯誤。請稍後再試。."
+msgstr "通訊錯誤。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1255
 msgid "Communication error. Please try again shortly."
-msgstr "通訊錯誤。請稍後再試。."
+msgstr "通訊錯誤。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1256
 msgid "System unavailable. Please try again later."
-msgstr "系統無法使用。請稍後再試。."
+msgstr "系統無法使用。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1257
 msgid "Transaction declined. Please retry."
-msgstr "交易被拒絕。請重試。."
+msgstr "交易被拒絕。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1258
 msgid "Suspected fraud. Please use another payment method."
-msgstr "懷疑詐騙。請使用其他付款方式。."
+msgstr "疑似詐欺。請使用其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1259
 msgid "Security violation. Please contact your card issuer."
-msgstr "安全違規。請聯繫您的卡片發行機構。."
+msgstr "安全違規。請聯繫您的發卡機構。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1260
 msgid "Card reported lost or stolen. Please use another card."
-msgstr "卡片已報告遺失或被盜。請使用其他卡片。."
+msgstr "卡片已報告遺失或被盜。請使用其他卡片。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1261
 msgid "Hold - call center. Please contact your card issuer."
-msgstr "請稍候 - 呼叫中心。請聯繫您的卡片發行機構。."
+msgstr "暫停 - 請聯繫客服中心。請聯繫您的發卡機構。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1262
 msgid "Card refused. Please use another payment method."
-msgstr "卡片被拒絕。請使用其他付款方式。."
+msgstr "卡片被拒絕。請使用其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1263
 msgid "Unrecognized response code. Please try again later."
-msgstr "未識別的回應代碼。請稍後再試。."
+msgstr "無法識別的回應碼。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1264
 msgid "Contingencies not resolved. Please try again."
-msgstr "尚未解決的意外情況。請再試一次。."
+msgstr "條件未解決。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1265
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1278
 msgid "CVV verification failed. Please check your CVV."
-msgstr "CVV 驗證失敗。請檢查您的 CVV。."
+msgstr "CVV 驗證失敗。請檢查您的 CVV。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1266
 msgid "Account closed. Please use another card."
-msgstr "帳戶已關閉。請使用其他卡片。."
+msgstr "帳戶已關閉。請使用其他卡片。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1267
 msgid "Reattempt not permitted. Please use another payment method."
-msgstr "不允許重新嘗試。請使用其他付款方式。."
+msgstr "不允許重新嘗試。請使用其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1268
 msgid "Billing address error. Please check your billing details."
-msgstr "帳單地址錯誤。請檢查您的帳單詳細資訊。."
+msgstr "帳單地址錯誤。請檢查您的帳單資訊。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1269
 msgid "Account blocked by issuer. Please contact your card issuer."
-msgstr "帳戶已被發卡機構封鎖。請聯繫您的發卡機構。."
+msgstr "帳戶被發卡機構凍結。請聯繫您的發卡機構。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1270
 msgid "American Express card disabled. Please use another card."
-msgstr "美國運通卡已停用。請使用其他卡片。."
+msgstr "American Express 卡已停用。請使用其他卡片。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1271
 msgid "Adult gaming not supported. Please use another payment method."
-msgstr "不支援成人遊戲。請使用其他付款方式。."
+msgstr "不支援成人遊戲。請使用其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1272
 msgid "Amount incompatible. Please try a different amount."
-msgstr "金額不相容。請嘗試其他金額。."
+msgstr "金額不相容。請嘗試其他金額。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1273
 msgid "Authorization result error. Please try again."
-msgstr "授權結果錯誤。請再試一次。."
+msgstr "授權結果錯誤。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1274
 msgid "MCC code error. Please contact support."
-msgstr "MCC 代碼錯誤。請聯繫客服。."
+msgstr "MCC 代碼錯誤。請聯繫支援。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1275
 msgid "Address verification failed. Please check your billing address."
-msgstr "地址驗證失敗。請檢查您的帳單地址。."
+msgstr "地址驗證失敗。請檢查您的帳單地址。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1276
 msgid "Amount exceeded. Please try a smaller amount."
-msgstr "金額超過了。請嘗試一個較小的金額。."
+msgstr "金額超限。請嘗試較小的金額。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1277
 msgid "Gaming transaction error. Please use another payment method."
-msgstr "遊戲交易錯誤。請使用其他付款方式。."
+msgstr "遊戲交易錯誤。請使用其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1279
 msgid "Registration incomplete. Please complete registration."
-msgstr "註冊不完整。請完成註冊。."
+msgstr "註冊未完成。請完成註冊。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1280
 msgid "Country error. Please try another payment method."
-msgstr "國家錯誤。請嘗試其他付款方式。."
+msgstr "國家錯誤。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1281
 msgid "Credit error. Please try another payment method."
-msgstr "信用卡錯誤。請嘗試其他付款方式。."
+msgstr "信用錯誤。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1282
 msgid "Card type not supported. Please use another card."
-msgstr "不支援此卡類型。請使用其他卡片。."
+msgstr "不支援此卡片類型。請使用其他卡片。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1283
 msgid "Invalid currency. Please select a supported currency."
-msgstr "無效的貨幣。請選擇一種受支持的貨幣。."
+msgstr "貨幣無效。請選擇受支援的貨幣。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1284
 msgid "3D Secure authentication error. Please try again."
-msgstr "3D Secure 驗證錯誤。請再試一次。."
+msgstr "3D Secure 驗證錯誤。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1285
 msgid "Dynamic currency conversion not supported. Please try again."
-msgstr "不支援動態貨幣轉換。請再試一次。."
+msgstr "不支援動態貨幣轉換。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1286
 msgid "Diners Club card rejected. Please use another card."
-msgstr "Diners Club 卡片被拒絕。請使用其他卡片。."
+msgstr "Diners Club 卡被拒絕。請使用其他卡片。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1287
 msgid "Authentication message error. Please try again."
-msgstr "身份驗證訊息錯誤。請再試一次。."
+msgstr "驗證訊息錯誤。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1288
 msgid "Decline threshold exceeded. Please try again later."
-msgstr "超過拒絕閾值。請稍後再試。."
+msgstr "拒絕閾值超限。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1289
 msgid "Funding instrument expired. Please use another payment method."
-msgstr "資金工具已過期。請使用其他付款方式。."
+msgstr "資金工具已過期。請使用其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1290
 msgid "Frequency limit exceeded. Please try again later."
-msgstr "頻率限制已超過。請稍後再試。."
+msgstr "頻率限制超限。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1291
 msgid "System error. Please try again later."
-msgstr "系統錯誤。請稍後再試。."
+msgstr "系統錯誤。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1292
 msgid "Expiry date error. Please check your card details."
-msgstr "到期日錯誤。請檢查您的卡片詳細資訊。."
+msgstr "有效期限錯誤。請檢查您的卡片資訊。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1293
 msgid "Funding source already exists. Please use another payment method."
-msgstr "資金來源已存在。請使用其他付款方式。."
+msgstr "資金來源已存在。請使用其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1294
 msgid "Invalid funding instrument. Please try another payment method."
-msgstr "無效的資金工具。請嘗試其他付款方式。."
+msgstr "資金工具無效。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1295
 msgid "Restricted funding instrument. Please try another payment method."
-msgstr "受限的資金工具。請嘗試其他付款方式。."
+msgstr "資金工具受限。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1296
 msgid "Field validation failed. Please check your payment details."
-msgstr "欄位驗證失敗。請檢查您的付款詳情。."
+msgstr "欄位驗證失敗。請檢查您的付款資訊。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1297
 msgid "Gaming refund error. Please contact support."
-msgstr "遊戲退款錯誤。請聯繫客服。."
+msgstr "遊戲退款錯誤。請聯繫支援。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1298
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1307
 msgid "Processing error. Please try again."
-msgstr "處理錯誤。請再試一次。."
+msgstr "處理錯誤。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1299
 msgid "Idempotency failure. Please try again."
-msgstr "冪等性失敗。請再試一次。."
+msgstr "冪等性失敗。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1300
 msgid "Invalid input. Please check your payment details."
-msgstr "無效的輸入。請檢查您的付款詳情。."
+msgstr "輸入無效。請檢查您的付款資訊。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1301
 msgid "ID mismatch. Please try again."
-msgstr "ID 不匹配。請再試一次。."
+msgstr "ID 不符。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1302
 msgid "Invalid trace ID. Please try again."
-msgstr "無效的追蹤 ID。請再試一次。."
+msgstr "追蹤 ID 無效。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1303
 msgid "Late reversal. Please contact support."
-msgstr "延遲反轉。請聯繫客服。."
+msgstr "延遲撤銷。請聯繫支援。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1304
 msgid "Status code error. Please try again."
-msgstr "狀態碼錯誤。請再試一次。."
+msgstr "狀態碼錯誤。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1305
 msgid "Missing business rule or data. Please try again."
-msgstr "缺少商業規則或數據。請再試一次。."
+msgstr "缺少業務規則或資料。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1306
 msgid "Mastercard blocked. Please use another card."
-msgstr "Mastercard 已被封鎖。請使用其他卡片。."
+msgstr "Mastercard 已被凍結。請使用其他卡片。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1308
 msgid "Not supported. Please try another payment method."
-msgstr "不支援。請嘗試其他付款方式。."
+msgstr "不受支援。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1309
 msgid "Network frequency limit exceeded. Please try again later."
-msgstr "網路頻率限制已超過。請稍後再試。."
+msgstr "網路頻率限制超限。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1310
 msgid "Merchant ID not found. Please contact support."
-msgstr "找不到商戶 ID。請聯繫客服。."
+msgstr "未找到商家 ID。請聯繫支援。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1311
 msgid "Network error. Please try again later."
-msgstr "網路錯誤。請稍後再試。."
+msgstr "網路錯誤。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1312
 msgid "Phone required for this transaction. Please update your details."
-msgstr "此交易需要電話。請更新您的詳細資訊。."
+msgstr "此交易需要電話號碼。請更新您的資訊。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1313
 msgid "Invalid product. Please try another product."
-msgstr "無效的產品。請嘗試其他產品。."
+msgstr "產品無效。請嘗試其他產品。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1314
 msgid "Invalid payment method. Please try another payment method."
-msgstr "無效的付款方式。請嘗試其他付款方式。."
+msgstr "付款方式無效。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1315
 msgid "Quasi-cash not supported. Please use another payment method."
-msgstr "不支援準現金。請使用其他付款方式。."
+msgstr "不支援準現金交易。請使用其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1316
 msgid "Refund not supported on pending transactions. Please try again later."
-msgstr "退款不支援於待處理的交易。請稍後再試。."
+msgstr "待處理交易不支援退款。請稍後重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1317
 msgid "Invalid parent transaction status. Please try again."
-msgstr "無效的父交易狀態。請再試一次。."
+msgstr "父交易狀態無效。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1318
 msgid "Merchant not registered. Please contact support."
-msgstr "商家尚未註冊。請聯繫客服。."
+msgstr "商家未註冊。請聯繫支援。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1319
 msgid "Bank authorization mismatch. Please try again."
-msgstr "銀行授權不匹配。請再試一次。."
+msgstr "銀行授權不符。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1320
 msgid "Bank authorization already settled. Please try again."
-msgstr "銀行授權已經結束。請再試一次。."
+msgstr "銀行授權已結算。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1321
 msgid "Bank authorization voided. Please try again."
-msgstr "銀行授權已作廢。請再試一次。."
+msgstr "銀行授權已作廢。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1322
 msgid "Bank authorization expired. Please try again."
-msgstr "銀行授權已過期。請再試一次。."
+msgstr "銀行授權已過期。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1323
 msgid "Currency mismatch. Please try again with the correct currency."
-msgstr "貨幣不匹配。請再次嘗試使用正確的貨幣。."
+msgstr "貨幣不符。請使用正確的貨幣重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1324
 msgid "Credit card mismatch. Please check your card details."
-msgstr "信用卡不匹配。請檢查您的卡片詳細資訊。."
+msgstr "信用卡不符。請檢查您的卡片資訊。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1325
 msgid "Amount mismatch. Please try again with the correct amount."
-msgstr "金額不符。請再次嘗試使用正確的金額。."
+msgstr "金額不符。請使用正確的金額重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1326
 msgid "Score error. Please try again."
-msgstr "分數錯誤。請再試一次。."
+msgstr "評分錯誤。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1327
 msgid "Status description error. Please try again."
-msgstr "狀態描述錯誤。請再試一次。."
+msgstr "狀態說明錯誤。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1328
 msgid "American Express declined. Please use another card."
-msgstr "美國運通被拒絕。請使用其他卡片。."
+msgstr "American Express 被拒絕。請使用其他卡片。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1329
 msgid "Verification token expired. Please try again."
-msgstr "驗證令牌已過期。請再試一次。."
+msgstr "驗證權杖已過期。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1330
 msgid "Invalid trace reference. Please try again."
-msgstr "無效的追蹤參考。請再試一次。."
+msgstr "追蹤參考無效。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1331
 msgid "Invalid transaction ID. Please try again."
-msgstr "無效的交易 ID。請再試一次。."
+msgstr "交易 ID 無效。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1332
 msgid "Verification token revoked. Please try again."
-msgstr "驗證令牌已被撤銷。請再試一次。."
+msgstr "驗證權杖已撤銷。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1333
 msgid "Transaction type not supported. Please try another payment method."
-msgstr "不支援此交易類型。請嘗試其他付款方式。."
+msgstr "不支援此交易類型。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1334
 msgid "Invalid verification token. Please try again."
-msgstr "無效的驗證令牌。請再試一次。."
+msgstr "驗證權杖無效。請重試。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1335
 msgid "User not authorized. Please contact support."
-msgstr "用戶未獲授權。請聯繫支援。."
+msgstr "使用者未被授權。請聯繫支援。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1336
 msgid "Currency not supported. Please select a supported currency."
-msgstr "不支援該貨幣。請選擇一種支援的貨幣。."
+msgstr "不支援該貨幣。請選擇受支援的貨幣。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1337
 msgid "Entity not supported. Please try another payment method."
-msgstr "不支援該實體。請嘗試其他付款方式。."
+msgstr "不支援該實體。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1338
 msgid "Installment not supported. Please try another payment method."
-msgstr "不支援分期付款。請嘗試其他付款方式。."
+msgstr "不支援分期付款。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1339
 msgid "POS flag not supported. Please try another payment method."
-msgstr "不支援 POS 標誌。請嘗試其他付款方式。."
+msgstr "不支援 POS 旗標。請嘗試其他付款方式。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1340
 msgid "Reversal not supported. Please contact support."
-msgstr "不支援撤銷。請聯繫客服。."
+msgstr "不支援撤銷。請聯繫支援。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1341
 msgid "Currency validation error. Please select a supported currency."
-msgstr "貨幣驗證錯誤。請選擇一種受支持的貨幣。."
+msgstr "貨幣驗證錯誤。請選擇受支援的貨幣。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1342
 msgid "Validation error. Please check your payment details."
-msgstr "驗證錯誤。請檢查您的付款詳情。."
+msgstr "驗證錯誤。請檢查您的付款資訊。"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1343
 msgid "Virtual terminal not supported. Please try another payment method."
-msgstr "虛擬終端不支援。請嘗試其他付款方式。."
+msgstr "不支援虛擬終端。請嘗試其他付款方式。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:540
-#, fuzzy
 msgid "An unknown error occurred with your payment. Please try again."
-msgstr "缺少商業規則或數據。請再試一次。."
+msgstr "您的付款發生了未知錯誤。請重試。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:541
 msgid "Please enter a valid card number."
@@ -3092,20 +3081,19 @@ msgstr "請輸入有效的 CVV。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:543
 msgid "Please enter a valid expiration date."
-msgstr "請輸入有效的到期日期。"
+msgstr "請輸入有效的有效期限。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:545
 msgid "An unknown error occurred."
-msgstr "發生未知錯誤。"
+msgstr "發生了未知錯誤。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:546
 msgid "Unknown error"
 msgstr "未知錯誤"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:549
-#, fuzzy
 msgid "Google Pay failed."
-msgstr "Google Pay"
+msgstr "Google Pay 失敗。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:552
 msgid "Apple Pay could not be initialized."
@@ -3113,17 +3101,15 @@ msgstr "Apple Pay 無法初始化。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:553
 msgid "Apple Pay confirmation returned non-APPROVED status."
-msgstr "Apple Pay 確認返回非核准狀態。"
+msgstr "Apple Pay 確認傳回了非核准狀態。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:554
-#, fuzzy
 msgid "Apple Pay session cancelled."
-msgstr "付款已被取消。."
+msgstr "Apple Pay 工作階段已取消。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:557
-#, fuzzy
 msgid "Order creation failed."
-msgstr "地址驗證失敗。."
+msgstr "訂單建立失敗。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:558
 msgid "Shipping address is incomplete."
@@ -3131,26 +3117,23 @@ msgstr "送貨地址不完整。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:559
 msgid "We do not ship to this address."
-msgstr "我們不運送到此地址。"
+msgstr "我們不配送到此地址。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:560
-#, fuzzy
 msgid "Invalid shipping method."
-msgstr "無效的處理代碼。."
+msgstr "配送方式無效。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:563
-#, fuzzy
 msgid "Shipping"
-msgstr "運送詳情"
+msgstr "運送"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:564
 msgid "Tax"
 msgstr "稅金"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:565
-#, fuzzy
 msgid "Discount"
-msgstr "斷開連接"
+msgstr "折扣"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:566
 msgid "Total"
@@ -3170,15 +3153,15 @@ msgstr "快速結帳"
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:864
 msgctxt "Important"
 msgid "Or continue below"
-msgstr "或繼續以下內容"
+msgstr "或在下方繼續"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1051
 msgid "Items"
-msgstr "項目"
+msgstr "商品"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1217
 msgid "Billing &amp; Shipping"
-msgstr "帳單與運送"
+msgstr "帳單 &amp; 運送"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1219
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1225
@@ -3196,25 +3179,25 @@ msgstr "運送詳情"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1415
 msgid "Create an account?"
-msgstr "創建帳戶？?"
+msgstr "建立帳戶？"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1424
 msgid ""
 "Create an account by entering the information below. If you are a returning "
 "customer please login at the top of the page."
-msgstr "請輸入以下資訊以創建帳戶。如果您是回頭客，請在頁面頂部登入。."
+msgstr "請在下方輸入資訊以建立帳戶。如果您是老顧客，請在頁面頂部登入。"
 
 #. translators: %1$s is the payment method title, %2$s is the formatted
 #. payment status.
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1634
 msgid "Payment via %1$s: %2$s."
-msgstr "透過 %1$s 付款: %2$s。."
+msgstr "透過 %1$s 付款：%2$s。"
 
 #. translators: %1$s is the payment method title, %2$s is the pending reason
 #. from PayPal.
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1651
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
-msgstr "透過 %1$s 的付款待處理。PayPal 原因：%2$s。."
+msgstr "透過 %1$s 的付款待處理。PayPal 原因：%2$s。"
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
@@ -3227,11 +3210,11 @@ msgctxt "Important"
 msgid ""
 "<strong>You're almost done!</strong><br>Review your information before you "
 "place your order."
-msgstr "<strong>您快完成了！</strong><br>在下訂單之前，請檢查您的資訊。."
+msgstr "<strong>即將完成！</strong><br>在送出訂單前請檢查您的資訊。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1909
 msgid "Capture Charge"
-msgstr "捕獲費用"
+msgstr "擷取費用"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2110
 msgctxt "Important"
@@ -3242,7 +3225,7 @@ msgstr "取消訂單"
 msgid ""
 "We cannot process your order with the payment information that you provided."
 " Please use an alternate payment method."
-msgstr "我們無法使用您提供的付款資訊處理您的訂單。請使用其他付款方式。."
+msgstr "我們無法使用您提供的付款資訊處理您的訂單。請使用其他付款方式。"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2245
 msgid "3D Secure response"
@@ -3250,4 +3233,4 @@ msgstr "3D Secure 回應"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:3013
 msgid "At top of checkout Page"
-msgstr "在結帳頁面的頂部"
+msgstr "在結帳頁面頂部"

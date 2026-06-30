@@ -1,20 +1,19 @@
-# Copyright (C) 2025 easypayment
-# This file is distributed under the GNU General Public License v3.0.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.39\n"
+"Project-Id-Version: Payment Gateway for PayPal on WooCommerce 9.0.65\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-paypal-gateway\n"
 "POT-Creation-Date: 2026-03-02T05:16:03+00:00\n"
-"PO-Revision-Date: 2025-11-14 15:44+0530\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-06-03 00:00+0000\n"
+"Last-Translator: easypayment\n"
+"Language-Team: sv\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: woo-paypal-gateway\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: WP-CLI 2.11.0\n"
 
 #. Plugin Name of the plugin
 #: woo-paypal-gateway.php
@@ -34,9 +33,9 @@ msgid ""
 "iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal "
 "Partner"
 msgstr ""
-"PayPal, Kredit-/Betalkort, Google Pay, Apple Pay, Betala senare, Venmo, "
-"SEPA, iDEAL, Mercado Pago, Sofort, Bancontact & mer - av en officiell "
-"PayPal-partner"
+"PayPal, kredit-/betalkort, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, "
+"iDEAL, Mercado Pago, Sofort, Bancontact och mer - av en officiell PayPal "
+"Partner"
 
 #. Author of the plugin
 #: woo-paypal-gateway.php
@@ -50,7 +49,7 @@ msgstr "https://profiles.wordpress.org/easypayment/"
 
 #: admin/feedback/deactivation-feedback-form.php:8
 msgid "Return"
-msgstr "Återvänd"
+msgstr "Tillbaka"
 
 #: admin/feedback/deactivation-feedback-form.php:9
 msgid "We’re sorry to see you go! 💔"
@@ -65,8 +64,8 @@ msgid ""
 "Can you please tell us why you’re deactivating the plugin? Your feedback "
 "helps us make it better."
 msgstr ""
-"Kan du vänligen berätta varför du inaktiverar pluginet? Din feedback hjälper"
-" oss att göra det bättre."
+"Kan du berätta varför du avaktiverar tillägget? Din feedback hjälper oss att"
+" förbättra det."
 
 #: admin/feedback/deactivation-feedback-form.php:19
 msgid "Temporary deactivation (troubleshooting)"
@@ -78,17 +77,15 @@ msgstr "Kompatibilitetsproblem"
 
 #: admin/feedback/deactivation-feedback-form.php:25
 msgid "Please describe what part of the layout or functionality was affected."
-msgstr ""
-"Vänligen beskriv vilken del av layouten eller funktionaliteten som "
-"påverkades."
+msgstr "Beskriv vilken del av layouten eller funktionaliteten som påverkades."
 
 #: admin/feedback/deactivation-feedback-form.php:30
 msgid "Difficult to set up"
-msgstr "Svårt att ställa in"
+msgstr "Svårt att konfigurera"
 
 #: admin/feedback/deactivation-feedback-form.php:32
 msgid "What part of the setup was confusing or unclear?"
-msgstr "Vilken del av installationen var förvirrande eller otydlig?"
+msgstr "Vilken del av installationen var förvirrande eller oklar?"
 
 #: admin/feedback/deactivation-feedback-form.php:37
 msgid "Missing features"
@@ -100,15 +97,15 @@ msgstr "Vilka funktioner letade du efter?"
 
 #: admin/feedback/deactivation-feedback-form.php:44
 msgid "Other"
-msgstr "Annat"
+msgstr "Övrigt"
 
 #: admin/feedback/deactivation-feedback-form.php:46
 msgid ""
 "Please share why you’re deactivating the PayPal plugin so we can make "
 "improvements."
 msgstr ""
-"Vänligen dela med dig av varför du inaktiverar PayPal-pluginet så att vi kan"
-" göra förbättringar."
+"Berätta varför du avaktiverar PayPal-tillägget så att vi kan göra "
+"förbättringar."
 
 #: admin/feedback/deactivation-feedback-form.php:58
 msgid ""
@@ -116,10 +113,10 @@ msgid ""
 "form—just your valuable feedback and basic system information (such as "
 "WordPress and plugin versions) to help us improve our plugin."
 msgstr ""
-"Din integritet är viktig för oss. Ingen personlig information samlas in med "
-"detta formulär—bara din värdefulla feedback och grundläggande "
-"systeminformation (såsom WordPress- och pluginversioner) för att hjälpa oss "
-"att förbättra vår plugin."
+"Din integritet är viktig för oss. Inga personuppgifter samlas in med detta "
+"formulär—bara din värdefulla feedback och grundläggande systeminformation "
+"(som WordPress- och tilläggsversioner) för att hjälpa oss förbättra vårt "
+"tillägg."
 
 #: admin/feedback/deactivation-feedback-form.php:63
 msgid "Visit our support page for assistance"
@@ -131,11 +128,11 @@ msgstr "Få support"
 
 #: admin/feedback/deactivation-feedback-form.php:65
 msgid "Send & Deactivate"
-msgstr "Skicka & Avaktivera"
+msgstr "Skicka & avaktivera"
 
 #: admin/feedback/deactivation-feedback-form.php:67
 msgid "I rather wouldn't say"
-msgstr "Jag skulle hellre inte säga det"
+msgstr "Det vill jag helst inte säga"
 
 #: includes/class-woo-paypal-gateway-calculations.php:86
 #: includes/class-woo-paypal-gateway-calculations.php:185
@@ -154,11 +151,11 @@ msgstr "Inställningar"
 
 #: includes/class-woo-paypal-gateway.php:251
 msgid "Community support"
-msgstr "Gemenskapsstöd"
+msgstr "Community-support"
 
 #: includes/class-woo-paypal-gateway.php:252
 msgid "Rate our plugin"
-msgstr "Betygsätt vårt plugin"
+msgstr "Betygsätt vårt tillägg"
 
 #. translators: %s: plugin name
 #: includes/class-woo-paypal-gateway.php:359
@@ -174,11 +171,11 @@ msgid ""
 "review — your feedback shapes our roadmap, and we love turning your ideas "
 "into reality."
 msgstr ""
-"Om du har ett ögonblick skulle vi uppskatta om du kunde lämna oss en <b><a "
+"Om du har en stund, skulle vi uppskatta om du kunde lämna oss en <b><a "
 "target=\"_blank\" href=\"%1$s\">snabb recension</a>.</b> Det motiverar oss "
-"och hjälper oss att fortsätta förbättra oss. 💫 <br>Har du idéer för "
-"funktioner? Inkludera dem i din recension — din feedback formar vår "
-"färdplan, och vi älskar att förvandla dina idéer till verklighet."
+"och hjälper oss att fortsätta förbättra. 💫 <br>Har du funktionsidéer? "
+"Inkludera dem i din recension — din feedback formar vår roadmap och vi "
+"älskar att förverkliga dina idéer."
 
 #: includes/class-woo-paypal-gateway.php:377
 msgid "Write Review"
@@ -186,7 +183,7 @@ msgstr "Skriv recension"
 
 #: includes/class-woo-paypal-gateway.php:380
 msgid "Done!"
-msgstr "Klart!"
+msgstr "Klar!"
 
 #: includes/class-woo-paypal-gateway.php:384
 msgid "Remind me later"
@@ -238,18 +235,18 @@ msgid ""
 "Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return"
 " to shop</a>"
 msgstr ""
-"Förlåt, din session har löpt ut. <a href=\"%s\" class=\"wc-"
-"backward\">Återvänd till butiken</a>"
+"Tyvärr har din session gått ut. <a href=\"%s\" class=\"wc-"
+"backward\">Tillbaka till butiken</a>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:70
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php:157
 msgid "Unable to create order."
-msgstr "Kunde inte skapa beställning."
+msgstr "Det gick inte att skapa beställningen."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:37
 msgctxt "Important"
 msgid "Credit or Debit Card (PayPal) By Easy Payment"
-msgstr "Kredit- eller betalkort (PayPal) via enkel betalning"
+msgstr "Kredit- eller betalkort (PayPal) By Easy Payment"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:38
 msgctxt "Important"
@@ -271,8 +268,8 @@ msgid ""
 "Use test card 4111 1111 1111 1111 with any future expiration date and any "
 "CVV."
 msgstr ""
-"Använd testkortet 4111 1111 1111 1111 med ett framtida utgångsdatum och "
-"valfri CVV."
+"Använd testkortet 4111 1111 1111 1111 med valfritt framtida utgångsdatum och"
+" valfri CVV."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway-cc.php:78
 msgid "Save to account"
@@ -297,7 +294,7 @@ msgstr "Bekräfta din PayPal-beställning"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:110
 msgctxt "Important"
 msgid "PayPal Gateway By Easy Payment"
-msgstr "PayPal Gateway Av Easy Payment"
+msgstr "PayPal Gateway By Easy Payment"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:111
 msgctxt "Important"
@@ -305,8 +302,8 @@ msgid ""
 "PayPal, Pay Later, Venmo, Credit & Debit Cards, Google Pay, Apple Pay — and "
 "many more."
 msgstr ""
-"PayPal, Betala senare, Venmo, Kredit- och betalkort, Google Pay, Apple Pay —"
-" och många fler."
+"PayPal, Pay Later, Venmo, kredit- och betalkort, Google Pay, Apple Pay — och"
+" mycket mer."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:337
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:197
@@ -319,24 +316,22 @@ msgid ""
 "administrators and store managers. Disable this mode after testing to make "
 "them available to customers."
 msgstr ""
-"är för närvarande aktiverad. PayPal-betalningsmetoder är endast synliga för "
-"webbplatsadministratörer och butikschefer. Inaktivera detta läge efter "
+"är för närvarande aktiverat. PayPal-betalningsmetoder är bara synliga för "
+"webbplatsadministratörer och butiksansvariga. Avaktivera detta läge efter "
 "testning för att göra dem tillgängliga för kunder."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:351
 msgid "Please verify the PayPal account to receive the payments."
-msgstr "Vänligen verifiera PayPal-kontot för att ta emot betalningarna."
+msgstr "Vänligen verifiera PayPal-kontot för att ta emot betalningar."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:363
 msgid "PayPal onboarding process successfully completed."
-msgstr "PayPal onboarding-processen har slutförts framgångsrikt."
+msgstr "PayPal-introduktionsprocessen slutfördes framgångsrikt."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:375
 msgid ""
 "We could not properly connect to PayPal. Please reload the page to continue."
-msgstr ""
-"Vi kunde inte ansluta ordentligt till PayPal. Vänligen ladda om sidan för "
-"att fortsätta."
+msgstr "Vi kunde inte ansluta till PayPal. Ladda om sidan för att fortsätta."
 
 #. translators: %1$s: URL to the PayPal Connection page.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:395
@@ -345,9 +340,9 @@ msgid ""
 " your Client ID and Secret in the <a href=\"%1$s\">PayPal Connection</a> to "
 "begin accepting payments."
 msgstr ""
-"<strong>PayPal-installation krävs:</strong> Anslut ditt PayPal-konto eller "
-"ange ditt klient-ID och hemlighet i <a href=\"%1$s\">PayPal-anslutningen</a>"
-" för att börja ta emot betalningar."
+"<strong>PayPal-konfiguration krävs:</strong> Anslut ditt PayPal-konto eller "
+"ange ditt Client ID och Secret i <a href=\"%1$s\">PayPal-anslutningen</a> "
+"för att börja ta emot betalningar."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:418
 msgid "Click the PayPal button to add your payment method."
@@ -365,7 +360,7 @@ msgstr ""
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:509
 msgid "Return to payments"
-msgstr "Återgå till betalningar"
+msgstr "Tillbaka till betalningar"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:534
 msgid "PayPal Connection"
@@ -391,7 +386,7 @@ msgstr "Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:539
 msgid "Pay Later Messaging"
-msgstr "Betala senare-meddelande"
+msgstr "Pay Later-meddelanden"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:540
 msgid "Additional Settings"
@@ -399,7 +394,7 @@ msgstr "Ytterligare inställningar"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:541
 msgid "FAQ"
-msgstr "Vanliga frågor (FAQ)"
+msgstr "Vanliga frågor"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:756
 msgid "This represents the fee PayPal collects for the transaction."
@@ -411,19 +406,19 @@ msgstr "PayPal-avgift:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:842
 msgid "Disconnect"
-msgstr "Koppla bort"
+msgstr "Koppla från"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:967
 msgid "PayPal Account Connected"
-msgstr "PayPal-konto kopplat"
+msgstr "PayPal-konto anslutet"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:972
 msgid "Connected Account:"
-msgstr "Ansluten konto:"
+msgstr "Anslutet konto:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:979
 msgid "Disconnect PayPal Account"
-msgstr "Koppla bort PayPal-konto"
+msgstr "Koppla från PayPal-konto"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1063
 msgid ""
@@ -431,9 +426,8 @@ msgid ""
 "using the correct credentials for the selected environment (Sandbox or "
 "Live)."
 msgstr ""
-"PayPal-klient-ID:t och hemliga nyckeln du angav är ogiltiga. Se till att du "
-"använder rätt autentiseringsuppgifter för den valda miljön (Sandbox eller "
-"Live)."
+"Det PayPal Client ID och Secret key du angav är ogiltiga. Kontrollera att du"
+" använder rätt uppgifter för den valda miljön (Sandbox eller Live)."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1135
 msgid "Click to Connect PayPal"
@@ -445,11 +439,11 @@ msgstr "Tjänsten Anslut till PayPal är tillfälligt otillgänglig."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1170
 msgid "Toggle to manual credential input"
-msgstr "Väx till manuell inmatning av referenser"
+msgstr "Växla till manuell inmatning av inloggningsuppgifter"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1197
 msgid "Recommended"
-msgstr "Rekommenderad"
+msgstr "Rekommenderas"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1202
 msgid "OR"
@@ -457,22 +451,22 @@ msgstr "ELLER"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1207
 msgid "Click here to insert credentials manually"
-msgstr "Klicka här för att manuellt ange autentiseringsuppgifter"
+msgstr "Klicka här för att ange inloggningsuppgifter manuellt"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1336
 msgid ""
 "Which PayPal buttons (e.g. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
 "Bancontact, etc.) will appear?"
 msgstr ""
-"Vilka PayPal-knappar (t.ex. Betala senare, Venmo, SEPA, iDEAL, Mercado Pago,"
-" Bancontact, etc.) kommer att visas?"
+"Vilka PayPal-knappar (t.ex. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
+"Bancontact osv.) visas?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1340
 msgid ""
 "The PayPal buttons are shown automatically based on several factors, "
 "including:"
 msgstr ""
-"PayPal-knapparna visas automatiskt baserat på flera faktorer, inklusive:"
+"PayPal-knapparna visas automatiskt baserat på flera faktorer, bland annat:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1342
 msgid "The buyer’s country"
@@ -491,8 +485,8 @@ msgid ""
 "As a result, each buyer may see a different set of buttons. Pay Later "
 "options vary by country and may display different buttons."
 msgstr ""
-"Som ett resultat kan varje köpare se en annan uppsättning knappar. Betala "
-"senare-alternativ varierar beroende på land och kan visa olika knappar."
+"Som ett resultat kan varje köpare se en annan uppsättning knappar. Pay "
+"Later-alternativ varierar beroende på land och kan visa olika knappar."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1352
 msgid "How can I hide specific PayPal buttons?"
@@ -504,26 +498,26 @@ msgid ""
 "the <strong>Disable Specific Payment Buttons</strong> option."
 msgstr ""
 "Som standard är alla PayPal-knappar aktiverade. För att dölja specifika "
-"knappar, använd alternativet <strong>Inaktivera specifika "
+"knappar, använd alternativet <strong>Avaktivera specifika "
 "betalningsknappar</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1357
 msgid "Example: To hide the Pay Later button on the Checkout Page:"
-msgstr "Exempel: För att dölja knappen Betala senare på kassan:"
+msgstr "Exempel: För att dölja Pay Later-knappen på kassasidan:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1359
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1376
 msgid "Go to <strong>PayPal Settings</strong> > Checkout Page"
-msgstr "Gå till <strong>PayPal-inställningar</strong> > Kassa-sidan"
+msgstr "Gå till <strong>PayPal-inställningar</strong> > Kassasida"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1360
 msgid "Find the <strong>Disable Specific Payment Buttons</strong> setting."
 msgstr ""
-"Hitta inställningen <strong>Inaktivera specifika betalningsknappar</strong>."
+"Hitta inställningen <strong>Avaktivera specifika betalningsknappar</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1361
 msgid "Select <strong>Pay Later</strong> from the dropdown list."
-msgstr "Välj <strong>Betala senare</strong> från rullgardinsmenyn."
+msgstr "Välj <strong>Pay Later</strong> från rullgardinsmenyn."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1362
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1378
@@ -535,13 +529,13 @@ msgstr "Klicka på <strong>Spara ändringar</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1369
 msgid "How can I show only the \"PayPal\" button on the Checkout page?"
-msgstr "Hur kan jag visa endast \"PayPal\"-knappen på kassan?"
+msgstr "Hur kan jag visa bara \"PayPal\"-knappen på kassasidan?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1373
 msgid ""
 "To display only the \"PayPal\" button on the Checkout page, follow these "
 "steps:"
-msgstr "För att endast visa \"PayPal\"-knappen på kassan, följ dessa steg:"
+msgstr "För att bara visa \"PayPal\"-knappen på kassasidan, följ dessa steg:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1374
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1397
@@ -554,8 +548,9 @@ msgid ""
 "<strong>Credit or Debit Card</strong> and any other methods you want to "
 "hide."
 msgstr ""
-"Under <strong>Inaktivera specifika betalningsknappar</strong>, välj "
-"<strong>Kredit- eller betalkort</strong> och andra metoder du vill dölja."
+"Under <strong>Avaktivera specifika betalningsknappar</strong>, välj "
+"<strong>Kredit- eller betalkort</strong> och eventuella andra metoder du "
+"vill dölja."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1380
 msgid "Step 2: Update Advanced Card Payments Settings"
@@ -570,7 +565,7 @@ msgstr ""
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1383
 msgid "Disable the option <strong>Enable Advanced Credit/Debit Card</strong>."
 msgstr ""
-"Inaktivera alternativet <strong>Aktivera avancerat "
+"Avaktivera alternativet <strong>Aktivera avancerat "
 "kredit-/betalkort</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1386
@@ -578,36 +573,36 @@ msgid ""
 "Once you save the changes in both sections, only the \"PayPal\" button will "
 "appear on the Checkout page."
 msgstr ""
-"När du har sparat ändringarna i båda sektionerna kommer endast "
-"\"PayPal\"-knappen att visas på kassan sidan."
+"När du sparar ändringarna i båda avsnitten visas bara \"PayPal\"-knappen på "
+"kassasidan."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1392
 msgid ""
 "How can I show only the \"Credit or Debit Card\" payment method on the "
 "Checkout page?"
 msgstr ""
-"Hur kan jag visa endast betalningsmetoden \"Kredit- eller Betalkort\" på "
-"kassan?"
+"Hur kan jag visa bara betalningsmetoden \"Kredit- eller betalkort\" på "
+"kassasidan?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1396
 msgid ""
 "To display only the \"Credit or Debit Card\" payment method on the Checkout "
 "page, follow these steps:"
 msgstr ""
-"För att endast visa betalningsmetoden \"Kredit- eller Betalkort\" på kassan,"
-" följ dessa steg:"
+"För att bara visa betalningsmetoden \"Kredit- eller betalkort\" på "
+"kassasidan, följ dessa steg:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1399
 msgid "Go to <strong>PayPal Settings > Checkout Page</strong>."
-msgstr "Gå till <strong>PayPal-inställningar > Kassa-sidan</strong>."
+msgstr "Gå till <strong>PayPal-inställningar > Kassasida</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1400
 msgid "Disable the <strong>Enable PayPal</strong> option."
-msgstr "Inaktivera <strong>Aktivera PayPal</strong> alternativet."
+msgstr "Avaktivera alternativet <strong>Aktivera PayPal</strong>."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1403
 msgid "Step 2: Enable Advanced Credit/Debit Card Payments"
-msgstr "Steg 2: Aktivera avancerade kredit-/betalkortsbetalningar"
+msgstr "Steg 2: Aktivera avancerade kredit-/betalkortbetalningar"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1406
 msgid "Enable the option <strong>Enable Advanced Credit/Debit Card</strong>."
@@ -619,12 +614,12 @@ msgid ""
 "Once you save the changes in both sections, only the \"Credit or Debit "
 "Card\" payment method will appear on the Checkout page."
 msgstr ""
-"När du har sparat ändringarna i båda sektionerna kommer endast "
-"betalningsmetoden \"Kredit- eller Betalkort\" att visas på kassan."
+"När du sparar ändringarna i båda avsnitten visas bara betalningsmetoden "
+"\"Kredit- eller betalkort\" på kassasidan."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1415
 msgid "What is PayPal Pay Later?"
-msgstr "Vad är PayPal Betala senare?"
+msgstr "Vad är PayPal Pay Later?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1419
 msgid ""
@@ -632,34 +627,34 @@ msgid ""
 "free payments over time, such as \"Pay in 4\" or monthly installments. You "
 "get paid in full upfront, while customers enjoy flexible payment options."
 msgstr ""
-"PayPal Pay Later låter dina kunder dela upp sina köp i räntefria betalningar"
-" över tid, såsom \"Betala i 4\" eller månadsbetalningar. Du får betalt i sin"
-" helhet i förskott, medan kunderna njuter av flexibla betalningsalternativ."
+"Med PayPal Pay Later kan dina kunder dela upp sina köp i räntefria "
+"betalningar över tid, som \"Betala i 4\" eller månadsbetalningar. Du får "
+"betalt i sin helhet direkt, medan kunderna njuter av flexibla "
+"betalningsalternativ."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1420
 msgid ""
 "This can help increase your sales, with many merchants seeing higher "
 "conversion rates and larger order sizes."
 msgstr ""
-"Detta kan hjälpa till att öka din försäljning, med många handlare som ser "
-"högre konverteringsgrader och större orderstorlekar."
+"Detta kan hjälpa till att öka din försäljning, och många handlare ser högre "
+"konverteringsgrader och större orderstorlekar."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1423
 msgid "Learn more about Pay Later on PayPal’s website."
-msgstr "Läs mer om Betala senare på PayPals webbplats."
+msgstr "Läs mer om Pay Later på PayPals webbplats."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1431
 msgid "How can I contact support or request a new functionality?"
-msgstr "Hur kan jag kontakta support eller begära en ny funktionalitet?"
+msgstr "Hur kan jag kontakta support eller begära ny funktionalitet?"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1436
 msgid ""
 "If you have any questions, encounter an issue, or have a new functionality "
 "request, please create a support ticket on our official support page at:"
 msgstr ""
-"Om du har några frågor, stöter på ett problem eller har en begäran om ny "
-"funktionalitet, vänligen skapa en supportbiljett på vår officiella "
-"supportsida på:"
+"Om du har frågor, stöter på ett problem eller har en begäran om ny "
+"funktionalitet, skapa ett supportärende på vår officiella supportsida på:"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1565
 msgid "Click to Enable Google Pay"
@@ -677,7 +672,7 @@ msgstr "Klicka för att aktivera Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1750
 msgid "Register Your Domain with Apple Pay"
-msgstr "Registrera din domän med Apple Pay"
+msgstr "Registrera din domän hos Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1754
 msgid ""
@@ -685,24 +680,23 @@ msgid ""
 "PayPal website. If the domain is not registered, the payment method will not"
 " work."
 msgstr ""
-"Alla (sub)domäner som visar en Apple Pay-knapp måste registreras på PayPal-"
-"webbplatsen. Om domänen inte är registrerad kommer betalningsmetoden inte "
-"att fungera."
+"Varje (under)domän som visar en Apple Pay-knapp måste registreras på PayPals"
+" webbplats. Om domänen inte är registrerad fungerar inte betalningsmetoden."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1777
 msgid ""
 "Accept PayPal, Pay Later, and major cards in WooCommerce using the PayPal "
 "Commerce Platform."
 msgstr ""
-"Acceptera PayPal, Betala senare och stora kort i WooCommerce med hjälp av "
-"PayPal Commerce Platform."
+"Acceptera PayPal, Pay Later och de stora korten i WooCommerce med PayPal "
+"Commerce Platform."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1779
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1799
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1819
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1829
 msgid "By Easy Payment"
-msgstr "Genom Enkel Betalning"
+msgstr "By Easy Payment"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1786
 msgid "AI Product Description Generator for WooCommerce"
@@ -714,11 +708,11 @@ msgid ""
 " bulk tools and templates."
 msgstr ""
 "Generera SEO-vänliga titlar, beskrivningar och attribut med AI. Inkluderar "
-"verktyg för massbearbetning och mallar."
+"massverktyg och mallar."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1789
 msgid "By nexaplugins"
-msgstr "Av nexaplugins"
+msgstr "By nexaplugins"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1796
 msgid "Payment Gateway for Authorize.Net for WooCommerce"
@@ -729,12 +723,12 @@ msgid ""
 "Accept credit and debit cards via Authorize.Net with a secure, seamless "
 "WooCommerce checkout."
 msgstr ""
-"Acceptera kredit- och betalkort via Authorize.Net med en säker och smidig "
+"Acceptera kredit- och betalkort via Authorize.Net med en säker och sömlös "
 "WooCommerce-kassa."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1806
 msgid "Widgets for Google Business Reviews and Ratings"
-msgstr "Widgets för Google Företagsrecensioner och Betyg"
+msgstr "Widgets för Google Business recensioner och betyg"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1807
 msgid ""
@@ -746,7 +740,7 @@ msgstr ""
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1809
 msgid "By Repocean"
-msgstr "Av Repocean"
+msgstr "By Repocean"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1816
 msgid "Payment Gateway for PhonePe and for WooCommerce"
@@ -757,7 +751,7 @@ msgid ""
 "Accept PhonePe UPI, Wallet, and Cards with a fast, secure payment experience"
 " in WooCommerce."
 msgstr ""
-"Acceptera PhonePe UPI, plånböcker och kort med en snabb, säker "
+"Acceptera PhonePe UPI, Wallet och kort med en snabb och säker "
 "betalningsupplevelse i WooCommerce."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1826
@@ -786,7 +780,7 @@ msgstr ""
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1864
 msgid "Plugin logo"
-msgstr "Plugin-logotyp"
+msgstr "Tilläggslogotyp"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1879
 msgid "Install Now"
@@ -794,7 +788,7 @@ msgstr "Installera nu"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1886
 msgid "No matching plugins found for your store settings."
-msgstr "Inga matchande plugins hittades för dina butikinställningar."
+msgstr "Inga matchande tillägg hittades för dina butiksinställningar."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1945
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:357
@@ -803,23 +797,23 @@ msgstr "Inga matchande plugins hittades för dina butikinställningar."
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:651
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:732
 msgid "Live Preview"
-msgstr "Live förhandsvisning"
+msgstr "Liveförhandsvisning"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1946
 msgid "PayPal Smart Button Preview"
-msgstr "Förhandsgranskning av PayPal Smart Button"
+msgstr "Förhandsvisning av PayPal Smart Button"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1947
 msgid "Preview only. No payment will be processed."
-msgstr "Endast förhandsgranskning. Ingen betalning kommer att behandlas."
+msgstr "Endast förhandsvisning. Ingen betalning kommer att behandlas."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1984
 msgid "Congratulations! PayPal is Connected 🎉"
-msgstr "Grattis! PayPal är ansluten 🎉"
+msgstr "Grattis! PayPal är anslutet 🎉"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1988
 msgid "The primary setup is already complete."
-msgstr "Den primära installationen är redan klar."
+msgstr "Den primära konfigurationen är redan klar."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1992
 msgid ""
@@ -828,26 +822,25 @@ msgstr "Ingen ytterligare åtgärd krävs om inte ytterligare anpassning behövs
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php:1997
 msgid "Got it"
-msgstr "Förstått"
+msgstr "Uppfattat"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php:122
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:3106
 msgid "Invalid or missing payment token fields."
-msgstr "Ogiltiga eller saknade betalningstokenfält."
+msgstr "Ogiltiga eller saknade betalningstoken-fält."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:97
 msgid ""
 "Please choose the quantity of items you wish to add to your cart&hellip;"
-msgstr ""
-"Vänligen välj mängden av varor du önskar lägga till i din kundvagn&hellip;"
+msgstr "Välj antal artiklar du vill lägga till i din varukorg&hellip;"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:106
 msgid "Please choose a product to add to your cart&hellip;"
-msgstr "Vänligen välj en produkt att lägga till i din kundvagn&hellip;"
+msgstr "Välj en produkt att lägga till i din varukorg&hellip;"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:160
 msgid "Please choose product options&hellip;"
-msgstr "Vänligen välj produktalternativ&hellip;"
+msgstr "Välj produktalternativ&hellip;"
 
 #. translators: %s: Product attribute name.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:177
@@ -859,8 +852,7 @@ msgstr "Ogiltigt värde skickat för %s"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php:185
 msgid "%s is a required field"
 msgid_plural "%s are required fields"
-msgstr[0] "%s är ett obligatoriskt fält"
-msgstr[1] "%s är ett obligatoriskt fält"
+msgstr "%s är ett obligatoriskt fält"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:168
 msgid "Continue to payment"
@@ -871,21 +863,21 @@ msgstr "Fortsätt till betalning"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2774
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1594
 msgid "Card Details"
-msgstr "Kortdetaljer"
+msgstr "Kortuppgifter"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:751
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1590
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2785
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1605
 msgid "Address Verification Result"
-msgstr "Adressverifieringsresultat"
+msgstr "Resultat av adressverifiering"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:760
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1599
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2794
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1614
 msgid "Card Security Code Result"
-msgstr "Resultat för kortsäkerhetskod"
+msgstr "Resultat av kortsäkerhetskod"
 
 #. translators: 1: Payment method title, 2: Payment status (e.g., Completed,
 #. Pending).
@@ -917,7 +909,7 @@ msgid ""
 "Payment authorized. Change payment status to processing or complete to "
 "capture funds."
 msgstr ""
-"Betalning auktoriserad. Ändra betalningsstatus till behandling eller "
+"Betalning auktoriserad. Ändra betalningsstatus till bearbetning eller "
 "slutförd för att fånga medel."
 
 #. translators: 1: Refunded amount, 2: Refund transaction ID.
@@ -927,7 +919,7 @@ msgstr "Återbetald %1$s - Återbetalnings-ID: %2$s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1491
 msgid "An error occurred while updating the order."
-msgstr "Ett fel uppstod vid uppdateringen av beställningen."
+msgstr "Ett fel uppstod vid uppdatering av beställningen."
 
 #. translators: %s: Plugin version number.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1652
@@ -942,12 +934,12 @@ msgstr "WooCommerce-version: %1$s"
 #. translators: 1: PayPal pending reason.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:1981
 msgid "Payment pending (%1$s)."
-msgstr "Betalning pågår (%1$s)."
+msgstr "Betalning väntar (%1$s)."
 
 #. translators: 1: refunded amount, 2: refunded currency
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2047
 msgid "Marked as refunded via PayPal. Total refunded: %1$s %2$s."
-msgstr "Markerad som återbetalad via PayPal. Totalt återbetalat: %1$s %2$s."
+msgstr "Markerad som återbetald via PayPal. Totalt återbetalt: %1$s %2$s."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2186
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php:2618
@@ -959,14 +951,14 @@ msgid ""
 "This payment was unable to be processed successfully. Please try again with "
 "another payment method."
 msgstr ""
-"Denna betalning kunde inte behandlas framgångsrikt. Vänligen försök igen med"
-" en annan betalningsmetod."
+"Denna betalning kunde inte behandlas. Försök igen med en annan "
+"betalningsmetod."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:125
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:148
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:175
 msgid "Return to your shop."
-msgstr "Återvänd till din butik."
+msgstr "Tillbaka till din butik."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-seller-onboarding.php:335
 msgid ""
@@ -989,9 +981,8 @@ msgid ""
 "Choose the PayPal environment. Select \"Sandbox\" for testing transactions "
 "(no real transactions will occur) or \"Production\" for live transactions."
 msgstr ""
-"Välj PayPal-miljö. Välj \"Sandbox\" för att testa transaktioner (inga "
-"riktiga transaktioner kommer att äga rum) eller \"Production\" för riktiga "
-"transaktioner."
+"Välj PayPal-miljö. Välj \"Sandbox\" för testtransaktioner (inga riktiga "
+"transaktioner genomförs) eller \"Production\" för livetransaktioner."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:93
 msgid "Sandbox (Test Mode)"
@@ -1008,7 +999,7 @@ msgstr "Anslut till PayPal"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:102
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:152
 msgid "Setup or link an existing PayPal account."
-msgstr "Ställ in eller länka ett befintligt PayPal-konto."
+msgstr "Konfigurera eller länka ett befintligt PayPal-konto."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:106
 msgid "Live Client ID"
@@ -1017,24 +1008,24 @@ msgstr "Live Client ID"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:108
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:158
 msgid "Enter PayPal Client ID."
-msgstr "Ange PayPal-klient-ID."
+msgstr "Ange PayPal Client ID."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:117
 msgid "Live Secret key"
-msgstr "Live hemlig nyckel"
+msgstr "Live Secret key"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:119
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:169
 msgid "Enter PayPal Secret key."
-msgstr "Ange PayPal hemlig nyckel."
+msgstr "Ange PayPal Secret key."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:128
 msgid "Live PayPal Email"
-msgstr "Live PayPal-e-postadress"
+msgstr "Live PayPal-e-post"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:131
 msgid "Enter Live PayPal Email."
-msgstr "Ange Live PayPal-e-postadress."
+msgstr "Ange Live PayPal-e-post."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:140
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:189
@@ -1047,19 +1038,19 @@ msgstr "Anslut till PayPal Sandbox"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:156
 msgid "Sandbox Client ID"
-msgstr "Sandbox-klient-ID"
+msgstr "Sandbox Client ID"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:167
 msgid "Sandbox Secret key"
-msgstr "Sandbox hemlig nyckel"
+msgstr "Sandbox Secret key"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:178
 msgid "Sandbox PayPal Email"
-msgstr "Sandbox PayPal-e-postadress"
+msgstr "Sandbox PayPal-e-post"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:181
 msgid "Enter Sandbox PayPal Email."
-msgstr "Ange Sandbox PayPal-e-postadress."
+msgstr "Ange Sandbox PayPal-e-post."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:202
 msgid ""
@@ -1067,13 +1058,13 @@ msgid ""
 "and store managers. This allows you to test PayPal on your live site without"
 " customers seeing them."
 msgstr ""
-"När det är aktiverat kommer betalningsmetoder endast att vara synliga för "
-"webbplatsadministratörer och butikschefer. Detta gör att du kan testa PayPal"
-" på din live-webbplats utan att kunderna ser dem."
+"När aktiverat är betalningsmetoder bara synliga för webbplatsadministratörer"
+" och butiksansvariga. Detta gör att du kan testa PayPal på din livewebbplats"
+" utan att kunder ser dem."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:209
 msgid "Select Height"
-msgstr "Välj Höjd"
+msgstr "Välj höjd"
 
 #. translators: %d is the button height in pixels.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:213
@@ -1101,8 +1092,8 @@ msgstr "Aktivera PayPal"
 msgid ""
 "Enable this option to activate the PayPal gateway. Uncheck to disable it."
 msgstr ""
-"Aktivera det här alternativet för att aktivera PayPal-gatewayen. Avmarkera "
-"för att inaktivera den."
+"Aktivera detta alternativ för att aktivera PayPal-gatewayen. Avmarkera för "
+"att avaktivera den."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:225
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:784
@@ -1111,7 +1102,7 @@ msgstr "Titel"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:227
 msgid "The title displayed to customers during checkout."
-msgstr "Titeln som visas för kunder under kassan."
+msgstr "Titeln som visas för kunder vid kassan."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:228
 msgid "PayPal"
@@ -1123,7 +1114,7 @@ msgstr "Beskrivning"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:235
 msgid "The description displayed to customers during checkout."
-msgstr "Beskrivningen som visas för kunder under kassan."
+msgstr "Beskrivningen som visas för kunder vid kassan."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:240
 msgid "Display PayPal Buttons On"
@@ -1135,7 +1126,7 @@ msgstr "Visa PayPal-knappar på"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1200
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1617
 msgid "Product Page"
-msgstr "Produkt Sida"
+msgstr "Produktsida"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:248
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:365
@@ -1143,7 +1134,7 @@ msgstr "Produkt Sida"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1241
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1703
 msgid "Cart Page"
-msgstr "Kundvagnssida"
+msgstr "Varukorgsida"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:249
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:590
@@ -1152,32 +1143,32 @@ msgstr "Kundvagnssida"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1194
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1323
 msgid "Express Checkout"
-msgstr "Snabbetalning"
+msgstr "Snabbkassa"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:250
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:471
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1055
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1364
 msgid "Checkout Page"
-msgstr "Kassa-sidan"
+msgstr "Kassasida"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:251
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:659
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:971
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1282
 msgid "Mini Cart (Side Cart)"
-msgstr "Mini Cart (Sidokorg)"
+msgstr "Minivagn (Sidovagn)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:253
 msgid "Set the page(s) to display the PayPal Buttons."
-msgstr "Ställ in sidan/sidorna för att visa PayPal-knapparna."
+msgstr "Ange sidan/sidorna där PayPal-knapparna ska visas."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:259
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:279
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:372
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:478
 msgid "Disable Specific Payment Buttons"
-msgstr "Inaktivera specifika betalningsknappar"
+msgstr "Avaktivera specifika betalningsknappar"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:261
 msgid ""
@@ -1190,20 +1181,20 @@ msgid ""
 "the Checkout Page.<br>For Mini Cart, this setting will follow the "
 "configuration from the Product Page."
 msgstr ""
-"PayPal-knappar (t.ex. Betala senare, Venmo, SEPA, iDEAL, Mercado Pago, "
-"Bancontact, etc.) visas automatiskt baserat på faktorer som köparens land "
-"och deras enhetstyp. <br><br>Som standard är <b>alla knappar aktiverade.</b>"
-" För att inaktivera individuella betalningsknappar, använd inställningen "
-"<b>\"Inaktivera specifika betalningsknappar\"</b> som finns i varje avsnitt "
-"på sidan nedan.<br><br>För Express Checkout kommer den att följa "
-"konfigurationen från kassan. För Mini Cart kommer denna inställning att "
-"följa konfigurationen från produkt sidan."
+"PayPal-knappar (t.ex. Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, "
+"Bancontact osv.) visas automatiskt baserat på faktorer som köparens land och"
+" deras enhetstyp. <br><br>Som standard är <b>alla knappar aktiverade.</b> "
+"För att avaktivera enskilda betalningsknappar, använd inställningen "
+"<b>\"Avaktivera specifika betalningsknappar\"</b> som finns i varje "
+"sidavsnitt nedan.<br><br>För Snabbkassa följer den konfigurationen från "
+"Kassasidan.<br>För Minivagn följer denna inställning konfigurationen från "
+"Produktsidan."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:287
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:380
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:486
 msgid "Select payment buttons to disable"
-msgstr "Välj betalningsknappar att inaktivera"
+msgstr "Välj betalningsknappar att avaktivera"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:291
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:384
@@ -1229,7 +1220,7 @@ msgstr ""
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:604
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:673
 msgid "Horizontal (Recommended)"
-msgstr "Horisontell (Rekommenderad)"
+msgstr "Horisontell (Rekommenderas)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:299
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:605
@@ -1253,7 +1244,7 @@ msgstr "Vertikal"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1343
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1384
 msgid "Button Color"
-msgstr "Knapparnas färg"
+msgstr "Knappfärg"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:308
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:401
@@ -1261,7 +1252,7 @@ msgstr "Knapparnas färg"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:614
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:683
 msgid "Gold (Recommended)"
-msgstr "Guld (Rekommenderad)"
+msgstr "Guld (Rekommenderas)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:309
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:402
@@ -1374,7 +1365,7 @@ msgstr "Knappform"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1359
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1400
 msgid "Rect (Recommended)"
-msgstr "Rektangel (Rekommenderad)"
+msgstr "Rektangel (Rekommenderas)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:322
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:415
@@ -1392,14 +1383,14 @@ msgstr "Rektangel (Rekommenderad)"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1360
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1401
 msgid "Pill"
-msgstr "Piller"
+msgstr "Pill"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:326
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:419
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:525
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:701
 msgid "Button Width"
-msgstr "Knapplängd"
+msgstr "Knappbredd"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:331
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:424
@@ -1413,7 +1404,7 @@ msgstr "Liten"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:531
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:707
 msgid "Medium"
-msgstr "Medium"
+msgstr "Medel"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:333
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:426
@@ -1458,7 +1449,7 @@ msgstr "Knappetikett"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:644
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:725
 msgid "PayPal (Recommended)"
-msgstr "PayPal (Rekommenderat)"
+msgstr "PayPal (Rekommenderas)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:351
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:444
@@ -1509,7 +1500,7 @@ msgstr "Betala"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:391
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:497
 msgid "Vertical (Recommended)"
-msgstr "Vertikal (Rekommenderad)"
+msgstr "Vertikal (Rekommenderas)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:392
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:498
@@ -1520,11 +1511,11 @@ msgstr "Horisontell"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:533
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:709
 msgid "Responsive (Recommended)"
-msgstr "Responsiv (Rekommenderad)"
+msgstr "Responsiv (Rekommenderas)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:450
 msgid "PayPal Button Position (Classic Cart Only)"
-msgstr "PayPal-knappens position (endast klassisk kundvagn)"
+msgstr "PayPal-knappposition (endast klassisk varukorg)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:453
 msgid ""
@@ -1532,17 +1523,17 @@ msgid ""
 " or below the \"Proceed to Checkout\" button. This applies only to classic "
 "cart templates, not the new Cart Blocks layout."
 msgstr ""
-"Välj var PayPal-knapparna ska visas på kundvagnssidan, antingen ovanför "
-"eller nedanför knappen \"Fortsätt till kassan\". Detta gäller endast "
-"klassiska kundvagnsmallar, inte den nya Cart Blocks-layouten."
+"Välj var PayPal-knapparna ska visas på varukorgsidan, antingen ovanför eller"
+" nedanför knappen \"Fortsätt till kassan\". Detta gäller bara klassiska "
+"varukorgmallar, inte den nya Cart Blocks-layouten."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:457
 msgid "Below Proceed to Checkout button"
-msgstr "Nedanför knappen Gå till kassan"
+msgstr "Under knappen Fortsätt till kassan"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:458
 msgid "Above Proceed to Checkout button"
-msgstr "Över knappen Gå till kassan"
+msgstr "Ovanför knappen Fortsätt till kassan"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:556
 msgid "Icon"
@@ -1554,7 +1545,7 @@ msgstr "Monogram (PP)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:561
 msgid "Wordmark (PayPal)"
-msgstr "Wordmark (PayPal)"
+msgstr "Ordmärke (PayPal)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:562
 msgid "Combination Mark (PP PayPal)"
@@ -1565,8 +1556,8 @@ msgid ""
 "Select the PayPal logo style displayed next to the payment method title on "
 "the checkout page."
 msgstr ""
-"Välj den PayPal-logotypstil som visas bredvid betalningsmetodens titel på "
-"kassan."
+"Välj PayPal-logotypstilen som visas bredvid betalningsmetodens titel på "
+"kassasidan."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:567
 msgid "Show Redirect Icon and Text"
@@ -1577,13 +1568,13 @@ msgid ""
 "When enabled, a redirect icon and message will appear to let customers know "
 "they will be taken to PayPal to complete their payment."
 msgstr ""
-"När det är aktiverat kommer en omdirigeringsikon och meddelande att visas "
-"för att informera kunderna om att de kommer att tas till PayPal för att "
-"slutföra sin betalning."
+"När aktiverat visas en omdirigeringsikon och ett meddelande för att "
+"informera kunder om att de kommer att skickas till PayPal för att slutföra "
+"sin betalning."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:574
 msgid "Use Place Order Button"
-msgstr "Använd knappen \"Placerar beställning\""
+msgstr "Använd knappen Lägg beställning"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:578
 msgid ""
@@ -1591,9 +1582,9 @@ msgid ""
 "instead of showing PayPal buttons. This setting does not affect Express "
 "Checkout."
 msgstr ""
-"Aktivera detta för att använda standardknappen \"Placerar beställning\" på "
-"kassan istället för att visa PayPal-knappar. Denna inställning påverkar inte"
-" Express Checkout."
+"Aktivera detta för att använda standardknappen Lägg beställning på "
+"kassasidan istället för att visa PayPal-knappar. Denna inställning påverkar "
+"inte Snabbkassa."
 
 #. translators: Admin notice explaining how to enable PayPal Advanced Card
 #. Payments. HTML <br> tags are intentional for formatting.
@@ -1606,12 +1597,12 @@ msgid ""
 "                3. Under \"Features\" → Accept Payments, check if \"Advanced Credit and Debit Card Payments\" is enabled.<br>\r\n"
 "                4. If missing, your account or region may not support it."
 msgstr ""
-"För att använda avancerade kortbetalningar, se till att ditt PayPal-konto är berättigat och aktiverat:<br><br>\r\n"
+"För att använda Avancerade kortbetalningar, kontrollera att ditt PayPal-konto är berättigat och aktiverat:<br><br>\r\n"
 "                <strong>Steg:</strong><br>\r\n"
-"                1. Besök developer.paypal.com → Appar & Behörigheter → API-behörigheter.<br>\r\n"
+"                1. Besök developer.paypal.com → Apps & Credentials → API Credentials.<br>\r\n"
 "                2. Klicka på ditt appnamn.<br>\r\n"
-"                3. Under \"Funktioner\" → Acceptera betalningar, kontrollera om \"Avancerade kredit- och betalkortbetalningar\" är aktiverat.<br>\r\n"
-"                4. Om det saknas kan ditt konto eller din region kanske inte stödja det."
+"                3. Under \"Features\" → Accept Payments, kontrollera om \"Advanced Credit and Debit Card Payments\" är aktiverat.<br>\r\n"
+"                4. Om det saknas kanske ditt konto eller din region inte stöder det."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:771
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:829
@@ -1621,7 +1612,7 @@ msgstr ""
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1167
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1418
 msgid "Important Note"
-msgstr "Viktig notering"
+msgstr "Viktig anmärkning"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:778
 msgid "Enable Advanced Credit/Debit Card"
@@ -1636,20 +1627,21 @@ msgid ""
 "PayPal Smart Buttons. It supports major cards like Visa, Mastercard, and "
 "American Express, providing a secure and streamlined payment experience."
 msgstr ""
-"Aktivera alternativet för avancerad kredit-/betalkortbetalning som en "
-"separat gateway på kassan. Denna gateway erbjuder vanligtvis en lägre "
-"PayPal-avgift jämfört med PayPal Smart Button. Avgiften är 2,59 % + $0,49* "
-"per transaktion för avancerade kredit-/betalkortsbetalningar och 3,49 % + "
-"$0,49* för PayPal Smart Buttons. Den stöder stora kort som Visa, Mastercard "
-"och American Express, vilket ger en säker och smidig betalningsupplevelse."
+"Aktivera det avancerade kredit-/betalkortsbetalningsalternativet som en "
+"separat gateway på kassasidan. Denna gateway erbjuder vanligtvis en lägre "
+"PayPal-avgift jämfört med PayPal Smart Button. Avgiften är 2,59% + $0,49* "
+"per transaktion för avancerade kredit-/betalkortsbetalningar och 3,49% + "
+"$0,49* för PayPal Smart Buttons. Det stöder stora kort som Visa, Mastercard "
+"och American Express och ger en säker och strömlinjeformad "
+"betalningsupplevelse."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:786
 msgid ""
 "Set the title for the Advanced Credit/Debit Card payment method as it will "
 "appear on the checkout page (e.g., 'Pay with Credit/Debit Card').."
 msgstr ""
-"Ställ in titeln för betalningsmetoden för avancerat kredit-/betalkort som "
-"den kommer att visas på kassan (t.ex. 'Betala med kredit-/betalkort')."
+"Ange titeln för den avancerade kredit-/betalkortsbetalningsmetoden som den "
+"kommer att visas på kassasidan (t.ex. 'Betala med kredit-/betalkort').."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:787
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1112
@@ -1658,27 +1650,27 @@ msgstr "Kredit- eller betalkort"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:791
 msgid "Disable specific credit cards"
-msgstr "Inaktivera specifika kreditkort"
+msgstr "Avaktivera specifika kreditkort"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:797
 msgid ""
 "By default all possible credit cards will be accepted. You can disable some "
 "cards, if you wish."
 msgstr ""
-"Som standard kommer alla möjliga kreditkort att accepteras. Du kan "
-"inaktivera vissa kort om du så önskar."
+"Som standard accepteras alla möjliga kreditkort. Du kan avaktivera vissa "
+"kort om du vill."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:804
 msgid "Contingency for 3D Secure"
-msgstr "Kontingens för 3D Secure"
+msgstr "Villkor för 3D Secure"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:808
 msgid "3D Secure when required"
-msgstr "3D Secure när det krävs"
+msgstr "3D Secure vid behov"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:809
 msgid "Always trigger 3D Secure"
-msgstr "Alltid aktivera 3D Secure"
+msgstr "Aktivera alltid 3D Secure"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:813
 msgid ""
@@ -1686,25 +1678,25 @@ msgid ""
 "layer of verification using Verified by Visa, MasterCard SecureCode and "
 "American Express SafeKey."
 msgstr ""
-"3D Secure gynnar kortinnehavare och handlare genom att erbjuda ett extra "
-"lager av verifiering med hjälp av Verified by Visa, MasterCard SecureCode "
-"och American Express SafeKey."
+"3D Secure gynnar kortinnehavare och handlare genom att tillhandahålla ett "
+"extra verifieringslager med Verified by Visa, MasterCard SecureCode och "
+"American Express SafeKey."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:816
 msgid "Card Save Enabled"
-msgstr "Kortbetalning aktiverad"
+msgstr "Kortsparande aktiverat"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:817
 msgid "Enable card saving at checkout"
-msgstr "Aktivera kortbesparing vid kassan"
+msgstr "Aktivera kortsparande vid kassan"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:820
 msgid ""
 "When enabled, customers can securely save their card details using PayPal "
 "for faster future checkouts."
 msgstr ""
-"När det är aktiverat kan kunder säkert spara sina kortuppgifter med PayPal "
-"för snabbare framtida utcheckningar."
+"När aktiverat kan kunder säkert spara sina kortuppgifter via PayPal för "
+"snabbare framtida kassaprocesser."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:831
 msgid ""
@@ -1717,21 +1709,20 @@ msgid ""
 "United States, United Kingdom<br><br>"
 msgstr ""
 "Avancerade kredit-/betalkortsbetalningar är inte aktiverade i ditt PayPal-"
-"konto. <br><br><strong>Stödda länder:</strong><br>Australien, Österrike, "
-"Belgien, Bulgarien, Kanada, Kina, Cypern, Tjeckien, Danmark, Estland, "
-"Finland, Frankrike, Tyskland, Grekland, Hongkong, Ungern, Irland, Italien, "
-"Japan, Lettland, Liechtenstein, Litauen, Luxemburg, Malta, Nederländerna, "
-"Norge, Polen, Portugal, Rumänien, Singapore, Slovakien, Slovenien, Spanien, "
-"Sverige, USA, Storbritannien<br><br>"
+"konto. <br><br><strong>Stödda länder:</strong><br>Australien, Belgien, "
+"Bulgarien, Canada, Cypern, Danmark, Estland, Finland, Frankrike, Grekland, "
+"Hongkong, Irland, Italien, Japan, Kina, Lettland, Liechtenstein, Litauen, "
+"Luxemburg, Malta, Nederländerna, Norge, Polen, Portugal, Rumänien, "
+"Singapore, Slovakien, Slovenien, Spanien, Storbritannien, Sverige, Tjeckien,"
+" Tyskland, USA, Ungern, Österrike<br><br>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
 msgid "Please ensure that Google Pay is enabled in your PayPal account."
-msgstr "Vänligen se till att Google Pay är aktiverat i ditt PayPal-konto."
+msgstr "Se till att Google Pay är aktiverat i ditt PayPal-konto."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:837
 msgid "Check this box to display the Google Pay button on selected pages."
-msgstr ""
-"Kryssa i den här rutan för att visa Google Pay-knappen på valda sidor."
+msgstr "Markera denna ruta för att visa Google Pay-knappen på valda sidor."
 
 #. translators: 1: Google Pay setup guide link, 2: supported countries and
 #. currencies link
@@ -1740,8 +1731,8 @@ msgid ""
 "Google Pay must be enabled in your PayPal account (%1$s). Please ensure your"
 " country and currency are supported (%2$s)."
 msgstr ""
-"Google Pay måste vara aktiverat i ditt PayPal-konto (%1$s). Vänligen se till"
-" att ditt land och valuta stöds (%2$s)."
+"Google Pay måste vara aktiverat i ditt PayPal-konto (%1$s). Se till att ditt"
+" land och din valuta stöds (%2$s)."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:847
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1154
@@ -1756,7 +1747,7 @@ msgstr "stödda länder och valutor"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:855
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1162
 msgid "The page must be served over a secure (HTTPS) connection."
-msgstr "Sidan måste serveras över en säker (HTTPS) anslutning."
+msgstr "Sidan måste levereras via en säker (HTTPS) anslutning."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:857
 msgid "To show the Google Pay button,"
@@ -1769,7 +1760,7 @@ msgstr "Aktivera Google Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:872
 msgid "Display Google Pay Button On"
-msgstr "Visa Google Pay-knapp på"
+msgstr "Visa Google Pay-knappen på"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:878
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1191
@@ -1781,16 +1772,16 @@ msgstr "Produkt"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1192
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
 msgid "Cart"
-msgstr "Kundvagn"
+msgstr "Varukorg"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:880
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1193
 msgid "Mini Cart"
-msgstr "Mini kundvagn"
+msgstr "Minivagn"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:884
 msgid "Set the page(s) to display the Google Pay button."
-msgstr "Ställ in sidan/ sidorna för att visa Google Pay-knappen."
+msgstr "Ange sidan/sidorna där Google Pay-knappen ska visas."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:898
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:940
@@ -1832,7 +1823,7 @@ msgstr "Donera"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1028
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1070
 msgid "Book"
-msgstr "Bok"
+msgstr "Boka"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:903
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:945
@@ -1893,11 +1884,11 @@ msgstr "Aktivera Apple Pay"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
 msgid "Please ensure that Apple Pay is enabled in your PayPal account."
-msgstr "Vänligen se till att Apple Pay är aktiverat i ditt PayPal-konto."
+msgstr "Se till att Apple Pay är aktiverat i ditt PayPal-konto."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1144
 msgid "Check this box to display the Apple Pay button on selected pages."
-msgstr "Kryssa i den här rutan för att visa Apple Pay-knappen på valda sidor."
+msgstr "Markera denna ruta för att visa Apple Pay-knappen på valda sidor."
 
 #. translators: 1: Apple Pay setup guide link, 2: supported countries and
 #. currencies link
@@ -1907,7 +1898,7 @@ msgid ""
 "country and currency are supported (%2$s)."
 msgstr ""
 "Apple Pay måste vara aktiverat i ditt PayPal-konto (%1$s) och se till att "
-"ditt land och valuta stöds (%2$s)."
+"ditt land och din valuta stöds (%2$s)."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1164
 msgid "To show the Apple Pay button,"
@@ -1923,17 +1914,16 @@ msgid ""
 "will not be processed if the Apple Pay button is used on an unregistered "
 "domain."
 msgstr ""
-"Apple kräver att webbplatsens domän är registrerad på PayPal. Betalningar "
-"kommer inte att behandlas om Apple Pay-knappen används på en oregistrerad "
-"domän."
+"Apple kräver att webbplatsens domän registreras på PayPal. Betalningar "
+"behandlas inte om Apple Pay-knappen används på en oregistrerad domän."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1185
 msgid "Display Apple Pay Button On"
-msgstr "Visa Apple Pay-knapp på"
+msgstr "Visa Apple Pay-knappen på"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1197
 msgid "Set the page(s) to display the Apple Pay button."
-msgstr "Ställ in sidan/ sidorna för att visa Apple Pay-knappen."
+msgstr "Ange sidan/sidorna där Apple Pay-knappen ska visas."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1227
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1268
@@ -1953,15 +1943,15 @@ msgid ""
 "payments/checkout/installments\">More about Pay Later</a>"
 msgstr ""
 "Dina kunder kan redan köpa nu och betala senare med PayPal — lägg till "
-"meddelanden på din webbplats för att informera dem. PayPals Betala senare "
-"hjälper till att öka handlarens konverteringsfrekvenser och ökar kundvagnens"
-" storlek med 39%.¹ Du får betalt i sin helhet i förskott. <a "
+"meddelanden på din webbplats för att informera dem. PayPal’s Pay Later "
+"hjälper till att öka handlarnas konverteringsgrader och ökar "
+"varukorgsstorleken med 39%.¹ Du får betalt i sin helhet direkt. <a "
 "target=\"_blank\" href=\"https://www.paypal.com/us/business/accept-"
-"payments/checkout/installments\">Mer om Betala senare</a>"
+"payments/checkout/installments\">Mer om Pay Later</a>"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1429
 msgid "Enable Pay Later Messaging"
-msgstr "Aktivera Meddelande om Betala Senare"
+msgstr "Aktivera Pay Later-meddelanden"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1431
 msgid "Displays Pay Later messaging for available offers."
@@ -1969,7 +1959,7 @@ msgstr "Visar Pay Later-meddelanden för tillgängliga erbjudanden."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1435
 msgid "Display Pay Later messaging On"
-msgstr "Visa senare betalning meddelande På"
+msgstr "Visa Pay Later-meddelanden på"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1440
 msgid "Home"
@@ -1988,12 +1978,12 @@ msgid ""
 "Set the page(s) you want to display messaging on, and then adjust that "
 "page's display option below."
 msgstr ""
-"Ställ in den sida/sidor du vill visa meddelanden på, och justera sedan "
-"sidans visningsalternativ nedan."
+"Ange sidan/sidorna där du vill visa meddelanden och justera sedan sidans "
+"visningsalternativ nedan."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1444
 msgid "Home Page"
-msgstr "Hemside"
+msgstr "Startsida"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1450
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1537
@@ -2065,7 +2055,7 @@ msgstr "Ingen"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1727
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1813
 msgid "Logo Position"
-msgstr "Logotypens position"
+msgstr "Logotypposition"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1474
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1561
@@ -2081,7 +2071,7 @@ msgstr "Vänster"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1733
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1819
 msgid "Right"
-msgstr "Rätt"
+msgstr "Höger"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1474
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1561
@@ -2147,7 +2137,7 @@ msgstr "Färg"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1760
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1846
 msgid "White (No Border)"
-msgstr "Vit (Ingen kant)"
+msgstr "Vit (Ingen ram)"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1501
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1588
@@ -2171,7 +2161,7 @@ msgstr "Förhållande"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
 msgid "Flexes between 120px and 300px wide"
-msgstr "Flexar mellan 120px och 300px bred"
+msgstr "Flexibel mellan 120px och 300px bred"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
@@ -2187,7 +2177,7 @@ msgstr "160px bred"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
 msgid "Flexes between 250px and 768px wide"
-msgstr "Flexar mellan 250px och 768px bred"
+msgstr "Flexibel mellan 250px och 768px bred"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1510
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1597
@@ -2195,7 +2185,7 @@ msgstr "Flexar mellan 250px och 768px bred"
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1769
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1855
 msgid "Flexes between 250px and 1169px wide"
-msgstr "Flexar mellan 250px och 1169px bred"
+msgstr "Flexibel mellan 250px och 1169px bred"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1514
 msgid ""
@@ -2231,7 +2221,7 @@ msgid ""
 "product page."
 msgstr ""
 "Jag behöver en kortkod så att jag kan placera meddelandet på en bättre plats"
-" på produkt sidan."
+" på produktsidan."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1773
 msgid ""
@@ -2239,7 +2229,7 @@ msgid ""
 "page."
 msgstr ""
 "Jag behöver en kortkod så att jag kan placera meddelandet på en bättre plats"
-" på kundvagnssidan."
+" på varukorgsidan."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1789
 msgid "Payment Page"
@@ -2262,7 +2252,7 @@ msgid ""
 "Choose whether you wish to capture funds immediately or authorize payment "
 "only."
 msgstr ""
-"Välj om du vill fånga medel omedelbart eller endast auktorisera betalningen."
+"Välj om du vill fånga medel omedelbart eller bara auktorisera betalningen."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1886
 msgid "Capture"
@@ -2281,7 +2271,7 @@ msgid ""
 "This controls what users see as the brand / company name on PayPal review "
 "pages."
 msgstr ""
-"Detta styr vad användare ser som varumärket / företagsnamnet på PayPal-"
+"Detta styr vad användare ser som varumärke/företagsnamn på PayPals "
 "granskningssidor."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1898
@@ -2293,9 +2283,9 @@ msgid ""
 "The type of landing page to show on the PayPal site for customer checkout. "
 "PayPal Account Optional must be checked for this option to be used."
 msgstr ""
-"Typen av landningssida som ska visas på PayPal-webbplatsen för kundens "
-"kassa. PayPal-konto valfritt måste vara markerat för att detta alternativ "
-"ska kunna användas."
+"Typen av landningssida att visa på PayPal-webbplatsen för kundkassan. "
+"PayPal-konto valfritt måste vara markerat för att detta alternativ ska kunna"
+" användas."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1902
 msgid "Login"
@@ -2320,11 +2310,11 @@ msgid ""
 "eChecks). Instead, the buyer will be required to use an instant funding "
 "source, such as an instant transfer, a credit/debit card, or PayPal Credit."
 msgstr ""
-"Om du aktiverar den här inställningen kommer PayPal att instrueras att inte "
+"Om du aktiverar denna inställning kommer PayPal att instrueras att inte "
 "tillåta köparen att använda finansieringskällor som tar extra tid att "
-"slutföra (till exempel eChecks). Istället kommer köparen att behöva använda "
-"en omedelbar finansieringskälla, såsom en omedelbar överföring, ett "
-"kredit-/betalkort eller PayPal Credit."
+"slutföra (till exempel eChecks). Istället måste köparen använda en omedelbar"
+" finansieringskälla, som en omedelbar överföring, ett kredit-/betalkort "
+"eller PayPal Credit."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1916
 msgid "Require Instant Payment"
@@ -2336,51 +2326,51 @@ msgstr "Faktureringsadress"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1920
 msgid "Use PayPal Shipping Address as Billing"
-msgstr "Använd PayPal-fraktadress som fakturaadress"
+msgstr "Använd PayPals leveransadress som faktureringsadress"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1921
 msgid ""
 "If the billing address is empty and PayPal provides a shipping address, the "
 "order will use the shipping address as the billing address."
 msgstr ""
-"Om faktureringsadressen är tom och PayPal tillhandahåller en leveransadress,"
-" kommer beställningen att använda leveransadressen som faktureringsadress."
+"Om faktureringsadressen är tom och PayPal tillhandahåller en leveransadress "
+"kommer beställningen att använda leveransadressen som faktureringsadress."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1927
 msgid "Send Item Details"
-msgstr "Skicka artikelinformation"
+msgstr "Skicka artikeldetaljer"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1928
 msgid "Send line item details to PayPal"
-msgstr "Skicka radpostdetaljer till PayPal"
+msgstr "Skicka radartikelsdetaljer till PayPal"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1930
 msgid ""
 "Include all line item details in the payment request to PayPal so that they "
 "can be seen from the PayPal transaction details page."
 msgstr ""
-"Inkludera alla radpostdetaljer i betalningsbegäran till PayPal så att de kan"
-" ses från PayPal-transaktionsdetaljsidan."
+"Inkludera alla radartikelsdetaljer i betalningsbegäran till PayPal så att de"
+" kan ses från PayPals transaktionsdetaljsida."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1934
 msgid "Order Review Page"
-msgstr "Beställningsgranskningssidan"
+msgstr "Beställningsgranskningssida"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1935
 msgid "Skip Order Review Page"
-msgstr "Hoppa över beställningsgranskningssidan"
+msgstr "Hoppa över beställningsgranskningssida"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1937
 msgid ""
 "Payments from the Product or Cart page skip the review step and go straight "
 "to the Thank You page."
 msgstr ""
-"Betalningar från produkt- eller kundvagnssidan hoppar över granskningssteget"
-" och går direkt till tack-sidan."
+"Betalningar från produkt- eller varukorgsidan hoppar över granskningssteget "
+"och går direkt till tacksidan."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1944
 msgid "Invoice prefix"
-msgstr "Faktura-prefix"
+msgstr "Fakturaprefix"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1946
 msgid ""
@@ -2388,19 +2378,19 @@ msgid ""
 "account for multiple stores ensure this prefix is unique as PayPal will not "
 "allow orders with the same invoice number."
 msgstr ""
-"Vänligen ange ett prefix för dina fakturanummer. Om du använder ditt PayPal-"
-"konto för flera butiker, se till att detta prefix är unikt, eftersom PayPal "
-"inte tillåter beställningar med samma fakturanummer."
+"Ange ett prefix för dina fakturanummer. Om du använder ditt PayPal-konto för"
+" flera butiker, se till att detta prefix är unikt eftersom PayPal inte "
+"tillåter beställningar med samma fakturanummer."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1951
 msgid "Credit Card Statement Name"
-msgstr "Kreditkortssaldonamn"
+msgstr "Namn på kreditkortsutdrag"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1953
 msgid ""
 "The value entered here will be displayed on the buyer's credit card "
 "statement."
-msgstr "Värdet som anges här kommer att visas på köparens kreditkortssaldo."
+msgstr "Värdet som anges här visas på köparens kreditkortsutdrag."
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1959
 msgid "Debug log"
@@ -2413,12 +2403,11 @@ msgstr "Aktivera loggning"
 #. translators: %s is the path to the WooCommerce PayPal debug log file.
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php:1965
 msgid "Log PayPal events, such as Webhook, Payment, Refund inside %s"
-msgstr ""
-"Logga PayPal-händelser, såsom Webhook, Betalning, Återbetalning inuti %s"
+msgstr "Logga PayPal-händelser, som Webhook, Betalning, Återbetalning i %s"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:137
 msgid "PayPal Shipment Tracking"
-msgstr "PayPal Fraktspårning"
+msgstr "PayPal-leveransspårning"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:177
 msgid "Transaction Id"
@@ -2434,7 +2423,7 @@ msgstr "Status"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:194
 msgid "Carrier"
-msgstr "Bärare"
+msgstr "Transportör"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:196
 msgid "Select Carrier"
@@ -2442,7 +2431,7 @@ msgstr "Välj transportör"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:210
 msgid "Carrier Name*"
-msgstr "Fraktbolagets namn*"
+msgstr "Transportörsnamn*"
 
 #: ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-tracking.php:217
 msgid "Add tracking information"
@@ -2451,7 +2440,7 @@ msgstr "Lägg till spårningsinformation"
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:292
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2203
 msgid "Something went wrong. Please try again."
-msgstr "Något gick fel. Vänligen försök igen."
+msgstr "Något gick fel. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:335
 msgid "Billing address didn’t match the card (AVS)."
@@ -2463,19 +2452,19 @@ msgstr "Säkerhetskoden (CVV) matchade inte."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:345
 msgid "The payer opened a dispute with PayPal."
-msgstr "Betalaren öppnade en tvist med PayPal."
+msgstr "Betalaren öppnade en tvist hos PayPal."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:348
 msgid "The issuer reversed the charge (chargeback)."
-msgstr "Utgivaren återförde avgiften (återbetalning)."
+msgstr "Utgivaren återförde debiteringen (chargeback)."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:351
 msgid "Payment by eCheck—awaiting clearance."
-msgstr "Betalning via eCheck—väntar på godkännande."
+msgstr "Betalning via eCheck—inväntar godkännande."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:354
 msgid "Action required in your PayPal account (international withdrawal)."
-msgstr "Åtgärd krävs i ditt PayPal-konto (internationalt uttag)."
+msgstr "Åtgärd krävs i ditt PayPal-konto (internationellt uttag)."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:357
 msgid "Payment pending manual review."
@@ -2484,23 +2473,24 @@ msgstr "Betalning väntar på manuell granskning."
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:360
 msgid "Payee receiving preference requires action (often currency related)."
 msgstr ""
-"Betalaren som tar emot preferens kräver åtgärd (ofta relaterad till valuta)."
+"Betalningsmottagarens mottagningspreferens kräver åtgärd (ofta "
+"valutarelaterat)."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:363
 msgid "Funds were refunded."
-msgstr "Medlen återbetalades."
+msgstr "Medlen har återbetalats."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:366
 msgid "Approved—waiting for payer to send funds."
-msgstr "Godkänd—väntar på att betalaren ska skicka medlen."
+msgstr "Godkänt—väntar på att betalaren skickar medel."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:369
 msgid "Payee does not have a PayPal account."
-msgstr "Mottagaren har inte ett PayPal-konto."
+msgstr "Betalningsmottagaren har inget PayPal-konto."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:372
 msgid "Payee’s PayPal account requires verification."
-msgstr "Betalarens PayPal-konto kräver verifiering."
+msgstr "Betalningsmottagarens PayPal-konto kräver verifiering."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:385
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1210
@@ -2510,23 +2500,23 @@ msgstr "Transaktionen kunde inte slutföras."
 #. translators: 1: payment method title, 2: pending reason text
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:393
 msgid "Payment via %1$s pending. %2$s"
-msgstr "Betalning via %1$s är på väg. %2$s"
+msgstr "Betalning via %1$s väntar. %2$s"
 
 #. translators: 1: payment method title, 2: decline reason text
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:405
 msgid "Payment via %1$s declined. %2$s"
-msgstr "Betalning via %1$s avvisades. %2$s"
+msgstr "Betalning via %1$s nekad. %2$s"
 
 #. translators: %s: payment failure reason
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:415
 msgid "Payment declined. %s"
-msgstr "Betalning avslogs. %s"
+msgstr "Betalning nekad. %s"
 
 #. translators: 1: processor response code, 2: AVS result, 3: CVV result
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:428
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:465
 msgid "Processor response: code=%1$s, AVS=%2$s, CVV=%3$s"
-msgstr "Processor svar: kod=%1$s, AVS=%2$s, CVV=%3$s"
+msgstr "Processorsvar: kod=%1$s, AVS=%2$s, CVV=%3$s"
 
 #. translators: 1: payment method title, 2: failure reason
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:442
@@ -2536,25 +2526,25 @@ msgstr "Betalning via %1$s misslyckades. %2$s"
 #. translators: %s: payment failure reason
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:452
 msgid "Payment failed. %s"
-msgstr "Betalningen misslyckades. %s"
+msgstr "Betalning misslyckades. %s"
 
 #. translators: 1: payment method title, 2: PayPal refund reason
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:480
 msgid "Payment via %1$s partially refunded. PayPal reason: %2$s."
-msgstr "Betalning via %1$s delvis återbetalad. PayPal-anledning: %2$s."
+msgstr "Betalning via %1$s delvis återbetald. PayPal-orsak: %2$s."
 
 #. translators: 1: payment method title, 2: PayPal refund reason
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:493
 msgid "Payment via %1$s refunded. PayPal reason: %2$s."
-msgstr "Betalning via %1$s återbetalad. PayPal-anledning: %2$s."
+msgstr "Betalning via %1$s återbetald. PayPal-orsak: %2$s."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:509
 msgid "An error occurred while updating the order status."
-msgstr "Ett fel inträffade vid uppdatering av orderstatus."
+msgstr "Ett fel uppstod vid uppdatering av beställningsstatusen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1113
 msgid "PayPal Credit"
-msgstr "PayPal Kredit"
+msgstr "PayPal Credit"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1114
 msgid "Bancontact"
@@ -2578,7 +2568,7 @@ msgstr "Mercado Pago"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1119
 msgid "MyBank"
-msgstr "MinBank"
+msgstr "MyBank"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1120
 msgid "Przelewy24"
@@ -2586,7 +2576,7 @@ msgstr "Przelewy24"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1121
 msgid "SEPA-Lastschrift"
-msgstr "SEPA-dragning"
+msgstr "SEPA-Lastschrift"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1122
 msgid "Venmo"
@@ -2594,47 +2584,43 @@ msgstr "Venmo"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1123
 msgid "PayPal Pay Later"
-msgstr "Betala senare med PayPal"
+msgstr "PayPal Pay Later"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1124
 msgid "PayPal Checkout"
-msgstr "PayPal Utcheckning"
+msgstr "PayPal Checkout"
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1181
 msgid "Approved."
-msgstr "Godkänd."
+msgstr "Godkänt."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1182
 msgid "The card security code (CVV) was incorrect."
-msgstr "Kortets säkerhetskod (CVV) var felaktig."
+msgstr "Kortsäkerhetskoden (CVV) var felaktig."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1183
 msgid "Your bank needs to approve this. Please contact your card issuer."
-msgstr "Din bank behöver godkänna detta. Vänligen kontakta din kortutgivare."
+msgstr "Din bank behöver godkänna detta. Kontakta din kortutgivare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1184
 msgid "We could not find this account. Please check your card details."
-msgstr ""
-"Vi kunde inte hitta detta konto. Vänligen kontrollera dina kortuppgifter."
+msgstr "Vi kunde inte hitta detta konto. Kontrollera dina kortuppgifter."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1185
 msgid "The bank declined this transaction. Please try another payment method."
-msgstr ""
-"Banken avslog denna transaktion. Vänligen försök med en annan "
-"betalningsmetod."
+msgstr "Banken nekade denna transaktion. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1186
 msgid "This transaction is not authorized. Please contact your card issuer."
-msgstr ""
-"Denna transaktion är inte auktoriserad. Vänligen kontakta din kortutgivare."
+msgstr "Denna transaktion är inte auktoriserad. Kontakta din kortutgivare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1187
 msgid "There was a processing issue. The payment was reversed."
-msgstr "Det uppstod ett behandlingsproblem. Betalningen återfördes."
+msgstr "Det uppstod ett bearbetningsproblem. Betalningen återfördes."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1188
 msgid "A security check failed. Please try again."
-msgstr "En säkerhetskontroll misslyckades. Vänligen försök igen."
+msgstr "En säkerhetskontroll misslyckades. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1189
 msgid "The PIN was not accepted."
@@ -2642,20 +2628,20 @@ msgstr "PIN-koden accepterades inte."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1190
 msgid "Temporary system issue. Please try again later."
-msgstr "Tillfälligt systemproblem. Vänligen försök igen senare."
+msgstr "Tillfälligt systemfel. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1191
 msgid "Payment was canceled."
-msgstr "Betalningen har avbrutits."
+msgstr "Betalningen avbröts."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1192
 msgid "Only part of the amount was approved."
-msgstr "Endast en del av beloppet godkändes."
+msgstr "Bara en del av beloppet godkändes."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1193
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1211
 msgid "The bank declined this transaction."
-msgstr "Banken avslog denna transaktion."
+msgstr "Banken nekade denna transaktion."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1194
 msgid "Invalid data format."
@@ -2667,7 +2653,7 @@ msgstr "Ogiltigt belopp."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1196
 msgid "Card issuer/acquirer not allowed for this transaction."
-msgstr "Kortutgivare/erhåller inte tillåten för denna transaktion."
+msgstr "Kortutgivare/inlösare inte tillåten för denna transaktion."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1197
 msgid "Invalid capture date."
@@ -2675,7 +2661,7 @@ msgstr "Ogiltigt fångstdatum."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1198
 msgid "Unsupported currency for this card."
-msgstr "Otillåten valuta för detta kort."
+msgstr "Valutan stöds inte för detta kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1199
 msgid "Invalid account number."
@@ -2691,7 +2677,7 @@ msgstr "Ogiltig terminalkonfiguration."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1202
 msgid "Invalid merchant configuration."
-msgstr "Ogiltig handlarinställning."
+msgstr "Ogiltig handlarkonfiguration."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1203
 msgid "The account is restricted or inactive."
@@ -2703,11 +2689,11 @@ msgstr "Ogiltig bearbetningskod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1205
 msgid "Invalid merchant category."
-msgstr "Ogiltig handelskategori."
+msgstr "Ogiltig handlarkategori."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1206
 msgid "Invalid card expiry date."
-msgstr "Ogiltigt utgångsdatum för kortet."
+msgstr "Ogiltigt kortutgångsdatum."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1207
 msgid "Invalid card security code (CVV)."
@@ -2715,7 +2701,7 @@ msgstr "Ogiltig kortsäkerhetskod (CVV)."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1208
 msgid "Invalid transaction state."
-msgstr "Ogiltigt transaktionsläge."
+msgstr "Ogiltigt transaktionsstatus."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1209
 msgid "Invalid order."
@@ -2723,20 +2709,20 @@ msgstr "Ogiltig beställning."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1212
 msgid "The card security code (CVV) did not match."
-msgstr "Kortets säkerhetskod (CVV) matchade inte."
+msgstr "Kortsäkerhetskoden (CVV) matchade inte."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1213
 msgid "Insufficient funds."
-msgstr "Otillräckliga medel."
+msgstr "Otillräckligt saldo."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1214
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1225
 msgid "Incorrect PIN."
-msgstr "Felaktig PIN-kod."
+msgstr "Felaktig PIN."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1215
 msgid "Too many incorrect PIN attempts."
-msgstr "För många felaktiga PIN-kodförsök."
+msgstr "För många felaktiga PIN-försök."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1216
 msgid "This card is closed."
@@ -2744,7 +2730,7 @@ msgstr "Detta kort är stängt."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1217
 msgid "Card capture requested by the bank."
-msgstr "Kortinlåsning begärd av banken."
+msgstr "Kortfångst begärd av banken."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1218
 msgid "User not authorized for this transaction."
@@ -2760,11 +2746,11 @@ msgstr "Ogiltigt eller begränsat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1221
 msgid "Address verification soft failure."
-msgstr "Adressverifiering mjukvarufel."
+msgstr "Mjukt fel vid adressverifiering."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1222
 msgid "Duplicate transaction."
-msgstr "Duplicerad transaktion."
+msgstr "Dubblerad transaktion."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1223
 msgid "Invalid transaction."
@@ -2784,499 +2770,477 @@ msgstr "Denna typ av transaktion är inte tillåten."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1228
 msgid "Too many attempts. Please try again later."
-msgstr "För många försök. Vänligen försök igen senare."
+msgstr "För många försök. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1229
 msgid "Invalid or restricted card. Please use another card."
-msgstr "Ogiltigt eller begränsat kort. Vänligen använd ett annat kort."
+msgstr "Ogiltigt eller begränsat kort. Använd ett annat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1230
 msgid "Address verification soft failure. Please check your billing address."
-msgstr ""
-"Adressverifiering mjukvarufel. Vänligen kontrollera din faktureringsadress."
+msgstr "Mjukt fel vid adressverifiering. Kontrollera din faktureringsadress."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1231
 msgid "Duplicate transaction. Please try again."
-msgstr "Duplicerad transaktion. Vänligen försök igen."
+msgstr "Dubblerad transaktion. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1232
 msgid "Invalid transaction. Please try again."
-msgstr "Ogiltig transaktion. Vänligen försök igen."
+msgstr "Ogiltig transaktion. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1233
 msgid "Expired card. Please use another card."
-msgstr "Utgången kort. Vänligen använd ett annat kort."
+msgstr "Utgånget kort. Använd ett annat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1234
 msgid "Incorrect PIN. Please re-enter your PIN."
-msgstr "Felaktig PIN-kod. Vänligen ange din PIN-kod igen."
+msgstr "Felaktig PIN. Ange din PIN igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1235
 msgid "Strong customer authentication required. Please try again."
-msgstr "Stark kundautentisering krävs. Vänligen försök igen."
+msgstr "Stark kundautentisering krävs. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1236
 msgid "Transaction not permitted. Please use another payment method."
-msgstr ""
-"Transaktionen är inte tillåten. Vänligen använd en annan betalningsmetod."
+msgstr "Transaktionen är inte tillåten. Använd en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1237
 msgid "Transaction attempts exceed limit. Please try again later."
-msgstr "Transaktionsförsök överskrider gränsen. Vänligen försök igen senare."
+msgstr "Transaktionsförsök överskrider gränsen. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1238
 msgid "Reversal rejected. Please contact support."
-msgstr "Återbetalning avvisad. Vänligen kontakta supporten."
+msgstr "Återföring avvisad. Kontakta support."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1239
 msgid "Invalid issue. Please try again."
-msgstr "Ogiltigt ärende. Vänligen försök igen."
+msgstr "Ogiltigt ärende. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1240
 msgid "Issuer not available. Please try again later."
-msgstr "Utgivaren är inte tillgänglig. Vänligen försök igen senare."
+msgstr "Utgivaren inte tillgänglig. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1241
 msgid "Issuer temporarily not available. Please try again shortly."
-msgstr ""
-"Utgivaren är tillfälligt inte tillgänglig. Vänligen försök igen om en stund."
+msgstr "Utgivaren tillfälligt otillgänglig. Försök igen snart."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1242
 msgid "Card not activated. Please activate your card and try again."
-msgstr ""
-"Kortet är inte aktiverat. Vänligen aktivera ditt kort och försök igen."
+msgstr "Kortet är inte aktiverat. Aktivera ditt kort och försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1243
 msgid "Updated card issued. Please use your new card."
-msgstr "Uppdaterat kort utfärdat. Vänligen använd ditt nya kort."
+msgstr "Uppdaterat kort utfärdat. Använd ditt nya kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1244
 msgid "Account not on file. Please check your card details."
-msgstr "Kontot finns inte i filen. Vänligen kontrollera dina kortuppgifter."
+msgstr "Konto finns inte. Kontrollera dina kortuppgifter."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1245
 msgid "Approved but not captured. No action needed."
-msgstr "Godkänd men inte fångad. Ingen åtgärd behövs."
+msgstr "Godkänt men inte fångat. Ingen åtgärd behövs."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1246
 msgid "3DS authentication error. Please try again."
-msgstr "3DS autentisering fel. Vänligen försök igen."
+msgstr "3DS-autentiseringsfel. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1247
 msgid "Authentication failed. Please try again."
-msgstr "Autentisering misslyckades. Vänligen försök igen."
+msgstr "Autentisering misslyckades. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1248
 msgid "BIN error. Please try another card."
-msgstr "BIN-fel. Vänligen försök med ett annat kort."
+msgstr "BIN-fel. Försök med ett annat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1249
 msgid "PIN error. Please try again with the correct PIN."
-msgstr "PIN-fel. Vänligen försök igen med rätt PIN-kod."
+msgstr "PIN-fel. Försök igen med rätt PIN."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1250
 msgid "Processor system error. Please try again later."
-msgstr "Processor systemfel. Vänligen försök igen senare."
+msgstr "Processorsystemfel. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1251
 msgid "Host key error. Please try again."
-msgstr "Värdnyckelfel. Vänligen försök igen."
+msgstr "Värdnyckelfel. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1252
 msgid "Configuration error. Please contact support."
-msgstr "Konfigurationsfel. Vänligen kontakta supporten."
+msgstr "Konfigurationsfel. Kontakta support."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1253
 msgid "Unsupported operation. Please try another payment method."
-msgstr "Otillåten åtgärd. Vänligen försök med en annan betalningsmetod."
+msgstr "Åtgärden stöds inte. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1254
 msgid "Communication error. Please try again later."
-msgstr "Kommunikationsfel. Vänligen försök igen senare."
+msgstr "Kommunikationsfel. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1255
 msgid "Communication error. Please try again shortly."
-msgstr "Kommunikationsfel. Vänligen försök igen snart."
+msgstr "Kommunikationsfel. Försök igen snart."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1256
 msgid "System unavailable. Please try again later."
-msgstr "Systemet är inte tillgängligt. Vänligen försök igen senare."
+msgstr "Systemet är inte tillgängligt. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1257
 msgid "Transaction declined. Please retry."
-msgstr "Transaktionen avvisades. Vänligen försök igen."
+msgstr "Transaktionen nekades. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1258
 msgid "Suspected fraud. Please use another payment method."
-msgstr "Misstänkt bedrägeri. Vänligen använd en annan betalningsmetod."
+msgstr "Misstänkt bedrägeri. Använd en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1259
 msgid "Security violation. Please contact your card issuer."
-msgstr "Säkerhetsöverträdelse. Vänligen kontakta din kortutgivare."
+msgstr "Säkerhetsöverträdelse. Kontakta din kortutgivare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1260
 msgid "Card reported lost or stolen. Please use another card."
-msgstr ""
-"Kortet har rapporterats som förlorat eller stulet. Vänligen använd ett annat"
-" kort."
+msgstr "Kortet rapporterat som förlorat eller stulet. Använd ett annat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1261
 msgid "Hold - call center. Please contact your card issuer."
-msgstr "Håll - callcenter. Vänligen kontakta din kortutgivare."
+msgstr "Spärrat - kontakta callcenter. Kontakta din kortutgivare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1262
 msgid "Card refused. Please use another payment method."
-msgstr "Kortet avvisades. Vänligen använd en annan betalningsmetod."
+msgstr "Kortet nekades. Använd en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1263
 msgid "Unrecognized response code. Please try again later."
-msgstr "Oigenkänd svarskod. Vänligen försök igen senare."
+msgstr "Okänd svarskod. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1264
 msgid "Contingencies not resolved. Please try again."
-msgstr "Oförutsedda händelser har inte lösts. Vänligen försök igen."
+msgstr "Villkor inte lösta. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1265
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1278
 msgid "CVV verification failed. Please check your CVV."
-msgstr "CVV-verifiering misslyckades. Vänligen kontrollera din CVV."
+msgstr "CVV-verifiering misslyckades. Kontrollera din CVV."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1266
 msgid "Account closed. Please use another card."
-msgstr "Kontot är stängt. Vänligen använd ett annat kort."
+msgstr "Konto stängt. Använd ett annat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1267
 msgid "Reattempt not permitted. Please use another payment method."
-msgstr ""
-"Återförsök är inte tillåtet. Vänligen använd en annan betalningsmetod."
+msgstr "Nytt försök inte tillåtet. Använd en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1268
 msgid "Billing address error. Please check your billing details."
-msgstr ""
-"Fel i faktureringsadressen. Vänligen kontrollera dina faktureringsuppgifter."
+msgstr "Fel i faktureringsadress. Kontrollera dina faktureringsuppgifter."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1269
 msgid "Account blocked by issuer. Please contact your card issuer."
-msgstr "Kontot blockerat av utgivaren. Vänligen kontakta din kortutgivare."
+msgstr "Konto blockerat av utgivaren. Kontakta din kortutgivare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1270
 msgid "American Express card disabled. Please use another card."
-msgstr ""
-"American Express-kortet är inaktiverat. Vänligen använd ett annat kort."
+msgstr "American Express-kort avaktiverat. Använd ett annat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1271
 msgid "Adult gaming not supported. Please use another payment method."
-msgstr "Vuxen spelande stöds inte. Vänligen använd en annan betalningsmetod."
+msgstr "Vuxenspel stöds inte. Använd en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1272
 msgid "Amount incompatible. Please try a different amount."
-msgstr "Beloppet är inkompatibelt. Vänligen försök med ett annat belopp."
+msgstr "Beloppet är inkompatibelt. Försök med ett annat belopp."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1273
 msgid "Authorization result error. Please try again."
-msgstr "Autentisering resultatfel. Vänligen försök igen."
+msgstr "Fel i auktoriseringsresultat. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1274
 msgid "MCC code error. Please contact support."
-msgstr "MCC-kodfel. Vänligen kontakta supporten."
+msgstr "MCC-kodfel. Kontakta support."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1275
 msgid "Address verification failed. Please check your billing address."
-msgstr ""
-"Adressverifiering misslyckades. Vänligen kontrollera din faktureringsadress."
+msgstr "Adressverifiering misslyckades. Kontrollera din faktureringsadress."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1276
 msgid "Amount exceeded. Please try a smaller amount."
-msgstr "Beloppet överskreds. Vänligen försök med ett mindre belopp."
+msgstr "Beloppet överskridet. Försök med ett lägre belopp."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1277
 msgid "Gaming transaction error. Please use another payment method."
-msgstr "Fel vid speltransaktion. Vänligen använd en annan betalningsmetod."
+msgstr "Speltransaktionsfel. Använd en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1279
 msgid "Registration incomplete. Please complete registration."
-msgstr "Registreringen är ofullständig. Vänligen slutför registreringen."
+msgstr "Registreringen är ofullständig. Slutför registreringen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1280
 msgid "Country error. Please try another payment method."
-msgstr "Länderfel. Vänligen försök med en annan betalningsmetod."
+msgstr "Landsfel. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1281
 msgid "Credit error. Please try another payment method."
-msgstr "Kreditfel. Vänligen försök med en annan betalningsmetod."
+msgstr "Kreditfel. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1282
 msgid "Card type not supported. Please use another card."
-msgstr "Korttyp stöds inte. Vänligen använd ett annat kort."
+msgstr "Korttypen stöds inte. Använd ett annat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1283
 msgid "Invalid currency. Please select a supported currency."
-msgstr "Ogiltig valuta. Vänligen välj en stödd valuta."
+msgstr "Ogiltig valuta. Välj en valuta som stöds."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1284
 msgid "3D Secure authentication error. Please try again."
-msgstr "3D Secure autentisering fel. Vänligen försök igen."
+msgstr "3D Secure-autentiseringsfel. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1285
 msgid "Dynamic currency conversion not supported. Please try again."
-msgstr "Dynamisk valutakonvertering stöds inte. Vänligen försök igen."
+msgstr "Dynamisk valutaomvandling stöds inte. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1286
 msgid "Diners Club card rejected. Please use another card."
-msgstr "Diners Club-kortet avvisades. Vänligen använd ett annat kort."
+msgstr "Diners Club-kort avvisat. Använd ett annat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1287
 msgid "Authentication message error. Please try again."
-msgstr "Autentiseringsmeddelandefel. Vänligen försök igen."
+msgstr "Fel i autentiseringsmeddelande. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1288
 msgid "Decline threshold exceeded. Please try again later."
-msgstr "Avvisningsgränsen har överskridits. Vänligen försök igen senare."
+msgstr "Avvisningströskel överskriden. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1289
 msgid "Funding instrument expired. Please use another payment method."
 msgstr ""
-"Finansieringsinstrumentet har gått ut. Vänligen använd en annan "
-"betalningsmetod."
+"Finansieringsinstrumentet har gått ut. Använd en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1290
 msgid "Frequency limit exceeded. Please try again later."
-msgstr "Frekvensgränsen överskriden. Vänligen försök igen senare."
+msgstr "Frekvensgränsen överskriden. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1291
 msgid "System error. Please try again later."
-msgstr "Systemfel. Vänligen försök igen senare."
+msgstr "Systemfel. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1292
 msgid "Expiry date error. Please check your card details."
-msgstr "Utgångsdatum fel. Vänligen kontrollera dina kortuppgifter."
+msgstr "Fel i utgångsdatum. Kontrollera dina kortuppgifter."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1293
 msgid "Funding source already exists. Please use another payment method."
-msgstr ""
-"Finansieringskällan finns redan. Vänligen använd en annan betalningsmetod."
+msgstr "Finansieringskällan finns redan. Använd en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1294
 msgid "Invalid funding instrument. Please try another payment method."
 msgstr ""
-"Ogiltigt finansieringsinstrument. Vänligen försök med en annan "
-"betalningsmetod."
+"Ogiltigt finansieringsinstrument. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1295
 msgid "Restricted funding instrument. Please try another payment method."
 msgstr ""
-"Begränsat finansieringsinstrument. Vänligen försök med en annan "
-"betalningsmetod."
+"Begränsat finansieringsinstrument. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1296
 msgid "Field validation failed. Please check your payment details."
-msgstr ""
-"Fältvalidering misslyckades. Vänligen kontrollera dina betalningsuppgifter."
+msgstr "Fältvalidering misslyckades. Kontrollera dina betalningsuppgifter."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1297
 msgid "Gaming refund error. Please contact support."
-msgstr "Fel vid återbetalning av spel. Vänligen kontakta supporten."
+msgstr "Spelåterbetalningsfel. Kontakta support."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1298
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1307
 msgid "Processing error. Please try again."
-msgstr "Behandlingsfel. Vänligen försök igen."
+msgstr "Bearbetningsfel. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1299
 msgid "Idempotency failure. Please try again."
-msgstr "Idempotensfel. Vänligen försök igen."
+msgstr "Idempotensfel. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1300
 msgid "Invalid input. Please check your payment details."
-msgstr "Ogiltig inmatning. Vänligen kontrollera dina betalningsuppgifter."
+msgstr "Ogiltig inmatning. Kontrollera dina betalningsuppgifter."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1301
 msgid "ID mismatch. Please try again."
-msgstr "ID-mismatch. Vänligen försök igen."
+msgstr "ID-matchningsfel. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1302
 msgid "Invalid trace ID. Please try again."
-msgstr "Ogiltig spår-ID. Vänligen försök igen."
+msgstr "Ogiltigt spårnings-ID. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1303
 msgid "Late reversal. Please contact support."
-msgstr "Sen omvändelse. Vänligen kontakta supporten."
+msgstr "Sen återföring. Kontakta support."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1304
 msgid "Status code error. Please try again."
-msgstr "Statuskodfel. Vänligen försök igen."
+msgstr "Statuskodfel. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1305
 msgid "Missing business rule or data. Please try again."
-msgstr "Saknad affärsregel eller data. Vänligen försök igen."
+msgstr "Saknad affärsregel eller data. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1306
 msgid "Mastercard blocked. Please use another card."
-msgstr "Mastercard blockerad. Vänligen använd ett annat kort."
+msgstr "Mastercard blockerat. Använd ett annat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1308
 msgid "Not supported. Please try another payment method."
-msgstr "Inte stöds. Vänligen försök med en annan betalningsmetod."
+msgstr "Stöds inte. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1309
 msgid "Network frequency limit exceeded. Please try again later."
-msgstr "Nätverksfrekvensgränsen överskriden. Vänligen försök igen senare."
+msgstr "Nätverksfrekvensgräns överskriden. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1310
 msgid "Merchant ID not found. Please contact support."
-msgstr "Handels-ID hittades inte. Vänligen kontakta supporten."
+msgstr "Handlar-ID hittades inte. Kontakta support."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1311
 msgid "Network error. Please try again later."
-msgstr "Nätverksfel. Vänligen försök igen senare."
+msgstr "Nätverksfel. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1312
 msgid "Phone required for this transaction. Please update your details."
-msgstr ""
-"Telefon krävs för denna transaktion. Vänligen uppdatera dina uppgifter."
+msgstr "Telefon krävs för denna transaktion. Uppdatera dina uppgifter."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1313
 msgid "Invalid product. Please try another product."
-msgstr "Ogiltig produkt. Vänligen försök med en annan produkt."
+msgstr "Ogiltig produkt. Försök med en annan produkt."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1314
 msgid "Invalid payment method. Please try another payment method."
-msgstr ""
-"Ogiltig betalningsmetod. Vänligen försök med en annan betalningsmetod."
+msgstr "Ogiltig betalningsmetod. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1315
 msgid "Quasi-cash not supported. Please use another payment method."
-msgstr "Quasi-kontanter stöds inte. Vänligen använd en annan betalningsmetod."
+msgstr "Kvasi-kontant stöds inte. Använd en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1316
 msgid "Refund not supported on pending transactions. Please try again later."
 msgstr ""
-"Återbetalning stöds inte på pågående transaktioner. Vänligen försök igen "
-"senare."
+"Återbetalning stöds inte för väntande transaktioner. Försök igen senare."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1317
 msgid "Invalid parent transaction status. Please try again."
-msgstr "Ogiltig status för överordnad transaktion. Vänligen försök igen."
+msgstr "Ogiltig status för överordnad transaktion. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1318
 msgid "Merchant not registered. Please contact support."
-msgstr "Handlaren är inte registrerad. Vänligen kontakta supporten."
+msgstr "Handlaren är inte registrerad. Kontakta support."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1319
 msgid "Bank authorization mismatch. Please try again."
-msgstr "Bankauktorisering matchar inte. Vänligen försök igen."
+msgstr "Bankauktorisering matchar inte. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1320
 msgid "Bank authorization already settled. Please try again."
-msgstr "Bankautoriseringen har redan bekräftats. Vänligen försök igen."
+msgstr "Bankauktorisering redan avgjord. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1321
 msgid "Bank authorization voided. Please try again."
-msgstr "Bankauktorisering ogiltig. Vänligen försök igen."
+msgstr "Bankauktorisering ogiltigförklarad. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1322
 msgid "Bank authorization expired. Please try again."
-msgstr "Bankauktorisationen har gått ut. Vänligen försök igen."
+msgstr "Bankauktorisering utgången. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1323
 msgid "Currency mismatch. Please try again with the correct currency."
-msgstr "Valuta mismatch. Vänligen försök igen med rätt valuta."
+msgstr "Valutamatchningsfel. Försök igen med rätt valuta."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1324
 msgid "Credit card mismatch. Please check your card details."
-msgstr "Kreditkortet stämmer inte. Vänligen kontrollera dina kortuppgifter."
+msgstr "Kreditkortsmatchningsfel. Kontrollera dina kortuppgifter."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1325
 msgid "Amount mismatch. Please try again with the correct amount."
-msgstr ""
-"Beloppet stämmer inte. Vänligen försök igen med det korrekta beloppet."
+msgstr "Beloppsmatchningsfel. Försök igen med rätt belopp."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1326
 msgid "Score error. Please try again."
-msgstr "Poängfel. Vänligen försök igen."
+msgstr "Poängfel. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1327
 msgid "Status description error. Please try again."
-msgstr "Statusbeskrivningsfel. Vänligen försök igen."
+msgstr "Fel i statusbeskrivning. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1328
 msgid "American Express declined. Please use another card."
-msgstr "American Express avböjde. Vänligen använd ett annat kort."
+msgstr "American Express nekad. Använd ett annat kort."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1329
 msgid "Verification token expired. Please try again."
-msgstr "Verifieringstokenet har gått ut. Vänligen försök igen."
+msgstr "Verifieringstoken utgånget. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1330
 msgid "Invalid trace reference. Please try again."
-msgstr "Ogiltig spårreferens. Vänligen försök igen."
+msgstr "Ogiltig spårningsreferens. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1331
 msgid "Invalid transaction ID. Please try again."
-msgstr "Ogiltig transaktions-ID. Vänligen försök igen."
+msgstr "Ogiltigt transaktions-ID. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1332
 msgid "Verification token revoked. Please try again."
-msgstr "Verifieringstokenet har återkallats. Vänligen försök igen."
+msgstr "Verifieringstoken återkallat. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1333
 msgid "Transaction type not supported. Please try another payment method."
-msgstr ""
-"Transaktionstyp stöds inte. Vänligen försök med en annan betalningsmetod."
+msgstr "Transaktionstypen stöds inte. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1334
 msgid "Invalid verification token. Please try again."
-msgstr "Ogiltig verifieringstoken. Vänligen försök igen."
+msgstr "Ogiltig verifieringstoken. Försök igen."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1335
 msgid "User not authorized. Please contact support."
-msgstr "Användaren är inte auktoriserad. Vänligen kontakta supporten."
+msgstr "Användaren är inte auktoriserad. Kontakta support."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1336
 msgid "Currency not supported. Please select a supported currency."
-msgstr "Valuta stöds inte. Vänligen välj en stödd valuta."
+msgstr "Valutan stöds inte. Välj en valuta som stöds."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1337
 msgid "Entity not supported. Please try another payment method."
-msgstr "Enheten stöds inte. Vänligen försök med en annan betalningsmetod."
+msgstr "Enheten stöds inte. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1338
 msgid "Installment not supported. Please try another payment method."
-msgstr "Avbetalning stöds inte. Vänligen försök med en annan betalningsmetod."
+msgstr "Avbetalning stöds inte. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1339
 msgid "POS flag not supported. Please try another payment method."
-msgstr "POS-flagga stöds inte. Vänligen försök med en annan betalningsmetod."
+msgstr "POS-flagga stöds inte. Försök med en annan betalningsmetod."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1340
 msgid "Reversal not supported. Please contact support."
-msgstr "Återbetalning stöds inte. Vänligen kontakta supporten."
+msgstr "Återföring stöds inte. Kontakta support."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1341
 msgid "Currency validation error. Please select a supported currency."
-msgstr "Valideringsfel för valuta. Vänligen välj en stödd valuta."
+msgstr "Valutavalideringsfel. Välj en valuta som stöds."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1342
 msgid "Validation error. Please check your payment details."
-msgstr "Valideringsfel. Vänligen kontrollera dina betalningsuppgifter."
+msgstr "Valideringsfel. Kontrollera dina betalningsuppgifter."
 
 #: ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php:1343
 msgid "Virtual terminal not supported. Please try another payment method."
-msgstr ""
-"Virtuell terminal stöds inte. Vänligen försök med en annan betalningsmetod."
+msgstr "Virtuell terminal stöds inte. Försök med en annan betalningsmetod."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:540
-#, fuzzy
 msgid "An unknown error occurred with your payment. Please try again."
-msgstr "Saknad affärsregel eller data. Vänligen försök igen."
+msgstr "Ett okänt fel uppstod med din betalning. Försök igen."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:541
 msgid "Please enter a valid card number."
-msgstr "Vänligen ange ett giltigt kortnummer."
+msgstr "Ange ett giltigt kortnummer."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:542
 msgid "Please enter a valid CVV."
-msgstr "Vänligen ange en giltig CVV."
+msgstr "Ange en giltig CVV."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:543
 msgid "Please enter a valid expiration date."
@@ -3284,16 +3248,15 @@ msgstr "Ange ett giltigt utgångsdatum."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:545
 msgid "An unknown error occurred."
-msgstr "Ett okänt fel inträffade."
+msgstr "Ett okänt fel uppstod."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:546
 msgid "Unknown error"
 msgstr "Okänt fel"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:549
-#, fuzzy
 msgid "Google Pay failed."
-msgstr "Google Pay"
+msgstr "Google Pay misslyckades."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:552
 msgid "Apple Pay could not be initialized."
@@ -3301,17 +3264,15 @@ msgstr "Apple Pay kunde inte initieras."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:553
 msgid "Apple Pay confirmation returned non-APPROVED status."
-msgstr "Apple Pay-bekräftelse returnerade statusen ej GODKÄND."
+msgstr "Apple Pay-bekräftelse returnerade en icke-GODKÄND status."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:554
-#, fuzzy
 msgid "Apple Pay session cancelled."
-msgstr "Betalningen har avbrutits."
+msgstr "Apple Pay-session avbruten."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:557
-#, fuzzy
 msgid "Order creation failed."
-msgstr "Adressverifiering misslyckades."
+msgstr "Beställningsskapande misslyckades."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:558
 msgid "Shipping address is incomplete."
@@ -3322,23 +3283,20 @@ msgid "We do not ship to this address."
 msgstr "Vi levererar inte till denna adress."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:560
-#, fuzzy
 msgid "Invalid shipping method."
-msgstr "Ogiltig bearbetningskod."
+msgstr "Ogiltig leveransmetod."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:563
-#, fuzzy
 msgid "Shipping"
-msgstr "Fraktinformation"
+msgstr "Frakt"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:564
 msgid "Tax"
 msgstr "Skatt"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:565
-#, fuzzy
 msgid "Discount"
-msgstr "Koppla bort"
+msgstr "Rabatt"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:566
 msgid "Total"
@@ -3353,7 +3311,7 @@ msgstr "Eller"
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:844
 msgctxt "Important"
 msgid "Express Checkout"
-msgstr "Snabbetalning"
+msgstr "Snabbkassa"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:864
 msgctxt "Important"
@@ -3362,11 +3320,11 @@ msgstr "Eller fortsätt nedan"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1051
 msgid "Items"
-msgstr "Objekt"
+msgstr "Artiklar"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1217
 msgid "Billing &amp; Shipping"
-msgstr "Fakturering &amp; Frakt"
+msgstr "Fakturering &amp; frakt"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1219
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1225
@@ -3376,11 +3334,11 @@ msgstr "Redigera"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1223
 msgid "Billing details"
-msgstr "Fakturainformation"
+msgstr "Faktureringsuppgifter"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1243
 msgid "Shipping details"
-msgstr "Fraktinformation"
+msgstr "Leveransuppgifter"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1415
 msgid "Create an account?"
@@ -3392,7 +3350,7 @@ msgid ""
 "customer please login at the top of the page."
 msgstr ""
 "Skapa ett konto genom att ange informationen nedan. Om du är en återkommande"
-" kund, vänligen logga in högst upp på sidan."
+" kund, logga in högst upp på sidan."
 
 #. translators: %1$s is the payment method title, %2$s is the formatted
 #. payment status.
@@ -3404,7 +3362,7 @@ msgstr "Betalning via %1$s: %2$s."
 #. from PayPal.
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1651
 msgid "Payment via %1$s Pending. PayPal reason: %2$s."
-msgstr "Betalning via %1$s är på väg. PayPal-anledning: %2$s."
+msgstr "Betalning via %1$s väntar. PayPal-orsak: %2$s."
 
 #. translators: %1$s is the payment method title, %2$s is the PayPal
 #. transaction ID.
@@ -3423,7 +3381,7 @@ msgstr ""
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:1909
 msgid "Capture Charge"
-msgstr "Fångstavgift"
+msgstr "Fånga betalning"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2110
 msgctxt "Important"
@@ -3435,8 +3393,8 @@ msgid ""
 "We cannot process your order with the payment information that you provided."
 " Please use an alternate payment method."
 msgstr ""
-"Vi kan inte behandla din beställning med den betalningsinformation som du "
-"angav. Vänligen använd en alternativ betalningsmetod."
+"Vi kan inte behandla din beställning med de betalningsuppgifter du angav. "
+"Använd en alternativ betalningsmetod."
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:2245
 msgid "3D Secure response"
@@ -3444,4 +3402,4 @@ msgstr "3D Secure-svar"
 
 #: ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php:3013
 msgid "At top of checkout Page"
-msgstr "Överst på kassan sidan"
+msgstr "Överst på kassasidan"

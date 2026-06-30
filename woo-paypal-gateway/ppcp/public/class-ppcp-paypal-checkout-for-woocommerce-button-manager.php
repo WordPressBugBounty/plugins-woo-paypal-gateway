@@ -9,6 +9,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
     private $plugin_name;
     private $version;
+    private $ppcp_cache_asset_ids = null;
     public $request;
     public $woocommerce_wpg_paypal_checkout_settings;
     public $checkout_details;
@@ -135,6 +136,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         add_filter( 'determine_locale', array( $this, 'ppcp_determine_locale' ), 99 );
         add_filter( 'woocommerce_payment_complete_order_status', array( $this, 'maybe_auto_complete_order' ), 20, 3);
         $this->exclude_cache_plugins_js_minification();
+        $this->exclude_cache_plugins_css_minification();
+        $this->exclude_cache_plugins_common();
     }
 
     public function get_properties() {
@@ -3531,9 +3534,19 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
     }
     
-    public function exclude_cache_plugins_js_minification() {
-        try {
-            $ppcp_script_file_names = [
+    /**
+     * Front-end asset identifiers used by the cache/optimization-plugin
+     * exclusions. Memoized so the per-tag script/style callbacks stay cheap.
+     *
+     * @return array
+     */
+    private function ppcp_cache_asset_identifiers() {
+        if ($this->ppcp_cache_asset_ids !== null) {
+            return $this->ppcp_cache_asset_ids;
+        }
+        $this->ppcp_cache_asset_ids = array(
+            // JS file URLs / partial paths (matched as substrings).
+            'script_files' => array(
                 'paypal.com/sdk/js',
                 'www.paypal.com/sdk/js',
                 'api-m.paypal.com/sdk/js',
@@ -3542,9 +3555,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'pay.google.com/gp/p/js/pay.js',
                 'applepay.cdn-apple.com/jsapi',
                 'ppcp/public/js/',
+                'ppcp/checkout-block/',
                 'ppcp-paypal-checkout-for-woocommerce',
-            ];
-            $ppcp_inline_patterns = [
+            ),
+            // CSS file URLs / partial paths (matched as substrings).
+            'style_files' => array(
+                'ppcp/public/css/',
+                'ppcp-paypal-checkout-for-woocommerce-public',
+                'ppcp-paypal-checkout-for-woocommerce',
+            ),
+            // Inline-script content fragments.
+            'inline_patterns' => array(
                 'paypal',
                 'paypal_sdk',
                 'paypal-checkout',
@@ -3557,81 +3578,301 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'paypal.Buttons',
                 'paypal.Googlepay',
                 'paypal.Applepay',
-            ];
+            ),
+            // Selectors rendered at runtime that UCSS / Critical CSS must keep.
+            'css_selectors' => array(
+                '.ppcp-button-container',
+                '.ppcp-proceed-to-checkout-button-separator',
+                '.ppcp-order-review',
+                '#ppcp_product',
+                '#ppcp_cart',
+                '#ppcp_checkout',
+                '#ppcp_checkout_top',
+                '#ppcp_checkout_top_alternative',
+                '#ppcp_mini_cart',
+                '#ppcp_order_pay',
+                '.google-pay-container',
+                '.gpay-card-info-container',
+                '.apple-pay-container',
+                '.paypal-buttons-context-iframe',
+                '.payments-sdk-contingency-handler',
+                '.wpg-paypal-cc-field',
+                '.wpg-cvc-wrapper',
+                '.wpg-card-cvc-icon',
+                '.wpg-ppcp-card-cvv-icon',
+                '.wpg_ppcp_full_width',
+                '.wpg_place_order_hide',
+                '.wc_ppcp_wpg_container',
+                '.express_payment_method_ppcp',
+                '.ppcp_message_home',
+                '.ppcp_message_product',
+                '.ppcp_message_category',
+                '.ppcp_message_cart',
+                '.ppcp_message_payment',
+                '.ppcp_billing_details',
+                '.ppcp_shipping_details',
+                '.ppcp_edit_billing_address',
+                '.ppcp_edit_shipping_address',
+            ),
+            // Registered script handles.
+            'script_handles' => array(
+                'ppcp-checkout-js',
+                'ppcp-paypal-checkout-for-woocommerce-public',
+                'ppcp-paypal-checkout-for-woocommerce-order-capture',
+                'google-pay-sdk',
+                'apple-pay-sdk',
+                'ppcp-pay-later-messaging-home',
+                'ppcp-pay-later-messaging-category',
+                'ppcp-pay-later-messaging-product',
+                'ppcp-pay-later-messaging-cart',
+                'ppcp-pay-later-messaging-payment',
+                'ppcp-pay-later-messaging-shortcode',
+                'wpg_paypal_checkout-blocks-integration',
+                'wpg_paypal_cc-blocks-integration',
+            ),
+            // Registered style handles.
+            'style_handles' => array(
+                'ppcp-paypal-checkout-for-woocommerce-public',
+            ),
+        );
+        return $this->ppcp_cache_asset_ids;
+    }
+
+    /**
+     * Keep our front-end JavaScript intact when an optimization/cache plugin is
+     * active. Optimizers minify, combine, defer and "delay" scripts; doing any of
+     * that to the PayPal SDK or our scripts breaks initialization (wrong load
+     * order, or the paypal namespace not being ready). We register the documented
+     * per-plugin exclusion filter for every popular cache plugin that exposes one;
+     * plugins that expose none (WP Fastest Cache, Jetpack Boost defer, ...) are
+     * handled with tag attributes in exclude_cache_plugins_common().
+     */
+    public function exclude_cache_plugins_js_minification() {
+        try {
+            $ids                    = $this->ppcp_cache_asset_identifiers();
+            $ppcp_script_file_names = $ids['script_files'];
+            $ppcp_inline_patterns   = $ids['inline_patterns'];
+            $ppcp_script_handles    = $ids['script_handles'];
+
             $merge_unique = static function ($existing, array $to_add): array {
                 $existing = is_array($existing) ? $existing : (array) $existing;
                 return array_values(array_unique(array_filter(array_merge($existing, $to_add))));
             };
-            $array_filters = [
-                'rocket_exclude_js',
-                'rocket_delay_js_exclusions',
-                'rocket_exclude_js_files',
-                'litespeed_optimize_js_excludes',
-                'litespeed_optimize_js_delay_excludes',
-                'perfmatters_js_exclusions',
-                'perfmatters_delay_js_exclusions',
-                'flying_press_delay_js_exclusions',
-                'flying_press_js_excludes',
-                'flying_press_js_excludes_from_optimization',
-                'wphb_js_exclude',
-                'swift_performance_js_exclude',
-                'wpfc_excluded_js',
-                'wpfc_exclude_scripts',
-                'jetpack_boost_js_exclude',
-                'cache_enabler_exclude_js',
-            ];
+            $merge_csv = static function ($exclude, array $to_add): string {
+                $exclude_str = is_string($exclude) ? $exclude : (is_array($exclude) ? implode(',', $exclude) : '');
+                $parts       = preg_split('/\s*,\s*/', $exclude_str, -1, PREG_SPLIT_NO_EMPTY);
+                $merged      = array_unique(array_filter(array_map('trim', array_merge($parts, $to_add))));
+                return implode(',', $merged);
+            };
+            // Array-of-string excludes: minify / combine / defer / delay.
+            $array_filters = array(
+                'rocket_exclude_js',                    // WP Rocket: minify & combine.
+                'rocket_delay_js_exclusions',           // WP Rocket: delay JS.
+                'litespeed_optimize_js_excludes',       // LiteSpeed: minify & combine.
+                'litespeed_optm_js_defer_exc',          // LiteSpeed: load deferred.
+                'litespeed_optm_gm_js_exc',             // LiteSpeed: guest-mode defer.
+                'perfmatters_delay_js_exclusions',      // Perfmatters: delay JS.
+                'flying_press_exclude_from_minify:js',  // FlyingPress: minify.
+            );
             foreach ($array_filters as $filter) {
                 add_filter($filter, static function ($excluded) use ($merge_unique, $ppcp_script_file_names) {
                     return $merge_unique($excluded, $ppcp_script_file_names);
                 }, 20);
             }
-            add_filter('autoptimize_filter_js_exclude', static function ($exclude) use ($ppcp_script_file_names) {
-                $exclude_str = is_string($exclude) ? $exclude : '';
-                $parts       = preg_split('/\s*,\s*/', $exclude_str, -1, PREG_SPLIT_NO_EMPTY);
-                $merged      = array_merge($parts, $ppcp_script_file_names);
-                $merged      = array_unique(array_filter(array_map('trim', $merged)));
-                return implode(',', $merged);
-            }, 20);
-            add_filter('rocket_exclude_inline_js', static function ($patterns) use ($merge_unique, $ppcp_inline_patterns) {
+            // WP Rocket: keep our inline scripts out of JS combine.
+            add_filter('rocket_excluded_inline_js_content', static function ($patterns) use ($merge_unique, $ppcp_inline_patterns) {
                 return $merge_unique($patterns, $ppcp_inline_patterns);
             }, 20);
-            add_filter('sgo_js_minify_exclude', static function ($handles) {
-                $handles = is_array($handles) ? $handles : [];
-                $handles[] = 'ppcp-checkout-js';
-                $handles[] = 'ppcp-paypal-checkout-for-woocommerce-order-capture';
-                $handles[] = 'google-pay-sdk';
-                $handles[] = 'apple-pay-sdk';
-                return array_values(array_unique($handles));
+            // Autoptimize: comma separated string of file fragments.
+            add_filter('autoptimize_filter_js_exclude', static function ($exclude) use ($merge_csv, $ppcp_script_file_names) {
+                return $merge_csv($exclude, $ppcp_script_file_names);
             }, 20);
-            add_filter('breeze_minify_js_exclude', static function ($exclude) use ($ppcp_script_file_names) {
-                if (is_array($exclude)) {
-                    return array_values(array_unique(array_merge($exclude, $ppcp_script_file_names)));
-                }
-                $exclude_str = is_string($exclude) ? $exclude : '';
-                $parts = preg_split('/\s*,\s*/', $exclude_str, -1, PREG_SPLIT_NO_EMPTY);
-                $merged = array_unique(array_filter(array_map('trim', array_merge($parts, $ppcp_script_file_names))));
-                return implode(',', $merged);
+            // Breeze: comma separated string of file fragments.
+            add_filter('breeze_filter_js_exclude', static function ($exclude) use ($merge_csv, $ppcp_script_file_names) {
+                return $merge_csv($exclude, $ppcp_script_file_names);
             }, 20);
-            add_filter('wp_optimize_minify_js_exceptions', static function ($exceptions) use ($ppcp_script_file_names) {
-                if (is_array($exceptions)) {
-                    return array_values(array_unique(array_merge($exceptions, $ppcp_script_file_names)));
-                }
-                $exceptions_str = is_string($exceptions) ? $exceptions : '';
-                $parts = preg_split('/\s*,\s*/', $exceptions_str, -1, PREG_SPLIT_NO_EMPTY);
-                $merged = array_unique(array_filter(array_map('trim', array_merge($parts, $ppcp_script_file_names))));
-                return implode(',', $merged);
-            }, 20);
-            add_filter('w3tc_minify_js_do_tag_minification', static function (bool $do_tag_minification, string $script_tag, $file) {
+            // SiteGround Optimizer: exclude by registered script handle.
+            $sg_js_handles = static function ($handles) use ($ppcp_script_handles) {
+                $handles = is_array($handles) ? $handles : array();
+                return array_values(array_unique(array_merge($handles, $ppcp_script_handles)));
+            };
+            add_filter('sgo_js_minify_exclude', $sg_js_handles, 20);
+            add_filter('sgo_javascript_combine_exclude', $sg_js_handles, 20);
+            // W3 Total Cache: decide per-<script> tag whether to minify.
+            add_filter('w3tc_minify_js_do_tag_minification', static function ($do_tag_minification, $script_tag, $file) {
                 $pattern  = '/(paypal\.com\/sdk\/js|googlepay|applepay|ppcp[-\/])/i';
                 $haystack = !empty($file) ? (string) $file : (string) $script_tag;
                 return preg_match($pattern, $haystack) ? false : $do_tag_minification;
             }, 20, 3);
-
         } catch (Exception $e) {
-            
+
         }
     }
-    
+
+    /**
+     * Keep our front-end CSS intact when an optimization/cache plugin is active.
+     *
+     * Plugins such as LiteSpeed Cache minify and combine stylesheets and, more
+     * importantly, run "Unused CSS" (UCSS) / Critical CSS generation. Because the
+     * PayPal / Google Pay / Apple Pay buttons and the advanced card fields are
+     * injected into the DOM at runtime by JavaScript, their selectors are absent
+     * from the static HTML, so those generators treat our rules as unused and drop
+     * them - leaving the buttons unstyled or invisible on the front-end.
+     *
+     * We therefore exclude our stylesheet from minify/combine/UCSS and whitelist
+     * the dynamically rendered selectors for UCSS and Critical CSS.
+     */
+    public function exclude_cache_plugins_css_minification() {
+        try {
+            $ids                   = $this->ppcp_cache_asset_identifiers();
+            $ppcp_style_file_names = $ids['style_files'];
+            $ppcp_css_selectors    = $ids['css_selectors'];
+            $ppcp_style_handles    = $ids['style_handles'];
+
+            $merge_unique = static function ($existing, array $to_add): array {
+                $existing = is_array($existing) ? $existing : (array) $existing;
+                return array_values(array_unique(array_filter(array_merge($existing, $to_add))));
+            };
+            $merge_csv = static function ($exclude, array $to_add): string {
+                $exclude_str = is_string($exclude) ? $exclude : (is_array($exclude) ? implode(',', $exclude) : '');
+                $parts       = preg_split('/\s*,\s*/', $exclude_str, -1, PREG_SPLIT_NO_EMPTY);
+                $merged      = array_unique(array_filter(array_map('trim', array_merge($parts, $to_add))));
+                return implode(',', $merged);
+            };
+            // File/URL based excludes: minify, combine and Unused-CSS removal.
+            $css_file_filters = array(
+                'litespeed_optimize_css_excludes',          // LiteSpeed: minify & combine.
+                'litespeed_optimize_ucss_file_exc_inline',  // LiteSpeed: keep file out of UCSS (inline as-is).
+                'litespeed_ucss_exc',                       // LiteSpeed: URIs where UCSS is skipped.
+                'rocket_exclude_css',                       // WP Rocket: minify & combine.
+                'rocket_rucss_external_exclusions',         // WP Rocket: keep stylesheet out of Used-CSS.
+                'flying_press_exclude_from_minify:css',     // FlyingPress: minify.
+            );
+            foreach ($css_file_filters as $filter) {
+                add_filter($filter, static function ($excluded) use ($merge_unique, $ppcp_style_file_names) {
+                    return $merge_unique($excluded, $ppcp_style_file_names);
+                }, 20);
+            }
+            // Selector allowlists for Unused-CSS / Critical CSS so dynamic rules survive.
+            $css_selector_filters = array(
+                'litespeed_ucss_whitelist',              // LiteSpeed UCSS.
+                'litespeed_ccss_whitelist',              // LiteSpeed Critical CSS.
+                'perfmatters_rucss_excluded_selectors',  // Perfmatters Used CSS.
+            );
+            foreach ($css_selector_filters as $filter) {
+                add_filter($filter, static function ($selectors) use ($merge_unique, $ppcp_css_selectors) {
+                    return $merge_unique($selectors, $ppcp_css_selectors);
+                }, 20);
+            }
+            // Autoptimize: comma separated string of file fragments.
+            add_filter('autoptimize_filter_css_exclude', static function ($exclude) use ($merge_csv, $ppcp_style_file_names) {
+                return $merge_csv($exclude, $ppcp_style_file_names);
+            }, 20);
+            // Breeze: comma separated string of file fragments.
+            add_filter('breeze_filter_css_exclude', static function ($exclude) use ($merge_csv, $ppcp_style_file_names) {
+                return $merge_csv($exclude, $ppcp_style_file_names);
+            }, 20);
+            // SiteGround Optimizer: exclude by registered style handle.
+            $sg_css_handles = static function ($handles) use ($ppcp_style_handles) {
+                $handles = is_array($handles) ? $handles : array();
+                return array_values(array_unique(array_merge($handles, $ppcp_style_handles)));
+            };
+            add_filter('sgo_css_minify_exclude', $sg_css_handles, 20);
+            add_filter('sgo_css_combine_exclude', $sg_css_handles, 20);
+            // W3 Total Cache: decide per-<link> tag whether to minify.
+            add_filter('w3tc_minify_css_do_tag_minification', static function ($do_tag_minification, $style_tag, $file) {
+                $pattern  = '/(ppcp[-\/]|ppcp-paypal-checkout-for-woocommerce)/i';
+                $haystack = !empty($file) ? (string) $file : (string) $style_tag;
+                return preg_match($pattern, $haystack) ? false : $do_tag_minification;
+            }, 20, 3);
+        } catch (Exception $e) {
+
+        }
+    }
+
+    /**
+     * Cross-cutting cache/optimization exclusions that apply to both CSS and JS,
+     * plus tag-attribute opt-outs for popular plugins that expose no PHP filter
+     * (WP Fastest Cache, Jetpack Boost, Cloudflare Rocket Loader, ...).
+     */
+    public function exclude_cache_plugins_common() {
+        try {
+            $ids                 = $this->ppcp_cache_asset_identifiers();
+            $ppcp_asset_files    = array_values(array_unique(array_merge($ids['script_files'], $ids['style_files'])));
+            $ppcp_script_handles = $ids['script_handles'];
+            $ppcp_style_handles  = $ids['style_handles'];
+
+            // WP-Optimize: one array filter governs both JS and CSS minify/merge.
+            add_filter('wp-optimize-minify-default-exclusions', static function ($exclusions) use ($ppcp_asset_files) {
+                $exclusions = is_array($exclusions) ? $exclusions : (array) $exclusions;
+                return array_values(array_unique(array_filter(array_merge($exclusions, $ppcp_asset_files))));
+            }, 20);
+
+            // Jetpack Boost / page-optimize concatenation: return false to skip a handle.
+            add_filter('js_do_concat', static function ($do_concat, $handle = '') use ($ppcp_script_handles) {
+                return in_array($handle, $ppcp_script_handles, true) ? false : $do_concat;
+            }, 20, 2);
+            add_filter('css_do_concat', static function ($do_concat, $handle = '') use ($ppcp_style_handles) {
+                return in_array($handle, $ppcp_style_handles, true) ? false : $do_concat;
+            }, 20, 2);
+
+            // Tag-attribute opt-outs for plugins that expose no PHP exclusion filter.
+            // Front-end only: cache optimization never processes wp-admin output and
+            // these callbacks run per script/style tag, so we keep them off admin.
+            if (!is_admin()) {
+                add_filter('script_loader_tag', array($this, 'ppcp_add_cache_skip_attributes_to_script'), 20, 2);
+                add_filter('style_loader_tag', array($this, 'ppcp_add_cache_skip_attributes_to_style'), 20, 2);
+            }
+        } catch (Exception $e) {
+
+        }
+    }
+
+    /**
+     * Add "skip optimization" attributes to our <script> tags. Honored by
+     * WP Fastest Cache (data-wpfc-render), Cloudflare / WP Fastest Cache
+     * (data-cfasync), Autoptimize & Breeze (data-noptimize) and Jetpack Boost
+     * (data-jetpack-boost). Harmless to plugins that ignore them.
+     *
+     * @param string $tag    The <script> markup.
+     * @param string $handle The registered handle.
+     * @return string
+     */
+    public function ppcp_add_cache_skip_attributes_to_script($tag, $handle) {
+        $ids = $this->ppcp_cache_asset_identifiers();
+        if (!is_string($tag) || !in_array($handle, $ids['script_handles'], true)) {
+            return $tag;
+        }
+        if (strpos($tag, 'data-cfasync') !== false) {
+            return $tag;
+        }
+        $attributes = 'data-cfasync="false" data-wpfc-render="false" data-noptimize="1" data-jetpack-boost="ignore" ';
+        $modified   = preg_replace('/<script\s/', '<script ' . $attributes, $tag, 1);
+        // A failed preg_replace returns null; never drop the original tag.
+        return (is_string($modified) && $modified !== '') ? $modified : $tag;
+    }
+
+    /**
+     * Add "skip optimization" attributes to our stylesheet tag. Honored by
+     * Autoptimize & Breeze (data-noptimize).
+     *
+     * @param string $tag    The stylesheet markup.
+     * @param string $handle The registered handle.
+     * @return string
+     */
+    public function ppcp_add_cache_skip_attributes_to_style($tag, $handle) {
+        $ids = $this->ppcp_cache_asset_identifiers();
+        if (!is_string($tag) || !in_array($handle, $ids['style_handles'], true)) {
+            return $tag;
+        }
+        if (strpos($tag, 'data-noptimize') !== false) {
+            return $tag;
+        }
+        $modified = preg_replace('/<link\s/', '<link data-noptimize="1" ', $tag, 1);
+        // A failed preg_replace returns null; never drop the original tag.
+        return (is_string($modified) && $modified !== '') ? $modified : $tag;
+    }
+
     public function store_polylang_in_wc_session() {
         // Only run on pages where PayPal buttons are relevant
         if ( ! is_cart() && ! is_checkout() && ! is_checkout_pay_page() ) {

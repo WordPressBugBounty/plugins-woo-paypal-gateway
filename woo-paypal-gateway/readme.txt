@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 7.0
-Stable tag: 9.0.65
+Stable tag: 9.0.66
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,9 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.0.66 - 2026-06-30 =
+ * Fixed - billing address not being saved to the order when paying with the Google Pay button in the payment options list on Block Checkout.
 
 = 9.0.65 - 2026-06-02 =
  * Fixed - Missing shipping options in PayPal express checkout for specific addresses.
