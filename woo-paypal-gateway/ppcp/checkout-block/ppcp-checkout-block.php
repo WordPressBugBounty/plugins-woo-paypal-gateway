@@ -29,6 +29,10 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         return $this->gateway->is_available();
     }
 
+    public function get_supported_features() {
+        return $this->gateway->supports;
+    }
+
     public function get_payment_method_script_handles() {
         if (!function_exists('has_block') || !wpg_is_using_block_cart_or_checkout()) {
             return [];
@@ -47,6 +51,9 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     }
 
     public function is_google_pay_enable_for_page($page = '') {
+        if (function_exists('is_wpg_cart_contains_subscription') && is_wpg_cart_contains_subscription()) {
+            return false;
+        }
         if (!isset($this->settings['enabled_google_pay'])) {
             return false;
         }
@@ -69,6 +76,9 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     }
 
     public function is_apple_pay_enable_for_page($page = '') {
+        if (function_exists('is_wpg_cart_contains_subscription') && is_wpg_cart_contains_subscription()) {
+            return false;
+        }
         if (is_ssl() === false) {
             return false;
         }
@@ -109,6 +119,34 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         return false;
     }
 
+    private function is_blocks_checkout() {
+        if ( class_exists( '\Automattic\WooCommerce\Blocks\Utils\BlocksWooUtils' ) ) {
+            return \Automattic\WooCommerce\Blocks\Utils\BlocksWooUtils::is_checkout_block();
+        }
+        if ( class_exists( '\Automattic\WooCommerce\Blocks\Package' ) && function_exists( 'has_block' ) ) {
+            $checkout_page_id = wc_get_page_id( 'checkout' );
+            global $post;
+            if ( $checkout_page_id && $post instanceof \WP_Post && (int) $post->ID === $checkout_page_id && has_block( 'woocommerce/checkout', $post ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function is_blocks_cart() {
+        if ( class_exists( '\Automattic\WooCommerce\Blocks\Utils\BlocksWooUtils' ) ) {
+            return \Automattic\WooCommerce\Blocks\Utils\BlocksWooUtils::is_cart_block();
+        }
+        if ( class_exists( '\Automattic\WooCommerce\Blocks\Package' ) && function_exists( 'has_block' ) ) {
+            $cart_page_id = wc_get_page_id( 'cart' );
+            global $post;
+            if ( $cart_page_id && $post instanceof \WP_Post && (int) $post->ID === $cart_page_id && has_block( 'woocommerce/cart', $post ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function get_payment_method_data() {
         $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png');
         if (ppcp_has_active_session()) {
@@ -129,7 +167,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         $this->button_class = $this->device_class . ' ' . 'responsive';
         if (is_product()) {
             $page = 'product';
-        } else if (is_cart() && WC()->cart && !WC()->cart->is_empty()) {
+        } else if (is_cart() || $this->is_blocks_cart()) {
             $page = 'cart';
             $this->button_size = isset($this->settings['cart_button_size']) ? $this->settings['cart_button_size'] : 'responsive';
             $this->button_class = $this->device_class . ' ' . $this->button_size;
@@ -138,7 +176,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             $is_pay_page = 'yes';
             $this->button_size = isset($this->settings['checkout_button_size']) ? $this->settings['checkout_button_size'] : 'responsive';
             $this->button_class = $this->device_class . ' ' . $this->button_size;
-        } elseif (is_checkout()) {
+        } elseif (is_checkout() || $this->is_blocks_checkout()) {
             $page = 'checkout';
             $this->button_size = isset($this->settings['checkout_button_size']) ? $this->settings['checkout_button_size'] : 'responsive';
             $this->button_class = $this->device_class . ' ' . $this->button_size;
@@ -159,7 +197,8 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             ),
             'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
-            'settins' => $filtered_settings,
+            'settings' => $filtered_settings,
+            'settins' => $filtered_settings, // backward compat: JS may read the typo'd key
             'page' => $page,
             'is_block_enable' => 'yes',
             'is_google_pay_enable_for_cart' => $this->is_google_pay_enable_for_page('cart') ? 'yes' : 'no',

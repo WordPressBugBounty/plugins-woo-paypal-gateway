@@ -2,8 +2,8 @@
 Contributors: easypayment  
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
-Tested up to: 7.0
-Stable tag: 9.0.66
+Tested up to: 7.0.1
+Stable tag: 9.1.0
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,22 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.1.0 - 2026-07-10 =
+ * Added - reCAPTCHA v3 fraud protection for checkout with configurable score threshold.
+ * Added - Configurable 3D Secure liability shift handling with admin settings.
+ * Added - WooCommerce Blocks mini-cart express payment buttons (PayPal, Google Pay, Apple Pay).
+ * Added - Theme-overridable template system for payment buttons.
+ * Added - Shortcode system for flexible PayPal button placement ([wpg_paypal_button]).
+ * Added - Elementor widget for PayPal button placement.
+ * Added - Third-party plugin compatibility layer (WPC Fly Cart, XT Floating Cart, Addonify, and more).
+ * Added - Germanized and CheckoutWC compatibility modules.
+ * Added - Admin token management for subscription payment methods.
+ * Enhanced - WooCommerce Blocks integration refactored for reliability and compatibility.
+ * Enhanced - Subscription renewal payment flow with atomic locking to prevent duplicate charges.
+ * Enhanced - reCAPTCHA token refresh on checkout submit to prevent 2-minute expiration failures.
+ * Enhanced - Cache flush query bounded with LIMIT to prevent long-running queries on large sites.
+ * Enhanced - Failing payment method update now preserves payment method title on subscriptions.
 
 = 9.0.66 - 2026-06-30 =
  * Fixed - billing address not being saved to the order when paying with the Google Pay button in the payment options list on Block Checkout.

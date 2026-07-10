@@ -31,6 +31,8 @@
             }
             this.debouncedTogglePlaceOrderButton = this.debounce_place_order(this.togglePlaceOrderButton.bind(this), 4);
             this.manageVariations('#ppcp_product, .google-pay-container, .apple-pay-container');
+            this.manageSubscriptionOptions();
+            this.prefetchProductTotal();
             this.bindCheckoutEvents();
             if (this.ppcp_manager.advanced_card_payments === 'yes') {
                 this.debouncedUpdatePaypalCC = this.debounce_cc(this.syncPayPalCardFields.bind(this), 500);
@@ -152,7 +154,38 @@
 
         getValidAddress(prefix) {
             const address = this.getAddress(prefix);
-            return this.isValidAddress(prefix, address) ? address : this.getAddress(prefix === 'billing' ? 'shipping' : 'billing');
+            if (this.isValidAddress(prefix, address)) {
+                return address;
+            }
+            // Fall back to the other address (e.g. when "Use same address for billing"
+            // is checked on Block Checkout the billing address is empty in the store).
+            // Re-key the fallback to the requested prefix, otherwise it is posted with
+            // the wrong field names (shipping_* instead of billing_*) and the resulting
+            // WooCommerce order is created without a billing address.
+            const otherPrefix = prefix === 'billing' ? 'shipping' : 'billing';
+            const otherAddress = this.getAddress(otherPrefix);
+            if (this.isValidAddress(otherPrefix, otherAddress)) {
+                return this.rekeyAddress(otherAddress, otherPrefix, prefix);
+            }
+            return address;
+        }
+
+        // Re-map an address object's field keys from one prefix to another, e.g.
+        // { shipping_address_1: '...' } -> { billing_address_1: '...' }.
+        rekeyAddress(address, fromPrefix, toPrefix) {
+            if (!address) {
+                return address;
+            }
+            const result = {};
+            const search = `${fromPrefix}_`;
+            Object.keys(address).forEach(key => {
+                if (key.indexOf(search) === 0) {
+                    result[`${toPrefix}_${key.substring(search.length)}`] = address[key];
+                } else {
+                    result[key] = address[key];
+                }
+            });
+            return result;
         }
 
         getBillingAddress() {
@@ -301,7 +334,7 @@
                 }
             });
 
-            const eventSelectors = 'added_to_cart updated_cart_totals wc_fragments_refreshed wc_fragment_refresh wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated wc_update_cart wc_cart_emptied wpg_change_method fkwcs_express_button_init';
+            const eventSelectors = 'added_to_cart updated_cart_totals wc_fragments_refreshed wc_fragment_refresh wc_fragments_loaded updated_checkout ppcp_block_ready ppcp_checkout_updated ppcp_minicart_ready ppcp_minicart_updated wc_update_cart wc_cart_emptied wpg_change_method fkwcs_express_button_init';
             const checkoutSelectors = 'updated_cart_totals wc_fragments_refreshed wc_fragments_loaded updated_checkout ppcp_cc_block_ready ppcp_cc_checkout_updated update_checkout wpg_change_method';
             $(document.body).on(eventSelectors, (event) => {
                 this.debouncedUpdatePaypalCheckout();
@@ -481,7 +514,7 @@
                     return;
                 }
                 const isExpressCheckout = selector === '#ppcp_checkout_top';
-                const isMiniCart = selector === '#ppcp_mini_cart';
+                const isMiniCart = selector === '#ppcp_mini_cart' || selector === '#ppcp_mini_cart_block';
                 const ppcpStyle = {
                     layout: isMiniCart
                             ? this.ppcp_manager.mini_cart_style_layout
@@ -511,7 +544,7 @@
 
                 const targets = [];
                 if (isMiniCart || selector === '#ppcp_cart') {
-                    targets.push('#ppcp_cart', '.google-pay-container.cart', '.apple-pay-container.cart');
+                    targets.push('#ppcp_cart', '#ppcp_mini_cart', '#ppcp_mini_cart_block', '.google-pay-container.cart', '.apple-pay-container.cart', '.google-pay-container.mini_cart', '.apple-pay-container.mini_cart');
                 } else if (isExpressCheckout) {
                     targets.push('#ppcp_checkout_top', '#ppcp_checkout_top_alternative',
                             '.google-pay-container.express_checkout', '.apple-pay-container.express_checkout');
@@ -687,7 +720,7 @@
                     wpg_paypal_sdk.Buttons(buttonOptions).render(selector);
                 }
             });
-            var $targets = $('#ppcp_product, #ppcp_cart, #ppcp_mini_cart, #ppcp_checkout, #ppcp_checkout_top, #ppcp_checkout_top_alternative');
+            var $targets = $('#ppcp_product, #ppcp_cart, #ppcp_mini_cart, #ppcp_mini_cart_block, #ppcp_checkout, #ppcp_checkout_top, #ppcp_checkout_top_alternative');
             setTimeout(function () {
                 $targets.css({background: '', 'background-color': ''});
                 $targets.each(function () {
@@ -700,6 +733,7 @@
         getFromValue(selector) {
             if (selector === '#ppcp_product') return 'product';
             if (selector === '#ppcp_cart') return 'cart';
+            if (selector === '#ppcp_mini_cart' || selector === '#ppcp_mini_cart_block') return 'cart';
             if (selector === '#ppcp_checkout_top') return 'express_checkout';
             if (selector === '#ppcp_checkout') return 'checkout';
             if (selector === '#ppcp_order_pay') return 'pay_page';
@@ -711,7 +745,10 @@
             this.showSpinner();
             $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
             let data;
-            if (selector === '#ppcp_checkout_top') {
+            const isMiniCart = selector === '#ppcp_mini_cart' || selector === '#ppcp_mini_cart_block';
+            if (isMiniCart) {
+                data = '';
+            } else if (selector === '#ppcp_checkout_top') {
             } else if (this.isCheckoutPage()) {
                 data = $(selector).closest('form').serialize();
                 if (this.ppcp_manager.is_block_enable === 'yes') {
@@ -1190,16 +1227,57 @@
 
         manageVariations(selector) {
             if ($('.variations_form').length) {
+                const self = this;
+                const getCurrentProductId = () => {
+                    const variationInput = document.querySelector('input.variation_id');
+                    const variationId = parseInt(variationInput?.value || 0, 10);
+                    return variationId > 0 ? variationId : parseInt(self.ppcp_manager?.product_id || 0, 10);
+                };
+                const getQty = () => parseFloat(document.querySelector('input.qty')?.value || '1') || 1;
+
                 $('.variations_form, .single_variation').on('show_variation', function (event, variation) {
                     if (variation.is_purchasable && variation.is_in_stock) {
                         $(selector).show();
+                        self.fetchProductTotal(variation.variation_id || getCurrentProductId(), getQty());
                     } else {
                         $(selector).hide();
                     }
                 }).on('hide_variation', function () {
                     $(selector).hide();
                 });
+
+                $(document).off('change.wpg_product_qty input.wpg_product_qty', 'input.qty')
+                    .on('change.wpg_product_qty input.wpg_product_qty', 'input.qty', () => {
+                        self.fetchProductTotal(getCurrentProductId(), getQty());
+                    });
             }
+        }
+
+        manageSubscriptionOptions() {
+            const $radios = $('input[name^="convert_to_sub"]');
+            if (!$radios.length) {
+                return;
+            }
+            const toggleButtons = () => {
+                const val = $('input[name^="convert_to_sub"]:checked').val();
+                const isSubscription = val && val !== '0';
+                $('.google-pay-container.product, .apple-pay-container.product').toggle(!isSubscription);
+                $('#ppcp_product').find('[data-funding-source]').each(function () {
+                    const source = $(this).attr('data-funding-source');
+                    if (source === 'paypal' || source === 'card') {
+                        $(this).show();
+                    } else {
+                        $(this).toggle(!isSubscription);
+                    }
+                });
+            };
+            $radios.on('change', toggleButtons);
+            const observer = new MutationObserver(() => toggleButtons());
+            const productContainer = document.getElementById('ppcp_product');
+            if (productContainer) {
+                observer.observe(productContainer, { childList: true, subtree: true });
+            }
+            toggleButtons();
         }
 
         isPayPalGooglePaySdkReady() {
@@ -1339,6 +1417,11 @@
                         m.parameters.billingAddressRequired = true;
                         m.parameters.billingAddressParameters = {
                             ...(m.parameters.billingAddressParameters || {}),
+                            // FULL returns the street-level billing address (address1/locality/
+                            // etc.). The default MIN format only returns name, country and
+                            // postcode, which leaves the order billing address incomplete when
+                            // the checkout form is not filled in.
+                            format: 'FULL',
                             phoneNumberRequired: true,
                         };
                         return m;
@@ -1847,35 +1930,23 @@
         }
 
         prefetchProductTotal() {
-            const isApplePayEnabled = this.ppcp_manager?.enabled_apple_pay === 'yes';
-            const hasApplePayContainer = document.querySelector('.apple-pay-container');
-            if (!isApplePayEnabled || !hasApplePayContainer) {
+            const hasProductContainer = document.querySelector('#ppcp_product, .google-pay-container[data-context="product"], .apple-pay-container[data-context="product"]');
+            if (!hasProductContainer) {
+                const hasApplePayContainer = document.querySelector('.apple-pay-container');
+                if (hasApplePayContainer) {
+                    this.fetchProductTotal(0, 0);
+                }
                 return;
             }
-            const isProductPage = document.querySelector('.apple-pay-container[data-context="product"]');
-            if (isProductPage) {
-                const getCurrentProductId = () => {
-                    const variationInput = document.querySelector('input.variation_id');
-                    const variationId = parseInt(variationInput?.value || 0, 10);
-                    return variationId > 0
-                        ? variationId
-                        : parseInt(this.ppcp_manager?.product_id || 0, 10);
-                };
-                const getQty = () => parseFloat(document.querySelector('input.qty')?.value || '1') || 1;
-                const baseProductId = getCurrentProductId();
-                const defaultQty = getQty();
-                this.fetchProductTotal(baseProductId, defaultQty);
-                jQuery('form.variations_form').off('found_variation.wpg_ap').on('found_variation.wpg_ap', (event, variation) => {
-                    const variationId = parseInt(variation?.variation_id || 0, 10) || getCurrentProductId();
-                    this.fetchProductTotal(variationId, getQty());
-                });
-                jQuery(document).off('change.wpg_ap_qty input.wpg_ap_qty', 'input.qty')
-                    .on('change.wpg_ap_qty input.wpg_ap_qty', 'input.qty', () => {
-                        this.fetchProductTotal(getCurrentProductId(), getQty());
-                });
-            } else {
-                this.fetchProductTotal(0, 0);
-            }
+            const getCurrentProductId = () => {
+                const variationInput = document.querySelector('input.variation_id');
+                const variationId = parseInt(variationInput?.value || 0, 10);
+                return variationId > 0
+                    ? variationId
+                    : parseInt(this.ppcp_manager?.product_id || 0, 10);
+            };
+            const getQty = () => parseFloat(document.querySelector('input.qty')?.value || '1') || 1;
+            this.fetchProductTotal(getCurrentProductId(), getQty());
         }
 
         fetchProductTotal(productId, quantity = 1) {

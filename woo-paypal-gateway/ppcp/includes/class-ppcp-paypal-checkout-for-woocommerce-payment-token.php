@@ -91,7 +91,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token {
     }
 
     private function extract_payment_token($api_response) {
-        $sources = ['card', 'paypal', 'venmo', 'apple_pay'];
+        $sources = ['card', 'paypal', 'venmo', 'apple_pay', 'google_pay'];
         foreach ($sources as $source) {
             if (!empty($api_response['payment_source'][$source]['attributes']['vault']['id'])) {
                 return $api_response['payment_source'][$source]['attributes']['vault']['id'];
@@ -111,7 +111,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token {
 
         if ($source === 'paypal' || $source === 'venmo') {
             $this->process_token_for_paypal_or_venmo($token, $api_response, $source);
-        } elseif ($source === 'card' || $source === 'apple_pay') {
+        } elseif ($source === 'card' || $source === 'apple_pay' || $source === 'google_pay') {
             $this->process_token_for_card($token, $api_response, $source);
         }
 
@@ -124,7 +124,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token {
     }
 
     private function determine_payment_source($api_response) {
-        foreach (['card', 'paypal', 'venmo', 'apple_pay'] as $source) {
+        foreach (['card', 'paypal', 'venmo', 'apple_pay', 'google_pay'] as $source) {
             if (!empty($api_response['payment_source'][$source])) {
                 return $source;
             }

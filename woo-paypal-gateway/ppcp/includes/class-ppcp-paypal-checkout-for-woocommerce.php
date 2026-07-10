@@ -35,6 +35,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
 
     private function load_dependencies() {
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/wpg-ppcp-template-functions.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-loader.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-i18n.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php';
@@ -45,6 +46,24 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-funnelkit-compat.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-funnelkit-upsell.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-funnelkit-upsell-paypal.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-recaptcha.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-3ds.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-cache.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-shortcodes.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/elementor/class-wpg-elementor-integration.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-germanized-compat.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-checkoutwc-compat.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-product-addons-compat.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-tm-epo-compat.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-wapf-compat.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-pre-orders-compat.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-locale-compat.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/class-wpg-plugin-converter.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/converters/class-wpg-pymntpl-converter.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/converters/class-wpg-wc-paypal-payments-converter.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/converters/class-wpg-angelleye-converter.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/converters/class-wpg-checkout-plugins-converter.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/class-wpg-conversion-controller.php';
         PPCP_Paypal_Checkout_For_Woocommerce_Tracking::get_instance();
         $this->loader = new PPCP_Paypal_Checkout_For_Woocommerce_Loader();
     }
@@ -58,6 +77,19 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
         $this->button_manager = PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager::instance();
         PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later::instance();
         PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding::instance();
+        PPCP_Paypal_Checkout_For_Woocommerce_ReCaptcha::instance()->init();
+        PPCP_Paypal_Checkout_For_Woocommerce_3DS::instance()->init();
+        PPCP_Paypal_Checkout_For_Woocommerce_Cache::instance()->init();
+        PPCP_Paypal_Checkout_For_Woocommerce_Shortcodes::instance()->init();
+        WPG_Elementor_Integration::instance()->init();
+        WPG_Germanized_Compat::instance()->init();
+        WPG_CheckoutWC_Compat::instance()->init();
+        WPG_Product_Addons_Compat::instance()->init();
+        WPG_TM_EPO_Compat::instance()->init();
+        WPG_WAPF_Compat::instance()->init();
+        WPG_Pre_Orders_Compat::instance()->init();
+        WPG_Locale_Compat::instance()->init();
+        WPG_Conversion_Controller::instance()->init();
     }
 
     public function run() {

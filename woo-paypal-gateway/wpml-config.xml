@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wpml-config>
+	<admin-texts>
+		<key name="woocommerce_wpg_paypal_checkout_settings">
+			<key name="title" />
+			<key name="description" />
+			<key name="order_button_text" />
+		</key>
+		<key name="woocommerce_wpg_paypal_checkout_cc_settings">
+			<key name="title" />
+			<key name="description" />
+			<key name="order_button_text" />
+		</key>
+	</admin-texts>
+</wpml-config>

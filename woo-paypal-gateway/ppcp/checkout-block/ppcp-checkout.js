@@ -81,7 +81,7 @@ var {addAction} = wp.hooks;
 
                 const l = Object(i.getSetting)("wpg_paypal_checkout_data", {});
                 const {useEffect} = wp.element;
-                const ppcp_settings = l.settins;
+                const ppcp_settings = l.settings || l.settins;
                 const device_class = l.is_mobile;
                 const button_class = l.button_class;
 
@@ -89,7 +89,10 @@ var {addAction} = wp.hooks;
                     const {billing, shippingData} = props;
 
                     useEffect(() => {
-                        jQuery(document.body).trigger("ppcp_checkout_updated");
+                        document.body.dispatchEvent(new CustomEvent("ppcp_checkout_updated", { bubbles: true }));
+                        if (typeof jQuery !== "undefined") {
+                            jQuery(document.body).trigger("ppcp_checkout_updated");
+                        }
                     }, []);
 
                     const isGooglePayEnabled = l.is_google_pay_enable_for_express_checkout === 'yes';
@@ -129,7 +132,10 @@ var {addAction} = wp.hooks;
                 const Content_PPCP_Smart_Button_Cart_Bottom = (props) => {
                     const {billing, shippingData} = props;
                     useEffect(() => {
-                        jQuery(document.body).trigger("ppcp_checkout_updated");
+                        document.body.dispatchEvent(new CustomEvent("ppcp_checkout_updated", { bubbles: true }));
+                        if (typeof jQuery !== "undefined") {
+                            jQuery(document.body).trigger("ppcp_checkout_updated");
+                        }
                     }, []);
 
                     const isGooglePayEnabledForCart = l.is_google_pay_enable_for_cart === 'yes';
@@ -157,10 +163,27 @@ var {addAction} = wp.hooks;
                     ];
                 };
                 const ContentPPCPCheckout = (props) => {
-                    const {billing, shippingData, ...i} = props;
+                    const {billing, shippingData, eventRegistration, emitResponse, ...i} = props;
+                    const {onPaymentSetup} = eventRegistration || {};
                     useEffect(() => {
-                        jQuery(document.body).trigger("ppcp_checkout_updated");
+                        document.body.dispatchEvent(new CustomEvent("ppcp_checkout_updated", { bubbles: true }));
+                        if (typeof jQuery !== "undefined") {
+                            jQuery(document.body).trigger("ppcp_checkout_updated");
+                        }
                     }, []);
+                    useEffect(() => {
+                        if (!onPaymentSetup || typeof window.wpg_get_recaptcha_token !== 'function') {
+                            return;
+                        }
+                        const unsubscribe = onPaymentSetup(async () => {
+                            var token = await window.wpg_get_recaptcha_token('checkout');
+                            return {
+                                type: emitResponse.responseTypes.SUCCESS,
+                                meta: { paymentMethodData: { wpg_recaptcha_token: token || '' } }
+                            };
+                        });
+                        return () => unsubscribe();
+                    }, [onPaymentSetup, emitResponse]);
                     if (l.is_order_confirm_page === 'yes') {
                         return null; // empty element
                       }
@@ -266,9 +289,10 @@ var {addAction} = wp.hooks;
 ]);
 
 document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(function () {
+    document.body.dispatchEvent(new CustomEvent("ppcp_block_ready", { bubbles: true }));
+    if (typeof jQuery !== "undefined") {
         jQuery(document.body).trigger("ppcp_block_ready");
-    }, 3);
+    }
 });
 
 const ppcp_uniqueEvents = new Set([
@@ -277,9 +301,10 @@ const ppcp_uniqueEvents = new Set([
 
 ppcp_uniqueEvents.forEach(function (action) {
     addAction(action, "c", function () {
-        setTimeout(function () {
+        document.body.dispatchEvent(new CustomEvent("ppcp_checkout_updated", { bubbles: true }));
+        if (typeof jQuery !== "undefined") {
             jQuery(document.body).trigger("ppcp_checkout_updated");
-        }, 3);
+        }
     });
 });
 
@@ -294,6 +319,14 @@ function showErrorUsingShowNotice(error_message) {
     );
 }
 
-jQuery(document.body).on('ppcp_checkout_error', function (event, errorMessages) {
-    showErrorUsingShowNotice(errorMessages);
+document.body.addEventListener('ppcp_checkout_error', function (event) {
+    if (event.detail) {
+        showErrorUsingShowNotice(event.detail);
+    }
 });
+
+if (typeof jQuery !== "undefined") {
+    jQuery(document.body).on('ppcp_checkout_error', function (event, errorMessages) {
+        showErrorUsingShowNotice(errorMessages);
+    });
+}

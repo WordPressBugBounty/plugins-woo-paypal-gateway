@@ -120,14 +120,31 @@ var {addAction} = wp.hooks;
                         const unsubscribe = onPaymentSetup(async () => {
                             try {
                                 wp.data.dispatch(wc.wcBlocksData.CHECKOUT_STORE_KEY).__internalSetIdle();
-                                // Defensive: re-check before submit
                                 const hasErrors = wp?.data?.select('wc/store/validation')?.hasValidationErrors?.() === true;
                                 if (hasErrors) {
                                     jQuery(blockElements).unblock();
-                                    return false; // halt
+                                    return false;
                                 }
                                 jQuery(blockElements).block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
-                                jQuery(document.body).trigger('submit_paypal_cc_form'); // only when clean
+                                if (typeof window.wpg_get_recaptcha_token === 'function') {
+                                    try {
+                                        var recaptchaToken = await window.wpg_get_recaptcha_token('cc_checkout');
+                                        if (recaptchaToken) {
+                                            var form = document.querySelector('form.wc-block-checkout__form');
+                                            if (form) {
+                                                var field = form.querySelector('input[name="wpg_recaptcha_token"]');
+                                                if (!field) {
+                                                    field = document.createElement('input');
+                                                    field.type = 'hidden';
+                                                    field.name = 'wpg_recaptcha_token';
+                                                    form.appendChild(field);
+                                                }
+                                                field.value = recaptchaToken;
+                                            }
+                                        }
+                                    } catch (e) {}
+                                }
+                                jQuery(document.body).trigger('submit_paypal_cc_form');
                                 return true;
                             } catch (e) {
                                 jQuery(blockElements).unblock();
@@ -144,7 +161,7 @@ var {addAction} = wp.hooks;
                     useEffect(() => {
                         const unsubscribe = onCheckoutValidation(() => {
                             const hasErrors = wp?.data?.select('wc/store/validation')?.hasValidationErrors?.() === true;
-                            return hasErrors ? false : true; // stop vs proceed
+                            return hasErrors ? false : true;
                         });
                         return () => unsubscribe();
                     }, [onCheckoutValidation]);

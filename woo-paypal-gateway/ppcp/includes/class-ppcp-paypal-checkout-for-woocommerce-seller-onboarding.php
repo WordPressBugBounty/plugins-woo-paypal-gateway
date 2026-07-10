@@ -46,8 +46,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
             if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-settings.php';
             }
-            if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
-                include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+            if ( class_exists( 'WC_Payment_Gateway' ) ) {
+                if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
+                    include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+                }
             }
             if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Log')) {
                 include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-log.php';
@@ -55,7 +57,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
             $this->api_log = PPCP_Paypal_Checkout_For_Woocommerce_Log::instance();
             $this->settings = PPCP_Paypal_Checkout_For_Woocommerce_Settings::instance();
             $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
-            $this->api_request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+            if ( class_exists( 'PPCP_Paypal_Checkout_For_Woocommerce_Request' ) ) {
+                $this->api_request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+            }
         } catch (Exception $ex) {
             $this->api_log->log("The exception was created on line: " . $ex->getLine(), 'error');
             $this->api_log->log($ex->getMessage(), 'error');

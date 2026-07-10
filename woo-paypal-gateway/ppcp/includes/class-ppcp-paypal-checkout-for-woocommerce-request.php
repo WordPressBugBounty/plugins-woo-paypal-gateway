@@ -437,9 +437,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             } else {
                 $cart = $this->ppcp_get_details_from_order($woo_order_id);
             }
+            $order_total = ppcp_round($cart['order_total'], $this->decimals);
+            if ((float) $order_total <= 0) {
+                $this->ppcp_log('Order creation skipped: order total is ' . $order_total . '. PayPal does not accept zero or negative amounts.');
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice(__('Your order total is zero. PayPal cannot process this payment.', 'woo-paypal-gateway'), 'error');
+                }
+                return false;
+            }
             $reference_id = wc_generate_order_key();
             ppcp_set_session('ppcp_reference_id', $reference_id);
             $intent = ($this->paymentaction === 'capture') ? 'CAPTURE' : 'AUTHORIZE';
+            $intent = apply_filters('wpg_ppcp_payment_intent', $intent, $woo_order_id ? wc_get_order($woo_order_id) : null);
             $body_request = array(
                 'intent' => $intent,
                 'application_context' => $this->ppcp_application_context($woo_order_id, $return = false),
@@ -618,6 +627,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     }
                 }
             }
+            if ( 'SET_PROVIDED_ADDRESS' === $body_request['application_context']['shipping_preference']
+                && empty( $body_request['purchase_units'][0]['shipping']['address'] ) ) {
+                $body_request['application_context']['shipping_preference'] = 'GET_FROM_FILE';
+            }
             $body_request = $this->ppcp_set_payer_details($woo_order_id, $body_request);
             if (is_wpg_paypal_vault_required()) {
                 $body_request = $this->ppcp_add_payment_source_parameter($body_request);
@@ -777,6 +790,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $order = wc_get_order($woo_order_id);
             if ($need_to_update_order && is_object($order)) {
                 $this->ppcp_update_order($order);
+            } elseif (is_object($order)) {
+                $this->ppcp_repair_shipping_total_if_zero($order);
             }
             $session_order_data = $this->ppcp_get_order_session_data();
             $paypal_order_id = !empty($session_order_data['id']) ? $session_order_data['id'] : $this->ppcp_get_paypal_order_id_from_session();
@@ -794,7 +809,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'redirection' => 5,
                 'httpversion' => '1.1',
                 'blocking' => true,
-                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id()),
+                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id('capture-' . $woo_order_id)),
                     )
             );
             if (is_wp_error($response)) {
@@ -902,8 +917,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     return false;
                 }
             }
-        } catch (Exception $ex) {
-            
+        } catch (\Throwable $ex) {
+            $this->ppcp_log('Capture exception for order #' . $woo_order_id . ': ' . $ex->getMessage());
+            return false;
         }
     }
 
@@ -1060,7 +1076,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'redirection' => 5,
                 'httpversion' => '1.1',
                 'blocking' => true,
-                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id()),
+                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id('auth-' . $woo_order_id)),
                     )
             );
             if (is_wp_error($response)) {
@@ -1115,14 +1131,19 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     return false;
                 }
             }
-        } catch (Exception $ex) {
-            
+        } catch (\Throwable $ex) {
+            $this->ppcp_log('Auth exception for order #' . $woo_order_id . ': ' . $ex->getMessage());
+            return false;
         }
     }
 
     public function ppcp_get_checkout_details($paypal_order_id) {
         try {
             if (is_wc_endpoint_url('order-received')) {
+                return;
+            }
+            if (empty($paypal_order_id)) {
+                $this->ppcp_log('Get Order Details skipped: PayPal order ID is empty.');
                 return;
             }
             $cached_id = $this->ppcp_get_paypal_order_id_from_session();
@@ -1402,8 +1423,42 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             foreach ($order->get_items('shipping') as $shipping_item) {
                 $shipping_items_total += (float) $shipping_item->get_total();
             }
-            if ($shipping_items_total <= 0) {
+            if ($shipping_items_total > 0) {
+                $order->calculate_totals(false);
                 return;
+            }
+            if (!WC()->cart || !WC()->cart->needs_shipping()) {
+                return;
+            }
+            add_filter('woocommerce_cart_ready_to_calc_shipping', '__return_true', 1000);
+            WC()->cart->calculate_shipping();
+            WC()->cart->calculate_totals();
+            if ((float) WC()->cart->get_shipping_total() <= 0) {
+                return;
+            }
+            $packages = WC()->shipping()->get_packages();
+            $chosen_methods = WC()->session ? WC()->session->get('chosen_shipping_methods', array()) : array();
+            foreach ($order->get_items('shipping') as $existing_item) {
+                $order->remove_item($existing_item->get_id());
+            }
+            foreach ($packages as $pkg_index => $pkg) {
+                if (empty($pkg['rates'])) {
+                    continue;
+                }
+                $rate_id = isset($chosen_methods[$pkg_index]) ? $chosen_methods[$pkg_index] : key($pkg['rates']);
+                if (!isset($pkg['rates'][$rate_id])) {
+                    $rate_id = key($pkg['rates']);
+                }
+                $rate = $pkg['rates'][$rate_id];
+                $item = new WC_Order_Item_Shipping();
+                $item->set_method_title($rate->label);
+                $item->set_method_id($rate->method_id);
+                $item->set_instance_id($rate->instance_id);
+                $item->set_total($rate->cost);
+                if ($rate->get_shipping_tax() > 0) {
+                    $item->set_taxes(array('total' => $rate->get_taxes()));
+                }
+                $order->add_item($item);
             }
             $order->calculate_totals(false);
         } catch (Exception $ex) {
@@ -1491,7 +1546,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'redirection' => 5,
                 'httpversion' => '1.1',
                 'blocking' => true,
-                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id()),
+                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id('refund-' . $order_id . '-' . $amount)),
                 'body' => $body_request,
                 'cookies' => array()
                     )
@@ -1504,7 +1559,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $error_message = $response->get_error_message();
                 $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
                 $order->add_order_note('Error Failed Message : ' . wc_print_r($error_message, true));
-                return new WP_Error('error', $$error_message);
+                return new WP_Error('error', $error_message);
             }
             $api_response = json_decode(wp_remote_retrieve_body($response), true);
             $this->ppcp_log('Response Code: ' . wp_remote_retrieve_response_code($response));
@@ -1539,6 +1594,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $reference_id = ppcp_get_session('ppcp_reference_id');
             $order_id = $order->get_id();
             $cart = $this->ppcp_get_details_from_order($order_id);
+
+            $order_total = ppcp_round($cart['order_total'], $this->decimals);
+            if ((float) $order_total <= 0) {
+                $this->ppcp_log('Update order skipped: order total is ' . $order_total . ' for order #' . $order_id . '. PayPal does not accept zero or negative amounts.');
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice(__('Your order total is zero. PayPal cannot process this payment.', 'woo-paypal-gateway'), 'error');
+                }
+                return false;
+            }
 
             // Shipping or Billing Address
             if ($order->has_shipping_address()) {
@@ -1650,6 +1714,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
             // Retrieve the PayPal order ID and send the patch request to update the order
             $paypal_order_id = $this->ppcp_get_paypal_order_id_from_session();
+            if (empty($paypal_order_id)) {
+                $this->ppcp_log('Update order skipped: PayPal order ID is missing from session.');
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice(__('Unable to update order — PayPal session has expired. Please try again.', 'woo-paypal-gateway'), 'error');
+                }
+                return false;
+            }
             $this->ppcp_add_log_details('Update order');
             $this->ppcp_log('Endpoint: ' . $this->paypal_order_api . $paypal_order_id);
             $this->ppcp_log('Request: ' . print_r($patch_request_json, true));
@@ -1755,7 +1826,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'redirection' => 5,
                 'httpversion' => '1.1',
                 'blocking' => true,
-                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id()),
+                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id('auth-capture-' . $order_id)),
                 'body' => $body_request,
                 'cookies' => array()
                     )
@@ -1907,7 +1978,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $webhook_request['url'] = add_query_arg(array('ppcp_action' => 'webhook_handler', 'utm_nooverride' => '1'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager'));
                 $webhook_request['event_types'][] = array('name' => 'CHECKOUT.ORDER.APPROVED');
                 $webhook_request['event_types'][] = array('name' => 'PAYMENT.AUTHORIZATION.CREATED');
-                $webhook_request['event_types'][] = array('name' => 'PAYMENT.AUTHORIZATION.DENIED');
                 $webhook_request['event_types'][] = array('name' => 'PAYMENT.AUTHORIZATION.VOIDED');
                 $webhook_request['event_types'][] = array('name' => 'PAYMENT.CAPTURE.COMPLETED');
                 $webhook_request['event_types'][] = array('name' => 'PAYMENT.CAPTURE.DECLINED');
@@ -2133,6 +2203,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $order = $this->ppcp_get_paypal_order($posted['resource']['purchase_units'][0]['custom_id']);
         } elseif (!empty($posted['resource']['custom_id'])) {
             $order = $this->ppcp_get_paypal_order($posted['resource']['custom_id']);
+        }
+        if (!$order) {
+            $paypal_order_id = '';
+            if (!empty($posted['resource']['id']) && !empty($posted['resource']['purchase_units'])) {
+                $paypal_order_id = $posted['resource']['id'];
+            } elseif (!empty($posted['resource']['supplementary_data']['related_ids']['order_id'])) {
+                $paypal_order_id = $posted['resource']['supplementary_data']['related_ids']['order_id'];
+            }
+            if (!empty($paypal_order_id)) {
+                $this->ppcp_log('Webhook custom_id lookup failed — fetching latest order details from PayPal: ' . $paypal_order_id);
+                $fresh_details = $this->ppcp_get_checkout_details($paypal_order_id);
+                if ($fresh_details && !empty($fresh_details->purchase_units[0]->custom_id)) {
+                    $order = $this->ppcp_get_paypal_order($fresh_details->purchase_units[0]->custom_id);
+                }
+            }
         }
         if ($order && isset($posted['event_type']) && !empty($posted['event_type'])) {
             $order->add_order_note('Webhooks Update : ' . $posted['summary']);
@@ -2361,23 +2446,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         return $order;
     }
 
-    public function generate_request_id() {
-        static $pid  = -1;
-        static $addr = -1;
+    public function generate_request_id( $context = '' ) {
+        static $counter = 0;
+        $counter++;
 
-        if ( -1 === $pid ) {
-            $pid = substr( time(), -5 );
+        $base = site_url();
+        if ( ! empty( $context ) ) {
+            $base .= '-' . $context;
         }
 
-        if ( -1 === $addr ) {
-            if ( array_key_exists( 'SERVER_ADDR', $_SERVER ) ) {
-                $addr = ip2long( $_SERVER['SERVER_ADDR'] );
-            } else {
-                $addr = php_uname( 'n' );
-            }
-        }
-
-        return $addr . $pid . $_SERVER['REQUEST_TIME'] . wp_rand( 0, 0xffff );
+        return substr( md5( $base ), 0, 12 ) . '-' . time() . '-' . getmypid() . '-' . $counter;
     }
 
     public function ppcp_set_payer_details($woo_order_id, $body_request) {
@@ -2466,6 +2544,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 if (function_exists('wc_add_notice')) {
                     wc_add_notice($wc_notice);
                 }
+                if (wp_doing_cron() || (defined('WP_CLI') && WP_CLI) || !wp_doing_ajax()) {
+                    $this->api_log->log('Zero-total order skipped for token capture: ' . $woo_order_id, 'error');
+                    return false;
+                }
                 wp_send_json_error($wc_notice);
                 exit();
             }
@@ -2478,6 +2560,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $reference_id = wc_generate_order_key();
             ppcp_set_session('reference_id', $reference_id);
             $intent = ($this->paymentaction === 'capture') ? 'CAPTURE' : 'AUTHORIZE';
+            $intent = apply_filters('wpg_ppcp_payment_intent', $intent, $woo_order_id ? wc_get_order($woo_order_id) : null);
             $body_request = array(
                 'intent' => $intent,
                 'application_context' => $this->ppcp_application_context($woo_order_id, $return_url = true),
@@ -2779,6 +2862,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 case 'paypal':
                     $this->handle_paypal_payment($request, $attributes);
                     break;
+                case 'alternative_pay':
+                    $this->handle_google_pay_payment($request, $attributes);
+                    break;
                 default:
                     break;
             }
@@ -2846,6 +2932,22 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
     }
 
+    private function handle_google_pay_payment(&$request, &$attributes) {
+        $attributes = [
+            'vault' => [
+                'store_in_vault' => 'ON_SUCCESS',
+                'usage_type' => 'MERCHANT'
+            ]
+        ];
+        $paypal_generated_customer_id = $this->payment_token->get_paypal_customer_id($this->is_sandbox);
+        if (!empty($paypal_generated_customer_id)) {
+            $attributes['customer'] = ['id' => $paypal_generated_customer_id];
+        }
+        $request['payment_source']['google_pay'] = [
+            'attributes' => $attributes
+        ];
+    }
+
     public function ppcp_get_id_token() {
         try {
             if (is_wc_endpoint_url('order-received')) {
@@ -2905,6 +3007,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 if (function_exists('wc_add_notice')) {
                     wc_add_notice($wc_notice);
                 }
+                if (wp_doing_cron() || (defined('WP_CLI') && WP_CLI) || !wp_doing_ajax()) {
+                    $this->api_log->log('Zero-total order skipped for token capture: ' . $woo_order_id, 'error');
+                    return false;
+                }
                 wp_send_json_error($wc_notice);
                 exit();
             }
@@ -2914,7 +3020,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $decimals = $this->ppcp_get_number_of_decimal_digits();
             $reference_id = wc_generate_order_key();
             ppcp_set_session('reference_id', $reference_id);
+            $order = wc_get_order($woo_order_id);
             $intent = ($this->paymentaction === 'capture') ? 'CAPTURE' : 'AUTHORIZE';
+            $intent = apply_filters('wpg_ppcp_payment_intent', $intent, $order);
             $body_request = array(
                 'intent' => $intent,
                 'application_context' => $this->ppcp_application_context($woo_order_id, $return_url = true),
@@ -2933,7 +3041,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     ),
                 ),
             );
-            $order = wc_get_order($woo_order_id);
             $body_request['purchase_units'][0]['invoice_id'] = $this->invoice_id_prefix . $invoice_id . str_replace("#", "", $order->get_order_number());
             $body_request['purchase_units'][0]['custom_id'] = wp_json_encode(
                 array(
@@ -3181,9 +3288,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (!isset($body_request['payment_source'])) {
                 if (empty($all_payment_tokens) && !empty($payment_tokens_id)) {
                     $payment_method = $order->get_meta('_wpg_ppcp_used_payment_method');
-                    if (in_array($payment_method, ['paypal', 'card'])) {
-                        $payment_method = 'paypal';
-                    } else {
+                    if (!in_array($payment_method, ['paypal', 'card', 'google_pay', 'apple_pay', 'venmo'], true)) {
                         $payment_method = 'paypal';
                     }
                     $body_request['payment_source'] = array($payment_method => array('vault_id' => $payment_tokens_id));
@@ -3206,6 +3311,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         switch ($paymentMethod) {
             case 'card':
             case 'apple_pay':
+            case 'google_pay':
                 $storedCredentials = array(
                     'payment_initiator' => 'MERCHANT',
                     'payment_type' => 'UNSCHEDULED',
@@ -3542,6 +3648,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
             // Get cart details instead of order details
             $cart = $this->ppcp_get_details_from_cart();
+
+            $cart_total = ppcp_round($cart['order_total'], $this->decimals);
+            if ((float) $cart_total <= 0) {
+                $this->ppcp_log('Update order from cart skipped: cart total is ' . $cart_total . '. PayPal does not accept zero or negative amounts.');
+                return false;
+            }
 
             // Shipping or Billing Address from customer
             $shipping_address_request = array();

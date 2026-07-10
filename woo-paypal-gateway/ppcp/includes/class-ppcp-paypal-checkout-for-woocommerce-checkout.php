@@ -39,6 +39,12 @@ if (class_exists('WC_Checkout')) {
                 $this->update_session($posted_data);
                 $this->process_customer($posted_data);
 
+                if (WC()->cart && WC()->cart->needs_shipping()) {
+                    add_filter('woocommerce_cart_ready_to_calc_shipping', '__return_true', 1000);
+                    WC()->cart->calculate_shipping();
+                    WC()->cart->calculate_totals();
+                }
+
                 $order    = null;
                 $order_id = null;
 
@@ -127,6 +133,12 @@ if (class_exists('WC_Checkout')) {
 
                 $this->process_customer($posted_data);
 
+                if ($needs_shipping) {
+                    add_filter('woocommerce_cart_ready_to_calc_shipping', '__return_true', 1000);
+                    WC()->cart->calculate_shipping();
+                    WC()->cart->calculate_totals();
+                }
+
                 $order    = null;
                 $order_id = null;
 
@@ -158,6 +170,8 @@ if (class_exists('WC_Checkout')) {
                     throw new Exception(__('Unable to create order.', 'woo-paypal-gateway'));
                 }
 
+                do_action('woocommerce_checkout_order_processed', $order_id, $posted_data, $order);
+
                 return $order_id;
 
             } catch (Exception $ex) {
@@ -180,6 +194,11 @@ if (class_exists('WC_Checkout')) {
 
         protected function wpg_sync_order_from_cart($order) {
             try {
+                if (WC()->cart && !WC()->cart->is_empty() && WC()->cart->needs_shipping()) {
+                    add_filter('woocommerce_cart_ready_to_calc_shipping', '__return_true', 1000);
+                    WC()->cart->calculate_shipping();
+                    WC()->cart->calculate_totals();
+                }
                 if (class_exists('\Automattic\WooCommerce\StoreApi\Utilities\OrderController')) {
                     $controller = new \Automattic\WooCommerce\StoreApi\Utilities\OrderController();
                     $controller->update_order_from_cart($order, true);

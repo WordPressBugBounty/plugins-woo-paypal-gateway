@@ -278,7 +278,7 @@ class Woo_Paypal_Gateway {
         }
         wp_enqueue_script('jquery-blockui');
         wp_enqueue_style('deactivation-feedback-modal', WPG_PLUGIN_ASSET_URL . 'admin/feedback/css/deactivation-feedback-modal.css', null, WPG_PLUGIN_VERSION);
-        wp_enqueue_script('deactivation-feedback-modal', WPG_PLUGIN_ASSET_URL . 'admin/feedback/js/deactivation-feedback-modal.js', null, WPG_PLUGIN_VERSION, true);
+        wp_enqueue_script('deactivation-feedback-modal', WPG_PLUGIN_ASSET_URL . 'admin/feedback/js/deactivation-feedback-modal.js', array('jquery'), WPG_PLUGIN_VERSION, true);
         wp_localize_script('deactivation-feedback-modal', 'wpg_feedback_form_ajax_data', array('nonce' => wp_create_nonce('wpg-ajax')));
     }
 

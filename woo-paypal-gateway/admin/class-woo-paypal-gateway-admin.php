@@ -49,7 +49,7 @@ class Woo_Paypal_Gateway_Admin {
      */
     public function enqueue_styles() {
         wp_enqueue_style('woo-paypal-gateway-admin', plugin_dir_url(__FILE__) . 'css/woo-paypal-gateway-admin.css', array(), $this->version, 'all');
-        wp_enqueue_script('woo-paypal-checkout-admin', plugin_dir_url(__FILE__) . 'js/woo-paypal-checkout-admin.js', array(), $this->version, 'all');
+        wp_enqueue_script('woo-paypal-checkout-admin', plugin_dir_url(__FILE__) . 'js/woo-paypal-checkout-admin.js', array('jquery'), $this->version, 'all');
     }
 
     /**

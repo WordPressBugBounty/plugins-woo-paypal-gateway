@@ -540,6 +540,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             'wpg_advanced_settings' => __('Additional Settings', 'woo-paypal-gateway'),
             'wpg_foq' => __('FAQ', 'woo-paypal-gateway'),
         );
+        if (class_exists('WPG_Conversion_Controller') && !empty(WPG_Conversion_Controller::instance()->get_detected_plugins())) {
+            $faq = $tabs['wpg_foq'];
+            unset($tabs['wpg_foq']);
+            $tabs['wpg_migration_tool'] = __('Migration Tool', 'woo-paypal-gateway');
+            $tabs['wpg_foq'] = $faq;
+        }
         echo '<h2 class="nav-tab-wrapper">';
         foreach ($tabs as $key => $label) {
             $active_class = ($key === $current_tab) ? 'nav-tab-active' : '';
@@ -557,6 +563,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         if ('wpg_paypal_checkout' === $section && 'wpg_recommended_plugins' === $wpg_section) {
             $GLOBALS['hide_save_button'] = true;
             $this->wpg_ppcp_display_other_plugin();
+        } elseif ('wpg_migration_tool' === $wpg_section) {
+            $GLOBALS['hide_save_button'] = true;
+            WPG_Conversion_Controller::instance()->render_admin_page();
         } else {
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce generates safe admin HTML
             echo '<table class="form-table">' . $this->generate_settings_html($this->get_form_fields(), false) . '</table>';
@@ -1291,18 +1300,24 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
     }
 
     public function process_subscription_payment($order, $amount_to_charge) {
-        try {
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
             include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
-            $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
-            $order_id = $order->get_id();
-            $this->request->wpg_ppcp_capture_order_using_payment_method_token($order_id);
-        } catch (Exception $ex) {
-            
+        }
+        $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+        $order_id = $order->get_id();
+        $result = $this->request->wpg_ppcp_capture_order_using_payment_method_token($order_id);
+        if ($result === false) {
+            $order = wc_get_order($order_id);
+            if ($order && !in_array($order->get_status(), array('processing', 'completed', 'on-hold'), true)) {
+                $order->update_status('failed', __('Subscription renewal payment failed at PayPal.', 'woo-paypal-gateway'));
+            }
         }
     }
 
     public function subscription_change_payment($order_id) {
-        include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
+            include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+        }
         $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
         return $this->request->ppcp_paypal_setup_tokens_sub_change_payment($order_id);
     }
@@ -1678,6 +1693,53 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         }
     }
 
+    public function generate_wpg_clear_cache_button_html( $field_key, $data ) {
+        $field_key = $this->get_field_key( $field_key );
+        $nonce = wp_create_nonce( 'wpg_ppcp_clear_cache' );
+        ob_start();
+        ?>
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <label for="<?php echo esc_attr( $field_key ); ?>"><?php echo wp_kses_post( $data['title'] ); ?></label>
+            </th>
+            <td class="forminp" id="<?php echo esc_attr( $field_key ); ?>">
+                <button type="button" class="button" id="wpg-ppcp-clear-cache"><?php esc_html_e( 'Clear Cache', 'woo-paypal-gateway' ); ?></button>
+                <span id="wpg-ppcp-cache-status" style="margin-left:10px;"></span>
+                <?php if ( ! empty( $data['description'] ) ) : ?>
+                    <p class="description"><?php echo wp_kses_post( $data['description'] ); ?></p>
+                <?php endif; ?>
+                <script>
+                (function(){
+                    var btn = document.getElementById('wpg-ppcp-clear-cache');
+                    if (!btn) return;
+                    btn.addEventListener('click', function() {
+                        btn.disabled = true;
+                        var status = document.getElementById('wpg-ppcp-cache-status');
+                        status.textContent = '<?php echo esc_js( __( 'Clearing...', 'woo-paypal-gateway' ) ); ?>';
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>');
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        xhr.onload = function() {
+                            btn.disabled = false;
+                            if (xhr.status === 200) {
+                                status.textContent = '<?php echo esc_js( __( 'Cache cleared!', 'woo-paypal-gateway' ) ); ?>';
+                                status.style.color = '#46b450';
+                            } else {
+                                status.textContent = '<?php echo esc_js( __( 'Error clearing cache.', 'woo-paypal-gateway' ) ); ?>';
+                                status.style.color = '#dc3232';
+                            }
+                            setTimeout(function(){ status.textContent = ''; }, 3000);
+                        };
+                        xhr.send('action=wpg_ppcp_clear_cache&nonce=<?php echo esc_js( $nonce ); ?>');
+                    });
+                })();
+                </script>
+            </td>
+        </tr>
+        <?php
+        return ob_get_clean();
+    }
+
     public function generate_disallowed_funding_methods_note_html($field_key, $data) {
         if (isset($data['type']) && $data['type'] === 'disallowed_funding_methods_note') {
             $field_key = $this->get_field_key($field_key);
@@ -1895,26 +1957,37 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
     public function free_signup_order_payment($order_id) {
         try {
             // phpcs:disable WordPress.Security.NonceVerification.Missing
-            if (!empty($_POST['wc-angelleye_ppcp-payment-token']) && $_POST['wc-angelleye_ppcp-payment-token'] != 'new') {
+            $token_id = isset($_POST['wc-wpg_paypal_checkout-payment-token']) ? wc_clean(wp_unslash($_POST['wc-wpg_paypal_checkout-payment-token'])) : '';
+            if (!empty($token_id) && $token_id !== 'new') {
                 if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
                     include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
-                    $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
                 }
+                $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
                 $order = wc_get_order($order_id);
-                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-                $token_id = wc_clean($_POST['wc-wpg_paypal_checkout-payment-token']);
+                if (!$order) {
+                    wc_add_notice(__('Payment error: order not found.', 'woo-paypal-gateway'), 'error');
+                    return array('result' => 'failure');
+                }
                 $token = WC_Payment_Tokens::get($token_id);
-                $order->payment_complete($token->get_token());
-                $this->payment_request->save_payment_token($order, $token->get_token());
-                WC()->cart->empty_cart();
-                return array(
-                    'result' => 'success',
-                    'redirect' => $this->get_return_url($order),
-                );
+                if ($token && $token->get_user_id() === get_current_user_id()) {
+                    $order->payment_complete($token->get_token());
+                    $this->request->save_payment_token($order, $token->get_token());
+                    WC()->cart->empty_cart();
+                    return array(
+                        'result' => 'success',
+                        'redirect' => $this->get_return_url($order),
+                    );
+                }
             }
             // phpcs:enable WordPress.Security.NonceVerification.Missing
+            wc_add_notice(__('Payment error: unable to process with saved payment method.', 'woo-paypal-gateway'), 'error');
+            return array('result' => 'failure');
         } catch (Exception $ex) {
-            // Optional: log error
+            if (function_exists('wc_get_logger')) {
+                wc_get_logger()->error('Free signup payment error: ' . $ex->getMessage(), array('source' => 'wpg_paypal_checkout'));
+            }
+            wc_add_notice(__('Payment error: unable to process with saved payment method.', 'woo-paypal-gateway'), 'error');
+            return array('result' => 'failure');
         }
     }
 

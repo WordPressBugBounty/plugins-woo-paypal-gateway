@@ -5,7 +5,7 @@
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
  * Description:       PayPal, Credit/Debit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal Partner
- * Version:           9.0.66
+ * Version:           9.1.0
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
@@ -15,9 +15,9 @@
  * Requires at least: 4.7
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
- * Tested up to: 7.0
+ * Tested up to: 7.0.1
  * WC requires at least: 3.4
- * WC tested up to: 10.8.1
+ * WC tested up to: 10.9.4
  */
 if (!defined('WPINC')) {
     die;
@@ -25,7 +25,7 @@ if (!defined('WPINC')) {
 
 
 if (!defined('WPG_PLUGIN_VERSION')) {
-    define('WPG_PLUGIN_VERSION', '9.0.66');
+    define('WPG_PLUGIN_VERSION', '9.1.0');
 }
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
@@ -82,6 +82,12 @@ register_deactivation_hook(__FILE__, 'deactivate_woo_paypal_gateway');
 require_once WPG_PLUGIN_DIR . '/ppcp/includes/ppcp-paypal-checkout-for-woocommerce-function.php';
 require plugin_dir_path(__FILE__) . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce.php';
 require plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-gateway.php';
+
+$wpg_migration_bootstrap = WPG_PLUGIN_DIR . '/ppcp/includes/migration/class-wpg-migration-bootstrap.php';
+if ( file_exists( $wpg_migration_bootstrap ) ) {
+    require_once $wpg_migration_bootstrap;
+    WPG_Migration_Bootstrap::init( WPG_PLUGIN_VERSION );
+}
 
 /**
  * Begins execution of the plugin.
@@ -143,6 +149,19 @@ add_action( 'woocommerce_blocks_loaded', function () {
             }
         }
     );
+
+    $minicart_block_file = WPG_PLUGIN_DIR . '/ppcp/checkout-block/ppcp-minicart-block.php';
+    if ( file_exists( $minicart_block_file ) && interface_exists( '\Automattic\WooCommerce\Blocks\Integrations\IntegrationInterface' ) ) {
+        require_once $minicart_block_file;
+        add_action(
+            'woocommerce_blocks_mini-cart_block_registration',
+            function ( $integration_registry ) {
+                if ( class_exists( 'PPCP_MiniCart_Block' ) ) {
+                    $integration_registry->register( new PPCP_MiniCart_Block() );
+                }
+            }
+        );
+    }
 }, 20 );
 
 

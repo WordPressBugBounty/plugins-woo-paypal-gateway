@@ -460,6 +460,23 @@
     --apple-pay-button-height: var(--button-height, 48px);
     --apple-pay-button-max-width: 750px;
 }
+.wpg-ppcp-minicart-express {
+    padding: 8px 0;
+    width: 100%;
+}
+.wpg-ppcp-minicart-express .ppcp-minicart-button {
+    width: 100%;
+    line-height: 0;
+    margin: 0 0 6px;
+}
+.wpg-ppcp-minicart-express .ppcp-minicart-button:last-child {
+    margin-bottom: 0;
+}
+#ppcp_mini_cart_block {
+    width: 100%;
+    line-height: 0;
+    margin: 0 0 6px;
+}
 #ppcp_mini_cart.desktop.small {
     max-width: 350px;
     line-height: 0;

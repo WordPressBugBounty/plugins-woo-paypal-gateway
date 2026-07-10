@@ -281,41 +281,54 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
     }
 
     public function process_subscription_payment($order, $amount_to_charge) {
-        try {
-            if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
-                include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
+            include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+        }
+        $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+        $order_id = $order->get_id();
+        $result = $this->request->wpg_ppcp_capture_order_using_payment_method_token($order_id);
+        if ($result === false) {
+            $order = wc_get_order($order_id);
+            if ($order && !in_array($order->get_status(), array('processing', 'completed', 'on-hold'), true)) {
+                $order->update_status('failed', __('Subscription renewal payment failed at PayPal.', 'woo-paypal-gateway'));
             }
-            $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
-            $order_id = $order->get_id();
-            $this->request->wpg_ppcp_capture_order_using_payment_method_token($order_id);
-        } catch (Exception $ex) {
-            
         }
     }
 
     public function free_signup_order_payment($order_id) {
         try {
             // phpcs:disable WordPress.Security.NonceVerification.Missing
-            if (!empty($_POST['wc-angelleye_ppcp-payment-token']) && 'new' !== sanitize_text_field(wp_unslash($_POST['wc-angelleye_ppcp-payment-token']))) {
+            $token_id = isset($_POST['wc-wpg_paypal_checkout_cc-payment-token']) ? wc_clean(wp_unslash($_POST['wc-wpg_paypal_checkout_cc-payment-token'])) : '';
+            if (!empty($token_id) && $token_id !== 'new') {
                 if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
                     include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
                 }
                 $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
                 $order = wc_get_order($order_id);
-                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-                $token_id = isset($_POST['wc-wpg_paypal_checkout_cc-payment-token']) ? wc_clean(wp_unslash($_POST['wc-wpg_paypal_checkout_cc-payment-token'])) : '';
+                if (!$order) {
+                    wc_add_notice(__('Payment error: order not found.', 'woo-paypal-gateway'), 'error');
+                    return array('result' => 'failure');
+                }
                 $token = WC_Payment_Tokens::get($token_id);
-                $order->payment_complete($token->get_token());
-                $this->request->save_payment_token($order, $token->get_token());
-                WC()->cart->empty_cart();
-                return array(
-                    'result' => 'success',
-                    'redirect' => $this->get_return_url($order),
-                );
+                if ($token && $token->get_user_id() === get_current_user_id()) {
+                    $order->payment_complete($token->get_token());
+                    $this->request->save_payment_token($order, $token->get_token());
+                    WC()->cart->empty_cart();
+                    return array(
+                        'result' => 'success',
+                        'redirect' => $this->get_return_url($order),
+                    );
+                }
             }
             // phpcs:enable WordPress.Security.NonceVerification.Missing
+            wc_add_notice(__('Payment error: unable to process with saved payment method.', 'woo-paypal-gateway'), 'error');
+            return array('result' => 'failure');
         } catch (Exception $ex) {
-            
+            if (function_exists('wc_get_logger')) {
+                wc_get_logger()->error('Free signup CC payment error: ' . $ex->getMessage(), array('source' => 'wpg_paypal_checkout'));
+            }
+            wc_add_notice(__('Payment error: unable to process with saved payment method.', 'woo-paypal-gateway'), 'error');
+            return array('result' => 'failure');
         }
     }
 }

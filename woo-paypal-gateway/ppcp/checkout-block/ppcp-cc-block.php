@@ -26,6 +26,10 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
         return $this->gateway->is_available();
     }
 
+    public function get_supported_features() {
+        return $this->gateway->supports;
+    }
+
     public function get_payment_method_script_handles() {
         if (!function_exists('has_block') || !wpg_is_using_block_cart_or_checkout()) {
             return [];
@@ -37,10 +41,24 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
         wp_register_script('wpg_paypal_cc-blocks-integration', WPG_PLUGIN_ASSET_URL . 'ppcp/checkout-block/ppcp-cc.js', array('jquery', 'react', 'wc-blocks-registry', 'wc-settings', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-element', 'wp-plugins'), WPG_PLUGIN_VERSION, true);
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations('wpg_paypal_checkout_cc-blocks-integration', 'woo-paypal-gateway');
+            wp_set_script_translations('wpg_paypal_cc-blocks-integration', 'woo-paypal-gateway');
         }
         wp_enqueue_script('wpg_paypal_checkout');
         return ['wpg_paypal_cc-blocks-integration'];
+    }
+
+    private function is_blocks_checkout() {
+        if ( class_exists( '\Automattic\WooCommerce\Blocks\Utils\BlocksWooUtils' ) ) {
+            return \Automattic\WooCommerce\Blocks\Utils\BlocksWooUtils::is_checkout_block();
+        }
+        if ( class_exists( '\Automattic\WooCommerce\Blocks\Package' ) && function_exists( 'has_block' ) ) {
+            $checkout_page_id = wc_get_page_id( 'checkout' );
+            global $post;
+            if ( $checkout_page_id && $post instanceof \WP_Post && (int) $post->ID === $checkout_page_id && has_block( 'woocommerce/checkout', $post ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function get_payment_method_data() {
@@ -48,12 +66,12 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
         $is_pay_page = '';
         if (is_product()) {
             $page = 'product';
-        } else if (is_cart() && WC()->cart && !WC()->cart->is_empty()) {
+        } else if (is_cart()) {
             $page = 'cart';
         } elseif (is_checkout_pay_page()) {
             $page = 'checkout';
             $is_pay_page = 'yes';
-        } elseif (is_checkout()) {
+        } elseif (is_checkout() || $this->is_blocks_checkout()) {
             $page = 'checkout';
         }
         $is_paylater_enable_incart_page = 'no';

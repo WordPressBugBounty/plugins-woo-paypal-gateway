@@ -1995,6 +1995,99 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                             '<code>' . WC_Log_Handler_File::get_log_file_path('wpg_paypal_checkout') . '</code>'
                     ),
                 ),
+                'clear_cache' => array(
+                    'title' => __( 'API Cache', 'woo-paypal-gateway' ),
+                    'type' => 'wpg_clear_cache_button',
+                    'description' => __( 'Clear all cached PayPal API responses (access tokens, client tokens, merchant status). Use this after changing credentials or if payments are failing unexpectedly.', 'woo-paypal-gateway' ),
+                    'desc_tip' => true,
+                ),
+                '3ds_heading' => array(
+                    'title' => __( '3D Secure / SCA', 'woo-paypal-gateway' ),
+                    'type' => 'title',
+                    'description' => __( 'Control how your store handles 3D Secure (Strong Customer Authentication) results for credit card payments. The default "Accept" mode preserves the same behavior as previous plugin versions.', 'woo-paypal-gateway' ),
+                ),
+                '3ds_liability_handling' => array(
+                    'title' => __( 'Liability Shift Handling', 'woo-paypal-gateway' ),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select',
+                    'description' => __( 'How to handle payments where the liability shift is not granted to you. "Accept" processes all payments (most lenient, fewest declined orders). "Review" processes but flags ambiguous cases in order notes. "Reject" declines payments that fail 3D Secure verification (strictest, best chargeback protection).', 'woo-paypal-gateway' ),
+                    'default' => 'accept',
+                    'desc_tip' => true,
+                    'options' => array(
+                        'accept' => __( 'Accept — Process all payments (default, backward-compatible)', 'woo-paypal-gateway' ),
+                        'review' => __( 'Review — Process but flag ambiguous 3DS results', 'woo-paypal-gateway' ),
+                        'reject' => __( 'Reject — Decline payments without successful 3D Secure', 'woo-paypal-gateway' ),
+                    ),
+                ),
+                '3ds_logging' => array(
+                    'title' => __( '3D Secure Logging', 'woo-paypal-gateway' ),
+                    'type' => 'checkbox',
+                    'label' => __( 'Log 3D Secure evaluation details', 'woo-paypal-gateway' ),
+                    'default' => 'no',
+                    'desc_tip' => true,
+                    'description' => sprintf(
+                        // translators: %s is the path to the 3DS log file.
+                        __( 'Log 3D Secure liability shift decisions inside %s', 'woo-paypal-gateway' ),
+                        '<code>' . WC_Log_Handler_File::get_log_file_path( 'wpg_paypal_3ds' ) . '</code>'
+                    ),
+                ),
+                'recaptcha_heading' => array(
+                    'title' => __('Fraud Protection (reCAPTCHA v3)', 'woo-paypal-gateway'),
+                    'type' => 'title',
+                    'description' => __('Protect your checkout from bots and card testing fraud using Google reCAPTCHA v3. This is completely invisible to legitimate customers.', 'woo-paypal-gateway'),
+                ),
+                'recaptcha_enabled' => array(
+                    'title' => __('Enable reCAPTCHA', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'label' => __('Enable reCAPTCHA v3 fraud protection at checkout', 'woo-paypal-gateway'),
+                    'default' => 'no',
+                    'desc_tip' => true,
+                    'description' => __('When enabled, checkout submissions are scored by Google reCAPTCHA v3. Suspicious submissions are blocked before reaching PayPal. No impact on legitimate customers.', 'woo-paypal-gateway'),
+                ),
+                'recaptcha_site_key' => array(
+                    'title' => __('reCAPTCHA Site Key', 'woo-paypal-gateway'),
+                    'type' => 'text',
+                    'description' => sprintf(
+                            // translators: %s: URL to the Google reCAPTCHA admin console.
+                            __('Get your reCAPTCHA v3 keys from the <a href="%s" target="_blank">Google reCAPTCHA admin console</a>.', 'woo-paypal-gateway'),
+                            'https://www.google.com/recaptcha/admin'
+                    ),
+                    'default' => '',
+                ),
+                'recaptcha_secret_key' => array(
+                    'title' => __('reCAPTCHA Secret Key', 'woo-paypal-gateway'),
+                    'type' => 'password',
+                    'description' => __('Your reCAPTCHA v3 secret key. Keep this confidential.', 'woo-paypal-gateway'),
+                    'default' => '',
+                    'desc_tip' => true,
+                ),
+                'recaptcha_threshold' => array(
+                    'title' => __('Score Threshold', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select',
+                    'description' => __('Submissions scoring below this value are blocked. Lower values are more lenient (fewer false positives). Higher values are stricter (more fraud blocked). Default 0.5 is recommended for most stores.', 'woo-paypal-gateway'),
+                    'default' => '0.5',
+                    'desc_tip' => true,
+                    'options' => array(
+                        '0.1' => __('0.1 — Very lenient', 'woo-paypal-gateway'),
+                        '0.2' => '0.2',
+                        '0.3' => '0.3',
+                        '0.4' => '0.4',
+                        '0.5' => __('0.5 — Recommended', 'woo-paypal-gateway'),
+                        '0.6' => '0.6',
+                        '0.7' => __('0.7 — Strict', 'woo-paypal-gateway'),
+                        '0.8' => '0.8',
+                        '0.9' => __('0.9 — Very strict', 'woo-paypal-gateway'),
+                    ),
+                ),
+                'recaptcha_skip_logged_in' => array(
+                    'title' => __('Skip for Logged-in Users', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'label' => __('Skip reCAPTCHA verification for logged-in users', 'woo-paypal-gateway'),
+                    'description' => __('When enabled, authenticated users bypass the reCAPTCHA check. This reduces friction for returning customers.', 'woo-paypal-gateway'),
+                    'default' => 'no',
+                    'desc_tip' => true,
+                ),
             );
             if (wc_ship_to_billing_address_only() === true) {
                 unset($advanced_settings['set_billing_address']);

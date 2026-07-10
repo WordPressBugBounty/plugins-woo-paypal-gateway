@@ -788,7 +788,7 @@ if (!function_exists('is_wpg_paypal_vault_required')) {
         if (class_exists('WFOCU_Core') || function_exists('WFOCU_Core') || defined('WFOCU_VERSION')) {
             return true;
         }
-        return false;
+        return apply_filters('wpg_ppcp_vault_required', false);
     }
 
 }
