@@ -71,8 +71,8 @@ class WPG_WC_PayPal_Payments_Converter extends WPG_Plugin_Converter {
 	}
 
 	public function is_source_installed() {
-		return class_exists( 'WooCommerce\PayPalCommerce\PluginModule' )
-			|| defined( 'PAYPAL_API_URL' )
+		return defined( 'PAYPAL_API_URL' )
+			|| class_exists( 'WooCommerce\PayPalCommerce\PluginModule', false )
 			|| parent::is_source_installed();
 	}
 

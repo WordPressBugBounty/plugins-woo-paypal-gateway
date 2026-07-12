@@ -32,7 +32,7 @@ class WPG_Product_Addons_Compat {
 	}
 
 	private function is_active() {
-		return class_exists( 'WC_Product_Addons' ) || defined( 'WC_PRODUCT_ADDONS_VERSION' );
+		return defined( 'WC_PRODUCT_ADDONS_VERSION' ) || class_exists( 'WC_Product_Addons', false );
 	}
 
 	/**

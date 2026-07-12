@@ -36,7 +36,7 @@ class WPG_Pre_Orders_Compat {
 	}
 
 	private function is_active() {
-		return class_exists( 'WC_Pre_Orders' );
+		return class_exists( 'WC_Pre_Orders', false );
 	}
 
 	/**

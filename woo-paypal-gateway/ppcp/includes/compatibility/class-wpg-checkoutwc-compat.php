@@ -36,7 +36,7 @@ class WPG_CheckoutWC_Compat {
 	}
 
 	private function is_checkoutwc_active() {
-		return function_exists( 'cfw_is_checkout' ) || class_exists( 'Objectiv\Plugins\Checkout\Main' );
+		return function_exists( 'cfw_is_checkout' ) || class_exists( 'Objectiv\Plugins\Checkout\Main', false );
 	}
 
 	/**

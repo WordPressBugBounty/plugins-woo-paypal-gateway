@@ -327,7 +327,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
      * @return bool
      */
     private function is_funnelkit_compatibility_active() {
-        return class_exists('WFFN_Core') || class_exists('WFACP_Core') || class_exists('WFOCU_Core') || class_exists('WFFN_Pro_Core') || class_exists('WFOB_Core');
+        // autoload disabled: detecting FunnelKit must not trigger its autoloader.
+        return class_exists('WFFN_Core', false) || class_exists('WFACP_Core', false) || class_exists('WFOCU_Core', false) || class_exists('WFFN_Pro_Core', false) || class_exists('WFOB_Core', false);
     }
 
     public function enqueue_scripts() {
@@ -2941,7 +2942,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function wpg_ppcp_woocommerce_currency( $ppcp_currency ) {
-        if ( class_exists( 'Yay_Currency\Helpers\YayCurrencyHelper' ) ) {
+        if ( class_exists( 'Yay_Currency\Helpers\YayCurrencyHelper', false ) ) {
             if ( 
                 method_exists('Yay_Currency\Helpers\YayCurrencyHelper', 'detect_current_currency') &&
                 method_exists('Yay_Currency\Helpers\YayCurrencyHelper', 'is_dis_checkout_diff_currency') &&
@@ -3929,7 +3930,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         if ( ! $lang ) {
             return;
         }
-        if ( class_exists( 'PLLWC_Data_Store' ) ) {
+        if ( class_exists( 'PLLWC_Data_Store', false ) ) {
             PLLWC_Data_Store::load( 'order_language' )->set_language( $order->get_id(), $lang );
             return;
         }

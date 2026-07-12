@@ -332,7 +332,7 @@ if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
         }
 
         public function get_giftcard_amount($order_id = null) {
-            if (class_exists('WPR_Giftcard')) {
+            if (class_exists('WPR_Giftcard', false)) {
                 if (!empty(WC()->session->giftcard_post)) {
                     $giftcard = new WPR_Giftcard();
                     $price = $giftcard->wpr_get_payment_amount();

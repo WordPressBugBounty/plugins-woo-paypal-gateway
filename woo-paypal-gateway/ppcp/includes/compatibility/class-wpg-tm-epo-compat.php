@@ -31,7 +31,7 @@ class WPG_TM_EPO_Compat {
 	}
 
 	private function is_active() {
-		return class_exists( 'THEMECOMPLETE_EPO' ) || defined( 'THEMECOMPLETE_EPO_VERSION' );
+		return defined( 'THEMECOMPLETE_EPO_VERSION' ) || class_exists( 'THEMECOMPLETE_EPO', false );
 	}
 
 	public function adjust_product_total( $total, $product, $qty ) {

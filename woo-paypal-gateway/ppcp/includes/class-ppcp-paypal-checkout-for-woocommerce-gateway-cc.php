@@ -41,7 +41,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         }
         $this->enabled = $this->cc_enable = $this->get_option('enable_advanced_card_payments', 'no');
         $this->enable_save_card = 'yes' === $this->get_option('enable_save_card', 'no');
-        if (!$this->enable_save_card && (class_exists('WFOCU_Core') || function_exists('WFOCU_Core') || defined('WFOCU_VERSION'))) {
+        if (!$this->enable_save_card && (function_exists('WFOCU_Core') || defined('WFOCU_VERSION') || class_exists('WFOCU_Core', false))) {
             $this->enable_save_card = true;
         }
         $this->sandbox = 'yes' === $this->get_option('sandbox', 'no');

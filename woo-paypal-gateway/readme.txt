@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 7.0.1
-Stable tag: 9.1.0
+Stable tag: 9.1.1
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,9 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.1.1 - 2026-07-12 =
+ * Fixed - Fatal error when a third-party plugin (e.g. Advanced Product Fields for WooCommerce Extended) uses a fragile autoloader. Plugin-detection checks no longer trigger other plugins' autoloaders.
 
 = 9.1.0 - 2026-07-10 =
  * Added - reCAPTCHA v3 fraud protection for checkout with configurable score threshold.

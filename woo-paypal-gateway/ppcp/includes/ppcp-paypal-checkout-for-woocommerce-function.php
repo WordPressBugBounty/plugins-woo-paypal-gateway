@@ -785,7 +785,7 @@ if (!function_exists('is_wpg_paypal_vault_required')) {
         if (isset($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']) && wc_string_to_bool(wc_clean($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']))) {
             return true;
         }
-        if (class_exists('WFOCU_Core') || function_exists('WFOCU_Core') || defined('WFOCU_VERSION')) {
+        if (function_exists('WFOCU_Core') || defined('WFOCU_VERSION') || class_exists('WFOCU_Core', false)) {
             return true;
         }
         return apply_filters('wpg_ppcp_vault_required', false);

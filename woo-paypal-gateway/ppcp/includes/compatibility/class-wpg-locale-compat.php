@@ -144,7 +144,7 @@ class WPG_Locale_Compat {
 	}
 
 	private function is_wpml_active() {
-		return defined( 'ICL_SITEPRESS_VERSION' ) || class_exists( 'SitePress' );
+		return defined( 'ICL_SITEPRESS_VERSION' ) || class_exists( 'SitePress', false );
 	}
 
 	private function is_polylang_active() {

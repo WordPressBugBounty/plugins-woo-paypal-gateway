@@ -64,8 +64,8 @@ class WPG_AngellEYE_Converter extends WPG_Plugin_Converter {
 	}
 
 	public function is_source_installed() {
-		return class_exists( 'AngellEYE_Gateway_Paypal' )
-			|| defined( 'ANGELLEYE_PPCP_VERSION' )
+		return defined( 'ANGELLEYE_PPCP_VERSION' )
+			|| class_exists( 'AngellEYE_Gateway_Paypal', false )
 			|| parent::is_source_installed();
 	}
 

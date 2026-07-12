@@ -31,7 +31,12 @@ class WPG_WAPF_Compat {
 	}
 
 	private function is_active() {
-		return defined( 'WAPF_VERSION' ) || class_exists( 'SW_WAPF_PRO' ) || class_exists( 'SW_WAPF' );
+		// Use class_exists() with autoload disabled so we never trigger the
+		// target plugin's autoloader while merely detecting whether it is active.
+		// Some autoloaders throw a fatal when handed a class name they don't own.
+		return defined( 'WAPF_VERSION' )
+			|| class_exists( 'SW_WAPF_PRO', false )
+			|| class_exists( 'SW_WAPF', false );
 	}
 
 	public function adjust_product_total( $total, $product, $qty ) {

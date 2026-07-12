@@ -154,7 +154,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
      * @return bool
      */
     protected static function is_funnelkit_active() {
-        if (class_exists('WFACP_Core') || class_exists('WFOCU_Core') || class_exists('WFFN_Core')) {
+        if (class_exists('WFACP_Core', false) || class_exists('WFOCU_Core', false) || class_exists('WFFN_Core', false)) {
             return true;
         }
 

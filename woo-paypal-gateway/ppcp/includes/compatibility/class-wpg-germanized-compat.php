@@ -36,7 +36,7 @@ class WPG_Germanized_Compat {
 	}
 
 	private function is_germanized_active() {
-		return class_exists( 'WooCommerce_Germanized' ) || function_exists( 'wc_gzd_get_hook_priority' );
+		return function_exists( 'wc_gzd_get_hook_priority' ) || class_exists( 'WooCommerce_Germanized', false );
 	}
 
 	/**
