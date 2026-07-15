@@ -47,6 +47,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         $this->sandbox = 'yes' === $this->get_option('sandbox', 'no');
         if ($this->enable_save_card) {
             $this->supports[] = 'tokenization';
+            $this->supports[] = 'add_payment_method';
         }
         $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
         $this->order_button_text = __('Place order', 'woo-paypal-gateway');
@@ -69,6 +70,39 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             $this->form();
             echo '<div id="payments-sdk__contingency-lightbox"></div>';
         }
+    }
+
+    /**
+     * Handle the My-Account "Add payment method" submission.
+     *
+     * Creates a PayPal setup token and redirects the customer to PayPal to
+     * approve saving their payment method. On return the token is exchanged for
+     * a permanent vault token (see request::ppcp_add_payment_method_create_token).
+     *
+     * @return array
+     */
+    public function add_payment_method() {
+        if (!is_user_logged_in()) {
+            wc_add_notice(__('You must be logged in to add a payment method.', 'woo-paypal-gateway'), 'error');
+            return array('result' => 'failure', 'redirect' => wc_get_endpoint_url('payment-methods', '', wc_get_page_permalink('myaccount')));
+        }
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
+            include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-request.php';
+        }
+        $request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+        $result = $request->ppcp_add_payment_method_setup_token();
+
+        // The approval URL is on paypal.com, which wp_safe_redirect() would
+        // block, so redirect manually to the external approval page.
+        if (!empty($result['redirect']) && 'success' === $result['result']) {
+            wp_redirect($result['redirect']); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+            exit;
+        }
+
+        return array(
+            'result'   => 'failure',
+            'redirect' => wc_get_endpoint_url('payment-methods', '', wc_get_page_permalink('myaccount')),
+        );
     }
 
     public function save_payment_method_checkbox() {

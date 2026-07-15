@@ -34,7 +34,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_3DS {
 	}
 
 	public function get_handling_mode() {
-		return isset( $this->settings['3ds_liability_handling'] ) ? $this->settings['3ds_liability_handling'] : 'accept';
+		return isset( $this->settings['3ds_liability_handling'] ) ? $this->settings['3ds_liability_handling'] : 'smart';
 	}
 
 	public function is_logging_enabled() {
@@ -85,7 +85,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_3DS {
 	private function decide( $liability_shift, $enrollment, $auth_status ) {
 		$mode = $this->get_handling_mode();
 
-		if ( $liability_shift === 'POSSIBLE' ) {
+		// Liability shifted to the card issuer — a fraud chargeback on this transaction
+		// is the bank's responsibility, not the merchant's (and not ours). Always proceed.
+		// The Orders v2 spec documents POSSIBLE for a shifted liability, but PayPal also
+		// returns YES for a fully authenticated card in the field, so both are honored.
+		if ( $liability_shift === 'POSSIBLE' || $liability_shift === 'YES' ) {
 			return self::PROCEED;
 		}
 
@@ -101,6 +105,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_3DS {
 	}
 
 	private function decide_no_shift( $enrollment, $auth_status, $mode ) {
+		// Card or issuer not enrolled in 3-D Secure and no authentication was attempted.
+		// Legitimate shoppers routinely land here (non-participating cards), so declining
+		// them would cost real sales and revenue — only the strict "reject" mode blocks these.
 		if ( in_array( $enrollment, array( 'B', 'U', 'N' ), true ) && empty( $auth_status ) ) {
 			if ( $mode === 'reject' ) {
 				return self::REJECT;
@@ -108,35 +115,58 @@ class PPCP_Paypal_Checkout_For_Woocommerce_3DS {
 			return self::PROCEED;
 		}
 
+		// Issuer actively rejected authentication. Strong block signal — never retry.
 		if ( $auth_status === 'R' ) {
 			return self::REJECT;
 		}
 
-		if ( $auth_status === 'N' ) {
-			if ( $mode === 'accept' ) {
+		// A challenge was expected but the cardholder did not pass or complete it
+		// (N = failed authentication, C = challenge required but not completed). This is the
+		// classic stolen-card signal: a fraudster cannot clear the issuer's challenge.
+		if ( in_array( $auth_status, array( 'N', 'C' ), true ) ) {
+			return $this->resolve_failed_auth( $mode );
+		}
+
+		// Unable to authenticate (often transient) or no status returned — treat as ambiguous.
+		if ( $auth_status === 'U' || empty( $auth_status ) ) {
+			return $this->resolve_ambiguous( $mode );
+		}
+
+		// Any other non-shifted outcome.
+		return $this->resolve_ambiguous( $mode );
+	}
+
+	/**
+	 * Decide what to do when a 3-D Secure challenge was presented but the cardholder did not
+	 * successfully authenticate (auth status N or C) and liability did not shift.
+	 *
+	 * The default "smart" mode returns RETRY rather than a hard REJECT: a genuine cardholder
+	 * who mistyped a one-time code can simply try again, while a fraudster who cannot clear
+	 * the bank's challenge is stopped before the payment is captured. This protects against
+	 * stolen-card chargebacks without declining legitimate customers or reducing sales volume.
+	 */
+	private function resolve_failed_auth( $mode ) {
+		switch ( $mode ) {
+			case 'reject':
+				return self::REJECT;
+			case 'smart':
+				return self::RETRY;
+			case 'review':
+			case 'accept':
+			default:
 				return self::PROCEED;
-			}
-			return self::REJECT;
 		}
-
-		if ( $auth_status === 'U' ) {
-			return $this->resolve_ambiguous( $mode );
-		}
-
-		if ( empty( $auth_status ) ) {
-			return $this->resolve_ambiguous( $mode );
-		}
-
-		if ( $mode === 'reject' ) {
-			return self::REJECT;
-		}
-		return self::PROCEED;
 	}
 
 	private function resolve_ambiguous( $mode ) {
 		switch ( $mode ) {
 			case 'reject':
 				return self::REJECT;
+			// "smart" only interrupts on a positive authentication failure (handled in
+			// resolve_failed_auth); a merely-unknown result carries no such signal, so we
+			// proceed to avoid declining legitimate customers.
+			case 'smart':
+				return self::PROCEED;
 			case 'review':
 				return self::PROCEED;
 			case 'accept':

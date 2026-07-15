@@ -135,9 +135,20 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow_API_Handler {
                             $order->update_status('on-hold', sprintf(__('PayPal Pro (PayFlow) charge authorized (Charge ID: %1$s). Process order to take payment, or cancel to remove the pre-authorization.', 'woo-paypal-gateway'), $txn_id));
                             wc_reduce_stock_levels($order->get_id());
                         } else {
-                            // translators: %s: PayPal Payflow transaction reference number (PNREF).
-                            $order->add_order_note(sprintf(__('PayPal Pro (Payflow) payment completed (PNREF: %s)', 'woo-paypal-gateway'), $parsed_response['PNREF']));
-                            $order->payment_complete($txn_id);
+                            $avs_addr = isset($parsed_response['AVSADDR']) ? strtoupper($parsed_response['AVSADDR']) : '';
+                            $avs_zip  = isset($parsed_response['AVSZIP']) ? strtoupper($parsed_response['AVSZIP']) : '';
+                            $cvv_code = isset($parsed_response['CVV2MATCH']) ? $parsed_response['CVV2MATCH'] : '';
+                            // Payflow reports AVS as separate street/ZIP flags; treat as a no-match
+                            // only when BOTH failed, to avoid penalizing partial matches.
+                            $avs_for_eval = ('N' === $avs_addr && 'N' === $avs_zip) ? 'N' : '';
+                            $avs_cvv = wpg_evaluate_avs_cvv($avs_for_eval, $cvv_code);
+                            if ($avs_cvv['flag']) {
+                                wpg_hold_order_for_avs_cvv($order, $avs_cvv, 'ADDR:' . ($avs_addr ?: '—') . '/ZIP:' . ($avs_zip ?: '—'), $cvv_code, $txn_id);
+                            } else {
+                                // translators: %s: PayPal Payflow transaction reference number (PNREF).
+                                $order->add_order_note(sprintf(__('PayPal Pro (Payflow) payment completed (PNREF: %s)', 'woo-paypal-gateway'), $parsed_response['PNREF']));
+                                $order->payment_complete($txn_id);
+                            }
                         }
                         WC()->cart->empty_cart();
                         break;

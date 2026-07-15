@@ -2004,19 +2004,20 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                 '3ds_heading' => array(
                     'title' => __( '3D Secure / SCA', 'woo-paypal-gateway' ),
                     'type' => 'title',
-                    'description' => __( 'Control how your store handles 3D Secure (Strong Customer Authentication) results for credit card payments. The default "Accept" mode preserves the same behavior as previous plugin versions.', 'woo-paypal-gateway' ),
+                    'description' => __( 'Control how your store handles 3D Secure (Strong Customer Authentication) results for credit card payments. The recommended "Smart" mode blocks only cards that fail their bank\'s authentication challenge — the typical stolen-card signal behind fraud chargebacks — while letting all other payments through, so legitimate sales are not affected.', 'woo-paypal-gateway' ),
                 ),
                 '3ds_liability_handling' => array(
                     'title' => __( 'Liability Shift Handling', 'woo-paypal-gateway' ),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select',
-                    'description' => __( 'How to handle payments where the liability shift is not granted to you. "Accept" processes all payments (most lenient, fewest declined orders). "Review" processes but flags ambiguous cases in order notes. "Reject" declines payments that fail 3D Secure verification (strictest, best chargeback protection).', 'woo-paypal-gateway' ),
-                    'default' => 'accept',
+                    'description' => __( 'How to handle credit card payments based on their 3D Secure result. "Smart" (recommended) only stops payments where the cardholder failed or could not complete the bank authentication challenge, and lets the shopper retry — this blocks most stolen-card fraud without declining legitimate customers. "Accept" processes every payment (legacy behavior, least protection). "Review" processes all payments but records the 3DS result on the order for your own monitoring. "Reject" declines any payment that does not receive a successful liability shift (strictest, but will decline some legitimate cards that are not enrolled in 3D Secure).', 'woo-paypal-gateway' ),
+                    'default' => 'smart',
                     'desc_tip' => true,
                     'options' => array(
-                        'accept' => __( 'Accept — Process all payments (default, backward-compatible)', 'woo-paypal-gateway' ),
-                        'review' => __( 'Review — Process but flag ambiguous 3DS results', 'woo-paypal-gateway' ),
-                        'reject' => __( 'Reject — Decline payments without successful 3D Secure', 'woo-paypal-gateway' ),
+                        'smart'  => __( 'Smart — Recommended: block only failed bank authentications, allow everything else', 'woo-paypal-gateway' ),
+                        'accept' => __( 'Accept — Process all payments (legacy, least protection)', 'woo-paypal-gateway' ),
+                        'review' => __( 'Review — Process all payments but record the 3DS result for monitoring', 'woo-paypal-gateway' ),
+                        'reject' => __( 'Reject — Decline any payment without a successful liability shift (strictest)', 'woo-paypal-gateway' ),
                     ),
                 ),
                 '3ds_logging' => array(

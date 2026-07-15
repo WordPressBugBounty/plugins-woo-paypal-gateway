@@ -38,6 +38,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/wpg-ppcp-template-functions.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-loader.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-i18n.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-currency.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/public/class-ppcp-paypal-checkout-for-woocommerce-button-manager.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-product.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-pay-later-messaging.php';
@@ -58,6 +59,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-wapf-compat.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-pre-orders-compat.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-locale-compat.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-shipstation-compat.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-mondial-relay-compat.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-checkoutwc-order-bumps-compat.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/class-wpg-plugin-converter.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/converters/class-wpg-pymntpl-converter.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/converters/class-wpg-wc-paypal-payments-converter.php';
@@ -89,6 +93,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
         WPG_WAPF_Compat::instance()->init();
         WPG_Pre_Orders_Compat::instance()->init();
         WPG_Locale_Compat::instance()->init();
+        WPG_ShipStation_Compat::instance()->init();
+        WPG_Mondial_Relay_Compat::instance()->init();
+        WPG_CheckoutWC_Order_Bumps_Compat::instance()->init();
         WPG_Conversion_Controller::instance()->init();
     }
 

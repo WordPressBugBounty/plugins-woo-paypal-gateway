@@ -267,6 +267,25 @@ class Woo_PayPal_Gateway_PayPal_Rest_API_Handler {
                     $sale = $relatedResources[0]->getSale();
                     $saleId = $sale->getId();
                     do_action('before_save_payment_token', $order_id);
+                    $avs_code = '';
+                    $cvv_code = '';
+                    if (is_callable(array($sale, 'getProcessorResponse'))) {
+                        $processor_response = $sale->getProcessorResponse();
+                        if (is_object($processor_response)) {
+                            $avs_code = is_callable(array($processor_response, 'getAvsCode')) ? (string) $processor_response->getAvsCode() : '';
+                            $cvv_code = is_callable(array($processor_response, 'getCvvCode')) ? (string) $processor_response->getCvvCode() : '';
+                        }
+                    }
+                    $avs_cvv = wpg_evaluate_avs_cvv($avs_code, $cvv_code);
+                    if ($avs_cvv['flag']) {
+                        // Capture already happened: record the payment but hold for review.
+                        $order->add_order_note(__('PayPal Credit Card Payments (REST) payment captured', 'woo-paypal-gateway'));
+                        if (!empty($this->token)) {
+                            $order->add_payment_token($this->token);
+                        }
+                        wpg_hold_order_for_avs_cvv($order, $avs_cvv, $avs_code, $cvv_code, $saleId);
+                        return $this->wpg_return_checkout_order_received_url($order);
+                    }
                     $order->add_order_note(__('PayPal Credit Card Payments (REST) payment completed', 'woo-paypal-gateway'));
                     if (!empty($this->token)) {
                         $order->add_payment_token($this->token);

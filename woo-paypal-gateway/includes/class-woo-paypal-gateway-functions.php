@@ -232,3 +232,97 @@ function wpg_limit_length($string, $limit = 127) {
     }
     return $string;
 }
+
+if (!function_exists('wpg_evaluate_avs_cvv')) {
+
+    /**
+     * Screen a card processor's AVS and CVV2 result codes for fraud signals.
+     *
+     * Used by the legacy direct-card gateways (PayPal Pro, Payflow Pro, REST credit card),
+     * which capture the card in a single request and have no 3D Secure liability shift.
+     * Deliberately conservative so legitimate shoppers are not blocked:
+     *
+     *  - CVV2 'N' (no match) is a strong stolen-card signal — a genuine cardholder almost
+     *    always has the correct security code — so it is flagged 'high'.
+     *  - AVS 'N'/'C' (neither street nor ZIP matched) is a weaker signal because legitimate
+     *    buyers mistype addresses and many non-US cards do not support AVS, so it is 'review'.
+     *  - "unavailable / not processed / not supported / partial match" codes never flag.
+     *
+     * PayPal returns letter codes for Visa/Mastercard/Discover/Amex and numeric codes for
+     * all other networks, where '0' means match and '1' means no match. Both formats are
+     * screened here; every other numeric code ('2'-'4' = not processed / not supported /
+     * partial) is treated as "no signal" and never flags, so legitimate shoppers on those
+     * networks are not blocked.
+     *
+     * @param string $avs_code AVS result (letter Y, A, Z, N, C, U, G, ... or numeric 0-4).
+     * @param string $cvv_code CVV2 match result (letter M, N, P, S, U, ... or numeric 0-4).
+     * @return array{flag:bool, level:string, reason:string} level is '', 'review', or 'high'.
+     */
+    function wpg_evaluate_avs_cvv($avs_code, $cvv_code) {
+        $avs = strtoupper(trim((string) $avs_code));
+        $cvv = strtoupper(trim((string) $cvv_code));
+
+        if ('N' === $cvv || '1' === $cvv) {
+            return array(
+                'flag'   => true,
+                'level'  => 'high',
+                'reason' => __("Card security code (CVV2) did not match the issuing bank's records.", 'woo-paypal-gateway'),
+            );
+        }
+
+        if (in_array($avs, array('N', 'C', '1'), true)) {
+            return array(
+                'flag'   => true,
+                'level'  => 'review',
+                'reason' => __('Billing address did not match the card (AVS no match).', 'woo-paypal-gateway'),
+            );
+        }
+
+        return array('flag' => false, 'level' => '', 'reason' => '');
+    }
+}
+
+if (!function_exists('wpg_hold_order_for_avs_cvv')) {
+
+    /**
+     * Withhold fulfillment of an order that failed AVS/CVV screening.
+     *
+     * The legacy direct-card gateways charge the card in the same request, so we cannot
+     * refuse the capture. Instead we record the payment but force the order to "on-hold"
+     * with a prominent fraud note, so the merchant reviews (and refunds/cancels) before
+     * shipping — which is exactly the "ship then chargeback" loss vector. This mirrors the
+     * plugin's existing fraud-filter handling (Payflow RESULT 126 -> on-hold).
+     *
+     * @param WC_Order $order
+     * @param array    $eval     Result of wpg_evaluate_avs_cvv().
+     * @param string   $avs_code Raw AVS code (for the order note/meta).
+     * @param string   $cvv_code Raw CVV2 code (for the order note/meta).
+     * @param string   $txn_id   Processor transaction id, if available.
+     */
+    function wpg_hold_order_for_avs_cvv($order, $eval, $avs_code, $cvv_code, $txn_id = '') {
+        if (!is_object($order) || empty($eval['flag'])) {
+            return;
+        }
+        if (!empty($txn_id)) {
+            $order->set_transaction_id($txn_id);
+        }
+        $order->update_meta_data('_wpg_avs_code', (string) $avs_code);
+        $order->update_meta_data('_wpg_cvv2_match', (string) $cvv_code);
+        $order->update_meta_data('_wpg_fraud_screen', $eval['level']);
+        $order->save_meta_data();
+
+        $prefix = ('high' === $eval['level'])
+            ? __('HIGH fraud risk — do not ship. ', 'woo-paypal-gateway')
+            : __('Fraud review needed — verify the buyer before shipping. ', 'woo-paypal-gateway');
+
+        $order->update_status(
+            'on-hold',
+            $prefix . $eval['reason'] . ' ' . sprintf(
+                /* translators: 1: AVS code, 2: CVV2 match code. */
+                __('(AVS: %1$s, CVV2: %2$s). Refund or cancel this order if you cannot verify the cardholder.', 'woo-paypal-gateway'),
+                '' !== (string) $avs_code ? $avs_code : '—',
+                '' !== (string) $cvv_code ? $cvv_code : '—'
+            )
+        );
+    }
+}

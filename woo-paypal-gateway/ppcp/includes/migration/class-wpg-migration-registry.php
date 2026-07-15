@@ -73,7 +73,11 @@ class WPG_Migration_Registry {
 		}
 
 		add_action( 'admin_init', array( $this, 'maybe_run_migrations' ), 5 );
-		add_action( 'admin_notices', array( $this, 'maybe_show_migration_notice' ) );
+
+		// Intentionally no admin_notices banner. Migration outcomes are recorded in
+		// the migration log and surfaced on demand via the WooCommerce System Status
+		// report (see WPG_Migration_Admin), so support can still diagnose genuine
+		// problems without interrupting merchants on every admin page load.
 	}
 
 	/**
@@ -200,11 +204,20 @@ class WPG_Migration_Registry {
 			}
 
 			if ( ! $verified ) {
+				// Do NOT advance the stored DB version: leave this migration pending
+				// so it re-runs on the next admin load. up() implementations are
+				// idempotent (they only add missing keys), so a transient failure —
+				// e.g. a stale persistent-object-cache read of the settings option
+				// right after the seed write — self-heals on the next request instead
+				// of leaving the install permanently marked "incomplete" behind a
+				// warning that never clears. Stop here rather than running later
+				// migrations on top of an unverified base.
 				$this->logger->log( $version, 'verify_failed', $migration->get_description(), 'verify() returned false — migration may be incomplete.' );
-			} else {
-				$this->logger->log( $version, 'success', $migration->get_description() );
+				$all_succeeded = false;
+				break;
 			}
 
+			$this->logger->log( $version, 'success', $migration->get_description() );
 			$this->update_db_version( $version );
 		}
 
@@ -346,34 +359,4 @@ class WPG_Migration_Registry {
 		return $this->health_check;
 	}
 
-	/**
-	 * Show admin notice if a migration failed.
-	 */
-	public function maybe_show_migration_notice() {
-		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			return;
-		}
-
-		if ( ! $this->logger->has_failures() ) {
-			return;
-		}
-
-		$last = $this->logger->get_last_entry();
-		if ( ! $last || ! in_array( $last['status'], array( 'failed', 'verify_failed' ), true ) ) {
-			return;
-		}
-
-		echo '<div class="notice notice-warning is-dismissible">';
-		echo '<p><strong>' . esc_html__( 'PayPal Gateway — Migration Notice', 'woo-paypal-gateway' ) . '</strong></p>';
-		echo '<p>';
-		printf(
-			/* translators: 1: migration version, 2: failure detail */
-			esc_html__( 'A database migration to version %1$s encountered an issue: %2$s', 'woo-paypal-gateway' ),
-			esc_html( $last['version'] ),
-			esc_html( $last['detail'] ?: $last['description'] )
-		);
-		echo '</p>';
-		echo '<p>' . esc_html__( 'Your payment gateway continues to work normally. Please contact support if this persists.', 'woo-paypal-gateway' ) . '</p>';
-		echo '</div>';
-	}
 }

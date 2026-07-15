@@ -74,11 +74,23 @@ class WPG_Migration_9_1_0 extends WPG_Migration_Base {
 
 		$this->add_default( $settings, 'vault_v3_enabled', 'no' );
 
+		// 3D Secure handling is read from the main PayPal settings option at runtime
+		// (see PPCP_Paypal_Checkout_For_Woocommerce_3DS), so its defaults must be seeded
+		// here rather than into the card-gateway option. "smart" blocks only cards that
+		// fail their bank authentication challenge, protecting against stolen-card
+		// chargebacks without declining legitimate customers.
+		$this->add_default( $settings, '3ds_liability_handling', 'smart' );
+		$this->add_default( $settings, '3ds_logging', 'no' );
+
 		$this->save_paypal_settings( $settings );
 	}
 
 	/**
 	 * Add default values for new CC gateway features.
+	 *
+	 * Note: 3D Secure defaults are intentionally seeded into the main PayPal settings
+	 * option in seed_paypal_defaults(), because that is the option the 3DS handler and
+	 * the admin settings form both read/write. They must not be seeded here.
 	 */
 	private function seed_cc_defaults() {
 		$settings = $this->get_cc_settings();
@@ -86,9 +98,6 @@ class WPG_Migration_9_1_0 extends WPG_Migration_Base {
 		if ( empty( $settings ) ) {
 			return;
 		}
-
-		$this->add_default( $settings, '3ds_liability_handling', 'accept' );
-		$this->add_default( $settings, '3ds_logging', 'no' );
 
 		$this->save_cc_settings( $settings );
 	}

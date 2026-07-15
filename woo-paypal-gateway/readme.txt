@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 7.0.1
-Stable tag: 9.1.1
+Stable tag: 9.1.3
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,17 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.1.3 - 2026-07-15 =
+ * Improved - Cleaner post-update experience: the WooCommerce admin stays distraction-free after plugin updates, with detailed migration status available anytime from WooCommerce > Status.
+ * Improved - More reliable database updates: version migrations now self-verify and complete automatically on the next admin page load, for a smooth, hands-free upgrade every time.
+
+= 9.1.2 - 2026-07-13 =
+ * Added - "Smart" 3D Secure liability handling mode (now the default): declines only card payments that fail the issuer's authentication challenge and lets shoppers retry, protecting against stolen-card chargebacks without declining legitimate customers.
+ * Fixed - The 3D Secure liability-shift decision is now enforced on every Advanced Card capture and authorize path (standard checkout, block checkout, and classic return handler), not only the smart-button path.
+ * Fixed - 3D Secure settings default is now read from and seeded into the correct gateway option.
+ * Changed - Existing stores using the legacy "Accept" 3D Secure default are automatically upgraded to "Smart" on update. Stores that deliberately selected "Review" or "Reject" are left unchanged.
+ * Added - AVS/CVV fraud screening for the legacy direct-card gateways (PayPal Pro, Payflow Pro, REST Credit Card): orders where the security code does not match, or the billing address fails address verification, are placed on hold for review instead of being auto-completed, so they are not shipped before the merchant can verify or refund.
 
 = 9.1.1 - 2026-07-12 =
  * Fixed - Fatal error when a third-party plugin (e.g. Advanced Product Fields for WooCommerce Extended) uses a fragile autoloader. Plugin-detection checks no longer trigger other plugins' autoloaders.

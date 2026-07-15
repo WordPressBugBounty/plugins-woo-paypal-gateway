@@ -1207,6 +1207,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 case "paypal_create_payment_token_sub_change_payment":
                     $this->request->ppcp_paypal_create_payment_token_sub_change_payment();
                     exit();
+                case "ppcp_add_payment_method_callback":
+                    $this->request->ppcp_add_payment_method_create_token();
+                    exit();
             }
         }
     }
@@ -2510,42 +2513,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                         exit;
                     }
                 }
-                $payment_method = $order->get_payment_method();
-                $requires_liability_shift = ( 'wpg_paypal_checkout_cc' === $payment_method );
-                $is_success = false;
-                if ($requires_liability_shift) {
-                    $api_response = $this->request->ppcp_get_checkout_details($ppcp_paypal_order_id);
-                    $liability_shift_result = $this->ppcp_liability_shift($order, $api_response);
-                    switch ($liability_shift_result) {
-                        case 1:
-                            $is_success = ( $this->paymentaction === 'capture' ) ? $this->request->ppcp_order_capture_request($order_id, false) : $this->request->ppcp_order_auth_request($order_id);
-                            $order->update_meta_data('_payment_action', $this->paymentaction);
-                            $order->update_meta_data('enviorment', $this->sandbox ? 'sandbox' : 'live');
-                            $order->save_meta_data();
-                            break;
-                        case 2:
-                            if (function_exists('wc_add_notice')) {
-                                wc_add_notice(
-                                        __('We cannot process your order with the payment information that you provided. Please use an alternate payment method.', 'woo-paypal-gateway'),
-                                        'error'
-                                );
-                            }
-                            break;
-                        case 3:
-                            if (function_exists('wc_add_notice')) {
-                                wc_add_notice(
-                                        __('Something went wrong. Please try again.', 'woo-paypal-gateway'),
-                                        'error'
-                                );
-                            }
-                            break;
-                    }
-                } else {
-                    $is_success = ( $this->paymentaction === 'capture' ) ? $this->request->ppcp_order_capture_request($order_id, false) : $this->request->ppcp_order_auth_request($order_id);
-                    $order->update_meta_data('_payment_action', $this->paymentaction);
-                    $order->update_meta_data('enviorment', $this->sandbox ? 'sandbox' : 'live');
-                    $order->save_meta_data();
-                }
+                // The 3D Secure liability-shift decision is now enforced centrally inside
+                // ppcp_order_capture_request()/ppcp_order_auth_request() for the card gateway,
+                // so every capture path is protected. Any reject/retry notice is added there.
+                $is_success = ( $this->paymentaction === 'capture' ) ? $this->request->ppcp_order_capture_request($order_id, false) : $this->request->ppcp_order_auth_request($order_id);
+                $order->update_meta_data('_payment_action', $this->paymentaction);
+                $order->update_meta_data('enviorment', $this->sandbox ? 'sandbox' : 'live');
+                $order->save_meta_data();
                 unset(WC()->session->ppcp_session);
                 if (ob_get_length()) {
                     ob_end_clean();
@@ -2567,10 +2541,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         } catch (Exception $ex) {
             
         }
-    }
-
-    public function ppcp_liability_shift($order, $response_object) {
-        return PPCP_Paypal_Checkout_For_Woocommerce_3DS::instance()->evaluate( $order, $response_object );
     }
 
     public function ppcp_add_order_id() {

@@ -177,6 +177,17 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                         if (!empty($this->result['TRANSACTIONID'])) {
                             $this->transaction_id = $this->result['TRANSACTIONID'];
                             $this->order->add_order_note('Transaction ID: ' . $this->result['TRANSACTIONID']);
+                            $avs_code = isset($this->result['AVSCODE']) ? $this->result['AVSCODE'] : '';
+                            $cvv_code = isset($this->result['CVV2MATCH']) ? $this->result['CVV2MATCH'] : '';
+                            $avs_cvv = wpg_evaluate_avs_cvv($avs_code, $cvv_code);
+                            if ($avs_cvv['flag']) {
+                                // AVS/CVV screening failed: capture already happened, so record the
+                                // payment but hold the order for review instead of completing it.
+                                wpg_hold_order_for_avs_cvv($this->order, $avs_cvv, $avs_code, $cvv_code, $this->transaction_id);
+                                WC()->cart->empty_cart();
+                                $this->wpg_redirect_action($this->gateway->get_return_url($this->order));
+                                break;
+                            }
                             $this->wpg_get_transaction_details();
                             $this->wpg_update_payment_status_by_paypal_responce($this->order_id, $this->result);
                             WC()->cart->empty_cart();

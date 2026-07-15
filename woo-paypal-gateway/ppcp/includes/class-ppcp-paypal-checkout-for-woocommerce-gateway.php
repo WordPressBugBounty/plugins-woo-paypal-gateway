@@ -543,7 +543,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         if (class_exists('WPG_Conversion_Controller') && !empty(WPG_Conversion_Controller::instance()->get_detected_plugins())) {
             $faq = $tabs['wpg_foq'];
             unset($tabs['wpg_foq']);
-            $tabs['wpg_migration_tool'] = __('Migration Tool', 'woo-paypal-gateway');
+            //$tabs['wpg_migration_tool'] = __('Migration Tool', 'woo-paypal-gateway');
             $tabs['wpg_foq'] = $faq;
         }
         echo '<h2 class="nav-tab-wrapper">';
