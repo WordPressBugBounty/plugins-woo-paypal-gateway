@@ -214,6 +214,118 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     }
 
     /**
+     * Confirm that the approved PayPal order actually belongs to the WooCommerce
+     * order that is about to be marked as paid.
+     *
+     * Broken access control fix (Patchstack — PayPal Order Rebinding): the public
+     * create-order and capture endpoints accept a browser-supplied PayPal order id
+     * and a session-stored WooCommerce order id independently of each other. Without
+     * this reconciliation an unauthenticated buyer could approve a low-value PayPal
+     * order, plant a higher-value WooCommerce order id into the plugin session, and
+     * capture the cheap PayPal order to settle the expensive WooCommerce order.
+     *
+     * The captured PayPal order is therefore reconciled against the target order on:
+     *   - custom_id  : a PayPal order created for an existing WooCommerce order embeds
+     *                  {order_id, order_key}; when that binding is present and points
+     *                  at a real order it must be exactly this order.
+     *   - amount + currency : the purchase-unit total must equal what the plugin would
+     *                  charge for this order, in the same currency. This blocks binding
+     *                  a cheaper PayPal order (created from a different cart/order) even
+     *                  when its custom_id carries no resolvable order reference.
+     *
+     * Fails CLOSED: if the PayPal order details cannot be retrieved, or any field does
+     * not match, capture is refused and the buyer can retry.
+     *
+     * @param string $paypal_order_id PayPal order id resolved by the caller.
+     * @param int    $woo_order_id    Target WooCommerce order id.
+     * @return bool True only when the PayPal order belongs to the target order.
+     */
+    public function ppcp_confirm_paypal_order_for_woo_order($paypal_order_id, $woo_order_id) {
+        $order = wc_get_order($woo_order_id);
+        if (!$order instanceof WC_Order || empty($paypal_order_id)) {
+            $this->ppcp_log('Capture blocked: missing order context while reconciling PayPal order ' . $paypal_order_id . '.');
+            return false;
+        }
+
+        // Authoritative snapshot from PayPal. Force a refresh so a pre-approval cached
+        // copy cannot be used to satisfy the check, and retry briefly so a transient
+        // fetch failure does not permanently block a legitimate buyer.
+        $details = $this->ppcp_get_checkout_details($paypal_order_id, true);
+        for ($attempt = 0; $attempt < 2 && empty($details); $attempt++) {
+            $details = $this->ppcp_get_checkout_details($paypal_order_id, true);
+        }
+        $purchase_unit = (is_object($details) && !empty($details->purchase_units[0])) ? $details->purchase_units[0] : null;
+        if (empty($purchase_unit)) {
+            $this->ppcp_log('Capture blocked: could not fetch PayPal order ' . $paypal_order_id . ' details for reconciliation.');
+            $this->ppcp_add_capture_reconciliation_notice();
+            return false;
+        }
+
+        // 1) custom_id binding. Reject when the PayPal order is bound to a different
+        //    existing WooCommerce order than the one being completed.
+        $custom_id = isset($purchase_unit->custom_id) ? (string) $purchase_unit->custom_id : '';
+        if ($custom_id !== '') {
+            $decoded = json_decode($custom_id, true);
+            if (is_array($decoded) && isset($decoded['order_id']) && is_numeric($decoded['order_id'])) {
+                $bound_order_id  = absint($decoded['order_id']);
+                $bound_order_key = isset($decoded['order_key']) ? (string) $decoded['order_key'] : '';
+                $bound_order     = $bound_order_id > 0 ? wc_get_order($bound_order_id) : false;
+                if ($bound_order instanceof WC_Order) {
+                    $key_matches = ($bound_order_key === '' || hash_equals((string) $bound_order->get_order_key(), $bound_order_key));
+                    if ($bound_order_id !== absint($woo_order_id) || !$key_matches) {
+                        $this->ppcp_log(sprintf('Capture blocked: PayPal order %s is bound to WooCommerce order %d but capture targets order %d.', $paypal_order_id, $bound_order_id, absint($woo_order_id)));
+                        $this->ppcp_add_capture_reconciliation_notice();
+                        return false;
+                    }
+                }
+            }
+        }
+
+        // 2) Amount + currency. The approved purchase-unit total must equal what the
+        //    plugin would charge for the target order.
+        $paypal_currency = isset($purchase_unit->amount->currency_code) ? strtoupper((string) $purchase_unit->amount->currency_code) : '';
+        $paypal_value    = isset($purchase_unit->amount->value) ? (float) $purchase_unit->amount->value : null;
+        if ($paypal_value === null || $paypal_currency === '') {
+            $this->ppcp_log('Capture blocked: PayPal order ' . $paypal_order_id . ' is missing amount/currency for reconciliation.');
+            $this->ppcp_add_capture_reconciliation_notice();
+            return false;
+        }
+
+        $this->decimals    = $this->ppcp_get_number_of_decimal_digits($this->ppcp_get_currency($woo_order_id));
+        $expected_currency = strtoupper((string) apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id)));
+        $order_details     = $this->ppcp_get_details_from_order($woo_order_id);
+        $expected_source   = (is_array($order_details) && isset($order_details['order_total'])) ? $order_details['order_total'] : $order->get_total();
+        $expected_value    = (float) ppcp_round($expected_source, $this->decimals);
+
+        if ($paypal_currency !== $expected_currency) {
+            $this->ppcp_log(sprintf('Capture blocked: currency mismatch for order %d (PayPal %s vs expected %s).', absint($woo_order_id), $paypal_currency, $expected_currency));
+            $this->ppcp_add_capture_reconciliation_notice();
+            return false;
+        }
+
+        // Both sides are rounded to the currency's precision, so a legitimate match is
+        // exact; the epsilon only absorbs float representation noise.
+        $epsilon = ($this->decimals > 0) ? (0.5 / pow(10, $this->decimals)) : 0.5;
+        if (abs($paypal_value - $expected_value) > $epsilon) {
+            $this->ppcp_log(sprintf('Capture blocked: amount mismatch for order %d (PayPal %s vs expected %s %s).', absint($woo_order_id), $paypal_value, $expected_value, $expected_currency));
+            $this->ppcp_add_capture_reconciliation_notice();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Surface a generic, shopper-facing error when a capture is refused because the
+     * PayPal order could not be reconciled with the WooCommerce order.
+     */
+    private function ppcp_add_capture_reconciliation_notice() {
+        if (function_exists('wc_add_notice')) {
+            wc_add_notice(__('We could not verify your PayPal payment for this order. Please try again.', 'woo-paypal-gateway'), 'error');
+        }
+    }
+
+    /**
      * Recursively mask credential-bearing values before they are written to the
      * WooCommerce log. Log files under wp-content/uploads/wc-logs/ are viewable
      * from WooCommerce > Status > Logs, so tokens and API secrets must never be
@@ -956,6 +1068,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (empty($paypal_order_id)) {
                 return false;
             }
+            // Direct-capture paths (public cc_capture / return capture) accept a
+            // browser-supplied PayPal order id against a session-stored WooCommerce
+            // order id and never patch the PayPal order to re-sync it, so the approved
+            // order must be reconciled with the target order before it is captured.
+            if (!$need_to_update_order && !$this->ppcp_confirm_paypal_order_for_woo_order($paypal_order_id, $woo_order_id)) {
+                return false;
+            }
             if (!$this->ppcp_validate_order_for_capture($paypal_order_id, $woo_order_id)) {
                 return false;
             }
@@ -1310,12 +1429,23 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         $order->save();
     }
 
-    public function ppcp_order_auth_request($woo_order_id) {
+    public function ppcp_order_auth_request($woo_order_id, $enforce_binding = false) {
         try {
             if ($this->access_token === false) {
                 $this->access_token = $this->ppcp_get_access_token();
             }
             $order = wc_get_order($woo_order_id);
+            // Direct authorize paths (public cc_capture / return handler) must confirm
+            // the approved PayPal order belongs to this WooCommerce order BEFORE the
+            // order is patched/re-bound, otherwise a cheaper approved order could be
+            // authorized against a higher-value order (PayPal order rebinding).
+            if ($enforce_binding) {
+                $session_order_data = $this->ppcp_get_order_session_data();
+                $paypal_order_id = !empty($session_order_data['id']) ? $session_order_data['id'] : $this->ppcp_get_paypal_order_id_from_session();
+                if (empty($paypal_order_id) || !$this->ppcp_confirm_paypal_order_for_woo_order($paypal_order_id, $woo_order_id)) {
+                    return false;
+                }
+            }
             if (is_object($order)) {
                 $this->ppcp_update_order($order);
             }
@@ -2465,7 +2595,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if ($this->is_valid_for_use() === true && $this->access_token) {
                 $posted_raw = ppcp_get_raw_data();
                 if (empty($posted_raw)) {
-                    return false;
+                    return true;
                 }
                 $headers = $this->getallheaders_value();
                 $headers = array_change_key_case($headers, CASE_UPPER);
@@ -2474,12 +2604,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->ppcp_log('Headers: ' . wc_print_r($headers, true));
                 $bool = $this->ppcp_validate_webhook_event($headers, $posted);
                 if ($bool) {
-                    $this->ppcp_update_order_status($posted);
+                    // False here means the order could not be resolved yet
+                    // (e.g. the webhook raced the WC order creation) — a non-2xx
+                    // response tells PayPal to retry delivery instead of us
+                    // silently dropping the event.
+                    return $this->ppcp_update_order_status($posted);
                 }
             }
         } catch (Exception $ex) {
-            
+
         }
+        return true;
     }
 
     public function getallheaders_value() {
@@ -2568,13 +2703,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     public function ppcp_update_order_status($posted) {
         $incoming_event = isset($posted['event_type']) ? $posted['event_type'] : '';
         if (0 === strpos($incoming_event, 'CUSTOMER.DISPUTE.')) {
-            $this->ppcp_handle_dispute_event($posted);
-            return;
+            return $this->ppcp_handle_dispute_event($posted);
         }
         $order = false;
+        $had_order_reference = false;
         if (!empty($posted['resource']['purchase_units'][0]['custom_id'])) {
+            $had_order_reference = true;
             $order = $this->ppcp_get_paypal_order($posted['resource']['purchase_units'][0]['custom_id']);
         } elseif (!empty($posted['resource']['custom_id'])) {
+            $had_order_reference = true;
             $order = $this->ppcp_get_paypal_order($posted['resource']['custom_id']);
         }
         if (!$order) {
@@ -2585,6 +2722,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $paypal_order_id = $posted['resource']['supplementary_data']['related_ids']['order_id'];
             }
             if (!empty($paypal_order_id)) {
+                $had_order_reference = true;
                 // Cheap local lookup first: the capture flow stores the PayPal order id
                 // on the WC order, so most webhooks can be matched without an API call.
                 $order = $this->ppcp_get_order_by_paypal_order_id($paypal_order_id);
@@ -2602,7 +2740,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 }
             }
         }
-        if ($order && isset($posted['event_type']) && !empty($posted['event_type'])) {
+        if (!$order) {
+            // CHECKOUT.ORDER.APPROVED is informational (no status change is made
+            // even when resolved) and can legitimately never resolve — the buyer
+            // may approve in the popup and abandon before a WC order is created.
+            // Retrying it would just make PayPal redeliver a no-op for days.
+            if ($had_order_reference && 'CHECKOUT.ORDER.APPROVED' !== $incoming_event) {
+                $this->ppcp_log('Webhook order resolution failed for event_type=' . $incoming_event . ' — requesting PayPal retry.');
+                return false;
+            }
+            return true;
+        }
+        if (isset($posted['event_type']) && !empty($posted['event_type'])) {
             $order->add_order_note('Webhooks Update : ' . $posted['summary']);
             if (isset($posted['resource']['status']) && !empty($posted['resource']['status'])) {
                 $this->ppcp_log('Payment status: ' . $posted['resource']['status']);
@@ -2665,6 +2814,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 }
             }
         }
+        return true;
     }
 
     /**
@@ -2708,8 +2858,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (!$matched) {
                 $this->ppcp_log('Dispute webhook received but no matching order found. dispute_id=' . $dispute_id);
             }
+            // Only ask PayPal to retry when there were transactions to resolve
+            // against but none matched yet (e.g. capture id not persisted yet);
+            // an empty transaction list has nothing to gain from a retry.
+            return $matched || empty($transactions);
         } catch (Exception $ex) {
             $this->ppcp_log('Dispute webhook handling error: ' . $ex->getMessage());
+            return false;
         }
     }
 
@@ -3449,7 +3604,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         if ($this->paymentaction === 'capture') {
             $is_success = $this->ppcp_order_capture_request($order_id, $need_to_update_order = false);
         } else {
-            $is_success = $this->ppcp_order_auth_request($order_id);
+            $is_success = $this->ppcp_order_auth_request($order_id, true);
         }
         $order->update_meta_data('_paymentaction', $this->paymentaction);
         $order->update_meta_data('_enviorment', ($this->is_sandbox) ? 'sandbox' : 'live');

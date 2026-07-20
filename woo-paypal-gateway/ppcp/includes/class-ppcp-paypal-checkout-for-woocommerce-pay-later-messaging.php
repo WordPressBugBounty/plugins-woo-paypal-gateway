@@ -19,6 +19,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
     public $pay_later_messaging_category_shortcode;
     public $pay_later_messaging_product_shortcode;
     public $pay_later_messaging_payment_shortcode;
+    protected $block_messaging_registered = false;
     protected static $_instance = null;
 
     public static function instance() {
@@ -102,7 +103,83 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
                 add_action('ppcp_display_paypal_button_checkout_page', array($this, 'ppcp_pay_later_messaging_payment_page'), 9);
             }
             add_shortcode('ppcp_bnpl_message', array($this, 'ppcp_bnpl_message_shortcode'), 10);
+            add_filter('woocommerce_blocks_register_script_dependencies', array($this, 'ppcp_add_block_script_dependencies'), 10, 2);
         }
+    }
+
+    /**
+     * Injects the Pay Later message script into the cart/checkout block
+     * scripts so the message renders inside the block based cart and checkout
+     * pages, where the classic woocommerce_* hooks never fire.
+     */
+    public function ppcp_add_block_script_dependencies($dependencies, $handle = '') {
+        $block_handles = array('wc-checkout-block', 'wc-checkout-block-frontend', 'wc-cart-block', 'wc-cart-block-frontend');
+        if (!in_array($handle, $block_handles, true)) {
+            return $dependencies;
+        }
+        $placement = '';
+        if (strpos($handle, 'wc-checkout') === 0) {
+            $placement = 'payment';
+        } elseif (strpos($handle, 'wc-cart') === 0) {
+            $placement = 'cart';
+        }
+        if (empty($placement) || !$this->is_paypal_pay_later_messaging_enable_for_page($placement)) {
+            return $dependencies;
+        }
+        if ($this->is_paypal_pay_later_messaging_enable_for_shoerpage($placement)) {
+            return $dependencies;
+        }
+        if ('payment' === $placement && function_exists('ppcp_has_active_session') && ppcp_has_active_session()) {
+            return $dependencies;
+        }
+        $this->ppcp_register_block_messaging_script($placement);
+        if (!in_array('ppcp-pay-later-messaging-block', $dependencies, true)) {
+            $dependencies[] = 'ppcp-pay-later-messaging-block';
+        }
+        return $dependencies;
+    }
+
+    public function ppcp_register_block_messaging_script($placement) {
+        if ($this->block_messaging_registered) {
+            return;
+        }
+        $this->block_messaging_registered = true;
+        $depends = array('wp-element', 'wp-plugins', 'wc-blocks-checkout');
+        if (wp_script_is('ppcp-checkout-js', 'registered')) {
+            $depends[] = 'ppcp-checkout-js';
+        }
+        wp_register_script('ppcp-pay-later-messaging-block', WPG_PLUGIN_ASSET_URL . 'ppcp/checkout-block/ppcp-paylater-block.js', $depends, WPG_PLUGIN_VERSION, true);
+        wp_enqueue_style('ppcp-paypal-checkout-for-woocommerce-public');
+        wp_localize_script('ppcp-pay-later-messaging-block', 'ppcp_paylater_block_params', array(
+            'placement' => $placement,
+            'amount' => $this->ppcp_get_order_total(),
+            'style' => $this->ppcp_get_block_message_style($placement),
+        ));
+    }
+
+    /**
+     * Builds the PayPal Messages style object from the same gateway settings
+     * the classic pay-later-messaging/*.js files use.
+     */
+    public function ppcp_get_block_message_style($placement) {
+        $settings = $this->ppcp_get_default_attribute_pay_later_messaging($placement);
+        $prefix = 'pay_later_messaging_' . $placement . '_';
+        $layout = isset($settings[$prefix . 'layout_type']) ? $settings[$prefix . 'layout_type'] : 'text';
+        $style = array('layout' => $layout);
+        if ('text' === $layout) {
+            $style['logo'] = array('type' => isset($settings[$prefix . 'text_layout_logo_type']) ? $settings[$prefix . 'text_layout_logo_type'] : 'primary');
+            if (in_array($style['logo']['type'], array('primary', 'alternative'), true)) {
+                $style['logo']['position'] = isset($settings[$prefix . 'text_layout_logo_position']) ? $settings[$prefix . 'text_layout_logo_position'] : 'left';
+            }
+            $style['text'] = array(
+                'size' => isset($settings[$prefix . 'text_layout_text_size']) ? (int) $settings[$prefix . 'text_layout_text_size'] : 12,
+                'color' => isset($settings[$prefix . 'text_layout_text_color']) ? $settings[$prefix . 'text_layout_text_color'] : 'black',
+            );
+        } else {
+            $style['color'] = isset($settings[$prefix . 'flex_layout_color']) ? $settings[$prefix . 'flex_layout_color'] : 'blue';
+            $style['ratio'] = isset($settings[$prefix . 'flex_layout_ratio']) ? $settings[$prefix . 'flex_layout_ratio'] : '8x1';
+        }
+        return $style;
     }
 
     public function is_valid_for_use() {

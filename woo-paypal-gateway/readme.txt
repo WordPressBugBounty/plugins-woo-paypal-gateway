@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 7.0.2
-Stable tag: 9.1.4
+Stable tag: 9.1.5
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,10 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.1.5 - 2026-07-20 =
+ * Fixed - Security: the approved PayPal order is now reconciled against the WooCommerce order before payment is captured. The order id embedded in the PayPal payment plus its amount and currency must match the order being paid, preventing a checkout from being completed with a different (for example lower-value) PayPal payment.
+ * Fixed - Pay Later message now displays on the block-based cart and checkout pages, rendered in the order summary below the totals and updated live as the cart changes. Classic cart and checkout pages keep working as before, using the same Pay Later message settings.
 
 = 9.1.4 - 2026-07-20 =
  * Added - Free-trial subscriptions and charge-upon-release pre-orders can now be purchased with a new payment method: the buyer approves a PayPal vault setup token (nothing is charged now) and the saved method is used for the future charge. Saved payment methods complete zero-total signups directly.

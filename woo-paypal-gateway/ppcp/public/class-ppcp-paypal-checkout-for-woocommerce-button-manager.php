@@ -903,9 +903,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
             switch ($_GET['ppcp_action']) {
                 case "webhook_handler":
-                    $this->ppcp_handle_webhook_request();
+                    $webhook_resolved = $this->ppcp_handle_webhook_request();
                     ob_clean();
-                    header('HTTP/1.1 200 OK');
+                    if ($webhook_resolved === false) {
+                        // Order could not be resolved yet — ask PayPal to retry
+                        // delivery instead of acknowledging a dropped event.
+                        header('HTTP/1.1 404 Not Found');
+                    } else {
+                        header('HTTP/1.1 200 OK');
+                    }
                     exit();
                     break;
                 case "cancel_order":
@@ -1773,6 +1779,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         }
         $order = wc_get_order($order_id);
         $this->checkout_details = $this->checkout_details;
+        // This endpoint completes the session's WooCommerce order from a
+        // browser-supplied PayPal order id. Reconcile the two before marking the
+        // order paid so a cheaper/foreign PayPal order cannot be bound to a
+        // higher-value order (PayPal order rebinding / broken access control).
+        if ($order instanceof WC_Order && !$this->request->ppcp_confirm_paypal_order_for_woo_order(wc_clean($_GET['paypal_order_id']), $order_id)) {
+            if (function_exists('wc_add_notice') && 0 === wc_notice_count('error')) {
+                wc_add_notice(__('We could not verify your PayPal payment for this order. Please try again.', 'woo-paypal-gateway'), 'error');
+            }
+            wp_safe_redirect($order->get_checkout_payment_url());
+            exit();
+        }
         if ($this->paymentaction === 'capture' && !empty($this->checkout_details->status) && $this->checkout_details->status === 'COMPLETED' && $order !== false) {
             $is_handled = true;
             $transaction_id = isset($this->checkout_details->purchase_units[0]->payments->captures[0]->id) ? $this->checkout_details->purchase_units['0']->payments->captures[0]->id : '';
@@ -2481,7 +2498,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function ppcp_handle_webhook_request() {
-        $this->request->ppcp_handle_webhook_request_handler();
+        return $this->request->ppcp_handle_webhook_request_handler();
     }
 
     public function ppcp_cc_capture() {
@@ -2534,7 +2551,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 // The 3D Secure liability-shift decision is now enforced centrally inside
                 // ppcp_order_capture_request()/ppcp_order_auth_request() for the card gateway,
                 // so every capture path is protected. Any reject/retry notice is added there.
-                $is_success = ( $this->paymentaction === 'capture' ) ? $this->request->ppcp_order_capture_request($order_id, false) : $this->request->ppcp_order_auth_request($order_id);
+                $is_success = ( $this->paymentaction === 'capture' ) ? $this->request->ppcp_order_capture_request($order_id, false) : $this->request->ppcp_order_auth_request($order_id, true);
                 $order->update_meta_data('_payment_action', $this->paymentaction);
                 $order->update_meta_data('enviorment', $this->sandbox ? 'sandbox' : 'live');
                 $order->save_meta_data();
