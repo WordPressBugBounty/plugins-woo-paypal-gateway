@@ -47,6 +47,10 @@ abstract class WPG_Plugin_Converter {
 		return $this->order_meta_map;
 	}
 
+	public function get_user_meta_map() {
+		return $this->user_meta_map;
+	}
+
 	public function get_source_gateway_ids() {
 		return $this->source_gateway_ids;
 	}
@@ -219,6 +223,19 @@ abstract class WPG_Plugin_Converter {
 			}
 		}
 
+		// Migrate the source plugin's PayPal customer/vault user meta (e.g. the
+		// PayPal customer id) so renewals and saved-payment reuse keep working after
+		// conversion. Previously user_meta_map was declared but never applied.
+		$customer_id = $order->get_customer_id();
+		if ( $customer_id && ! empty( $this->user_meta_map ) ) {
+			foreach ( $this->user_meta_map as $source_meta => $target_meta ) {
+				$value = get_user_meta( $customer_id, $source_meta, true );
+				if ( '' !== $value && false !== $value && '' === (string) get_user_meta( $customer_id, $target_meta, true ) ) {
+					update_user_meta( $customer_id, $target_meta, $value );
+				}
+			}
+		}
+
 		$cc_ids = $this->get_source_cc_gateway_ids();
 		$target_method = in_array( $original_method, $cc_ids, true ) ? 'wpg_paypal_checkout_cc' : 'wpg_paypal_checkout';
 		$order->set_payment_method( $target_method );
@@ -240,22 +257,38 @@ abstract class WPG_Plugin_Converter {
 		$batch_size = 50;
 
 		foreach ( $this->source_gateway_ids as $gateway_id ) {
-			$page = 1;
+			// Each migrated subscription changes its payment method and therefore leaves
+			// this filtered result set, so ALWAYS re-query the first page and drain the
+			// set. (The previous code advanced 'paged' over a shrinking set, which
+			// skipped roughly half of all subscriptions.)
+			$previous_first_id = null;
 			do {
 				$subscriptions = wcs_get_subscriptions( array(
 					'payment_method'         => $gateway_id,
 					'subscription_status'    => array( 'active', 'on-hold', 'pending' ),
 					'subscriptions_per_page' => $batch_size,
-					'paged'                  => $page,
+					'paged'                  => 1,
 				) );
+
+				$count = count( $subscriptions );
+				if ( 0 === $count ) {
+					break;
+				}
+
+				// Safety guard: if the same batch comes back (a record that never leaves
+				// the set), stop instead of looping forever.
+				$first    = reset( $subscriptions );
+				$first_id = is_object( $first ) ? $first->get_id() : null;
+				if ( null !== $first_id && $first_id === $previous_first_id ) {
+					break;
+				}
+				$previous_first_id = $first_id;
 
 				foreach ( $subscriptions as $subscription ) {
 					$this->migrate_single_order( $subscription );
 					$migrated++;
 				}
-
-				$page++;
-			} while ( count( $subscriptions ) >= $batch_size );
+			} while ( $count >= $batch_size );
 		}
 
 		return $migrated;

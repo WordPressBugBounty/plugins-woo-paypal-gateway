@@ -543,6 +543,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'mini_cart_button_height' => $this->mini_cart_button_height,
                 'ajax_nonce' => wp_create_nonce('ppcp_ajax_nonce'),
                 'currency' => apply_filters('wpg_ppcp_woocommerce_currency', get_woocommerce_currency()),
+                // Merchant country + store name for Apple Pay / Google Pay. Without these
+                // the JS fell back to 'US'/'Total', breaking wallets for non-US stores.
+                'country' => ( function_exists('WC') && WC()->countries ) ? WC()->countries->get_base_country() : 'US',
+                'store_label' => get_bloginfo('name'),
                 'cart_total' => WC()->cart ? WC()->cart->get_total('edit') : '0.00',
                 'is_product_page' => $is_product_page,
                 'needs_shipping' => $needs_shipping ? '1' : '0',
@@ -1203,6 +1207,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                         wp_send_json_success(wpg_ppcp_build_cart_payload_from_request($this->request));
                         exit();
                     }
+                    break;
+                case "paypal_create_payment_token_zero_total":
+                    $this->request->ppcp_paypal_create_payment_token_zero_total();
                     break;
                 case "paypal_create_payment_token_sub_change_payment":
                     $this->request->ppcp_paypal_create_payment_token_sub_change_payment();
@@ -2168,10 +2175,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             return;
         }
         $payment_method = $order->get_payment_method();
-        $transaction_id = $order->get_transaction_id();
+        $auth_transaction_id = $order->get_meta('_auth_transaction_id');
         $payment_action = $order->get_meta('_payment_action');
-        if (('wpg_paypal_checkout' === $payment_method || 'wpg_paypal_checkout_cc' === $payment_method) && $transaction_id && $payment_action === 'authorize') {
-            
+        if (('wpg_paypal_checkout' === $payment_method || 'wpg_paypal_checkout_cc' === $payment_method) && !empty($auth_transaction_id) && $payment_action === 'authorize') {
+            // Only void while the funds are merely authorized; a captured or
+            // already-voided authorization cannot be voided again.
+            $trans_details = $this->request->ppcp_show_details_authorized_payment($auth_transaction_id);
+            if ($this->ppcp_is_authorized_only($trans_details)) {
+                $this->request->ppcp_void_authorized_payment($order_id);
+            }
         }
     }
 
@@ -2483,7 +2495,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                     $order_id = ppcp_get_session('ppcp_woo_order_id');
                 }
                 $order = wc_get_order($order_id);
-                if ($order === false) {
+                if (!$order instanceof WC_Order) {
                     if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Checkout')) {
                         include_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-checkout.php';
                     }
@@ -2513,6 +2525,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                         exit;
                     }
                 }
+                if (!$order instanceof WC_Order) {
+                    if (ob_get_length()) {
+                        ob_end_clean();
+                    }
+                    wp_send_json_error(array('messages' => array(__('We could not create your order. Please try again.', 'woo-paypal-gateway'))));
+                }
                 // The 3D Secure liability-shift decision is now enforced centrally inside
                 // ppcp_order_capture_request()/ppcp_order_auth_request() for the card gateway,
                 // so every capture path is protected. Any reject/retry notice is added there.
@@ -2537,9 +2555,34 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                     ));
                 }
                 exit();
+            } else {
+                if (ob_get_length()) {
+                    ob_end_clean();
+                }
+                wp_send_json_error(array('messages' => array(__('Your payment session has expired. Please refresh the page and try again.', 'woo-paypal-gateway'))));
             }
         } catch (Exception $ex) {
-            
+            if (is_object($this->request) && method_exists($this->request, 'ppcp_log')) {
+                $this->request->ppcp_log('ppcp_cc_capture exception: ' . $ex->getMessage());
+            }
+            if (ob_get_length()) {
+                ob_end_clean();
+            }
+            // If the payment already went through before this exception — captured (paid
+            // status) OR authorized (transaction id recorded on an on-hold order) — send
+            // the buyer to the order-received page rather than prompting a double-charging
+            // retry. Reload the order so we read its persisted state, not a stale instance.
+            if (isset($order_id) && $order_id) {
+                $latest_order = wc_get_order($order_id);
+                if ($latest_order instanceof WC_Order
+                    && ($latest_order->has_status(wc_get_is_paid_statuses()) || $latest_order->get_transaction_id())) {
+                    wp_send_json_success(array(
+                        'result'   => 'success',
+                        'redirect' => apply_filters('woocommerce_get_return_url', $latest_order->get_checkout_order_received_url(), $latest_order),
+                    ));
+                }
+            }
+            wp_send_json_error(array('messages' => array(__('The payment could not be completed. If your account was charged, please contact us before trying again.', 'woo-paypal-gateway'))));
         }
     }
 

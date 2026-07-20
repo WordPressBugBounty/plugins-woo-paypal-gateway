@@ -184,8 +184,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_ReCaptcha {
 		}
 
 		if ( $body['success'] !== true ) {
+			// Google actively rejected the token (forged / expired / duplicate / wrong
+			// key). This is a verification FAILURE, not a transport error, so return a
+			// failing result that BLOCKS the payment instead of a WP_Error that callers
+			// treat as "allow" (which let bots through with any junk token).
 			$errors = isset( $body['error-codes'] ) ? implode( ', ', $body['error-codes'] ) : 'unknown';
-			return new WP_Error( 'recaptcha_failed', 'reCAPTCHA verification failed: ' . $errors );
+			$this->log( 'reCAPTCHA token rejected by Google (' . $errors . ') — blocking.' );
+			return array(
+				'pass'  => false,
+				'score' => 0.0,
+			);
 		}
 
 		$score = isset( $body['score'] ) ? (float) $body['score'] : 0.0;
@@ -220,16 +228,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_ReCaptcha {
 	}
 
 	private function has_paypal_approval() {
+		// Only trust the server-side session status. A raw paypal_order_id request
+		// param used to short-circuit the check, which let any request skip reCAPTCHA
+		// entirely by appending ?paypal_order_id=x.
 		if ( function_exists( 'ppcp_get_paypal_order_session_data' ) ) {
 			$session_data = ppcp_get_paypal_order_session_data();
 			$status = isset( $session_data['status'] ) ? strtolower( $session_data['status'] ) : '';
 			if ( $status === 'approved' && ! empty( $session_data['id'] ) ) {
 				return true;
 			}
-		}
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check, no state change.
-		if ( ! empty( $_GET['paypal_order_id'] ) || ! empty( $_POST['paypal_order_id'] ) ) {
-			return true;
 		}
 		return false;
 	}

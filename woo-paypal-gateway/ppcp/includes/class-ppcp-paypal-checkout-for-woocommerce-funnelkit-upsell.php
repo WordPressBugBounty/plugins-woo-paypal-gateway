@@ -25,7 +25,23 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell extends WFOCU_Gatewa
      *
      * @var bool
      */
-    public $refund_supported = false;
+    public $refund_supported = true;
+
+    /**
+     * PayPal order id being resumed after a buyer-approval redirect.
+     *
+     * @var string
+     */
+    protected $resume_paypal_order_id = '';
+
+    /**
+     * Set the approved PayPal order to resume (redirect-return flow).
+     *
+     * @param string $paypal_order_id PayPal order id.
+     */
+    public function set_paypal_order($paypal_order_id) {
+        $this->resume_paypal_order_id = (string) $paypal_order_id;
+    }
 
     /**
      * Singleton instance.
@@ -90,17 +106,52 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell extends WFOCU_Gatewa
             return $this->handle_result(false);
         }
 
+        // Resuming after the buyer approved the offer at PayPal (token-less flow).
+        if (!empty($this->resume_paypal_order_id) && class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
+            $request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+            $txn_id = $request->wpg_ppcp_capture_offer_redirect_order($this->resume_paypal_order_id, $order);
+            $this->resume_paypal_order_id = '';
+            if ($txn_id) {
+                if (function_exists('WFOCU_Core')) {
+                    WFOCU_Core()->data->set('_transaction_id', $txn_id);
+                }
+                return $this->handle_result(true);
+            }
+            return $this->handle_result(false);
+        }
+
         if (!$this->has_token($order)) {
+            // No vault token: send the buyer to PayPal to approve the offer
+            // amount, exactly like a normal purchase (reference behavior).
+            $this->maybe_start_redirect_approval($order);
             return $this->handle_result(false);
         }
 
         if (class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
             $request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
             $invoice_id = '-wfocu-' . uniqid() . '-';
-            $result = $request->wpg_ppcp_capture_order_using_payment_method_token($order->get_id(), $invoice_id);
+            // In FunnelKit's batching mode the order passed in is the parent
+            // order, so the charge amount must come from the upsell package,
+            // not from the order's totals. Fall back to the order totals only
+            // when no package is available (new-order mode, where the order
+            // contains exactly the offer).
+            $charge_override = null;
+            if (function_exists('WFOCU_Core')) {
+                $package = WFOCU_Core()->data->get('_upsell_package');
+                if (is_array($package) && isset($package['total']) && (float) $package['total'] > 0) {
+                    $charge_override = array(
+                        'total' => (float) $package['total'],
+                        'description' => __('FunnelKit upsell offer', 'woo-paypal-gateway'),
+                    );
+                }
+            }
+            $result = $request->wpg_ppcp_capture_order_using_payment_method_token($order->get_id(), $invoice_id, $charge_override);
             if ($result) {
-                if (!empty($order->get_transaction_id()) && function_exists('WFOCU_Core')) {
-                    WFOCU_Core()->data->set('_transaction_id', $order->get_transaction_id());
+                if (function_exists('WFOCU_Core')) {
+                    $txn_id = is_string($result) ? $result : $order->get_transaction_id();
+                    if (!empty($txn_id)) {
+                        WFOCU_Core()->data->set('_transaction_id', $txn_id);
+                    }
                 }
 
                 return $this->handle_result(true);
@@ -133,6 +184,75 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell extends WFOCU_Gatewa
      * @param int|null $order_id
      * @return string
      */
+    /**
+     * Token-less offers: create a standalone PayPal order for the offer amount
+     * and hand FunnelKit's frontend a redirect to the PayPal approval page.
+     * The upsell package is stashed in the FunnelKit session so the return
+     * handler can resume the offer after approval. Mirrors the reference
+     * implementation's behavior.
+     *
+     * @param WC_Order $order Parent order.
+     */
+    protected function maybe_start_redirect_approval($order) {
+        if (!function_exists('WFOCU_Core') || !class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
+            return;
+        }
+        $package = WFOCU_Core()->data->get('_upsell_package');
+        $total = is_array($package) && isset($package['total']) ? (float) $package['total'] : (float) $order->get_total();
+        if ($total <= 0) {
+            return;
+        }
+        $request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+        $return_url = add_query_arg(
+            array(
+                'order_id' => $order->get_id(),
+                'order_key' => $order->get_order_key(),
+            ),
+            WC()->api_request_url('wpg_ppcp_funnelkit_return')
+        );
+        $cancel_url = method_exists(WFOCU_Core()->public, 'get_the_upsell_url')
+            ? WFOCU_Core()->public->get_the_upsell_url(WFOCU_Core()->data->get_current_offer())
+            : $order->get_checkout_order_received_url();
+        $created = $request->wpg_ppcp_create_offer_redirect_order($order, $total, __('FunnelKit upsell offer', 'woo-paypal-gateway'), $return_url, $cancel_url);
+        if (!$created) {
+            return;
+        }
+        // Preserve the offer context across the redirect.
+        WFOCU_Core()->data->set('paypal_order_id', $created['id'], 'wpg_ppcp');
+        if (is_array($package)) {
+            WFOCU_Core()->data->set('upsell_package', $package, 'wpg_ppcp');
+        }
+        WFOCU_Core()->data->save('wpg_ppcp');
+        WFOCU_Core()->data->save();
+        wp_send_json(array(
+            'success' => true,
+            'data' => array('redirect_url' => $created['approve_url']),
+        ));
+    }
+
+    /**
+     * Refund a previously charged upsell offer (FunnelKit admin action).
+     * FunnelKit posts txn_id and amt with the request.
+     *
+     * @param WC_Order $order Order the offer belongs to.
+     * @return bool
+     */
+    public function process_refund_offer($order) {
+        // phpcs:disable WordPress.Security.NonceVerification.Missing
+        $transaction_id = isset($_POST['txn_id']) ? wc_clean(wp_unslash($_POST['txn_id'])) : false;
+        $amount = isset($_POST['amt']) ? round((float) wc_clean(wp_unslash($_POST['amt'])), 2) : false;
+        // phpcs:enable WordPress.Security.NonceVerification.Missing
+        if (!$transaction_id || !$amount || !$order instanceof WC_Order) {
+            return false;
+        }
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {
+            return false;
+        }
+        $request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
+        $result = $request->ppcp_refund_order($order->get_id(), $amount, __('FunnelKit upsell refund', 'woo-paypal-gateway'), $transaction_id);
+        return true === $result;
+    }
+
     public function get_transaction_link($transaction_id = '', $order_id = null) {
         if ('' === $transaction_id) {
             return '';

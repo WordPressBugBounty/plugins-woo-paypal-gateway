@@ -1427,3 +1427,31 @@ if (!function_exists('wpg_get_process_code_message')) {
     }
 
 }
+
+if (!function_exists('wpg_ppcp_complete_zero_total_order')) {
+
+    /**
+     * Finish a zero-total signup order after the payment method was vaulted:
+     * charge-upon-release pre-orders are marked as pre-ordered (WC Pre-Orders
+     * schedules the future charge); everything else (free-trial subscription)
+     * completes without payment.
+     *
+     * @param WC_Order $order    The order.
+     * @param string   $token_id Vaulted PayPal payment token id.
+     */
+    function wpg_ppcp_complete_zero_total_order($order, $token_id = '') {
+        if (!$order instanceof WC_Order) {
+            return;
+        }
+        if (!empty($token_id)) {
+            // translators: %s: last 4 characters of the vault token id.
+            $order->add_order_note(sprintf(__('Payment method saved for future charge (token ending in %s). No payment was taken now.', 'woo-paypal-gateway'), substr($token_id, -4)));
+        }
+        if (class_exists('WC_Pre_Orders_Order') && WC_Pre_Orders_Order::order_contains_pre_order($order) && WC_Pre_Orders_Order::order_will_be_charged_upon_release($order)) {
+            WC_Pre_Orders_Order::mark_order_as_pre_ordered($order);
+            return;
+        }
+        $order->payment_complete(!empty($token_id) ? $token_id : '');
+    }
+
+}

@@ -36,6 +36,10 @@ class WPG_Elementor_Integration {
 
 	public function register_widgets( $widgets_manager ) {
 		require_once dirname( __FILE__ ) . '/class-wpg-elementor-paypal-button-widget.php';
+		require_once dirname( __FILE__ ) . '/class-wpg-elementor-context-widgets.php';
 		$widgets_manager->register( new WPG_Elementor_PayPal_Button_Widget() );
+		$widgets_manager->register( new WPG_Elementor_Cart_Buttons_Widget() );
+		$widgets_manager->register( new WPG_Elementor_Product_Buttons_Widget() );
+		$widgets_manager->register( new WPG_Elementor_Pay_Later_Message_Widget() );
 	}
 }

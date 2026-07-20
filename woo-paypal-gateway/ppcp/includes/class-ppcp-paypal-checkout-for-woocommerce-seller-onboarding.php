@@ -66,8 +66,29 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
         }
     }
 
+    /**
+     * PKCE code_verifier for the onboarding auth-code exchange.
+     *
+     * This MUST be the exact value the onboarding host used as seller_nonce
+     * when it created the partner referral. The host currently uses this
+     * shared constant and ignores any seller_nonce passed to it, and PayPal
+     * invalidates the authorization code after the first exchange attempt
+     * (observed: a mismatched attempt returns 400 "Code verifier does not
+     * match" and the retry returns 401 "Authorization code not found in
+     * cache"). There is exactly one shot at the exchange, so do NOT swap
+     * this for a per-site value unless the onboarding host provably embeds
+     * that same value in the referral.
+     */
     public function nonce() {
         return 'a1233wtergfsdt4365tzrshgfbaewa36AGa1233wtergfsdt4365tzrshgfbaewa36AG';
+    }
+
+    private function flush_cached_signup_links() {
+        foreach (array('sandbox', 'live') as $env) {
+            delete_transient('wpg_signup_link_' . $env);
+            delete_transient('wpg_google_pay_signup_link_' . $env);
+            delete_transient('wpg_apple_pay_signup_link_' . $env);
+        }
     }
 
     public function data() {
@@ -142,7 +163,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
     private function google_pay_data() {
         $nonce = wp_create_nonce('wpg_onboarding_nonce');
         $current_user = wp_get_current_user();
-        $user_email = $current_user->user_email;
+        $user_email = is_email($current_user->user_email) ? $current_user->user_email : '';
         $return_url = add_query_arg(
                 array(
                     'sandbox' => ($this->is_sandbox ? 'yes' : 'no'),
@@ -170,7 +191,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
     private function apple_pay_data() {
         $nonce = wp_create_nonce('wpg_onboarding_nonce');
         $current_user = wp_get_current_user();
-        $user_email = $current_user->user_email;
+        $user_email = is_email($current_user->user_email) ? $current_user->user_email : '';
         $return_url = add_query_arg(
                 array(
                     'sandbox' => ($this->is_sandbox ? 'yes' : 'no'),
@@ -196,16 +217,32 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
 
     public function wpg_login_seller() {
         try {
-            $connection_time = get_option('wpg_connection_time');
-            if ($connection_time == '') {
-                $connection_time = time();
-                update_option('wpg_connection_time', $connection_time);
-            }
             $posted_raw = wpg_get_raw_data();
             if (empty($posted_raw)) {
                 return false;
             }
             $data = json_decode($posted_raw, true);
+            if (!is_array($data)) {
+                return false;
+            }
+            // Security: this endpoint stores live PayPal API credentials, so it must
+            // only run for an authenticated store admin performing onboarding. The
+            // onboarding JS already sends the 'wpg_login_seller' nonce created in the
+            // gateway (ppcp_param.wpg_onboarding_endpoint_nonce), so verifying it here
+            // does not change the legitimate flow — it only rejects forged/CSRF calls.
+            $nonce = isset($data['nonce']) ? sanitize_text_field($data['nonce']) : '';
+            if (!current_user_can('manage_woocommerce') || !wp_verify_nonce($nonce, 'wpg_login_seller')) {
+                if (ob_get_length()) {
+                    ob_end_clean();
+                }
+                status_header(403);
+                wp_send_json_error(array('message' => __('Unauthorized request.', 'woo-paypal-gateway')), 403);
+            }
+            $connection_time = get_option('wpg_connection_time');
+            if ($connection_time == '') {
+                $connection_time = time();
+                update_option('wpg_connection_time', $connection_time);
+            }
             $this->wpg_get_credentials($data);
             set_transient('wpg_ppcp_display_success_popup', true, 5 * MINUTE_IN_SECONDS);
             exit();
@@ -216,35 +253,51 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
 
     public function wpg_get_access_token($data) {
         try {
-            if (empty($data['authCode'])) {
+            if (empty($data['authCode']) || empty($data['sharedId'])) {
+                $this->api_log->log('Onboarding callback missing authCode or sharedId.', 'error');
+                $this->set_onboarding_failed_transient();
                 return false;
             }
             $this->api_request = new PPCP_Paypal_Checkout_For_Woocommerce_Request();
             $authCode = $data['authCode'];
             $sharedId = $data['sharedId'];
-            $url = trailingslashit($this->host) . 'v1/oauth2/token/';
-            $args = array(
-                'method' => 'POST',
-                'headers' => array(
-                    'Authorization' => 'Basic ' . base64_encode($sharedId . ':'),
-                    'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
-                ),
-                'body' => array(
-                    'grant_type' => 'authorization_code',
-                    'code' => $authCode,
-                    'code_verifier' => $this->nonce(),
-                ),
-            );
-            $result = $this->api_request->request($url, $args, 'get_access_token');
-            if (isset($result['access_token'])) {
+            // Single exchange attempt only: PayPal invalidates the authCode
+            // after the first try, so the verifier must be right first time.
+            // See nonce() for why this must stay the shared constant.
+            $result = $this->wpg_exchange_auth_code($authCode, $sharedId, $this->nonce());
+            if (!empty($result['access_token'])) {
                 return $result['access_token'];
             }
+            $this->api_log->log('Onboarding token exchange failed: no access_token in response.', 'error');
+            $this->set_onboarding_failed_transient();
+            return false;
         } catch (Exception $ex) {
             $this->log_error($ex);
-            $transient_key = $this->is_sandbox ? 'wpg_sandbox_seller_onboarding_process_failed' : 'wpg_live_seller_onboarding_process_failed';
-            set_transient($transient_key, 'yes', 29000);
+            $this->set_onboarding_failed_transient();
             return false;
         }
+    }
+
+    private function wpg_exchange_auth_code($authCode, $sharedId, $code_verifier) {
+        $url = trailingslashit($this->host) . 'v1/oauth2/token/';
+        $args = array(
+            'method' => 'POST',
+            'headers' => array(
+                'Authorization' => 'Basic ' . base64_encode($sharedId . ':'),
+                'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
+            ),
+            'body' => array(
+                'grant_type' => 'authorization_code',
+                'code' => $authCode,
+                'code_verifier' => $code_verifier,
+            ),
+        );
+        return $this->api_request->request($url, $args, 'get_access_token');
+    }
+
+    private function set_onboarding_failed_transient() {
+        $transient_key = $this->is_sandbox ? 'wpg_sandbox_seller_onboarding_process_failed' : 'wpg_live_seller_onboarding_process_failed';
+        set_transient($transient_key, 'yes', 29000);
     }
 
     public function wpg_get_seller_rest_api_credentials($token) {
@@ -340,6 +393,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
             $this->host = $this->is_sandbox ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';
             $this->clear_transients_and_options();
             $token = $this->wpg_get_access_token($data);
+            if (empty($token)) {
+                // Failure transient already set by wpg_get_access_token();
+                // don't call the credentials endpoint with an empty Bearer token.
+                return;
+            }
             $credentials = $this->wpg_get_seller_rest_api_credentials($token);
             $new_settings = array(
                 'sandbox' => $this->is_sandbox ? 'yes' : 'no',
@@ -350,12 +408,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 if ($this->is_sandbox) {
                     $new_settings['rest_secret_id_sandbox'] = $credentials['client_secret'];
                     $new_settings['rest_client_id_sandbox'] = $credentials['client_id'];
-                    $new_settings['sandbox_merchant_id'] = $credentials['payer_id'];
+                    $new_settings['sandbox_merchant_id'] = isset($credentials['payer_id']) ? $credentials['payer_id'] : '';
                     $new_settings['ppcp_email_sandbox'] = '';
                 } else {
                     $new_settings['rest_secret_id_live'] = $credentials['client_secret'];
                     $new_settings['rest_client_id_live'] = $credentials['client_id'];
-                    $new_settings['live_merchant_id'] = $credentials['payer_id'];
+                    $new_settings['live_merchant_id'] = isset($credentials['payer_id']) ? $credentials['payer_id'] : '';
                     $new_settings['ppcp_email_live'] = '';
                 }
                 delete_transient('wpg_ppcp_live_onboarding_status');
@@ -363,9 +421,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                 $this->update_gateway_settings($new_settings);
                 $transient_key = $this->is_sandbox ? 'wpg_sandbox_seller_onboarding_process_done' : 'wpg_live_seller_onboarding_process_done';
                 set_transient($transient_key, 'yes', 29000);
+            } else {
+                // Token exchange succeeded but the credentials endpoint returned
+                // nothing usable - surface the failure instead of ending silently.
+                $this->api_log->log('Onboarding failed: credentials endpoint returned no client_id/client_secret.', 'error');
+                $this->set_onboarding_failed_transient();
             }
         } catch (Exception $ex) {
             $this->log_error($ex);
+            $this->set_onboarding_failed_transient();
         }
     }
 
@@ -377,8 +441,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
         }
         try {
             $this->api_request = new PPCP_Paypal_Checkout_For_Woocommerce_Request();
+            // Reuse the transient-cached OAuth token loaded by the constructor instead of
+            // minting a fresh one on every admin page load. Only trust the cached token
+            // when the constructor resolved the same environment we were asked to check.
+            $constructor_env_matches = ((bool) $this->api_request->is_sandbox === (bool) $sandbox);
             $this->api_request->is_sandbox = $sandbox;
-            $access_token = $this->api_request->ppcp_get_access_token();
+            $access_token = $constructor_env_matches ? $this->api_request->access_token : false;
+            if (empty($access_token)) {
+                $access_token = $this->api_request->ppcp_get_access_token();
+            }
             if (empty($access_token)) {
                 return;
             }
@@ -422,10 +493,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
     }
 
     private function clear_transients_and_options() {
+        $this->flush_cached_signup_links();
         delete_transient('ppcp_sandbox_access_token');
-        delete_transient('ppcp_live_access_token');
+        // The live-mode cache keys have NO "live_" prefix (see the request class:
+        // 'ppcp_access_token' / 'ppcp_client_token'). Deleting the wrong keys here
+        // left a disconnected live account's OAuth token cached for up to ~9 hours,
+        // so API calls after reconnecting to a different PayPal account could still
+        // run against the old account until the transient expired.
+        delete_transient('ppcp_access_token');
         delete_transient('ppcp_sandbox_client_token');
-        delete_transient('ppcp_live_client_token');
+        delete_transient('ppcp_client_token');
         delete_option('ppcp_sandbox_webhook_id');
         delete_option('ppcp_live_webhook_id');
     }

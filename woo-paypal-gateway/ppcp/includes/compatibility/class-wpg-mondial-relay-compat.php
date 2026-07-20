@@ -48,6 +48,13 @@ class WPG_Mondial_Relay_Compat {
 		if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 			return;
 		}
+		// Only guard our own PayPal flows. On a classic checkout submission the
+		// Mondial Relay plugin runs its own (authoritative) validation; a second,
+		// heuristic check here could wrongly block a valid order.
+		$payment_method = isset( $data['payment_method'] ) ? $data['payment_method'] : '';
+		if ( ! in_array( $payment_method, array( 'wpg_paypal_checkout', 'wpg_paypal_checkout_cc' ), true ) ) {
+			return;
+		}
 		if ( ! WC()->cart->needs_shipping() ) {
 			return;
 		}

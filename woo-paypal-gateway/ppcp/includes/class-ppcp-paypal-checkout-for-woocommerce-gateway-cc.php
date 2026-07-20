@@ -17,6 +17,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         $this->supports = array(
             'products',
             'refunds',
+            'pre-orders',
             'subscriptions',
             'subscription_cancellation',
             'subscription_reactivation',
@@ -238,6 +239,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         $is_success = false;
         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Read-only token handling, nonce verified elsewhere.
         $token = isset($_POST['wc-wpg_paypal_checkout_cc-payment-token']) ? sanitize_text_field(wp_unslash($_POST['wc-wpg_paypal_checkout_cc-payment-token'])) : '';
+        if ($order instanceof WC_Order && (float) $order->get_total() <= 0) {
+            // Zero-total signup (free trial / charge-upon-release pre-order):
+            // vault instead of charging. A chosen saved token completes the
+            // order directly; otherwise the buyer approves a vault setup token.
+            if (!empty($token) && 'new' !== $token) {
+                $wc_token = WC_Payment_Tokens::get($token);
+                if ($wc_token && (int) $wc_token->get_user_id() === get_current_user_id()) {
+                    $this->request->save_payment_token($order, $wc_token->get_token());
+                    wpg_ppcp_complete_zero_total_order($order, $wc_token->get_token());
+                    WC()->cart->empty_cart();
+                    return array('result' => 'success', 'redirect' => $this->get_return_url($order));
+                }
+            }
+            return $this->request->ppcp_paypal_setup_tokens_zero_total($woo_order_id);
+        }
         if (!empty($token) && 'new' !== $token) {
             $is_success = $this->request->wpg_ppcp_capture_order_using_payment_method_token($woo_order_id);
             unset(WC()->session->ppcp_session);
@@ -321,7 +337,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
         $order_id = $order->get_id();
         $result = $this->request->wpg_ppcp_capture_order_using_payment_method_token($order_id);
-        if ($result === false) {
+        // Treat anything other than a strict true (false, or null from a network
+        // error/exception) as a failed renewal so retry/dunning can trigger.
+        if (true !== $result) {
             $order = wc_get_order($order_id);
             if ($order && !in_array($order->get_status(), array('processing', 'completed', 'on-hold'), true)) {
                 $order->update_status('failed', __('Subscription renewal payment failed at PayPal.', 'woo-paypal-gateway'));

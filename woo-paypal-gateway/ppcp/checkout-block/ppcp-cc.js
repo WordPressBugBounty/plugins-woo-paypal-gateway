@@ -108,27 +108,36 @@ var {addAction} = wp.hooks;
 
                 const Content_PPCP_CC = (props) => {
                     const {eventRegistration, emitResponse } = props;
-                    const {onPaymentSetup, onCheckoutValidation} = eventRegistration;
-                    
+                    // Guard against a missing eventRegistration (e.g. block editor context)
+                    // so the component does not crash on destructuring.
+                    const {onPaymentSetup, onCheckoutValidation} = eventRegistration || {};
+                    const errorResponse = (emitResponse && emitResponse.responseTypes)
+                        ? {type: emitResponse.responseTypes.ERROR}
+                        : {type: 'error'};
+
                     useEffect(() => {
                         jQuery(document.body).trigger("ppcp_cc_checkout_updated");
                     }, []);
 
                     useEffect(() => {
+                        if (typeof onPaymentSetup !== 'function') {
+                            return;
+                        }
                         const blockElements = '.wc-block-components-checkout-place-order-button, .wp-block-woocommerce-checkout-fields-block #contact-fields, .wp-block-woocommerce-checkout-fields-block #billing-fields, .wp-block-woocommerce-checkout-fields-block #payment-method';
 
                         const unsubscribe = onPaymentSetup(async () => {
+                            let recaptchaToken = '';
                             try {
                                 wp.data.dispatch(wc.wcBlocksData.CHECKOUT_STORE_KEY).__internalSetIdle();
                                 const hasErrors = wp?.data?.select('wc/store/validation')?.hasValidationErrors?.() === true;
                                 if (hasErrors) {
                                     jQuery(blockElements).unblock();
-                                    return false;
+                                    return errorResponse;
                                 }
                                 jQuery(blockElements).block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
                                 if (typeof window.wpg_get_recaptcha_token === 'function') {
                                     try {
-                                        var recaptchaToken = await window.wpg_get_recaptcha_token('cc_checkout');
+                                        recaptchaToken = (await window.wpg_get_recaptcha_token('cc_checkout')) || '';
                                         if (recaptchaToken) {
                                             var form = document.querySelector('form.wc-block-checkout__form');
                                             if (form) {
@@ -145,10 +154,18 @@ var {addAction} = wp.hooks;
                                     } catch (e) {}
                                 }
                                 jQuery(document.body).trigger('submit_paypal_cc_form');
-                                return true;
+                                // Send the reCAPTCHA token through the Store API payment data so the
+                                // server (verify_blocks_checkout) actually receives it — a DOM hidden
+                                // field is not forwarded by the block checkout REST request.
+                                return (emitResponse && emitResponse.responseTypes)
+                                    ? {
+                                        type: emitResponse.responseTypes.SUCCESS,
+                                        meta: {paymentMethodData: {wpg_recaptcha_token: recaptchaToken}}
+                                    }
+                                    : {type: 'success', meta: {paymentMethodData: {wpg_recaptcha_token: recaptchaToken}}};
                             } catch (e) {
                                 jQuery(blockElements).unblock();
-                                return false;
+                                return errorResponse;
                             } finally {
                                 jQuery(blockElements).unblock();
                             }
@@ -159,6 +176,9 @@ var {addAction} = wp.hooks;
 
 
                     useEffect(() => {
+                        if (typeof onCheckoutValidation !== 'function') {
+                            return;
+                        }
                         const unsubscribe = onCheckoutValidation(() => {
                             const hasErrors = wp?.data?.select('wc/store/validation')?.hasValidationErrors?.() === true;
                             return hasErrors ? false : true;

@@ -31,6 +31,7 @@ class WPG_Pre_Orders_Compat {
 		add_filter( 'wpg_ppcp_vault_required', array( $this, 'maybe_require_vault' ) );
 		add_filter( 'wpg_ppcp_payment_intent', array( $this, 'maybe_change_intent' ), 10, 2 );
 		add_action( 'wc_pre_orders_process_pre_order_completion_payment_wpg_paypal_checkout', array( $this, 'process_pre_order_payment' ) );
+		add_action( 'wc_pre_orders_process_pre_order_completion_payment_wpg_paypal_checkout_cc', array( $this, 'process_pre_order_payment' ) );
 		add_filter( 'wpg_ppcp_localize_script_data', array( $this, 'add_pre_order_js_data' ) );
 		add_filter( 'wc_pre_orders_supported_payment_gateways', array( $this, 'declare_support' ) );
 	}
@@ -64,7 +65,7 @@ class WPG_Pre_Orders_Compat {
 
 		if ( class_exists( 'WC_Pre_Orders_Order' ) && WC_Pre_Orders_Order::order_contains_pre_order( $order ) ) {
 			if ( WC_Pre_Orders_Order::order_requires_payment_tokenization( $order ) ) {
-				return 'authorize';
+				return 'AUTHORIZE';
 			}
 		}
 

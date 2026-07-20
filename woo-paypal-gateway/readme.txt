@@ -2,8 +2,8 @@
 Contributors: easypayment  
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
-Tested up to: 7.0.1
-Stable tag: 9.1.3
+Tested up to: 7.0.2
+Stable tag: 9.1.4
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -101,6 +101,29 @@ Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, y
 
 == Changelog ==
 
+= 9.1.4 - 2026-07-20 =
+ * Added - Free-trial subscriptions and charge-upon-release pre-orders can now be purchased with a new payment method: the buyer approves a PayPal vault setup token (nothing is charged now) and the saved method is used for the future charge. Saved payment methods complete zero-total signups directly.
+ * Added - Full WooCommerce Pre-Orders "charge upon release" support: the order is marked as pre-ordered at signup and the release charge uses the buyer's vaulted payment method.
+ * Added - FunnelKit upsells now work for buyers without a saved payment method: the buyer is redirected to PayPal to approve the offer amount and the upsell completes on return.
+ * Added - FunnelKit upsell offers can now be refunded directly from the FunnelKit admin.
+ * Added - Elementor: new "PayPal Cart Buttons", "PayPal Product Buttons" and "PayPal Pay Later Message" widgets for context-specific placement.
+ * Improved - CheckoutWC order bumps and FunnelKit upsells always charge exactly the approved offer amount when using a saved payment method.
+ * Improved - Saved-payment-method charges (subscription renewals, one-click offers) using the "Authorize" payment action are now seamlessly recognized as successful authorizations: the order moves to on-hold and is captured on status change.
+ * Improved - Express checkout from the product page now respects the store's product validation rules (for example required Product Add-ons/Extra Product Options fields) and shows the store's own helpful message before payment begins.
+ * Improved - Express checkout from the product page always uses the buyer's latest selected quantity and product options.
+ * Improved - Pre-Orders compatibility updated for PayPal's latest API requirements.
+ * Improved - Smoother Mondial Relay compatibility: the pickup-point check now applies only to this plugin's own payment flows, so classic checkouts validated by the Mondial Relay plugin are never affected.
+ * Improved - Refunds for orders paid with the "Authorize" payment action are now processed seamlessly against the captured transaction.
+ * Improved - Clearer guidance when refunding an order whose payment has not been captured yet.
+ * Improved - Cancelling an order with an uncaptured authorized payment now instantly releases the hold on the customer's funds at PayPal. Captured payments are never affected.
+ * Improved - Smarter invoice ID handling: if PayPal reports an invoice number as already in use (for example after a store migration), the plugin automatically retries with a unique invoice ID so the shopper's checkout always completes smoothly.
+ * Improved - More accurate address handling during express checkout: only the address details PayPal shares before approval are synced, and the buyer's confirmed address is applied right after approval.
+ * Improved - Customer phone numbers entered with a country code (for example "+1 650 555 5555") are automatically formatted to PayPal's expected national format.
+ * Improved - Faster admin experience: the seller onboarding status check reuses the securely cached PayPal access token.
+ * Improved - Faster webhook processing: PayPal events are matched to orders instantly using the stored PayPal order ID, reducing API calls.
+ * Improved - Enhanced customer privacy: debug logs automatically mask buyer email addresses and phone numbers.
+ * Improved - Smoother PayPal account switching: disconnecting an account now fully refreshes all cached API credentials, so a newly connected account takes effect immediately.
+ 
 = 9.1.3 - 2026-07-15 =
  * Improved - Cleaner post-update experience: the WooCommerce admin stays distraction-free after plugin updates, with detailed migration status available anytime from WooCommerce > Status.
  * Improved - More reliable database updates: version migrations now self-verify and complete automatically on the next admin page load, for a smooth, hands-free upgrade every time.

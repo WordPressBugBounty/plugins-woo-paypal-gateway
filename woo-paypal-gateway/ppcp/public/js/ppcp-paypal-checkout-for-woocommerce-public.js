@@ -872,6 +872,8 @@
             const order_id = data.orderID || data.orderId || '';
             const payer_id = data.payerID || data.payerId || '';
             if (!order_id) {
+                this.hideSpinner();
+                this.showError(this.ppcp_manager.unknown_error || 'We could not process your PayPal approval. Please try again.');
                 return;
             }
             if (this.isCheckoutPage() || this.ppcp_manager.skip_order_review === 'yes') {
@@ -879,18 +881,26 @@
                 $.post(url, (response) => {
                     if (response?.data?.redirect) {
                         window.location.href = response.data.redirect;
-                    } else {
-                        if (response?.success === false) {
-                            const messages = response.data?.messages ?? ['An unknown error occurred.'];
-                            this.showError(messages);
-                            this.hideSpinner();
-                            let redirectUrl = `${this.ppcp_manager.checkout_url}?paypal_order_id=${encodeURIComponent(order_id)}&from=${this.ppcp_manager.page}`;
-                            if (payer_id) {
-                                redirectUrl += `&paypal_payer_id=${encodeURIComponent(payer_id)}`;
-                            }
-                            window.location.href = redirectUrl;
-                        }
+                        return;
                     }
+                    // Any non-redirect response (explicit failure, or an unexpected/empty
+                    // body): stop the spinner and surface an error rather than hanging.
+                    this.hideSpinner();
+                    const messages = response?.data?.messages
+                        ?? (this.ppcp_manager.unknown_error || 'An error occurred while completing your payment. If your account was charged, please contact us before trying again.');
+                    this.showError(messages);
+                    if (response?.success === false) {
+                        let redirectUrl = `${this.ppcp_manager.checkout_url}?paypal_order_id=${encodeURIComponent(order_id)}&from=${this.ppcp_manager.page}`;
+                        if (payer_id) {
+                            redirectUrl += `&paypal_payer_id=${encodeURIComponent(payer_id)}`;
+                        }
+                        window.location.href = redirectUrl;
+                    }
+                }).fail(() => {
+                    // Network/HTTP failure. The capture may have already succeeded server
+                    // side, so do not encourage a blind retry that could double-charge.
+                    this.hideSpinner();
+                    this.showError('We could not confirm your payment. If your account was charged, please contact us before trying again.');
                 });
                 return;
             }
@@ -1073,7 +1083,7 @@
                     .then(res => res.json())
                     .then(data => {
                         if (!data || data.success === false) {
-                            const messages = data.data.messages ?? data.data;
+                            const messages = data?.data?.messages ?? data?.data;
                             this.hideSpinner();
                             this.showError(messages || 'An unknown error occurred while creating the order.');
                             return Promise.reject();
@@ -1088,7 +1098,19 @@
 
         submitCardFields(payload) {
             $.post(`${this.ppcp_manager.cc_capture}&paypal_order_id=${payload.orderID}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`, (data) => {
-                window.location.href = data.data.redirect;
+                if (data?.data?.redirect) {
+                    window.location.href = data.data.redirect;
+                    return;
+                }
+                // No redirect (server error or unexpected/empty body): show the error
+                // instead of navigating to '/undefined'.
+                this.hideSpinner();
+                const messages = data?.data?.messages
+                    ?? (this.ppcp_manager.unknown_error || 'An error occurred while completing your payment. If your account was charged, please contact us before trying again.');
+                this.showError(messages);
+            }).fail(() => {
+                this.hideSpinner();
+                this.showError('We could not confirm your payment. If your account was charged, please contact us before trying again.');
             });
         }
 
@@ -2378,15 +2400,27 @@
                                             status: ApplePaySession.STATUS_SUCCESS
                                         });
                                         window.location.href = response.data.redirect;
-                                    } else {
-                                        if (response?.success === false) {
-                                            const messages = response.data?.messages ?? [this.t('unknown_error_short', 'An unknown error occurred.')];
-                                            this.showError(messages);
-                                            let redirectUrl = `${this.ppcp_manager.checkout_url}?paypal_order_id=${encodeURIComponent(order_id)}&from=${this.ppcp_manager.page}`;
-                                            window.location.href = redirectUrl;
-                                            this.hideSpinner();
-                                        }
+                                        return;
                                     }
+                                    // Non-redirect response (failure or unexpected/empty body):
+                                    // close the Apple Pay sheet and surface an error instead of
+                                    // leaving it spinning.
+                                    session.completePayment({
+                                        status: ApplePaySession.STATUS_FAILURE
+                                    });
+                                    this.hideSpinner();
+                                    const messages = response?.data?.messages ?? [this.t('unknown_error_short', 'An unknown error occurred.')];
+                                    this.showError(messages);
+                                    if (response?.success === false) {
+                                        let redirectUrl = `${this.ppcp_manager.checkout_url}?paypal_order_id=${encodeURIComponent(order_id)}&from=${this.ppcp_manager.page}`;
+                                        window.location.href = redirectUrl;
+                                    }
+                                }).fail(() => {
+                                    session.completePayment({
+                                        status: ApplePaySession.STATUS_FAILURE
+                                    });
+                                    this.hideSpinner();
+                                    this.showError('We could not confirm your payment. If your account was charged, please contact us before trying again.');
                                 });
                             } else {
                                 session.completePayment({

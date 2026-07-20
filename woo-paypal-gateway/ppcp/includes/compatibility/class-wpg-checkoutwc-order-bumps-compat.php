@@ -132,13 +132,32 @@ class WPG_CheckoutWC_Order_Bumps_Compat {
 
 		$this->ensure_token_on_order( $order );
 
+		// CheckoutWC hands us the parent order (for its saved payment method)
+		// plus the bump's own price data. Charge ONLY the bump amount — charging
+		// the order object's totals would bill the buyer's whole order again.
+		$bump_total = isset( $product['price'] ) ? (float) $product['price'] : 0;
+		if ( $bump_total <= 0 ) {
+			$order->add_order_note( __( 'Order bump charge skipped: no bump price was supplied, so the charge could not be scoped to the bump amount.', 'woo-paypal-gateway' ) );
+			return false;
+		}
+		$bump_product_id = ! empty( $product['variation_id'] ) ? $product['variation_id'] : ( isset( $product['id'] ) ? $product['id'] : 0 );
+		$bump_product    = $bump_product_id ? wc_get_product( $bump_product_id ) : false;
+
 		$request    = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
 		$invoice_id = '-cfw-bump-' . uniqid() . '-';
-		$result     = $request->wpg_ppcp_capture_order_using_payment_method_token( $order->get_id(), $invoice_id );
+		$result     = $request->wpg_ppcp_capture_order_using_payment_method_token(
+			$order->get_id(),
+			$invoice_id,
+			array(
+				'total'       => $bump_total,
+				'description' => $bump_product ? $bump_product->get_name() : __( 'Order bump', 'woo-paypal-gateway' ),
+			)
+		);
 
 		if ( $result ) {
-			$bump_id = isset( $product['id'] ) ? $product['id'] : ( isset( $product['bump_id'] ) ? $product['bump_id'] : 'bump' );
-			$order->update_meta_data( 'cfw_offer_txn_resp_' . sanitize_key( $bump_id ), $order->get_transaction_id() );
+			$bump_id = isset( $product['bump_id'] ) ? $product['bump_id'] : ( isset( $product['id'] ) ? $product['id'] : 'bump' );
+			$txn_id  = is_string( $result ) ? $result : $order->get_transaction_id();
+			$order->update_meta_data( 'cfw_offer_txn_resp_' . sanitize_key( $bump_id ), $txn_id );
 			$order->save();
 			return true;
 		}

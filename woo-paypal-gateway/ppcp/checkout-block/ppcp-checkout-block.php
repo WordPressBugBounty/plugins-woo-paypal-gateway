@@ -15,21 +15,41 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
 
     public function initialize() {
         $this->settings = get_option('woocommerce_wpg_paypal_checkout_settings', []);
+        // Guard the includes so a missing file (e.g. the plugin folder being
+        // replaced mid-request during an update) disables this payment block
+        // for the request instead of fataling the whole site.
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Gateway')) {
-            include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php');
+            $gateway_file = WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-gateway.php';
+            if (file_exists($gateway_file)) {
+                include_once $gateway_file;
+            }
+        }
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Gateway')) {
+            return;
         }
         $this->gateway = new PPCP_Paypal_Checkout_For_Woocommerce_Gateway();
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later')) {
-            include_once ( WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-pay-later-messaging.php');
+            $pay_later_file = WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-pay-later-messaging.php';
+            if (file_exists($pay_later_file)) {
+                include_once $pay_later_file;
+            }
         }
-        $this->pay_later = PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later::instance();
+        if (class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later')) {
+            $this->pay_later = PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later::instance();
+        }
     }
 
     public function is_active() {
+        if (!is_object($this->gateway)) {
+            return false;
+        }
         return $this->gateway->is_available();
     }
 
     public function get_supported_features() {
+        if (!is_object($this->gateway)) {
+            return array();
+        }
         return $this->gateway->supports;
     }
 
@@ -148,6 +168,9 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     }
 
     public function get_payment_method_data() {
+        if (!is_object($this->gateway)) {
+            return array();
+        }
         $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png');
         if (ppcp_has_active_session()) {
             $order_button_text = apply_filters('wpg_paypal_checkout_order_review_page_place_order_button_text', _x('Confirm Your PayPal Order', 'Important', 'woo-paypal-gateway'));
@@ -155,7 +178,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             $order_button_text = apply_filters('wpg_paypal_checkout_place_order_button_text', _x('Proceed to PayPal', 'Important', 'woo-paypal-gateway'));
         }
         $is_paylater_enable_incart_page = 'no';
-        if ($this->pay_later->is_paypal_pay_later_messaging_enable_for_page($page = 'cart')) {
+        if (is_object($this->pay_later) && $this->pay_later->is_paypal_pay_later_messaging_enable_for_page($page = 'cart')) {
             $is_paylater_enable_incart_page = 'yes';
         } else {
             $is_paylater_enable_incart_page = 'no';

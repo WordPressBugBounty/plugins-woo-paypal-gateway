@@ -19,6 +19,60 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
         add_filter('wfocu_wc_get_supported_gateways', [__CLASS__, 'register_gateway_associative'], 10);
         add_action('woocommerce_new_order', [__CLASS__, 'copy_parent_order_payment_tokens'], 20);
         add_action('wp_loaded', [__CLASS__, 'register_upsell_gateway_loader'], 1);
+        add_action('woocommerce_api_wpg_ppcp_funnelkit_return', [__CLASS__, 'handle_upsell_return']);
+    }
+
+    /**
+     * Buyer returns from approving a token-less upsell offer at PayPal.
+     * Restores the FunnelKit offer context, charges the approved PayPal order
+     * and finishes the offer via FunnelKit's own pipeline (reference-shaped).
+     */
+    public static function handle_upsell_return() {
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
+        $order = null;
+        try {
+            if (!function_exists('WFOCU_Core')) {
+                wp_safe_redirect(wc_get_checkout_url());
+                exit;
+            }
+            $order_id = isset($_GET['order_id']) ? absint(wp_unslash($_GET['order_id'])) : 0;
+            $order_key = isset($_GET['order_key']) ? wc_clean(wp_unslash($_GET['order_key'])) : '';
+            $token = isset($_GET['token']) ? wc_clean(wp_unslash($_GET['token'])) : '';
+            if ($order_id && $order_key) {
+                $order = wc_get_order($order_id);
+                if ($order && $order->key_is_valid($order_key)) {
+                    if (!$token) {
+                        $token = WFOCU_Core()->data->get('paypal_order_id', null, 'wpg_ppcp');
+                    }
+                    add_filter('wfocu_valid_state_for_data_setup', '__return_true');
+                    WFOCU_Core()->template_loader->set_offer_id(WFOCU_Core()->data->get_current_offer());
+                    WFOCU_Core()->template_loader->maybe_setup_offer();
+                    $package = WFOCU_Core()->data->get('upsell_package', null, 'wpg_ppcp');
+                    if ($package) {
+                        WFOCU_Core()->data->set('_upsell_package', $package);
+                    }
+                    $payment_method = WFOCU_Core()->gateways->get_integration($order->get_payment_method());
+                    if ($payment_method && method_exists($payment_method, 'set_paypal_order') && !empty($token)) {
+                        $payment_method->set_paypal_order($token);
+                        if ($payment_method->process_charge($order)) {
+                            $data = WFOCU_Core()->process_offer->_handle_upsell_charge(true);
+                        } else {
+                            $data = WFOCU_Core()->process_offer->_handle_upsell_charge(false);
+                        }
+                        wp_safe_redirect($data['redirect_url']);
+                        exit;
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            if ($order instanceof WC_Order) {
+                // translators: %s: error message.
+                $order->add_order_note(sprintf(__('Error processing upsell payment. Reason: %s', 'woo-paypal-gateway'), $e->getMessage()));
+            }
+        }
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
+        wp_safe_redirect($order instanceof WC_Order ? $order->get_checkout_order_received_url() : wc_get_checkout_url());
+        exit;
     }
 
     /**

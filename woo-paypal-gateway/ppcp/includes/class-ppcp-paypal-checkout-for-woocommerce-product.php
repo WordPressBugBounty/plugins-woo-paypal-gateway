@@ -23,10 +23,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
             if (!$adding_to_cart) {
                 return;
             }
-            foreach (WC()->cart->get_cart() as $cart_item) {
+            foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 if ((int) $cart_item['product_id'] === $product_id && (empty($_REQUEST['variation_id']) || (!empty($cart_item['variation_id']) && (int) $cart_item['variation_id'] === (int) $_REQUEST['variation_id']))) {
-                    return;
+                    // Remove the existing line and re-add rather than keeping it:
+                    // the buyer may have chosen a new quantity or new product
+                    // add-on options (Product Add-ons, WAPF, TM EPO) since the
+                    // stale line was added. Re-adding also keeps double-clicks
+                    // idempotent instead of incrementing the quantity.
+                    WC()->cart->remove_cart_item($cart_item_key);
                 }
             }
             $add_to_cart_handler = apply_filters('woocommerce_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart);
@@ -38,6 +43,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                 do_action('woocommerce_add_to_cart_handler_' . $add_to_cart_handler, $url);
             } else {
                 $was_added_to_cart = self::add_to_cart_handler_simple($product_id);
+            }
+            if (false === $was_added_to_cart && wc_notice_count('error') > 0) {
+                // A validation hook (required product add-on field, stock rule,
+                // third-party plugin) rejected the add. Surface the plugin's own
+                // message to the buyer instead of silently creating a PayPal
+                // order without the product.
+                $error_messages = array();
+                foreach (wc_get_notices('error') as $notice) {
+                    $error_messages[] = wp_strip_all_tags(is_array($notice) ? $notice['notice'] : $notice);
+                }
+                wc_clear_notices();
+                if (wp_doing_ajax() || !empty($_GET['wc-api'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                    wp_send_json_error(array('messages' => $error_messages));
+                }
+                return;
             }
             wc_clear_notices();
             // phpcs:enable WordPress.Security.NonceVerification.Recommended
