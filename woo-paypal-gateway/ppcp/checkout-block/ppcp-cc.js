@@ -127,14 +127,26 @@ var {addAction} = wp.hooks;
 
                         const unsubscribe = onPaymentSetup(async () => {
                             let recaptchaToken = '';
+                            // Fastlane by PayPal: the card is already tokenized client-side.
+                            // Unlike the CardFields flow below — which cancels the Store API
+                            // submission (__internalSetIdle) and completes payment through its
+                            // own endpoints — Fastlane rides the normal Store API checkout, so
+                            // the checkout state machine must be left alone: forcing it idle
+                            // swallowed the first Place Order click and suppressed the
+                            // processing indicator.
+                            var fastlaneToken = window.wpgPPCPFastlaneToken || '';
                             try {
-                                wp.data.dispatch(wc.wcBlocksData.CHECKOUT_STORE_KEY).__internalSetIdle();
+                                if (!fastlaneToken) {
+                                    wp.data.dispatch(wc.wcBlocksData.CHECKOUT_STORE_KEY).__internalSetIdle();
+                                }
                                 const hasErrors = wp?.data?.select('wc/store/validation')?.hasValidationErrors?.() === true;
                                 if (hasErrors) {
                                     jQuery(blockElements).unblock();
                                     return errorResponse;
                                 }
-                                jQuery(blockElements).block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
+                                if (!fastlaneToken) {
+                                    jQuery(blockElements).block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
+                                }
                                 if (typeof window.wpg_get_recaptcha_token === 'function') {
                                     try {
                                         recaptchaToken = (await window.wpg_get_recaptcha_token('cc_checkout')) || '';
@@ -153,16 +165,25 @@ var {addAction} = wp.hooks;
                                         }
                                     } catch (e) {}
                                 }
-                                jQuery(document.body).trigger('submit_paypal_cc_form');
+                                // Without a Fastlane token, run the regular CardFields round-trip;
+                                // with one, the Store API checkout carries the single-use token to
+                                // the gateway, which charges it server-side.
+                                if (!fastlaneToken) {
+                                    jQuery(document.body).trigger('submit_paypal_cc_form');
+                                }
                                 // Send the reCAPTCHA token through the Store API payment data so the
                                 // server (verify_blocks_checkout) actually receives it — a DOM hidden
                                 // field is not forwarded by the block checkout REST request.
+                                var paymentMethodData = {wpg_recaptcha_token: recaptchaToken};
+                                if (fastlaneToken) {
+                                    paymentMethodData.wpg_ppcp_fastlane_token = fastlaneToken;
+                                }
                                 return (emitResponse && emitResponse.responseTypes)
                                     ? {
                                         type: emitResponse.responseTypes.SUCCESS,
-                                        meta: {paymentMethodData: {wpg_recaptcha_token: recaptchaToken}}
+                                        meta: {paymentMethodData: paymentMethodData}
                                     }
-                                    : {type: 'success', meta: {paymentMethodData: {wpg_recaptcha_token: recaptchaToken}}};
+                                    : {type: 'success', meta: {paymentMethodData: paymentMethodData}};
                             } catch (e) {
                                 jQuery(blockElements).unblock();
                                 return errorResponse;

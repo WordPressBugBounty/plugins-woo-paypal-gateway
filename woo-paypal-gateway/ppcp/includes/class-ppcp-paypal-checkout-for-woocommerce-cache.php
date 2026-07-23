@@ -23,7 +23,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Cache {
 		$settings = get_option( 'woocommerce_wpg_paypal_checkout_settings', array() );
 		if ( ! isset( $settings['cache_enabled'] ) || 'yes' === $settings['cache_enabled'] ) {
 			add_action( 'wpg_ppcp_prewarm_client_token', array( $this, 'prewarm_client_token' ) );
-			$this->schedule_prewarm();
+
+			// Defer registering the cron event to `init`. wp_schedule_event() calls
+			// wp_get_schedules(), which fires the `cron_schedules` filter; WooCommerce
+			// translates a schedule label ('Monthly') in that filter, and doing so while
+			// we are still on `plugins_loaded` forces the WooCommerce textdomain to load
+			// before `init` — which WordPress 6.7+ reports as a "translation loading
+			// triggered too early" notice. Running it on `init` avoids the premature load.
+			if ( did_action( 'init' ) ) {
+				$this->schedule_prewarm();
+			} else {
+				add_action( 'init', array( $this, 'schedule_prewarm' ) );
+			}
 		}
 	}
 
@@ -98,7 +109,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Cache {
 		wp_send_json_success( array( 'message' => __( 'Cache cleared successfully.', 'woo-paypal-gateway' ) ) );
 	}
 
-	private function schedule_prewarm() {
+	public function schedule_prewarm() {
 		if ( ! wp_next_scheduled( 'wpg_ppcp_prewarm_client_token' ) ) {
 			wp_schedule_event( time() + 45 * MINUTE_IN_SECONDS, 'hourly', 'wpg_ppcp_prewarm_client_token' );
 		}

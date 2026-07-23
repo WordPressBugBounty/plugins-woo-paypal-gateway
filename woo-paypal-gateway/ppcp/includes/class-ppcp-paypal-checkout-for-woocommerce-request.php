@@ -542,8 +542,142 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             return true;
         } catch (Exception $ex) {
-            
+
         }
+    }
+
+    /**
+     * Generate (and cache) the SDK client token required by PayPal Fastlane.
+     *
+     * Fastlane needs the PayPal JS SDK to be loaded with a `data-sdk-client-token`
+     * attribute. The token is minted via v1/oauth2/token with
+     * response_type=client_token and intent=sdk_init, scoped to the shop domain.
+     * PayPal validates the requesting page origin against `domains[]`, so a
+     * mismatched domain silently disables Fastlane in the browser.
+     *
+     * @return string|false The SDK client token, or false when unavailable.
+     */
+    public function get_fastlane_sdk_client_token() {
+        try {
+            $transient_key = $this->is_sandbox ? 'ppcp_sandbox_fastlane_sdk_token' : 'ppcp_fastlane_sdk_token';
+            $sdk_client_token = get_transient($transient_key);
+            if (!empty($sdk_client_token)) {
+                return $sdk_client_token;
+            }
+            if ($this->is_valid_for_use() !== true) {
+                return false;
+            }
+            $domain = '';
+            if (!empty($_SERVER['HTTP_HOST'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                $domain = sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']));
+            }
+            if (empty($domain)) {
+                $domain = (string) wp_parse_url(home_url(), PHP_URL_HOST);
+            }
+            $domain = strtolower(trim($domain));
+            $domain = preg_replace('/:\d+$/', '', $domain);
+            $domain = preg_replace('/^www\./', '', $domain);
+            if (empty($domain)) {
+                return false;
+            }
+            $response = wp_remote_post($this->paypal_oauth_api, array(
+                'method' => 'POST',
+                'timeout' => 60,
+                'redirection' => 5,
+                'httpversion' => '1.1',
+                'blocking' => true,
+                'headers' => array(
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'Authorization' => 'Basic ' . $this->basicAuth,
+                    'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB',
+                ),
+                'body' => array(
+                    'grant_type' => 'client_credentials',
+                    'response_type' => 'client_token',
+                    'intent' => 'sdk_init',
+                    'domains[]' => $domain,
+                ),
+                'cookies' => array(),
+                    )
+            );
+            $this->ppcp_log('Fastlane SDK client token request for domain: ' . $domain);
+            if (is_wp_error($response)) {
+                $this->ppcp_log('Fastlane SDK client token error: ' . wc_print_r($response->get_error_message(), true));
+                return false;
+            }
+            $api_response = json_decode(wp_remote_retrieve_body($response), true);
+            $this->ppcp_log('Fastlane SDK client token response code: ' . wp_remote_retrieve_response_code($response));
+            if (!empty($api_response['access_token'])) {
+                $expires_in = isset($api_response['expires_in']) ? absint($api_response['expires_in']) : 3600;
+                set_transient($transient_key, $api_response['access_token'], max(60, $expires_in - 100));
+                return $api_response['access_token'];
+            }
+            $this->ppcp_log('Fastlane SDK client token response missing access_token: ' . wc_print_r($this->ppcp_redact_sensitive_data($api_response), true));
+        } catch (Exception $ex) {
+
+        }
+        return false;
+    }
+
+    /**
+     * Process a checkout paid with a PayPal Fastlane single-use token.
+     *
+     * The Fastlane JS component tokenizes the buyer's card client-side; the
+     * resulting single-use token is charged in one server-side Orders v2 call
+     * (create with payment_source.card.single_use_token, processed immediately).
+     *
+     * 3DS note: verification is forced to SCA_WHEN_REQUIRED regardless of the
+     * SCA_ALWAYS admin setting — Fastlane authenticates the buyer inside its own
+     * component and the one-shot server flow has no client round-trip to complete
+     * an external 3DS challenge, so SCA_ALWAYS would fail every Fastlane payment.
+     *
+     * @param int    $woo_order_id     WooCommerce order id.
+     * @param string $single_use_token Fastlane single-use payment token id.
+     * @param bool   $save_card        Whether the buyer asked to vault the card.
+     * @return bool True when the payment completed.
+     */
+    public function wpg_ppcp_fastlane_payment($woo_order_id, $single_use_token, $save_card = false) {
+        try {
+            $payment_source = array(
+                'card' => array(
+                    'single_use_token' => $single_use_token,
+                    'attributes' => array(
+                        'verification' => array('method' => 'SCA_WHEN_REQUIRED'),
+                    ),
+                ),
+            );
+            if ($save_card && is_user_logged_in()) {
+                $payment_source['card']['attributes']['vault'] = array(
+                    'store_in_vault' => 'ON_SUCCESS',
+                    'usage_type' => 'MERCHANT',
+                );
+                if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token')) {
+                    require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php';
+                }
+                $this->payment_token = PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token::instance();
+                $paypal_generated_customer_id = $this->payment_token->get_paypal_customer_id($this->is_sandbox);
+                if (!empty($paypal_generated_customer_id)) {
+                    $payment_source['card']['attributes']['customer'] = array('id' => $paypal_generated_customer_id);
+                }
+            }
+            $order = wc_get_order($woo_order_id);
+            if ($order instanceof WC_Order) {
+                $order->update_meta_data('_wpg_ppcp_used_payment_method', 'card');
+                $order->update_meta_data('_wpg_ppcp_fastlane', 'yes');
+                $order->save();
+                $order->add_order_note(__('Processing payment with Fastlane by PayPal.', 'woo-paypal-gateway'));
+            }
+            // The post-payment token-save handler keys off this session value; the
+            // Fastlane flow arrives via the normal WooCommerce submit, which never
+            // passes through the wc-api `used` query param that usually sets it.
+            if (function_exists('ppcp_set_session')) {
+                ppcp_set_session('wpg_payment_method', 'card');
+            }
+            return true === $this->wpg_ppcp_capture_order_using_payment_method_token($woo_order_id, '', null, $payment_source);
+        } catch (Exception $ex) {
+            $this->ppcp_log('Fastlane payment exception: ' . $ex->getMessage(), 'error');
+        }
+        return false;
     }
 
     public function ppcp_log($message, $level = 'info') {
@@ -2424,43 +2558,65 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     }
 
     public function ppcp_get_readable_message($error) {
+        // Some callers pass the raw wp_remote_* response array (with
+        // 'headers'/'body'/'response' keys) rather than the decoded JSON body.
+        // Unwrap it so the parser below can read PayPal's error shape — and so we
+        // never hand a non-string back to add_order_note(), where wpdb rejects an
+        // array value ("Unsupported value type (array)").
+        if (is_array($error) && !isset($error['name']) && !isset($error['message']) && isset($error['body']) && is_string($error['body'])) {
+            $decoded_body = json_decode($error['body'], true);
+            if (is_array($decoded_body)) {
+                $error = $decoded_body;
+            }
+        }
         $message = '';
-        if (isset($error['name'])) {
+        if (is_array($error) && isset($error['name'])) {
             switch ($error['name']) {
                 case 'VALIDATION_ERROR':
-                    foreach ($error['details'] as $e) {
-                        $message .= "\t" . $e['field'] . "\n\t" . $e['issue'] . "\n\n";
+                    if (!empty($error['details']) && is_array($error['details'])) {
+                        foreach ($error['details'] as $e) {
+                            $message .= "\t" . $e['field'] . "\n\t" . $e['issue'] . "\n\n";
+                        }
                     }
                     break;
                 case 'INVALID_REQUEST':
-                    foreach ($error['details'] as $e) {
-                        if (isset($e['field']) && isset($e['description'])) {
-                            $message .= "\t" . $e['field'] . "\n\t" . $e['description'] . "\n\n";
-                        } elseif (isset($e['issue'])) {
-                            $message .= "\t" . $e['issue'] . "n\n";
+                    if (!empty($error['details']) && is_array($error['details'])) {
+                        foreach ($error['details'] as $e) {
+                            if (isset($e['field']) && isset($e['description'])) {
+                                $message .= "\t" . $e['field'] . "\n\t" . $e['description'] . "\n\n";
+                            } elseif (isset($e['issue'])) {
+                                $message .= "\t" . $e['issue'] . "\n\n";
+                            }
                         }
                     }
                     break;
                 case 'BUSINESS_ERROR':
-                    $message .= $error['message'];
+                    $message .= isset($error['message']) ? $error['message'] : '';
                     break;
                 case 'UNPROCESSABLE_ENTITY' :
-                    foreach ($error['details'] as $e) {
-                        $message .= "\t" . $e['issue'] . ": " . $e['description'] . "\n\n";
+                    if (!empty($error['details']) && is_array($error['details'])) {
+                        foreach ($error['details'] as $e) {
+                            $issue = isset($e['issue']) ? $e['issue'] : '';
+                            $description = isset($e['description']) ? $e['description'] : '';
+                            $message .= "\t" . $issue . ": " . $description . "\n\n";
+                        }
                     }
                     break;
             }
         }
         if (!empty($message)) {
-            
-        } else if (!empty($error['message'])) {
+            // Built from the structured details above.
+        } else if (is_array($error) && !empty($error['message'])) {
             $message = $error['message'];
-        } else if (!empty($error['error_description'])) {
+        } else if (is_array($error) && !empty($error['error_description'])) {
             $message = $error['error_description'];
-        } else {
+        } else if (is_string($error)) {
             $message = $error;
+        } else {
+            // Never return a non-string: add_order_note() -> wpdb cannot store an array.
+            $message = __('An unexpected error occurred while processing the payment. Please try again.', 'woo-paypal-gateway');
         }
-        return $message;
+        return is_string($message) ? $message : (string) $message;
     }
 
     public function ppcp_create_webhooks_request() {
@@ -3910,7 +4066,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
     }
 
-    public function wpg_ppcp_capture_order_using_payment_method_token($woo_order_id = null, $invoice_id = '', $charge_override = null) {
+    public function wpg_ppcp_capture_order_using_payment_method_token($woo_order_id = null, $invoice_id = '', $charge_override = null, $payment_source_override = null) {
         try {
             if ($this->access_token === false) {
                 $this->access_token = $this->ppcp_get_access_token();
@@ -4075,22 +4231,57 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 }
             }
             $body_request = $this->ppcp_set_payer_details($woo_order_id, $body_request);
-            $body_request = apply_filters('wpg_ppcp_add_payment_source', $body_request, $woo_order_id);
+            if (!empty($payment_source_override) && is_array($payment_source_override)) {
+                // Caller supplied the payment source directly (e.g. a Fastlane
+                // single-use token) — skip the saved-vault-token lookup filter.
+                $body_request['payment_source'] = $payment_source_override;
+            } else {
+                $body_request = apply_filters('wpg_ppcp_add_payment_source', $body_request, $woo_order_id);
+            }
             $body_request = ppcp_remove_empty_key($body_request);
-            $body_request = json_encode($body_request);
-            $this->ppcp_add_log_details('Order using payment token');
-            $this->ppcp_log('Request : ' . wc_print_r($this->paypal_order_api, true));
-            $this->api_response = wp_remote_post($this->paypal_order_api, array(
-                'method' => 'POST',
-                'timeout' => 60,
-                'redirection' => 5,
-                'httpversion' => '1.1',
-                'blocking' => true,
-                'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id('token-capture-' . $woo_order_id)),
-                'body' => $body_request,
-                'cookies' => array()
-                    )
-            );
+            // PayPal enforces unique invoice IDs per merchant account, so a shopper who
+            // retries a previously-attempted order (or a store whose order numbers were
+            // reset) can hit DUPLICATE_INVOICE_ID on this single create+capture call.
+            // The standard capture flow already recovers from this; mirror it here by
+            // retrying once with a uniquified invoice id so the payment goes through
+            // instead of the checkout dead-ending.
+            $token_capture_attempt = 0;
+            do {
+                $retry_for_duplicate_invoice = false;
+                $encoded_body_request = json_encode($body_request);
+                $this->ppcp_add_log_details('Order using payment token');
+                $this->ppcp_log('Request : ' . wc_print_r($this->paypal_order_api, true));
+                $request_id_context = 'token-capture-' . $woo_order_id . ($token_capture_attempt > 0 ? '-retry' . $token_capture_attempt : '');
+                $this->api_response = wp_remote_post($this->paypal_order_api, array(
+                    'method' => 'POST',
+                    'timeout' => 60,
+                    'redirection' => 5,
+                    'httpversion' => '1.1',
+                    'blocking' => true,
+                    'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id($request_id_context)),
+                    'body' => $encoded_body_request,
+                    'cookies' => array()
+                        )
+                );
+                if (is_wp_error($this->api_response)) {
+                    break;
+                }
+                // Only the first attempt may trigger a duplicate-invoice retry. A
+                // response carrying a 'status' is a completed/pending capture, not a
+                // rejection, so leave it untouched.
+                if ($token_capture_attempt === 0 && ($order instanceof WC_Order)) {
+                    $duplicate_check_response = json_decode(wp_remote_retrieve_body($this->api_response), true);
+                    if (empty($duplicate_check_response['status']) && $this->ppcp_response_has_issue($duplicate_check_response, 'DUPLICATE_INVOICE_ID')) {
+                        $unique_invoice_id = $this->invoice_id_prefix . $invoice_id . str_replace('#', '', $order->get_order_number()) . '-R' . substr((string) time(), -6);
+                        $this->ppcp_log('Token capture failed with DUPLICATE_INVOICE_ID for order #' . $woo_order_id . '. Retrying once with unique invoice_id: ' . $unique_invoice_id);
+                        $body_request['purchase_units'][0]['invoice_id'] = $unique_invoice_id;
+                        // translators: %s: the regenerated PayPal invoice ID.
+                        $order->add_order_note(sprintf(__('PayPal rejected the invoice ID as a duplicate. Payment was retried with a unique invoice ID: %s', 'woo-paypal-gateway'), $unique_invoice_id));
+                        $token_capture_attempt++;
+                        $retry_for_duplicate_invoice = true;
+                    }
+                }
+            } while ($retry_for_duplicate_invoice);
             if (is_wp_error($this->api_response)) {
                 $error_message = $this->api_response->get_error_message();
                 $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));

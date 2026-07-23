@@ -354,6 +354,13 @@
         }
 
         handleCheckoutSubmit() {
+            var fastlaneToken = $('#wpg_ppcp_fastlane_token').val() || window.wpgPPCPFastlaneToken || '';
+            if (fastlaneToken) {
+                // Fastlane already tokenized the card; the single-use token rides
+                // along with the normal WooCommerce submit and is charged
+                // server-side, so skip the CardFields round-trip entirely.
+                return true;
+            }
             var selected = $('input[name="wc-wpg_paypal_checkout_cc-payment-token"]:checked').val();
             if (selected && selected !== 'new') {
                 return true; // only return true for saved token (not for 'new')

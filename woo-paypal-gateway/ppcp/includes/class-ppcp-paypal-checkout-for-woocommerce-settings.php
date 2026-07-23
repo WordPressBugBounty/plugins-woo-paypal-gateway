@@ -819,6 +819,63 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'default' => 'no',
                     'description' => __('When enabled, customers can securely save their card details using PayPal for faster future checkouts.', 'woo-paypal-gateway'),
                     'desc_tip' => true,
+                ),
+                'fastlane_section' => array(
+                    'title' => __('Fastlane by PayPal', 'woo-paypal-gateway'),
+                    'type' => 'title',
+                    'description' => __('Fastlane offers an accelerated guest checkout: returning Fastlane members are recognized by their email address, verify with a one-time code and pay with their saved card — no typing, no account needed on your store. New customers can enroll during checkout. Fastlane requires Advanced Card Processing and is currently available to US merchants transacting in USD.', 'woo-paypal-gateway'),
+                ),
+                'enable_fastlane' => array(
+                    'title' => __('Enable/Disable', 'woo-paypal-gateway'),
+                    'label' => __('Enable Fastlane by PayPal', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'default' => 'no',
+                    'description' => __('Adds Fastlane accelerated checkout to the Advanced Credit/Debit Card gateway. Shoppers who enter a Fastlane member email address are offered a one-time-code login and can pay with their saved card in a couple of clicks.', 'woo-paypal-gateway'),
+                    'desc_tip' => true,
+                ),
+                'fastlane_flow' => array(
+                    'title' => __('Fastlane Flow', 'woo-paypal-gateway'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select',
+                    'default' => 'email_detection',
+                    'options' => array(
+                        'email_detection' => __('Email Detection', 'woo-paypal-gateway'),
+                        'express_button' => __('Express Button', 'woo-paypal-gateway'),
+                    ),
+                    'description' => __('Email Detection (recommended by PayPal): Fastlane engages automatically when the customer enters a member email address. Express Button: a Fastlane button is shown in the express checkout section at the top of the checkout page and the customer starts Fastlane by clicking it.', 'woo-paypal-gateway'),
+                    'desc_tip' => true,
+                ),
+                'fastlane_pageload' => array(
+                    'title' => __('Authenticate On Page Load', 'woo-paypal-gateway'),
+                    'label' => __('Start Fastlane authentication when the checkout page loads', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'default' => 'no',
+                    'description' => __('If the billing email address is already populated when the checkout page loads (for example a logged-in returning customer), start the Fastlane member lookup and one-time-code verification right away instead of waiting for the customer to edit the email field. Left off by default so returning members are not shown a one-time-code prompt before they engage with the checkout.', 'woo-paypal-gateway'),
+                    'desc_tip' => true,
+                ),
+                'fastlane_watermark' => array(
+                    'title' => __('Fastlane Watermark', 'woo-paypal-gateway'),
+                    'label' => __('Show the "Fastlane by PayPal" watermark under the email field', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'default' => 'yes',
+                    'description' => __('Displays the Fastlane watermark below the billing email field so customers know their email address is checked against Fastlane. Recommended by PayPal.', 'woo-paypal-gateway'),
+                    'desc_tip' => true,
+                ),
+                'fastlane_email_top' => array(
+                    'title' => __('Email Field At Top', 'woo-paypal-gateway'),
+                    'label' => __('Move the email address field to the top of the billing form', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'default' => 'yes',
+                    'description' => __('Fastlane recognizes customers by their email address, so asking for it first gives returning members the fastest possible checkout. Applies to the classic checkout form; the block checkout already asks for the email address first.', 'woo-paypal-gateway'),
+                    'desc_tip' => true,
+                ),
+                'fastlane_signup' => array(
+                    'title' => __('Fastlane Signup Link', 'woo-paypal-gateway'),
+                    'label' => __('Show a "Pay faster with Fastlane" link to non-members', 'woo-paypal-gateway'),
+                    'type' => 'checkbox',
+                    'default' => 'yes',
+                    'description' => __('When the entered email address is not a Fastlane member, show a link above the card fields that lets the customer enter their card through Fastlane and join for faster future checkouts.', 'woo-paypal-gateway'),
+                    'desc_tip' => true,
                 )
             );
         }

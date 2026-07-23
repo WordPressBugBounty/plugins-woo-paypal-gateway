@@ -300,6 +300,27 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                     $this->update_option('enabled_apple_pay', 'no');
                 }
             }
+            if (wpg_is_fastlane_approved($result)) {
+                $availableEndpoints['fastlane'] = 'SUBSCRIBED';
+                // Auto-enable Fastlane for freshly onboarded stores whose PayPal
+                // account is approved for it. The !isset() guard means we only ever
+                // seed this once: existing merchants are grandfathered by the 9.2.0
+                // migration (which records their explicit 'no'), so this default only
+                // applies to accounts that complete onboarding after Fastlane shipped.
+                if (!isset($settings['enable_fastlane'])) {
+                    $this->update_option('enable_fastlane', 'yes');
+                    // Page-load authentication is left opt-in: it prompts returning
+                    // members for a one-time code before they engage with checkout,
+                    // so merchants turn it on deliberately rather than by default.
+                    if (!isset($settings['fastlane_pageload'])) {
+                        $this->update_option('fastlane_pageload', 'no');
+                    }
+                }
+            } else {
+                if (!isset($settings['enable_fastlane'])) {
+                    $this->update_option('enable_fastlane', 'no');
+                }
+            }
             if (wpg_is_vaulting_enable($result)) {
                 $availableEndpoints['save_card'] = 'SUBSCRIBED';
             }
@@ -481,6 +502,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             'ppcp_sandbox_client_token',
             'ppcp_client_token',
             'ppcp_live_client_token',
+            'ppcp_sandbox_fastlane_sdk_token',
+            'ppcp_fastlane_sdk_token',
             'ppcp_is_webhook_process_started',
             'wpg_ppcp_sandbox_onboarding_status'
         ];
@@ -1236,6 +1259,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
             <a href="#" class="wpg_paypal_checkout_gateway_manual_credential_input">
                 <?php esc_html_e('Click here to insert credentials manually', 'woo-paypal-gateway'); ?>
             </a>
+        </div>
+
+        <div class="wpg-paypal-manual-credential-note-wrap">
+            <p class="wpg-paypal-manual-credential-note">
+                <?php esc_html_e('Personal PayPal account? Use manual credentials — Connect works for Business accounts only.', 'woo-paypal-gateway'); ?>
+            </p>
         </div>
         <?php
     }

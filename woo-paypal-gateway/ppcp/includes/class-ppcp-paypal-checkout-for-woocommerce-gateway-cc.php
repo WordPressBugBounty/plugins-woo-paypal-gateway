@@ -174,6 +174,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
                 </div>
             </div>
 
+            <?php if (function_exists('wpg_ppcp_is_fastlane_enabled') && wpg_ppcp_is_fastlane_enabled()) : ?>
+                <input type="hidden" id="wpg_ppcp_fastlane_token" name="wpg_ppcp_fastlane_token" value="" autocomplete="off" />
+            <?php endif; ?>
         </div>
         <?php
     }
@@ -253,6 +256,35 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
                 }
             }
             return $this->request->ppcp_paypal_setup_tokens_zero_total($woo_order_id);
+        }
+        // Fastlane by PayPal: the JS component already tokenized the buyer's card
+        // into a single-use token, so the payment is completed in one server-side
+        // Orders v2 call — no CardFields round-trip, no approval redirect.
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce checkout nonce verified by process_checkout().
+        $fastlane_token = isset($_POST['wpg_ppcp_fastlane_token']) ? sanitize_text_field(wp_unslash($_POST['wpg_ppcp_fastlane_token'])) : '';
+        if (!empty($fastlane_token) && function_exists('wpg_ppcp_is_fastlane_enabled') && wpg_ppcp_is_fastlane_enabled()) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            $save_card = $this->enable_save_card && !empty($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']);
+            if ($order instanceof WC_Order) {
+                $order->update_meta_data('_payment_action', $this->paymentaction);
+                $order->update_meta_data('enviorment', $this->sandbox ? 'sandbox' : 'live');
+                $order->save_meta_data();
+            }
+            $is_success = $this->request->wpg_ppcp_fastlane_payment($woo_order_id, $fastlane_token, $save_card);
+            if ($is_success) {
+                wpg_clear_ppcp_session_and_cart();
+                return array(
+                    'result' => 'success',
+                    'redirect' => $this->get_return_url($order),
+                );
+            }
+            if (function_exists('wc_add_notice') && function_exists('wc_notice_count') && 0 === wc_notice_count('error')) {
+                wc_add_notice(__('Your Fastlane payment could not be processed. Please try again or enter your card details manually.', 'woo-paypal-gateway'), 'error');
+            }
+            return array(
+                'result' => 'failure',
+                'redirect' => wc_get_cart_url(),
+            );
         }
         if (!empty($token) && 'new' !== $token) {
             $is_success = $this->request->wpg_ppcp_capture_order_using_payment_method_token($woo_order_id);

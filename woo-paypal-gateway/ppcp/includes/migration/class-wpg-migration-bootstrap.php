@@ -54,6 +54,7 @@ class WPG_Migration_Bootstrap {
 		$migrations_dir = $dir . '/migrations';
 		require_once $migrations_dir . '/class-wpg-migration-9-1-0.php';
 		require_once $migrations_dir . '/class-wpg-migration-9-1-2.php';
+		require_once $migrations_dir . '/class-wpg-migration-9-2-0.php';
 	}
 
 	/**
@@ -65,6 +66,7 @@ class WPG_Migration_Bootstrap {
 	private static function register_migrations() {
 		self::$registry->register( '9.1.0', 'WPG_Migration_9_1_0' );
 		self::$registry->register( '9.1.2', 'WPG_Migration_9_1_2' );
+		self::$registry->register( '9.2.0', 'WPG_Migration_9_2_0' );
 	}
 
 	/**

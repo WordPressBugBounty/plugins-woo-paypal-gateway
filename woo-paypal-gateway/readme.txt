@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 3.3  
 Tested up to: 7.0.2
-Stable tag: 9.1.5
+Stable tag: 9.2.0
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -16,6 +16,7 @@ Payment Gateway for PayPal on WooCommerce is the ideal solution for adding PayPa
 
 ### Key Features:
 - **Advanced credit and debit card payments**: Accept credit card payments directly on your site.
+- **Fastlane by PayPal**: Accelerated guest checkout — returning Fastlane members are recognized by their email address, verify with a one-time code and pay with their saved card in a couple of clicks.
 - **PayPal Checkout**: Provide PayPal Smart Buttons and alternative payment methods.
 - **Real-Time Order Status Update**: Stay informed with instant payment notifications (Webhooks).
 
@@ -29,6 +30,7 @@ Payment Gateway for PayPal on WooCommerce is the ideal solution for adding PayPa
 
 * **PayPal** - The world's most trusted online payment service, offering secure transactions with global reach.
 * **Advanced credit and debit card payments** - Accept credit card payments directly on your site.
+* **Fastlane by PayPal** - Accelerated guest checkout for US merchants: members check out with their saved card after a one-time-code verification, and new customers can enroll while paying.
 * **Google Pay** - A fast, simple, and secure payment method, available globally, enabling users to pay with their saved cards through their Android devices or web browsers.  
 * **Apple Pay** - Streamlined payments using Apple’s secure payment platform.
 * **Pay Later** - This service, offered by PayPal, lets customers defer payments, popular in the U.S. and Europe for flexible purchasing.  
@@ -59,9 +61,6 @@ Payment Gateway for PayPal on WooCommerce is the ideal solution for adding PayPa
 * All In One Woo Cart
 * WooCommerce Fast Cart
 
-
-### Coming Soon:
-- **Fastlane**: A faster checkout experience.
 
 == Installation ==
 
@@ -100,6 +99,14 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.2.0 - 2026-07-22 =
+ * Added - Fastlane by PayPal: accelerated guest checkout for the Advanced Credit/Debit Card gateway. Returning Fastlane members are recognized by their email address, verify with a one-time code and pay with their saved card in a couple of clicks; new customers can enroll while entering their card. Available to US merchants transacting in USD; enable it under PayPal Gateway settings → Advanced Credit Card tab.
+ * Added - Fastlane flows: choose Email Detection (Fastlane engages automatically when a member email address is entered) or Express Button (a Fastlane button in the Express Checkout section, styled and sized to match the other express buttons).
+ * Added - Fastlane options: "Fastlane by PayPal" watermark under the email field, signup link for non-members, email-field-at-top checkout layout, and optional authenticate-on-page-load for customers whose email is already populated.
+ * Added - Fastlane member autofill: the saved card's billing address, the profile's default shipping address, and phone number are applied to the checkout automatically; the card fields are replaced with a tokenized-card tile with "Choose a different card" and "Enter card details manually" actions.
+ * Added - Fastlane works on both the classic and block-based checkout, and supports "Save to account": a logged-in customer can vault the Fastlane card for future purchases and subscription renewals.
+ * Added - Fastlane is now enabled by default for stores that connect their PayPal account after this release when the account is approved for Fastlane. Authenticate-on-page-load stays off by default (opt-in) so returning members are not shown a one-time-code prompt before they engage with the checkout. Existing stores are unaffected — Fastlane stays off until enabled manually.
 
 = 9.1.5 - 2026-07-20 =
  * Fixed - Security: the approved PayPal order is now reconciled against the WooCommerce order before payment is captured. The order id embedded in the PayPal payment plus its amount and currency must match the order being paid, preventing a checkout from being completed with a different (for example lower-value) PayPal payment.

@@ -96,6 +96,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     public $apple_pay_mini_cart_style_shape;
     public $skip_order_review;
     public $auto_complete;
+    public $fastlane_enabled;
+    public $fastlane_watermark;
+    public $fastlane_signup;
+    public $fastlane_email_top;
+    public $fastlane_flow;
+    public $fastlane_pageload;
+    public $fastlane_sdk_token;
+    public $fastlane_express_rendered = false;
     protected static $_instance = null;
     public const PPCP_LANG_SESSION_KEY = 'ppcp_lang';
     const PPCP_LANG_COOKIE_KEY = 'ppcp_wp_locale';
@@ -177,6 +185,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $this->capture_order_statuses = $this->get_capture_order_statuses();
         $this->advanced_card_payments = 'yes' === $this->ppcp_get_settings('enable_advanced_card_payments', 'no');
         $this->threed_secure_contingency = $this->ppcp_get_settings('3d_secure_contingency', 'SCA_WHEN_REQUIRED');
+        $this->fastlane_enabled = function_exists('wpg_ppcp_is_fastlane_enabled') && wpg_ppcp_is_fastlane_enabled();
+        $this->fastlane_watermark = 'yes' === $this->ppcp_get_settings('fastlane_watermark', 'yes');
+        $this->fastlane_signup = 'yes' === $this->ppcp_get_settings('fastlane_signup', 'yes');
+        $this->fastlane_email_top = 'yes' === $this->ppcp_get_settings('fastlane_email_top', 'yes');
+        $this->fastlane_flow = $this->ppcp_get_settings('fastlane_flow', 'email_detection');
+        $this->fastlane_pageload = 'yes' === $this->ppcp_get_settings('fastlane_pageload', 'no');
+        $this->fastlane_sdk_token = false;
         $this->enabled_pay_later_messaging = 'yes' === $this->ppcp_get_settings('enabled_pay_later_messaging', 'no');
         $this->pay_later_messaging_page_type = $this->ppcp_get_settings('pay_later_messaging_page_type', array());
         $this->min_cart_button_location = 'below';
@@ -253,6 +268,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         add_action('fkcart_after_checkout_button', array($this, 'display_paypal_button_mini_cart_page_for_funnelkit_sliding_cart'), $this->min_cart_priority);
 
         add_action('init', array($this, 'init'));
+        add_filter('woocommerce_checkout_fields', array($this, 'wpg_ppcp_fastlane_email_priority'), 20);
+        add_action('wpg_ppcp_checkout_top_express_buttons', array($this, 'display_fastlane_express_button_inline'));
+        add_action('woocommerce_before_checkout_form', array($this, 'display_fastlane_express_button'), 11);
         add_filter('script_loader_tag', array($this, 'ppcp_clean_url'), 10, 2);
         add_action('wp_loaded', array($this, 'ppcp_session_manager'), 999);
         add_action('wp_head', array($this, 'ppcp_add_header_meta'), 0);
@@ -340,6 +358,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
             if (is_checkout() && $this->advanced_card_payments && $this->client_token === false) {
                 $this->request->get_genrate_token();
+            }
+            // Fastlane needs an SDK client token minted server-side and attached to
+            // the PayPal JS SDK script tag as data-sdk-client-token. Only fetch it
+            // where Fastlane actually runs: the real checkout page (not order-pay,
+            // not order-received). If the token cannot be minted, Fastlane silently
+            // stays off and the regular card fields keep working.
+            if ($this->fastlane_enabled && is_checkout() && !is_checkout_pay_page() && !is_wc_endpoint_url('order-received')) {
+                $this->fastlane_sdk_token = $this->request->get_fastlane_sdk_client_token();
             }
             $this->ppcp_paypal_button_style_properties();
             $ppcp_js_arg = array();
@@ -441,6 +467,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 array_push($components, "card-fields");
                 $this->disable_funding = array_values(array_diff((array) $this->disable_funding, ['card']));
             }
+            if (!empty($this->fastlane_sdk_token)) {
+                array_push($components, 'fastlane');
+            }
             if ($this->disable_funding !== false && count($this->disable_funding) > 0) {
                 $ppcp_js_arg['disable-funding'] = implode(',', $this->disable_funding);
             }
@@ -462,6 +491,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             wp_register_script('ppcp-checkout-js', $js_url, array(), null, false);
             wp_enqueue_script('jquery-blockui');
             wp_register_script('ppcp-paypal-checkout-for-woocommerce-public', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/ppcp-paypal-checkout-for-woocommerce-public.js', array('jquery'), WPG_PLUGIN_VERSION, false);
+            if (!empty($this->fastlane_sdk_token)) {
+                wp_register_script('wpg-ppcp-fastlane', WPG_PLUGIN_ASSET_URL . 'ppcp/public/js/wpg-ppcp-fastlane.js', array('jquery', 'ppcp-checkout-js', 'ppcp-paypal-checkout-for-woocommerce-public'), WPG_PLUGIN_VERSION, true);
+                wp_enqueue_script('ppcp-checkout-js');
+                wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
+                wp_enqueue_style('ppcp-paypal-checkout-for-woocommerce-public');
+                wp_enqueue_script('wpg-ppcp-fastlane');
+            }
 
             $order_id = absint(get_query_var('order-pay'));
 
@@ -529,6 +565,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'paymentaction' => $this->paymentaction,
                 'advanced_card_payments' => ($this->advanced_card_payments === true) ? 'yes' : 'no',
                 'threed_secure_contingency' => $this->threed_secure_contingency,
+                'fastlane' => !empty($this->fastlane_sdk_token) ? 'yes' : 'no',
+                'fastlane_watermark' => $this->fastlane_watermark ? 'yes' : 'no',
+                'fastlane_signup' => $this->fastlane_signup ? 'yes' : 'no',
+                'fastlane_flow' => in_array($this->fastlane_flow, array('email_detection', 'express_button'), true) ? $this->fastlane_flow : 'email_detection',
+                'fastlane_pageload' => $this->fastlane_pageload ? 'yes' : 'no',
+                'fastlane_email_empty' => __('Please provide an email address before using Fastlane.', 'woo-paypal-gateway'),
+                'fastlane_logo' => WPG_PLUGIN_ASSET_URL . 'assets/images/fastlane.svg',
+                'fastlane_card_icon_base' => WPG_PLUGIN_ASSET_URL . 'assets/',
+                'fastlane_email_invalid' => __('Please enter a valid email address to continue with Fastlane.', 'woo-paypal-gateway'),
+                'fastlane_signup_text' => __('Pay faster with', 'woo-paypal-gateway'),
+                'fastlane_continue' => __('Continue', 'woo-paypal-gateway'),
+                'fastlane_cancel' => __('Cancel', 'woo-paypal-gateway'),
+                'fastlane_change_card' => __('Choose a different card', 'woo-paypal-gateway'),
+                'fastlane_use_different_card' => __('Enter card details manually', 'woo-paypal-gateway'),
+                'fastlane_card_error' => __('We could not use this card with Fastlane. Please try again or enter your card details manually.', 'woo-paypal-gateway'),
                 'woocommerce_process_checkout' => wp_create_nonce('woocommerce-process_checkout'),
                 'button_selector' => apply_filters( 'wpg_ppcp_button_selectors', $button_selector ),
                 'enabled_google_pay' => $this->should_enable_google_pay_for_page($page) ? 'yes' : 'no',
@@ -836,7 +887,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         $is_google_pay_enabled = $this->is_google_pay_enable_for_page('express_checkout');
         $is_apple_pay_enabled = $this->is_apple_pay_enable_for_page('express_checkout');
         $is_paypal_enabled = $this->enable_checkout_button_top === true;
-        if (!$is_google_pay_enabled && !$is_apple_pay_enabled && !$is_paypal_enabled) {
+        // The Fastlane express button lives in this section too, so the
+        // fieldset must render even when it is the only express method.
+        if (!$is_google_pay_enabled && !$is_apple_pay_enabled && !$is_paypal_enabled && !$this->is_fastlane_express_active()) {
             return;
         }
         wp_enqueue_script('ppcp-checkout-js');
@@ -2293,6 +2346,75 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         return implode(', ', $capture_status_labels);
     }
 
+    /**
+     * Whether the Fastlane "Express Button" flow should render on this page.
+     */
+    public function is_fastlane_express_active() {
+        if (!$this->fastlane_enabled || 'express_button' !== $this->fastlane_flow) {
+            return false;
+        }
+        if (!is_checkout() || is_checkout_pay_page() || is_wc_endpoint_url('order-received')) {
+            return false;
+        }
+        return true;
+    }
+
+    private function get_fastlane_express_button_html() {
+        return '<button type="button" class="wpg-fastlane-express-button" aria-label="' . esc_attr__('Check out faster with Fastlane', 'woo-paypal-gateway') . '">'
+                . '<img src="' . esc_url(WPG_PLUGIN_ASSET_URL . 'assets/images/fastlane.svg') . '" alt="Fastlane" class="wpg-fastlane-express-logo" />'
+                . '</button>';
+    }
+
+    /**
+     * Render the Fastlane button inside the Express Checkout fieldset, next to
+     * the other express buttons — matching the reference integration, which
+     * places its Fastlane button in the shared express section. The container
+     * starts hidden; the Fastlane JS controller reveals it once the SDK
+     * confirms the shopper's context is Fastlane-eligible.
+     */
+    public function display_fastlane_express_button_inline() {
+        if (!$this->is_fastlane_express_active()) {
+            return;
+        }
+        $this->fastlane_express_rendered = true;
+        echo '<div class="wpg-fastlane-express-container wpg-fastlane-express-inline" style="display:none; --button-height: ' . (int) $this->express_checkout_button_height . 'px;">';
+        echo $this->get_fastlane_express_button_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in builder.
+        echo '</div>';
+    }
+
+    /**
+     * Fallback renderer: when the Express Checkout section is not shown at all
+     * (PayPal/Google Pay/Apple Pay express disabled and the fieldset skipped),
+     * render the Fastlane button in its own row above the checkout form. On
+     * the block checkout the same markup is injected client-side.
+     */
+    public function display_fastlane_express_button() {
+        if ($this->fastlane_express_rendered || !$this->is_fastlane_express_active()) {
+            return;
+        }
+        echo '<div id="wpg-fastlane-express" class="wpg-fastlane-express-container" style="display:none; --button-height: ' . (int) $this->express_checkout_button_height . 'px;">';
+        echo $this->get_fastlane_express_button_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in builder.
+        echo '</div>';
+    }
+
+    /**
+     * Move the billing email field to the top of the classic checkout form.
+     *
+     * Fastlane recognizes customers by email address, so collecting it first
+     * lets returning members authenticate before typing anything else. The
+     * Fastlane watermark rendered under the field moves along with it.
+     *
+     * @param array $fields WooCommerce checkout fields.
+     * @return array
+     */
+    public function wpg_ppcp_fastlane_email_priority($fields) {
+        if ($this->fastlane_enabled && $this->fastlane_email_top && isset($fields['billing']['billing_email'])) {
+            $fields['billing']['billing_email']['priority'] = 1;
+            $fields['billing']['billing_email']['class'] = array('form-row-wide');
+        }
+        return $fields;
+    }
+
     public function ppcp_clean_url($tag, $handle) {
         if ('ppcp-checkout-js' === $handle) {
             $client_token = '';
@@ -2313,12 +2435,19 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
               }
               } */
             $data_partner_attribution_id = "data-partner-attribution-id='MBJTechnolabs_SI_SPB'";
-            if (is_checkout() && $this->advanced_card_payments && !empty($this->client_token)) {
+            $sdk_client_token = '';
+            if (is_checkout() && !empty($this->fastlane_sdk_token)) {
+                // Fastlane requires the SDK to boot from an sdk_init client token.
+                // data-sdk-client-token and data-client-token are mutually exclusive
+                // on the SDK script tag, so the legacy client token is skipped —
+                // the CardFields v2 component does not need it.
+                $sdk_client_token = "data-sdk-client-token='{$this->fastlane_sdk_token}'";
+            } elseif (is_checkout() && $this->advanced_card_payments && !empty($this->client_token)) {
                 $client_token = "data-client-token='{$this->client_token}'";
             }
             $tag = str_replace(
                     ' src=',
-                    ' ' . $client_token . ' ' . $data_user_id_token . ' ' . $data_partner_attribution_id . ' data-namespace="wpg_paypal_sdk" src=',
+                    ' ' . $client_token . ' ' . $sdk_client_token . ' ' . $data_user_id_token . ' ' . $data_partner_attribution_id . ' data-namespace="wpg_paypal_sdk" src=',
                     $tag
             );
         }

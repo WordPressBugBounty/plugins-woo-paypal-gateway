@@ -226,6 +226,48 @@ if (!function_exists('ppcp_is_advanced_cards_available')) {
 
 }
 
+if (!function_exists('wpg_ppcp_is_fastlane_enabled')) {
+
+    /**
+     * Whether Fastlane by PayPal is enabled and usable for the current shopper.
+     *
+     * Fastlane rides on top of Advanced Card Processing, so it requires the
+     * advanced card gateway to be enabled. PayPal currently offers Fastlane to
+     * US merchants transacting in USD; the currency gate is filterable so the
+     * integration keeps working if PayPal expands availability.
+     *
+     * @return bool
+     */
+    function wpg_ppcp_is_fastlane_enabled() {
+        try {
+            $settings = get_option('woocommerce_wpg_paypal_checkout_settings', array());
+            if (!is_array($settings)) {
+                return false;
+            }
+            if (!isset($settings['enable_fastlane']) || 'yes' !== $settings['enable_fastlane']) {
+                return false;
+            }
+            if (!isset($settings['enable_advanced_card_payments']) || 'yes' !== $settings['enable_advanced_card_payments']) {
+                return false;
+            }
+            $supported_currencies = apply_filters('wpg_ppcp_fastlane_supported_currencies', array('USD'));
+            if (!in_array(get_woocommerce_currency(), (array) $supported_currencies, true)) {
+                return false;
+            }
+            if (isset($settings['admin_mode']) && 'yes' === $settings['admin_mode'] && !current_user_can('administrator') && !current_user_can('shop_manager')) {
+                return false;
+            }
+            if (function_exists('is_wpg_change_payment_method') && is_wpg_change_payment_method()) {
+                return false;
+            }
+            return true;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+
+}
+
 if (!function_exists('ppcp_get_raw_data')) {
     if (!function_exists('ppcp_get_raw_data')) {
 
@@ -1034,6 +1076,32 @@ if (!function_exists('wpg_is_acdc_approved')) {
                 }
             }
         }
+    }
+
+}
+
+if (!function_exists('wpg_is_fastlane_approved')) {
+
+    /**
+     * Whether the onboarded PayPal account is approved for Fastlane by PayPal.
+     *
+     * Mirrors the Apple Pay / Google Pay / ACDC approval checks: the account
+     * must be subscribed to a product that carries the FASTLANE_CHECKOUT
+     * capability and that capability must be globally ACTIVE.
+     */
+    function wpg_is_fastlane_approved($result) {
+        if (isset($result['products']) && isset($result['capabilities']) && !empty($result['products'])) {
+            foreach ($result['products'] as $product) {
+                if (isset($product['vetting_status']) && ('SUBSCRIBED' === $product['vetting_status'] || 'APPROVED' === $product['vetting_status']) && isset($product['capabilities']) && is_array($product['capabilities']) && in_array('FASTLANE_CHECKOUT', $product['capabilities'])) {
+                    foreach ($result['capabilities'] as $capabilities) {
+                        if (isset($capabilities['name']) && 'FASTLANE_CHECKOUT' === $capabilities['name'] && 'ACTIVE' === $capabilities['status']) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 }

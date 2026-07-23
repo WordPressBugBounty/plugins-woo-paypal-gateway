@@ -340,6 +340,15 @@ body.is-dark-theme .wpg-ch-chip{
 .wpg_paypal_checkout_gateway_manual_credential_input:hover {
     color: #005177;
 }
+.wpg-paypal-manual-credential-note-wrap {
+    margin-top: 10px;
+}
+.wpg-paypal-manual-credential-note {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #8c8f94;
+}
 #woocommerce_wpg_paypal_checkout_sandbox ~ .select2-container {
     min-width: 249px !important;
 }
