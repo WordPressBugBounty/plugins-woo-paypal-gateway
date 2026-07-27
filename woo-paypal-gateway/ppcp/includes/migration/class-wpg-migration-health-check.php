@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -11,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * or version update. Runs automatically after migrations complete
  * and can be triggered manually from the admin.
  *
- * The competitor has no equivalent — their migrations can silently corrupt
- * settings with no detection. Our health checks catch problems before
+ * Health checks catch problems where a migration could otherwise silently
+ * corrupt settings with no detection, so issues are surfaced before
  * merchants discover them at checkout time.
  */
 class WPG_Migration_Health_Check {

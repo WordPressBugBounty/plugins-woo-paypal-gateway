@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 abstract class WPG_Plugin_Converter {
 
 	protected $id = '';
@@ -150,19 +151,19 @@ abstract class WPG_Plugin_Converter {
 
 		$placeholders = implode( ',', array_fill( 0, count( $gateway_ids ), '%s' ) );
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- $placeholders is a generated list of %s tokens bound through $wpdb->prepare(); one-off migration count over live order data that cannot be cached.
 		if ( $this->is_hpos_enabled() ) {
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$count = $wpdb->get_var( $wpdb->prepare(
 				"SELECT COUNT(*) FROM {$wpdb->prefix}wc_orders WHERE payment_method IN ($placeholders)",
 				...$gateway_ids
 			) );
 		} else {
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$count = $wpdb->get_var( $wpdb->prepare(
 				"SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key = '_payment_method' AND meta_value IN ($placeholders)",
 				...$gateway_ids
 			) );
 		}
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		return (int) $count;
 	}
@@ -177,19 +178,19 @@ abstract class WPG_Plugin_Converter {
 
 		$placeholders = implode( ',', array_fill( 0, count( $gateway_ids ), '%s' ) );
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- $placeholders is a generated list of %s tokens bound through $wpdb->prepare(); paginated migration read over live order data that cannot be cached.
 		if ( $this->is_hpos_enabled() ) {
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$order_ids = $wpdb->get_col( $wpdb->prepare(
 				"SELECT id FROM {$wpdb->prefix}wc_orders WHERE payment_method IN ($placeholders) ORDER BY id ASC LIMIT %d",
 				...array_merge( $gateway_ids, array( $batch_size ) )
 			) );
 		} else {
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$order_ids = $wpdb->get_col( $wpdb->prepare(
 				"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_payment_method' AND meta_value IN ($placeholders) ORDER BY post_id ASC LIMIT %d",
 				...array_merge( $gateway_ids, array( $batch_size ) )
 			) );
 		}
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		$processed = 0;
 

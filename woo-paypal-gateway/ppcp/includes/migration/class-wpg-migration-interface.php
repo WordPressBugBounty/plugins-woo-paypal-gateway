@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedInterfaceFound -- Public interface name using the plugin's established prefix.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -8,9 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Migration interface.
  *
  * Every version migration implements this contract.
- * Unlike the competitor's plain include files, our migrations are classes
- * with verify() for post-migration health checks and get_description()
- * for admin-visible logging.
+ * Migrations are classes with verify() for post-migration health checks
+ * and get_description() for admin-visible logging.
  */
 interface WPG_Migration_Interface {
 

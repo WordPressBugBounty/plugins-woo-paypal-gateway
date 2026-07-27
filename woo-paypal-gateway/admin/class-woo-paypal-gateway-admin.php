@@ -71,17 +71,11 @@ class Woo_Paypal_Gateway_Admin {
             if (!class_exists('Woo_PayPal_Gateway_PayPal_Pro')) {
                 include_once( WPG_PLUGIN_DIR . '/includes/gateways/paypal-pro/class-woo-paypal-gateway-paypal-pro.php' );
             }
-            if (!class_exists('Woo_PayPal_Gateway_Braintree')) {
-                include_once( WPG_PLUGIN_DIR . '/includes/gateways/braintree/class-woo-paypal-gateway-braintree.php' );
-            }
             if (!class_exists('Woo_PayPal_Gateway_PayPal_Advanced')) {
                 include_once( WPG_PLUGIN_DIR . '/includes/gateways/paypal-advanced/class-woo-paypal-gateway-paypal-advanced.php' );
             }
             if (!class_exists('Woo_Paypal_Gateway_PayPal_Pro_Payflow')) {
                 include_once( WPG_PLUGIN_DIR . '/includes/gateways/paypal-pro-payflow/class-woo-paypal-gateway-paypal-pro-payflow.php' );
-            }
-            if (!class_exists('Woo_PayPal_Gateway_PayPal_Rest')) {
-                include_once( WPG_PLUGIN_DIR . '/includes/gateways/paypal-rest/class-woo-paypal-gateway-paypal-rest.php' );
             }
             if (is_subscription_activated() == true || is_pre_order_activated() == true) {
                 if (!class_exists('Woo_PayPal_Gateway_Express_Checkout_Subscriptions_NVP')) {
@@ -101,11 +95,9 @@ class Woo_Paypal_Gateway_Admin {
         } else {
             if (class_exists('WC_Payment_Gateway')) {
                 $methods[] = 'Woo_Paypal_Gateway_Express_Checkout_NVP';
-                $methods[] = 'Woo_PayPal_Gateway_Braintree';
                 $methods[] = 'Woo_PayPal_Gateway_PayPal_Pro';
                 $methods[] = 'Woo_PayPal_Gateway_PayPal_Advanced';
                 $methods[] = 'Woo_PayPal_Gateway_PayPal_Pro_Payflow';
-                $methods[] = 'Woo_PayPal_Gateway_PayPal_Rest';
                 return $methods;
             }
         }

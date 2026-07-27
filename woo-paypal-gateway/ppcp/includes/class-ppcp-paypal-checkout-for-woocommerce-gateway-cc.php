@@ -6,6 +6,7 @@
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce_Gateway/includes
  * @author     easypayment
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checkout_For_Woocommerce_Gateway {
 
     public $dcc_applies;
@@ -32,6 +33,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         $this->init_form_fields();
         $this->plugin_name = 'ppcp-paypal-checkout-cc';
         $this->title = $this->advanced_card_payments_title;
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
         $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/paypal-monogram.svg');
         $this->id = 'wpg_paypal_checkout_cc';
         $this->has_fields = true;
@@ -123,7 +125,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
          * @param WC_Payment_Gateway $this Payment gateway instance.
          * @return string
          */
-        echo apply_filters('woocommerce_payment_gateway_save_new_payment_method_option_html', $html, $this); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo apply_filters('woocommerce_payment_gateway_save_new_payment_method_option_html', $html, $this); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WooCommerce core hook fired as an integration point; it is not a global this plugin declares.
     }
 
     public function admin_options() {
@@ -174,7 +176,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
                 </div>
             </div>
 
-            <?php if (function_exists('wpg_ppcp_is_fastlane_enabled') && wpg_ppcp_is_fastlane_enabled()) : ?>
+            <?php if (function_exists('woo_paypal_gateway_ppcp_is_fastlane_enabled') && woo_paypal_gateway_ppcp_is_fastlane_enabled()) : ?>
                 <input type="hidden" id="wpg_ppcp_fastlane_token" name="wpg_ppcp_fastlane_token" value="" autocomplete="off" />
             <?php endif; ?>
         </div>
@@ -250,7 +252,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
                 $wc_token = WC_Payment_Tokens::get($token);
                 if ($wc_token && (int) $wc_token->get_user_id() === get_current_user_id()) {
                     $this->request->save_payment_token($order, $wc_token->get_token());
-                    wpg_ppcp_complete_zero_total_order($order, $wc_token->get_token());
+                    woo_paypal_gateway_ppcp_complete_zero_total_order($order, $wc_token->get_token());
                     WC()->cart->empty_cart();
                     return array('result' => 'success', 'redirect' => $this->get_return_url($order));
                 }
@@ -262,7 +264,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         // Orders v2 call — no CardFields round-trip, no approval redirect.
         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce checkout nonce verified by process_checkout().
         $fastlane_token = isset($_POST['wpg_ppcp_fastlane_token']) ? sanitize_text_field(wp_unslash($_POST['wpg_ppcp_fastlane_token'])) : '';
-        if (!empty($fastlane_token) && function_exists('wpg_ppcp_is_fastlane_enabled') && wpg_ppcp_is_fastlane_enabled()) {
+        if (!empty($fastlane_token) && function_exists('woo_paypal_gateway_ppcp_is_fastlane_enabled') && woo_paypal_gateway_ppcp_is_fastlane_enabled()) {
             // phpcs:ignore WordPress.Security.NonceVerification.Missing
             $save_card = $this->enable_save_card && !empty($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']);
             if ($order instanceof WC_Order) {
@@ -272,7 +274,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             }
             $is_success = $this->request->wpg_ppcp_fastlane_payment($woo_order_id, $fastlane_token, $save_card);
             if ($is_success) {
-                wpg_clear_ppcp_session_and_cart();
+                woo_paypal_gateway_clear_ppcp_session_and_cart();
                 return array(
                     'result' => 'success',
                     'redirect' => $this->get_return_url($order),
@@ -291,8 +293,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             unset(WC()->session->ppcp_session);
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check for context, no state change.
         } elseif (isset($_GET['from']) && 'checkout' === sanitize_text_field(wp_unslash($_GET['from']))) {
-            ppcp_set_session('ppcp_woo_order_id', $woo_order_id);
-            $checkout_post = ppcp_get_session('wpg_ppcp_block_checkout_post');
+            woo_paypal_gateway_ppcp_set_session('ppcp_woo_order_id', $woo_order_id);
+            $checkout_post = woo_paypal_gateway_ppcp_get_session('wpg_ppcp_block_checkout_post');
             if (!empty($checkout_post)) {
                 $order = wc_get_order($woo_order_id);
                 if(isset($checkout_post['customer_note']) && !empty($checkout_post['customer_note'])) {
@@ -303,7 +305,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             }
             $this->request->ppcp_create_order_request($woo_order_id);
             exit;
-        } elseif ($paypal_order_id = ppcp_get_paypal_order_id_from_session()) {
+        } elseif ($paypal_order_id = woo_paypal_gateway_ppcp_get_paypal_order_id_from_session()) {
             $is_success = ($this->paymentaction === 'capture') ? $this->request->ppcp_order_capture_request($woo_order_id) : $this->request->ppcp_order_auth_request($woo_order_id);
             $order->update_meta_data('_payment_action', $this->paymentaction);
             $order->update_meta_data('enviorment', $this->sandbox ? 'sandbox' : 'live');
@@ -313,11 +315,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             if (ob_get_length()) {
                 ob_end_clean();
             }
-            ppcp_set_session('ppcp_woo_order_id', $woo_order_id);
+            woo_paypal_gateway_ppcp_set_session('ppcp_woo_order_id', $woo_order_id);
             return $this->request->ppcp_regular_create_order_request($woo_order_id);
         }
         if ($is_success) {
-            wpg_clear_ppcp_session_and_cart();
+            woo_paypal_gateway_clear_ppcp_session_and_cart();
             return [
                 'result' => 'success',
                 'redirect' => $this->get_return_url($order),
@@ -382,6 +384,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
     public function free_signup_order_payment($order_id) {
         try {
             // phpcs:disable WordPress.Security.NonceVerification.Missing
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
             $token_id = isset($_POST['wc-wpg_paypal_checkout_cc-payment-token']) ? wc_clean(wp_unslash($_POST['wc-wpg_paypal_checkout_cc-payment-token'])) : '';
             if (!empty($token_id) && $token_id !== 'new') {
                 if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Request')) {

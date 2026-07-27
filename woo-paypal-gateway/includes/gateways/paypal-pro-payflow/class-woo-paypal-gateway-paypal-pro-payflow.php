@@ -35,6 +35,7 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow extends WC_Payment_Gateway_CC {
             );
             $this->liveurl = 'https://payflowpro.paypal.com';
             $this->testurl = 'https://pilot-payflowpro.paypal.com';
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $this->allowed_currencies = apply_filters('woocommerce_wpg_paypal_pro_payflow_allowed_currencies', array('USD', 'EUR', 'GBP', 'CAD', 'JPY', 'AUD'));
             $this->init_form_fields();
             $this->init_settings();
@@ -42,6 +43,7 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow extends WC_Payment_Gateway_CC {
             if (is_ssl()) {
                 $this->icon = preg_replace("/^http:/i", "https:", $this->icon);
             }
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $this->icon = apply_filters('woocommerce_wpg_paypal_pro_payflow_icon', $this->icon);
             $this->title = $this->get_option('title');
             $this->description = $this->get_option('description');
@@ -99,9 +101,16 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow extends WC_Payment_Gateway_CC {
 
     private function get_posted_card() {
         try {
-            $card_number = isset($_POST['wpg_paypal_pro_payflow-card-number']) ? wc_clean($_POST['wpg_paypal_pro_payflow-card-number']) : '';
-            $card_cvc = isset($_POST['wpg_paypal_pro_payflow-card-cvc']) ? wc_clean($_POST['wpg_paypal_pro_payflow-card-cvc']) : '';
-            $card_expiry = isset($_POST['wpg_paypal_pro_payflow-card-expiry']) ? wc_clean($_POST['wpg_paypal_pro_payflow-card-expiry']) : '';
+            // Card details are read during gateway payment processing; WooCommerce verifies the
+            // checkout nonce before the gateway runs, so no separate nonce check is performed here.
+            // phpcs:disable WordPress.Security.NonceVerification.Missing
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+            $card_number = isset($_POST['wpg_paypal_pro_payflow-card-number']) ? wc_clean(wp_unslash($_POST['wpg_paypal_pro_payflow-card-number'])) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+            $card_cvc = isset($_POST['wpg_paypal_pro_payflow-card-cvc']) ? wc_clean(wp_unslash($_POST['wpg_paypal_pro_payflow-card-cvc'])) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+            $card_expiry = isset($_POST['wpg_paypal_pro_payflow-card-expiry']) ? wc_clean(wp_unslash($_POST['wpg_paypal_pro_payflow-card-expiry'])) : '';
+            // phpcs:enable WordPress.Security.NonceVerification.Missing
             $card_number = str_replace(array(' ', '-'), '', $card_number);
             $card_expiry = array_map('trim', explode('/', $card_expiry));
             $card_exp_month = str_pad($card_expiry[0], 2, "0", STR_PAD_LEFT);
@@ -130,7 +139,7 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow extends WC_Payment_Gateway_CC {
             if (!ctype_digit($card->cvc)) {
                 throw new Exception(__('Card security code is invalid (only digits are allowed)', 'woo-paypal-gateway'));
             }
-            if (!ctype_digit($card->exp_month) || !ctype_digit($card->exp_year) || $card->exp_month > 12 || $card->exp_month < 1 || $card->exp_year < date('y')) {
+            if (!ctype_digit($card->exp_month) || !ctype_digit($card->exp_year) || $card->exp_month > 12 || $card->exp_month < 1 || $card->exp_year < gmdate('y')) {
                 throw new Exception(__('Card expiration date is invalid', 'woo-paypal-gateway'));
             }
             if (empty($card->number) || !ctype_digit($card->number)) {

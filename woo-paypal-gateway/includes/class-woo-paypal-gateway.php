@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WooCommerce core constants defined conditionally, or plugin constants using the established WPG_ prefix. Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
 
 /**
  * The core plugin class.
@@ -148,7 +149,7 @@ class Woo_Paypal_Gateway {
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 0);
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 
-        if (is_existing_classic_user() === true) {
+        if (woo_paypal_gateway_ppcp_is_existing_classic_user() === true) {
             $this->loader->add_action('plugins_loaded', $plugin_admin, 'init_wpg_paypal_payment');
             $this->loader->add_filter('woocommerce_payment_gateways', $plugin_admin, 'wpg_pal_payment_for_woo_add_payment_method_class', 9999, 1);
         }
@@ -203,8 +204,11 @@ class Woo_Paypal_Gateway {
 
     public function handle_api_requests() {
         global $wp;
-        if (isset($_GET['wpg_ipn_action']) && $_GET['wpg_ipn_action'] == 'ipn') {
-            $wp->query_vars['Woo_Paypal_Gateway'] = $_GET['wpg_ipn_action'];
+        // PayPal IPN callback endpoint. The request originates from PayPal, so a WordPress nonce cannot be present.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $ipn_action = isset($_GET['wpg_ipn_action']) ? sanitize_text_field(wp_unslash($_GET['wpg_ipn_action'])) : '';
+        if ($ipn_action === 'ipn') {
+            $wp->query_vars['Woo_Paypal_Gateway'] = $ipn_action;
         }
         if (!empty($wp->query_vars['Woo_Paypal_Gateway'])) {
             ob_start();
@@ -228,8 +232,10 @@ class Woo_Paypal_Gateway {
     public function wpg_http_api_curl_ec_add_curl_parameter($handle, $r, $url) {
         try {
             if ((strstr($url, 'https://') && strstr($url, '.paypal.com'))) {
-                curl_setopt($handle, CURLOPT_VERBOSE, 1);
-                curl_setopt($handle, CURLOPT_SSLVERSION, 6);
+                // Enforce TLS 1.2 for PayPal API calls. The http_api_curl hook is the
+                // WordPress-sanctioned way to adjust the underlying cURL handle used by
+                // wp_remote_* requests, so curl_setopt() is appropriate here.
+                curl_setopt($handle, CURLOPT_SSLVERSION, 6); // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_setopt -- Setting transport options on the cURL handle provided by the http_api_curl hook.
             }
         } catch (Exception $ex) {
             
@@ -255,12 +261,12 @@ class Woo_Paypal_Gateway {
     }
 
     public function wpg_cart_updated($cart_updated) {
-        wpg_clear_session_data();
+        woo_paypal_gateway_clear_session_data();
         return $cart_updated;
     }
 
     public function wpg_clear_session() {
-        wpg_clear_session_data();
+        woo_paypal_gateway_clear_session_data();
     }
 
     public function wpg_add_deactivation_feedback_form() {
@@ -313,7 +319,7 @@ class Woo_Paypal_Gateway {
                     array(
                         'fields' => array(
                             'reason' => json_encode($data),
-                            'date' => date('M d, Y h:i:s A')
+                            'date' => gmdate('M d, Y h:i:s A')
                         ),
                     ),
                 ),
@@ -335,7 +341,10 @@ class Woo_Paypal_Gateway {
     }
 
     public function leaverev() {
-        if (!isset($_GET['section']) || 'wpg_paypal_checkout' !== $_GET['section']) {
+        // Read-only check of the current settings section to decide whether to show a review prompt.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $section = isset($_GET['section']) ? sanitize_text_field(wp_unslash($_GET['section'])) : '';
+        if ('wpg_paypal_checkout' !== $section) {
             return;
         }
         $plugin_name = 'PayPal Gateway by Easy Payment';
@@ -410,8 +419,11 @@ class Woo_Paypal_Gateway {
     }
 
     public function handle_review_action() {
+        if (!current_user_can('manage_woocommerce')) {
+            wp_send_json_error('Forbidden', 403);
+        }
         check_ajax_referer('wpg_review_nonce', 'nonce');
-        $action = isset($_POST['review_action']) ? sanitize_text_field($_POST['review_action']) : '';
+        $action = isset($_POST['review_action']) ? sanitize_text_field(wp_unslash($_POST['review_action'])) : '';
         if ($action === 'later') {
             $next_show_time = time() + (86400 * 7);
             update_option('wpg_next_show_time', $next_show_time);

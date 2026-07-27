@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 /**
  * @since      1.0.0
@@ -136,6 +137,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
     }
 
     public function ppcp_cc_gateway_status_handler($option_name) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check for which admin settings section is being rendered; no state is changed on the basis of this value.
         if (isset($_GET['wpg_section'])) {
             return true;
         }

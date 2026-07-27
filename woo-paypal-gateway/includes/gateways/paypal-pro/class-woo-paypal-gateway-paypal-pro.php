@@ -42,6 +42,7 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
         $this->testurl = 'https://api-3t.sandbox.paypal.com/nvp';
         $this->liveurl_3ds = 'https://paypal.cardinalcommerce.com/maps/txns.asp';
         $this->testurl_3ds = 'https://centineltest.cardinalcommerce.com/maps/txns.asp';
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
         $this->available_card_types = apply_filters('woocommerce_wpg_paypal_pro_available_card_types', array(
             'GB' => array(
                 'Visa' => 'Visa',
@@ -68,7 +69,9 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
                 'JCB' => 'JCB'
             )
         ));
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
         $this->available_card_types = apply_filters('woocommerce_wpg_paypal_pro_avaiable_card_types', $this->available_card_types);
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
         $this->iso4217 = apply_filters('woocommerce_wpg_paypal_pro_iso_currencies', array(
             'AUD' => '036',
             'CAD' => '124',
@@ -92,6 +95,7 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
         if (is_ssl() || get_option('woocommerce_force_ssl_checkout') == 'yes') {
             $this->icon = preg_replace("/^http:/i", "https:", $this->icon);
         }
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
         $this->icon = apply_filters('woocommerce_wpg_paypal_pro_icon', $this->icon);
         $this->title = $this->get_option('title');
         $this->description = $this->get_option('description');
@@ -129,6 +133,7 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
             if (!is_ssl() && !$this->testmode) {
                 return false;
             }
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             if (!in_array(get_woocommerce_currency(), apply_filters('woocommerce_paypal_pro_allowed_currencies', array('AUD', 'CAD', 'CZK', 'DKK', 'EUR', 'HUF', 'JPY', 'NOK', 'NZD', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'USD')))) {
                 return false;
             }
@@ -155,9 +160,16 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
     }
 
     private function get_posted_card() {
-        $card_number = isset($_POST['wpg_paypal_pro-card-number']) ? wc_clean($_POST['wpg_paypal_pro-card-number']) : '';
-        $card_cvc = isset($_POST['wpg_paypal_pro-card-cvc']) ? wc_clean($_POST['wpg_paypal_pro-card-cvc']) : '';
-        $card_expiry = isset($_POST['wpg_paypal_pro-card-expiry']) ? wc_clean($_POST['wpg_paypal_pro-card-expiry']) : '';
+        // Card details are read during gateway payment processing; WooCommerce verifies the
+        // checkout nonce before the gateway runs, so no separate nonce check is performed here.
+        // phpcs:disable WordPress.Security.NonceVerification.Missing
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+        $card_number = isset($_POST['wpg_paypal_pro-card-number']) ? wc_clean(wp_unslash($_POST['wpg_paypal_pro-card-number'])) : '';
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+        $card_cvc = isset($_POST['wpg_paypal_pro-card-cvc']) ? wc_clean(wp_unslash($_POST['wpg_paypal_pro-card-cvc'])) : '';
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+        $card_expiry = isset($_POST['wpg_paypal_pro-card-expiry']) ? wc_clean(wp_unslash($_POST['wpg_paypal_pro-card-expiry'])) : '';
+        // phpcs:enable WordPress.Security.NonceVerification.Missing
         $card_number = str_replace(array(' ', '-'), '', $card_number);
         $card_expiry = array_map('trim', explode('/', $card_expiry));
         $card_exp_month = str_pad($card_expiry[0], 2, "0", STR_PAD_LEFT);
@@ -183,7 +195,7 @@ class Woo_PayPal_Gateway_PayPal_Pro extends WC_Payment_Gateway_CC {
             if (!ctype_digit($card->cvc)) {
                 throw new Exception(__('Card security code is invalid (only digits are allowed)', 'woo-paypal-gateway'));
             }
-            if (!ctype_digit($card->exp_month) || !ctype_digit($card->exp_year) || $card->exp_month > 12 || $card->exp_month < 1 || $card->exp_year < date('y')) {
+            if (!ctype_digit($card->exp_month) || !ctype_digit($card->exp_year) || $card->exp_month > 12 || $card->exp_month < 1 || $card->exp_year < gmdate('y')) {
                 throw new Exception(__('Card expiration date is invalid', 'woo-paypal-gateway'));
             }
             if (empty($card->number) || !ctype_digit($card->number)) {

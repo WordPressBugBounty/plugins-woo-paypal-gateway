@@ -784,7 +784,7 @@
             createOrderUrl += (createOrderUrl.includes('?') ? '&' : '?')
                 + 'from=' + from
                 + '&ppcp_used_payment_method=' + encodeURIComponent(fundingMethod);
-        
+
             return fetch(createOrderUrl, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -1439,6 +1439,14 @@
             try {
                 if (!this.allowedPaymentMethods || !this.merchantInfo) {
                     const googlePayConfig = await wpg_paypal_sdk.Googlepay().config();
+                    // PayPal reports merchant-level Google Pay eligibility here. When the
+                    // account is not provisioned for Google Pay, Google still issues a
+                    // token but PayPal cannot decrypt it, so confirmOrder fails at the
+                    // very end with INVALID_GOOGLE_PAY_TOKEN — don't offer the button.
+                    if (googlePayConfig && googlePayConfig.isEligible === false) {
+                        console.warn('[Google Pay] The connected PayPal merchant account is not eligible for Google Pay in this environment. Enable Google Pay on the PayPal account (Account Settings → Payment methods) or contact PayPal support.');
+                        return { allowedPaymentMethods: [], merchantInfo: {} };
+                    }
                     let methods = googlePayConfig.allowedPaymentMethods || [];
                     methods = methods.map(method => {
                         const m = { ...method };
@@ -1457,6 +1465,14 @@
                     });
                     this.allowedPaymentMethods = methods;
                     this.merchantInfo = googlePayConfig.merchantInfo || {};
+                    this.googlePayApiVersion = googlePayConfig.apiVersion || 2;
+                    this.googlePayApiVersionMinor = googlePayConfig.apiVersionMinor || 0;
+                    // PayPal's reference integration feeds the account country from the
+                    // config response into transactionInfo.countryCode; the store base
+                    // country stays as fallback for SDK builds that omit it.
+                    if (googlePayConfig.countryCode) {
+                        this.googlePayMerchantCountry = googlePayConfig.countryCode;
+                    }
                 }
                 return {
                     allowedPaymentMethods: this.allowedPaymentMethods,
@@ -1470,8 +1486,8 @@
 
         getGoogleIsReadyToPayRequest(allowedPaymentMethods) {
             return {
-                apiVersion: 2,
-                apiVersionMinor: 0,
+                apiVersion: this.googlePayApiVersion || 2,
+                apiVersionMinor: this.googlePayApiVersionMinor || 0,
                 allowedPaymentMethods,
             };
         }
@@ -1675,8 +1691,8 @@
                 callbackIntents.push('SHIPPING_ADDRESS', 'SHIPPING_OPTION');
             }
             const paymentDataRequest = {
-                apiVersion: 2,
-                apiVersionMinor: 0,
+                apiVersion: this.googlePayApiVersion || 2,
+                apiVersionMinor: this.googlePayApiVersionMinor || 0,
                 allowedPaymentMethods,
                 transactionInfo: this.getGoogleTransactionInfo(),
                 merchantInfo,
@@ -1742,7 +1758,7 @@
 
         getGoogleTransactionInfo() {
             const currency = this.ppcp_manager?.currency || "USD";
-            const country  = this.ppcp_manager?.country  || "US";
+            const country  = this.googlePayMerchantCountry || this.ppcp_manager?.country || "US";
             const toNum = (v) => {
                 const f = parseFloat((v ?? "").toString().replace(/,/g, ""));
                 return Number.isFinite(f) ? f : 0;
@@ -1847,11 +1863,24 @@
                     orderId,
                     paymentMethodData: paymentData.paymentMethodData
                 }).catch(err => {
+                    // The SDK rejects with internal error names (e.g.
+                    // APPROVE_GOOGLE_PAY_VALIDATION_ERROR); log those for debugging but
+                    // show the shopper the translated message instead.
                     console.error('[Google Pay] confirmOrder error:', err);
-                    throw err;
+                    throw new Error(this.t('google_pay_not_approved', 'Google Pay payment could not be approved. Please try again or use a different payment method.'));
                 });
-                if (result && result.status === "PAYER_ACTION_REQUIRED") {
+                // approveGooglePayPayment reports the outcome via the order status.
+                // Depending on the SDK build it is returned at the top level or nested
+                // under approveGooglePayPayment. Only APPROVED (or PAYER_ACTION_REQUIRED,
+                // once the payer completes the required action) may proceed to capture;
+                // any other value means PayPal rejected the token — e.g. an undecryptable
+                // Google Pay token (INVALID_GOOGLE_PAY_TOKEN) — and must not be captured
+                // or reported as a success. This mirrors the Apple Pay confirmOrder guard.
+                const status = result?.status ?? result?.approveGooglePayPayment?.status ?? null;
+                if (status === "PAYER_ACTION_REQUIRED") {
                     await wpg_paypal_sdk.Googlepay().initiatePayerAction({ orderId });
+                } else if (status !== "APPROVED") {
+                    throw new Error(this.t('google_pay_not_approved', 'Google Pay payment could not be approved. Please try again or use a different payment method.'));
                 }
                 this.onApproveHandler({ orderID: orderId }, 'google_pay');
                 return { transactionState: "SUCCESS" };

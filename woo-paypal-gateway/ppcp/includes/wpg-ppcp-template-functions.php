@@ -1,8 +1,9 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public API function names using the plugin's established wpg_/wpg_ppcp_ prefixes; Plugin Check derives the expected prefix from the wordpress.org slug, which differs. Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
 
 defined( 'ABSPATH' ) || exit;
 
-function wpg_ppcp_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
+function woo_paypal_gateway_ppcp_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 	if ( ! $template_path ) {
 		$template_path = 'woo-paypal-gateway/';
 	}
@@ -38,8 +39,8 @@ function wpg_ppcp_get_template( $template_name, $args = array(), $template_path 
 	do_action( 'wpg_ppcp_after_template_' . sanitize_file_name( $template_name ), $args );
 }
 
-function wpg_ppcp_get_template_html( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
+function woo_paypal_gateway_ppcp_get_template_html( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 	ob_start();
-	wpg_ppcp_get_template( $template_name, $args, $template_path, $default_path );
+	woo_paypal_gateway_ppcp_get_template( $template_name, $args, $template_path, $default_path );
 	return ob_get_clean();
 }

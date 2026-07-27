@@ -90,14 +90,14 @@ class Woo_PayPal_Gateway_Express_Checkout_NVP extends WC_Payment_Gateway {
 
     public function get_icon() {
         $image_path = WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png';
-        if ($this->paypal_account_optional == 'no' && ($this->credit_enabled == 'no' && is_wpg_credit_supported() == false)) {
+        if ($this->paypal_account_optional == 'no' && ($this->credit_enabled == 'no' && woo_paypal_gateway_is_credit_supported() == false)) {
             $image_path = WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png';
-        } elseif ($this->paypal_account_optional == 'yes' && ($this->credit_enabled == 'no' && is_wpg_credit_supported() == false)) {
+        } elseif ($this->paypal_account_optional == 'yes' && ($this->credit_enabled == 'no' && woo_paypal_gateway_is_credit_supported() == false)) {
             $image_path = WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal-credit-card-logos.png';
-        } elseif ($this->paypal_account_optional == 'yes' && ($this->credit_enabled == 'yes' && is_wpg_credit_supported() == true)) {
+        } elseif ($this->paypal_account_optional == 'yes' && ($this->credit_enabled == 'yes' && woo_paypal_gateway_is_credit_supported() == true)) {
             $image_path = WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal-paypal-credit-card-logos.png';
         }
-        if ($this->paypal_account_optional == 'no' && ($this->credit_enabled == 'yes' && is_wpg_credit_supported() == true)) {
+        if ($this->paypal_account_optional == 'no' && ($this->credit_enabled == 'yes' && woo_paypal_gateway_is_credit_supported() == true)) {
             $image_path = WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png';
             if (is_ssl() || get_option('woocommerce_force_ssl_checkout') == 'yes') {
                 $image_path = str_replace('http:', 'https:', $image_path);
@@ -108,12 +108,14 @@ class Woo_PayPal_Gateway_Express_Checkout_NVP extends WC_Payment_Gateway {
             }
             $icon = "<img src=\"$image_path\" alt='" . __('Pay with PayPal', 'woo-paypal-gateway') . "'/>";
             $icon_two = "<img src=\"$image_path_two\" alt='" . __('Pay with PayPal', 'woo-paypal-gateway') . "'/>";
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             return apply_filters('woocommerce_wpg_paypal_express_icon', $icon . $icon_two, $this->id);
         } else {
             if (is_ssl() || get_option('woocommerce_force_ssl_checkout') == 'yes') {
                 $image_path = str_replace('http:', 'https:', $image_path);
             }
             $icon = "<img src=\"$image_path\" alt='" . __('Pay with PayPal', 'woo-paypal-gateway') . "'/>";
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             return apply_filters('woocommerce_wpg_paypal_express_icon', $icon, $this->id);
         }
     }
@@ -131,14 +133,19 @@ class Woo_PayPal_Gateway_Express_Checkout_NVP extends WC_Payment_Gateway {
                 $this->tokenization_script();
                 $this->saved_payment_methods();
             }
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             do_action('payment_fields_saved_payment_methods', $this);
         }
     }
 
     public function handle_wc_api() {
         try {
+            // Express-checkout WC-API endpoint. Requests come from the express-button flow /
+            // PayPal returns (routing key in $_GET) or WooCommerce checkout posts whose nonce
+            // WooCommerce verifies upstream, so no plugin-level nonce is checked here.
+            // phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
             if (!empty($_GET['wpg_express_checkout_action'])) {
-                $request_name = $_GET['wpg_express_checkout_action'];
+                $request_name = sanitize_text_field(wp_unslash($_GET['wpg_express_checkout_action']));
                 switch ($request_name) {
                     case 'wpg_set_express_checkout': {
                             $this->init_api();
@@ -178,6 +185,7 @@ class Woo_PayPal_Gateway_Express_Checkout_NVP extends WC_Payment_Gateway {
                 if (!$this->username || !$this->password || !$this->signature) {
                     return false;
                 }
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                 if (!in_array(get_woocommerce_currency(), apply_filters('woocommerce_paypal_rest_api_supported_currencies', $this->woocommerce_paypal_supported_currencies))) {
                     return false;
                 }
@@ -191,6 +199,7 @@ class Woo_PayPal_Gateway_Express_Checkout_NVP extends WC_Payment_Gateway {
 
     public function is_valid_for_use() {
         try {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             return in_array(get_woocommerce_currency(), apply_filters('woocommerce_paypal_rest_api_supported_currencies', $this->woocommerce_paypal_supported_currencies));
         } catch (Exception $ex) {
             
@@ -200,7 +209,7 @@ class Woo_PayPal_Gateway_Express_Checkout_NVP extends WC_Payment_Gateway {
     public function process_payment($order_id) {
         try {
             $order = new WC_Order($order_id);
-            if (is_wpg_express_checkout_ready_to_capture()) {
+            if (woo_paypal_gateway_is_express_checkout_ready_to_capture()) {
                 $this->init_api();
                 if ($order->get_total() > 0) {
                     $this->rest_api_handler->wpg_do_express_checkout_payment($order);
@@ -209,13 +218,14 @@ class Woo_PayPal_Gateway_Express_Checkout_NVP extends WC_Payment_Gateway {
                 }
             } else {
                 $this->init_api();
-                wpg_set_session('post_data', $_POST);
+                woo_paypal_gateway_set_session('post_data', $_POST);
                 if (!empty($_POST['wc-wpg_paypal_express-payment-token']) && $_POST['wc-wpg_paypal_express-payment-token'] !== 'new') {
                     $this->rest_api_handler->wpg_do_reference_transaction($order, $is_cart_payment = true);
                 } else {
                     $this->rest_api_handler->wpg_set_express_checkout($is_in_content = false);
                 }
             }
+            // phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
         } catch (Exception $ex) {
             
         }

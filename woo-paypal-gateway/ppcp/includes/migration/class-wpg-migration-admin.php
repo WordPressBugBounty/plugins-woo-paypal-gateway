@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Adds a "System Status" section to the PayPal gateway debug info,
  * and provides an AJAX endpoint for emergency settings rollback.
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 class WPG_Migration_Admin {
 
 	/**

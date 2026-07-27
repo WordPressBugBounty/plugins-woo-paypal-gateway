@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 defined( 'ABSPATH' ) || exit;
 
@@ -264,6 +265,35 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Shortcodes {
                                     }).then(function(res) { return res.json(); })
                                       .then(function(json) { return json.orderID || json.id; });
                                 }
+                            },
+                            onShippingChange: function(shippingData, actions) {
+                                // Recalculate shipping/total for the selected address and
+                                // sync it to the PayPal order, mirroring the main express
+                                // buttons. Without this, a shortcode express order for a
+                                // physical product could be captured with no shipping cost.
+                                if (typeof ppcp_manager === 'undefined' || !shippingData || !shippingData.shipping_address) {
+                                    return actions.resolve();
+                                }
+                                var shippingAddress = {
+                                    city: shippingData.shipping_address.city || '',
+                                    state: shippingData.shipping_address.state || '',
+                                    countryCode: shippingData.shipping_address.country_code || '',
+                                    postalCode: shippingData.shipping_address.postal_code || ''
+                                };
+                                var selectedOption = shippingData.selected_shipping_option || shippingData.selectedShippingOption || null;
+                                var selectedShippingId = (selectedOption && selectedOption.id) ? selectedOption.id : '';
+                                return fetch(ppcp_manager.ajax_url, {
+                                    method: 'POST',
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                                    body: new URLSearchParams({
+                                        action: 'ppcp_validate_shipping_address',
+                                        security: ppcp_manager.ajax_nonce,
+                                        shipping_address: JSON.stringify(shippingAddress),
+                                        selected_shipping_id: selectedShippingId
+                                    })
+                                }).then(function(res) { return res.json(); })
+                                  .then(function(result) { return (result && result.success) ? actions.resolve() : actions.reject(); })
+                                  .catch(function() { return actions.reject(); });
                             },
                             onApprove: function(data) {
                                 if (typeof ppcp_manager !== 'undefined') {

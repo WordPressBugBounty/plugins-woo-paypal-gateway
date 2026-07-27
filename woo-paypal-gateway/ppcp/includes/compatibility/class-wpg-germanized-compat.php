@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -64,6 +65,7 @@ class WPG_Germanized_Compat {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Runs inside WooCommerce checkout validation, which has already verified the checkout nonce. Germanized expects the raw posted array, so the payload is handed over unmodified.
 		$manager->validate_checkout( $_POST, $errors );
 	}
 
@@ -147,7 +149,7 @@ class WPG_Germanized_Compat {
 	 * @return bool
 	 */
 	private function is_express_checkout_flow() {
-		return function_exists( 'ppcp_has_active_session' ) && ppcp_has_active_session();
+		return function_exists( 'woo_paypal_gateway_ppcp_has_active_session' ) && woo_paypal_gateway_ppcp_has_active_session();
 	}
 
 	/**

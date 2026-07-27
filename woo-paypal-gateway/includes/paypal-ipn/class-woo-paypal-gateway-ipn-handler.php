@@ -15,6 +15,10 @@ class Woo_Paypal_Gateway_IPN_Handler {
     }
 
     public function check_response() {
+        // PayPal IPN is a server-to-server callback from PayPal and carries no WordPress
+        // nonce. Authenticity is verified by posting the payload back to PayPal (validate_ipn)
+        // and by confirming the receiver account in valid_response().
+        // phpcs:disable WordPress.Security.NonceVerification.Missing
         if (!empty($_POST) && !empty($_POST['ipn_track_id'])) {
             if (!empty($_POST) && $this->validate_ipn()) {
                 $posted = wp_unslash($_POST);
@@ -23,14 +27,20 @@ class Woo_Paypal_Gateway_IPN_Handler {
             }
             wp_die('PayPal IPN Request Failure', 'PayPal IPN', array('response' => 500));
         }
+        // phpcs:enable WordPress.Security.NonceVerification.Missing
     }
 
     public function valid_response($posted) {
         $order = !empty($posted['custom']) ? $this->get_paypal_order($posted['custom']) : false;
         if ($order) {
             $posted['payment_status'] = strtolower($posted['payment_status']);
-            if (isset($posted['test_ipn']) && 1 == $posted['test_ipn'] && 'pending' == $posted['payment_status']) {
-                $posted['payment_status'] = 'completed';
+            // Confirm the payment was actually received by the store's own PayPal account.
+            // A verified IPN only proves the transaction is real, not that the money reached
+            // the merchant; without this check an IPN for a payment sent to a different (for
+            // example the attacker's own, or a free sandbox) account would be accepted.
+            if (!$this->validate_receiver($posted)) {
+                $this->wpg_add_log('Aborting: IPN receiver does not match the configured merchant account.');
+                exit;
             }
             $this->wpg_add_log('Found order #' . $order->get_id());
             $this->wpg_add_log('Payment status: ' . $posted['payment_status']);
@@ -43,8 +53,11 @@ class Woo_Paypal_Gateway_IPN_Handler {
     public function validate_ipn() {
         $this->wpg_add_log('Checking IPN response is valid');
         $validate_ipn = array('cmd' => '_notify-validate');
-        $post_log = $_POST;
+        // PayPal IPN postback verification; the payload comes from PayPal and has no nonce.
+        // phpcs:disable WordPress.Security.NonceVerification.Missing
+        $post_log = wp_unslash($_POST);
         $validate_ipn += wp_unslash($_POST);
+        // phpcs:enable WordPress.Security.NonceVerification.Missing
         $params = array(
             'body' => $validate_ipn,
             'timeout' => 60,
@@ -54,8 +67,10 @@ class Woo_Paypal_Gateway_IPN_Handler {
             'user-agent' => 'WooCommerce/' . WC()->version
         );
 
-        $is_sandbox = (isset($_POST['test_ipn'])) ? 'yes' : 'no';
-        $paypal_adr = ('yes' == $is_sandbox) ? $this->testurl : $this->liveurl;
+        // The sandbox-vs-live verification endpoint must be decided by the store's own
+        // configuration, never by a request field: a client-supplied "test_ipn" flag would
+        // otherwise let an attacker have a free sandbox transaction validated as genuine.
+        $paypal_adr = $this->is_sandbox_mode() ? $this->testurl : $this->liveurl;
 
         $response = wp_safe_remote_post($paypal_adr, $params);
         if (!empty($post_log['custom'])) {
@@ -101,8 +116,8 @@ class Woo_Paypal_Gateway_IPN_Handler {
     }
 
     public function payment_status_completed($order, $posted) {
-        if ($order->has_status('completed')) {
-            $this->wpg_add_log('Aborting, Order #' . $order->get_id() . ' is already complete.');
+        if ($order->has_status('completed') || $order->is_paid()) {
+            $this->wpg_add_log('Aborting, Order #' . $order->get_id() . ' is already paid.');
             exit;
         }
         $this->validate_transaction_type($posted['txn_type']);
@@ -168,7 +183,7 @@ class Woo_Paypal_Gateway_IPN_Handler {
         $new_order_settings = get_option('woocommerce_new_order_settings', array());
         $mailer = WC()->mailer();
         $message = $mailer->wrap_message($subject, $message);
-        $mailer->send(!empty($new_order_settings['recipient']) ? $new_order_settings['recipient'] : get_option('admin_email'), strip_tags($subject), $message);
+        $mailer->send(!empty($new_order_settings['recipient']) ? $new_order_settings['recipient'] : get_option('admin_email'), wp_strip_all_tags($subject), $message);
     }
 
     public function get_paypal_order($raw_custom) {
@@ -185,12 +200,82 @@ class Woo_Paypal_Gateway_IPN_Handler {
             $order_id = wc_get_order_id_by_order_key($order_key);
             $order = wc_get_order($order_id);
         }
-        $order_key_value = $order->get_order_key();
-        if (!$order || !hash_equals($order_key_value, $order_key)) {
+        if (!$order || !is_string($order_key) || !hash_equals($order->get_order_key(), $order_key)) {
             $this->wpg_add_log('Error: Order Keys do not match.');
             return false;
         }
         return $order;
+    }
+
+    /**
+     * Read the PayPal Checkout gateway settings (holds the connected merchant identity).
+     *
+     * @return array
+     */
+    protected function get_merchant_settings() {
+        $settings = get_option('woocommerce_wpg_paypal_checkout_settings', array());
+        return is_array($settings) ? $settings : array();
+    }
+
+    /**
+     * Whether IPN postbacks should be verified against the PayPal sandbox.
+     *
+     * Derived from the store's own configuration (never from the request), and filterable
+     * so a developer can opt a test store in explicitly.
+     *
+     * @return bool
+     */
+    public function is_sandbox_mode() {
+        $settings = $this->get_merchant_settings();
+        $is_sandbox = isset($settings['sandbox']) && 'yes' === $settings['sandbox'];
+        return (bool) apply_filters('woo_paypal_gateway_ipn_use_sandbox', $is_sandbox);
+    }
+
+    /**
+     * Confirm the IPN's receiver is the store's own PayPal account.
+     *
+     * Compares the posted receiver e-mail / merchant id against the connected account.
+     * Returns true when it matches, or when the store identity or the posted receiver
+     * fields are unavailable to compare (so legacy setups are not broken); returns false
+     * only when a comparison was possible and failed.
+     *
+     * @param array $posted
+     * @return bool
+     */
+    public function validate_receiver($posted) {
+        // Safety valve: the receiver check can be disabled without a code release (e.g. via a
+        // small mu-plugin) should any specific store configuration ever misfire.
+        if (!apply_filters('woo_paypal_gateway_ipn_validate_receiver', true, $posted)) {
+            return true;
+        }
+        $settings = $this->get_merchant_settings();
+        $is_sandbox = $this->is_sandbox_mode();
+        $expected_email = $is_sandbox
+            ? (isset($settings['ppcp_email_sandbox']) ? $settings['ppcp_email_sandbox'] : '')
+            : (isset($settings['ppcp_email_live']) ? $settings['ppcp_email_live'] : '');
+        $expected_merchant = $is_sandbox
+            ? (isset($settings['sandbox_merchant_id']) ? $settings['sandbox_merchant_id'] : '')
+            : (isset($settings['live_merchant_id']) ? $settings['live_merchant_id'] : '');
+        $receiver_email = isset($posted['receiver_email']) ? $posted['receiver_email'] : (isset($posted['business']) ? $posted['business'] : '');
+        $receiver_id = isset($posted['receiver_id']) ? $posted['receiver_id'] : '';
+        $checked = false;
+        if (!empty($expected_email) && !empty($receiver_email)) {
+            $checked = true;
+            if (0 === strcasecmp(trim($expected_email), trim($receiver_email))) {
+                return true;
+            }
+        }
+        if (!empty($expected_merchant) && !empty($receiver_id)) {
+            $checked = true;
+            if (hash_equals((string) $expected_merchant, (string) $receiver_id)) {
+                return true;
+            }
+        }
+        if (!$checked) {
+            $this->wpg_add_log('Notice: no comparable merchant/receiver identity available to validate IPN; allowing.');
+            return true;
+        }
+        return false;
     }
 
     public function payment_complete($order, $txn_id = '', $note = '') {

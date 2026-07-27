@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 /**
  * FunnelKit (Checkout + Upsell + Post Purchase) compatibility for PPCP.
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
 
     /**
@@ -36,13 +37,25 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
                 exit;
             }
             $order_id = isset($_GET['order_id']) ? absint(wp_unslash($_GET['order_id'])) : 0;
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
             $order_key = isset($_GET['order_key']) ? wc_clean(wp_unslash($_GET['order_key'])) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
             $token = isset($_GET['token']) ? wc_clean(wp_unslash($_GET['token'])) : '';
             if ($order_id && $order_key) {
                 $order = wc_get_order($order_id);
                 if ($order && $order->key_is_valid($order_key)) {
-                    if (!$token) {
-                        $token = WFOCU_Core()->data->get('paypal_order_id', null, 'wpg_ppcp');
+                    // The authoritative PayPal order is the one the store created for this
+                    // offer session. A client-supplied token may only confirm it, never
+                    // replace it - otherwise a cheaper approved order could be substituted so
+                    // the upsell is captured for less than its price.
+                    $session_paypal_order = WFOCU_Core()->data->get('paypal_order_id', null, 'wpg_ppcp');
+                    if (!empty($session_paypal_order)) {
+                        if (!empty($token) && !hash_equals((string) $session_paypal_order, (string) $token)) {
+                            $order->add_order_note(__('Upsell payment rejected: the returned PayPal order did not match the offer created for this order.', 'woo-paypal-gateway'));
+                            wp_safe_redirect($order->get_checkout_order_received_url());
+                            exit;
+                        }
+                        $token = $session_paypal_order;
                     }
                     add_filter('wfocu_valid_state_for_data_setup', '__return_true');
                     WFOCU_Core()->template_loader->set_offer_id(WFOCU_Core()->data->get_current_offer());

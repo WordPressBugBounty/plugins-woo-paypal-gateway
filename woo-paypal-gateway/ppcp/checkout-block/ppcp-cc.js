@@ -110,7 +110,7 @@ var {addAction} = wp.hooks;
                     const {eventRegistration, emitResponse } = props;
                     // Guard against a missing eventRegistration (e.g. block editor context)
                     // so the component does not crash on destructuring.
-                    const {onPaymentSetup, onCheckoutValidation} = eventRegistration || {};
+                    const {onPaymentSetup, onCheckoutValidation, onCheckoutFail} = eventRegistration || {};
                     const errorResponse = (emitResponse && emitResponse.responseTypes)
                         ? {type: emitResponse.responseTypes.ERROR}
                         : {type: 'error'};
@@ -206,6 +206,25 @@ var {addAction} = wp.hooks;
                         });
                         return () => unsubscribe();
                     }, [onCheckoutValidation]);
+
+                    useEffect(() => {
+                        if (typeof onCheckoutFail !== 'function') {
+                            return;
+                        }
+                        // A Fastlane single-use token is consumed the moment it is submitted.
+                        // If the Store API checkout then fails (decline, address validation,
+                        // etc.), that token is dead — resubmitting it on retry fails again and
+                        // silently bounces the buyer. Clear it on failure so the card entry /
+                        // re-authentication UI returns and a fresh token is generated for the
+                        // next attempt. Only acts when a token was actually in play.
+                        const unsubscribe = onCheckoutFail(() => {
+                            if (window.wpgPPCPFastlaneToken && window.wpgPPCPFastlane
+                                && typeof window.wpgPPCPFastlane.clearToken === 'function') {
+                                window.wpgPPCPFastlane.clearToken();
+                            }
+                        });
+                        return () => unsubscribe();
+                    }, [onCheckoutFail]);
 
 
                     return createElement(

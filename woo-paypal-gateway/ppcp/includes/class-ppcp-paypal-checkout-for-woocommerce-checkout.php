@@ -1,4 +1,9 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations. Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+
+if (!defined('ABSPATH')) {
+    exit;
+}
 
 if (class_exists('WC_Checkout')) {
 
@@ -22,8 +27,8 @@ if (class_exists('WC_Checkout')) {
                 do_action('woocommerce_before_checkout_process');
 
                 if (WC()->cart->is_empty()) {
-                    // translators: %s: URL to the shop page.
                     throw new Exception(sprintf(
+                                            // translators: %s: URL to the shop page.
                                             __('Sorry, your session has expired. <a href="%s" class="wc-backward">Return to shop</a>', 'woo-paypal-gateway'),
                                             esc_url(wc_get_page_permalink('shop'))
                                     ));
@@ -98,8 +103,8 @@ if (class_exists('WC_Checkout')) {
                 do_action('woocommerce_before_checkout_process');
 
                 if (WC()->cart->is_empty()) {
-                    // translators: %s: URL to the shop page.
                     throw new Exception(sprintf(
+                                            // translators: %s: URL to the shop page.
                                             __('Sorry, your session has expired. <a href="%s" class="wc-backward">Return to shop</a>', 'woo-paypal-gateway'),
                                             esc_url(wc_get_page_permalink('shop'))
                                     ));

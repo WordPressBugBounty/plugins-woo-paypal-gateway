@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations. Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -65,7 +66,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_ReCaptcha {
 			'wpg-recaptcha-external',
 			'https://www.google.com/recaptcha/api.js?render=' . rawurlencode( $this->site_key ),
 			array(),
-			null,
+			WPG_PLUGIN_VERSION,
 			true
 		);
 
@@ -97,10 +98,30 @@ class PPCP_Paypal_Checkout_For_Woocommerce_ReCaptcha {
 			return;
 		}
 
+		// reCAPTCHA token submitted with the checkout form; WooCommerce verifies the checkout
+		// nonce upstream and the token itself is the anti-bot control being validated here.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$token = isset( $_POST['wpg_recaptcha_token'] ) ? sanitize_text_field( wp_unslash( $_POST['wpg_recaptcha_token'] ) ) : '';
 
 		if ( empty( $token ) ) {
-			$this->log( 'reCAPTCHA token missing from checkout submission — allowing payment (graceful degradation).' );
+			// Fail closed: a missing token is the trivial bypass (a bot simply omits
+			// the field), so block the checkout rather than allowing it. Legitimate
+			// buyers always carry a token here — PayPal-approved sessions are already
+			// exempted above via has_paypal_approval().
+			//
+			// Escape hatch for live stores: a site that observes false blocks (e.g. a
+			// caching/JS edge case that strips the token for real buyers) can restore
+			// the previous graceful-degradation behaviour with:
+			//   add_filter( 'wpg_ppcp_recaptcha_block_on_missing_token', '__return_false' );
+			if ( ! $this->should_block_on_missing_token() ) {
+				$this->log( 'reCAPTCHA token missing from checkout submission — allowing payment (block-on-missing-token disabled by filter).' );
+				return;
+			}
+			$this->log( 'reCAPTCHA token missing from checkout submission — blocking payment.' );
+			wc_add_notice(
+				__( 'Payment verification failed. Please refresh the page and try again.', 'woo-paypal-gateway' ),
+				'error'
+			);
 			return;
 		}
 
@@ -139,8 +160,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_ReCaptcha {
 		$token = isset( $payment_data['wpg_recaptcha_token'] ) ? sanitize_text_field( $payment_data['wpg_recaptcha_token'] ) : '';
 
 		if ( empty( $token ) ) {
-			$this->log( 'reCAPTCHA token missing from Blocks checkout — allowing payment (graceful degradation).' );
-			return;
+			// Fail closed on the block checkout too — throwing here aborts the Store API
+			// payment. PayPal-approved sessions are exempted above; the card gateway that
+			// this control protects always attaches a token in its onPaymentSetup handler.
+			// Same live-store escape hatch as the classic path (see verify_checkout).
+			if ( ! $this->should_block_on_missing_token() ) {
+				$this->log( 'reCAPTCHA token missing from Blocks checkout — allowing payment (block-on-missing-token disabled by filter).' );
+				return;
+			}
+			$this->log( 'reCAPTCHA token missing from Blocks checkout — blocking payment.' );
+			throw new \Exception(
+				esc_html__( 'Payment verification failed. Please refresh the page and try again.', 'woo-paypal-gateway' )
+			);
 		}
 
 		$result = $this->verify_token( $token );
@@ -153,7 +184,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_ReCaptcha {
 		if ( $result['pass'] === false ) {
 			$this->log( sprintf( 'reCAPTCHA blocked Blocks checkout — score: %.2f, threshold: %.2f', $result['score'], $this->threshold ) );
 			throw new \Exception(
-				__( 'Payment verification failed. Please try again or contact support.', 'woo-paypal-gateway' )
+				esc_html__( 'Payment verification failed. Please try again or contact support.', 'woo-paypal-gateway' )
 			);
 		} else {
 			$this->log( sprintf( 'reCAPTCHA passed (Blocks) — score: %.2f', $result['score'] ) );
@@ -227,12 +258,25 @@ class PPCP_Paypal_Checkout_For_Woocommerce_ReCaptcha {
 		}
 	}
 
+	/**
+	 * Whether an empty/missing reCAPTCHA token should block the checkout.
+	 *
+	 * Defaults to true (fail closed, matching the reference implementation). Stores
+	 * can opt back into the legacy graceful-degradation behaviour by returning false
+	 * from the wpg_ppcp_recaptcha_block_on_missing_token filter.
+	 *
+	 * @return bool
+	 */
+	private function should_block_on_missing_token() {
+		return (bool) apply_filters( 'wpg_ppcp_recaptcha_block_on_missing_token', true );
+	}
+
 	private function has_paypal_approval() {
 		// Only trust the server-side session status. A raw paypal_order_id request
 		// param used to short-circuit the check, which let any request skip reCAPTCHA
 		// entirely by appending ?paypal_order_id=x.
-		if ( function_exists( 'ppcp_get_paypal_order_session_data' ) ) {
-			$session_data = ppcp_get_paypal_order_session_data();
+		if ( function_exists( 'woo_paypal_gateway_ppcp_get_paypal_order_session_data' ) ) {
+			$session_data = woo_paypal_gateway_ppcp_get_paypal_order_session_data();
 			$status = isset( $session_data['status'] ) ? strtolower( $session_data['status'] ) : '';
 			if ( $status === 'approved' && ! empty( $session_data['id'] ) ) {
 				return true;

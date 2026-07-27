@@ -38,9 +38,11 @@ if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
 
         public function cart_calculation() {
             if (!defined('WOOCOMMERCE_CHECKOUT')) {
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- WooCommerce core constant, not a global declared by this plugin.
                 define('WOOCOMMERCE_CHECKOUT', true);
             }
             if (!defined('WOOCOMMERCE_CART')) {
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- WooCommerce core constant, not a global declared by this plugin.
                 define('WOOCOMMERCE_CART', true);
             }
             $desc = '';
@@ -86,7 +88,7 @@ if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
                     'name' => html_entity_decode(wc_trim_string($name ? $name : __('Item', 'woo-paypal-gateway'), 127), ENT_NOQUOTES, 'UTF-8'),
                     'desc' => html_entity_decode(wc_trim_string($desc, 127), ENT_NOQUOTES, 'UTF-8'),
                     'qty' => $values['quantity'],
-                    'amt' => wpg_number_format($amount),
+                    'amt' => woo_paypal_gateway_number_format($amount),
                     'number' => $product_sku
                 );
                 $this->order_items[] = $item;
@@ -102,7 +104,7 @@ if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
                     'name' => html_entity_decode(wc_trim_string($fee_values->name ? $fee_values->name : __('Fee', 'woo-paypal-gateway'), 127), ENT_NOQUOTES, 'UTF-8'),
                     'desc' => '',
                     'qty' => 1,
-                    'amt' => wpg_number_format($fee_values->amount),
+                    'amt' => woo_paypal_gateway_number_format($fee_values->amount),
                     'number' => ''
                 );
                 $this->order_items[] = $fee_item;
@@ -122,7 +124,7 @@ if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
                         'desc' => 'Discount Amount',
                         'qty' => 1,
                         'number' => '',
-                        'amt' => '-' . wpg_number_format($this->discount_amount)
+                        'amt' => '-' . woo_paypal_gateway_number_format($this->discount_amount)
                     );
                     $this->order_items[] = $discLineItem;
                 }
@@ -133,11 +135,11 @@ if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
                 $this->shippingamt = 0;
             }
             $this->cart_re_calculate();
-            $this->payment['itemamt'] = wpg_number_format(round($this->itemamt, $this->decimals));
-            $this->payment['taxamt'] = wpg_number_format(round($this->taxamt, $this->decimals));
-            $this->payment['shippingamt'] = wpg_number_format(round($this->shippingamt, $this->decimals));
+            $this->payment['itemamt'] = woo_paypal_gateway_number_format(round($this->itemamt, $this->decimals));
+            $this->payment['taxamt'] = woo_paypal_gateway_number_format(round($this->taxamt, $this->decimals));
+            $this->payment['shippingamt'] = woo_paypal_gateway_number_format(round($this->shippingamt, $this->decimals));
             $this->payment['order_items'] = $this->order_items;
-            $this->payment['discount_amount'] = wpg_number_format(round($this->discount_amount, $this->decimals));
+            $this->payment['discount_amount'] = woo_paypal_gateway_number_format(round($this->discount_amount, $this->decimals));
             if ($this->taxamt < 0 || $this->shippingamt < 0) {
                 $this->payment['is_calculation_mismatch'] = true;
             } else {
@@ -185,7 +187,7 @@ if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
                     'name' => html_entity_decode(wc_trim_string($name ? $name : __('Item', 'woo-paypal-gateway'), 127), ENT_NOQUOTES, 'UTF-8'),
                     'desc' => html_entity_decode(wc_trim_string($desc, 127), ENT_NOQUOTES, 'UTF-8'),
                     'qty' => $values['qty'],
-                    'amt' => wpg_number_format($amount),
+                    'amt' => woo_paypal_gateway_number_format($amount),
                     'number' => $product_sku,
                 );
                 $this->order_items[] = $item;
@@ -198,7 +200,7 @@ if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
                     'name' => html_entity_decode(wc_trim_string($fee_item_name ? $fee_item_name : __('Fee', 'woo-paypal-gateway'), 127), ENT_NOQUOTES, 'UTF-8'),
                     'desc' => '',
                     'qty' => 1,
-                    'amt' => wpg_number_format($amount),
+                    'amt' => woo_paypal_gateway_number_format($amount),
                     'number' => ''
                 );
                 $this->order_items[] = $fee_item;
@@ -220,7 +222,7 @@ if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
                             'desc' => 'Discount Amount',
                             'number' => '',
                             'qty' => 1,
-                            'amt' => '-' . wpg_number_format($this->discount_amount)
+                            'amt' => '-' . woo_paypal_gateway_number_format($this->discount_amount)
                         );
                         $this->order_items[] = $discLineItem;
                         $this->itemamt -= $this->discount_amount;
@@ -232,11 +234,11 @@ if (!class_exists('Woo_Paypal_Gateway_Calculations')) {
                 $this->shippingamt = 0;
             }
             $this->order_re_calculate($order);
-            $this->payment['itemamt'] = wpg_number_format(round($this->itemamt, $this->decimals));
-            $this->payment['taxamt'] = wpg_number_format(round($this->taxamt, $this->decimals));
-            $this->payment['shippingamt'] = wpg_number_format(round($this->shippingamt, $this->decimals));
+            $this->payment['itemamt'] = woo_paypal_gateway_number_format(round($this->itemamt, $this->decimals));
+            $this->payment['taxamt'] = woo_paypal_gateway_number_format(round($this->taxamt, $this->decimals));
+            $this->payment['shippingamt'] = woo_paypal_gateway_number_format(round($this->shippingamt, $this->decimals));
             $this->payment['order_items'] = $this->order_items;
-            $this->payment['discount_amount'] = wpg_number_format(round($this->discount_amount, $this->decimals));
+            $this->payment['discount_amount'] = woo_paypal_gateway_number_format(round($this->discount_amount, $this->decimals));
             if ($this->taxamt < 0 || $this->shippingamt < 0) {
                 $this->payment['is_calculation_mismatch'] = true;
             } else {

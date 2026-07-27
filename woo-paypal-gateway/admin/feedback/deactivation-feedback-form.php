@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Variables scoped to the including template/settings file.
 defined('ABSPATH') || die('Cheatin&#8217; uh?');
 $deactivation_url = wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . rawurlencode(WPG_PLUGIN_BASENAME), 'deactivate-plugin_' . WPG_PLUGIN_BASENAME);
 ?>

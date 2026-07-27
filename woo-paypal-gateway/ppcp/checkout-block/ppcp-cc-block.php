@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
 
@@ -51,11 +52,11 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
     }
 
     public function get_payment_method_script_handles() {
-        if (!function_exists('has_block') || !wpg_is_using_block_cart_or_checkout()) {
+        if (!function_exists('has_block') || !woo_paypal_gateway_is_using_block_cart_or_checkout()) {
             return [];
         }
         wp_enqueue_script('ppcp-checkout-js');
-        if (ppcp_has_active_session() === false) {
+        if (woo_paypal_gateway_ppcp_has_active_session() === false) {
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         }
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
@@ -109,7 +110,7 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
             'supports' => $this->get_supported_features(),
             'icons' => $this->gateway->get_block_icon(),
             'enable_save_card' => $this->gateway->enable_save_card,
-            'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
+            'is_order_confirm_page' => (woo_paypal_gateway_ppcp_has_active_session() === false) ? 'no' : 'yes',
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
             'page' => $page,
             'card_number' => _x('Card number', 'Important', 'woo-paypal-gateway'),

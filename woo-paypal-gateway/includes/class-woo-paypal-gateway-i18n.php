@@ -16,6 +16,10 @@ class Woo_Paypal_Gateway_i18n {
      */
     public function load_plugin_textdomain() {
 
+        // Explicitly load bundled translations from the plugin's /languages/ directory.
+        // WordPress can auto-load these just-in-time, but the call is kept for reliable
+        // loading of shipped translation files across hosting configurations.
+        // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- Intentional load of translations bundled with the plugin.
         load_plugin_textdomain(
                 'woo-paypal-gateway', false, dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
         );

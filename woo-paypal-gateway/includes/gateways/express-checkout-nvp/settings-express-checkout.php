@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Variables scoped to the including template/settings file.
 
 if (!defined('ABSPATH')) {
     exit;
@@ -12,7 +13,7 @@ if (wc_checkout_is_https() == false) {
     $require_ssl = __('This image requires an SSL host.  Please upload your image to <a target="_blank" href="http://www.sslpic.com">www.sslpic.com</a> and enter the image URL here.', 'woo-paypal-gateway');
 }
 $credit_enabled_label = __('Enable PayPal Credit', 'woo-paypal-gateway');
-if (is_wpg_credit_supported() == false) {
+if (woo_paypal_gateway_is_credit_supported() == false) {
     $credit_enabled_label .= '<p><em>' . __('This option is disabled. Currently PayPal Credit only available for U.S. and U.K. merchants.', 'woo-paypal-gateway') . '</em></p>';
 }
 return $this->form_fields = array(
@@ -146,8 +147,8 @@ return $this->form_fields = array(
         'title' => __('Enable PayPal Credit', 'woo-paypal-gateway'),
         'type' => 'checkbox',
         'label' => $credit_enabled_label,
-        'disabled' => is_wpg_credit_supported() == false,
-        'default' => is_wpg_credit_supported() == false ? 'no' : 'yes',
+        'disabled' => woo_paypal_gateway_is_credit_supported() == false,
+        'default' => woo_paypal_gateway_is_credit_supported() == false ? 'no' : 'yes',
         'desc_tip' => true,
         'description' => __('This enables PayPal Credit, which displays a PayPal Credit button next to the Express Checkout button. PayPal Express Checkout lets you give customers access to financing through PayPal Credit® - at no additional cost to you. You get paid up front, even though customers have more time to pay. A pre-integrated payment button shows up next to the PayPal Button, and lets customers pay quickly with PayPal Credit®.', 'woo-paypal-gateway'),
     ),

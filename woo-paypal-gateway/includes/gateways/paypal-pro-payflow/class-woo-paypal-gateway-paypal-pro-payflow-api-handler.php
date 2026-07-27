@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
 
 if (!defined('ABSPATH')) {
     exit;
@@ -102,7 +103,7 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow_API_Handler {
                 $log = $post_data;
                 $log['ACCT'] = '****';
                 $log['CVV2'] = '****';
-                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Do payment request ' . print_r($log, true));
+                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Do payment request ' . wc_print_r($log, true));
             }
             $response = wp_remote_post($url, array(
                 'method' => 'POST',
@@ -112,7 +113,7 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow_API_Handler {
                 'httpversion' => '1.1',
             ));
             if (is_wp_error($response)) {
-                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Error ' . print_r($response->get_error_message(), true));
+                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Error ' . wc_print_r($response->get_error_message(), true));
                 throw new Exception(__('There was a problem connecting to the payment gateway.', 'woo-paypal-gateway'));
             }
             if (empty($response['body'])) {
@@ -120,7 +121,7 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow_API_Handler {
                 throw new Exception(__('Empty PayPal response.', 'woo-paypal-gateway'));
             }
             parse_str($response['body'], $parsed_response);
-            Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Parsed Response ' . print_r($parsed_response, true));
+            Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Parsed Response ' . wc_print_r($parsed_response, true));
             if (isset($parsed_response['RESULT']) && in_array($parsed_response['RESULT'], array(0, 126, 127))) {
                 switch ($parsed_response['RESULT']) {
                     case 0 :
@@ -141,9 +142,9 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow_API_Handler {
                             // Payflow reports AVS as separate street/ZIP flags; treat as a no-match
                             // only when BOTH failed, to avoid penalizing partial matches.
                             $avs_for_eval = ('N' === $avs_addr && 'N' === $avs_zip) ? 'N' : '';
-                            $avs_cvv = wpg_evaluate_avs_cvv($avs_for_eval, $cvv_code);
+                            $avs_cvv = woo_paypal_gateway_evaluate_avs_cvv($avs_for_eval, $cvv_code);
                             if ($avs_cvv['flag']) {
-                                wpg_hold_order_for_avs_cvv($order, $avs_cvv, 'ADDR:' . ($avs_addr ?: '—') . '/ZIP:' . ($avs_zip ?: '—'), $cvv_code, $txn_id);
+                                woo_paypal_gateway_hold_order_for_avs_cvv($order, $avs_cvv, 'ADDR:' . ($avs_addr ?: '—') . '/ZIP:' . ($avs_zip ?: '—'), $cvv_code, $txn_id);
                             } else {
                                 // translators: %s: PayPal Payflow transaction reference number (PNREF).
                                 $order->add_order_note(sprintf(__('PayPal Pro (Payflow) payment completed (PNREF: %s)', 'woo-paypal-gateway'), $parsed_response['PNREF']));
@@ -193,7 +194,7 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow_API_Handler {
                 'httpversion' => '1.1',
             ));
             if (is_wp_error($response)) {
-                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Error ' . print_r($response->get_error_message(), true));
+                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Error ' . wc_print_r($response->get_error_message(), true));
                 throw new Exception(__('There was a problem connecting to the payment gateway.', 'woo-paypal-gateway'));
             }
             parse_str($response['body'], $parsed_response);
@@ -246,14 +247,14 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow_API_Handler {
             ));
             parse_str($response['body'], $parsed_response);
             if (is_wp_error($response)) {
-                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Error ' . print_r($response->get_error_message(), true));
+                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Error ' . wc_print_r($response->get_error_message(), true));
                 throw new Exception(__('There was a problem connecting to the payment gateway.', 'woo-paypal-gateway'));
             }
             if (!isset($parsed_response['RESULT'])) {
                 throw new Exception(__('Unexpected response from PayPal.', 'woo-paypal-gateway'));
             }
             if ('0' !== $parsed_response['RESULT']) {
-                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Parsed Response (refund) ' . print_r($parsed_response, true));
+                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Parsed Response (refund) ' . wc_print_r($parsed_response, true));
             } else {
                 // translators: 1: Refunded amount, 2: PayPal Payflow transaction reference (PNREF).
                 $order->add_order_note(sprintf(__('Refunded %1$s - PNREF: %2$s', 'woo-paypal-gateway'), wc_price(number_format($amount, 2, '.', '')), $parsed_response['PNREF']));

@@ -5,14 +5,14 @@
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
  * Description:       PayPal, Credit/Debit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal Partner
- * Version:           9.2.0
+ * Version:           9.2.1
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       woo-paypal-gateway
  * Domain Path:       /languages
- * Requires at least: 4.7
+ * Requires at least: 5.3
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  * Tested up to: 7.0.2
@@ -25,7 +25,7 @@ if (!defined('WPINC')) {
 
 
 if (!defined('WPG_PLUGIN_VERSION')) {
-    define('WPG_PLUGIN_VERSION', '9.2.0');
+    define('WPG_PLUGIN_VERSION', '9.2.1');
 }
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
@@ -56,7 +56,7 @@ if (!defined('WPG_ONBOARDING_URL')) {
  * The code that runs during plugin activation.
  * This action is documented in includes/class-woo-paypal-gateway-activator.php
  */
-function activate_woo_paypal_gateway() {
+function woo_paypal_gateway_activate() {
     set_transient('woo_paypal_gateway_redirect', true, 30);
     require_once plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-gateway-activator.php';
     Woo_Paypal_Gateway_Activator::activate();
@@ -66,13 +66,13 @@ function activate_woo_paypal_gateway() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-woo-paypal-gateway-deactivator.php
  */
-function deactivate_woo_paypal_gateway() {
+function woo_paypal_gateway_deactivate() {
     require_once plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-gateway-deactivator.php';
     Woo_Paypal_Gateway_Deactivator::deactivate();
 }
 
-register_activation_hook(__FILE__, 'activate_woo_paypal_gateway');
-register_deactivation_hook(__FILE__, 'deactivate_woo_paypal_gateway');
+register_activation_hook(__FILE__, 'woo_paypal_gateway_activate');
+register_deactivation_hook(__FILE__, 'woo_paypal_gateway_deactivate');
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -83,9 +83,9 @@ require_once WPG_PLUGIN_DIR . '/ppcp/includes/ppcp-paypal-checkout-for-woocommer
 require plugin_dir_path(__FILE__) . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce.php';
 require plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-gateway.php';
 
-$wpg_migration_bootstrap = WPG_PLUGIN_DIR . '/ppcp/includes/migration/class-wpg-migration-bootstrap.php';
-if ( file_exists( $wpg_migration_bootstrap ) ) {
-    require_once $wpg_migration_bootstrap;
+$woo_paypal_gateway_migration_bootstrap = WPG_PLUGIN_DIR . '/ppcp/includes/migration/class-wpg-migration-bootstrap.php';
+if ( file_exists( $woo_paypal_gateway_migration_bootstrap ) ) {
+    require_once $woo_paypal_gateway_migration_bootstrap;
     WPG_Migration_Bootstrap::init( WPG_PLUGIN_VERSION );
 }
 
@@ -93,25 +93,25 @@ if ( file_exists( $wpg_migration_bootstrap ) ) {
  * Begins execution of the plugin.
  * @since    1.0.0
  */
-function run_woo_paypal_gateway() {
+function woo_paypal_gateway_run() {
     $plugin = new Woo_Paypal_Gateway();
     $plugin->run();
 }
 
-function init_wpg_woo_paypal_gateway_class() {
+function woo_paypal_gateway_init_class() {
     if (class_exists('WC_Payment_Gateway')) {
-        run_ppcp_paypal_checkout_for_woocommerce();
+        woo_paypal_gateway_run_ppcp();
     }
-    run_woo_paypal_gateway();
+    woo_paypal_gateway_run();
 }
 
-add_action('plugins_loaded', 'init_wpg_woo_paypal_gateway_class', 11);
+add_action('plugins_loaded', 'woo_paypal_gateway_init_class', 11);
 
-if (!function_exists('run_ppcp_paypal_checkout_for_woocommerce')) {
-    run_ppcp_paypal_checkout_for_woocommerce();
+if (!function_exists('woo_paypal_gateway_run_ppcp')) {
+    woo_paypal_gateway_run_ppcp();
 }
 
-function run_ppcp_paypal_checkout_for_woocommerce() {
+function woo_paypal_gateway_run_ppcp() {
     if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce')) {
         require plugin_dir_path(__FILE__) . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce.php';
     }
@@ -137,6 +137,17 @@ add_action( 'woocommerce_blocks_loaded', function () {
     }
     if ( file_exists( $cc_block_file ) ) {
         require_once $cc_block_file;
+    }
+
+    // Store API cart-schema extension (fresh server-authoritative state for the
+    // block checkout). Purely additive: registers only when the Store API classes
+    // exist and only adds data to cart responses.
+    $store_api_file = WPG_PLUGIN_DIR . '/ppcp/checkout-block/ppcp-store-api.php';
+    if ( file_exists( $store_api_file ) ) {
+        require_once $store_api_file;
+        if ( class_exists( 'PPCP_Store_API_Extension' ) ) {
+            PPCP_Store_API_Extension::init();
+        }
     }
     add_action(
         'woocommerce_blocks_payment_method_type_registration',
@@ -175,13 +186,13 @@ function woo_paypal_gateway_redirect_to_settings() {
 
         // Make sure the redirect only happens for administrators
         if (is_admin() && current_user_can('manage_options')) {
-            wp_redirect(admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout'));
+            wp_safe_redirect(admin_url('admin.php?page=wc-settings&tab=checkout&section=wpg_paypal_checkout'));
             exit;
         }
     }
 }
 
-function wpg_is_using_block_cart_or_checkout() {
+function woo_paypal_gateway_is_using_block_cart_or_checkout() {
     if (!function_exists('has_block') || !class_exists('\Automattic\WooCommerce\Blocks\Package')) {
         return false;
     }
@@ -189,24 +200,24 @@ function wpg_is_using_block_cart_or_checkout() {
     if (!$post instanceof \WP_Post) {
         return false;
     }
-    if(is_admin_checkout_page_edit_screen()) {
+    if(woo_paypal_gateway_ppcp_is_admin_checkout_page_edit_screen()) {
         return true;
     }
     return has_block('woocommerce/cart', $post) || has_block('woocommerce/checkout', $post);
 }
 
-add_action('admin_notices', 'wpg_paypal_classic_sunset_notice_v5');
-function wpg_paypal_classic_sunset_notice_v5() {
+add_action('admin_notices', 'woo_paypal_gateway_classic_sunset_notice_v5');
+function woo_paypal_gateway_classic_sunset_notice_v5() {
 
     if (!is_admin() || !current_user_can('manage_woocommerce')) {
         return;
     }
 
-    if (!function_exists('get_active_classic_gateways')) {
+    if (!function_exists('woo_paypal_gateway_ppcp_get_active_classic_gateways')) {
         return;
     }
 
-    $active_classic = get_active_classic_gateways();
+    $active_classic = woo_paypal_gateway_ppcp_get_active_classic_gateways();
     if (empty($active_classic)) {
         return;
     }

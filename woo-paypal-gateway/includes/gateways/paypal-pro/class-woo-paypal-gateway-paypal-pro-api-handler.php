@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
 
 if (!defined('ABSPATH')) {
     exit;
@@ -50,7 +51,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                 'METHOD' => 'DoDirectPayment',
                 'PAYMENTACTION' => $this->gateway->paymentaction,
                 'IPADDRESS' => $this->get_user_ip(),
-                'AMT' => wpg_number_format($this->order->get_total()),
+                'AMT' => woo_paypal_gateway_number_format($this->order->get_total()),
                 'INVNUM' => $this->gateway->invoice_prefix . $this->invoice_number,
                 'CURRENCYCODE' => $this->order->get_currency(),
                 'CREDITCARDTYPE' => $this->card->type,
@@ -87,7 +88,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                     foreach ($this->order_cart_data['order_items'] as $key => $values) {
                         $line_item_params = array(
                             'L_NAME' . $key => $values['name'],
-                            'L_DESC' . $key => !empty($values['desc']) ? strip_tags($values['desc']) : '',
+                            'L_DESC' . $key => !empty($values['desc']) ? wp_strip_all_tags($values['desc']) : '',
                             'L_QTY' . $key => $values['qty'],
                             'L_AMT' . $key => $values['amt'],
                             'L_NUMBER' . $key => $values['number']
@@ -115,7 +116,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                 'httpversion' => '1.1',
                 'timeout' => 70,
             );
-            Woo_PayPal_Gateway_PayPal_Pro::log(sprintf('%s request: %s', $this->request_name, print_r($this->wpg_mask_request_param(), true)));
+            Woo_PayPal_Gateway_PayPal_Pro::log(sprintf('%s request: %s', $this->request_name, wc_print_r($this->wpg_mask_request_param(), true)));
             $this->response = wp_safe_remote_post($this->API_Endpoint, $args);
         } catch (Exception $ex) {
             Woo_PayPal_Gateway_PayPal_Pro::log($ex->getMessage());
@@ -157,10 +158,10 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
             }
             parse_str(wp_remote_retrieve_body($this->response), $this->result);
             if (!array_key_exists('ACK', $this->result)) {
-                Woo_PayPal_Gateway_PayPal_Pro::log(sprintf('%s response: %s', $this->request_name, print_r($this->result, true)));
+                Woo_PayPal_Gateway_PayPal_Pro::log(sprintf('%s response: %s', $this->request_name, wc_print_r($this->result, true)));
                 throw new Exception(__('Malformed response received from PayPal', 'woo-paypal-gateway'), 3);
             } else {
-                Woo_PayPal_Gateway_PayPal_Pro::log(sprintf('%s response: %s', $this->request_name, print_r($this->result, true)));
+                Woo_PayPal_Gateway_PayPal_Pro::log(sprintf('%s response: %s', $this->request_name, wc_print_r($this->result, true)));
             }
             return $this->result;
         } catch (Exception $ex) {
@@ -179,11 +180,11 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                             $this->order->add_order_note('Transaction ID: ' . $this->result['TRANSACTIONID']);
                             $avs_code = isset($this->result['AVSCODE']) ? $this->result['AVSCODE'] : '';
                             $cvv_code = isset($this->result['CVV2MATCH']) ? $this->result['CVV2MATCH'] : '';
-                            $avs_cvv = wpg_evaluate_avs_cvv($avs_code, $cvv_code);
+                            $avs_cvv = woo_paypal_gateway_evaluate_avs_cvv($avs_code, $cvv_code);
                             if ($avs_cvv['flag']) {
                                 // AVS/CVV screening failed: capture already happened, so record the
                                 // payment but hold the order for review instead of completing it.
-                                wpg_hold_order_for_avs_cvv($this->order, $avs_cvv, $avs_code, $cvv_code, $this->transaction_id);
+                                woo_paypal_gateway_hold_order_for_avs_cvv($this->order, $avs_cvv, $avs_code, $cvv_code, $this->transaction_id);
                                 WC()->cart->empty_cart();
                                 $this->wpg_redirect_action($this->gateway->get_return_url($this->order));
                                 break;
@@ -200,7 +201,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                             $this->wpg_update_payment_status_by_paypal_responce($this->order_id, $this->result);
                             if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
                                 WC()->cart->empty_cart();
-                                wpg_maybe_clear_session_data();
+                                woo_paypal_gateway_maybe_clear_session_data();
                                 $this->wpg_redirect_action($this->gateway->get_return_url($this->order));
                             }
                         }
@@ -217,7 +218,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                 }
             } else {
                 if (function_exists('wc_add_notice')) {
-                    wpg_maybe_clear_session_data();
+                    woo_paypal_gateway_maybe_clear_session_data();
                     $ERRORCODE = !empty($this->result['L_ERRORCODE0']) ? $this->result['L_ERRORCODE0'] : '';
                     $MESSAGE = !empty($this->result['L_LONGMESSAGE0']) ? $this->result['L_LONGMESSAGE0'] : (!empty($this->result['L_SHORTMESSAGE0']) ? $this->result['L_SHORTMESSAGE0'] : '');
                     wc_add_notice('Error:' . $ERRORCODE . '  ' . $MESSAGE, 'error');
@@ -286,7 +287,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
                 'BUTTONSOURCE' => 'mbjtechnolabs_SP',
                 'TRANSACTIONID' => $this->order->get_transaction_id(),
                 'REFUNDTYPE' => $this->order->get_total() == $this->refund_amount ? 'Full' : 'Partial',
-                'AMT' => wpg_number_format($this->refund_amount),
+                'AMT' => woo_paypal_gateway_number_format($this->refund_amount),
                 'CURRENCYCODE' => $this->order->get_currency(),
                 'NOTE' => $this->refund_reason,
             );
@@ -334,7 +335,7 @@ class Woo_PayPal_Gateway_PayPal_Pro_API_Handler {
         try {
             if (!empty($url)) {
                 if (!is_ajax()) {
-                    wp_redirect($url);
+                    wp_safe_redirect($url);
                     exit;
                 } else {
                     if ($this->request_name == 'do_express_checkout_payment' || $this->is_in_content == false) {

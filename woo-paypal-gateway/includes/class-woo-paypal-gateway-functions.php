@@ -1,9 +1,20 @@
 <?php
 
-function wpg_get_posted_card($payment_method) {
-    $card_number = isset($_POST[$payment_method . '-card-number']) ? wc_clean($_POST[$payment_method . '-card-number']) : '';
-    $card_cvc = isset($_POST[$payment_method . '-card-cvc']) ? wc_clean($_POST[$payment_method . '-card-cvc']) : '';
-    $card_expiry = isset($_POST[$payment_method . '-card-expiry']) ? wc_clean($_POST[$payment_method . '-card-expiry']) : '';
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+function woo_paypal_gateway_get_posted_card($payment_method) {
+    // Card details are read during gateway payment processing; WooCommerce verifies the
+    // checkout nonce before the gateway runs, so no separate nonce check is performed here.
+    // phpcs:disable WordPress.Security.NonceVerification.Missing
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+    $card_number = isset($_POST[$payment_method . '-card-number']) ? wc_clean(wp_unslash($_POST[$payment_method . '-card-number'])) : '';
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+    $card_cvc = isset($_POST[$payment_method . '-card-cvc']) ? wc_clean(wp_unslash($_POST[$payment_method . '-card-cvc'])) : '';
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+    $card_expiry = isset($_POST[$payment_method . '-card-expiry']) ? wc_clean(wp_unslash($_POST[$payment_method . '-card-expiry'])) : '';
+    // phpcs:enable WordPress.Security.NonceVerification.Missing
     $card_number = str_replace(array(' ', '-'), '', $card_number);
     $card_expiry = array_map('trim', explode('/', $card_expiry));
     $card_exp_month = str_pad($card_expiry[0], 2, "0", STR_PAD_LEFT);
@@ -14,14 +25,14 @@ function wpg_get_posted_card($payment_method) {
     $first_four = substr($card_number, 0, 4);
     return (object) array(
                 'number' => $card_number,
-                'type' => wpg_card_type_from_account_number($first_four),
+                'type' => woo_paypal_gateway_card_type_from_account_number($first_four),
                 'cvc' => $card_cvc,
                 'exp_month' => $card_exp_month,
                 'exp_year' => $card_exp_year,
     );
 }
 
-function is_wpg_credit_supported() {
+function woo_paypal_gateway_is_credit_supported() {
     if (substr(get_option("woocommerce_default_country"), 0, 2) == 'US' || substr(get_option("woocommerce_default_country"), 0, 2) == 'GB') {
         return true;
     } else {
@@ -29,7 +40,7 @@ function is_wpg_credit_supported() {
     }
 }
 
-function wpg_card_type_from_account_number($account_number) {
+function woo_paypal_gateway_card_type_from_account_number($account_number) {
     $types = array(
         'visa' => '/^4/',
         'mastercard' => '/^5[1-5]/',
@@ -48,22 +59,22 @@ function wpg_card_type_from_account_number($account_number) {
     return null;
 }
 
-function wpg_round($price, $order) {
+function woo_paypal_gateway_round($price, $order) {
     $precision = 2;
-    if (!wpg_currency_has_decimals($order->get_currency())) {
+    if (!woo_paypal_gateway_currency_has_decimals($order->get_currency())) {
         $precision = 0;
     }
     return round($price, $precision);
 }
 
-function wpg_currency_has_decimals($currency) {
+function woo_paypal_gateway_currency_has_decimals($currency) {
     if (in_array($currency, array('HUF', 'JPY', 'TWD'))) {
         return false;
     }
     return true;
 }
 
-function wpg_set_session($key, $value) {
+function woo_paypal_gateway_set_session($key, $value) {
     if (!class_exists('WooCommerce') || WC()->session == null) {
         return false;
     }
@@ -75,7 +86,7 @@ function wpg_set_session($key, $value) {
     WC()->session->set('wpg_session', $wpg_session);
 }
 
-function wpg_get_session($key) {
+function woo_paypal_gateway_get_session($key) {
     if (!class_exists('WooCommerce') || WC()->session == null) {
         return false;
     }
@@ -86,7 +97,7 @@ function wpg_get_session($key) {
     return false;
 }
 
-function wpg_unset_session($key) {
+function woo_paypal_gateway_unset_session($key) {
     if (!class_exists('WooCommerce') || WC()->session == null) {
         return false;
     }
@@ -97,9 +108,9 @@ function wpg_unset_session($key) {
     }
 }
 
-function is_wpg_express_checkout_ready_to_capture() {
-    $TOKEN = wpg_get_session('TOKEN');
-    $PAYERID = wpg_get_session('PAYERID');
+function woo_paypal_gateway_is_express_checkout_ready_to_capture() {
+    $TOKEN = woo_paypal_gateway_get_session('TOKEN');
+    $PAYERID = woo_paypal_gateway_get_session('PAYERID');
     if (!empty($TOKEN) && !empty($PAYERID)) {
         return true;
     } else {
@@ -107,7 +118,7 @@ function is_wpg_express_checkout_ready_to_capture() {
     }
 }
 
-function is_payment_method_saved() {
+function woo_paypal_gateway_is_payment_method_saved() {
     if (is_user_logged_in()) {
         $tokens = WC_Payment_Tokens::get_customer_tokens(get_current_user_id(), 'wpg_paypal_express');
         if (!empty($tokens)) {
@@ -120,14 +131,14 @@ function is_payment_method_saved() {
     }
 }
 
-function wpg_maybe_clear_session_data() {
+function woo_paypal_gateway_maybe_clear_session_data() {
     if (!class_exists('WooCommerce') || WC()->session == null) {
         return false;
     }
     WC()->session->set('wpg_session', '');
 }
 
-function wpg_get_option($getway_name, $key, $default = false) {
+function woo_paypal_gateway_get_option($getway_name, $key, $default = false) {
     if (!empty($getway_name)) {
         $gateway_key = 'woocommerce_' . $getway_name . '_settings';
         $setting_value = get_option($gateway_key);
@@ -139,6 +150,7 @@ function wpg_get_option($getway_name, $key, $default = false) {
     return false;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Treated as a third-party integration surface (WooCommerce Subscriptions / Pre-Orders); renaming would break callers that rely on this name.
 function is_cart_contains_pre_order() {
     if (class_exists('WC_Pre_Orders_Cart')) {
         if (WC_Pre_Orders_Cart::cart_contains_pre_order()) {
@@ -151,6 +163,7 @@ function is_cart_contains_pre_order() {
     }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Treated as a third-party integration surface (WooCommerce Subscriptions / Pre-Orders); renaming would break callers that rely on this name.
 function is_pre_order_activated() {
     if (class_exists('WC_Pre_Orders_Order')) {
         return true;
@@ -159,6 +172,7 @@ function is_pre_order_activated() {
     }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Treated as a third-party integration surface (WooCommerce Subscriptions / Pre-Orders); renaming would break callers that rely on this name.
 function is_cart_contains_subscription() {
     $cart_contains_subscription = false;
     if (class_exists('WC_Subscriptions_Order') && class_exists('WC_Subscriptions_Cart')) {
@@ -167,6 +181,7 @@ function is_cart_contains_subscription() {
     return $cart_contains_subscription;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Treated as a third-party integration surface (WooCommerce Subscriptions / Pre-Orders); renaming would break callers that rely on this name.
 function is_subscription_activated() {
     if (class_exists('WC_Subscriptions_Order') && function_exists('wcs_create_renewal_order')) {
         return true;
@@ -175,12 +190,13 @@ function is_subscription_activated() {
     }
 }
 
-function wpg_is_token_exist($gateway_id, $user_id, $token) {
+function woo_paypal_gateway_is_token_exist($gateway_id, $user_id, $token) {
     global $wpdb;
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Existence check for a WooCommerce payment token by gateway/user/token; values bound via prepare() and there is no core API for this lookup.
     return $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}woocommerce_payment_tokens WHERE gateway_id = %s AND user_id = %s AND token = %s", $gateway_id, $user_id, $token));
 }
 
-function wpg_has_active_session() {
+function woo_paypal_gateway_has_active_session() {
     if (!WC()->session) {
         return false;
     }
@@ -190,7 +206,7 @@ function wpg_has_active_session() {
     }
 }
 
-function wpg_clear_session_data() {
+function woo_paypal_gateway_clear_session_data() {
     if (!WC()->session) {
         return false;
     }
@@ -200,26 +216,26 @@ function wpg_clear_session_data() {
     unset(WC()->session->wpg_order_details);
 }
 
-function wpg_number_format($price) {
+function woo_paypal_gateway_number_format($price) {
     $decimals = 2;
 
-    if (!wpg_currency_has_decimals(get_woocommerce_currency())) {
+    if (!woo_paypal_gateway_currency_has_decimals(get_woocommerce_currency())) {
         $decimals = 0;
     }
 
     return number_format($price, $decimals, '.', '');
 }
 
-function wpg_remove_empty_key($data) {
+function woo_paypal_gateway_remove_empty_key($data) {
     $original = $data;
     $data = array_filter($data);
     $data = array_map(function ($e) {
-        return is_array($e) ? wpg_remove_empty_key($e) : $e;
+        return is_array($e) ? woo_paypal_gateway_remove_empty_key($e) : $e;
     }, $data);
-    return $original === $data ? $data : wpg_remove_empty_key($data);
+    return $original === $data ? $data : woo_paypal_gateway_remove_empty_key($data);
 }
 
-function wpg_limit_length($string, $limit = 127) {
+function woo_paypal_gateway_limit_length($string, $limit = 127) {
     $str_limit = $limit - 3;
     if (function_exists('mb_strimwidth')) {
         if (mb_strlen($string) > $limit) {
@@ -233,7 +249,7 @@ function wpg_limit_length($string, $limit = 127) {
     return $string;
 }
 
-if (!function_exists('wpg_evaluate_avs_cvv')) {
+if (!function_exists('woo_paypal_gateway_evaluate_avs_cvv')) {
 
     /**
      * Screen a card processor's AVS and CVV2 result codes for fraud signals.
@@ -258,7 +274,7 @@ if (!function_exists('wpg_evaluate_avs_cvv')) {
      * @param string $cvv_code CVV2 match result (letter M, N, P, S, U, ... or numeric 0-4).
      * @return array{flag:bool, level:string, reason:string} level is '', 'review', or 'high'.
      */
-    function wpg_evaluate_avs_cvv($avs_code, $cvv_code) {
+    function woo_paypal_gateway_evaluate_avs_cvv($avs_code, $cvv_code) {
         $avs = strtoupper(trim((string) $avs_code));
         $cvv = strtoupper(trim((string) $cvv_code));
 
@@ -282,7 +298,7 @@ if (!function_exists('wpg_evaluate_avs_cvv')) {
     }
 }
 
-if (!function_exists('wpg_hold_order_for_avs_cvv')) {
+if (!function_exists('woo_paypal_gateway_hold_order_for_avs_cvv')) {
 
     /**
      * Withhold fulfillment of an order that failed AVS/CVV screening.
@@ -294,12 +310,12 @@ if (!function_exists('wpg_hold_order_for_avs_cvv')) {
      * plugin's existing fraud-filter handling (Payflow RESULT 126 -> on-hold).
      *
      * @param WC_Order $order
-     * @param array    $eval     Result of wpg_evaluate_avs_cvv().
+     * @param array    $eval     Result of woo_paypal_gateway_evaluate_avs_cvv().
      * @param string   $avs_code Raw AVS code (for the order note/meta).
      * @param string   $cvv_code Raw CVV2 code (for the order note/meta).
      * @param string   $txn_id   Processor transaction id, if available.
      */
-    function wpg_hold_order_for_avs_cvv($order, $eval, $avs_code, $cvv_code, $txn_id = '') {
+    function woo_paypal_gateway_hold_order_for_avs_cvv($order, $eval, $avs_code, $cvv_code, $txn_id = '') {
         if (!is_object($order) || empty($eval['flag'])) {
             return;
         }

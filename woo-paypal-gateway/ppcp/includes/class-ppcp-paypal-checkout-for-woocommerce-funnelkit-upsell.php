@@ -11,6 +11,7 @@ if (!class_exists('WFOCU_Gateway')) {
 /**
  * FunnelKit Upsell gateway bridge for PPCP.
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell extends WFOCU_Gateway {
 
     /**
@@ -239,7 +240,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell extends WFOCU_Gatewa
      */
     public function process_refund_offer($order) {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
         $transaction_id = isset($_POST['txn_id']) ? wc_clean(wp_unslash($_POST['txn_id'])) : false;
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
         $amount = isset($_POST['amt']) ? round((float) wc_clean(wp_unslash($_POST['amt'])), 2) : false;
         // phpcs:enable WordPress.Security.NonceVerification.Missing
         if (!$transaction_id || !$amount || !$order instanceof WC_Order) {

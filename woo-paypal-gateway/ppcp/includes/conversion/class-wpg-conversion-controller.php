@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations. Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -229,23 +230,29 @@ class WPG_Conversion_Controller {
 	private function rollback_migrated_orders() {
 		global $wpdb;
 
-		$payment_methods = "'wpg_paypal_checkout','wpg_paypal_checkout_cc'";
-
 		do {
 		if ( $this->is_hpos_enabled() ) {
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-off migration rollback over the WooCommerce orders tables; results must reflect live data and are not cacheable.
 			$order_ids = $wpdb->get_col(
-				"SELECT id FROM {$wpdb->prefix}wc_orders WHERE payment_method IN ({$payment_methods}) AND id IN (
-					SELECT order_id FROM {$wpdb->prefix}wc_orders_meta WHERE meta_key = '_wpg_original_payment_method'
-				) LIMIT 500"
+				$wpdb->prepare(
+					"SELECT id FROM {$wpdb->prefix}wc_orders WHERE payment_method IN (%s, %s) AND id IN (
+						SELECT order_id FROM {$wpdb->prefix}wc_orders_meta WHERE meta_key = '_wpg_original_payment_method'
+					) LIMIT 500",
+					'wpg_paypal_checkout',
+					'wpg_paypal_checkout_cc'
+				)
 			);
 		} else {
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-off migration rollback over postmeta; results must reflect live data and are not cacheable.
 			$order_ids = $wpdb->get_col(
-				"SELECT p.post_id FROM {$wpdb->postmeta} p
-				INNER JOIN {$wpdb->postmeta} m ON p.post_id = m.post_id AND m.meta_key = '_wpg_original_payment_method'
-				WHERE p.meta_key = '_payment_method' AND p.meta_value IN ({$payment_methods})
-				LIMIT 500"
+				$wpdb->prepare(
+					"SELECT p.post_id FROM {$wpdb->postmeta} p
+					INNER JOIN {$wpdb->postmeta} m ON p.post_id = m.post_id AND m.meta_key = '_wpg_original_payment_method'
+					WHERE p.meta_key = '_payment_method' AND p.meta_value IN (%s, %s)
+					LIMIT 500",
+					'wpg_paypal_checkout',
+					'wpg_paypal_checkout_cc'
+				)
 			);
 		}
 

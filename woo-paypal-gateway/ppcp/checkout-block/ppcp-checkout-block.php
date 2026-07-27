@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations. Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
 
@@ -54,11 +55,11 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     }
 
     public function get_payment_method_script_handles() {
-        if (!function_exists('has_block') || !wpg_is_using_block_cart_or_checkout()) {
+        if (!function_exists('has_block') || !woo_paypal_gateway_is_using_block_cart_or_checkout()) {
             return [];
         }
         wp_enqueue_script('ppcp-checkout-js');
-        if (ppcp_has_active_session() === false) {
+        if (woo_paypal_gateway_ppcp_has_active_session() === false) {
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         }
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
@@ -71,7 +72,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     }
 
     public function is_google_pay_enable_for_page($page = '') {
-        if (function_exists('is_wpg_cart_contains_subscription') && is_wpg_cart_contains_subscription()) {
+        if (function_exists('woo_paypal_gateway_ppcp_is_cart_contains_subscription') && woo_paypal_gateway_ppcp_is_cart_contains_subscription()) {
             return false;
         }
         if (!isset($this->settings['enabled_google_pay'])) {
@@ -96,7 +97,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
     }
 
     public function is_apple_pay_enable_for_page($page = '') {
-        if (function_exists('is_wpg_cart_contains_subscription') && is_wpg_cart_contains_subscription()) {
+        if (function_exists('woo_paypal_gateway_ppcp_is_cart_contains_subscription') && woo_paypal_gateway_ppcp_is_cart_contains_subscription()) {
             return false;
         }
         if (is_ssl() === false) {
@@ -172,11 +173,15 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             return array();
         }
         $this->icon = apply_filters('woocommerce_ppcp_cc_icon', WPG_PLUGIN_ASSET_URL . 'assets/images/wpg_paypal.png');
-        if (ppcp_has_active_session()) {
+        if (woo_paypal_gateway_ppcp_has_active_session()) {
             $order_button_text = apply_filters('wpg_paypal_checkout_order_review_page_place_order_button_text', _x('Confirm Your PayPal Order', 'Important', 'woo-paypal-gateway'));
         } else {
             $order_button_text = apply_filters('wpg_paypal_checkout_place_order_button_text', _x('Proceed to PayPal', 'Important', 'woo-paypal-gateway'));
         }
+        // Allow the Germanized compatibility module to substitute the EU-compliant
+        // "pay now" label. No-op on stores without Germanized (only its compat class
+        // registers this filter).
+        $order_button_text = apply_filters('wpg_ppcp_checkout_button_label', $order_button_text);
         $is_paylater_enable_incart_page = 'no';
         if (is_object($this->pay_later) && $this->pay_later->is_paypal_pay_later_messaging_enable_for_page($page = 'cart')) {
             $is_paylater_enable_incart_page = 'yes';
@@ -218,7 +223,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
                     _x('Click the "%s" button below to process your order.', 'Important', 'woo-paypal-gateway'),
                     $order_button_text
             ),
-            'is_order_confirm_page' => (ppcp_has_active_session() === false) ? 'no' : 'yes',
+            'is_order_confirm_page' => (woo_paypal_gateway_ppcp_has_active_session() === false) ? 'no' : 'yes',
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
             'settings' => $filtered_settings,
             'settins' => $filtered_settings, // backward compat: JS may read the typo'd key

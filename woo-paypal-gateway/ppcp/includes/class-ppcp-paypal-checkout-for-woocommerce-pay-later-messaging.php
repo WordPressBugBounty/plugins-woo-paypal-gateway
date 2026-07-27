@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 defined('ABSPATH') || exit;
 
@@ -129,7 +130,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
         if ($this->is_paypal_pay_later_messaging_enable_for_shoerpage($placement)) {
             return $dependencies;
         }
-        if ('payment' === $placement && function_exists('ppcp_has_active_session') && ppcp_has_active_session()) {
+        if ('payment' === $placement && function_exists('woo_paypal_gateway_ppcp_has_active_session') && woo_paypal_gateway_ppcp_has_active_session()) {
             return $dependencies;
         }
         $this->ppcp_register_block_messaging_script($placement);
@@ -246,7 +247,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Pay_Later {
         if (WC()->cart->is_empty()) {
             return false;
         }
-        if (ppcp_has_active_session()) {
+        if (woo_paypal_gateway_ppcp_has_active_session()) {
             return false;
         }
         wp_enqueue_script('ppcp-checkout-js');

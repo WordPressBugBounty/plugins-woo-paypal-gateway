@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 if (!defined('ABSPATH')) {
     exit;
@@ -26,7 +27,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions extends PPCP_Paypal_Che
 
     public function process_payment($order_id) {
         if ($this->is_subscription($order_id)) {
-            if (is_wpg_change_payment_method()) {
+            if (woo_paypal_gateway_ppcp_is_change_payment_method()) {
                 return parent::subscription_change_payment($order_id);
             } elseif ($this->free_signup_with_token_payment_tokenization($order_id) == true) {
                 return parent::free_signup_order_payment($order_id);
@@ -39,7 +40,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Subscriptions extends PPCP_Paypal_Che
     }
 
     public function wpg_is_free_signup_with_free_trial() {
-        if (wpg_ppcp_get_order_total() === 0) {
+        if (woo_paypal_gateway_ppcp_get_order_total() === 0) {
             return true;
         }
         return false;

@@ -247,7 +247,24 @@ var {addAction} = wp.hooks;
                     placeOrderButtonLabel: Object(c.__)(l.placeOrderButtonLabel),
                     content: createElement(ContentPPCPCheckout, null),
                     edit: createElement(ContentPPCPCheckout, null),
-                    canMakePayment: () => Promise.resolve(true),
+                    // The block method is only registered when the gateway is available
+                    // server-side (is_active() -> gateway->is_available(): credentials set,
+                    // enabled), so PayPal is genuinely usable whenever this runs. Keep the
+                    // default true so the primary method is never hidden on a working store,
+                    // but guard on the localized data being present and let a store add its
+                    // own eligibility (e.g. by currency/country) via a global override
+                    // instead of always claiming availability.
+                    canMakePayment: () => {
+                        try {
+                            if (!l) {
+                                return Promise.resolve(false);
+                            }
+                            if (typeof window.wpgPPCPCanMakePayment === 'function') {
+                                return Promise.resolve(!!window.wpgPPCPCanMakePayment(l));
+                            }
+                        } catch (e) {}
+                        return Promise.resolve(true);
+                    },
                     ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                     supports: {
                         features: l.supports || [],
@@ -330,3 +347,62 @@ if (typeof jQuery !== "undefined") {
         showErrorUsingShowNotice(errorMessages);
     });
 }
+/**
+ * Store API freshness observer (audit P13).
+ *
+ * The server extends every Store API cart response with fresh plugin state
+ * under extensions.wpg_ppcp (see PPCP_Store_API_Extension). This observer
+ * watches the cart data store and, whenever that payload changes, mirrors it
+ * to window.wpgPPCPStoreApiCart and fires the `ppcp_store_api_updated` jQuery
+ * event with the fresh data.
+ *
+ * Purely passive: it rewires no existing flow, so behaviour is unchanged
+ * unless a script explicitly consumes the global or the event. Guarded so it
+ * silently no-ops when wp.data or the cart store is unavailable.
+ */
+(function () {
+    'use strict';
+    if (typeof wp === 'undefined' || !wp.data || typeof wp.data.subscribe !== 'function') {
+        return;
+    }
+    var CART_STORE = 'wc/store/cart';
+    var lastSerialized = null;
+    function readExtension() {
+        try {
+            var select = wp.data.select(CART_STORE);
+            if (!select || typeof select.getCartData !== 'function') {
+                return null;
+            }
+            var cart = select.getCartData();
+            if (!cart || !cart.extensions || !cart.extensions.wpg_ppcp) {
+                return null;
+            }
+            return cart.extensions.wpg_ppcp;
+        } catch (e) {
+            return null;
+        }
+    }
+    wp.data.subscribe(function () {
+        var data = readExtension();
+        if (data === null) {
+            return;
+        }
+        var serialized;
+        try {
+            serialized = JSON.stringify(data);
+        } catch (e) {
+            return;
+        }
+        if (serialized === lastSerialized) {
+            return;
+        }
+        lastSerialized = serialized;
+        window.wpgPPCPStoreApiCart = data;
+        if (typeof jQuery !== 'undefined') {
+            jQuery(document.body).trigger('ppcp_store_api_updated', [data]);
+        }
+        try {
+            document.body.dispatchEvent(new CustomEvent('ppcp_store_api_updated', {bubbles: true, detail: data}));
+        } catch (e) {}
+    });
+})();

@@ -39,7 +39,7 @@ class Woo_PayPal_Gateway_Express_Checkout_Subscriptions_NVP extends Woo_PayPal_G
                 $this->rest_api_handler->wpg_create_billing_agreement($order);
                 WC()->cart->empty_cart();
                 WC_Pre_Orders_Order::mark_order_as_pre_ordered($order);
-                wpg_maybe_clear_session_data();
+                woo_paypal_gateway_maybe_clear_session_data();
                 return array(
                     'result' => 'success',
                     'redirect' => $this->get_return_url($order),
@@ -105,6 +105,8 @@ class Woo_PayPal_Gateway_Express_Checkout_Subscriptions_NVP extends Woo_PayPal_G
     }
 
     public function free_signup_with_token_payment_tokenization($order_id) {
+        // Saved-token selection read during subscription payment processing; WooCommerce verifies the checkout nonce upstream.
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing
         if (!empty($_POST['wc-wpg_paypal_express-payment-token']) && $_POST['wc-wpg_paypal_express-payment-token'] != 'new') {
             $order = new WC_Order($order_id);
             if ($order->get_total() == 0) {

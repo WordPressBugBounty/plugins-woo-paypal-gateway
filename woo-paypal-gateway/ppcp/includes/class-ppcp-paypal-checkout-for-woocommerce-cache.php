@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations. Public API function names using the plugin's established wpg_/wpg_ppcp_ prefixes; Plugin Check derives the expected prefix from the wordpress.org slug, which differs. Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
 
 defined( 'ABSPATH' ) || exit;
 
@@ -139,6 +140,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Cache {
 	}
 }
 
-function wpg_ppcp_cache() {
+function woo_paypal_gateway_ppcp_cache() {
 	return PPCP_Paypal_Checkout_For_Woocommerce_Cache::instance();
 }

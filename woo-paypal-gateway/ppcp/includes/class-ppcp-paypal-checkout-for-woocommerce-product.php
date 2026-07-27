@@ -6,6 +6,7 @@
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce_Request/includes
  * @author     easypayment
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
 
     public static function ppcp_add_to_cart_action($url = null) {
@@ -16,7 +17,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                 return;
             }
             wc_nocache_headers();
-            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             $product_id = apply_filters('woocommerce_add_to_cart_product_id', $product_id);
             $was_added_to_cart = false;
             $adding_to_cart = wc_get_product($product_id);
@@ -34,12 +35,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                     WC()->cart->remove_cart_item($cart_item_key);
                 }
             }
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $add_to_cart_handler = apply_filters('woocommerce_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart);
             if ('variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler) {
                 $was_added_to_cart = self::add_to_cart_handler_variable($product_id);
             } elseif ('grouped' === $add_to_cart_handler) {
                 $was_added_to_cart = self::add_to_cart_handler_grouped($product_id);
             } elseif (has_action('woocommerce_add_to_cart_handler_' . $add_to_cart_handler)) {
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                 do_action('woocommerce_add_to_cart_handler_' . $add_to_cart_handler, $url);
             } else {
                 $was_added_to_cart = self::add_to_cart_handler_simple($product_id);
@@ -74,6 +77,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                 $quantity = absint(wp_unslash($_REQUEST['quantity']));
             }
             $quantity = wc_stock_amount($quantity);
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $product_id, $quantity);
             if ($passed_validation && false !== WC()->cart->add_to_cart($product_id, $quantity)) {
                 wc_add_to_cart_message(array($product_id => $quantity), true);
@@ -104,6 +108,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
                         continue;
                     }
                     $quantity_set = true;
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $item, $quantity);
                     remove_action('woocommerce_add_to_cart', array(WC()->cart, 'calculate_totals'), 20, 0);
                     if ($passed_validation && false !== WC()->cart->add_to_cart($item, $quantity)) {
@@ -210,6 +215,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Product extends WC_Form_Handler {
             }
             return false;
         }
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
         $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variations);
         if ($passed_validation && false !== WC()->cart->add_to_cart($product_id, $quantity, $variation_id, $variations)) {
             wc_add_to_cart_message(array($product_id => $quantity), true);

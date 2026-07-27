@@ -1,21 +1,56 @@
 <?php
 
-if (!function_exists('ppcp_remove_empty_key')) {
+if (!defined('ABSPATH')) {
+    exit;
+}
 
-    function ppcp_remove_empty_key($data) {
-        $original = $data;
-        $data = array_filter($data);
-        $data = array_map(function ($e) {
-            return is_array($e) ? ppcp_remove_empty_key($e) : $e;
-        }, $data);
-        return $original === $data ? $data : ppcp_remove_empty_key($data);
+if (!function_exists('woo_paypal_gateway_ppcp_is_order_received_request')) {
+
+    /**
+     * Whether the current request is the order-received / thank-you page.
+     *
+     * Belt-and-braces version of is_wc_endpoint_url('order-received'): endpoint
+     * detection depends on WC()->query registering the endpoint and the query var
+     * surviving request parsing, which plugins and custom endpoint slugs can break.
+     * The thank-you page must never run blocking PayPal calls (token minting,
+     * onboarding refresh) — a false negative here puts a remote roundtrip in front
+     * of the post-payment redirect — so the URL itself is checked as a fallback.
+     *
+     * @return bool
+     */
+    function woo_paypal_gateway_ppcp_is_order_received_request() {
+        if (function_exists('is_wc_endpoint_url') && is_wc_endpoint_url('order-received')) {
+            return true;
+        }
+        global $wp;
+        if (isset($wp->query_vars['order-received'])) {
+            return true;
+        }
+        $request_uri = isset($_SERVER['REQUEST_URI']) ? wp_unslash($_SERVER['REQUEST_URI']) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+        if ($request_uri !== '' && (false !== strpos($request_uri, '/order-received/') || false !== strpos($request_uri, 'order-received='))) {
+            return true;
+        }
+        return false;
     }
 
 }
 
-if (!function_exists('ppcp_set_session')) {
+if (!function_exists('woo_paypal_gateway_ppcp_remove_empty_key')) {
 
-    function ppcp_set_session($key, $value) {
+    function woo_paypal_gateway_ppcp_remove_empty_key($data) {
+        $original = $data;
+        $data = array_filter($data);
+        $data = array_map(function ($e) {
+            return is_array($e) ? woo_paypal_gateway_ppcp_remove_empty_key($e) : $e;
+        }, $data);
+        return $original === $data ? $data : woo_paypal_gateway_ppcp_remove_empty_key($data);
+    }
+
+}
+
+if (!function_exists('woo_paypal_gateway_ppcp_set_session')) {
+
+    function woo_paypal_gateway_ppcp_set_session($key, $value) {
         if (!class_exists('WooCommerce') || WC()->session == null) {
             return false;
         }
@@ -29,9 +64,9 @@ if (!function_exists('ppcp_set_session')) {
 
 }
 
-if (!function_exists('ppcp_get_session')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_session')) {
 
-    function ppcp_get_session($key) {
+    function woo_paypal_gateway_ppcp_get_session($key) {
         if (!class_exists('WooCommerce') || WC()->session == null) {
             return false;
         }
@@ -44,9 +79,9 @@ if (!function_exists('ppcp_get_session')) {
     }
 
 }
-if (!function_exists('ppcp_unset_session')) {
+if (!function_exists('woo_paypal_gateway_ppcp_unset_session')) {
 
-    function ppcp_unset_session($key) {
+    function woo_paypal_gateway_ppcp_unset_session($key) {
         if (!class_exists('WooCommerce') || WC()->session == null) {
             return false;
         }
@@ -60,14 +95,14 @@ if (!function_exists('ppcp_unset_session')) {
 
 }
 
-if (!function_exists('ppcp_set_paypal_order_session_data')) {
+if (!function_exists('woo_paypal_gateway_ppcp_set_paypal_order_session_data')) {
 
-    function ppcp_set_paypal_order_session_data($paypal_order_id, $status = 'created', $woo_order_id = 0) {
+    function woo_paypal_gateway_ppcp_set_paypal_order_session_data($paypal_order_id, $status = 'created', $woo_order_id = 0) {
         if (empty($paypal_order_id)) {
             return;
         }
 
-        ppcp_set_session('ppcp_paypal_order_data', array(
+        woo_paypal_gateway_ppcp_set_session('ppcp_paypal_order_data', array(
             'id' => $paypal_order_id,
             'status' => strtolower($status),
             'woo_order_id' => absint($woo_order_id),
@@ -76,19 +111,19 @@ if (!function_exists('ppcp_set_paypal_order_session_data')) {
 
 }
 
-if (!function_exists('ppcp_get_paypal_order_session_data')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_paypal_order_session_data')) {
 
-    function ppcp_get_paypal_order_session_data() {
-        $session_data = ppcp_get_session('ppcp_paypal_order_data');
+    function woo_paypal_gateway_ppcp_get_paypal_order_session_data() {
+        $session_data = woo_paypal_gateway_ppcp_get_session('ppcp_paypal_order_data');
         return is_array($session_data) ? $session_data : array();
     }
 
 }
 
-if (!function_exists('ppcp_get_paypal_order_id_from_session')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_paypal_order_id_from_session')) {
 
-    function ppcp_get_paypal_order_id_from_session() {
-        $session_data = ppcp_get_paypal_order_session_data();
+    function woo_paypal_gateway_ppcp_get_paypal_order_id_from_session() {
+        $session_data = woo_paypal_gateway_ppcp_get_paypal_order_session_data();
         $status = isset($session_data['status']) ? strtolower($session_data['status']) : '';
 
         if ($status !== 'approved') {
@@ -100,11 +135,11 @@ if (!function_exists('ppcp_get_paypal_order_id_from_session')) {
 
 }
 
-if (!function_exists('ppcp_has_active_session')) {
+if (!function_exists('woo_paypal_gateway_ppcp_has_active_session')) {
 
-    function ppcp_has_active_session() {
-        $checkout_details = ppcp_get_session('ppcp_paypal_transaction_details');
-        $ppcp_paypal_order_id = ppcp_get_paypal_order_id_from_session();
+    function woo_paypal_gateway_ppcp_has_active_session() {
+        $checkout_details = woo_paypal_gateway_ppcp_get_session('ppcp_paypal_transaction_details');
+        $ppcp_paypal_order_id = woo_paypal_gateway_ppcp_get_paypal_order_id_from_session();
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check for query var, no state change.
         $has_paypal_order_id = isset($_GET['paypal_order_id']);
         if (!empty($checkout_details) && !empty($ppcp_paypal_order_id) && $has_paypal_order_id) {
@@ -118,15 +153,15 @@ if (!function_exists('ppcp_has_active_session')) {
 
 }
 
-if (!function_exists('get_button_locale_code')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_button_locale_code')) {
 
-    function get_button_locale_code() {
+    function woo_paypal_gateway_ppcp_get_button_locale_code() {
         $_supportedLocale = array(
             'en_US', 'fr_XC', 'es_XC', 'zh_XC', 'en_AU', 'de_DE', 'nl_NL',
             'fr_FR', 'pt_BR', 'fr_CA', 'zh_CN', 'ru_RU', 'en_GB', 'zh_HK',
             'he_IL', 'it_IT', 'ja_JP', 'pl_PL', 'pt_PT', 'es_ES', 'sv_SE', 'zh_TW', 'tr_TR'
         );
-        $wpml_locale = ppcp_get_wpml_locale();
+        $wpml_locale = woo_paypal_gateway_ppcp_get_wpml_locale();
         if ($wpml_locale) {
             if (in_array($wpml_locale, $_supportedLocale)) {
                 return $wpml_locale;
@@ -143,9 +178,9 @@ if (!function_exists('get_button_locale_code')) {
     }
 
 }
-if (!function_exists('ppcp_get_wpml_locale')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_wpml_locale')) {
 
-    function ppcp_get_wpml_locale() {
+    function woo_paypal_gateway_ppcp_get_wpml_locale() {
         $locale = false;
         if (defined('ICL_LANGUAGE_CODE') && function_exists('icl_object_id')) {
             global $sitepress;
@@ -161,13 +196,15 @@ if (!function_exists('ppcp_get_wpml_locale')) {
     }
 
 }
-if (!function_exists('ppcp_is_local_server')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_local_server')) {
 
-    function ppcp_is_local_server() {
+    function woo_paypal_gateway_ppcp_is_local_server() {
         if (!isset($_SERVER['HTTP_HOST'])) {
             return;
         }
-        if ($_SERVER['HTTP_HOST'] === 'localhost' || substr($_SERVER['REMOTE_ADDR'], 0, 3) === '10.' || substr($_SERVER['REMOTE_ADDR'], 0, 7) === '192.168') {
+        $http_host   = sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']));
+        $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
+        if ($http_host === 'localhost' || substr($remote_addr, 0, 3) === '10.' || substr($remote_addr, 0, 7) === '192.168') {
             return true;
         }
         $live_sites = [
@@ -182,7 +219,7 @@ if (!function_exists('ppcp_is_local_server')) {
                 return false;
             }
         }
-        if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
+        if (in_array($remote_addr, array('127.0.0.1', '::1'))) {
             return true;
         }
         $fragments = explode('.', site_url());
@@ -193,17 +230,17 @@ if (!function_exists('ppcp_is_local_server')) {
     }
 
 }
-if (!function_exists('ppcp_readable')) {
+if (!function_exists('woo_paypal_gateway_ppcp_readable')) {
 
-    function ppcp_readable($tex) {
+    function woo_paypal_gateway_ppcp_readable($tex) {
         $tex = ucwords(strtolower(str_replace('_', ' ', $tex)));
         return $tex;
     }
 
 }
-if (!function_exists('ppcp_is_advanced_cards_available')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_advanced_cards_available')) {
 
-    function ppcp_is_advanced_cards_available() {
+    function woo_paypal_gateway_ppcp_is_advanced_cards_available() {
         try {
             $currency = get_woocommerce_currency();
             $country_state = wc_get_base_location();
@@ -226,7 +263,7 @@ if (!function_exists('ppcp_is_advanced_cards_available')) {
 
 }
 
-if (!function_exists('wpg_ppcp_is_fastlane_enabled')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_fastlane_enabled')) {
 
     /**
      * Whether Fastlane by PayPal is enabled and usable for the current shopper.
@@ -238,7 +275,7 @@ if (!function_exists('wpg_ppcp_is_fastlane_enabled')) {
      *
      * @return bool
      */
-    function wpg_ppcp_is_fastlane_enabled() {
+    function woo_paypal_gateway_ppcp_is_fastlane_enabled() {
         try {
             $settings = get_option('woocommerce_wpg_paypal_checkout_settings', array());
             if (!is_array($settings)) {
@@ -250,6 +287,7 @@ if (!function_exists('wpg_ppcp_is_fastlane_enabled')) {
             if (!isset($settings['enable_advanced_card_payments']) || 'yes' !== $settings['enable_advanced_card_payments']) {
                 return false;
             }
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $supported_currencies = apply_filters('wpg_ppcp_fastlane_supported_currencies', array('USD'));
             if (!in_array(get_woocommerce_currency(), (array) $supported_currencies, true)) {
                 return false;
@@ -257,7 +295,7 @@ if (!function_exists('wpg_ppcp_is_fastlane_enabled')) {
             if (isset($settings['admin_mode']) && 'yes' === $settings['admin_mode'] && !current_user_can('administrator') && !current_user_can('shop_manager')) {
                 return false;
             }
-            if (function_exists('is_wpg_change_payment_method') && is_wpg_change_payment_method()) {
+            if (function_exists('woo_paypal_gateway_ppcp_is_change_payment_method') && woo_paypal_gateway_ppcp_is_change_payment_method()) {
                 return false;
             }
             return true;
@@ -268,10 +306,10 @@ if (!function_exists('wpg_ppcp_is_fastlane_enabled')) {
 
 }
 
-if (!function_exists('ppcp_get_raw_data')) {
-    if (!function_exists('ppcp_get_raw_data')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_raw_data')) {
+    if (!function_exists('woo_paypal_gateway_ppcp_get_raw_data')) {
 
-        function ppcp_get_raw_data() {
+        function woo_paypal_gateway_ppcp_get_raw_data() {
             try {
                 if (function_exists('phpversion') && version_compare(phpversion(), '5.6', '>=')) {
                     return file_get_contents('php://input');
@@ -288,10 +326,10 @@ if (!function_exists('ppcp_get_raw_data')) {
 
     }
 }
-if (!function_exists('ppcp_key_generator')) {
-    if (!function_exists('ppcp_key_generator')) {
+if (!function_exists('woo_paypal_gateway_ppcp_key_generator')) {
+    if (!function_exists('woo_paypal_gateway_ppcp_key_generator')) {
 
-        function ppcp_key_generator() {
+        function woo_paypal_gateway_ppcp_key_generator() {
             $key = md5(microtime());
             $new_key = '';
             for ($i = 1; $i <= 19; $i++) {
@@ -305,9 +343,9 @@ if (!function_exists('ppcp_key_generator')) {
     }
 }
 
-if (!function_exists('is_wpg_using_woocommerce_blocks')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_using_woocommerce_blocks')) {
 
-    function is_wpg_using_woocommerce_blocks() {
+    function woo_paypal_gateway_ppcp_is_using_woocommerce_blocks() {
         if (!class_exists('WooCommerce') || !function_exists('wc_get_page_id')) {
             return false;
         }
@@ -320,10 +358,10 @@ if (!function_exists('is_wpg_using_woocommerce_blocks')) {
 
 }
 
-if (!function_exists('wpg_ppcp_pop_last_error')) {
+if (!function_exists('woo_paypal_gateway_ppcp_pop_last_error')) {
 
-    function wpg_ppcp_pop_last_error() {
-        $key = wpg_ppcp_error_key();
+    function woo_paypal_gateway_ppcp_pop_last_error() {
+        $key = woo_paypal_gateway_ppcp_error_key();
         if (!$key) {
             return '';
         }
@@ -336,9 +374,9 @@ if (!function_exists('wpg_ppcp_pop_last_error')) {
 
 }
 
-if (!function_exists('wpg_get_checkout_url')) {
+if (!function_exists('woo_paypal_gateway_get_checkout_url')) {
 
-    function wpg_get_checkout_url() {
+    function woo_paypal_gateway_get_checkout_url() {
         $checkout_url = wc_get_page_permalink('checkout');
         if ($checkout_url) {
             // Force SSL if needed.
@@ -352,9 +390,9 @@ if (!function_exists('wpg_get_checkout_url')) {
 
 }
 
-if (!function_exists('wpg_ppcp_error_key')) {
+if (!function_exists('woo_paypal_gateway_ppcp_error_key')) {
 
-    function wpg_ppcp_error_key() {
+    function woo_paypal_gateway_ppcp_error_key() {
         $customer_id = (function_exists('WC') && WC()->session) ? WC()->session->get_customer_id() : '';
         if (!$customer_id) {
             $customer_id = (string) get_current_user_id();
@@ -370,11 +408,11 @@ if (!function_exists('wpg_ppcp_error_key')) {
 
 }
 
-if (!function_exists('wpg_send_error')) {
+if (!function_exists('woo_paypal_gateway_send_error')) {
 
-    function wpg_send_error($payload) {
+    function woo_paypal_gateway_send_error($payload) {
         $message = isset($payload['message']) ? $payload['message'] : __('Something went wrong. Please try again.', 'woo-paypal-gateway');
-        if (function_exists('is_wpg_using_woocommerce_blocks') && is_wpg_using_woocommerce_blocks()) {
+        if (function_exists('woo_paypal_gateway_ppcp_is_using_woocommerce_blocks') && woo_paypal_gateway_ppcp_is_using_woocommerce_blocks()) {
             $customer_id = (function_exists('WC') && WC()->session) ? WC()->session->get_customer_id() : '';
             if (!$customer_id) {
                 $customer_id = (string) get_current_user_id();
@@ -391,9 +429,9 @@ if (!function_exists('wpg_send_error')) {
 
 }
 
-if (!function_exists('ppcp_update_woo_order_status')) {
+if (!function_exists('woo_paypal_gateway_ppcp_update_woo_order_status')) {
 
-    function ppcp_update_woo_order_status($orderid, $payment_status, $pending_reason, $processor_response = null) {
+    function woo_paypal_gateway_ppcp_update_woo_order_status($orderid, $payment_status, $pending_reason, $processor_response = null) {
         try {
             $payment_status = strtoupper((string) $payment_status);
             if (empty($pending_reason)) {
@@ -410,7 +448,7 @@ if (!function_exists('ppcp_update_woo_order_status')) {
             $cvv_code = isset($pr['cvv_code']) ? strtoupper((string) $pr['cvv_code']) : '';
             $human_detail = '';
             if ($response_code) {
-                $mapped = wpg_get_process_code_message($response_code);
+                $mapped = woo_paypal_gateway_get_process_code_message($response_code);
                 if ($mapped) {
                     $human_detail = $mapped;
                 }
@@ -468,6 +506,7 @@ if (!function_exists('ppcp_update_woo_order_status')) {
                 $reasons[] = $pending_reason_text;
             }
             $final_detail = $reasons ? implode(' ', $reasons) : __('The transaction could not be completed.', 'woo-paypal-gateway');
+            // translators: %s: PayPal payment status.
             $order->add_order_note(sprintf(__('PayPal payment status received: %s', 'woo-paypal-gateway'), $payment_status ? $payment_status : __('N/A', 'woo-paypal-gateway')));
             $success = false;
             switch ($payment_status) {
@@ -511,6 +550,7 @@ if (!function_exists('ppcp_update_woo_order_status')) {
                     );
                     $payload = [
                         'message' => apply_filters(
+                                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                                 'woocommerce_add_error',
                                 sprintf(
                                         /* translators: %s: payment failure reason */
@@ -534,7 +574,7 @@ if (!function_exists('ppcp_update_woo_order_status')) {
                                 )
                         );
                     }
-                    wpg_send_error($payload);
+                    woo_paypal_gateway_send_error($payload);
                     return false;
                 case 'FAILED':
                     $order->update_status(
@@ -548,6 +588,7 @@ if (!function_exists('ppcp_update_woo_order_status')) {
                     );
                     $payload = [
                         'message' => apply_filters(
+                                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                                 'woocommerce_add_error',
                                 sprintf(
                                         /* translators: %s: payment failure reason */
@@ -571,7 +612,7 @@ if (!function_exists('ppcp_update_woo_order_status')) {
                                 )
                         );
                     }
-                    wpg_send_error($payload);
+                    woo_paypal_gateway_send_error($payload);
                     return false;
 
                 case 'PARTIALLY_REFUNDED':
@@ -638,20 +679,20 @@ if (!function_exists('ppcp_update_woo_order_status')) {
 
 }
 
-if (!function_exists('ppcp_round')) {
+if (!function_exists('woo_paypal_gateway_ppcp_round')) {
 
-    function ppcp_round($price, $precision) {
+    function woo_paypal_gateway_ppcp_round($price, $precision) {
         $round_price = round($price, $precision);
         return number_format($round_price, $precision, '.', '');
     }
 
 }
 
-if (!function_exists('ppcp_get_awaiting_payment_order_id')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_awaiting_payment_order_id')) {
 
-    function ppcp_get_awaiting_payment_order_id() {
+    function woo_paypal_gateway_ppcp_get_awaiting_payment_order_id() {
         try {
-            $ppcp_woo_order_id = absint(ppcp_get_session('ppcp_woo_order_id'));
+            $ppcp_woo_order_id = absint(woo_paypal_gateway_ppcp_get_session('ppcp_woo_order_id'));
             if ($ppcp_woo_order_id > 0) {
                 return $ppcp_woo_order_id;
             }
@@ -671,9 +712,9 @@ if (!function_exists('ppcp_get_awaiting_payment_order_id')) {
 
 }
 
-if (!function_exists('ppcp_is_valid_order')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_valid_order')) {
 
-    function ppcp_is_valid_order($order_id) {
+    function woo_paypal_gateway_ppcp_is_valid_order($order_id) {
         $order = $order_id ? wc_get_order($order_id) : null;
         if ($order) {
             return true;
@@ -683,9 +724,9 @@ if (!function_exists('ppcp_is_valid_order')) {
 
 }
 
-if (!function_exists('wpg_get_raw_data')) {
+if (!function_exists('woo_paypal_gateway_get_raw_data')) {
 
-    function wpg_get_raw_data() {
+    function woo_paypal_gateway_get_raw_data() {
         try {
             if (function_exists('phpversion') && version_compare(phpversion(), '5.6', '>=')) {
                 return file_get_contents('php://input');
@@ -702,9 +743,9 @@ if (!function_exists('wpg_get_raw_data')) {
 
 }
 
-if (!function_exists('is_wpg_checkout_block_enabled')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_checkout_block_enabled')) {
 
-    function is_wpg_checkout_block_enabled() {
+    function woo_paypal_gateway_ppcp_is_checkout_block_enabled() {
         try {
             if (!class_exists('Automattic\WooCommerce\Blocks\Package')) {
                 return false;
@@ -718,25 +759,27 @@ if (!function_exists('is_wpg_checkout_block_enabled')) {
 
 }
 
-if (!function_exists('is_wpg_checkout_block_page')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_checkout_block_page')) {
 
-    function is_wpg_checkout_block_page() {
+    function woo_paypal_gateway_ppcp_is_checkout_block_page() {
         return is_cart() || is_checkout() || is_checkout_pay_page();
     }
 
 }
 
-if (!function_exists('is_wpg_change_payment_method')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_change_payment_method')) {
 
-    function is_wpg_change_payment_method() {
+    function woo_paypal_gateway_ppcp_is_change_payment_method() {
+        // Read-only inspection of query args to detect the change-payment-method flow.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         return (isset($_GET['pay_for_order']) && (isset($_GET['change_payment_method']) || isset($_GET['change_gateway_flag'])));
     }
 
 }
 
-if (!function_exists('is_wpg_cart_contains_pre_order')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_cart_contains_pre_order')) {
 
-    function is_wpg_cart_contains_pre_order() {
+    function woo_paypal_gateway_ppcp_is_cart_contains_pre_order() {
         if (class_exists('WC_Pre_Orders_Cart')) {
             return WC_Pre_Orders_Cart::cart_contains_pre_order();
         } else {
@@ -746,17 +789,17 @@ if (!function_exists('is_wpg_cart_contains_pre_order')) {
 
 }
 
-if (!function_exists('is_wpg_pre_order_activated')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_pre_order_activated')) {
 
-    function is_wpg_pre_order_activated() {
+    function woo_paypal_gateway_ppcp_is_pre_order_activated() {
         return class_exists('WC_Pre_Orders_Order');
     }
 
 }
 
-if (!function_exists('is_wpg_cart_contains_subscription')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_cart_contains_subscription')) {
 
-    function is_wpg_cart_contains_subscription() {
+    function woo_paypal_gateway_ppcp_is_cart_contains_subscription() {
         if (class_exists('WC_Subscriptions_Order') && class_exists('WC_Subscriptions_Cart')) {
             return WC_Subscriptions_Cart::cart_contains_subscription();
         }
@@ -765,36 +808,36 @@ if (!function_exists('is_wpg_cart_contains_subscription')) {
 
 }
 
-if (!function_exists('is_wpg_subscription_activated')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_subscription_activated')) {
 
-    function is_wpg_subscription_activated() {
+    function woo_paypal_gateway_ppcp_is_subscription_activated() {
         return class_exists('WC_Subscriptions_Order') && function_exists('wcs_create_renewal_order');
     }
 
 }
 
-if (!function_exists('is_wpg_paypal_vault_required')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_paypal_vault_required')) {
 
-    function is_wpg_paypal_vault_required() {
+    function woo_paypal_gateway_ppcp_is_paypal_vault_required() {
         // Ensure no notices or errors by validating conditions and classes
         if (function_exists('is_cart') && (is_cart() || is_checkout() || is_shop())) {
-            if (is_wpg_cart_contains_subscription()) {
+            if (woo_paypal_gateway_ppcp_is_cart_contains_subscription()) {
                 return true;
             }
             if (class_exists('WC_Subscriptions_Cart') && function_exists('wcs_cart_contains_renewal') && wcs_cart_contains_renewal()) {
                 return true;
             }
-            if (function_exists('is_wpg_change_payment_method') && is_wpg_change_payment_method()) {
+            if (function_exists('woo_paypal_gateway_ppcp_is_change_payment_method') && woo_paypal_gateway_ppcp_is_change_payment_method()) {
                 return true;
             }
         }
 
         if (function_exists('is_order_pay') && is_order_pay()) {
             $order = class_exists('Utils') ? Utils::get_order_from_query_vars() : null;
-            if (function_exists('is_wpg_change_payment_method') && is_wpg_change_payment_method()) {
+            if (function_exists('woo_paypal_gateway_ppcp_is_change_payment_method') && woo_paypal_gateway_ppcp_is_change_payment_method()) {
                 return true;
             }
-            if ($order && is_wpg_subscription_activated() && class_exists('WC_Subscriptions_Order') && function_exists('wcs_order_contains_subscription') && wcs_order_contains_subscription($order)) {
+            if ($order && woo_paypal_gateway_ppcp_is_subscription_activated() && class_exists('WC_Subscriptions_Order') && function_exists('wcs_order_contains_subscription') && wcs_order_contains_subscription($order)) {
                 return true;
             }
         }
@@ -806,7 +849,7 @@ if (!function_exists('is_wpg_paypal_vault_required')) {
             if ($product_id) {
                 $product = wc_get_product($product_id); // Explicitly fetch the product object
                 if ($product && is_a($product, 'WC_Product')) {
-                    if (is_wpg_cart_contains_subscription()) {
+                    if (woo_paypal_gateway_ppcp_is_cart_contains_subscription()) {
                         return true;
                     }
                     if (class_exists('WC_Subscriptions_Product') && WC_Subscriptions_Product::is_subscription($product)) {
@@ -815,32 +858,36 @@ if (!function_exists('is_wpg_paypal_vault_required')) {
                 }
             }
         }
-        if (is_wpg_cart_contains_subscription()) {
+        if (woo_paypal_gateway_ppcp_is_cart_contains_subscription()) {
             return true;
         }
         if (class_exists('WC_Subscriptions_Cart') && function_exists('wcs_cart_contains_renewal') && wcs_cart_contains_renewal()) {
             return true;
         }
-        if (function_exists('is_wpg_change_payment_method') && is_wpg_change_payment_method()) {
+        if (function_exists('woo_paypal_gateway_ppcp_is_change_payment_method') && woo_paypal_gateway_ppcp_is_change_payment_method()) {
             return true;
         }
-        if (isset($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']) && wc_string_to_bool(wc_clean($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']))) {
+        // Checkout form flag read during payment processing; WooCommerce verifies the checkout nonce upstream.
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        if (isset($_POST['wc-wpg_paypal_checkout_cc-new-payment-method']) && wc_string_to_bool(wc_clean(wp_unslash($_POST['wc-wpg_paypal_checkout_cc-new-payment-method'])))) {
             return true;
         }
         if (function_exists('WFOCU_Core') || defined('WFOCU_VERSION') || class_exists('WFOCU_Core', false)) {
             return true;
         }
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
         return apply_filters('wpg_ppcp_vault_required', false);
     }
 
 }
 
 
-if (!function_exists('ppcp_get_token_id_by_token')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_token_id_by_token')) {
 
-    function ppcp_get_token_id_by_token($token_id) {
+    function woo_paypal_gateway_ppcp_get_token_id_by_token($token_id) {
         try {
             global $wpdb;
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct lookup of a WooCommerce payment token id by token value; no core API exists for this and the value is bound via prepare().
             $tokens = $wpdb->get_row(
                     $wpdb->prepare(
                             "SELECT token_id FROM {$wpdb->prefix}woocommerce_payment_tokens WHERE token = %s",
@@ -859,9 +906,9 @@ if (!function_exists('ppcp_get_token_id_by_token')) {
 }
 
 
-if (!function_exists('wpg_ppcp_get_order_total')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_order_total')) {
 
-    function wpg_ppcp_get_order_total($order_id = null) {
+    function woo_paypal_gateway_ppcp_get_order_total($order_id = null) {
         try {
             global $product;
             $total = 0;
@@ -932,20 +979,22 @@ if (!function_exists('wpg_ppcp_get_order_total')) {
 }
 
 
-if (!function_exists('ppcp_get_view_sub_order_url')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_view_sub_order_url')) {
 
-    function ppcp_get_view_sub_order_url($order_id) {
+    function woo_paypal_gateway_ppcp_get_view_sub_order_url($order_id) {
         $view_subscription_url = wc_get_endpoint_url('view-subscription', $order_id, wc_get_page_permalink('myaccount'));
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
         return apply_filters('wcs_get_view_subscription_url', $view_subscription_url, $order_id);
     }
 
 }
 
-if (!function_exists('ppcp_get_token_id_by_token')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_token_id_by_token')) {
 
-    function ppcp_get_token_id_by_token($token_id) {
+    function woo_paypal_gateway_ppcp_get_token_id_by_token($token_id) {
         try {
             global $wpdb;
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct lookup of a WooCommerce payment token id by token value; no core API exists for this and the value is bound via prepare().
             $tokens = $wpdb->get_row(
                     $wpdb->prepare(
                             "SELECT token_id FROM {$wpdb->prefix}woocommerce_payment_tokens WHERE token = %s",
@@ -963,9 +1012,9 @@ if (!function_exists('ppcp_get_token_id_by_token')) {
 
 }
 
-if (!function_exists('wpg_ppcp_reorder_methods')) {
+if (!function_exists('woo_paypal_gateway_ppcp_reorder_methods')) {
 
-    function wpg_ppcp_reorder_methods(&$methods, $class1, $class2, $position) {
+    function woo_paypal_gateway_ppcp_reorder_methods(&$methods, $class1, $class2, $position) {
         $index1 = array_search($class1, $methods, true);
         $index2 = array_search($class2, $methods, true);
         if ($index1 === false || $index2 === false) {
@@ -986,9 +1035,9 @@ if (!function_exists('wpg_ppcp_reorder_methods')) {
 
 
 
-if (!function_exists('wpg_is_vaulting_enable')) {
+if (!function_exists('woo_paypal_gateway_is_vaulting_enable')) {
 
-    function wpg_is_vaulting_enable($result) {
+    function woo_paypal_gateway_is_vaulting_enable($result) {
         $product_vaulting_enabled = false;
         $global_capability_active = false;
 
@@ -1025,9 +1074,9 @@ if (!function_exists('wpg_is_vaulting_enable')) {
 
 }
 
-if (!function_exists('wpg_is_apple_pay_approved')) {
+if (!function_exists('woo_paypal_gateway_is_apple_pay_approved')) {
 
-    function wpg_is_apple_pay_approved($result) {
+    function woo_paypal_gateway_is_apple_pay_approved($result) {
         if (isset($result['products']) && isset($result['capabilities']) && !empty($result['products'])) {
             foreach ($result['products'] as $product) {
                 if (isset($product['vetting_status']) && ('SUBSCRIBED' === $product['vetting_status'] || 'APPROVED' === $product['vetting_status']) && isset($product['capabilities']) && is_array($product['capabilities']) && in_array('APPLE_PAY', $product['capabilities'])) {
@@ -1043,9 +1092,9 @@ if (!function_exists('wpg_is_apple_pay_approved')) {
     }
 
 }
-if (!function_exists('wpg_is_google_pay_approved')) {
+if (!function_exists('woo_paypal_gateway_is_google_pay_approved')) {
 
-    function wpg_is_google_pay_approved($result) {
+    function woo_paypal_gateway_is_google_pay_approved($result) {
         if (isset($result['products']) && isset($result['capabilities']) && !empty($result['products'])) {
             foreach ($result['products'] as $key => $product) {
                 if (isset($product['vetting_status']) && ('SUBSCRIBED' === $product['vetting_status'] || 'APPROVED' === $product['vetting_status']) && isset($product['capabilities']) && is_array($product['capabilities']) && in_array('GOOGLE_PAY', $product['capabilities'])) {
@@ -1062,9 +1111,9 @@ if (!function_exists('wpg_is_google_pay_approved')) {
 
 }
 
-if (!function_exists('wpg_is_acdc_approved')) {
+if (!function_exists('woo_paypal_gateway_is_acdc_approved')) {
 
-    function wpg_is_acdc_approved($result) {
+    function woo_paypal_gateway_is_acdc_approved($result) {
         if (isset($result['products']) && isset($result['capabilities']) && !empty($result['products']) && !empty($result['products'])) {
             foreach ($result['products'] as $key => $product) {
                 if (isset($product['vetting_status']) && ('SUBSCRIBED' === $product['vetting_status'] || 'APPROVED' === $product['vetting_status']) && isset($product['capabilities']) && is_array($product['capabilities']) && in_array('CUSTOM_CARD_PROCESSING', $product['capabilities'])) {
@@ -1080,7 +1129,7 @@ if (!function_exists('wpg_is_acdc_approved')) {
 
 }
 
-if (!function_exists('wpg_is_fastlane_approved')) {
+if (!function_exists('woo_paypal_gateway_is_fastlane_approved')) {
 
     /**
      * Whether the onboarded PayPal account is approved for Fastlane by PayPal.
@@ -1089,7 +1138,7 @@ if (!function_exists('wpg_is_fastlane_approved')) {
      * must be subscribed to a product that carries the FASTLANE_CHECKOUT
      * capability and that capability must be globally ACTIVE.
      */
-    function wpg_is_fastlane_approved($result) {
+    function woo_paypal_gateway_is_fastlane_approved($result) {
         if (isset($result['products']) && isset($result['capabilities']) && !empty($result['products'])) {
             foreach ($result['products'] as $product) {
                 if (isset($product['vetting_status']) && ('SUBSCRIBED' === $product['vetting_status'] || 'APPROVED' === $product['vetting_status']) && isset($product['capabilities']) && is_array($product['capabilities']) && in_array('FASTLANE_CHECKOUT', $product['capabilities'])) {
@@ -1107,9 +1156,13 @@ if (!function_exists('wpg_is_fastlane_approved')) {
 }
 
 
-if (!function_exists('wpg_manage_apple_domain_file')) {
+if (!function_exists('woo_paypal_gateway_manage_apple_domain_file')) {
 
-    function wpg_manage_apple_domain_file($isSandbox) {
+    function woo_paypal_gateway_manage_apple_domain_file($isSandbox) {
+        // Apple Pay requires the domain-association file to be served from the site
+        // root under /.well-known/, so it must be written beneath ABSPATH; the uploads
+        // directory cannot satisfy Apple's fixed verification path.
+        // phpcs:disable PluginCheck.CodeAnalysis.WriteFile.ABSPATHDetected -- Apple Pay domain verification requires this exact web-root location.
         $fileDir = ABSPATH . '.well-known';
         if (!wp_mkdir_p($fileDir)) {
             return false;
@@ -1128,14 +1181,15 @@ if (!function_exists('wpg_manage_apple_domain_file')) {
         if (!copy($sourceFile, $wellKnownFile)) {
             return false;
         }
+        // phpcs:enable PluginCheck.CodeAnalysis.WriteFile.ABSPATHDetected
         return true;
     }
 
 }
 
-if (!function_exists('is_existing_classic_user')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_existing_classic_user')) {
 
-    function is_existing_classic_user() {
+    function woo_paypal_gateway_ppcp_is_existing_classic_user() {
         global $wpdb;
         $classic_payment_option_keys = array(
             'woocommerce_wpg_paypal_express_settings',
@@ -1146,6 +1200,7 @@ if (!function_exists('is_existing_classic_user')) {
             'woocommerce_wpg_paypal_advanced_settings',
         );
         $placeholders = implode(',', array_fill(0, count($classic_payment_option_keys), '%s'));
+        // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- $placeholders is a generated list of %s tokens bound through $wpdb->prepare(); lightweight existence check against wp_options.
         $result = $wpdb->get_var(
                 $wpdb->prepare(
                         "SELECT option_name
@@ -1155,14 +1210,15 @@ if (!function_exists('is_existing_classic_user')) {
                         $classic_payment_option_keys
                 )
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         return null !== $result;
     }
 
 }
 
-if (!function_exists('get_active_classic_gateways')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_active_classic_gateways')) {
 
-    function get_active_classic_gateways() {
+    function woo_paypal_gateway_ppcp_get_active_classic_gateways() {
 
         $classic_gateway_option_map = array(
             'woocommerce_wpg_paypal_express_settings'      => 'wpg_paypal_express',
@@ -1210,9 +1266,9 @@ if (!function_exists('get_active_classic_gateways')) {
     }
 }
 
-if (!function_exists('wpg_set_order_payment_method_title_from_paypal_response')) {
+if (!function_exists('woo_paypal_gateway_set_order_payment_method_title_from_paypal_response')) {
 
-    function wpg_set_order_payment_method_title_from_paypal_response($order, $paypal_response) {
+    function woo_paypal_gateway_set_order_payment_method_title_from_paypal_response($order, $paypal_response) {
         if (!$order instanceof WC_Order || empty($paypal_response['payment_source'])) {
             return;
         }
@@ -1237,9 +1293,9 @@ if (!function_exists('wpg_set_order_payment_method_title_from_paypal_response'))
 
 }
 
-if (!function_exists('get_payer_action_url_from_paypal_response')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_payer_action_url_from_paypal_response')) {
 
-    function get_payer_action_url_from_paypal_response($response) {
+    function woo_paypal_gateway_ppcp_get_payer_action_url_from_paypal_response($response) {
         if (empty($response['links']) || !is_array($response['links'])) {
             return false;
         }
@@ -1253,9 +1309,9 @@ if (!function_exists('get_payer_action_url_from_paypal_response')) {
 
 }
 
-if (!function_exists('wpg_ppcp_get_payment_method_title')) {
+if (!function_exists('woo_paypal_gateway_ppcp_get_payment_method_title')) {
 
-    function wpg_ppcp_get_payment_method_title($payment_name = '') {
+    function woo_paypal_gateway_ppcp_get_payment_method_title($payment_name = '') {
         $final_payment_method_name = '';
         $list_payment_method = array(
             'card' => __('Credit or Debit Card', 'woo-paypal-gateway'),
@@ -1277,36 +1333,40 @@ if (!function_exists('wpg_ppcp_get_payment_method_title')) {
         if (!empty($payment_name)) {
             $final_payment_method_name = $list_payment_method[$payment_name] ?? $payment_name;
         }
-        return apply_filters('wpg_ppcp_get_payment_method_title', $final_payment_method_name, $payment_name, $list_payment_method);
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+        return apply_filters('woo_paypal_gateway_ppcp_get_payment_method_title', $final_payment_method_name, $payment_name, $list_payment_method);
     }
 
 }
 
-if (!function_exists('is_admin_checkout_page_edit_screen')) {
+if (!function_exists('woo_paypal_gateway_ppcp_is_admin_checkout_page_edit_screen')) {
 
-    function is_admin_checkout_page_edit_screen() {
+    function woo_paypal_gateway_ppcp_is_admin_checkout_page_edit_screen() {
+        // Read-only wp-admin screen detection; no state is changed, so no nonce is processed.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         // Ensure we're in wp-admin and editing a post.
         if (!is_admin() || !isset($_GET['post']) || !isset($_GET['action'])) {
             return false;
         }
 
         // Only check when editing a post
-        if ($_GET['action'] !== 'edit') {
+        if (sanitize_key(wp_unslash($_GET['action'])) !== 'edit') {
             return false;
         }
 
         // Get the WooCommerce Checkout Page ID
         $checkout_page_id = get_option('woocommerce_checkout_page_id');
-        $current_post_id = absint($_GET['post']);
+        $current_post_id = absint(wp_unslash($_GET['post']));
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         return ($current_post_id === absint($checkout_page_id));
     }
 
 }
 
-if (!function_exists('wpg_clear_ppcp_session_and_cart')) {
+if (!function_exists('woo_paypal_gateway_clear_ppcp_session_and_cart')) {
 
-    function wpg_clear_ppcp_session_and_cart() {
+    function woo_paypal_gateway_clear_ppcp_session_and_cart() {
         if (function_exists('WC')) {
             $wc = WC();
 
@@ -1323,9 +1383,9 @@ if (!function_exists('wpg_clear_ppcp_session_and_cart')) {
 
 }
 
-if (!function_exists('wpg_get_process_code_message')) {
+if (!function_exists('woo_paypal_gateway_get_process_code_message')) {
 
-    function wpg_get_process_code_message($code) {
+    function woo_paypal_gateway_get_process_code_message($code) {
         $processor_response_codes = [
             '0000' => __('Approved.', 'woo-paypal-gateway'),
             '00N7' => __('The card security code (CVV) was incorrect.', 'woo-paypal-gateway'),
@@ -1496,7 +1556,7 @@ if (!function_exists('wpg_get_process_code_message')) {
 
 }
 
-if (!function_exists('wpg_ppcp_complete_zero_total_order')) {
+if (!function_exists('woo_paypal_gateway_ppcp_complete_zero_total_order')) {
 
     /**
      * Finish a zero-total signup order after the payment method was vaulted:
@@ -1507,8 +1567,13 @@ if (!function_exists('wpg_ppcp_complete_zero_total_order')) {
      * @param WC_Order $order    The order.
      * @param string   $token_id Vaulted PayPal payment token id.
      */
-    function wpg_ppcp_complete_zero_total_order($order, $token_id = '') {
+    function woo_paypal_gateway_ppcp_complete_zero_total_order($order, $token_id = '') {
         if (!$order instanceof WC_Order) {
+            return;
+        }
+        // Safety net: never complete an order that actually needs payment through the
+        // zero-total path, regardless of caller.
+        if ((float) $order->get_total() > 0 || $order->is_paid()) {
             return;
         }
         if (!empty($token_id)) {

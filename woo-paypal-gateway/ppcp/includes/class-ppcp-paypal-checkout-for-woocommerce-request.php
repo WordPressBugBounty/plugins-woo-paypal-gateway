@@ -1,11 +1,20 @@
 <?php
 
+// This class builds and processes PayPal API requests and handles PayPal's return and
+// webhook callbacks. Those requests originate from PayPal's servers (return redirects and
+// server-to-server webhooks) or from WooCommerce checkout flows whose nonce WooCommerce
+// verifies upstream, so a plugin-level nonce check is not applicable to the superglobal
+// reads in this file. Input is still unslashed and sanitized at each read; only the nonce
+// sniffs are disabled.
+// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing
+
 /**
  * @since      1.0.0
  * @package    PPCP_Paypal_Checkout_For_Woocommerce_Request
  * @subpackage PPCP_Paypal_Checkout_For_Woocommerce_Request/includes
  * @author     easypayment
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     /**
@@ -175,21 +184,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             return;
         }
 
-        ppcp_set_paypal_order_session_data($paypal_order_id, $status, $woo_order_id);
+        woo_paypal_gateway_ppcp_set_paypal_order_session_data($paypal_order_id, $status, $woo_order_id);
     }
 
     private function ppcp_get_order_session_data() {
-        return ppcp_get_paypal_order_session_data();
+        return woo_paypal_gateway_ppcp_get_paypal_order_session_data();
     }
 
 
     private function ppcp_get_paypal_order_id_from_session() {
-        return ppcp_get_paypal_order_id_from_session();
+        return woo_paypal_gateway_ppcp_get_paypal_order_id_from_session();
     }
 
     private function ppcp_validate_order_for_capture($paypal_order_id, $woo_order_id = 0) {
         // First check session status to avoid unnecessary API call
-        $session_data   = ppcp_get_paypal_order_session_data();
+        $session_data   = woo_paypal_gateway_ppcp_get_paypal_order_session_data();
         $session_status = ! empty( $session_data['status'] ) ? strtoupper( $session_data['status'] ) : '';
 
         if ( $session_status === 'APPROVED' || $session_status === 'CAPTURE' ) {
@@ -248,10 +257,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
 
         // Authoritative snapshot from PayPal. Force a refresh so a pre-approval cached
-        // copy cannot be used to satisfy the check, and retry briefly so a transient
-        // fetch failure does not permanently block a legitimate buyer.
+        // copy cannot be used to satisfy the check (a snapshot fetched live earlier in
+        // this same request is reused instead of a second roundtrip), and retry once so
+        // a transient fetch failure does not permanently block a legitimate buyer.
         $details = $this->ppcp_get_checkout_details($paypal_order_id, true);
-        for ($attempt = 0; $attempt < 2 && empty($details); $attempt++) {
+        for ($attempt = 0; $attempt < 1 && empty($details); $attempt++) {
             $details = $this->ppcp_get_checkout_details($paypal_order_id, true);
         }
         $purchase_unit = (is_object($details) && !empty($details->purchase_units[0])) ? $details->purchase_units[0] : null;
@@ -292,10 +302,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
 
         $this->decimals    = $this->ppcp_get_number_of_decimal_digits($this->ppcp_get_currency($woo_order_id));
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
         $expected_currency = strtoupper((string) apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id)));
         $order_details     = $this->ppcp_get_details_from_order($woo_order_id);
         $expected_source   = (is_array($order_details) && isset($order_details['order_total'])) ? $order_details['order_total'] : $order->get_total();
-        $expected_value    = (float) ppcp_round($expected_source, $this->decimals);
+        $expected_value    = (float) woo_paypal_gateway_ppcp_round($expected_source, $this->decimals);
 
         if ($paypal_currency !== $expected_currency) {
             $this->ppcp_log(sprintf('Capture blocked: currency mismatch for order %d (PayPal %s vs expected %s).', absint($woo_order_id), $paypal_currency, $expected_currency));
@@ -322,6 +333,128 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     private function ppcp_add_capture_reconciliation_notice() {
         if (function_exists('wc_add_notice')) {
             wc_add_notice(__('We could not verify your PayPal payment for this order. Please try again.', 'woo-paypal-gateway'), 'error');
+        }
+    }
+
+    /**
+     * Recover an order whose capture already completed at PayPal.
+     *
+     * When a capture succeeds at PayPal but the success response is lost (network
+     * timeout, a garbled body, or a duplicate/retried request), PayPal answers a
+     * subsequent capture with ORDER_ALREADY_CAPTURED / ORDER_ALREADY_COMPLETED. The
+     * money was taken, but the normal capture path returned false and left the order
+     * unpaid. This re-fetches the PayPal order and completes the WooCommerce order
+     * from the existing capture instead of failing.
+     *
+     * This only ever runs from the capture error branch (a path that otherwise always
+     * fails), so it cannot alter a capture that succeeds normally. It reuses the
+     * fail-closed custom_id + amount + currency reconciliation before completing, so a
+     * mismatched or unrelated PayPal order can never be used to mark this order paid.
+     * The customer is not charged again — the order is settled against the capture id
+     * that already exists at PayPal.
+     *
+     * @param mixed  $order           The WooCommerce order (WC_Order expected).
+     * @param int    $woo_order_id    Target WooCommerce order id.
+     * @param string $paypal_order_id PayPal order id being captured.
+     * @return bool True when the order was recovered and marked paid.
+     */
+    private function ppcp_recover_already_captured_order($order, $woo_order_id, $paypal_order_id) {
+        try {
+            if (!$order instanceof WC_Order || empty($paypal_order_id)) {
+                return false;
+            }
+            // Never complete an order we cannot reconcile — same fail-closed check used
+            // on the normal capture path (custom_id + amount + currency, force refresh).
+            if (!$this->ppcp_confirm_paypal_order_for_woo_order($paypal_order_id, $woo_order_id)) {
+                return false;
+            }
+            if ($order->has_status(wc_get_is_paid_statuses())) {
+                // Already completed on another request/instance — treat as recovered.
+                return true;
+            }
+            $details = $this->ppcp_get_checkout_details($paypal_order_id, true);
+            $purchase_unit = (is_object($details) && !empty($details->purchase_units[0])) ? $details->purchase_units[0] : null;
+            if (empty($purchase_unit) || empty($purchase_unit->payments)) {
+                return false;
+            }
+            $capture = isset($purchase_unit->payments->captures[0]) ? $purchase_unit->payments->captures[0] : null;
+            if ($capture && isset($capture->status) && $capture->status === 'COMPLETED' && !empty($capture->id)) {
+                $api_response = json_decode(wp_json_encode($details), true);
+                if (function_exists('woo_paypal_gateway_set_order_payment_method_title_from_paypal_response')) {
+                    woo_paypal_gateway_set_order_payment_method_title_from_paypal_response($order, $api_response);
+                }
+                $order->payment_complete($capture->id);
+                $order->update_meta_data('_payment_status', 'COMPLETED');
+                $order->update_meta_data('_wpg_paypal_order_id', $paypal_order_id);
+                $order->add_order_note(__('Recovered a PayPal capture that had already completed at PayPal but whose response was not received on the first attempt. The order is marked paid against the existing capture; the customer was not charged again.', 'woo-paypal-gateway'));
+                // translators: 1: payment method title, 2: transaction ID.
+                $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $capture->id));
+                $order->save_meta_data();
+                $this->ppcp_log('Recovered ORDER_ALREADY_CAPTURED for order #' . $woo_order_id . ' with capture ' . $capture->id);
+                return true;
+            }
+            return false;
+        } catch (\Throwable $ex) {
+            $this->ppcp_log('Already-captured recovery failed for order #' . $woo_order_id . ': ' . $ex->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Recover an order whose authorization already exists at PayPal.
+     *
+     * The authorize counterpart of ppcp_recover_already_captured_order: when the
+     * authorize response is lost or a duplicate authorize is sent, PayPal answers
+     * ORDER_ALREADY_AUTHORIZED. The authorization exists, but the normal path returned
+     * false and left the order unprocessed. This re-fetches the order and applies the
+     * authorized status from the existing authorization. Runs only from the authorize
+     * error branch, and reconciles fail-closed before touching the order.
+     *
+     * @param mixed  $order
+     * @param int    $woo_order_id
+     * @param string $paypal_order_id
+     * @return bool
+     */
+    private function ppcp_recover_already_authorized_order($order, $woo_order_id, $paypal_order_id) {
+        try {
+            if (!$order instanceof WC_Order || empty($paypal_order_id)) {
+                return false;
+            }
+            if (!$this->ppcp_confirm_paypal_order_for_woo_order($paypal_order_id, $woo_order_id)) {
+                return false;
+            }
+            // Already progressed on another request/instance.
+            if ($order->get_meta('_auth_transaction_id') || $order->has_status(wc_get_is_paid_statuses())) {
+                return true;
+            }
+            $details = $this->ppcp_get_checkout_details($paypal_order_id, true);
+            $purchase_unit = (is_object($details) && !empty($details->purchase_units[0])) ? $details->purchase_units[0] : null;
+            if (empty($purchase_unit) || empty($purchase_unit->payments)) {
+                return false;
+            }
+            $authorization = isset($purchase_unit->payments->authorizations[0]) ? $purchase_unit->payments->authorizations[0] : null;
+            $status = ($authorization && isset($authorization->status)) ? strtoupper($authorization->status) : '';
+            if ($authorization && !empty($authorization->id) && in_array($status, array('AUTHORIZED', 'CREATED'), true)) {
+                $api_response = json_decode(wp_json_encode($details), true);
+                if (function_exists('woo_paypal_gateway_set_order_payment_method_title_from_paypal_response')) {
+                    woo_paypal_gateway_set_order_payment_method_title_from_paypal_response($order, $api_response);
+                }
+                $order->set_transaction_id($authorization->id);
+                $order->update_meta_data('_payment_status', $status);
+                $order->update_meta_data('_auth_transaction_id', $authorization->id);
+                $order->update_meta_data('_payment_action', $this->paymentaction);
+                $order->add_order_note(__('Recovered a PayPal authorization that already existed at PayPal but whose response was not received on the first attempt. The order is set to the authorized status against the existing authorization.', 'woo-paypal-gateway'));
+                // translators: 1: payment method title, 2: transaction ID.
+                $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $authorization->id));
+                $order->save_meta_data();
+                $order->update_status($this->authorized_order_status);
+                $this->ppcp_log('Recovered ORDER_ALREADY_AUTHORIZED for order #' . $woo_order_id . ' with authorization ' . $authorization->id);
+                return true;
+            }
+            return false;
+        } catch (\Throwable $ex) {
+            $this->ppcp_log('Already-authorized recovery failed for order #' . $woo_order_id . ': ' . $ex->getMessage());
+            return false;
         }
     }
 
@@ -449,7 +582,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     public function ppcp_shipping_preference($woo_order_id = null) {
         // Detect current page
         $page = isset($_GET['from']) && !empty($_GET['from'])
-            ? sanitize_text_field($_GET['from'])
+            ? sanitize_text_field(wp_unslash($_GET['from']))
             : (is_cart() ? 'cart' : (is_checkout() || is_checkout_pay_page() ? 'checkout' : (is_product() ? 'product' : null)));
 
         // Determine if shipping is needed
@@ -494,16 +627,33 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function get_genrate_token() {
         try {
-            if (is_wc_endpoint_url('order-received')) {
+            if (function_exists('woo_paypal_gateway_ppcp_is_order_received_request') ? woo_paypal_gateway_ppcp_is_order_received_request() : is_wc_endpoint_url('order-received')) {
+                return;
+            }
+            // Failure backoff: when the mint fails (e.g. the account is not
+            // provisioned for Advanced Card Processing, or PayPal is slow), the
+            // client-token transient never gets set, so without this marker EVERY
+            // page render that wants the token repeats the slow, doomed roundtrip
+            // and blocks the buyer each time. Skip page-render retries for a few
+            // minutes after a failure; the hourly prewarm cron (free — nobody is
+            // waiting on it) still retries regardless.
+            $fail_marker_key = $this->is_sandbox ? 'ppcp_sandbox_client_token_failed' : 'ppcp_client_token_failed';
+            if (!wp_doing_cron() && false !== get_transient($fail_marker_key)) {
                 return;
             }
             if ($this->access_token === false) {
                 $this->access_token = $this->ppcp_get_access_token();
+                if (false === $this->access_token && $this->is_valid_for_use() === true) {
+                    // The OAuth roundtrip itself failed with real credentials set;
+                    // back off instead of repeating it on every page render.
+                    set_transient($fail_marker_key, 1, 10 * MINUTE_IN_SECONDS);
+                    return;
+                }
             }
             if ($this->is_valid_for_use() === true && $this->access_token) {
                 $response = wp_remote_post($this->generate_token_url, array(
                     'method' => 'POST',
-                    'timeout' => 60,
+                    'timeout' => $this->ppcp_interactive_timeout(),
                     'redirection' => 5,
                     'httpversion' => '1.1',
                     'blocking' => true,
@@ -515,6 +665,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 if (is_wp_error($response)) {
                     $error_message = $response->get_error_message();
                     $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
+                    set_transient($fail_marker_key, 1, 10 * MINUTE_IN_SECONDS);
                 } else {
                     $api_response = json_decode(wp_remote_retrieve_body($response), true);
                     $this->ppcp_log('Response Code: ' . wp_remote_retrieve_response_code($response));
@@ -527,6 +678,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                             set_transient('ppcp_client_token', $api_response['client_token'], ($api_response['expires_in'] - 200));
                         }
                         $this->client_token = $api_response['client_token'];
+                        delete_transient($fail_marker_key);
+                    } else {
+                        // A 2xx/4xx body without a client_token (e.g. Advanced Card
+                        // Processing not enabled on the account) is a failure too.
+                        set_transient($fail_marker_key, 1, 10 * MINUTE_IN_SECONDS);
                     }
                 }
             }
@@ -564,6 +720,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (!empty($sdk_client_token)) {
                 return $sdk_client_token;
             }
+            // Failure backoff, mirroring get_genrate_token(): a mint that fails
+            // (unprovisioned account, slow PayPal) would otherwise re-block every
+            // checkout render. Fastlane silently stays off during the backoff and
+            // the regular card fields keep working.
+            $fail_marker_key = $transient_key . '_failed';
+            if (!wp_doing_cron() && false !== get_transient($fail_marker_key)) {
+                return false;
+            }
             if ($this->is_valid_for_use() !== true) {
                 return false;
             }
@@ -582,7 +746,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $response = wp_remote_post($this->paypal_oauth_api, array(
                 'method' => 'POST',
-                'timeout' => 60,
+                'timeout' => $this->ppcp_interactive_timeout(),
                 'redirection' => 5,
                 'httpversion' => '1.1',
                 'blocking' => true,
@@ -603,6 +767,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->ppcp_log('Fastlane SDK client token request for domain: ' . $domain);
             if (is_wp_error($response)) {
                 $this->ppcp_log('Fastlane SDK client token error: ' . wc_print_r($response->get_error_message(), true));
+                set_transient($fail_marker_key, 1, 10 * MINUTE_IN_SECONDS);
                 return false;
             }
             $api_response = json_decode(wp_remote_retrieve_body($response), true);
@@ -610,9 +775,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (!empty($api_response['access_token'])) {
                 $expires_in = isset($api_response['expires_in']) ? absint($api_response['expires_in']) : 3600;
                 set_transient($transient_key, $api_response['access_token'], max(60, $expires_in - 100));
+                delete_transient($fail_marker_key);
                 return $api_response['access_token'];
             }
             $this->ppcp_log('Fastlane SDK client token response missing access_token: ' . wc_print_r($this->ppcp_redact_sensitive_data($api_response), true));
+            set_transient($fail_marker_key, 1, 10 * MINUTE_IN_SECONDS);
         } catch (Exception $ex) {
 
         }
@@ -670,8 +837,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             // The post-payment token-save handler keys off this session value; the
             // Fastlane flow arrives via the normal WooCommerce submit, which never
             // passes through the wc-api `used` query param that usually sets it.
-            if (function_exists('ppcp_set_session')) {
-                ppcp_set_session('wpg_payment_method', 'card');
+            if (function_exists('woo_paypal_gateway_ppcp_set_session')) {
+                woo_paypal_gateway_ppcp_set_session('wpg_payment_method', 'card');
             }
             return true === $this->wpg_ppcp_capture_order_using_payment_method_token($woo_order_id, '', null, $payment_source);
         } catch (Exception $ex) {
@@ -715,6 +882,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             // Register the store's own domain (was hardcoded to an unrelated domain,
             // which made Apple Pay domain association impossible for real merchants).
             $store_domain = wp_parse_url(home_url(), PHP_URL_HOST);
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $store_domain = apply_filters('wpg_ppcp_apple_pay_domain', $store_domain);
             $body_request = array(
                 'provider_type' => 'APPLE_PAY',
@@ -771,7 +939,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             } else {
                 $cart = $this->ppcp_get_details_from_order($woo_order_id);
             }
-            $order_total = ppcp_round($cart['order_total'], $this->decimals);
+            $order_total = woo_paypal_gateway_ppcp_round($cart['order_total'], $this->decimals);
             if ((float) $order_total <= 0) {
                 $this->ppcp_log('Order creation skipped: order total is ' . $order_total . '. PayPal does not accept zero or negative amounts.');
                 if (function_exists('wc_add_notice')) {
@@ -780,8 +948,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 return false;
             }
             $reference_id = wc_generate_order_key();
-            ppcp_set_session('ppcp_reference_id', $reference_id);
+            woo_paypal_gateway_ppcp_set_session('ppcp_reference_id', $reference_id);
             $intent = ($this->paymentaction === 'capture') ? 'CAPTURE' : 'AUTHORIZE';
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $intent = apply_filters('wpg_ppcp_payment_intent', $intent, $woo_order_id ? wc_get_order($woo_order_id) : null);
             $body_request = array(
                 'intent' => $intent,
@@ -794,8 +963,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         'reference_id' => $reference_id,
                         'amount' =>
                         array(
+                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                             'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id)),
-                            'value' => ppcp_round($cart['order_total'], $this->decimals),
+                            'value' => woo_paypal_gateway_ppcp_round($cart['order_total'], $this->decimals),
                             'breakdown' => array()
                         )
                     ),
@@ -826,32 +996,37 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if ($this->send_items === true) {
             if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {
                 $body_request['purchase_units'][0]['amount']['breakdown']['item_total'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id)),
-                    'value' => ppcp_round($cart['total_item_amount'], $this->decimals)
+                    'value' => woo_paypal_gateway_ppcp_round($cart['total_item_amount'], $this->decimals)
                 );
             }
             if (isset($cart['shipping']) && $cart['shipping'] > 0) {
                 $body_request['purchase_units'][0]['amount']['breakdown']['shipping'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id)),
-                    'value' => ppcp_round($cart['shipping'], $this->decimals)
+                    'value' => woo_paypal_gateway_ppcp_round($cart['shipping'], $this->decimals)
                 );
             }
             if (isset($cart['ship_discount_amount']) && $cart['ship_discount_amount'] > 0) {
                 $body_request['purchase_units'][0]['amount']['breakdown']['shipping_discount'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id)),
-                    'value' => ppcp_round($cart['ship_discount_amount'], $this->decimals),
+                    'value' => woo_paypal_gateway_ppcp_round($cart['ship_discount_amount'], $this->decimals),
                 );
             }
             if (isset($cart['order_tax']) && $cart['order_tax'] > 0) {
                 $body_request['purchase_units'][0]['amount']['breakdown']['tax_total'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id)),
-                    'value' => ppcp_round($cart['order_tax'], $this->decimals)
+                    'value' => woo_paypal_gateway_ppcp_round($cart['order_tax'], $this->decimals)
                 );
             }
             if (isset($cart['discount']) && $cart['discount'] > 0) {
                 $body_request['purchase_units'][0]['amount']['breakdown']['discount'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id)),
-                    'value' => ppcp_round($cart['discount'], $this->decimals)
+                    'value' => woo_paypal_gateway_ppcp_round($cart['discount'], $this->decimals)
                 );
             }
                 if (isset($cart['items']) && !empty($cart['items'])) {
@@ -871,8 +1046,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                             'category' => $order_items['category'],
                             'quantity' => $order_items['quantity'],
                             'unit_amount' => array(
+                                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                                 'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id)),
-                                'value' => ppcp_round($order_items['amount'], $this->decimals)
+                                'value' => woo_paypal_gateway_ppcp_round($order_items['amount'], $this->decimals)
                             ),
                         );
                     }
@@ -966,11 +1142,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $body_request['application_context']['shipping_preference'] = 'GET_FROM_FILE';
             }
             $body_request = $this->ppcp_set_payer_details($woo_order_id, $body_request);
-            if (is_wpg_paypal_vault_required()) {
+            if (woo_paypal_gateway_ppcp_is_paypal_vault_required()) {
                 $body_request = $this->ppcp_add_payment_source_parameter($body_request);
             }
-            $body_request = ppcp_remove_empty_key($body_request);
-            $used_payment_method = sanitize_text_field($_GET['ppcp_used_payment_method'] ?? '');
+            $body_request = woo_paypal_gateway_ppcp_remove_empty_key($body_request);
+            if (isset($body_request['purchase_units'][0])) {
+                $body_request['purchase_units'][0] = $this->ppcp_enforce_breakdown_invariant($body_request['purchase_units'][0], $this->decimals);
+            }
+            $used_payment_method = sanitize_text_field(wp_unslash($_GET['ppcp_used_payment_method'] ?? ''));
             $allowed_payment_sources = ['bancontact', 'blik', 'eps', 'ideal', 'mybank', 'p24']; // add other APMs as needed
             if (in_array($used_payment_method, $allowed_payment_sources, true)) {
                 $full_name = '';
@@ -1000,7 +1179,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $body_request = json_encode($body_request);
             $response = wp_remote_post($this->paypal_order_api, array(
                 'method' => 'POST',
-                'timeout' => 60,
+                'timeout' => $this->ppcp_interactive_timeout(),
                 'redirection' => 5,
                 'httpversion' => '1.1',
                 'blocking' => true,
@@ -1027,14 +1206,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $this->ppcp_log('Response Code: ' . wp_remote_retrieve_response_code($response));
                     $this->ppcp_log('Response Message: ' . wp_remote_retrieve_response_message($response));
                     $this->ppcp_log('Response Body: ' . wc_print_r($this->ppcp_redact_sensitive_data($api_response), true));
-                    $payer_action_url = get_payer_action_url_from_paypal_response($api_response);
+                    $payer_action_url = woo_paypal_gateway_ppcp_get_payer_action_url_from_paypal_response($api_response);
                     if ($payer_action_url) {
                         $return_response['payer_action_url'] = $payer_action_url;
                     }
                     $return_response['orderID'] = $api_response['id'];
                     $this->ppcp_set_order_session_data($api_response['id'], 'created', $woo_order_id);
                     if (!empty(isset($woo_order_id) && !empty($woo_order_id))) {
-                        ppcp_set_session('ppcp_paypal_transaction_details', $api_response);
+                        woo_paypal_gateway_ppcp_set_session('ppcp_paypal_transaction_details', $api_response);
                     }
                     wp_send_json($return_response, 200);
                     exit();
@@ -1060,7 +1239,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'name' => 'Line Item Amount Offset',
                 'description' => 'Adjust cart calculation discrepancy',
                 'quantity' => 1,
-                'amount' => ppcp_round($amount, $this->decimals),
+                'amount' => woo_paypal_gateway_ppcp_round($amount, $this->decimals),
             );
         } catch (Exception $ex) {
             
@@ -1088,7 +1267,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $body = array('grant_type' => 'client_credentials');
             $response = wp_remote_post($this->paypal_oauth_api, array(
                 'method' => 'POST',
-                'timeout' => 60,
+                'timeout' => $this->ppcp_interactive_timeout(),
                 'redirection' => 5,
                 'httpversion' => '1.1',
                 'blocking' => true,
@@ -1141,11 +1320,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
      */
     public function ppcp_enforce_3ds_liability($woo_order_id, $paypal_order_id) {
         $order = wc_get_order($woo_order_id);
-        if (!is_object($order) || 'wpg_paypal_checkout_cc' !== $order->get_payment_method()) {
+        if (!is_object($order) || empty($paypal_order_id)) {
             return true;
         }
-        if (empty($paypal_order_id)) {
-            return true;
+        // The Advanced Card gateway is always enforced (unchanged behaviour). Card-backed
+        // wallets (Google Pay / Apple Pay) under the main gateway also carry a 3DS
+        // authentication result, but enforcing it could decline wallet payments that
+        // succeed today, so wallet enforcement is opt-in. Default: behave exactly as
+        // before for non-card gateways — skip with no extra API call — so no live wallet
+        // payment is affected. Enable with:
+        //   add_filter( 'wpg_ppcp_enforce_wallet_3ds', '__return_true' );
+        if ('wpg_paypal_checkout_cc' !== $order->get_payment_method()) {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+            if (!apply_filters('wpg_ppcp_enforce_wallet_3ds', false, $woo_order_id)) {
+                return true;
+            }
         }
         if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_3DS')) {
             $threeds_file = WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-3ds.php';
@@ -1158,29 +1347,31 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
         // Force a fresh fetch so we evaluate the authentication_result PayPal attaches
         // after the buyer completes 3D Secure, not a pre-authentication cached snapshot.
+        // A snapshot fetched live earlier in this same request (e.g. by the rebinding
+        // reconciliation) is reused — it postdates the 3DS challenge just the same.
         $api_response = $this->ppcp_get_checkout_details($paypal_order_id, true);
-        // Retry a couple of times: a transient fetch failure must not silently bypass
-        // the 3D Secure liability check for a card payment.
-        for ($attempt = 0; $attempt < 2 && empty($api_response); $attempt++) {
+        // Retry once: a transient fetch failure must not silently bypass the
+        // 3D Secure liability check for a card payment.
+        for ($attempt = 0; $attempt < 1 && empty($api_response); $attempt++) {
             $api_response = $this->ppcp_get_checkout_details($paypal_order_id, true);
         }
         if (empty($api_response)) {
             // Fail closed for the card gateway: we could not verify the 3DS result, so
             // do not capture. The buyer can retry.
             $this->ppcp_log('3DS enforcement: could not fetch order details for ' . $paypal_order_id . ' after retries; blocking capture.');
-            wpg_send_error(array('message' => __('We could not verify your card with your bank. Please try again.', 'woo-paypal-gateway')));
+            woo_paypal_gateway_send_error(array('message' => __('We could not verify your card with your bank. Please try again.', 'woo-paypal-gateway')));
             return false;
         }
         $decision = PPCP_Paypal_Checkout_For_Woocommerce_3DS::instance()->evaluate($order, $api_response);
-        // Surface the message through wpg_send_error() so it reaches both the classic
+        // Surface the message through woo_paypal_gateway_send_error() so it reaches both the classic
         // checkout (wc_add_notice) and the block checkout (stored for the redirect), which
         // does not render session notices added during the return handler.
         if (PPCP_Paypal_Checkout_For_Woocommerce_3DS::REJECT === $decision) {
-            wpg_send_error(array('message' => __('We cannot process your order with the payment information that you provided. Please use an alternate payment method.', 'woo-paypal-gateway')));
+            woo_paypal_gateway_send_error(array('message' => __('We cannot process your order with the payment information that you provided. Please use an alternate payment method.', 'woo-paypal-gateway')));
             return false;
         }
         if (PPCP_Paypal_Checkout_For_Woocommerce_3DS::RETRY === $decision) {
-            wpg_send_error(array('message' => __('We could not confirm your card with your bank. Please try again or use a different card.', 'woo-paypal-gateway')));
+            woo_paypal_gateway_send_error(array('message' => __('We could not confirm your card with your bank. Please try again or use a different card.', 'woo-paypal-gateway')));
             return false;
         }
         return true;
@@ -1217,6 +1408,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $this->ppcp_add_log_details('Capture payment for order');
             $this->ppcp_log('Request : ' . wc_print_r($this->paypal_order_api . $paypal_order_id . '/capture', true));
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             do_action('wpg_ppcp_order_capture', $order);
             $capture_attempt = 0;
             do {
@@ -1225,8 +1417,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 // PayPal-Request-Id after fixing a DUPLICATE_INVOICE_ID would be de-duplicated
                 // by PayPal and simply replay the failed response.
                 $request_id_context = 'capture-' . $paypal_order_id . ($capture_attempt > 0 ? '-retry' . $capture_attempt : '');
+                // The capture attempt changes (or may change) the order's state at
+                // PayPal, so the request-scoped snapshot is no longer authoritative —
+                // e.g. the ORDER_ALREADY_CAPTURED recovery below must re-fetch live.
+                self::ppcp_forget_order_snapshot($paypal_order_id);
                 $response = wp_remote_post($this->paypal_order_api . $paypal_order_id . '/capture', array(
-                    'timeout' => 60,
+                    'timeout' => $this->ppcp_interactive_timeout(),
                     'redirection' => 5,
                     'httpversion' => '1.1',
                     'blocking' => true,
@@ -1274,6 +1470,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     }
                     $this->ppcp_log('Capture response for order #' . $woo_order_id . ': PayPal order status=' . (isset($api_response['status']) ? $api_response['status'] : 'N/A'));
                     if (isset($api_response['status']) && $api_response['status'] === 'COMPLETED') {
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                         do_action('wpg_ppcp_save_payment_method_details', $woo_order_id, $api_response);
                         $payment_source = isset($api_response['payment_source']) ? $api_response['payment_source'] : '';
                         if (!empty($payment_source['card'])) {
@@ -1281,9 +1478,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                             $card_response_order_note .= "\n";
                             $card_response_order_note .= 'Last digits : ' . $payment_source['card']['last_digits'];
                             $card_response_order_note .= "\n";
-                            $card_response_order_note .= 'Brand : ' . ppcp_readable($payment_source['card']['brand']);
+                            $card_response_order_note .= 'Brand : ' . woo_paypal_gateway_ppcp_readable($payment_source['card']['brand']);
                             $card_response_order_note .= "\n";
-                            $card_response_order_note .= 'Card type : ' . ppcp_readable($payment_source['card']['type']);
+                            $card_response_order_note .= 'Card type : ' . woo_paypal_gateway_ppcp_readable($payment_source['card']['type']);
                             $order->add_order_note($card_response_order_note);
                         }
                         $processor_response = isset($api_response['purchase_units']['0']['payments']['captures']['0']['processor_response']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['processor_response'] : '';
@@ -1317,20 +1514,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $payment_status = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status'] : '';
                         $this->ppcp_log('Capture payment_status for order #' . $woo_order_id . ': capture status=' . ($payment_status ? $payment_status : 'N/A') . ', transaction_id=' . ($transaction_id ? $transaction_id : 'N/A'));
                         if ($payment_status === 'COMPLETED') {
-                            wpg_set_order_payment_method_title_from_paypal_response($order, $api_response);
+                            woo_paypal_gateway_set_order_payment_method_title_from_paypal_response($order, $api_response);
                             $order->payment_complete($transaction_id);
                             // translators: 1: Payment method title, 2: Payment status (e.g., Completed, Pending).
                             $order->add_order_note(sprintf(__('Payment via %1$s : %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), ucfirst(strtolower($payment_status))));
+                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                             apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $woo_order_id);
                             $order->update_meta_data('_payment_status', $payment_status);
                             // translators: 1: Payment method title, 2: Transaction ID.
                             $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $transaction_id));
-                            $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
+                            $order->add_order_note('Seller Protection Status: ' . woo_paypal_gateway_ppcp_readable($seller_protection));
                             $order->save_meta_data();
                             return true;
                         } else {
                             $payment_status_reason = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status_details']['reason']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status_details']['reason'] : '';
-                            $bool = ppcp_update_woo_order_status($woo_order_id, $payment_status, $payment_status_reason, $processor_response);
+                            $bool = woo_paypal_gateway_ppcp_update_woo_order_status($woo_order_id, $payment_status, $payment_status_reason, $processor_response);
                             $order->update_meta_data('_payment_status', $payment_status);
                             $order->save_meta_data();
                             if (!empty($transaction_id)) {
@@ -1352,13 +1550,23 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                                     $transaction_id
                                 )
                             );
-                            $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
+                            $order->add_order_note('Seller Protection Status: ' . woo_paypal_gateway_ppcp_readable($seller_protection));
                             return $bool;
                         }
                     } else {
                         return false;
                     }
                 } else {
+                    // Lost-response / duplicate-capture recovery: PayPal reports the order
+                    // as already captured, so the funds were taken even though no id came
+                    // back here. Complete the order from the existing capture instead of
+                    // failing it. Reconciles fail-closed before completing (see method).
+                    if ($this->ppcp_response_has_issue($api_response, 'ORDER_ALREADY_CAPTURED')
+                        || $this->ppcp_response_has_issue($api_response, 'ORDER_ALREADY_COMPLETED')) {
+                        if ($this->ppcp_recover_already_captured_order($order, $woo_order_id, $paypal_order_id) === true) {
+                            return true;
+                        }
+                    }
                     if (function_exists('wc_add_notice')) {
                         if(!empty($api_response)) {
                             $error_message = $this->ppcp_get_readable_message($api_response);
@@ -1392,7 +1600,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     }
 
     private function ppcp_patch_invoice_id($paypal_order_id, $invoice_id) {
-        $reference_id = ppcp_get_session('ppcp_reference_id');
+        $reference_id = woo_paypal_gateway_ppcp_get_session('ppcp_reference_id');
         if (empty($reference_id)) {
             $this->ppcp_log('Invoice ID patch skipped: reference_id missing from session.');
             return false;
@@ -1404,8 +1612,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'value' => $invoice_id,
             ),
         );
+        // Mutating PATCH: drop the request-scoped snapshot of this order.
+        self::ppcp_forget_order_snapshot($paypal_order_id);
         $response = wp_remote_request($this->paypal_order_api . $paypal_order_id, array(
-            'timeout' => 60,
+            'timeout' => $this->ppcp_interactive_timeout(),
             'method' => 'PATCH',
             'redirection' => 5,
             'httpversion' => '1.1',
@@ -1590,8 +1800,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $this->ppcp_add_log_details('Authorize payment for order');
             $this->ppcp_log('Request : ' . wc_print_r($this->paypal_order_api . $paypal_order_id . '/authorize', true));
+            // State-changing call: drop the request-scoped snapshot so the
+            // ORDER_ALREADY_AUTHORIZED recovery re-fetches live state.
+            self::ppcp_forget_order_snapshot($paypal_order_id);
             $response = wp_remote_post($this->paypal_order_api . $paypal_order_id . '/authorize', array(
-                'timeout' => 60,
+                'timeout' => $this->ppcp_interactive_timeout(),
                 'redirection' => 5,
                 'httpversion' => '1.1',
                 'blocking' => true,
@@ -1626,23 +1839,33 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $order->save_meta_data();
                         // translators: 1: Payment method title, 2: Transaction ID.
                         $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $transaction_id));
-                        $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
+                        $order->add_order_note('Seller Protection Status: ' . woo_paypal_gateway_ppcp_readable($seller_protection));
                         $order->update_status($this->authorized_order_status);
                         $order->add_order_note($this->get_payment_authorized_note());
                     } else {
                         $this->ppcp_log('Authorize request did not return a successful authorization status for order #' . $woo_order_id . '. Received status: ' . ($payment_status ? $payment_status : 'N/A'));
-                        ppcp_update_woo_order_status($woo_order_id, $payment_status ? $payment_status : 'FAILED', $payment_status_reason);
+                        woo_paypal_gateway_ppcp_update_woo_order_status($woo_order_id, $payment_status ? $payment_status : 'FAILED', $payment_status_reason);
                         $order->add_order_note(
                             sprintf(
+                                // translators: %1$s: PayPal authorization status.
                                 __('PayPal authorization was not successful. Received status: %1$s.', 'woo-paypal-gateway'),
                                 $payment_status ? $payment_status : __('N/A', 'woo-paypal-gateway')
                             )
                         );
                         return false;
                     }
-                    wpg_clear_ppcp_session_and_cart();
+                    woo_paypal_gateway_clear_ppcp_session_and_cart();
                     return true;
                 } else {
+                    // Lost-response / duplicate-authorize recovery — see capture path.
+                    if ($this->ppcp_response_has_issue($api_response, 'ORDER_ALREADY_AUTHORIZED')
+                        || $this->ppcp_response_has_issue($api_response, 'ORDER_ALREADY_CAPTURED')
+                        || $this->ppcp_response_has_issue($api_response, 'ORDER_ALREADY_COMPLETED')) {
+                        if ($this->ppcp_recover_already_authorized_order($order, $woo_order_id, $paypal_order_id) === true) {
+                            woo_paypal_gateway_clear_ppcp_session_and_cart();
+                            return true;
+                        }
+                    }
                     if (function_exists('wc_add_notice')) {
                         $error_message = $this->ppcp_get_readable_message($api_response);
                         wc_add_notice($error_message, 'error');
@@ -1656,6 +1879,59 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
     }
 
+    /**
+     * Request-scoped snapshots of PayPal orders fetched during THIS PHP request,
+     * keyed by PayPal order id.
+     *
+     * The rebinding reconciliation (ppcp_confirm_paypal_order_for_woo_order), the
+     * 3D Secure liability check and the already-captured/authorized recovery all
+     * force-refresh the SAME PayPal order back to back inside a single
+     * capture/authorize request — each one a sequential PayPal roundtrip the buyer
+     * waits on. A snapshot fetched earlier in this same request is exactly as
+     * authoritative as a second fetch (both run after buyer approval / 3DS
+     * authentication), so it is shared here. Cross-request caches (the session
+     * copy, which can predate approval or authentication) are still bypassed by
+     * force-refresh callers.
+     *
+     * Static because one flow can span the Request singleton and the gateway
+     * instances that extend it. Cleared for an order id whenever a mutating call
+     * (PATCH / capture / authorize) is sent for it, so post-mutation readers —
+     * e.g. the ORDER_ALREADY_CAPTURED recovery — always re-fetch live state.
+     *
+     * @var array<string, object>
+     */
+    protected static $order_snapshot_memo = array();
+
+    /**
+     * Forget the request-scoped snapshot for a PayPal order. Must be called before
+     * any request that can change the order's state at PayPal.
+     *
+     * @param string $paypal_order_id PayPal order id.
+     */
+    protected static function ppcp_forget_order_snapshot($paypal_order_id) {
+        unset(self::$order_snapshot_memo[(string) $paypal_order_id]);
+    }
+
+    /**
+     * Timeout (seconds) for PayPal calls made while a buyer is actively waiting:
+     * page render token minting, create order, get details, PATCH, capture and
+     * authorize.
+     *
+     * These calls previously used a 60s timeout; with several of them running
+     * sequentially inside one checkout request, a single slow or hung connection
+     * could hold the buyer (and a PHP worker) for minutes. PayPal answers
+     * interactive REST calls well under 30s, so 30s is a safe ceiling. Stores on
+     * exceptionally slow networks can raise it:
+     *   add_filter( 'wpg_ppcp_interactive_http_timeout', function () { return 60; } );
+     *
+     * @return int
+     */
+    public function ppcp_interactive_timeout() {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+        $timeout = (int) apply_filters('wpg_ppcp_interactive_http_timeout', 30);
+        return max(5, $timeout);
+    }
+
     public function ppcp_get_checkout_details($paypal_order_id, $force_refresh = false) {
         try {
             if (is_wc_endpoint_url('order-received')) {
@@ -1665,12 +1941,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->ppcp_log('Get Order Details skipped: PayPal order ID is empty.');
                 return;
             }
+            // Reuse a snapshot already fetched from PayPal during THIS request (and
+            // not invalidated by a mutating call since). It is as fresh as another
+            // roundtrip would be, including for force-refresh callers — force refresh
+            // exists to bypass the cross-request session cache, not work done live in
+            // the current request.
+            $memo_key = (string) $paypal_order_id;
+            if (isset(self::$order_snapshot_memo[$memo_key])) {
+                return self::$order_snapshot_memo[$memo_key];
+            }
             // The 3D Secure liability check must read the authentication_result that PayPal
             // only adds to the order AFTER the buyer completes the challenge. The session
             // cache can hold a snapshot taken before authentication, so callers that need
             // the post-authentication state pass $force_refresh to bypass it.
             $cached_id = $this->ppcp_get_paypal_order_id_from_session();
-            $cached_details = ppcp_get_session('ppcp_paypal_transaction_details');
+            $cached_details = woo_paypal_gateway_ppcp_get_session('ppcp_paypal_transaction_details');
             if (!$force_refresh && $cached_id === $paypal_order_id && !empty($cached_details)) {
                 return $cached_details;
             }
@@ -1681,7 +1966,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $endpoint = $this->paypal_order_api . $paypal_order_id;
             $this->ppcp_log('Endpoint: ' . $endpoint);
             $response = wp_remote_get($endpoint, array(
-                'timeout' => 60,
+                'timeout' => $this->ppcp_interactive_timeout(),
                 'headers' => array(
                     'Content-Type' => 'application/json',
                     'Authorization' => 'Bearer ' . $this->access_token,
@@ -1709,7 +1994,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $normalized_status = 'created';
             }
             $this->ppcp_set_order_session_data($paypal_order_id, $normalized_status);
-            ppcp_set_session('ppcp_paypal_transaction_details', $body);
+            woo_paypal_gateway_ppcp_set_session('ppcp_paypal_transaction_details', $body);
+            // Only a real order snapshot (it always carries an id) is memoized —
+            // never a transient failure or a PayPal error body, so retry loops in
+            // the callers still re-fetch after a failed attempt.
+            if (is_object($body) && !empty($body->id)) {
+                self::$order_snapshot_memo[$memo_key] = $body;
+            }
             return $body;
         } catch (Exception $ex) {
             $this->ppcp_log('Exception in ppcp_get_checkout_details: ' . $ex->getMessage());
@@ -1722,9 +2013,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $rounded_total = $this->ppcp_get_rounded_total_in_cart();
             $discounts = WC()->cart->get_cart_discount_total();
             $details = array(
-                'total_item_amount' => ppcp_round(WC()->cart->cart_contents_total, $this->decimals) + $discounts,
-                'order_tax' => ppcp_round(WC()->cart->tax_total + WC()->cart->shipping_tax_total, $this->decimals),
-                'shipping' => ppcp_round(WC()->cart->shipping_total, $this->decimals),
+                'total_item_amount' => woo_paypal_gateway_ppcp_round(WC()->cart->cart_contents_total, $this->decimals) + $discounts,
+                'order_tax' => woo_paypal_gateway_ppcp_round(WC()->cart->tax_total + WC()->cart->shipping_tax_total, $this->decimals),
+                'shipping' => woo_paypal_gateway_ppcp_round(WC()->cart->shipping_total, $this->decimals),
                 'items' => $this->ppcp_get_paypal_line_items_from_cart(),
                 'shipping_address' => $this->ppcp_get_address_from_customer(),
                 'email' => WC()->customer->get_billing_email(),
@@ -1756,8 +2047,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         try {
             $rounded_total = 0;
             foreach (WC()->cart->cart_contents as $cart_item_key => $values) {
-                $amount = ppcp_round($values['line_subtotal'] / $values['quantity'], $this->decimals);
-                $rounded_total += ppcp_round($amount * $values['quantity'], $this->decimals);
+                $amount = woo_paypal_gateway_ppcp_round($values['line_subtotal'] / $values['quantity'], $this->decimals);
+                $rounded_total += woo_paypal_gateway_ppcp_round($amount * $values['quantity'], $this->decimals);
             }
             return $rounded_total;
         } catch (Exception $ex) {
@@ -1770,7 +2061,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $items = array();
             foreach (WC()->cart->cart_contents as $cart_item_key => $values) {
                 $desc = '';
-                $amount = ppcp_round($values['line_subtotal'] / $values['quantity'], $this->decimals);
+                $amount = woo_paypal_gateway_ppcp_round($values['line_subtotal'] / $values['quantity'], $this->decimals);
                 $product = $values['data'];
                 $name = $product->get_name();
                 $sku = $product->get_sku();
@@ -1853,8 +2144,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function ppcp_get_details($details, $discounts, $rounded_total, $total) {
         try {
-            $discounts = ppcp_round($discounts, $this->decimals);
-            $details['order_total'] = ppcp_round(
+            $discounts = woo_paypal_gateway_ppcp_round($discounts, $this->decimals);
+            $details['order_total'] = woo_paypal_gateway_ppcp_round(
                     $details['total_item_amount'] + $details['order_tax'] + $details['shipping'] - $discounts, $this->decimals
             );
             $diff = 0;
@@ -1864,9 +2155,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $extra_line_item = $this->ppcp_get_extra_offset_line_item($diff);
                     $details['items'][] = $extra_line_item;
                     $details['total_item_amount'] += $extra_line_item['amount'];
-                    $details['total_item_amount'] = ppcp_round($details['total_item_amount'], $this->decimals);
+                    $details['total_item_amount'] = woo_paypal_gateway_ppcp_round($details['total_item_amount'], $this->decimals);
                     $details['order_total'] += $extra_line_item['amount'];
-                    $details['order_total'] = ppcp_round($details['order_total'], $this->decimals);
+                    $details['order_total'] = woo_paypal_gateway_ppcp_round($details['order_total'], $this->decimals);
                 }
             }
             if (0 == $details['total_item_amount']) {
@@ -1882,15 +2173,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $details['discount'] = $discounts;
             $details['ship_discount_amount'] = 0;
-            $wc_order_total = ppcp_round($total, $this->decimals);
-            $discounted_total = ppcp_round($details['order_total'], $this->decimals);
+            $wc_order_total = woo_paypal_gateway_ppcp_round($total, $this->decimals);
+            $discounted_total = woo_paypal_gateway_ppcp_round($details['order_total'], $this->decimals);
             if ($wc_order_total != $discounted_total) {
                 if ($discounted_total < $wc_order_total) {
                     $details['order_tax'] += $wc_order_total - $discounted_total;
-                    $details['order_tax'] = ppcp_round($details['order_tax'], $this->decimals);
+                    $details['order_tax'] = woo_paypal_gateway_ppcp_round($details['order_tax'], $this->decimals);
                 } else {
                     $details['ship_discount_amount'] += $wc_order_total - $discounted_total;
-                    $details['ship_discount_amount'] = ppcp_round($details['ship_discount_amount'], $this->decimals);
+                    $details['ship_discount_amount'] = woo_paypal_gateway_ppcp_round($details['ship_discount_amount'], $this->decimals);
                     $details['ship_discount_amount'] = abs($details['ship_discount_amount']);
                 }
                 $details['order_total'] = $wc_order_total;
@@ -1909,8 +2200,99 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             return $details;
         } catch (Exception $ex) {
-            
+
         }
+    }
+
+    /**
+     * Fail-safe breakdown guard.
+     *
+     * PayPal rejects an order with HTTP 422 (ITEM_TOTAL_MISMATCH / AMOUNT_MISMATCH)
+     * when the amount breakdown does not reconcile: the line items must sum to
+     * breakdown.item_total, and item_total + shipping + tax + handling + insurance
+     * − shipping_discount − discount must equal amount.value. Per-line rounding,
+     * coupon distribution or tax-inclusive pricing can make these disagree by a cent
+     * and fail the whole checkout.
+     *
+     * This runs on the fully-assembled purchase unit just before the request is sent.
+     * If the breakdown reconciles (the normal case) the purchase unit is returned
+     * untouched. If it does not, the breakdown and items are dropped so PayPal receives
+     * only amount.value, which always validates. Dropping the breakdown can never turn
+     * a currently-successful order into a failure — an accepted order already reconciles,
+     * so the guard is a no-op for it — it only rescues carts that would otherwise 422.
+     *
+     * @param array $purchase_unit The purchase_units[0] array (amount + optional items).
+     * @param int   $decimals      Currency decimal places.
+     * @return array
+     */
+    private function ppcp_enforce_breakdown_invariant($purchase_unit, $decimals) {
+        if (!is_array($purchase_unit)) {
+            return $purchase_unit;
+        }
+        // Escape hatch: a store can disable the guard via
+        //   add_filter( 'wpg_ppcp_enforce_breakdown_invariant', '__return_false' );
+        // (only reverts to the previous behaviour, which was a possible 422).
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+        if (!apply_filters('wpg_ppcp_enforce_breakdown_invariant', true, $purchase_unit)) {
+            return $purchase_unit;
+        }
+        $has_breakdown = !empty($purchase_unit['amount']['breakdown']);
+        $has_items = !empty($purchase_unit['items']);
+        if (!$has_breakdown && !$has_items) {
+            return $purchase_unit;
+        }
+        if ($this->ppcp_breakdown_reconciles($purchase_unit, $decimals)) {
+            return $purchase_unit;
+        }
+        // Breakdown does not reconcile — strip breakdown + items so PayPal only sees
+        // the authoritative total. The amount value/currency are preserved exactly.
+        $currency = isset($purchase_unit['amount']['currency_code']) ? $purchase_unit['amount']['currency_code'] : '';
+        $value    = isset($purchase_unit['amount']['value']) ? $purchase_unit['amount']['value'] : 0;
+        unset($purchase_unit['items']);
+        $purchase_unit['amount'] = array(
+            'currency_code' => $currency,
+            'value'         => $value,
+        );
+        $this->ppcp_log('Breakdown did not reconcile to amount.value; dropped breakdown+items to avoid a PayPal 422 (amount preserved).');
+        return $purchase_unit;
+    }
+
+    /**
+     * Whether a purchase unit's items and breakdown reconcile to amount.value.
+     *
+     * @param array $purchase_unit
+     * @param int   $decimals
+     * @return bool True when consistent (or nothing to check), false when PayPal would 422.
+     */
+    private function ppcp_breakdown_reconciles($purchase_unit, $decimals) {
+        $epsilon = 0.0000001;
+        $amount_value = isset($purchase_unit['amount']['value']) ? (float) $purchase_unit['amount']['value'] : 0.0;
+        $bd = (isset($purchase_unit['amount']['breakdown']) && is_array($purchase_unit['amount']['breakdown']))
+            ? $purchase_unit['amount']['breakdown'] : array();
+        $val = function ($key) use ($bd) {
+            return isset($bd[$key]['value']) ? (float) $bd[$key]['value'] : 0.0;
+        };
+        $item_total = $val('item_total');
+        if (!empty($bd)) {
+            $sum = $item_total + $val('shipping') + $val('tax_total') + $val('handling') + $val('insurance')
+                - $val('shipping_discount') - $val('discount');
+            if (abs(round($sum - $amount_value, $decimals)) > $epsilon) {
+                return false;
+            }
+        }
+        if (!empty($purchase_unit['items']) && is_array($purchase_unit['items'])) {
+            $li_sum = 0.0;
+            foreach ($purchase_unit['items'] as $item) {
+                $unit = isset($item['unit_amount']['value']) ? (float) $item['unit_amount']['value'] : 0.0;
+                $qty  = isset($item['quantity']) ? (float) $item['quantity'] : 0.0;
+                $li_sum += $unit * $qty;
+            }
+            // Items are only valid alongside a matching item_total.
+            if (abs(round($li_sum - $item_total, $decimals)) > $epsilon) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function ppcp_get_details_from_order($order_id) {
@@ -1921,9 +2303,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $rounded_total = $this->ppcp_get_rounded_total_in_order($order);
             $details = array(
-                'total_item_amount' => ppcp_round($order->get_subtotal(), $this->decimals),
-                'order_tax' => ppcp_round($order->get_total_tax(), $this->decimals),
-                'shipping' => ppcp_round($order->get_shipping_total(), $this->decimals),
+                'total_item_amount' => woo_paypal_gateway_ppcp_round($order->get_subtotal(), $this->decimals),
+                'order_tax' => woo_paypal_gateway_ppcp_round($order->get_total_tax(), $this->decimals),
+                'shipping' => woo_paypal_gateway_ppcp_round($order->get_shipping_total(), $this->decimals),
                 'items' => $this->ppcp_get_paypal_line_items_from_order($order),
             );
             $details = $this->ppcp_get_details($details, $order->get_total_discount(), $rounded_total, $order->get_total());
@@ -2003,7 +2385,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $items = array();
             foreach ($order->get_items() as $cart_item_key => $values) {
                 $desc = '';
-                $amount = ppcp_round($values['line_subtotal'] / $values['qty'], $this->decimals);
+                $amount = woo_paypal_gateway_ppcp_round($values['line_subtotal'] / $values['qty'], $this->decimals);
                 $product = $values->get_product();
                 $name = $product->get_name();
                 $sku = $product->get_sku();
@@ -2041,8 +2423,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $order = wc_get_order($order);
             $rounded_total = 0;
             foreach ($order->get_items() as $cart_item_key => $values) {
-                $amount = ppcp_round($values['line_subtotal'] / $values['qty'], $this->decimals);
-                $rounded_total += ppcp_round($amount * $values['qty'], $this->decimals);
+                $amount = woo_paypal_gateway_ppcp_round($values['line_subtotal'] / $values['qty'], $this->decimals);
+                $rounded_total += woo_paypal_gateway_ppcp_round($amount * $values['qty'], $this->decimals);
             }
             return $rounded_total;
         } catch (Exception $ex) {
@@ -2077,7 +2459,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (!empty($amount) && $amount > 0) {
                 // Merge, do not overwrite: keep note_to_payer alongside the amount.
                 $body_request['amount'] = array(
-                    'value' => ppcp_round($amount, $this->decimals),
+                    'value' => woo_paypal_gateway_ppcp_round($amount, $this->decimals),
                     'currency_code' => $order->get_currency()
                 );
             }
@@ -2087,7 +2469,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             // refunded total has advanced), so repeat equal partial refunds are not
             // wrongly de-duplicated by PayPal.
             $refund_sequence = $order->get_total_refunded();
-            $body_request = ppcp_remove_empty_key($body_request);
+            $body_request = woo_paypal_gateway_ppcp_remove_empty_key($body_request);
             $body_request = json_encode($body_request);
             $this->ppcp_log('Refund request: ' . $body_request);
             $response = wp_remote_post($this->paypal_refund_api . $transaction_id . '/refund', array(
@@ -2140,13 +2522,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
             $patch_request = array();
             $update_amount_request = array();
-            $reference_id = ppcp_get_session('ppcp_reference_id');
+            $reference_id = woo_paypal_gateway_ppcp_get_session('ppcp_reference_id');
             $order_id = $order->get_id();
             // Match decimal precision to the order currency actually sent to PayPal.
             $this->decimals = $this->ppcp_get_number_of_decimal_digits($order->get_currency());
             $cart = $this->ppcp_get_details_from_order($order_id);
 
-            $order_total = ppcp_round($cart['order_total'], $this->decimals);
+            $order_total = woo_paypal_gateway_ppcp_round($cart['order_total'], $this->decimals);
             if ((float) $order_total <= 0) {
                 $this->ppcp_log('Update order skipped: order total is ' . $order_total . ' for order #' . $order_id . '. PayPal does not accept zero or negative amounts.');
                 if (function_exists('wc_add_notice')) {
@@ -2190,42 +2572,56 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if ($this->send_items === true) {
             if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {
                 $update_amount_request['item_total'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($order_id)),
-                    'value' => ppcp_round($cart['total_item_amount'], $this->decimals)
+                    'value' => woo_paypal_gateway_ppcp_round($cart['total_item_amount'], $this->decimals)
                 );
             }
             if (isset($cart['discount']) && $cart['discount'] > 0) {
                 $update_amount_request['discount'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($order_id)),
-                    'value' => ppcp_round($cart['discount'], $this->decimals)
+                    'value' => woo_paypal_gateway_ppcp_round($cart['discount'], $this->decimals)
                 );
             }
             if (isset($cart['shipping']) && $cart['shipping'] > 0) {
                 $update_amount_request['shipping'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($order_id)),
-                    'value' => ppcp_round($cart['shipping'], $this->decimals)
+                    'value' => woo_paypal_gateway_ppcp_round($cart['shipping'], $this->decimals)
                 );
             }
             if (isset($cart['ship_discount_amount']) && $cart['ship_discount_amount'] > 0) {
                 $update_amount_request['shipping_discount'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($order_id)),
-                    'value' => ppcp_round($cart['ship_discount_amount'], $this->decimals),
+                    'value' => woo_paypal_gateway_ppcp_round($cart['ship_discount_amount'], $this->decimals),
                 );
             }
             if (isset($cart['order_tax']) && $cart['order_tax'] > 0) {
                 $update_amount_request['tax_total'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($order_id)),
-                    'value' => ppcp_round($cart['order_tax'], $this->decimals)
+                    'value' => woo_paypal_gateway_ppcp_round($cart['order_tax'], $this->decimals)
                 );
             }
             }
 
             $amount_value = array(
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                 'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($order_id)),
-                'value' => ppcp_round($cart['order_total'], $this->decimals),
+                'value' => woo_paypal_gateway_ppcp_round($cart['order_total'], $this->decimals),
             );
             if (!empty($update_amount_request)) {
                 $amount_value['breakdown'] = $update_amount_request;
+            }
+            // Fail-safe: if the breakdown does not reconcile to amount.value, drop it so
+            // the PATCH cannot be rejected by PayPal with a breakdown mismatch. Reuses the
+            // same guard as order create (no items in a PATCH amount, so only the
+            // breakdown-sum check applies). A consistent breakdown is left untouched.
+            $guarded_pu = $this->ppcp_enforce_breakdown_invariant(array('amount' => $amount_value), $this->decimals);
+            if (isset($guarded_pu['amount'])) {
+                $amount_value = $guarded_pu['amount'];
             }
             $patch_request[] = array(
                 'op' => 'add',
@@ -2276,11 +2672,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $this->ppcp_add_log_details('Update order');
             $this->ppcp_log('Endpoint: ' . $this->paypal_order_api . $paypal_order_id);
-            $this->ppcp_log('Request: ' . print_r($patch_request_json, true));
+            $this->ppcp_log('Request: ' . wc_print_r($patch_request_json, true));
 
+            // The PATCH changes amounts/addresses at PayPal: any snapshot fetched
+            // earlier in this request no longer reflects the order.
+            self::ppcp_forget_order_snapshot($paypal_order_id);
             // Send the request to PayPal
             $response = wp_remote_request($this->paypal_order_api . $paypal_order_id, array(
-                'timeout' => 60,
+                'timeout' => $this->ppcp_interactive_timeout(),
                 'method' => 'PATCH',
                 'redirection' => 5,
                 'httpversion' => '1.1',
@@ -2343,7 +2742,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->ppcp_log('Response Code: ' . wp_remote_retrieve_response_code($response));
                 $this->ppcp_log('Response Message: ' . wp_remote_retrieve_response_message($response));
                 $this->ppcp_log('Response Body: ' . wc_print_r($this->ppcp_redact_sensitive_data($api_response), true));
-                ppcp_set_session('ppcp_paypal_transaction_details', $api_response);
+                woo_paypal_gateway_ppcp_set_session('ppcp_paypal_transaction_details', $api_response);
                 return $api_response;
             }
         } catch (Exception $ex) {
@@ -2398,6 +2797,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $api_response = json_decode(wp_remote_retrieve_body($response), true);
             $this->ppcp_log('Response : ' . wc_print_r($this->ppcp_redact_sensitive_data($api_response), true));
             if (!empty($api_response)) {
+                // translators: %1$s: authorization ID, %2$s: error message from PayPal.
                 $order->add_order_note(sprintf(__('Void of authorization %1$s failed: %2$s', 'woo-paypal-gateway'), $authorization_id, $this->ppcp_get_readable_message($api_response)));
             }
             return false;
@@ -2422,13 +2822,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $capture_arg = array(
                 'amount' =>
                 array(
-                    'value' => ppcp_round($order->get_total(), $this->decimals),
+                    'value' => woo_paypal_gateway_ppcp_round($order->get_total(), $this->decimals),
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id)),
                 ),
                 'invoice_id' => $this->invoice_id_prefix . str_replace("#", "", $order->get_order_number()),
                 'final_capture' => true,
             );
-            $body_request = ppcp_remove_empty_key($capture_arg);
+            $body_request = woo_paypal_gateway_ppcp_remove_empty_key($capture_arg);
             $body_request = json_encode($body_request);
             $authorization_id = $order->get_meta('_auth_transaction_id');
             $this->ppcp_add_log_details('Capture authorized payment');
@@ -2501,9 +2902,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $order->save_meta_data();
                     // translators: 1: Payment method title, 2: Transaction ID.
                     $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $transaction_id));
-                    $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
+                    $order->add_order_note('Seller Protection Status: ' . woo_paypal_gateway_ppcp_readable($seller_protection));
                     if ($payment_status === 'COMPLETED') {
-                        wpg_set_order_payment_method_title_from_paypal_response($order, $api_response);
+                        woo_paypal_gateway_set_order_payment_method_title_from_paypal_response($order, $api_response);
                         // Replace the authorization id with the capture id and persist it
                         // explicitly: when the capture was triggered by an admin status
                         // change the order is already in a paid status, so
@@ -2517,11 +2918,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $order->payment_complete($transaction_id);
                         // translators: 1: Payment method title, 2: Payment status.
                         $order->add_order_note(sprintf(__('Payment via %1$s : %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), ucfirst(strtolower($payment_status))));
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                         apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $woo_order_id);
                         return true;
                     } else {
                         $payment_status_reason = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status_details']['reason']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status_details']['reason'] : '';
-                        $bool = ppcp_update_woo_order_status($woo_order_id, $payment_status, $payment_status_reason, $processor_response);
+                        $bool = woo_paypal_gateway_ppcp_update_woo_order_status($woo_order_id, $payment_status, $payment_status_reason, $processor_response);
                         if (!empty($transaction_id)) {
                             // Reload so the status update above is not clobbered, then
                             // persist the capture id for the eventual refund.
@@ -2638,7 +3040,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $webhook_request['event_types'][] = array('name' => 'CUSTOMER.DISPUTE.CREATED');
                 $webhook_request['event_types'][] = array('name' => 'CUSTOMER.DISPUTE.UPDATED');
                 $webhook_request['event_types'][] = array('name' => 'CUSTOMER.DISPUTE.RESOLVED');
-                $webhook_request = ppcp_remove_empty_key($webhook_request);
+                $webhook_request = woo_paypal_gateway_ppcp_remove_empty_key($webhook_request);
                 $webhook_request = json_encode($webhook_request);
                 $response = wp_remote_post($this->webhook, array(
                     'method' => 'POST',
@@ -2749,7 +3151,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->ppcp_get_access_token();
             }
             if ($this->is_valid_for_use() === true && $this->access_token) {
-                $posted_raw = ppcp_get_raw_data();
+                $posted_raw = woo_paypal_gateway_ppcp_get_raw_data();
                 if (empty($posted_raw)) {
                     return true;
                 }
@@ -2767,8 +3169,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     return $this->ppcp_update_order_status($posted);
                 }
             }
-        } catch (Exception $ex) {
-
+        } catch (\Throwable $ex) {
+            // A processing error must NOT be silently acknowledged, or PayPal will not
+            // redeliver and the event is lost. Return false so PayPal retries. The status
+            // handlers are idempotent (has_status guards + refund-gap dedup), so a
+            // redelivered event that was already processed is a safe no-op.
+            $this->ppcp_log('Webhook processing exception; asking PayPal to retry delivery: ' . $ex->getMessage());
+            return false;
         }
         return true;
     }
@@ -2908,7 +3315,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             return true;
         }
         if (isset($posted['event_type']) && !empty($posted['event_type'])) {
-            $order->add_order_note('Webhooks Update : ' . $posted['summary']);
+            $order->add_order_note('Webhooks Update : ' . (isset($posted['summary']) ? $posted['summary'] : $posted['event_type']));
             if (isset($posted['resource']['status']) && !empty($posted['resource']['status'])) {
                 $this->ppcp_log('Payment status: ' . $posted['resource']['status']);
             }
@@ -2994,7 +3401,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
 
             // A dispute can reference more than one captured transaction; handle
-            // each matching order (mirrors the competitor's loop behaviour).
+            // each matching order.
             $transactions = array();
             if (!empty($resource['disputed_transactions']) && is_array($resource['disputed_transactions'])) {
                 $transactions = $resource['disputed_transactions'];
@@ -3059,11 +3466,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $stage ? $stage : 'N/A'
                     );
                     $order->add_order_note($note);
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     if (apply_filters('wpg_ppcp_dispute_set_on_hold', true, $order, $posted) && !$order->has_status(array('cancelled', 'refunded', 'on-hold'))) {
                         // Remember the current status so it can be restored on resolution.
                         $order->update_meta_data('_wpg_ppcp_dispute_prev_status', $order->get_status());
                         $order->update_status('on-hold', __('Order placed on hold due to an open PayPal dispute. ', 'woo-paypal-gateway'));
                     }
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     do_action('wpg_ppcp_dispute_created', $order, $posted);
                     break;
 
@@ -3081,10 +3490,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $order->add_order_note($note);
                     // Restore the pre-dispute status if we placed the order on hold.
                     $prev_status = $order->get_meta('_wpg_ppcp_dispute_prev_status');
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     if ($prev_status && $order->has_status('on-hold') && apply_filters('wpg_ppcp_dispute_restore_status', true, $order, $posted)) {
                         $order->update_status($prev_status, __('Restoring status after PayPal dispute resolution. ', 'woo-paypal-gateway'));
                     }
                     $order->delete_meta_data('_wpg_ppcp_dispute_prev_status');
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     do_action('wpg_ppcp_dispute_resolved', $order, $posted);
                     break;
 
@@ -3097,11 +3508,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $stage ? $stage : 'N/A'
                     );
                     $order->add_order_note($note);
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     do_action('wpg_ppcp_dispute_updated', $order, $posted);
                     break;
             }
 
             $order->save();
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             do_action('wpg_ppcp_dispute_event', $event_type, $order, $posted);
         } catch (Exception $ex) {
             $this->ppcp_log('Dispute webhook handling error: ' . $ex->getMessage());
@@ -3127,16 +3540,51 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             return $orders[0];
         }
         // Fallback: authorization id stored separately.
+        // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Order must be located by the PayPal capture id stored in order meta; there is no alternative lookup key.
         $orders = wc_get_orders(array(
             'limit'      => 1,
             'return'     => 'objects',
             'meta_key'   => '_auth_transaction_id',
             'meta_value' => $capture_id,
         ));
+        // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
         if (!empty($orders) && is_array($orders)) {
             return $orders[0];
         }
         return false;
+    }
+
+    /**
+     * Acquire a short-lived, atomic per-order completion lock.
+     *
+     * Uses the same INSERT IGNORE mechanism as the renewal lock: exactly one concurrent
+     * caller inserts the transient rows and wins. The lock is stored as a transient so a
+     * short TTL auto-expires it as a backstop even if a holder dies before releasing.
+     *
+     * @param int $order_id
+     * @param int $ttl Seconds before the lock self-expires.
+     * @return bool True if this caller acquired the lock.
+     */
+    private function ppcp_acquire_completion_lock($order_id, $ttl = 45) {
+        global $wpdb;
+        $lock_key = 'wpg_ppcp_complete_lock_' . absint($order_id);
+        if (get_transient($lock_key) !== false) {
+            return false;
+        }
+        $option_name     = '_transient_' . $lock_key;
+        $expiration_name = '_transient_timeout_' . $lock_key;
+        $now    = time();
+        $expire = $now + max(5, (int) $ttl);
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+        $result = $wpdb->query($wpdb->prepare(
+            "INSERT IGNORE INTO {$wpdb->options} (option_name, option_value, autoload) VALUES (%s, %s, 'no'), (%s, %s, 'no')",
+            $expiration_name, $expire, $option_name, $now
+        ));
+        return $result > 0;
+    }
+
+    private function ppcp_release_completion_lock($order_id) {
+        delete_transient('wpg_ppcp_complete_lock_' . absint($order_id));
     }
 
     public function payment_status_completed($order, $posted) {
@@ -3144,23 +3592,43 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->ppcp_log('Aborting, Order #' . $order->get_id() . ' is already complete.');
             exit;
         }
-        $resource_status = isset($posted['resource']['status']) ? strtoupper($posted['resource']['status']) : '';
-        $this->ppcp_log('Webhook payment completion check for order #' . $order->get_id() . ': event=' . (isset($posted['event_type']) ? $posted['event_type'] : 'N/A') . ', resource_status=' . $resource_status);
-        if ('COMPLETED' === $resource_status) {
-            $this->payment_complete($order);
-        } else {
-            if ('PENDING' === $resource_status) {
-                if (!empty($posted['resource']['status_details']['reason'])) {
-                    $this->payment_on_hold($order, sprintf(__('Payment pending (%1$s).', 'woo-paypal-gateway'), $posted['resource']['status_details']['reason']));
-                } else {
-                    $this->payment_on_hold($order, __('Payment is pending at PayPal.', 'woo-paypal-gateway'));
-                }
-            } elseif ('AUTHORIZED' === $resource_status || 'CREATED' === $resource_status) {
-                $this->payment_on_hold($order, $this->get_payment_authorized_note());
-            } else {
-                $this->ppcp_log('Webhook payment status is not successful for order #' . $order->get_id() . '. Marking order as failed. Status: ' . $resource_status);
-                $this->payment_status_failed($order);
+        $order_id = $order->get_id();
+        // Serialize completion: two concurrent CAPTURE.COMPLETED deliveries (or a
+        // redelivery racing the first) could both pass the has_status check above before
+        // either writes the status. If the lock is held, another process is completing
+        // this order, so skip — the lock auto-expires as a backstop.
+        if (!$this->ppcp_acquire_completion_lock($order_id)) {
+            $this->ppcp_log('Webhook completion for order #' . $order_id . ' skipped: completion lock held by another process.');
+            return;
+        }
+        try {
+            // Re-check under the lock in case the other holder just completed the order.
+            $fresh = wc_get_order($order_id);
+            if ($fresh instanceof WC_Order && $fresh->has_status(wc_get_is_paid_statuses())) {
+                $this->ppcp_log('Order #' . $order_id . ' already completed under lock; skipping duplicate.');
+                return;
             }
+            $resource_status = isset($posted['resource']['status']) ? strtoupper($posted['resource']['status']) : '';
+            $this->ppcp_log('Webhook payment completion check for order #' . $order->get_id() . ': event=' . (isset($posted['event_type']) ? $posted['event_type'] : 'N/A') . ', resource_status=' . $resource_status);
+            if ('COMPLETED' === $resource_status) {
+                $this->payment_complete($order);
+            } else {
+                if ('PENDING' === $resource_status) {
+                    if (!empty($posted['resource']['status_details']['reason'])) {
+                        // translators: %1$s: pending reason from PayPal.
+                        $this->payment_on_hold($order, sprintf(__('Payment pending (%1$s).', 'woo-paypal-gateway'), $posted['resource']['status_details']['reason']));
+                    } else {
+                        $this->payment_on_hold($order, __('Payment is pending at PayPal.', 'woo-paypal-gateway'));
+                    }
+                } elseif ('AUTHORIZED' === $resource_status || 'CREATED' === $resource_status) {
+                    $this->payment_on_hold($order, $this->get_payment_authorized_note());
+                } else {
+                    $this->ppcp_log('Webhook payment status is not successful for order #' . $order->get_id() . '. Marking order as failed. Status: ' . $resource_status);
+                    $this->payment_status_failed($order);
+                }
+            }
+        } finally {
+            $this->ppcp_release_completion_lock($order_id);
         }
     }
 
@@ -3203,8 +3671,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         if (!$order->has_status(array('processing', 'completed'))) {
             $order->add_order_note($note);
             $order->payment_complete($txn_id);
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $order);
-            wpg_clear_ppcp_session_and_cart();
+            woo_paypal_gateway_clear_ppcp_session_and_cart();
         }
     }
 
@@ -3239,7 +3708,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     }
 
     public function payment_status_refunded($order, $posted) {
-        if (!isset($posted['resource']['seller_payable_breakdown']['total_refunded_amount']['value'])) {
+        if (!$order instanceof WC_Order || !isset($posted['resource']['seller_payable_breakdown']['total_refunded_amount']['value'])) {
             return;
         }
         $resource = $posted['resource'];
@@ -3247,24 +3716,74 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         $refunded_currency = $resource['seller_payable_breakdown']['total_refunded_amount']['currency_code'] ?? '';
         $order_total = floatval($order->get_total());
         $order_currency = $order->get_currency();
-        $formatted_refund = wc_format_decimal($refunded_amount, wc_get_price_decimals());
-        $formatted_total = wc_format_decimal($order_total, wc_get_price_decimals());
-        if (strtoupper($refunded_currency) !== strtoupper($order_currency)) {
+        if ($refunded_currency !== '' && strtoupper($refunded_currency) !== strtoupper($order_currency)) {
             $order->add_order_note("PayPal refund currency mismatch: $refunded_currency vs $order_currency");
             return;
         }
-        if ($formatted_refund >= $formatted_total && $order_total > 0) {
-            if (!$order->has_status(['refunded'])) {
-                $order->update_status('refunded');
-                $order->add_order_note(
-                    sprintf(
-                        /* translators: 1: refunded amount, 2: refunded currency */
-                        __( 'Marked as refunded via PayPal. Total refunded: %1$s %2$s.', 'woo-paypal-gateway' ),
-                        $formatted_refund,
-                        $refunded_currency
-                    )
-                );
+
+        // Record any refund that happened outside WooCommerce (e.g. in the PayPal
+        // dashboard, including partial refunds) as a real WC_Order_Refund so the order
+        // reflects it. Dedup is by the refunded-total GAP, not by refund id: PayPal
+        // reports its cumulative total_refunded_amount, so we only create a WC refund
+        // for the amount PayPal has refunded beyond what WooCommerce already records.
+        //   - Refund initiated from WC admin: WC already recorded it, so the gap is 0 and
+        //     nothing is duplicated.
+        //   - Refund initiated in the PayPal dashboard: the gap is the new amount, which
+        //     is recorded here.
+        //   - Webhook redelivery: the gap is already closed, so it is a no-op.
+        // wc_create_refund() only writes the local record; it does NOT call the gateway
+        // API, so this can never trigger a second refund at PayPal.
+        $decimals    = wc_get_price_decimals();
+        $wc_refunded = floatval($order->get_total_refunded());
+        $gap         = round($refunded_amount - $wc_refunded, $decimals);
+        $remaining   = round($order_total - $wc_refunded, $decimals);
+        $amount_to_record = min($gap, max(0.0, $remaining));
+        if ($amount_to_record > 0) {
+            try {
+                $wc_refund = wc_create_refund(array(
+                    'amount'        => wc_format_decimal($amount_to_record, $decimals),
+                    'reason'        => __('Refunded via PayPal.', 'woo-paypal-gateway'),
+                    'order_id'      => $order->get_id(),
+                    'restock_items' => false,
+                ));
+                if (is_wp_error($wc_refund)) {
+                    $order->add_order_note('Could not record PayPal refund in WooCommerce: ' . $wc_refund->get_error_message());
+                } else {
+                    $paypal_refund_id = isset($resource['id']) ? (string) $resource['id'] : '';
+                    if ($paypal_refund_id !== '' && is_object($wc_refund)) {
+                        $wc_refund->update_meta_data('_ppcp_paypal_refund_id', $paypal_refund_id);
+                        $wc_refund->save_meta_data();
+                    }
+                    $order->add_order_note(
+                        sprintf(
+                            /* translators: 1: amount, 2: currency, 3: PayPal refund id */
+                            __('Recorded a PayPal refund of %1$s %2$s (PayPal refund ID: %3$s).', 'woo-paypal-gateway'),
+                            wc_format_decimal($amount_to_record, $decimals),
+                            $order_currency,
+                            $paypal_refund_id !== '' ? $paypal_refund_id : 'n/a'
+                        )
+                    );
+                }
+            } catch (\Throwable $ex) {
+                $this->ppcp_log('Failed to record PayPal refund for order #' . $order->get_id() . ': ' . $ex->getMessage());
             }
+        }
+
+        // Preserve the existing full-refund status transition. wc_create_refund above may
+        // already move a fully-refunded order to the "refunded" status; this is a safety
+        // net for the status only.
+        $formatted_refund = wc_format_decimal($refunded_amount, $decimals);
+        $formatted_total  = wc_format_decimal($order_total, $decimals);
+        if ($order_total > 0 && $formatted_refund >= $formatted_total && !$order->has_status(['refunded'])) {
+            $order->update_status(
+                'refunded',
+                sprintf(
+                    /* translators: 1: refunded amount, 2: refunded currency */
+                    __('Marked as refunded via PayPal. Total refunded: %1$s %2$s.', 'woo-paypal-gateway'),
+                    $formatted_refund,
+                    $order_currency
+                )
+            );
         }
     }
 
@@ -3286,6 +3805,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
         $orders = wc_get_orders(array(
             'limit' => 1,
+            // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Order must be located by the PayPal order id stored in order meta; there is no alternative lookup key.
             'meta_query' => array(
                 array(
                     'key' => '_wpg_paypal_order_id',
@@ -3481,8 +4001,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $decimals = $this->decimals;
             $reference_id = wc_generate_order_key();
-            ppcp_set_session('reference_id', $reference_id);
+            // Canonical session key. Readers (ppcp_update_order, the invoice-id patch,
+            // the express shipping patch) all read 'ppcp_reference_id'; writing the
+            // unprefixed key here left the redirect-flow amount PATCH unable to match the
+            // purchase unit (path @reference_id==''), so post-approval amount/address
+            // re-syncs silently no-op'd. Write the key the readers actually read.
+            woo_paypal_gateway_ppcp_set_session('ppcp_reference_id', $reference_id);
             $intent = ($this->paymentaction === 'capture') ? 'CAPTURE' : 'AUTHORIZE';
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $intent = apply_filters('wpg_ppcp_payment_intent', $intent, $woo_order_id ? wc_get_order($woo_order_id) : null);
             $body_request = array(
                 'intent' => $intent,
@@ -3495,6 +4021,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         'reference_id' => $reference_id,
                         'amount' =>
                         array(
+                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                             'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $cart['order_total']),
                             'value' => $cart['order_total'],
                             'breakdown' => array()
@@ -3524,30 +4051,35 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if ($this->send_items === true) {
                 if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {
                     $body_request['purchase_units'][0]['amount']['breakdown']['item_total'] = array(
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                         'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $cart['total_item_amount']),
                         'value' => $cart['total_item_amount'],
                     );
                 }
                 if (isset($cart['shipping']) && $cart['shipping'] > 0) {
                     $body_request['purchase_units'][0]['amount']['breakdown']['shipping'] = array(
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                         'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $cart['shipping']),
                         'value' => $cart['shipping'],
                     );
                 }
                 if (isset($cart['ship_discount_amount']) && $cart['ship_discount_amount'] > 0) {
                     $body_request['purchase_units'][0]['amount']['breakdown']['shipping_discount'] = array(
-                        'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), ppcp_round($cart['ship_discount_amount'], $decimals)),
-                        'value' => ppcp_round($cart['ship_discount_amount'], $decimals),
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+                        'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), woo_paypal_gateway_ppcp_round($cart['ship_discount_amount'], $decimals)),
+                        'value' => woo_paypal_gateway_ppcp_round($cart['ship_discount_amount'], $decimals),
                     );
                 }
                 if (isset($cart['order_tax']) && $cart['order_tax'] > 0) {
                     $body_request['purchase_units'][0]['amount']['breakdown']['tax_total'] = array(
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                         'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $cart['order_tax']),
                         'value' => $cart['order_tax'],
                     );
                 }
                 if (isset($cart['discount']) && $cart['discount'] > 0) {
                     $body_request['purchase_units'][0]['amount']['breakdown']['discount'] = array(
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                         'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $cart['discount']),
                         'value' => $cart['discount'],
                     );
@@ -3569,8 +4101,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                             'category' => !empty($order_items['category']) ? $order_items['category'] : '',
                             'quantity' => $order_items['quantity'],
                             'unit_amount' => array(
+                                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                                 'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $order_items['amount']),
-                                'value' => ppcp_round($order_items['amount'], $decimals)
+                                'value' => woo_paypal_gateway_ppcp_round($order_items['amount'], $decimals)
                             ),
                         );
                     }
@@ -3602,7 +4135,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     if (!empty($shipping_first_name) && !empty($shipping_last_name)) {
                         $body_request['purchase_units'][0]['shipping']['name']['full_name'] = $shipping_first_name . ' ' . $shipping_last_name;
                     }
-                    ppcp_set_session('is_shipping_added', 'yes');
+                    woo_paypal_gateway_ppcp_set_session('is_shipping_added', 'yes');
                     $body_request['purchase_units'][0]['shipping']['address'] = array(
                         'address_line_1' => $shipping_address_1,
                         'address_line_2' => $shipping_address_2,
@@ -3627,20 +4160,23 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                                 'postal_code' => $cart['shipping_address']['postcode'],
                                 'country_code' => strtoupper($cart['shipping_address']['country']),
                             );
-                            ppcp_set_session('is_shipping_added', 'yes');
+                            woo_paypal_gateway_ppcp_set_session('is_shipping_added', 'yes');
                         }
                     }
                 }
             }
             $body_request = $this->ppcp_set_payer_details($woo_order_id, $body_request);
-            if (is_wpg_paypal_vault_required()) {
+            if (woo_paypal_gateway_ppcp_is_paypal_vault_required()) {
                 $body_request = $this->ppcp_add_payment_source_parameter($body_request);
             }
-            $body_request = ppcp_remove_empty_key($body_request);
+            $body_request = woo_paypal_gateway_ppcp_remove_empty_key($body_request);
+            if (isset($body_request['purchase_units'][0])) {
+                $body_request['purchase_units'][0] = $this->ppcp_enforce_breakdown_invariant($body_request['purchase_units'][0], $this->decimals);
+            }
             $body_request = json_encode($body_request);
             $this->api_response = wp_remote_post($this->paypal_order_api, array(
                 'method' => 'POST',
-                'timeout' => 60,
+                'timeout' => $this->ppcp_interactive_timeout(),
                 'redirection' => 5,
                 'httpversion' => '1.1',
                 'blocking' => true,
@@ -3745,14 +4281,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function ppcp_regular_capture() {
         if (isset($_GET['token']) && !empty($_GET['token'])) {
-            $paypal_order_id = wc_clean($_GET['token']);
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+            $paypal_order_id = wc_clean(wp_unslash($_GET['token']));
             $this->ppcp_set_order_session_data($paypal_order_id, 'approved');
         } else {
             wp_safe_redirect(wc_get_checkout_url());
             exit();
         }
-        $order_id = ppcp_get_awaiting_payment_order_id();
-        if (ppcp_is_valid_order($order_id) === false || empty($order_id)) {
+        $order_id = woo_paypal_gateway_ppcp_get_awaiting_payment_order_id();
+        if (woo_paypal_gateway_ppcp_is_valid_order($order_id) === false || empty($order_id)) {
             wp_safe_redirect(wc_get_checkout_url());
             exit();
         }
@@ -3766,12 +4303,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         $order->update_meta_data('_enviorment', ($this->is_sandbox) ? 'sandbox' : 'live');
         $order->save_meta_data();
         if ($is_success) {
-            wpg_clear_ppcp_session_and_cart();
+            woo_paypal_gateway_clear_ppcp_session_and_cart();
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             wp_safe_redirect(apply_filters('woocommerce_get_return_url', $order->get_checkout_order_received_url(), $order));
         } else {
             unset(WC()->session->ppcp_session);
             WC()->session->set('reload_checkout', null);
-            wp_safe_redirect(wpg_get_checkout_url());
+            wp_safe_redirect(woo_paypal_gateway_get_checkout_url());
         }
         exit();
     }
@@ -3782,7 +4320,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-payment-token.php';
             }
             $this->payment_token = PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token::instance();
-            $wpg_payment_method = ppcp_get_session('wpg_payment_method');
+            $wpg_payment_method = woo_paypal_gateway_ppcp_get_session('wpg_payment_method');
             if (empty($wpg_payment_method)) {
                 return $request;
             }
@@ -3833,15 +4371,23 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         if (!empty($paypal_generated_customer_id)) {
             $attributes['customer'] = ['id' => $paypal_generated_customer_id];
         }
+        // First time this card is stored on file. Current behaviour uses usage
+        // SUBSEQUENT; the network-accurate value for the initial store is FIRST, applied
+        // only when the recommended-classification filter is enabled (default off).
+        $card_stored_credential = [
+            'payment_initiator' => 'CUSTOMER',
+            'payment_type' => 'UNSCHEDULED',
+            'usage' => 'SUBSEQUENT'
+        ];
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+        if (apply_filters('wpg_ppcp_use_recommended_stored_credentials', false, 'first', 'card')) {
+            $card_stored_credential['usage'] = 'FIRST';
+        }
         $request['payment_source']['card'] = [
             'name' => $billing_full_name,
             'billing_address' => $billing_address,
             'attributes' => $attributes,
-            'stored_credential' => [
-                'payment_initiator' => 'CUSTOMER',
-                'payment_type' => 'UNSCHEDULED',
-                'usage' => 'SUBSEQUENT'
-            ]
+            'stored_credential' => $card_stored_credential
         ];
     }
 
@@ -3904,7 +4450,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $response = wp_remote_post($this->id_token_url, array(
                 'method' => 'POST',
-                'timeout' => 60,
+                'timeout' => $this->ppcp_interactive_timeout(),
                 'redirection' => 5,
                 'httpversion' => '1.1',
                 'blocking' => true,
@@ -3966,15 +4512,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         'reference_id' => wc_generate_order_key(),
                         'description' => substr(wp_strip_all_tags((string) $description), 0, 127),
                         'amount' => array(
+                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                             'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $order->get_currency()),
-                            'value' => ppcp_round((float) $total, $this->decimals),
+                            'value' => woo_paypal_gateway_ppcp_round((float) $total, $this->decimals),
                         ),
                     ),
                 ),
             );
             $this->ppcp_add_log_details('Create offer redirect order');
             $response = wp_remote_post($this->paypal_order_api, array(
-                'timeout' => 60,
+                'timeout' => $this->ppcp_interactive_timeout(),
                 'httpversion' => '1.1',
                 'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id('offer-redirect-' . $order->get_id())),
                 'body' => json_encode($body_request),
@@ -4027,8 +4574,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 return false;
             }
             $endpoint = ($this->paymentaction === 'capture') ? '/capture' : '/authorize';
+            // State-changing call: drop the request-scoped snapshot of this order.
+            self::ppcp_forget_order_snapshot($paypal_order_id);
             $response = wp_remote_post($this->paypal_order_api . $paypal_order_id . $endpoint, array(
-                'timeout' => 60,
+                'timeout' => $this->ppcp_interactive_timeout(),
                 'httpversion' => '1.1',
                 'headers' => array('Content-Type' => 'application/json', 'Authorization' => "Bearer " . $this->access_token, "prefer" => "return=representation", 'PayPal-Partner-Attribution-Id' => 'MBJTechnolabs_SI_SPB', 'PayPal-Request-Id' => $this->generate_request_id('offer-capture-' . $paypal_order_id)),
             ));
@@ -4096,9 +4645,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
             $decimals = $this->decimals;
             $reference_id = wc_generate_order_key();
-            ppcp_set_session('reference_id', $reference_id);
+            // Canonical session key. Readers (ppcp_update_order, the invoice-id patch,
+            // the express shipping patch) all read 'ppcp_reference_id'; writing the
+            // unprefixed key here left the redirect-flow amount PATCH unable to match the
+            // purchase unit (path @reference_id==''), so post-approval amount/address
+            // re-syncs silently no-op'd. Write the key the readers actually read.
+            woo_paypal_gateway_ppcp_set_session('ppcp_reference_id', $reference_id);
             $order = wc_get_order($woo_order_id);
             $intent = ($this->paymentaction === 'capture') ? 'CAPTURE' : 'AUTHORIZE';
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $intent = apply_filters('wpg_ppcp_payment_intent', $intent, $order);
             $body_request = array(
                 'intent' => $intent,
@@ -4111,6 +4666,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         'reference_id' => $reference_id,
                         'amount' =>
                         array(
+                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                             'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $cart['order_total']),
                             'value' => $cart['order_total'],
                             'breakdown' => array()
@@ -4129,30 +4685,35 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if ($this->send_items === true) {
             if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {
                 $body_request['purchase_units'][0]['amount']['breakdown']['item_total'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $cart['total_item_amount']),
                     'value' => $cart['total_item_amount'],
                 );
             }
             if (isset($cart['shipping']) && $cart['shipping'] > 0) {
                 $body_request['purchase_units'][0]['amount']['breakdown']['shipping'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $cart['shipping']),
                     'value' => $cart['shipping'],
                 );
             }
             if (isset($cart['ship_discount_amount']) && $cart['ship_discount_amount'] > 0) {
                 $body_request['purchase_units'][0]['amount']['breakdown']['shipping_discount'] = array(
-                    'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), ppcp_round($cart['ship_discount_amount'], $decimals)),
-                    'value' => ppcp_round($cart['ship_discount_amount'], $decimals),
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+                    'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), woo_paypal_gateway_ppcp_round($cart['ship_discount_amount'], $decimals)),
+                    'value' => woo_paypal_gateway_ppcp_round($cart['ship_discount_amount'], $decimals),
                 );
             }
             if (isset($cart['order_tax']) && $cart['order_tax'] > 0) {
                 $body_request['purchase_units'][0]['amount']['breakdown']['tax_total'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $cart['order_tax']),
                     'value' => $cart['order_tax'],
                 );
             }
             if (isset($cart['discount']) && $cart['discount'] > 0) {
                 $body_request['purchase_units'][0]['amount']['breakdown']['discount'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $cart['discount']),
                     'value' => $cart['discount'],
                 );
@@ -4174,8 +4735,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                             'category' => !empty($order_items['category']) ? $order_items['category'] : '',
                             'quantity' => $order_items['quantity'],
                             'unit_amount' => array(
+                                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                                 'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $order_items['amount']),
-                                'value' => ppcp_round($order_items['amount'], $this->decimals)
+                                'value' => woo_paypal_gateway_ppcp_round($order_items['amount'], $this->decimals)
                             ),
                         );
                     }
@@ -4206,7 +4768,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 if (!empty($shipping_first_name) && !empty($shipping_last_name)) {
                     $body_request['purchase_units'][0]['shipping']['name']['full_name'] = $shipping_first_name . ' ' . $shipping_last_name;
                 }
-                ppcp_set_session('is_shipping_added', 'yes');
+                woo_paypal_gateway_ppcp_set_session('is_shipping_added', 'yes');
                 $body_request['purchase_units'][0]['shipping']['address'] = array(
                     'address_line_1' => $shipping_address_1,
                     'address_line_2' => $shipping_address_2,
@@ -4220,8 +4782,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 // Charge exactly the offer amount. Item/breakdown detail is dropped
                 // because the offer data cannot be reconciled against the parent
                 // order's totals without risking a 422 mismatch.
-                $override_total = ppcp_round((float) $charge_override['total'], $decimals);
+                $override_total = woo_paypal_gateway_ppcp_round((float) $charge_override['total'], $decimals);
                 $body_request['purchase_units'][0]['amount'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency($woo_order_id), $override_total),
                     'value' => $override_total,
                 );
@@ -4236,9 +4799,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 // single-use token) — skip the saved-vault-token lookup filter.
                 $body_request['payment_source'] = $payment_source_override;
             } else {
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                 $body_request = apply_filters('wpg_ppcp_add_payment_source', $body_request, $woo_order_id);
             }
-            $body_request = ppcp_remove_empty_key($body_request);
+            $body_request = woo_paypal_gateway_ppcp_remove_empty_key($body_request);
+            // Fail-safe: drop a non-reconciling breakdown so the create+capture cannot be
+            // rejected by PayPal with a breakdown mismatch (same guard as the other
+            // create paths). Applied once, before the retry loop: the duplicate-invoice
+            // retry below only mutates invoice_id, which does not affect amounts.
+            if (isset($body_request['purchase_units'][0])) {
+                $body_request['purchase_units'][0] = $this->ppcp_enforce_breakdown_invariant($body_request['purchase_units'][0], $this->decimals);
+            }
             // PayPal enforces unique invoice IDs per merchant account, so a shopper who
             // retries a previously-attempted order (or a store whose order numbers were
             // reset) can hit DUPLICATE_INVOICE_ID on this single create+capture call.
@@ -4254,7 +4825,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $request_id_context = 'token-capture-' . $woo_order_id . ($token_capture_attempt > 0 ? '-retry' . $token_capture_attempt : '');
                 $this->api_response = wp_remote_post($this->paypal_order_api, array(
                     'method' => 'POST',
-                    'timeout' => 60,
+                    'timeout' => $this->ppcp_interactive_timeout(),
                     'redirection' => 5,
                     'httpversion' => '1.1',
                     'blocking' => true,
@@ -4295,6 +4866,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $api_response = json_decode(wp_remote_retrieve_body($this->api_response), true);
                 $this->ppcp_log('Response : ' . wc_print_r($this->ppcp_redact_sensitive_data($api_response), true));
                 if (!empty($api_response['status']) && $api_response['status'] == 'COMPLETED') {
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     do_action('wpg_ppcp_save_payment_method_details', $woo_order_id, $api_response);
                     $payment_source = isset($api_response['payment_source']) ? $api_response['payment_source'] : '';
                     if (!empty($payment_source['card'])) {
@@ -4302,9 +4874,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $card_response_order_note .= "\n";
                         $card_response_order_note .= 'Last digits : ' . $payment_source['card']['last_digits'];
                         $card_response_order_note .= "\n";
-                        $card_response_order_note .= 'Brand : ' . ppcp_readable($payment_source['card']['brand']);
+                        $card_response_order_note .= 'Brand : ' . woo_paypal_gateway_ppcp_readable($payment_source['card']['brand']);
                         $card_response_order_note .= "\n";
-                        $card_response_order_note .= 'Card type : ' . ppcp_readable($payment_source['card']['type']);
+                        $card_response_order_note .= 'Card type : ' . woo_paypal_gateway_ppcp_readable($payment_source['card']['type']);
                         $order->add_order_note($card_response_order_note);
                     }
                     $processor_response = isset($api_response['purchase_units']['0']['payments']['captures']['0']['processor_response']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['processor_response'] : '';
@@ -4372,28 +4944,30 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                             $order->add_order_note(sprintf(__('Additional offer charge of %1$s completed via saved payment method. Transaction ID: %2$s', 'woo-paypal-gateway'), wc_price((float) $charge_override['total'], array('currency' => $order->get_currency())), $transaction_id));
                             return !empty($transaction_id) ? $transaction_id : true;
                         }
+                        // translators: %s: PayPal capture status.
                         $order->add_order_note(sprintf(__('Offer charge attempt was not completed. PayPal capture status: %s', 'woo-paypal-gateway'), $payment_status ? $payment_status : 'UNKNOWN'));
                         return false;
                     }
                     if ($payment_status == 'COMPLETED') {
-                        wpg_set_order_payment_method_title_from_paypal_response($order, $api_response);
+                        woo_paypal_gateway_set_order_payment_method_title_from_paypal_response($order, $api_response);
                         $order->payment_complete($transaction_id);
                         // translators: 1: Payment method title, 2: Payment status.
                         $order->add_order_note(sprintf(__('Payment via %1$s : %2$s.', 'woo-paypal-gateway'), $order->get_payment_method_title(), ucfirst(strtolower($payment_status))));
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                         apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $woo_order_id);
                         $order->update_meta_data('_payment_status', $payment_status);
                         $order->save_meta_data();
                         // translators: 1: Payment method title, 2: Transaction ID.
                         $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $transaction_id));
-                        $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
+                        $order->add_order_note('Seller Protection Status: ' . woo_paypal_gateway_ppcp_readable($seller_protection));
                     } else {
                         $payment_status_reason = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status_details']['reason']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status_details']['reason'] : '';
                         $order->update_meta_data('_payment_status', $payment_status);
                         $order->save_meta_data();
                         // translators: 1: Payment method title, 2: Transaction ID.
                         $order->add_order_note(sprintf(__('%1$s Transaction ID: %2$s', 'woo-paypal-gateway'), $order->get_payment_method_title(), $transaction_id));
-                        $order->add_order_note('Seller Protection Status: ' . ppcp_readable($seller_protection));
-                        $bool = ppcp_update_woo_order_status($woo_order_id, $payment_status, $payment_status_reason, $processor_response);
+                        $order->add_order_note('Seller Protection Status: ' . woo_paypal_gateway_ppcp_readable($seller_protection));
+                        $bool = woo_paypal_gateway_ppcp_update_woo_order_status($woo_order_id, $payment_status, $payment_status_reason, $processor_response);
                         if (!empty($transaction_id)) {
                             // Persist the capture id even while pending so the order stays
                             // refundable once it settles (reload to keep the on-hold status).
@@ -4442,7 +5016,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     if ($paypal_payment_token['id'] === $payment_tokens_id) {
                         foreach ($paypal_payment_token['payment_source'] as $type_key => $payment_tokens_data) {
                             $body_request['payment_source'] = array($type_key => array('vault_id' => $payment_tokens_id));
-                            $this->applyStoredCredentialParameter($type_key, $body_request);
+                            $this->applyStoredCredentialParameter($type_key, $body_request, 'recurring');
                             $order->update_meta_data('_wpg_ppcp_used_payment_method', $type_key);
                             $order->save();
                             return $body_request;
@@ -4450,13 +5024,29 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     }
                 }
             }
-            if (!empty($all_payment_tokens)) {
+            // First-token fallback. This charges the customer's FIRST vault token and
+            // rewrites the subscription's stored token id. It is only safe when NO
+            // specific token was recorded on the order (legacy/tokenless renewal).
+            //
+            // When a specific _payment_tokens_id WAS stored but was not matched above,
+            // charging a different saved card would bill the customer's wrong card, so
+            // the fallback is suppressed by default. The code below then uses the stored
+            // id directly, so PayPal charges the correct token or fails cleanly — it
+            // never charges a different card. A store that truly wants the old behaviour
+            // can re-enable it via the filter (default false).
+            $allow_first_token_fallback = empty($payment_tokens_id)
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+                || (bool) apply_filters('wpg_ppcp_renewal_charge_first_token_when_stored_missing', false, $order_id);
+            if (!empty($payment_tokens_id) && !$allow_first_token_fallback) {
+                $this->ppcp_log('Renewal order #' . $order_id . ': stored _payment_tokens_id not found in the customer vault list; first-token fallback suppressed to avoid charging a different saved card.');
+            }
+            if (!empty($all_payment_tokens) && $allow_first_token_fallback) {
                 foreach ($all_payment_tokens as $key => $paypal_payment_token) {
                     foreach ($paypal_payment_token['payment_source'] as $type_key => $payment_tokens_data) {
                         $order->update_meta_data('_payment_tokens_id', $paypal_payment_token['id']);
                         $body_request['payment_source'] = array($type_key => array('vault_id' => $paypal_payment_token['id']));
-                        $this->applyStoredCredentialParameter($type_key, $body_request);
-                        $wpg_ppcp_payment_method_title = wpg_ppcp_get_payment_method_title($type_key);
+                        $this->applyStoredCredentialParameter($type_key, $body_request, 'recurring');
+                        $wpg_ppcp_payment_method_title = woo_paypal_gateway_ppcp_get_payment_method_title($type_key);
                         $order->set_payment_method_title($wpg_ppcp_payment_method_title);
                         $order->update_meta_data('_wpg_ppcp_used_payment_method', $type_key);
                         $order->save();
@@ -4471,31 +5061,53 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $payment_method = 'paypal';
                     }
                     $body_request['payment_source'] = array($payment_method => array('vault_id' => $payment_tokens_id));
-                    $this->applyStoredCredentialParameter($payment_method, $body_request);
+                    $this->applyStoredCredentialParameter($payment_method, $body_request, 'recurring');
                 } elseif (!empty($payment_tokens_id)) {
-                    $body_request['payment_source'] = array('paypal' => array('vault_id' => $payment_tokens_id));
+                    // Stored token id present but not in the fetched vault list (e.g. the
+                    // list was paginated). Charge that exact stored token under its own
+                    // recorded type so the correct card is used — never a different one.
+                    $payment_method = $order->get_meta('_wpg_ppcp_used_payment_method');
+                    if (!in_array($payment_method, ['paypal', 'card', 'google_pay', 'apple_pay', 'venmo'], true)) {
+                        $payment_method = 'paypal';
+                    }
+                    $body_request['payment_source'] = array($payment_method => array('vault_id' => $payment_tokens_id));
+                    $this->applyStoredCredentialParameter($payment_method, $body_request, 'recurring');
                 }
             }
         } catch (Exception $ex) {
             return $body_request;
         }
-        $wpg_ppcp_payment_method_title = ($payment_method);
-        $order->set_payment_method_title($wpg_ppcp_payment_method_title);
-        $order->save();
+        // Only (re)apply a title when we resolved a payment method above; otherwise leave
+        // the order's existing title untouched (guards against an undefined variable).
+        if (isset($payment_method) && !empty($payment_method)) {
+            $order->set_payment_method_title($payment_method);
+            $order->save();
+        }
         return $body_request;
     }
 
-    private function applyStoredCredentialParameter($paymentMethod, &$bodyRequest) {
+    private function applyStoredCredentialParameter($paymentMethod, &$bodyRequest, $context = 'unscheduled') {
         $storedCredentials = [];
         switch ($paymentMethod) {
             case 'card':
             case 'apple_pay':
             case 'google_pay':
+                // Current behaviour: merchant-initiated, unscheduled, subsequent.
                 $storedCredentials = array(
                     'payment_initiator' => 'MERCHANT',
                     'payment_type' => 'UNSCHEDULED',
                     'usage' => 'SUBSEQUENT'
                 );
+                // Network-accurate classification (opt-in). A scheduled subscription
+                // renewal should be RECURRING rather than UNSCHEDULED. Off by default so
+                // live decline behaviour is unchanged until a store enables and tests it:
+                //   add_filter( 'wpg_ppcp_use_recommended_stored_credentials', '__return_true' );
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+                if (apply_filters('wpg_ppcp_use_recommended_stored_credentials', false, $context, $paymentMethod)) {
+                    if ($context === 'recurring') {
+                        $storedCredentials['payment_type'] = 'RECURRING';
+                    }
+                }
                 break;
         }
         if (!empty($storedCredentials)) {
@@ -4555,7 +5167,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 'payment_method_preference' => 'IMMEDIATE_PAYMENT_REQUIRED',
                 'brand_name' => $this->brand_name,
                 'locale' => $this->valid_bcp47_code(),
-                'return_url' => add_query_arg(array('ppcp_action' => 'paypal_create_payment_token_sub_change_payment', 'utm_nooverride' => '1', 'customer_id' => get_current_user_id(), 'order_id' => $order_id), untrailingslashit(WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager'))),
+                'return_url' => add_query_arg(array('ppcp_action' => 'paypal_create_payment_token_sub_change_payment', 'utm_nooverride' => '1', 'customer_id' => get_current_user_id(), 'order_id' => $order_id, 'order_key' => ($change_payment_order instanceof WC_Order ? $change_payment_order->get_order_key() : '')), untrailingslashit(WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager'))),
                 'cancel_url' => wc_get_checkout_url()
             );
             $user_id = get_current_user_id();
@@ -4563,7 +5175,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (!empty($paypal_generated_customer_id)) {
                 $body_request['customer']['id'] = $paypal_generated_customer_id;
             }
-            $body_request = ppcp_remove_empty_key($body_request);
+            $body_request = woo_paypal_gateway_ppcp_remove_empty_key($body_request);
             $body_request = json_encode($body_request);
             $args = array(
                 'method' => 'POST',
@@ -4590,7 +5202,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     }
                     return array(
                         'result' => 'failure',
-                        'redirect' => ppcp_get_view_sub_order_url($order_id)
+                        'redirect' => woo_paypal_gateway_ppcp_get_view_sub_order_url($order_id)
                     );
                 } else {
                     $error_email_notification_param = array(
@@ -4600,7 +5212,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     wc_add_notice($error_message, 'error');
                     return array(
                         'result' => 'failure',
-                        'redirect' => ppcp_get_view_sub_order_url($order_id)
+                        'redirect' => woo_paypal_gateway_ppcp_get_view_sub_order_url($order_id)
                     );
                 }
             }
@@ -4620,11 +5232,26 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->payment_token = PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token::instance();
             $body_request = array();
             if (isset($_GET['approval_token_id']) && isset($_GET['order_id'])) {
+                // Only the logged-in owner of the order may change its subscription payment
+                // method. Verify ownership (and the order key when present) before exchanging
+                // the setup token or writing any payment token onto the order, otherwise a
+                // guessable order id would let one customer overwrite another's billing token.
+                $ownership_order = wc_get_order(absint(wp_unslash($_GET['order_id'])));
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+                $ownership_key = isset($_GET['order_key']) ? wc_clean(wp_unslash($_GET['order_key'])) : '';
+                if (!$ownership_order instanceof WC_Order
+                        || !is_user_logged_in()
+                        || (int) $ownership_order->get_user_id() !== get_current_user_id()
+                        || ($ownership_key !== '' && !$ownership_order->key_is_valid($ownership_key))) {
+                    wp_safe_redirect(wc_get_page_permalink('myaccount'));
+                    exit();
+                }
                 $body_request['payment_source']['token'] = array(
-                    'id' => wc_clean($_GET['approval_token_id']),
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+                    'id' => wc_clean(wp_unslash($_GET['approval_token_id'])),
                     'type' => 'SETUP_TOKEN'
                 );
-                $body_request = ppcp_remove_empty_key($body_request);
+                $body_request = woo_paypal_gateway_ppcp_remove_empty_key($body_request);
                 $body_request = json_encode($body_request);
                 $args = array(
                     'method' => 'POST',
@@ -4636,8 +5263,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 if (ob_get_length()) {
                     ob_end_clean();
                 }
-                $order_id = wc_clean($_GET['order_id']);
-                $order = wc_get_order(wc_clean($_GET['order_id']));
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+                $order_id = wc_clean(wp_unslash($_GET['order_id']));
+                $order = wc_get_order($order_id);
                 if (is_wp_error($this->api_response)) {
                     $error_message = $this->api_response->get_error_message();
                     $this->ppcp_log('Error Message : ' . wc_print_r($error_message, true));
@@ -4652,7 +5280,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $order->update_meta_data('_ppcp_used_payment_method', 'paypal');
                         $order->save();
                         $this->save_payment_token($order, $this->api_response['id']);
-                        if (ppcp_get_token_id_by_token($this->api_response['id']) === '') {
+                        if (woo_paypal_gateway_ppcp_get_token_id_by_token($this->api_response['id']) === '') {
                             $token = new WC_Payment_Token_CC();
                             if (0 != $order->get_user_id()) {
                                 $wc_customer_id = $order->get_user_id();
@@ -4676,13 +5304,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                             if ($token->validate()) {
                                 $token->save();
                                 update_metadata('payment_token', $token->get_id(), '_ppcp_used_payment_method', 'paypal');
-                                wp_safe_redirect(ppcp_get_view_sub_order_url($order_id));
+                                wp_safe_redirect(woo_paypal_gateway_ppcp_get_view_sub_order_url($order_id));
                                 exit();
                             } else {
                                 $order->add_order_note('ERROR MESSAGE: ' . __('Invalid or missing payment token fields.', 'woo-paypal-gateway'));
                             }
                         }
-                        wp_safe_redirect(ppcp_get_view_sub_order_url($order_id));
+                        wp_safe_redirect(woo_paypal_gateway_ppcp_get_view_sub_order_url($order_id));
                         exit();
                     } else {
                         $error_email_notification_param = array(
@@ -4690,7 +5318,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         );
                         $error_message = $this->ppcp_get_readable_message($this->api_response, $error_email_notification_param);
                         wc_add_notice($error_message, 'error');
-                        wp_safe_redirect(ppcp_get_view_sub_order_url($order_id));
+                        wp_safe_redirect(woo_paypal_gateway_ppcp_get_view_sub_order_url($order_id));
                         exit();
                     }
                 }
@@ -4741,7 +5369,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (!empty($paypal_generated_customer_id)) {
                 $body_request['customer']['id'] = $paypal_generated_customer_id;
             }
-            $body_request = ppcp_remove_empty_key($body_request);
+            $body_request = woo_paypal_gateway_ppcp_remove_empty_key($body_request);
             $body_request = json_encode($body_request);
             $args = array(
                 'method' => 'POST',
@@ -4787,7 +5415,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
      * pre-ordered when it contains a charge-upon-release pre-order.
      */
     public function ppcp_paypal_create_payment_token_zero_total() {
-        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $order = null;
         try {
             if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token')) {
@@ -4798,10 +5425,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $this->payment_token = PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token::instance();
             $order_id = isset($_GET['order_id']) ? absint(wp_unslash($_GET['order_id'])) : 0;
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
             $order_key = isset($_GET['order_key']) ? wc_clean(wp_unslash($_GET['order_key'])) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
             $approval_token_id = isset($_GET['approval_token_id']) ? wc_clean(wp_unslash($_GET['approval_token_id'])) : '';
             $order = $order_id ? wc_get_order($order_id) : null;
-            if (!$order instanceof WC_Order || !$order->key_is_valid($order_key) || empty($approval_token_id)) {
+            // This callback only vaults a payment method for a genuinely zero-total signup;
+            // it never captures money. Refuse to "complete" an order that actually needs
+            // payment (or is already paid), otherwise a paid order whose key the buyer holds
+            // could be marked complete here without any charge.
+            if (!$order instanceof WC_Order || !$order->key_is_valid($order_key) || empty($approval_token_id)
+                    || (float) $order->get_total() > 0 || $order->is_paid()) {
                 wp_safe_redirect(wc_get_checkout_url());
                 exit();
             }
@@ -4834,7 +5468,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $order->update_meta_data('_wpg_ppcp_used_payment_method', 'paypal');
                     $order->save();
                     $this->save_payment_token($order, $this->api_response['id']);
-                    wpg_ppcp_complete_zero_total_order($order, $this->api_response['id']);
+                    woo_paypal_gateway_ppcp_complete_zero_total_order($order, $this->api_response['id']);
                     if (function_exists('WC') && WC()->cart) {
                         WC()->cart->empty_cart();
                     }
@@ -4851,7 +5485,6 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         }
         wp_safe_redirect(wc_get_checkout_url());
         exit();
-        // phpcs:enable WordPress.Security.NonceVerification.Recommended
     }
 
     /**
@@ -4892,7 +5525,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (!empty($paypal_generated_customer_id)) {
                 $body_request['customer']['id'] = $paypal_generated_customer_id;
             }
-            $body_request = ppcp_remove_empty_key($body_request);
+            $body_request = woo_paypal_gateway_ppcp_remove_empty_key($body_request);
             $body_request = json_encode($body_request);
             $args = array(
                 'method' => 'POST',
@@ -4935,18 +5568,26 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 wp_safe_redirect($account_url);
                 exit();
             }
+            // This is a My-Account "add payment method" return: the saved token must belong
+            // to the current logged-in user. Never trust a client-supplied customer_id as the
+            // owner, or an attacker could plant a payment method on another account.
+            if (!is_user_logged_in()) {
+                wp_safe_redirect(wc_get_page_permalink('myaccount'));
+                exit();
+            }
             if ($this->access_token === false) {
                 $this->access_token = $this->ppcp_get_access_token();
             }
             $this->payment_token = PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token::instance();
-            $user_id = isset($_GET['customer_id']) ? absint($_GET['customer_id']) : get_current_user_id();
+            $user_id = get_current_user_id();
 
             $body_request = array();
             $body_request['payment_source']['token'] = array(
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
                 'id' => wc_clean(wp_unslash($_GET['approval_token_id'])),
                 'type' => 'SETUP_TOKEN',
             );
-            $body_request = ppcp_remove_empty_key($body_request);
+            $body_request = woo_paypal_gateway_ppcp_remove_empty_key($body_request);
             $body_request = json_encode($body_request);
             $args = array(
                 'method' => 'POST',
@@ -4969,7 +5610,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 if (!empty($customer_id)) {
                     $this->payment_token->add_paypal_customer_id($customer_id, $this->is_sandbox);
                 }
-                if (ppcp_get_token_id_by_token($api_response['id']) === '') {
+                if (woo_paypal_gateway_ppcp_get_token_id_by_token($api_response['id']) === '') {
                     $token = new WC_Payment_Token_CC();
                     $token->set_token($api_response['id']);
                     $token->set_gateway_id('wpg_paypal_checkout_cc');
@@ -5113,8 +5754,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
 
             // Check if we have the necessary session data
-            $reference_id    = ppcp_get_session('ppcp_reference_id');
-            $session_data    = ppcp_get_paypal_order_session_data();
+            $reference_id    = woo_paypal_gateway_ppcp_get_session('ppcp_reference_id');
+            $session_data    = woo_paypal_gateway_ppcp_get_paypal_order_session_data();
             $paypal_order_id = ! empty( $session_data['id'] ) ? $session_data['id'] : '';
 
             if (empty($reference_id) || empty($paypal_order_id)) {
@@ -5130,7 +5771,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             // Get cart details instead of order details
             $cart = $this->ppcp_get_details_from_cart();
 
-            $cart_total = ppcp_round($cart['order_total'], $this->decimals);
+            $cart_total = woo_paypal_gateway_ppcp_round($cart['order_total'], $this->decimals);
             if ((float) $cart_total <= 0) {
                 $this->ppcp_log('Update order from cart skipped: cart total is ' . $cart_total . '. PayPal does not accept zero or negative amounts.');
                 return false;
@@ -5172,42 +5813,54 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if ($this->send_items === true) {
             if (isset($cart['total_item_amount']) && $cart['total_item_amount'] > 0) {
                 $update_amount_request['item_total'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency()),
-                    'value'         => ppcp_round($cart['total_item_amount'], $this->decimals)
+                    'value'         => woo_paypal_gateway_ppcp_round($cart['total_item_amount'], $this->decimals)
                 );
             }
             if (isset($cart['discount']) && $cart['discount'] > 0) {
                 $update_amount_request['discount'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency()),
-                    'value'         => ppcp_round($cart['discount'], $this->decimals)
+                    'value'         => woo_paypal_gateway_ppcp_round($cart['discount'], $this->decimals)
                 );
             }
             if (isset($cart['shipping']) && $cart['shipping'] > 0) {
                 $update_amount_request['shipping'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency()),
-                    'value'         => ppcp_round($cart['shipping'], $this->decimals)
+                    'value'         => woo_paypal_gateway_ppcp_round($cart['shipping'], $this->decimals)
                 );
             }
             if (isset($cart['ship_discount_amount']) && $cart['ship_discount_amount'] > 0) {
                 $update_amount_request['shipping_discount'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency()),
-                    'value'         => ppcp_round($cart['ship_discount_amount'], $this->decimals),
+                    'value'         => woo_paypal_gateway_ppcp_round($cart['ship_discount_amount'], $this->decimals),
                 );
             }
             if (isset($cart['order_tax']) && $cart['order_tax'] > 0) {
                 $update_amount_request['tax_total'] = array(
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                     'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency()),
-                    'value'         => ppcp_round($cart['order_tax'], $this->decimals)
+                    'value'         => woo_paypal_gateway_ppcp_round($cart['order_tax'], $this->decimals)
                 );
             }
             }
 
             $amount_value = array(
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                 'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency()),
-                'value'         => ppcp_round($cart['order_total'], $this->decimals),
+                'value'         => woo_paypal_gateway_ppcp_round($cart['order_total'], $this->decimals),
             );
             if (!empty($update_amount_request)) {
                 $amount_value['breakdown'] = $update_amount_request;
+            }
+            // Fail-safe: drop a non-reconciling breakdown so the PATCH is not rejected by
+            // PayPal for a breakdown mismatch (same guard as order create/update).
+            $guarded_pu = $this->ppcp_enforce_breakdown_invariant(array('amount' => $amount_value), $this->decimals);
+            if (isset($guarded_pu['amount'])) {
+                $amount_value = $guarded_pu['amount'];
             }
             $patch_request[] = array(
                 'op'    => 'add',
@@ -5243,8 +5896,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                             'type'     => 'SHIPPING',
                             'selected' => ($rate_id === $chosen_for_package),
                             'amount'   => array(
+                                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                                 'currency_code' => apply_filters('wpg_ppcp_woocommerce_currency', $this->ppcp_get_currency()),
-                                'value'         => ppcp_round($rate_cost, $this->decimals),
+                                'value'         => woo_paypal_gateway_ppcp_round($rate_cost, $this->decimals),
                             ),
                         );
                     }
@@ -5309,9 +5963,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->ppcp_log('Endpoint: ' . $this->paypal_order_api . $paypal_order_id);
             $this->ppcp_log('Request: ' . $patch_request_json);
 
+            // The PATCH changes amounts/shipping at PayPal: drop any snapshot
+            // fetched earlier in this request.
+            self::ppcp_forget_order_snapshot($paypal_order_id);
             // Send the request to PayPal
             $response = wp_remote_request($this->paypal_order_api . $paypal_order_id, array(
-                'timeout'     => 60,
+                'timeout'     => $this->ppcp_interactive_timeout(),
                 'method'      => 'PATCH',
                 'redirection' => 5,
                 'httpversion' => '1.1',

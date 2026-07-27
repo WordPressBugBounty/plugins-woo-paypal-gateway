@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
@@ -85,7 +86,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Payment_Token {
         $order = wc_get_order($order_id);
         $this->save_payment_token($order, $payment_token);
 
-        if (ppcp_get_token_id_by_token($payment_token) === '') {
+        if (woo_paypal_gateway_ppcp_get_token_id_by_token($payment_token) === '') {
             $this->process_payment_token($order, $api_response, $payment_token);
         }
     }

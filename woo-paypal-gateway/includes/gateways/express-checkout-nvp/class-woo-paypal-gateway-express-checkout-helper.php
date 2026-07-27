@@ -32,7 +32,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             add_action('woocommerce_before_cart_table', array($this, 'wpg_checkout_on_top_cart_page'));
             add_action('woocommerce_before_checkout_form', array($this, 'wpg_display_button_on_checkout_page'), 999);
             add_action('wp_enqueue_scripts', array($this, 'ec_enqueue_scripts_product_page'), 0);
-            add_action('woocommerce_cart_emptied', array($this, 'wpg_maybe_clear_session_data'));
+            add_action('woocommerce_cart_emptied', array($this, 'woo_paypal_gateway_maybe_clear_session_data'));
             add_action('woocommerce_available_payment_gateways', array($this, 'wpg_checkout_page_disable_gateways'));
             add_action('woocommerce_checkout_billing', array($this, 'wpg_express_checkout_auto_fillup_shipping_address'));
             add_action('wp_head', array($this, 'wpg_add_header_meta'), 0);
@@ -47,9 +47,9 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
 
     public function wpg_express_checkout_auto_fillup_shipping_address() {
         try {
-            $post_data = wpg_get_session('post_data');
+            $post_data = woo_paypal_gateway_get_session('post_data');
             if (empty($post_data)) {
-                $post_data = wpg_get_session('wpg_express_checkout_shipping_address');
+                $post_data = woo_paypal_gateway_get_session('wpg_express_checkout_shipping_address');
             }
             if (!empty($post_data)) {
                 foreach ($post_data as $key => $value) {
@@ -68,7 +68,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
     }
 
     public function wpg_display_button_on_checkout_page() {
-        if ($this->show_on_checkout_page == 'yes' && $this->wpg_is_express_checkout_enable() && is_wpg_express_checkout_ready_to_capture() === false) {
+        if ($this->show_on_checkout_page == 'yes' && $this->wpg_is_express_checkout_enable() && woo_paypal_gateway_is_express_checkout_ready_to_capture() === false) {
             echo '<div class="woocommerce-info">';
             echo '<span>' . esc_attr($this->checkout_skip_text) . '</span>';
             $this->buy_now_button();
@@ -106,12 +106,12 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
 
     public function buy_now_button() {
         try {
-            if (is_wpg_express_checkout_ready_to_capture() === false) {
+            if (woo_paypal_gateway_is_express_checkout_ready_to_capture() === false) {
                 wp_enqueue_script('wpg-in-context-checkout-js');
                 wp_enqueue_script('wpg-in-context-checkout-js-frontend');
                 wp_enqueue_style("woo-paypal-gateway-public");
                 echo '<div class="single_add_to_cart_button wpg_express_checkout_paypal_button button alt "></div>';
-                if (is_wpg_credit_supported() == true && $this->credit_enabled == 'yes') {
+                if (woo_paypal_gateway_is_credit_supported() == true && $this->credit_enabled == 'yes') {
                     echo '<div class="single_add_to_cart_button wpg_express_checkout_paypal_cc_button button alt "></div>';
                 }
             }
@@ -123,10 +123,10 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
     public function ec_enqueue_scripts_product_page() {
         global $post;
         try {
-            if (is_wpg_express_checkout_ready_to_capture() == false) {
-                $ENV_value = wpg_get_option('wpg_paypal_express', 'sandbox', 'yes');
+            if (woo_paypal_gateway_is_express_checkout_ready_to_capture() == false) {
+                $ENV_value = woo_paypal_gateway_get_option('wpg_paypal_express', 'sandbox', 'yes');
                 $ENV = ($ENV_value != 'yes') ? 'production' : 'sandbox';
-                wp_register_script('wpg-in-context-checkout-js', 'https://www.paypalobjects.com/api/checkout.min.js', array(), null, true);
+                wp_register_script('wpg-in-context-checkout-js', 'https://www.paypalobjects.com/api/checkout.min.js', array(), WPG_PLUGIN_VERSION, true);
                 wp_register_script('wpg-in-context-checkout-js-frontend', WPG_PLUGIN_ASSET_URL . '/public/js/woo-paypal-gateway-in-context-checkout.js', array('jquery'), $this->version, true);
                 wp_localize_script('wpg-in-context-checkout-js-frontend', 'wpg_in_content_param', array(
                     'CREATE_PAYMENT_URL' => $this->wpg_get_create_payment_url(),
@@ -137,9 +137,9 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
                     'IS_PRODUCT' => is_product() ? "yes" : "no",
                     'POST_ID' => isset($post->ID) ? $post->ID : '',
                     'CANCEL_URL' => esc_url(add_query_arg('wpg_express_checkout_action', 'cancel_url', WC()->api_request_url('Woo_PayPal_Gateway_Express_Checkout_NVP'))),
-                    'SIZE' => wpg_get_option('wpg_paypal_express', 'button_size', 'small'),
-                    'SHAPE' => wpg_get_option('wpg_paypal_express', 'button_shape', 'pill'),
-                    'COLOR' => wpg_get_option('wpg_paypal_express', 'button_color', 'gold'),
+                    'SIZE' => woo_paypal_gateway_get_option('wpg_paypal_express', 'button_size', 'small'),
+                    'SHAPE' => woo_paypal_gateway_get_option('wpg_paypal_express', 'button_shape', 'pill'),
+                    'COLOR' => woo_paypal_gateway_get_option('wpg_paypal_express', 'button_color', 'gold'),
                     'ENV' => $ENV,
                     'MerchantID' => $this->wpg_get_merchant_id(),
                     'add_to_cart_ajaxurl' => WC_AJAX::get_endpoint('wpg_ajax_generate_cart'),
@@ -195,7 +195,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
 
     public function wpg_checkout_page_disable_gateways($gateways) {
         try {
-            if (is_wpg_express_checkout_ready_to_capture()) {
+            if (woo_paypal_gateway_is_express_checkout_ready_to_capture()) {
                 foreach ($gateways as $id => $gateway) {
                     if ($id !== 'wpg_paypal_express') {
                         unset($gateways[$id]);
@@ -210,7 +210,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
 
     public function wpg_maybe_clear_session_data() {
         try {
-            wpg_maybe_clear_session_data();
+            woo_paypal_gateway_maybe_clear_session_data();
         } catch (Exception $ex) {
             
         }
@@ -218,7 +218,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
 
     public function wpg_woocommerce_page_title($title) {
         try {
-            if (!is_admin() && is_main_query() && in_the_loop() && is_page() && is_checkout() && is_wpg_express_checkout_ready_to_capture()) {
+            if (!is_admin() && is_main_query() && in_the_loop() && is_page() && is_checkout() && woo_paypal_gateway_is_express_checkout_ready_to_capture()) {
                 $title = __('Confirm your PayPal order', 'woo-paypal-gateway');
                 remove_filter('the_title', array($this, 'wpg_woocommerce_page_title'));
             }
@@ -263,7 +263,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             if (!class_exists('WooCommerce') || WC()->session == null) {
                 return $classes;
             }
-            if (is_wpg_express_checkout_ready_to_capture()) {
+            if (woo_paypal_gateway_is_express_checkout_ready_to_capture()) {
                 $classes[] = 'wpg-express-checkout';
             }
             return $classes;
@@ -274,7 +274,8 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
 
     public function wpg_product_add_to_cart() {
         try {
-            if (!wp_verify_nonce($_POST['nonce'], '_wpg_nonce_')) {
+            $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+            if (!wp_verify_nonce($nonce, '_wpg_nonce_')) {
                 wp_die(esc_html__('Cheatin&#8217; huh?', 'woo-paypal-gateway'));
             }
             if (!isset($_POST['is_add_to_cart']) || $_POST['is_add_to_cart'] == 'no') {
@@ -284,16 +285,19 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
                 return false;
             }
             if (!defined('WOOCOMMERCE_CART')) {
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- WooCommerce core constant, not a global declared by this plugin.
                 define('WOOCOMMERCE_CART', true);
             }
             if (!defined('WOOCOMMERCE_CHECKOUT')) {
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- WooCommerce core constant, not a global declared by this plugin.
                 define('WOOCOMMERCE_CHECKOUT', true);
             }
             WC()->shipping->reset_shipping();
-            $product = wc_get_product($_POST['product_id']);
-            $qty = !isset($_POST['qty']) ? 1 : absint($_POST['qty']);
+            $product = wc_get_product(isset($_POST['product_id']) ? absint(wp_unslash($_POST['product_id'])) : 0);
+            $qty = !isset($_POST['qty']) ? 1 : absint(wp_unslash($_POST['qty']));
             if ($product->is_type('variable')) {
-                $attributes = array_map('wc_clean', $_POST['attributes']);
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+                $attributes = isset($_POST['attributes']) ? wc_clean(wp_unslash($_POST['attributes'])) : array();
                 $data_store = WC_Data_Store::load('product');
                 $variation_id = $data_store->find_matching_product_variation($product, $attributes);
                 WC()->cart->add_to_cart($product->get_id(), $qty, $variation_id, $attributes);
@@ -307,8 +311,8 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
     }
 
     public function wpg_redirect_to_checkout_page() {
-        if (is_wpg_express_checkout_ready_to_capture() && is_cart()) {
-            wp_redirect(wc_get_page_permalink('checkout'));
+        if (woo_paypal_gateway_is_express_checkout_ready_to_capture() && is_cart()) {
+            wp_safe_redirect(wc_get_page_permalink('checkout'));
             exit;
         }
     }

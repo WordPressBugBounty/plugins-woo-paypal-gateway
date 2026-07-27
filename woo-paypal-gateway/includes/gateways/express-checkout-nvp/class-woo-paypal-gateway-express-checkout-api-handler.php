@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
 
 if (!defined('ABSPATH')) {
     exit;
@@ -88,7 +89,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
 
     public function wpg_add_payment_method() {
         try {
-            $this->token = wpg_get_session('TOKEN');
+            $this->token = woo_paypal_gateway_get_session('TOKEN');
             if (!empty($this->token) && $this->token == true) {
                 $this->request = $this->wpg_get_express_checkout_param();
                 $this->wpg_request();
@@ -109,7 +110,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                     if (!empty($billing_agreement_id)) {
                         $customer_id = get_current_user_id();
                         update_user_meta($customer_id, '_billing_agreement_id', $billing_agreement_id);
-                        $result = wpg_is_token_exist($this->gateway->id, $customer_id, $billing_agreement_id);
+                        $result = woo_paypal_gateway_is_token_exist($this->gateway->id, $customer_id, $billing_agreement_id);
                         if (is_null($result)) {
                             $token = new WC_Payment_Token_CC();
                             $token->set_user_id($customer_id);
@@ -117,8 +118,8 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                             $token->set_gateway_id($this->gateway->id);
                             $token->set_card_type('PayPal Billing Agreement');
                             $token->set_last4(substr($billing_agreement_id, -4));
-                            $token->set_expiry_month(date('m'));
-                            $token->set_expiry_year(date('Y', strtotime('+20 years')));
+                            $token->set_expiry_month(gmdate('m'));
+                            $token->set_expiry_year(gmdate('Y', strtotime('+20 years')));
                             $token->save();
                         } else {
                             if (!empty($result->token_id)) {
@@ -126,23 +127,23 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                                 $order->add_payment_token($token);
                             }
                         }
-                        wpg_maybe_clear_session_data();
+                        woo_paypal_gateway_maybe_clear_session_data();
                         wc_add_notice(__('Payment method successfully added.', 'woo-paypal-gateway'));
-                        wp_redirect(wc_get_account_endpoint_url('payment-methods'));
+                        wp_safe_redirect(wc_get_account_endpoint_url('payment-methods'));
                         exit();
                     } else {
                         wc_add_notice(__('Payment method successfully added.', 'woo-paypal-gateway'));
-                        wp_redirect(wc_get_account_endpoint_url('payment-methods'));
+                        wp_safe_redirect(wc_get_account_endpoint_url('payment-methods'));
                         exit();
                     }
                 } else {
                     wc_add_notice(__('Payment method successfully added.', 'woo-paypal-gateway'));
-                    wp_redirect(wc_get_account_endpoint_url('payment-methods'));
+                    wp_safe_redirect(wc_get_account_endpoint_url('payment-methods'));
                     exit();
                 }
             } else {
                 wc_add_notice(__('Payment method successfully added.', 'woo-paypal-gateway'));
-                wp_redirect(wc_get_account_endpoint_url('payment-methods'));
+                wp_safe_redirect(wc_get_account_endpoint_url('payment-methods'));
                 exit();
             }
         } catch (Exception $ex) {
@@ -152,7 +153,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
 
     public function wpg_get_express_checkout_details() {
         try {
-            $this->token = wpg_get_session('TOKEN');
+            $this->token = woo_paypal_gateway_get_session('TOKEN');
             if (!empty($this->token) && $this->token == true) {
                 $this->request = $this->wpg_get_express_checkout_param();
                 $this->request_name = 'get_express_checkout_details';
@@ -225,8 +226,8 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
         try {
             $this->order = $order;
             $this->order_id = $this->order->get_id();
-            $this->token = wpg_get_session('TOKEN');
-            $this->payerid = wpg_get_session('PAYERID');
+            $this->token = woo_paypal_gateway_get_session('TOKEN');
+            $this->payerid = woo_paypal_gateway_get_session('PAYERID');
             $this->request = array(
                 'METHOD' => 'CreateBillingAgreement',
                 'VERSION' => '120.0',
@@ -285,7 +286,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 'BUTTONSOURCE' => 'mbjtechnolabs_SP',
                 'TRANSACTIONID' => $this->order->get_transaction_id(),
                 'REFUNDTYPE' => $this->order->get_total() == $this->refund_amount ? 'Full' : 'Partial',
-                'AMT' => wpg_number_format($this->refund_amount),
+                'AMT' => woo_paypal_gateway_number_format($this->refund_amount),
                 'CURRENCYCODE' => $this->order->get_currency(),
                 'NOTE' => $this->refund_reason,
             );
@@ -298,8 +299,8 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
     public function wpg_do_express_checkout_payment_param() {
         try {
             $this->order_id = $this->order->get_id();
-            $this->token = wpg_get_session('TOKEN');
-            $this->payerid = wpg_get_session('PAYERID');
+            $this->token = woo_paypal_gateway_get_session('TOKEN');
+            $this->payerid = woo_paypal_gateway_get_session('PAYERID');
             $this->invoice_number = preg_replace("/[^a-zA-Z0-9]/", "", $this->order->get_order_number());
             $this->order_cart_data = $this->gateway_calculation->order_calculation($this->order_id);
             $express_checkout_param = array(
@@ -320,7 +321,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 'PAYMENTREQUEST_0_NOTIFYURL' => apply_filters('wpg_paypal_express_checkout_notify_url', add_query_arg('wpg_ipn_action', 'ipn', WC()->api_request_url('Woo_Paypal_Gateway_IPN_Handler'))),
                 'PAYMENTREQUEST_0_CUSTOM' => apply_filters('wpg_ppec_custom_parameter', json_encode(array('order_id' => $this->order_id, 'order_key' => $this->order->get_order_key()))),
                 'PAYMENTREQUEST_0_CURRENCYCODE' => $this->order->get_currency(),
-                'PAYMENTREQUEST_0_AMT' => wpg_number_format($this->order->get_total()),
+                'PAYMENTREQUEST_0_AMT' => woo_paypal_gateway_number_format($this->order->get_total()),
                 'PAYMENTREQUEST_0_SHIPDISCAMT' => '0.00',
                 'NOSHIPPING' => 0
             );
@@ -331,7 +332,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 foreach ($this->order_cart_data['order_items'] as $key => $values) {
                     $line_item_params = array(
                         'L_PAYMENTREQUEST_0_NAME' . $key => $values['name'],
-                        'L_PAYMENTREQUEST_0_DESC' . $key => !empty($values['desc']) ? strip_tags($values['desc']) : '',
+                        'L_PAYMENTREQUEST_0_DESC' . $key => !empty($values['desc']) ? wp_strip_all_tags($values['desc']) : '',
                         'L_PAYMENTREQUEST_0_QTY' . $key => $values['qty'],
                         'L_PAYMENTREQUEST_0_AMT' . $key => $values['amt'],
                         'L_PAYMENTREQUEST_0_NUMBER' . $key => $values['number']
@@ -348,9 +349,18 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
     public function wpg_do_reference_transaction_param() {
         try {
             $this->order_id = $this->order->get_id();
-            if (!empty($_POST['wc-wpg_paypal_express-payment-token']) && $_POST['wc-wpg_paypal_express-payment-token'] !== 'new') {
-                $token_id = $_POST['wc-wpg_paypal_express-payment-token'];
+            // Saved-token selection read during gateway payment processing; WooCommerce verifies the checkout nonce upstream.
+            // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            $posted_token = isset($_POST['wc-wpg_paypal_express-payment-token']) ? wc_clean(wp_unslash($_POST['wc-wpg_paypal_express-payment-token'])) : '';
+            if (!empty($posted_token) && 'new' !== $posted_token) {
+                $token_id = absint($posted_token);
                 $token = WC_Payment_Tokens::get($token_id);
+                // A saved token may only be used by the customer who owns it, and only for
+                // this gateway. Without this check a guessable, sequential token id would let
+                // one customer charge another customer's stored PayPal billing agreement.
+                if (!$token || $token->get_user_id() !== get_current_user_id() || $token->get_gateway_id() !== $this->gateway->id) {
+                    throw new Exception(__('Invalid payment token.', 'woo-paypal-gateway'));
+                }
                 $referenceid = $token->get_token();
             } else {
                 $referenceid = $this->order->get_meta('_payment_tokens_id');
@@ -372,7 +382,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 'NOTIFYURL' => apply_filters('wpg_paypal_express_checkout_notify_url', add_query_arg('wpg_ipn_action', 'ipn', WC()->api_request_url('Woo_Paypal_Gateway_IPN_Handler'))),
                 'CUSTOM' => apply_filters('wpg_ppec_custom_parameter', json_encode(array('order_id' => $this->order_id, 'order_key' => $this->order->get_order_key()))),
                 'CURRENCYCODE' => $this->order->get_currency(),
-                'AMT' => wpg_number_format($this->order->get_total()),
+                'AMT' => woo_paypal_gateway_number_format($this->order->get_total()),
                 'SHIPDISCAMT' => '0.00',
                 'NOSHIPPING' => 0
             );
@@ -383,7 +393,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 foreach ($this->order_cart_data['order_items'] as $key => $values) {
                     $line_item_params = array(
                         'L_NAME' . $key => $values['name'],
-                        'L_DESC' . $key => !empty($values['desc']) ? strip_tags($values['desc']) : '',
+                        'L_DESC' . $key => !empty($values['desc']) ? wp_strip_all_tags($values['desc']) : '',
                         'L_QTY' . $key => $values['qty'],
                         'L_AMT' . $key => $values['amt'],
                         'L_NUMBER' . $key => $values['number']
@@ -446,6 +456,8 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
             if ('yes' === $this->instant_payments && 'Sale' === $this->paymentaction) {
                 $express_checkout_param['PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD'] = 'InstantPaymentOnly';
             }
+            // Read-only funding-source hints from the express-button query args (no state change).
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             $usePayPalCredit = (!empty($_GET['is_wpg_cc']) && $_GET['is_wpg_cc'] == 'yes') ? true : false;
             if ($usePayPalCredit) {
                 $express_checkout_param['USERSELECTEDFUNDINGSOURCE'] = 'Finance';
@@ -456,6 +468,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
             if (strtolower($this->paypal_account_optional) == 'yes') {
                 $express_checkout_param['SOLUTIONTYPE'] = 'Sole';
             }
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             $start_from_checkout_page = (!empty($_GET['start_from']) && $_GET['start_from'] == 'checkout_page') ? true : false;
             if ($start_from_checkout_page == true) {
                 // $express_checkout_param['ADDROVERRIDE'] = '1';
@@ -470,7 +483,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                     foreach ($this->order_cart_data['order_items'] as $key => $values) {
                         $line_item_params = array(
                             'L_PAYMENTREQUEST_0_NAME' . $key => $values['name'],
-                            'L_PAYMENTREQUEST_0_DESC' . $key => !empty($values['desc']) ? strip_tags($values['desc']) : '',
+                            'L_PAYMENTREQUEST_0_DESC' . $key => !empty($values['desc']) ? wp_strip_all_tags($values['desc']) : '',
                             'L_PAYMENTREQUEST_0_QTY' . $key => $values['qty'],
                             'L_PAYMENTREQUEST_0_AMT' . $key => $values['amt'],
                             'L_PAYMENTREQUEST_0_NUMBER' . $key => $values['number']
@@ -481,9 +494,9 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 $express_checkout_param['PAYMENTREQUEST_0_ITEMAMT'] = $this->order_cart_data['itemamt'];
                 $express_checkout_param['PAYMENTREQUEST_0_SHIPPINGAMT'] = $this->order_cart_data['shippingamt'];
                 $express_checkout_param['PAYMENTREQUEST_0_TAXAMT'] = $this->order_cart_data['taxamt'];
-                $express_checkout_param['PAYMENTREQUEST_0_AMT'] = wpg_number_format(WC()->cart->total);
+                $express_checkout_param['PAYMENTREQUEST_0_AMT'] = woo_paypal_gateway_number_format(WC()->cart->total);
             }
-            $post_data = wpg_get_session('post_data');
+            $post_data = woo_paypal_gateway_get_session('post_data');
             $is_save_payment_method = false;
             if (!empty($post_data['wc-wpg_paypal_express-new-payment-method']) && $post_data['wc-wpg_paypal_express-new-payment-method'] == true) {
                 $is_save_payment_method = true;
@@ -505,20 +518,20 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 switch ($this->request_name) {
                     case 'set_express_checkout':
                         if (!empty($this->result['TOKEN'])) {
-                            wpg_set_session('TOKEN', $this->result['TOKEN']);
+                            woo_paypal_gateway_set_session('TOKEN', $this->result['TOKEN']);
                             $this->wpg_redirect_action($this->PAYPAL_URL . $this->result['TOKEN']);
                         }
                         break;
                     case 'set_express_checkout_for_add_payment_method':
                         if (!empty($this->result['TOKEN'])) {
-                            wpg_set_session('TOKEN', $this->result['TOKEN']);
+                            woo_paypal_gateway_set_session('TOKEN', $this->result['TOKEN']);
                             $this->wpg_redirect_action($this->PAYPAL_URL . $this->result['TOKEN']);
                         }
                         break;
                     case 'get_express_checkout_details':
                         if (!empty($this->result['PAYERID'])) {
-                            wpg_set_session('PAYERID', $this->result['PAYERID']);
-                            wpg_set_session('GetExpressCheckoutDetails', $this->result);
+                            woo_paypal_gateway_set_session('PAYERID', $this->result['PAYERID']);
+                            woo_paypal_gateway_set_session('GetExpressCheckoutDetails', $this->result);
                             $this->wpg_get_shipping_address();
                             $this->wpg_redirect_action(wc_get_checkout_url());
                         }
@@ -531,7 +544,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                             $this->wpg_add_order_note($this->order);
                             $this->wpg_update_payment_status_by_paypal_responce($this->order_id, $this->result);
                             WC()->cart->empty_cart();
-                            wpg_maybe_clear_session_data();
+                            woo_paypal_gateway_maybe_clear_session_data();
                             $this->wpg_redirect_action($this->gateway->get_return_url($this->order));
                         }
                         break;
@@ -543,7 +556,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                             $this->wpg_update_payment_status_by_paypal_responce($this->order_id, $this->result);
                             if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
                                 WC()->cart->empty_cart();
-                                wpg_maybe_clear_session_data();
+                                woo_paypal_gateway_maybe_clear_session_data();
                                 $this->wpg_redirect_action($this->gateway->get_return_url($this->order));
                             }
                         }
@@ -556,7 +569,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                             if (is_cart_contains_pre_order() == false) {
                                 $this->order->payment_complete($this->result['BILLINGAGREEMENTID']);
                                 WC()->cart->empty_cart();
-                                wpg_maybe_clear_session_data();
+                                woo_paypal_gateway_maybe_clear_session_data();
                                 $this->wpg_redirect_action($this->gateway->get_return_url($this->order));
                             }
                         }
@@ -574,7 +587,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 }
             } else {
                 if (function_exists('wc_add_notice')) {
-                    wpg_maybe_clear_session_data();
+                    woo_paypal_gateway_maybe_clear_session_data();
                     $ERRORCODE = !empty($this->result['L_ERRORCODE0']) ? $this->result['L_ERRORCODE0'] : '';
                     if (!empty($this->result['L_LONGMESSAGE0'])) {
                         $error = $this->result['L_LONGMESSAGE0'];
@@ -603,7 +616,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 'timeout' => 60,
             );
 
-            Woo_PayPal_Gateway_Express_Checkout_NVP::log(sprintf('%s request: %s', $this->request_name, print_r($this->wpg_mask_request_param(), true)));
+            Woo_PayPal_Gateway_Express_Checkout_NVP::log(sprintf('%s request: %s', $this->request_name, wc_print_r($this->wpg_mask_request_param(), true)));
             $this->response = wp_safe_remote_post($this->API_Endpoint, $args);
         } catch (Exception $ex) {
             Woo_PayPal_Gateway_Express_Checkout_NVP::log($ex->getMessage());
@@ -612,7 +625,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
 
     public function wpg_get_shipping_address() {
         try {
-            $GetExpressCheckoutDetails = wpg_get_session('GetExpressCheckoutDetails');
+            $GetExpressCheckoutDetails = woo_paypal_gateway_get_session('GetExpressCheckoutDetails');
             $shipping_address = array();
             if (!empty($GetExpressCheckoutDetails) && $GetExpressCheckoutDetails == true) {
                 $shipping_address['first_name'] = !empty($GetExpressCheckoutDetails['FIRSTNAME']) ? $GetExpressCheckoutDetails['FIRSTNAME'] : '';
@@ -626,7 +639,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 if (!empty($shipping_address['country']) && !empty($state)) {
                     $shipping_address['state'] = $this->wpg_get_state_code($shipping_address['country'], $state);
                 }
-                wpg_set_session('wpg_express_checkout_shipping_address', $shipping_address);
+                woo_paypal_gateway_set_session('wpg_express_checkout_shipping_address', $shipping_address);
             }
         } catch (Exception $ex) {
             Woo_PayPal_Gateway_Express_Checkout_NVP::log($ex->getMessage());
@@ -662,7 +675,10 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
         try {
             if (!empty($url)) {
                 if (!is_ajax()) {
-                    wp_redirect($url);
+                    // The express-checkout flow legitimately redirects to PayPal's
+                    // hosted checkout, so whitelist those hosts for wp_safe_redirect().
+                    add_filter('allowed_redirect_hosts', array($this, 'wpg_allowed_paypal_redirect_hosts'));
+                    wp_safe_redirect($url);
                     exit;
                 } else {
                     if ($this->request_name == 'do_express_checkout_payment' || $this->is_in_content == false) {
@@ -680,6 +696,18 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
         } catch (Exception $ex) {
             Woo_PayPal_Gateway_Express_Checkout_NVP::log($ex->getMessage());
         }
+    }
+
+    /**
+     * Allow PayPal's hosted checkout domains as safe redirect targets.
+     *
+     * @param string[] $hosts Allowed host names.
+     * @return string[]
+     */
+    public function wpg_allowed_paypal_redirect_hosts($hosts) {
+        $hosts[] = 'www.paypal.com';
+        $hosts[] = 'www.sandbox.paypal.com';
+        return $hosts;
     }
 
     public function wpg_mask_request_param() {
@@ -712,10 +740,10 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
             }
             parse_str(wp_remote_retrieve_body($this->response), $this->result);
             if (!array_key_exists('ACK', $this->result)) {
-                Woo_PayPal_Gateway_Express_Checkout_NVP::log(sprintf('%s response: %s', $this->request_name, print_r($this->result, true)));
+                Woo_PayPal_Gateway_Express_Checkout_NVP::log(sprintf('%s response: %s', $this->request_name, wc_print_r($this->result, true)));
                 throw new Exception(__('Malformed response received from PayPal', 'woo-paypal-gateway'), 3);
             } else {
-                Woo_PayPal_Gateway_Express_Checkout_NVP::log(sprintf('%s response: %s', $this->request_name, print_r($this->result, true)));
+                Woo_PayPal_Gateway_Express_Checkout_NVP::log(sprintf('%s response: %s', $this->request_name, wc_print_r($this->result, true)));
             }
             return $this->result;
         } catch (Exception $ex) {
@@ -846,7 +874,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
 
     public function wpg_add_order_note($order) {
         try {
-            $paypal_express_checkout = wpg_get_session('GetExpressCheckoutDetails');
+            $paypal_express_checkout = woo_paypal_gateway_get_session('GetExpressCheckoutDetails');
             if (!empty($paypal_express_checkout['PAYERSTATUS'])) {
                 // translators: %s: PayPal payer status, wrapped in <strong> HTML tags.
                 $order->add_order_note(sprintf(__('Payer Status: %s', 'woo-paypal-gateway'), '<strong>' . $paypal_express_checkout['PAYERSTATUS'] . '</strong>'));
@@ -924,7 +952,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 $customer_id = get_current_user_id();
             }
             update_user_meta($customer_id, '_billing_agreement_id', $billing_agreement_id);
-            $result = wpg_is_token_exist($this->gateway->id, $customer_id, $billing_agreement_id);
+            $result = woo_paypal_gateway_is_token_exist($this->gateway->id, $customer_id, $billing_agreement_id);
             if (is_null($result)) {
                 $token = new WC_Payment_Token_CC();
                 $token->set_user_id($customer_id);
@@ -932,8 +960,8 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
                 $token->set_gateway_id($this->gateway->id);
                 $token->set_card_type('PayPal Billing Agreement');
                 $token->set_last4(substr($billing_agreement_id, -4));
-                $token->set_expiry_month(date('m'));
-                $token->set_expiry_year(date('Y', strtotime('+20 years')));
+                $token->set_expiry_month(gmdate('m'));
+                $token->set_expiry_year(gmdate('Y', strtotime('+20 years')));
                 $save_result = $token->save();
                 if ($save_result) {
                     $order->add_payment_token($token);
@@ -969,7 +997,7 @@ class Woo_Paypal_Gateway_Express_Checkout_API_Handler_NVP {
     }
 
     public function wpg_cancel_url() {
-        wpg_maybe_clear_session_data();
+        woo_paypal_gateway_maybe_clear_session_data();
         $this->wpg_redirect_action(wc_get_cart_url());
     }
 }

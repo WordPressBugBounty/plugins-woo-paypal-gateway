@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -44,11 +45,14 @@ class WPG_Product_Addons_Compat {
 	 * @return float Adjusted total.
 	 */
 	public function adjust_product_total( $total, $product, $qty ) {
-		if ( empty( $_POST['addon_costs'] ) ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Callback for the wpg_ppcp_product_total filter; the surrounding AJAX request's ppcp_ajax_nonce is verified by the button manager before this filter runs.
+		$posted_cost = isset( $_POST['addon_costs'] ) ? sanitize_text_field( wp_unslash( $_POST['addon_costs'] ) ) : '';
+
+		if ( empty( $posted_cost ) ) {
 			return $total;
 		}
 
-		$addon_cost = (float) sanitize_text_field( wp_unslash( $_POST['addon_costs'] ) );
+		$addon_cost = (float) $posted_cost;
 
 		if ( $addon_cost > 0 ) {
 			$total += $addon_cost * $qty;

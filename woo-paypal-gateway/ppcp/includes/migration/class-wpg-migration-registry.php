@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -7,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Migration registry and runner.
  *
- * Improvements over competitor (pymntpl-paypal-woocommerce Update.php):
+ * Design goals:
  *
  * 1. Class-based migrations with up() + verify() instead of raw include files
  * 2. Pre-migration settings snapshots for safe rollback
@@ -266,7 +267,6 @@ class WPG_Migration_Registry {
 	 * Store a snapshot of settings before migration.
 	 *
 	 * Enables manual rollback if a migration corrupts settings.
-	 * The competitor has no equivalent.
 	 */
 	private function take_settings_snapshot() {
 		$snapshot = array(

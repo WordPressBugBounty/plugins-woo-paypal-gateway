@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 defined('ABSPATH') || exit;
 
@@ -217,7 +218,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
 
     public function wpg_login_seller() {
         try {
-            $posted_raw = wpg_get_raw_data();
+            $posted_raw = woo_paypal_gateway_get_raw_data();
             if (empty($posted_raw)) {
                 return false;
             }
@@ -459,6 +460,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
                     '/merchant-integrations/' . $merchant_id;
             $args = array(
                 'method' => 'GET',
+                // Explicit bound: with no timeout set this inherited the global
+                // http_request_timeout filter, which themes/plugins commonly raise
+                // to 30s+ — turning a failing status call into a 30s page stall.
+                'timeout' => 10,
                 'headers' => array(
                     'Authorization' => 'Bearer ' . $access_token,
                     'Content-Type' => 'application/json',
@@ -475,6 +480,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Seller_Onboarding {
     }
 
     public function is_valid_site_request() {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check of which WooCommerce settings section is being viewed; capability is enforced by the manage_options check below.
         if (!isset($_REQUEST['section']) || !in_array(sanitize_text_field(wp_unslash($_REQUEST['section'])), array('wpg_paypal_checkout'), true)) {
             return false;
         }

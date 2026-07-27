@@ -34,6 +34,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             $post_data['URLMETHOD'] = 'POST';
             $response = wp_remote_post($this->gateway->testmode ? $this->gateway->testurl : $this->gateway->liveurl, array(
                 'method' => 'POST',
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                 'body' => urldecode(http_build_query(apply_filters('woo-paypal-gateway_payflow_request', $post_data, $order), null, '&')),
                 'timeout' => 70,
                 'user-agent' => 'WooCommerce',
@@ -84,7 +85,9 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             $post_data['EMAIL'] = $order->get_billing_email();
             $post_data['INVNUM'] = $this->gateway->invoice_prefix . $order->get_order_number();
             $post_data['BUTTONSOURCE'] = 'mbjtechnolabs_SP';
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $post_data['CUSTOM'] = apply_filters('wpg_paypal_advanced_custom_parameter', json_encode(array('order_id' => $order->get_id(), 'order_key' => $order->get_order_key())), $order);
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             $post_data['NOTIFYURL'] = apply_filters('wpg_paypal_advanced_notify_url', add_query_arg('wpg_ipn_action', 'ipn', WC()->api_request_url('Woo_Paypal_Gateway_IPN_Handler')));
             if ($this->gateway->soft_descriptor) {
                 $post_data['MERCHDESCR'] = $this->gateway->soft_descriptor;
@@ -162,21 +165,25 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             $post_data['PWD'] = $this->gateway->paypal_password;
             $post_data['TRXTYPE'] = 'I';
             $post_data['ORIGID'] = $transaction_id;
+            // Request the full record so the return handler can reconcile the amount,
+            // currency and invoice against the WooCommerce order before completing it.
+            $post_data['VERBOSITY'] = 'HIGH';
             $post_data['BUTTONSOURCE'] = 'mbjtechnolabs_SP';
             $response = wp_remote_post($url, array(
                 'method' => 'POST',
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                 'body' => urldecode(http_build_query(apply_filters('woo-paypal-gateway_payflow_transaction_details_request', $post_data, null, '&'))),
                 'timeout' => 70,
                 'user-agent' => 'WooCommerce',
                 'httpversion' => '1.1',
             ));
             if (is_wp_error($response)) {
-                Woo_Paypal_Gateway_PayPal_Advanced::log('Error ' . print_r($response->get_error_message(), true));
+                Woo_Paypal_Gateway_PayPal_Advanced::log('Error ' . wc_print_r($response->get_error_message(), true));
 
                 throw new Exception(__('There was a problem connecting to the payment gateway.', 'woo-paypal-gateway'));
             }
             parse_str($response['body'], $parsed_response);
-            Woo_Paypal_Gateway_PayPal_Advanced::log('transaction_details ' . print_r($parsed_response, true));
+            Woo_Paypal_Gateway_PayPal_Advanced::log('transaction_details ' . wc_print_r($parsed_response, true));
             if (isset($parsed_response['RESULT']) && '0' === $parsed_response['RESULT']) {
                 return $parsed_response;
             }
@@ -219,6 +226,7 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             }
             $response = wp_remote_post($url, array(
                 'method' => 'POST',
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                 'body' => urldecode(http_build_query(apply_filters('woo-paypal-gateway_payflow_refund_request', $post_data, null, '&'))),
                 'timeout' => 70,
                 'user-agent' => 'WooCommerce',
@@ -226,14 +234,14 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
             ));
             parse_str($response['body'], $parsed_response);
             if (is_wp_error($response)) {
-                Woo_Paypal_Gateway_PayPal_Advanced::log('Error ' . print_r($response->get_error_message(), true));
+                Woo_Paypal_Gateway_PayPal_Advanced::log('Error ' . wc_print_r($response->get_error_message(), true));
                 throw new Exception(__('There was a problem connecting to the payment gateway.', 'woo-paypal-gateway'));
             }
             if (!isset($parsed_response['RESULT'])) {
                 throw new Exception(__('Unexpected response from PayPal.', 'woo-paypal-gateway'));
             }
             if ('0' !== $parsed_response['RESULT']) {
-                Woo_Paypal_Gateway_PayPal_Advanced::log('Parsed Response (refund) ' . print_r($parsed_response, true));
+                Woo_Paypal_Gateway_PayPal_Advanced::log('Parsed Response (refund) ' . wc_print_r($parsed_response, true));
             } else {
                 // translators: 1: Refunded amount, 2: PayPal PNREF (transaction reference) ID.
                 $order->add_order_note(sprintf(__('Refunded %1$s - PNREF: %2$s', 'woo-paypal-gateway'), wc_price(number_format($amount, 2, '.', '')), $parsed_response['PNREF']));
@@ -249,21 +257,53 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
         try {
             @ob_clean();
             header('HTTP/1.1 200 OK');
-            $result = isset($_POST['RESULT']) ? absint($_POST['RESULT']) : null;
-            $INVOICE = wc_clean($_POST['INVOICE']);
+            // PayFlow silent-post / return endpoint. PayPal posts here server-side with no
+            // WordPress nonce; the request is validated by the order-key check in
+            // is_return_for_order() and by a server-side transaction inquiry below.
+            // phpcs:disable WordPress.Security.NonceVerification.Missing
+            $result = isset($_POST['RESULT']) ? absint(wp_unslash($_POST['RESULT'])) : null;
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+            $INVOICE = isset($_POST['INVOICE']) ? wc_clean(wp_unslash($_POST['INVOICE'])) : '';
             $INVOICE = str_replace($this->gateway->invoice_prefix, '', $INVOICE);
             $order_id = isset($INVOICE) ? absint(ltrim($INVOICE, '#')) : 0;
             if (is_null($result) || empty($order_id)) {
                 echo "Invalid request.";
                 exit;
             }
-            $order = new WC_Order($order_id);
+            $order = wc_get_order($order_id);
+            if (!$order || $order->get_payment_method() !== $this->gateway->id) {
+                echo "Invalid request.";
+                exit;
+            }
+            // The return endpoint is reachable unauthenticated and every field in $_POST is
+            // attacker-controllable. Confirm the return really belongs to this order before
+            // acting on it, so a sequential order id cannot be driven by a third party.
+            if (!$this->is_return_for_order($order)) {
+                Woo_Paypal_Gateway_PayPal_Advanced::log('Return handler: order key mismatch for order #' . $order_id);
+                echo "Invalid request.";
+                exit;
+            }
             switch ($result) {
                 case 0 :
                 case 127 :
-                    $txn_id = (!empty($_POST['PNREF']) ) ? wc_clean($_POST['PNREF']) : '';
-                    $details = $this->get_transaction_details($txn_id);
-                    if ($details && strtolower($details['TRANSSTATE']) === '3') {
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+                    $txn_id = (!empty($_POST['PNREF']) ) ? wc_clean(wp_unslash($_POST['PNREF'])) : '';
+                    // Never trust the claimed-success POST on its own. Require a server-side
+                    // PayFlow inquiry (authenticated with the merchant credentials) that both
+                    // succeeds and reconciles against the order. A failed inquiry - including a
+                    // forged or replayed reference - is a failure, not a completed payment.
+                    $details = !empty($txn_id) ? $this->get_transaction_details($txn_id) : false;
+                    if (!$details || !$this->is_transaction_valid_for_order($order, $details)) {
+                        Woo_Paypal_Gateway_PayPal_Advanced::log('Return handler: unable to verify transaction "' . $txn_id . '" for order #' . $order_id);
+                        $order->update_status('failed', __('PayPal Pro (Payflow) payment could not be verified.', 'woo-paypal-gateway'));
+                        $redirect = $order->get_checkout_payment_url(true);
+                        $redirect = add_query_arg('wc_error', urlencode(__('Your payment could not be verified. Please try again.', 'woo-paypal-gateway')), $redirect);
+                        if (is_ssl() || get_option('woocommerce_force_ssl_checkout') == 'yes') {
+                            $redirect = str_replace('http:', 'https:', $redirect);
+                        }
+                        break;
+                    }
+                    if (strtolower($details['TRANSSTATE']) === '3') {
                         $order->update_meta_data('_paypalpro_charge_captured', 'no');
                         $order->save_meta_data();
                         $order->set_transaction_id($txn_id);
@@ -279,25 +319,98 @@ class Woo_Paypal_Gateway_PayPal_Advanced_API_Handler {
                     $redirect = $order->get_checkout_order_received_url();
                     break;
                 case 126 :
-                    $order->add_order_note(wc_clean($_POST['RESPMSG']));
-                    $order->add_order_note(wc_clean($_POST['PREFPSMSG']));
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+                    $order->add_order_note(isset($_POST['RESPMSG']) ? wc_clean(wp_unslash($_POST['RESPMSG'])) : '');
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+                    $order->add_order_note(isset($_POST['PREFPSMSG']) ? wc_clean(wp_unslash($_POST['PREFPSMSG'])) : '');
                     $order->update_status('on-hold', __('The payment was flagged by a fraud filter. Please check your PayPal Manager account to review and accept or deny the payment and then mark this order "processing" or "cancelled".', 'woo-paypal-gateway'));
                     WC()->cart->empty_cart();
                     $redirect = $order->get_checkout_order_received_url();
                     break;
                 default :
-                    $order->update_status('failed', $_POST['RESPMSG']);
+                    $respmsg = isset($_POST['RESPMSG']) ? sanitize_text_field(wp_unslash($_POST['RESPMSG'])) : '';
+                    $order->update_status('failed', $respmsg);
                     $redirect = $order->get_checkout_payment_url(true);
-                    $redirect = add_query_arg('wc_error', urlencode(wp_kses_post($_POST['RESPMSG'])), $redirect);
+                    $redirect = add_query_arg('wc_error', urlencode($respmsg), $redirect);
                     if (is_ssl() || get_option('woocommerce_force_ssl_checkout') == 'yes') {
                         $redirect = str_replace('http:', 'https:', $redirect);
                     }
                     break;
             }
-            wp_redirect($redirect);
+            // phpcs:enable WordPress.Security.NonceVerification.Missing
+            wp_safe_redirect($redirect);
             exit;
         } catch (Exception $ex) {
-            
+
+        }
+    }
+
+    /**
+     * Confirm the PayFlow return actually belongs to the given order.
+     *
+     * The order key is embedded server-side in the CUSTOM field when the secure token is
+     * created and is echoed back by PayFlow on return. Requiring it to match prevents an
+     * unauthenticated third party from driving the return handler against an arbitrary
+     * (sequential) order id. When PayFlow does not echo the field we fall back to the
+     * verified inquiry + amount reconciliation performed by the caller.
+     *
+     * @param WC_Order $order
+     * @return bool
+     */
+    protected function is_return_for_order($order) {
+        try {
+            // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- PayFlow posts this return directly to the store; no nonce can survive the gateway round trip. Authenticity is established by matching the server-embedded order key below.
+            $custom = isset($_POST['CUSTOM']) ? wc_clean(wp_unslash($_POST['CUSTOM'])) : '';
+            if (empty($custom)) {
+                return true;
+            }
+            $data = json_decode($custom, true);
+            if (!is_array($data) || empty($data['order_key'])) {
+                return true;
+            }
+            if (!empty($data['order_id']) && absint($data['order_id']) !== $order->get_id()) {
+                return false;
+            }
+            return hash_equals((string) $order->get_order_key(), (string) $data['order_key']);
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Reconcile a verified PayFlow inquiry against the order before completing it.
+     *
+     * The inquiry (TRXTYPE=I, VERBOSITY=HIGH) is authenticated with the merchant
+     * credentials, so its fields - unlike the return POST - cannot be forged by the client.
+     * The transaction must be for this invoice and for the full order amount and currency;
+     * any mismatch is treated as a failed payment.
+     *
+     * @param WC_Order $order
+     * @param array    $details Parsed PayFlow inquiry response.
+     * @return bool
+     */
+    protected function is_transaction_valid_for_order($order, $details) {
+        try {
+            $expected_invoice = $this->gateway->invoice_prefix . $order->get_order_number();
+            if (!empty($details['INVNUM']) && (string) $details['INVNUM'] !== (string) $expected_invoice) {
+                Woo_Paypal_Gateway_PayPal_Advanced::log('Return handler: invoice mismatch (' . $details['INVNUM'] . ' != ' . $expected_invoice . ')');
+                return false;
+            }
+            if (!isset($details['AMT']) || '' === $details['AMT']) {
+                Woo_Paypal_Gateway_PayPal_Advanced::log('Return handler: inquiry returned no amount to reconcile.');
+                return false;
+            }
+            if (absint(round((float) $details['AMT'] * 100)) !== absint(round((float) $order->get_total() * 100))) {
+                Woo_Paypal_Gateway_PayPal_Advanced::log('Return handler: amount mismatch (' . $details['AMT'] . ' != ' . $order->get_total() . ')');
+                return false;
+            }
+            if (!empty($details['CURRENCY']) && strtoupper($details['CURRENCY']) !== strtoupper($order->get_currency())) {
+                Woo_Paypal_Gateway_PayPal_Advanced::log('Return handler: currency mismatch (' . $details['CURRENCY'] . ' != ' . $order->get_currency() . ')');
+                return false;
+            }
+            return true;
+        } catch (Exception $ex) {
+            return false;
         }
     }
 

@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 /**
  * Context-specific Elementor widgets, modeled on the reference implementation:
  * cart payment buttons, product payment buttons, and a product Pay Later

@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -35,11 +36,14 @@ class WPG_TM_EPO_Compat {
 	}
 
 	public function adjust_product_total( $total, $product, $qty ) {
-		if ( empty( $_POST['tm_epo_costs'] ) ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Callback for the wpg_ppcp_product_total filter; the surrounding AJAX request's ppcp_ajax_nonce is verified by the button manager before this filter runs.
+		$posted_cost = isset( $_POST['tm_epo_costs'] ) ? sanitize_text_field( wp_unslash( $_POST['tm_epo_costs'] ) ) : '';
+
+		if ( empty( $posted_cost ) ) {
 			return $total;
 		}
 
-		$epo_cost = (float) sanitize_text_field( wp_unslash( $_POST['tm_epo_costs'] ) );
+		$epo_cost = (float) $posted_cost;
 
 		if ( $epo_cost > 0 ) {
 			$total += $epo_cost * $qty;

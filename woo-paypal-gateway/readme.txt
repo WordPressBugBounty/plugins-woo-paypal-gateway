@@ -1,9 +1,9 @@
 === Payment Gateway for PayPal on WooCommerce ===
 Contributors: easypayment  
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
-Requires at least: 3.3  
+Requires at least: 5.3
 Tested up to: 7.0.2
-Stable tag: 9.2.0
+Stable tag: 9.2.1
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -99,6 +99,32 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.2.1 - 2026-07-27 =
+ * Fixed - Verified payment confirmation for PayPal Advanced (Payflow): each returning transaction is now confirmed with a direct server-to-server inquiry to PayPal, and the invoice, amount and currency are reconciled against the WooCommerce order before it is marked paid. Reported by security researcher Muni Nitish Kumar Yaddala.
+ * Fixed - Trusted IPN handling: instant payment notifications are now confirmed to be for your own PayPal account and validated against the environment set in your plugin settings, so only genuine notifications update an order. Repeat deliveries are handled cleanly.
+ * Fixed - Stronger order integrity: the zero-total signup flow now applies strictly to zero-total orders, so every payable order follows the full, verified payment path.
+ * Fixed - Customer account safety: saved PayPal payment methods, subscription payment-method changes and the add-payment-method flow are now tied to the signed-in customer's own account, keeping stored billing agreements private to their owner.
+ * Fixed - Accurate FunnelKit upsells: the offer return now captures exactly the PayPal order the store created for that offer, so upsell totals always match what the buyer approved.
+ * Fixed - WordPress coding standards: admin actions carry explicit capability checks and the codebase now passes the WordPress Plugin Check review.
+ * Fixed - Dependable checkout totals: the PayPal line-item breakdown is validated before every order create and update, so per-line rounding, coupon distribution or tax-inclusive pricing can never hold up a checkout with an "amount mismatch" error.
+ * Fixed - Resilient capture handling: if a capture or authorization succeeds at PayPal but the confirmation is lost to a network timeout, the plugin recognises PayPal's "already captured / already authorized" reply, confirms the payment belongs to the order and completes it from the existing transaction — the customer is never charged twice.
+ * Fixed - Reliable subscription renewals: the card recorded on the subscription is always the card charged, and a renewal that cannot use it fails cleanly so it can be retried. The previous fallback behaviour remains available via the wpg_ppcp_renewal_charge_first_token_when_stored_missing filter.
+ * Fixed - Redirect-flow orders re-sync their final amount and shipping to PayPal after approval, so the buyer always confirms the correct total.
+ * Fixed - Complete refund records: refunds issued from the PayPal dashboard, including partial refunds, are recorded as real WooCommerce refunds on the order, with de-duplication when PayPal redelivers the same webhook. Fully refunded orders move to the Refunded status.
+ * Fixed - Dependable webhook processing: an event that cannot be processed is requeued with PayPal for redelivery instead of being dropped, and concurrent deliveries for the same order are serialised with an atomic lock so an order is completed exactly once.
+ * Fixed - 3D Secure results for card payments made through Google Pay and Apple Pay are now read from the wallet's card data. Liability-shift enforcement for wallets stays off by default (opt-in via the wpg_ppcp_enforce_wallet_3ds filter), so existing wallet payments are unaffected.
+ * Fixed - Smoother Fastlane retries on the block checkout: after an unsuccessful attempt the single-use card token is cleared so the buyer can re-authenticate and complete their purchase.
+ * Fixed - Cleaner webhook logs: events without a summary field are processed without a PHP notice.
+ * Improved - Stronger reCAPTCHA coverage: a checkout submission arriving without its token is now challenged rather than allowed through, closing a simple avenue for bots. PayPal-approved express sessions are unaffected, and the previous lenient behaviour is available via the wpg_ppcp_recaptcha_block_on_missing_token filter.
+ * Improved - Express checkout keeps totals in step with the buyer's chosen shipping address: if the total cannot be updated at PayPal, the address change is declined so the buyer can retry with an accurate amount. (Adjustable via the wpg_ppcp_reject_express_on_patch_failure filter.)
+ * Improved - [wpg_paypal_button] shortcode buttons recalculate shipping when the buyer changes their address in the PayPal popup, and a shortcode targeting a specific product now routes that product into the order.
+ * Improved - WooCommerce Blocks: the PayPal payment method handles incomplete configuration data gracefully and supports a store-defined eligibility override (window.wpgPPCPCanMakePayment).
+ * Improved - Scheduled subscription renewals can be classified as RECURRING stored-credential transactions per card-network guidance, and a card's first vaulting as FIRST usage (opt-in via the wpg_ppcp_use_recommended_stored_credentials filter; default behaviour unchanged).
+ * Improved - Compatibility filters are wired up for the PayPal SDK locale (WPML / Polylang), the Germanized checkout button label and frontend script data injection.
+ * Removed - The deprecated "PayPal Credit Card Payments" gateway (REST API direct card payments) and the bundled PayPal-PHP-SDK library, which PayPal has long since archived. Merchants using it continue to see the migration notice and are encouraged to move to PayPal Checkout, which supports Advanced Credit/Debit Card payments, Google Pay and Apple Pay.
+ * Removed - The legacy Braintree gateway, its WooCommerce Blocks integration and the bundled Braintree PHP SDK. Merchants using it continue to see the migration notice and are encouraged to move to PayPal Checkout.
+ * Credits - Our sincere thanks to security researcher Muni Nitish Kumar Yaddala, whose responsible disclosure prompted the payment-verification improvements in this release, and to the WordPress Plugin Directory team for coordinating it. We welcome and act on reports like this one.
 
 = 9.2.0 - 2026-07-22 =
  * Added - Fastlane by PayPal: accelerated guest checkout for the Advanced Credit/Debit Card gateway. Returning Fastlane members are recognized by their email address, verify with a one-time code and pay with their saved card in a couple of clicks; new customers can enroll while entering their card. Available to US merchants transacting in USD; enable it under PayPal Gateway settings → Advanced Credit Card tab.

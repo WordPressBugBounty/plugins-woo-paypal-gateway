@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 
 defined( 'ABSPATH' ) || exit;
 
@@ -76,8 +77,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_3DS {
 	}
 
 	private function extract_auth_result( $response ) {
+		// Direct Advanced Card gateway: the card sits at payment_source.card.
 		if ( ! empty( $response['payment_source']['card']['authentication_result']['liability_shift'] ) ) {
 			return $response['payment_source']['card']['authentication_result'];
+		}
+		// Card-backed wallets (Google Pay / Apple Pay) nest the underlying card under the
+		// wallet key, so the 3DS authentication_result lives at
+		// payment_source.{google_pay|apple_pay}.card.authentication_result.
+		foreach ( array( 'google_pay', 'apple_pay' ) as $wallet ) {
+			if ( ! empty( $response['payment_source'][ $wallet ]['card']['authentication_result']['liability_shift'] ) ) {
+				return $response['payment_source'][ $wallet ]['card']['authentication_result'];
+			}
 		}
 		return null;
 	}
@@ -190,7 +200,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_3DS {
 
 	private function add_order_note( $order, $liability_shift, $enrollment, $auth_status ) {
 		$note = __( '3D Secure response', 'woo-paypal-gateway' ) . "\n";
-		$note .= __( 'Liability Shift', 'woo-paypal-gateway' ) . ': ' . ppcp_readable( $liability_shift ) . "\n";
+		$note .= __( 'Liability Shift', 'woo-paypal-gateway' ) . ': ' . woo_paypal_gateway_ppcp_readable( $liability_shift ) . "\n";
 		$note .= __( 'Enrollment Status', 'woo-paypal-gateway' ) . ': ' . ( $enrollment ?: '—' ) . "\n";
 		$note .= __( 'Authentication Status', 'woo-paypal-gateway' ) . ': ' . ( $auth_status ?: '—' ) . "\n";
 		$note .= __( 'Handling Mode', 'woo-paypal-gateway' ) . ': ' . ucfirst( $this->get_handling_mode() );
