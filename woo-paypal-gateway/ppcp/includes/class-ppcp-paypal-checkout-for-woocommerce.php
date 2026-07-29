@@ -52,23 +52,33 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-3ds.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-cache.php';
         require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-shortcodes.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/elementor/class-wpg-elementor-integration.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-germanized-compat.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-checkoutwc-compat.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-product-addons-compat.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-tm-epo-compat.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-wapf-compat.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-pre-orders-compat.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-locale-compat.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-shipstation-compat.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-mondial-relay-compat.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/compatibility/class-wpg-checkoutwc-order-bumps-compat.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/class-wpg-plugin-converter.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/converters/class-wpg-pymntpl-converter.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/converters/class-wpg-wc-paypal-payments-converter.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/converters/class-wpg-angelleye-converter.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/converters/class-wpg-checkout-plugins-converter.php';
-        require_once WPG_PLUGIN_DIR . '/ppcp/includes/conversion/class-wpg-conversion-controller.php';
+        // Optional integrations, loaded tolerantly: require_once on a file that is not
+        // there is a fatal, and during a plugin update the folder is briefly incomplete
+        // for concurrent requests. The feature is skipped instead of ending the request.
+        foreach (array(
+            '/ppcp/includes/elementor/class-wpg-elementor-integration.php',
+            '/ppcp/includes/compatibility/class-wpg-germanized-compat.php',
+            '/ppcp/includes/compatibility/class-wpg-checkoutwc-compat.php',
+            '/ppcp/includes/compatibility/class-wpg-product-addons-compat.php',
+            '/ppcp/includes/compatibility/class-wpg-tm-epo-compat.php',
+            '/ppcp/includes/compatibility/class-wpg-wapf-compat.php',
+            '/ppcp/includes/compatibility/class-wpg-pre-orders-compat.php',
+            '/ppcp/includes/compatibility/class-wpg-locale-compat.php',
+            '/ppcp/includes/compatibility/class-wpg-shipstation-compat.php',
+            '/ppcp/includes/compatibility/class-wpg-mondial-relay-compat.php',
+            '/ppcp/includes/compatibility/class-wpg-checkoutwc-order-bumps-compat.php',
+            '/ppcp/includes/conversion/class-wpg-plugin-converter.php',
+            '/ppcp/includes/conversion/converters/class-wpg-pymntpl-converter.php',
+            '/ppcp/includes/conversion/converters/class-wpg-wc-paypal-payments-converter.php',
+            '/ppcp/includes/conversion/converters/class-wpg-angelleye-converter.php',
+            '/ppcp/includes/conversion/converters/class-wpg-checkout-plugins-converter.php',
+            '/ppcp/includes/conversion/class-wpg-conversion-controller.php',
+        ) as $optional_file) {
+            $path = WPG_PLUGIN_DIR . $optional_file;
+            if (file_exists($path)) {
+                require_once $path;
+            }
+        }
         PPCP_Paypal_Checkout_For_Woocommerce_Tracking::get_instance();
         $this->loader = new PPCP_Paypal_Checkout_For_Woocommerce_Loader();
     }
@@ -86,18 +96,70 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
         PPCP_Paypal_Checkout_For_Woocommerce_3DS::instance()->init();
         PPCP_Paypal_Checkout_For_Woocommerce_Cache::instance()->init();
         PPCP_Paypal_Checkout_For_Woocommerce_Shortcodes::instance()->init();
-        WPG_Elementor_Integration::instance()->init();
-        WPG_Germanized_Compat::instance()->init();
-        WPG_CheckoutWC_Compat::instance()->init();
-        WPG_Product_Addons_Compat::instance()->init();
-        WPG_TM_EPO_Compat::instance()->init();
-        WPG_WAPF_Compat::instance()->init();
-        WPG_Pre_Orders_Compat::instance()->init();
-        WPG_Locale_Compat::instance()->init();
-        WPG_ShipStation_Compat::instance()->init();
-        WPG_Mondial_Relay_Compat::instance()->init();
-        WPG_CheckoutWC_Order_Bumps_Compat::instance()->init();
-        WPG_Conversion_Controller::instance()->init();
+        // Optional third-party integrations. Each is booted defensively: this runs on
+        // plugins_loaded, so an integration class that is not there brings down the whole
+        // site — admin, cron and checkout alike — not just its own feature. That happens
+        // in practice when the plugin folder is being replaced mid-request during an
+        // update and a concurrent request (often wp-cron) loads a half-written directory:
+        //
+        //   Uncaught Error: Class "WPG_TM_EPO_Compat" not found
+        //
+        // A missing or half-written integration now simply does not load.
+        foreach (array(
+            'WPG_Elementor_Integration',
+            'WPG_Germanized_Compat',
+            'WPG_CheckoutWC_Compat',
+            'WPG_Product_Addons_Compat',
+            'WPG_TM_EPO_Compat',
+            'WPG_WAPF_Compat',
+            'WPG_Pre_Orders_Compat',
+            'WPG_Locale_Compat',
+            'WPG_ShipStation_Compat',
+            'WPG_Mondial_Relay_Compat',
+            'WPG_CheckoutWC_Order_Bumps_Compat',
+            'WPG_Conversion_Controller',
+        ) as $integration_class) {
+            $this->ppcp_boot_optional_integration($integration_class);
+        }
+    }
+
+    /**
+     * Boot one optional integration, tolerating its absence.
+     *
+     * @param string $integration_class Class name exposing instance() and init().
+     * @return void
+     */
+    private function ppcp_boot_optional_integration($integration_class) {
+        try {
+            if (!class_exists($integration_class) || !is_callable(array($integration_class, 'instance'))) {
+                $this->ppcp_log_integration_problem($integration_class, 'class not loaded');
+                return;
+            }
+            $integration = call_user_func(array($integration_class, 'instance'));
+            if (is_object($integration) && method_exists($integration, 'init')) {
+                $integration->init();
+            }
+        } catch (\Throwable $ex) {
+            // An integration that throws while wiring its hooks must not take the
+            // request with it either.
+            $this->ppcp_log_integration_problem($integration_class, $ex->getMessage());
+        }
+    }
+
+    /**
+     * Record a skipped integration so the cause is diagnosable rather than silent.
+     *
+     * @param string $integration_class Class that could not be booted.
+     * @param string $reason            Short description of what went wrong.
+     * @return void
+     */
+    private function ppcp_log_integration_problem($integration_class, $reason) {
+        if (function_exists('wc_get_logger')) {
+            wc_get_logger()->warning(
+                sprintf('Skipped optional integration %1$s: %2$s.', $integration_class, $reason),
+                array('source' => 'wpg_paypal_checkout')
+            );
+        }
     }
 
     public function run() {

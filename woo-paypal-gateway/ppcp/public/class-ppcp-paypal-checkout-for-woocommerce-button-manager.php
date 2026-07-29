@@ -1050,6 +1050,25 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                                     $address['customer_note'] = wc_clean( wp_unslash( $_POST['customer_note'] ) );
                                 }
                                 $address['ship_to_different_address'] = json_encode(array_map('strtolower', $billing_address)) !== json_encode(array_map('strtolower', $shipping_address)) ? '1' : '0';
+                                // Rebuilding $_POST from the address payload alone dropped every
+                                // other field the block checkout sends with it — most visibly the
+                                // "Save payment information to my account" flag, which
+                                // woo_paypal_gateway_ppcp_is_paypal_vault_required() reads further
+                                // down this same request to decide whether the PayPal order is
+                                // created with vault.store_in_vault. Losing it meant a block-checkout
+                                // shopper who ticked the box was charged but never had their card
+                                // saved. Carry the fields later steps depend on across the rebuild.
+                                foreach (array(
+                                    'wc-wpg_paypal_checkout_cc-new-payment-method',
+                                    'wpg_ppcp_fastlane_token',
+                                    'wpg_recaptcha_token',
+                                    'woocommerce-process-checkout-nonce',
+                                ) as $preserved_key) {
+                                    if (isset($_POST[$preserved_key]) && !isset($address[$preserved_key])) {
+                                        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+                                        $address[$preserved_key] = wc_clean(wp_unslash($_POST[$preserved_key]));
+                                    }
+                                }
                                 $_POST = $address;
                                 woo_paypal_gateway_ppcp_set_session('wpg_ppcp_block_checkout_post', $address);
                                 if (!empty($shipping_address)) {
@@ -1263,6 +1282,27 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                                 if (is_array($shipping_address)) {
                                     foreach ($shipping_address as $key => $val) {
                                         $address[$key] = wc_clean($val);
+                                    }
+                                }
+                                // Rebuilding $_POST from the address payload alone dropped
+                                // every other field the block checkout sends with it — most
+                                // visibly the "Save payment information to my account"
+                                // flag, which woo_paypal_gateway_ppcp_is_paypal_vault_required()
+                                // reads a few calls later to decide whether the PayPal order
+                                // is created with vault.store_in_vault. Losing it meant a
+                                // block-checkout shopper who ticked the box was charged but
+                                // never had their card saved. Carry the fields that later
+                                // steps depend on across the rebuild.
+                                foreach (array(
+                                    'wc-wpg_paypal_checkout_cc-new-payment-method',
+                                    'wpg_ppcp_fastlane_token',
+                                    'wpg_recaptcha_token',
+                                    'customer_note',
+                                    'woocommerce-process-checkout-nonce',
+                                ) as $preserved_key) {
+                                    if (isset($_POST[$preserved_key]) && !isset($address[$preserved_key])) {
+                                        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
+                                        $address[$preserved_key] = wc_clean(wp_unslash($_POST[$preserved_key]));
                                     }
                                 }
                                 $_POST = $address;
@@ -2767,7 +2807,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 $order->update_meta_data('_payment_action', $this->paymentaction);
                 $order->update_meta_data('enviorment', $this->sandbox ? 'sandbox' : 'live');
                 $order->save_meta_data();
-                unset(WC()->session->ppcp_session);
+                // Keep the PayPal order in the session when the capture was refused only
+                // because the buyer's approval is still settling at PayPal, so placing the
+                // order again retries the same approved payment instead of starting over.
+                if (empty($this->request->capture_blocked_pending)) {
+                    unset(WC()->session->ppcp_session);
+                }
                 if (ob_get_length()) {
                     ob_end_clean();
                 }

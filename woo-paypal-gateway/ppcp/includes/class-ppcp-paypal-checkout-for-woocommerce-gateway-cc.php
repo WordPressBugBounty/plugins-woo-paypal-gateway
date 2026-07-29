@@ -289,6 +289,30 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             );
         }
         if (!empty($token) && 'new' !== $token) {
+            // The checkout posts the WooCommerce token id; charging needs the PayPal
+            // vault id that token stands for, recorded on the order where
+            // wpg_ppcp_add_payment_source() reads it. Without this the lookup found no
+            // _payment_tokens_id on a freshly created order and fell back to whatever
+            // the customer's PayPal vault happened to list first — or, when that listing
+            // came back empty, attached no payment source at all. PayPal then answered
+            // with a plain CREATED order awaiting approval instead of charging the card,
+            // and the shopper was shown "Something went wrong. Please contact us to get
+            // assistance." Binding the chosen token also means a customer with several
+            // saved cards is charged the one they actually selected.
+            $wc_token = WC_Payment_Tokens::get($token);
+            if (!$wc_token instanceof WC_Payment_Token
+                || get_current_user_id() < 1
+                || (int) $wc_token->get_user_id() !== get_current_user_id()
+                || $wc_token->get_gateway_id() !== $this->id) {
+                wc_add_notice(__('The saved payment method you selected is not available. Please choose another payment method.', 'woo-paypal-gateway'), 'error');
+                return array(
+                    'result'   => 'failure',
+                    'redirect' => wc_get_checkout_url(),
+                );
+            }
+            $this->request->save_payment_token($order, $wc_token->get_token());
+            $order->update_meta_data('_wpg_ppcp_used_payment_method', $this->ppcp_payment_source_type_for_token($wc_token));
+            $order->save_meta_data();
             $is_success = $this->request->wpg_ppcp_capture_order_using_payment_method_token($woo_order_id);
             unset(WC()->session->ppcp_session);
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check for context, no state change.
@@ -310,7 +334,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             $order->update_meta_data('_payment_action', $this->paymentaction);
             $order->update_meta_data('enviorment', $this->sandbox ? 'sandbox' : 'live');
             $order->save_meta_data();
-            unset(WC()->session->ppcp_session);
+            // Preserve the session when the capture is only waiting on PayPal to finish
+            // settling the buyer's approval, so the shopper can simply place the order again.
+            if (empty($this->request->capture_blocked_pending)) {
+                unset(WC()->session->ppcp_session);
+            }
         } else {
             if (ob_get_length()) {
                 ob_end_clean();
@@ -329,6 +357,30 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             'result' => 'failure',
             'redirect' => wc_get_cart_url(),
         ];
+    }
+
+    /**
+     * Which PayPal payment source a saved token should be charged against.
+     *
+     * The vault id alone does not tell PayPal whether it is a card or a PayPal
+     * account, and the order is created with payment_source.{type}.vault_id, so the
+     * type has to be right or the charge is rejected.
+     *
+     * @param WC_Payment_Token $wc_token Saved token chosen at checkout.
+     * @return string One of paypal|card|google_pay|apple_pay|venmo.
+     */
+    private function ppcp_payment_source_type_for_token($wc_token) {
+        $stored = get_metadata('payment_token', $wc_token->get_id(), '_ppcp_used_payment_method', true);
+        if (in_array($stored, array('paypal', 'card', 'google_pay', 'apple_pay', 'venmo'), true)) {
+            return $stored;
+        }
+        // Tokens vaulted from a PayPal account are stored as CC tokens carrying a
+        // "PayPal Vault" card type; anything else is a real card.
+        if (is_callable(array($wc_token, 'get_card_type'))
+            && 'paypal vault' === strtolower((string) $wc_token->get_card_type())) {
+            return 'paypal';
+        }
+        return 'card';
     }
 
     public function can_refund_order($order) {

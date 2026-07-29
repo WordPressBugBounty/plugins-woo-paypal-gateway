@@ -739,7 +739,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
                         'redirect' => $this->get_return_url($order),
                     );
                 } else {
-                    unset(WC()->session->ppcp_session);
+                    // Preserve the session when the capture is only waiting on PayPal to
+                    // finish settling the buyer's approval, so placing the order again
+                    // retries the same approved payment instead of starting from scratch.
+                    if (empty($this->request->capture_blocked_pending)) {
+                        unset(WC()->session->ppcp_session);
+                    }
                     // A failed/declined capture must be reported as a failure so WooCommerce
                     // keeps the buyer on checkout and shows the error, instead of navigating
                     // away as if the payment had succeeded.

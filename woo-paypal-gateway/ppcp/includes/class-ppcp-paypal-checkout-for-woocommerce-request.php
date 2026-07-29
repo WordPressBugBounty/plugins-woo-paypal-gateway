@@ -67,6 +67,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     public $partner_client_id;
     public $tracking_api_url;
     public $threed_secure_contingency;
+
+    /**
+     * True when the last capture attempt was refused only because PayPal had not
+     * finished settling the buyer's approval yet (a still-running or just-completed
+     * 3-D Secure / banking-app authentication), as opposed to a terminal failure.
+     *
+     * Callers use it to keep the PayPal order in the session so the shopper can
+     * simply retry, instead of tearing the payment session down.
+     *
+     * @var bool
+     */
+    public $capture_blocked_pending = false;
     protected static $_instance = null;
 
     public static function instance() {
@@ -196,7 +208,28 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         return woo_paypal_gateway_ppcp_get_paypal_order_id_from_session();
     }
 
+    /**
+     * Whether a PayPal order status means "the buyer has acted, PayPal has not
+     * finished settling it yet" rather than a terminal failure.
+     *
+     * An Orders v2 order sits in PAYER_ACTION_REQUIRED for the whole duration of a
+     * 3-D Secure challenge, and PayPal can still report PAYER_ACTION_REQUIRED or
+     * CREATED for a short window after the buyer returns from an out-of-band
+     * authentication — a banking-app approval, which the shopper may take a minute
+     * or more to complete on a second device. An empty status means the status could
+     * not be read at all (network blip, error body), which is likewise not evidence
+     * of failure. VOIDED is the only genuinely dead state, so it is not listed here.
+     *
+     * @param string $status Upper-case PayPal order status, '' when unknown.
+     * @return bool
+     */
+    private function ppcp_is_pending_approval_status($status) {
+        return in_array($status, array('', 'CREATED', 'SAVED', 'PAYER_ACTION_REQUIRED'), true);
+    }
+
     private function ppcp_validate_order_for_capture($paypal_order_id, $woo_order_id = 0) {
+        $this->capture_blocked_pending = false;
+
         // First check session status to avoid unnecessary API call
         $session_data   = woo_paypal_gateway_ppcp_get_paypal_order_session_data();
         $session_status = ! empty( $session_data['status'] ) ? strtoupper( $session_data['status'] ) : '';
@@ -206,20 +239,57 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             return true;
         }
 
-        // Fall back to live API check
-        $order_details = $this->ppcp_get_checkout_details($paypal_order_id);
-        $paypal_status = is_object($order_details) && !empty($order_details->status) ? strtoupper($order_details->status) : '';
+        // Fall back to live API check.
+        //
+        // Reading the status once and failing immediately turns PayPal's settling
+        // delay into a dead checkout: a buyer who authenticates in their banking app
+        // is redirected back to the store before the order has moved to APPROVED, and
+        // the shopper is left on the checkout page with "PayPal order is not approved
+        // yet" for a payment they did complete. A still-settling order is therefore
+        // re-read a few times, with a short pause between attempts, before capture is
+        // refused. The request-scoped snapshot is dropped between attempts so each
+        // re-read genuinely asks PayPal again.
+        $attempts = (int) apply_filters('wpg_ppcp_pending_approval_poll_attempts', 3); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+        $attempts = max(1, min(6, $attempts));
+        $delays   = (array) apply_filters('wpg_ppcp_pending_approval_poll_delays', array(1, 2, 2)); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+        $paypal_status = '';
 
-        if ( $paypal_status !== 'APPROVED' && $paypal_status !== 'COMPLETED' ) {
-            $this->ppcp_log('Capture skipped. PayPal order is not approved. Current status: ' . $paypal_status);
-            if (function_exists('wc_add_notice')) {
-                wc_add_notice(__('PayPal order is not approved yet. Please approve the payment before capture.', 'woo-paypal-gateway'), 'error');
+        for ($attempt = 0; $attempt < $attempts; $attempt++) {
+            if ($attempt > 0) {
+                $delay = isset($delays[$attempt - 1]) ? (int) $delays[$attempt - 1] : 2;
+                if ($delay > 0) {
+                    sleep(min(5, $delay));
+                }
+                self::ppcp_forget_order_snapshot($paypal_order_id);
+                $this->ppcp_log('PayPal order ' . $paypal_order_id . ' still settling (status: ' . $paypal_status . '). Re-checking, attempt ' . ($attempt + 1) . ' of ' . $attempts . '.');
             }
-            return false;
+
+            $order_details = $this->ppcp_get_checkout_details($paypal_order_id, true);
+            $paypal_status = is_object($order_details) && !empty($order_details->status) ? strtoupper($order_details->status) : '';
+
+            if ($paypal_status === 'APPROVED' || $paypal_status === 'COMPLETED') {
+                $this->ppcp_set_order_session_data($paypal_order_id, 'approved', $woo_order_id);
+                return true;
+            }
+            if (!$this->ppcp_is_pending_approval_status($paypal_status)) {
+                // Terminal state (e.g. VOIDED) — waiting cannot change the answer.
+                break;
+            }
         }
 
-        $this->ppcp_set_order_session_data($paypal_order_id, 'approved', $woo_order_id);
-        return true;
+        $this->ppcp_log('Capture skipped. PayPal order is not approved. Current status: ' . $paypal_status);
+        $this->capture_blocked_pending = $this->ppcp_is_pending_approval_status($paypal_status);
+        if (function_exists('wc_add_notice')) {
+            if ($this->capture_blocked_pending) {
+                // Retryable: the buyer's approval is still in flight at PayPal. Tell them
+                // that, rather than asking them to "approve before capture" — wording that
+                // means nothing to a shopper who has just approved in their banking app.
+                wc_add_notice(__('Your bank is still confirming this payment. Please wait a few seconds and place your order again — you have not been charged twice.', 'woo-paypal-gateway'), 'error');
+            } else {
+                wc_add_notice(__('PayPal order is not approved yet. Please approve the payment before capture.', 'woo-paypal-gateway'), 'error');
+            }
+        }
+        return false;
     }
 
     /**
@@ -1474,14 +1544,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         do_action('wpg_ppcp_save_payment_method_details', $woo_order_id, $api_response);
                         $payment_source = isset($api_response['payment_source']) ? $api_response['payment_source'] : '';
                         if (!empty($payment_source['card'])) {
-                            $card_response_order_note = __('Card Details', 'woo-paypal-gateway');
-                            $card_response_order_note .= "\n";
-                            $card_response_order_note .= 'Last digits : ' . $payment_source['card']['last_digits'];
-                            $card_response_order_note .= "\n";
-                            $card_response_order_note .= 'Brand : ' . woo_paypal_gateway_ppcp_readable($payment_source['card']['brand']);
-                            $card_response_order_note .= "\n";
-                            $card_response_order_note .= 'Card type : ' . woo_paypal_gateway_ppcp_readable($payment_source['card']['type']);
-                            $order->add_order_note($card_response_order_note);
+                            $order->add_order_note($this->ppcp_build_card_details_note($payment_source['card']));
                         }
                         $processor_response = isset($api_response['purchase_units']['0']['payments']['captures']['0']['processor_response']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['processor_response'] : '';
                         if (!empty($processor_response['avs_code'])) {
@@ -1932,6 +1995,84 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         return max(5, $timeout);
     }
 
+    /**
+     * Record PayPal's reported status for an order in the session without ever losing
+     * ground on an approval the buyer has already given.
+     *
+     * Reading an order must not be able to un-approve it. PayPal reports
+     * PAYER_ACTION_REQUIRED for the entire life of a 3-D Secure challenge and can
+     * still report it — or CREATED — for a moment after the buyer returns from a
+     * banking-app approval. Writing that over the 'approved' marker the return handler
+     * had just stored made the capture gate, and
+     * woo_paypal_gateway_ppcp_get_paypal_order_id_from_session() (which only answers
+     * for an approved order), behave as though the buyer had never approved at all:
+     * the shopper was bounced back to the checkout page with "PayPal order is not
+     * approved yet" for a payment they had completed.
+     *
+     * So the status only moves forward for a given PayPal order id
+     * (created -> approved -> capture), the woo_order_id binding already stored for
+     * that order is preserved instead of being reset to 0, and only VOIDED — the one
+     * status that means the order is genuinely dead — is allowed to move it back, so a
+     * cancelled order still yields a fresh payment attempt rather than a stuck session.
+     *
+     * @param string $paypal_order_id PayPal order id the status belongs to.
+     * @param string $raw_status      Status string as reported by PayPal ('' when unknown).
+     * @return void
+     */
+    private function ppcp_store_order_status_in_session($paypal_order_id, $raw_status) {
+        $reported = strtoupper((string) $raw_status);
+
+        if ($reported === 'COMPLETED') {
+            $status = 'capture';
+        } elseif ($reported === 'APPROVED') {
+            $status = 'approved';
+        } else {
+            $status = 'created';
+        }
+
+        $session_data = woo_paypal_gateway_ppcp_get_paypal_order_session_data();
+        $same_order   = !empty($session_data['id']) && (string) $session_data['id'] === (string) $paypal_order_id;
+        $woo_order_id = ($same_order && !empty($session_data['woo_order_id'])) ? absint($session_data['woo_order_id']) : 0;
+
+        if ($same_order && $reported !== 'VOIDED') {
+            $rank         = array('created' => 0, 'approved' => 1, 'capture' => 2);
+            $current      = isset($session_data['status']) ? strtolower((string) $session_data['status']) : 'created';
+            $current_rank = isset($rank[$current]) ? $rank[$current] : 0;
+            if ($current_rank > $rank[$status]) {
+                $status = $current;
+            }
+        }
+
+        $this->ppcp_set_order_session_data($paypal_order_id, $status, $woo_order_id);
+    }
+
+    /**
+     * Build the "Card Details" order note from PayPal's card payment source.
+     *
+     * PayPal only returns the fields it has: `type` in particular is routinely absent,
+     * and `brand` can be too for some networks and for vaulted charges. Reading them
+     * unconditionally emitted "Undefined array key" warnings into the site's error log
+     * on ordinary, successful payments. Only the details actually supplied are listed.
+     *
+     * @param array $card payment_source.card from a PayPal response.
+     * @return string Order note body.
+     */
+    private function ppcp_build_card_details_note($card) {
+        $card  = (array) $card;
+        $note  = __('Card Details', 'woo-paypal-gateway');
+        $lines = array(
+            'Last digits' => isset($card['last_digits']) ? $card['last_digits'] : '',
+            'Brand'       => isset($card['brand']) ? woo_paypal_gateway_ppcp_readable($card['brand']) : '',
+            'Card type'   => isset($card['type']) ? woo_paypal_gateway_ppcp_readable($card['type']) : '',
+        );
+        foreach ($lines as $label => $value) {
+            if ('' !== $value && null !== $value) {
+                $note .= "\n" . $label . ' : ' . $value;
+            }
+        }
+        return $note;
+    }
+
     public function ppcp_get_checkout_details($paypal_order_id, $force_refresh = false) {
         try {
             if (is_wc_endpoint_url('order-received')) {
@@ -1941,13 +2082,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $this->ppcp_log('Get Order Details skipped: PayPal order ID is empty.');
                 return;
             }
-            // Reuse a snapshot already fetched from PayPal during THIS request (and
-            // not invalidated by a mutating call since). It is as fresh as another
-            // roundtrip would be, including for force-refresh callers — force refresh
-            // exists to bypass the cross-request session cache, not work done live in
-            // the current request.
+            // Reuse a snapshot already fetched from PayPal during THIS request (and not
+            // invalidated by a mutating call since) for ordinary readers.
+            //
+            // Force-refresh callers are NOT served from it. The order's state at PayPal
+            // can change while a single request is still running — the reconciliation
+            // fetch at the top of a capture routinely lands while a 3-D Secure approval
+            // is still settling, and the approval gate that runs microseconds later must
+            // be able to see the newer state. Serving the memo to force-refresh callers
+            // made every "fetch it live and retry" loop in this class a no-op, so a
+            // shopper who had approved was told their order was not approved.
             $memo_key = (string) $paypal_order_id;
-            if (isset(self::$order_snapshot_memo[$memo_key])) {
+            if (!$force_refresh && isset(self::$order_snapshot_memo[$memo_key])) {
                 return self::$order_snapshot_memo[$memo_key];
             }
             // The 3D Secure liability check must read the authentication_result that PayPal
@@ -1985,15 +2131,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $this->ppcp_log('Response Code: ' . $code);
             $this->ppcp_log('Response Message: ' . $message);
             $this->ppcp_log('Response Body: ' . wc_print_r($this->ppcp_redact_sensitive_data($body), true));
-            $normalized_status = isset($body->status) ? strtolower($body->status) : 'created';
-            if ($normalized_status === 'completed') {
-                $normalized_status = 'capture';
-            } elseif ($normalized_status === 'approved') {
-                $normalized_status = 'approved';
-            } else {
-                $normalized_status = 'created';
-            }
-            $this->ppcp_set_order_session_data($paypal_order_id, $normalized_status);
+            $this->ppcp_store_order_status_in_session($paypal_order_id, isset($body->status) ? $body->status : '');
             woo_paypal_gateway_ppcp_set_session('ppcp_paypal_transaction_details', $body);
             // Only a real order snapshot (it always carries an id) is memoized —
             // never a transient failure or a PayPal error body, so retry loops in
@@ -2860,14 +2998,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     $this->ppcp_set_order_session_data($api_response['id'], 'capture', $woo_order_id);
                     $payment_source = isset($api_response['payment_source']) ? $api_response['payment_source'] : '';
                     if (!empty($payment_source['card'])) {
-                        $card_response_order_note = __('Card Details', 'woo-paypal-gateway');
-                        $card_response_order_note .= "\n";
-                        $card_response_order_note .= 'Last digits : ' . $payment_source['card']['last_digits'];
-                        $card_response_order_note .= "\n";
-                        $card_response_order_note .= 'Brand : ' . $payment_source['card']['brand'];
-                        $card_response_order_note .= "\n";
-                        $card_response_order_note .= 'Card type : ' . $payment_source['card']['type'];
-                        $order->add_order_note($card_response_order_note);
+                        $order->add_order_note($this->ppcp_build_card_details_note($payment_source['card']));
                     }
                     $processor_response = isset($api_response['purchase_units']['0']['payments']['captures']['0']['processor_response']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['processor_response'] : '';
                     if (!empty($processor_response['avs_code'])) {
@@ -4307,7 +4438,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             wp_safe_redirect(apply_filters('woocommerce_get_return_url', $order->get_checkout_order_received_url(), $order));
         } else {
-            unset(WC()->session->ppcp_session);
+            // A capture refused only because PayPal has not finished settling the
+            // buyer's approval is retryable against the same PayPal order. Dropping the
+            // session here forced the shopper to start a whole new payment (and left the
+            // approved-but-uncaptured order behind at PayPal), so it is kept in that case.
+            if (empty($this->capture_blocked_pending)) {
+                unset(WC()->session->ppcp_session);
+            }
             WC()->session->set('reload_checkout', null);
             wp_safe_redirect(woo_paypal_gateway_get_checkout_url());
         }
@@ -4870,14 +5007,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     do_action('wpg_ppcp_save_payment_method_details', $woo_order_id, $api_response);
                     $payment_source = isset($api_response['payment_source']) ? $api_response['payment_source'] : '';
                     if (!empty($payment_source['card'])) {
-                        $card_response_order_note = __('Card Details', 'woo-paypal-gateway');
-                        $card_response_order_note .= "\n";
-                        $card_response_order_note .= 'Last digits : ' . $payment_source['card']['last_digits'];
-                        $card_response_order_note .= "\n";
-                        $card_response_order_note .= 'Brand : ' . woo_paypal_gateway_ppcp_readable($payment_source['card']['brand']);
-                        $card_response_order_note .= "\n";
-                        $card_response_order_note .= 'Card type : ' . woo_paypal_gateway_ppcp_readable($payment_source['card']['type']);
-                        $order->add_order_note($card_response_order_note);
+                        $order->add_order_note($this->ppcp_build_card_details_note($payment_source['card']));
                     }
                     $processor_response = isset($api_response['purchase_units']['0']['payments']['captures']['0']['processor_response']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['processor_response'] : '';
                     if (!empty($processor_response['avs_code'])) {
@@ -5011,16 +5141,31 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 $order->add_order_note("Payment token unavailable for order renewal");
                 return $body_request;
             }
+            // Whether the stored token was found in the vault list but listed without a
+            // payment_source block, which is not the same as not being there at all.
+            $matched_without_source = false;
             if (!empty($all_payment_tokens) && !empty($payment_tokens_id)) {
-                foreach ($all_payment_tokens as $key => $paypal_payment_token) {
-                    if ($paypal_payment_token['id'] === $payment_tokens_id) {
-                        foreach ($paypal_payment_token['payment_source'] as $type_key => $payment_tokens_data) {
-                            $body_request['payment_source'] = array($type_key => array('vault_id' => $payment_tokens_id));
-                            $this->applyStoredCredentialParameter($type_key, $body_request, 'recurring');
-                            $order->update_meta_data('_wpg_ppcp_used_payment_method', $type_key);
-                            $order->save();
-                            return $body_request;
-                        }
+                foreach ((array) $all_payment_tokens as $key => $paypal_payment_token) {
+                    if (!is_array($paypal_payment_token)
+                        || !isset($paypal_payment_token['id'])
+                        || $paypal_payment_token['id'] !== $payment_tokens_id) {
+                        continue;
+                    }
+                    // PayPal does not always return the payment_source block for a listed
+                    // token. That is not an error and the token is still chargeable — the
+                    // vault id is what identifies the stored credential — so fall through
+                    // to the stored-id path below, which charges this exact token under
+                    // the type recorded on the order, instead of reading a missing key.
+                    if (empty($paypal_payment_token['payment_source']) || !is_array($paypal_payment_token['payment_source'])) {
+                        $matched_without_source = true;
+                        break;
+                    }
+                    foreach ($paypal_payment_token['payment_source'] as $type_key => $payment_tokens_data) {
+                        $body_request['payment_source'] = array($type_key => array('vault_id' => $payment_tokens_id));
+                        $this->applyStoredCredentialParameter($type_key, $body_request, 'recurring');
+                        $order->update_meta_data('_wpg_ppcp_used_payment_method', $type_key);
+                        $order->save();
+                        return $body_request;
                     }
                 }
             }
@@ -5038,10 +5183,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
                 || (bool) apply_filters('wpg_ppcp_renewal_charge_first_token_when_stored_missing', false, $order_id);
             if (!empty($payment_tokens_id) && !$allow_first_token_fallback) {
-                $this->ppcp_log('Renewal order #' . $order_id . ': stored _payment_tokens_id not found in the customer vault list; first-token fallback suppressed to avoid charging a different saved card.');
+                $this->ppcp_log($matched_without_source
+                    ? 'Renewal order #' . $order_id . ': stored _payment_tokens_id is in the customer vault list but PayPal returned no payment_source for it; charging that token under its recorded type.'
+                    : 'Renewal order #' . $order_id . ': stored _payment_tokens_id not found in the customer vault list; first-token fallback suppressed to avoid charging a different saved card.');
             }
             if (!empty($all_payment_tokens) && $allow_first_token_fallback) {
-                foreach ($all_payment_tokens as $key => $paypal_payment_token) {
+                foreach ((array) $all_payment_tokens as $key => $paypal_payment_token) {
+                    // Same guard as above: skip entries PayPal listed without a usable
+                    // payment_source rather than reading a missing key off them.
+                    if (!is_array($paypal_payment_token)
+                        || empty($paypal_payment_token['id'])
+                        || empty($paypal_payment_token['payment_source'])
+                        || !is_array($paypal_payment_token['payment_source'])) {
+                        continue;
+                    }
                     foreach ($paypal_payment_token['payment_source'] as $type_key => $payment_tokens_data) {
                         $order->update_meta_data('_payment_tokens_id', $paypal_payment_token['id']);
                         $body_request['payment_source'] = array($type_key => array('vault_id' => $paypal_payment_token['id']));

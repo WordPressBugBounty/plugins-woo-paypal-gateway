@@ -119,6 +119,25 @@ var {addAction} = wp.hooks;
                         jQuery(document.body).trigger("ppcp_cc_checkout_updated");
                     }, []);
 
+                    // "Save payment information to my account" on the block checkout.
+                    //
+                    // Blocks renders that checkbox itself (supports.showSaveOption below)
+                    // as a React control with no name attribute, so it is invisible to the
+                    // jQuery.serialize() of the checkout form that createCardOrder() posts,
+                    // and the shopper's choice never reached the server: the PayPal order
+                    // was created without vault.store_in_vault and the card was never saved.
+                    // The choice arrives here as a prop, so mirror it where createCardOrder()
+                    // can read it at submit time. Blocks has used both prop names across
+                    // versions, so accept either.
+                    const shouldSaveCard = !!(
+                        typeof props.shouldSavePayment !== 'undefined'
+                            ? props.shouldSavePayment
+                            : props.shouldSavePaymentMethod
+                    );
+                    useEffect(() => {
+                        window.wpgPPCPShouldSaveCard = shouldSaveCard;
+                    }, [shouldSaveCard]);
+
                     useEffect(() => {
                         if (typeof onPaymentSetup !== 'function') {
                             return;
@@ -177,6 +196,15 @@ var {addAction} = wp.hooks;
                                 var paymentMethodData = {wpg_recaptcha_token: recaptchaToken};
                                 if (fastlaneToken) {
                                     paymentMethodData.wpg_ppcp_fastlane_token = fastlaneToken;
+                                }
+                                // Read the save-card choice at submit time rather than from
+                                // this closure, which is only re-created when onPaymentSetup
+                                // changes and would otherwise hold the value the checkbox had
+                                // on first render. Carried in payment data as well as in the
+                                // create-order request so the Fastlane path, which pays through
+                                // the Store API, vaults the card too.
+                                if (window.wpgPPCPShouldSaveCard) {
+                                    paymentMethodData['wc-wpg_paypal_checkout_cc-new-payment-method'] = 'true';
                                 }
                                 return (emitResponse && emitResponse.responseTypes)
                                     ? {

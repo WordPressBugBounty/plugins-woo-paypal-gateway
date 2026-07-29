@@ -15,6 +15,13 @@
             this.googleShippingIdMap = {};
             this.appleSelectedShippingId = '';
             this.appleShippingIdMap = {};
+            // How long the card-submit latch may stay set before a further Place order
+            // click is allowed through. Long enough to cover a real 3-D Secure challenge
+            // (a banking-app approval can take a minute or two), short enough that a
+            // buyer whose challenge window was lost is not stuck on a dead button.
+            this.ccSubmitLatchTimeout = 3 * 60 * 1000;
+            // The CardFields instance that owns the currently mounted hosted fields.
+            this.cardFieldsInstance = null;
             this.init();
             this.ppcp_cart_css();
         }
@@ -327,6 +334,12 @@
                 return this.handleCheckoutSubmit(event);
             });
 
+            // Any checkout error ends the in-flight card submit, so release the latch and
+            // let the buyer retry rather than leaving the Place order button inert.
+            $(document.body).on('checkout_error ppcp_checkout_error', () => {
+                this.clearCardFieldsSubmitLatch();
+            });
+
             $('#order_review').on('submit', (event) => {
                 if (this.isPpcpCCSelected()) {
                     event.preventDefault();
@@ -366,14 +379,35 @@
                 return true; // only return true for saved token (not for 'new')
             }
             if (this.isPpcpCCSelected() && this.isCardFieldEligible()) {
-                if ($('form.checkout').hasClass('paypal_cc_submitting')) {
-                    return false;
+                // The latch prevents a double submit while the CardFields round-trip —
+                // which includes any 3-D Secure challenge — is in flight. It used to be
+                // cleared only by handleCardFieldsError, so a challenge that never
+                // settled left it set forever: when the buyer authorises in their banking
+                // app the OS can discard the challenge popup, cardFields.submit() never
+                // resolves or rejects, and from then on every Place order click silently
+                // did nothing. Expire the latch so the buyer can always try again.
+                const $form = $(this.getCheckoutSelectorCss());
+                if ($form.hasClass('paypal_cc_submitting')) {
+                    const startedAt = parseInt($form.attr('data-wpg-cc-submitting-at') || '0', 10);
+                    if (startedAt && (Date.now() - startedAt) < this.ccSubmitLatchTimeout) {
+                        return false;
+                    }
+                    this.clearCardFieldsSubmitLatch();
                 }
-                $('form.checkout').addClass('paypal_cc_submitting');
+                $form.addClass('paypal_cc_submitting').attr('data-wpg-cc-submitting-at', String(Date.now()));
                 $(document.body).trigger('submit_paypal_cc_form');
                 return false;
             }
             return true;
+        }
+
+        /**
+         * Release the card-submit latch so the Place order button works again.
+         */
+        clearCardFieldsSubmitLatch() {
+            $('form.checkout, form.cart, #order_review')
+                .removeClass('paypal_cc_submitting')
+                .removeAttr('data-wpg-cc-submitting-at');
         }
 
         syncPayPalCheckoutButtons() {
@@ -1020,6 +1054,17 @@
                 return;
             }
             $(checkoutSelector).addClass('CardFields');
+            // renderCardFields() re-runs on every checkout refresh, but the hosted fields
+            // are only mounted once. Only the CardFields instance that actually mounted
+            // its fields can submit them, so when they survived the refresh the live
+            // instance must be left alone — building another one here and pointing Place
+            // order at it hands the click to an object the SDK refuses to submit, and
+            // nothing happens. A refresh that wipes the fields empties the container, and
+            // then we do want a fresh instance.
+            const fieldsMounted = ($('#wpg_paypal_checkout_cc-card-number').html() || '').trim() !== '';
+            if (fieldsMounted && this.cardFieldsInstance) {
+                return;
+            }
             const cardStyle = {
                 input: {fontSize: '18px', fontFamily: 'Helvetica, Arial, sans-serif', fontWeight: '400', color: '#32325d', padding: '12px 14px', borderRadius: '4px', border: '1px solid #ccd0d5', background: '#ffffff', boxShadow: 'none', transition: 'border-color 0.15s ease, box-shadow 0.15s ease'},
                 '.invalid': {color: '#fa755a', border: '1px solid #fa755a', boxShadow: 'none'},
@@ -1036,16 +1081,17 @@
                 }
             });
             if (cardFields.isEligible()) {
-                if (($("#wpg_paypal_checkout_cc-card-number").html() || "").trim() === "") {
-                    const numberField = cardFields.NumberField();
-                    $("#wpg_paypal_checkout_cc-card-number").empty();
-                    $("#wpg_paypal_checkout_cc-card-expiry").empty();
-                    $("#wpg_paypal_checkout_cc-card-cvc").empty();
-                    numberField.render("#wpg_paypal_checkout_cc-card-number");
-                    numberField.setAttribute("placeholder", "1234 1234 1234 1234");
-                    cardFields.ExpiryField().render("#wpg_paypal_checkout_cc-card-expiry");
-                    cardFields.CVVField().render("#wpg_paypal_checkout_cc-card-cvc");
-                }
+                const numberField = cardFields.NumberField();
+                $("#wpg_paypal_checkout_cc-card-number").empty();
+                $("#wpg_paypal_checkout_cc-card-expiry").empty();
+                $("#wpg_paypal_checkout_cc-card-cvc").empty();
+                numberField.render("#wpg_paypal_checkout_cc-card-number");
+                numberField.setAttribute("placeholder", "1234 1234 1234 1234");
+                cardFields.ExpiryField().render("#wpg_paypal_checkout_cc-card-expiry");
+                cardFields.CVVField().render("#wpg_paypal_checkout_cc-card-cvc");
+                // Remember which instance owns the mounted fields; the guard above uses
+                // it to leave a working card form untouched on the next refresh.
+                this.cardFieldsInstance = cardFields;
                 setTimeout(function () {
                     $('.wpg-paypal-cc-field label, .wpg-ppcp-card-cvv-icon').show();
                 }, 1600);
@@ -1054,12 +1100,19 @@
                 }, 1900);
             } else {
                 console.log('Advanced Card Payments not Eligible', cardFields.isEligible());
+                this.cardFieldsInstance = null;
                 $('.payment_box.payment_method_wpg_paypal_checkout_cc').hide();
                 if (this.isPpcpCCSelected()) {
                     $('#payment_method_wpg_paypal_checkout').prop('checked', true).trigger('click');
                 }
             }
-            $(document.body).on('submit_paypal_cc_form', () => {
+            // renderCardFields() re-runs on every updated_checkout / fragment refresh, so
+            // binding without unbinding accumulated one handler per re-render: a single
+            // Place order click then fired cardFields.submit() once per handler, across
+            // CardFields instances that were never rendered (the render above is guarded)
+            // and whose createOrder callbacks raced to mint competing PayPal orders into
+            // the same session slot. Only the newest instance may handle the submit.
+            $(document.body).off('submit_paypal_cc_form.wpgppcp').on('submit_paypal_cc_form.wpgppcp', () => {
                 cardFields.submit().catch((error) => {
                     this.handleCardFieldsError(error, checkoutSelector);
                 });
@@ -1072,6 +1125,25 @@
             let data;
             if (this.ppcp_manager.is_block_enable === 'yes') {
                 data = $('form.wc-block-checkout__form').serialize();
+                // WooCommerce Blocks disables every field while the checkout is
+                // processing, and jQuery.serialize() skips disabled inputs — so by the
+                // time this runs the serialized form is empty. The server keys its whole
+                // block address mapping on radio-control-wc-payment-method-options, so
+                // without it the billing details below are never applied and create-order
+                // fails with "Billing … is a required field" / "Invalid payment method".
+                // Read the selection directly (:checked still works on a disabled radio)
+                // and append it when serialize() did not supply it.
+                if (!/(^|&)radio-control-wc-payment-method-options=/.test(data)) {
+                    let selectedMethod = $('input[name="radio-control-wc-payment-method-options"]:checked').val();
+                    if (!selectedMethod && typeof wp !== 'undefined' && wp.data?.select) {
+                        try {
+                            selectedMethod = wp.data.select('wc/store/payment')?.getActivePaymentMethod?.();
+                        } catch (e) {}
+                    }
+                    if (selectedMethod) {
+                        data += '&radio-control-wc-payment-method-options=' + encodeURIComponent(selectedMethod);
+                    }
+                }
                 const notes = jQuery('.wc-block-components-textarea').val() || '';
                 data += '&customer_note=' + encodeURIComponent(notes);
                 const billingAddress = this.getBillingAddress();
@@ -1079,6 +1151,16 @@
                 data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
                 data += '&shipping_address=' + encodeURIComponent(JSON.stringify(shippingAddress));
                 data += `&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
+                // Vaulting has to be requested when the PayPal order is created, so the
+                // shopper's "Save payment information to my account" choice must ride along
+                // with this request. On the block checkout that checkbox is a React control
+                // with no name attribute, so serialize() above cannot see it; the block
+                // integration mirrors the choice onto window.wpgPPCPShouldSaveCard for us.
+                // Without this the card was simply never saved. The classic checkout needs
+                // nothing here — it renders a real named input that serialize() picks up.
+                if (window.wpgPPCPShouldSaveCard) {
+                    data += '&wc-wpg_paypal_checkout_cc-new-payment-method=true';
+                }
             } else {
                 data = $(checkoutSelector).closest('form').serialize();
             }
@@ -1110,13 +1192,16 @@
                     return;
                 }
                 // No redirect (server error or unexpected/empty body): show the error
-                // instead of navigating to '/undefined'.
+                // instead of navigating to '/undefined'. Release the submit latch too,
+                // otherwise the Place order button stays dead after the error.
                 this.hideSpinner();
+                this.clearCardFieldsSubmitLatch();
                 const messages = data?.data?.messages
                     ?? (this.ppcp_manager.unknown_error || 'An error occurred while completing your payment. If your account was charged, please contact us before trying again.');
                 this.showError(messages);
             }).fail(() => {
                 this.hideSpinner();
+                this.clearCardFieldsSubmitLatch();
                 this.showError('We could not confirm your payment. If your account was charged, please contact us before trying again.');
             });
         }
@@ -1124,6 +1209,7 @@
         handleCardFieldsError(errorString, checkoutSelector) {
             $('#place_order, #wc-wpg_paypal_checkout-cc-form').unblock();
             $(checkoutSelector).removeClass('processing paypal_cc_submitting CardFields createOrder').unblock();
+            this.clearCardFieldsSubmitLatch();
 
             const t = (key, fallback) => {
               const v = (this.ppcp_manager && this.ppcp_manager[key]) ? String(this.ppcp_manager[key]) : '';
