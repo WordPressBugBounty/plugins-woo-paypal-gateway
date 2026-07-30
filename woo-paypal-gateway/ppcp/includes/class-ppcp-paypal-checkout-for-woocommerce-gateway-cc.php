@@ -339,6 +339,41 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             if (empty($this->request->capture_blocked_pending)) {
                 unset(WC()->session->ppcp_session);
             }
+        } elseif ($this->ppcp_is_store_api_checkout() && !$this->ppcp_allow_card_wallet_redirect($woo_order_id)) {
+            // Block checkout (Store API) card payment with nothing to charge against.
+            //
+            // The card gateway completes a block-checkout payment through the PayPal
+            // CardFields component: the shopper's card is submitted to PayPal in the
+            // browser, any 3-D Secure challenge runs there, and only then is the
+            // approved PayPal order captured. The Store API submission that WooCommerce
+            // Blocks sends alongside it is therefore never the payment — reaching this
+            // point means it arrived while the CardFields round-trip was still in flight
+            // and there is, correctly, no approved PayPal order to capture yet.
+            //
+            // The generic fallback below would answer that by creating a PayPal *wallet*
+            // order and returning its approval link, and Blocks would navigate the
+            // browser to paypal.com. Shoppers reported exactly that: card details
+            // entered, Place order clicked, no 3-D Secure prompt, and PayPal's login
+            // page instead. It also silently moved a card payment onto a flow that never
+            // performs card authentication, so the 3-D Secure liability-shift check in
+            // PPCP_Paypal_Checkout_For_Woocommerce_3DS was bypassed altogether.
+            //
+            // A card payment must never be redirected to the PayPal wallet, so fail
+            // cleanly and leave the CardFields flow — which owns this checkout — to
+            // finish. Only the block checkout is affected: the classic checkout, the
+            // order-pay page and the PayPal wallet gateway (whose "Place order then
+            // redirect to PayPal" flow is a real, supported setting) all still reach the
+            // fallback below unchanged.
+            if (ob_get_length()) {
+                ob_end_clean();
+            }
+            if (function_exists('wc_add_notice') && function_exists('wc_notice_count') && 0 === wc_notice_count('error')) {
+                wc_add_notice(__('Your card payment could not be completed. Please check your card details and place your order again.', 'woo-paypal-gateway'), 'error');
+            }
+            return array(
+                'result'   => 'failure',
+                'redirect' => woo_paypal_gateway_get_checkout_url(),
+            );
         } else {
             if (ob_get_length()) {
                 ob_end_clean();
@@ -357,6 +392,38 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             'result' => 'failure',
             'redirect' => wc_get_cart_url(),
         ];
+    }
+
+    /**
+     * Whether this payment is being processed for a WooCommerce Blocks (Store API)
+     * checkout submission.
+     *
+     * Deliberately independent of anything the browser sends: a shopper running a
+     * cached copy of the block bundle from before this release must be protected too.
+     * The classic checkout posts to ?wc-ajax=checkout and this plugin's own
+     * create-order endpoint to ?wc-api=..., neither of which is a REST request, so
+     * only the block checkout answers true here.
+     *
+     * @return bool
+     */
+    /**
+     * Escape hatch for a store that genuinely needs the old PayPal-wallet fallback on
+     * a block-checkout card payment. Off by default: redirecting a card shopper to the
+     * PayPal wallet skips card authentication entirely.
+     *
+     * @param int $woo_order_id Order being paid.
+     * @return bool
+     */
+    private function ppcp_allow_card_wallet_redirect($woo_order_id) {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
+        return (bool) apply_filters('wpg_ppcp_allow_card_wallet_redirect', false, $woo_order_id);
+    }
+
+    private function ppcp_is_store_api_checkout() {
+        if (function_exists('WC') && is_callable(array(WC(), 'is_rest_api_request')) && WC()->is_rest_api_request()) {
+            return true;
+        }
+        return defined('REST_REQUEST') && REST_REQUEST;
     }
 
     /**

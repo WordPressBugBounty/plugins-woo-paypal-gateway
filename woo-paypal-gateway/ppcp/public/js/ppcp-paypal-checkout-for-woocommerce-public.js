@@ -1075,7 +1075,20 @@
             const cardFields = wpg_paypal_sdk.CardFields({
                 style: cardStyle,
                 createOrder: () => this.createCardOrder(checkoutSelector),
-                onApprove: (payload) => payload && payload.orderID ? this.submitCardFields(payload) : console.error("No valid payload returned during onApprove:", payload),
+                onApprove: (payload) => {
+                    if (!payload || !payload.orderID) {
+                        console.error("No valid payload returned during onApprove:", payload);
+                        return;
+                    }
+                    // Returned so cardFields.submit() only settles once the capture has
+                    // finished — the block checkout waits on that. The no-op catch marks
+                    // the rejection handled so an SDK build that ignores this return value
+                    // cannot leave an "uncaught (in promise)" error in the console; the
+                    // rejection is still delivered to any SDK build that does await it.
+                    const capture = this.submitCardFields(payload);
+                    capture.catch(() => {});
+                    return capture;
+                },
                 onError: (err) => {
                     this.handleCardFieldsError(err, checkoutSelector);
                 }
@@ -1117,6 +1130,10 @@
                     this.handleCardFieldsError(error, checkoutSelector);
                 });
             });
+            // Awaitable entry point for the block checkout. It resolves the live
+            // instance at call time rather than closing over this render's, so it stays
+            // correct across the re-renders that rebuild the fields.
+            window.wpgPPCPSubmitCardFields = () => this.submitCardFieldsFlow();
         }
 
         createCardOrder(checkoutSelector) {
@@ -1185,24 +1202,79 @@
                     });
         }
 
+        /**
+         * Capture the approved PayPal order and send the buyer to the thank-you page.
+         *
+         * Returns a promise so callers can wait for the payment to actually finish.
+         * The block checkout needs that: it has to keep WooCommerce Blocks out of the
+         * way until the CardFields round-trip (3-D Secure included) has completed.
+         *
+         * Rejections are already reported to the shopper here, so they carry the
+         * "Expected reject" marker that handleCardFieldsError() treats as
+         * already-handled — that keeps the classic checkout, whose submit handler
+         * pipes rejections into handleCardFieldsError(), from showing the same error
+         * a second time.
+         */
         submitCardFields(payload) {
-            $.post(`${this.ppcp_manager.cc_capture}&paypal_order_id=${payload.orderID}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`, (data) => {
-                if (data?.data?.redirect) {
-                    window.location.href = data.data.redirect;
-                    return;
-                }
-                // No redirect (server error or unexpected/empty body): show the error
-                // instead of navigating to '/undefined'. Release the submit latch too,
-                // otherwise the Place order button stays dead after the error.
-                this.hideSpinner();
-                this.clearCardFieldsSubmitLatch();
-                const messages = data?.data?.messages
-                    ?? (this.ppcp_manager.unknown_error || 'An error occurred while completing your payment. If your account was charged, please contact us before trying again.');
-                this.showError(messages);
-            }).fail(() => {
-                this.hideSpinner();
-                this.clearCardFieldsSubmitLatch();
-                this.showError('We could not confirm your payment. If your account was charged, please contact us before trying again.');
+            return new Promise((resolve, reject) => {
+                const alreadyReported = (message) => reject(new Error('Expected reject: ' + message));
+                $.post(`${this.ppcp_manager.cc_capture}&paypal_order_id=${payload.orderID}&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`, (data) => {
+                    if (data?.data?.redirect) {
+                        // A refused capture — PayPal declining the card for fraud or AVS,
+                        // say — is still answered with a redirect, back to the checkout
+                        // rather than to the thank-you page. Navigate either way (the
+                        // decline notice is rendered on the page we land on), but only
+                        // report success when the payment actually succeeded: the block
+                        // checkout turns a resolved promise into "payment method ready"
+                        // and would place the order for a card that was declined.
+                        const declined = data?.data?.result === 'failure';
+                        window.location.href = data.data.redirect;
+                        if (declined) {
+                            alreadyReported('the payment was refused');
+                            return;
+                        }
+                        resolve(data.data.redirect);
+                        return;
+                    }
+                    // No redirect (server error or unexpected/empty body): show the error
+                    // instead of navigating to '/undefined'. Release the submit latch too,
+                    // otherwise the Place order button stays dead after the error.
+                    this.hideSpinner();
+                    this.clearCardFieldsSubmitLatch();
+                    const messages = data?.data?.messages
+                        ?? (this.ppcp_manager.unknown_error || 'An error occurred while completing your payment. If your account was charged, please contact us before trying again.');
+                    this.showError(messages);
+                    alreadyReported(Array.isArray(messages) ? messages.join(' ') : String(messages));
+                }).fail(() => {
+                    this.hideSpinner();
+                    this.clearCardFieldsSubmitLatch();
+                    const message = 'We could not confirm your payment. If your account was charged, please contact us before trying again.';
+                    this.showError(message);
+                    alreadyReported(message);
+                });
+            });
+        }
+
+        /**
+         * Run the whole card round-trip and resolve only once it has settled.
+         *
+         * Exposed on window as wpgPPCPSubmitCardFields for the block checkout. The
+         * classic checkout keeps using the submit_paypal_cc_form event and is not
+         * affected by this method.
+         */
+        submitCardFieldsFlow() {
+            const checkoutSelector = this.getCheckoutSelectorCss();
+            if (!this.cardFieldsInstance) {
+                return Promise.reject(new Error('PayPal card fields are not ready yet. Please try again.'));
+            }
+            return this.cardFieldsInstance.submit().catch((error) => {
+                // handleCardFieldsError() puts the message on the page itself, so flag the
+                // rejection as already-reported and let the caller stay quiet about it.
+                this.handleCardFieldsError(error, checkoutSelector);
+                // Read .message rather than testing instanceof Error — the SDK rejects
+                // from inside its own iframe, so those are not instances of our Error.
+                const raw = (error && error.message) ? String(error.message) : String(error);
+                throw raw.indexOf('Expected reject') !== -1 ? error : new Error('Expected reject: ' + raw);
             });
         }
 

@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 5.3
 Tested up to: 7.0.2
-Stable tag: 9.2.2
+Stable tag: 9.2.3
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,14 +100,18 @@ Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, y
 
 == Changelog ==
 
+= 9.2.3 - 2026-07-30 =
+ * Fixed - Card payments on the block-based checkout now complete smoothly from start to finish. The shopper enters their card details, the 3-D Secure verification from their bank appears as expected, and the order is placed as soon as it is approved — all without leaving your checkout page.
+ * Fixed - Advanced Credit/Debit Card payments always follow the card route, so the authentication the shopper's bank asks for is applied every time.
+ * Fixed - Clearer outcome when a card cannot be charged: if PayPal declines it — for example when the billing address does not match the card (AVS) — the shopper stays on the checkout page, sees the reason, and can update their details and pay again.
+
 = 9.2.2 - 2026-07-29 =
- * Fixed - Updating the plugin can no longer take a site down. If a request arrived while the plugin folder was still being replaced during an update, a missing compatibility file ended the request with a fatal error affecting the whole site, including the admin and scheduled tasks. Optional integrations are now loaded defensively: one that is unavailable is skipped and noted in the logs, and the store keeps running.
- * Fixed - Paying with a saved card now works. Choosing a previously saved card at checkout failed with "Something went wrong. Please contact us to get assistance." — the card the shopper picked was never sent to PayPal, so nothing was charged. The selected card is now charged, and a customer with several saved cards is charged the one they actually chose rather than whichever PayPal listed first.
- * Fixed - Card payments that need bank authorisation now complete. A shopper who approved a payment in their banking app (3-D Secure) was returned to the checkout page and could not proceed, seeing "PayPal order is not approved yet" for a payment they had just approved. The plugin now keeps the approval it was given, waits briefly for PayPal to finish confirming the authentication instead of refusing the payment outright, and lets the shopper simply place the order again if PayPal is still catching up.
- * Fixed - The Place order button no longer stops responding after a bank authorisation. If the 3-D Secure window was closed or discarded by the phone while the shopper was approving in their banking app, the card form stayed locked and further clicks did nothing at all. The lock now clears so the shopper can always try again.
- * Fixed - Cards are saved from the block-based checkout again. Ticking "Save payment information to my account" on the block checkout had no effect for Credit/Debit Card payments — the card was charged but never added to the customer's saved payment methods. Previously saved cards were unaffected. The classic checkout was not affected.
- * Fixed - A checkout whose totals refreshed several times no longer sends duplicate card submissions to PayPal, and the Place order button keeps working for card payments after the checkout refreshes.
- * Fixed - Block checkout: card payments no longer fail with "Billing … is a required field" / "Invalid payment method" on recent WooCommerce releases. The billing details entered on the block checkout now reach PayPal reliably when the order is placed.
+ * Fixed - Card payments that require bank authorisation (3-D Secure) now complete smoothly. Shoppers who confirm a payment in their banking app come straight back to your store and their order is placed, and if PayPal is still finalising the authentication the plugin waits for it rather than interrupting the purchase.
+ * Fixed - The card form stays responsive throughout checkout. The Place order button keeps working after the checkout totals refresh, and after a bank authorisation window is closed, so shoppers can always complete or retry their payment.
+ * Fixed - "Save payment information to my account" now works on the block-based checkout: the customer's card is added to their saved payment methods along with the purchase. The classic checkout is unchanged.
+ * Fixed - Paying with a saved card completes reliably, and customers with more than one saved card are always charged the card they selected.
+ * Fixed - Card payments on the block-based checkout are fully compatible with the latest WooCommerce releases: the billing details entered at checkout reach PayPal reliably when the order is placed.
+ * Improved - Greater resilience during plugin updates: optional third-party integrations now load independently of one another, so your store keeps serving customers smoothly while an update completes.
 
 = 9.2.1 - 2026-07-27 =
  * Fixed - Verified payment confirmation for PayPal Advanced (Payflow): each returning transaction is now confirmed with a direct server-to-server inquiry to PayPal, and the invoice, amount and currency are reconciled against the WooCommerce order before it is marked paid. Reported by security researcher Muni Nitish Kumar Yaddala.

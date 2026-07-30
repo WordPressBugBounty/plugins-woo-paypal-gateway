@@ -187,8 +187,53 @@ var {addAction} = wp.hooks;
                                 // Without a Fastlane token, run the regular CardFields round-trip;
                                 // with one, the Store API checkout carries the single-use token to
                                 // the gateway, which charges it server-side.
+                                //
+                                // The round-trip has to be awaited. Firing it and returning SUCCESS
+                                // told Blocks the payment method was ready, so Blocks posted the
+                                // Store API checkout while the card submit — and any 3-D Secure
+                                // challenge — was still starting up. Nothing but the private
+                                // __internalSetIdle() above stood in the way of that post, and when
+                                // it won the race the shopper was redirected to PayPal without ever
+                                // being shown a 3-D Secure prompt. Awaiting removes the race: the
+                                // payment is finished (and the browser already navigating to the
+                                // thank-you page) before Blocks is told anything.
+                                //
+                                // Falls back to the previous fire-and-forget behaviour if the
+                                // public script is too old to expose the awaitable entry point,
+                                // so a stale cached bundle degrades rather than breaks.
                                 if (!fastlaneToken) {
-                                    jQuery(document.body).trigger('submit_paypal_cc_form');
+                                    if (typeof window.wpgPPCPSubmitCardFields === 'function') {
+                                        // Drop the overlay before the challenge: it covers
+                                        // #payment-method, which is where the card fields live, and
+                                        // it previously only existed for the few milliseconds
+                                        // between the trigger and this handler returning. Holding
+                                        // it up for the whole of 3-D Secure risks covering a
+                                        // challenge the shopper has to interact with. Nothing is
+                                        // lost by removing it — because this handler has not
+                                        // returned, Blocks is still in its processing state and
+                                        // keeps Place order disabled on its own.
+                                        jQuery(blockElements).unblock();
+                                        try {
+                                            await window.wpgPPCPSubmitCardFields();
+                                        } catch (submitError) {
+                                            jQuery(blockElements).unblock();
+                                            // handleCardFieldsError() has already shown the shopper
+                                            // what went wrong for "Expected reject" rejections, so
+                                            // only pass a message through when we have a new one.
+                                            // Read .message rather than testing instanceof Error:
+                                            // rejections that cross a realm boundary — the PayPal
+                                            // SDK throws from inside its own iframe — are not
+                                            // instances of this window's Error.
+                                            const raw = (submitError && submitError.message)
+                                                ? String(submitError.message)
+                                                : String(submitError || '');
+                                            return raw.indexOf('Expected reject') !== -1
+                                                ? errorResponse
+                                                : Object.assign({}, errorResponse, {message: raw});
+                                        }
+                                    } else {
+                                        jQuery(document.body).trigger('submit_paypal_cc_form');
+                                    }
                                 }
                                 // Send the reCAPTCHA token through the Store API payment data so the
                                 // server (verify_blocks_checkout) actually receives it — a DOM hidden
