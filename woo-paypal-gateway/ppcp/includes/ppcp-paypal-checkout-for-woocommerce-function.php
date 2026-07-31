@@ -412,7 +412,19 @@ if (!function_exists('woo_paypal_gateway_send_error')) {
 
     function woo_paypal_gateway_send_error($payload) {
         $message = isset($payload['message']) ? $payload['message'] : __('Something went wrong. Please try again.', 'woo-paypal-gateway');
-        if (function_exists('woo_paypal_gateway_ppcp_is_using_woocommerce_blocks') && woo_paypal_gateway_ppcp_is_using_woocommerce_blocks()) {
+        // The transient is a fallback for one specific case: the redirect return handler,
+        // which runs on a wc-api URL with no response the block checkout is listening to,
+        // so the message has to survive until the next page render.
+        //
+        // Everything else — including process_payment() running inside the Store API
+        // checkout request, which is how the block checkout pays by card — has a response
+        // to put the error in, and WooCommerce collects wc_add_notice() errors raised
+        // during that request and returns them to the block. Sending those to the transient
+        // instead was why a refused card looked like nothing happening at all: the message
+        // was written to a transient nothing would read until the buyer reloaded the page,
+        // and it expired thirty seconds later whether they did or not.
+        $is_rest_request = defined('REST_REQUEST') && REST_REQUEST;
+        if (!$is_rest_request && function_exists('woo_paypal_gateway_ppcp_is_using_woocommerce_blocks') && woo_paypal_gateway_ppcp_is_using_woocommerce_blocks()) {
             $customer_id = (function_exists('WC') && WC()->session) ? WC()->session->get_customer_id() : '';
             if (!$customer_id) {
                 $customer_id = (string) get_current_user_id();
@@ -421,7 +433,10 @@ if (!function_exists('woo_paypal_gateway_send_error')) {
                 $customer_id = wp_get_session_token();
             }
             $key = 'wpg_ppcp_err_' . md5($customer_id);
-            set_transient($key, $message, 30);
+            // Long enough to survive a slow return from PayPal. Thirty seconds meant a buyer
+            // on a slow connection landed back on the checkout after the message had already
+            // expired, and was told nothing at all.
+            set_transient($key, $message, 5 * MINUTE_IN_SECONDS);
         } else {
             wc_add_notice($message, 'error');
         }

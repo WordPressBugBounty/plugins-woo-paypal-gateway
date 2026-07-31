@@ -996,6 +996,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function ppcp_create_order_request($woo_order_id = null) {
         try {
+            // Stop a new PayPal order being minted for a WooCommerce order that has already
+            // used up its allowance of failed 3D Secure authentications. Without this the
+            // gate blocks each capture but the next click simply creates another PayPal
+            // order, so one order could be used to test an unlimited number of cards.
+            if (!empty($woo_order_id) && $this->ppcp_3ds_attempts_exhausted($woo_order_id)) {
+                return false;
+            }
             if ($this->access_token === false) {
                 $this->access_token = $this->ppcp_get_access_token();
             }
@@ -1436,14 +1443,54 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         // Surface the message through woo_paypal_gateway_send_error() so it reaches both the classic
         // checkout (wc_add_notice) and the block checkout (stored for the redirect), which
         // does not render session notices added during the return handler.
+        // Record refusals in the main checkout log as well as the optional 3DS log. Without
+        // this a blocked capture left no trace here at all: the log showed a Create order with
+        // no matching capture and no reason, which is indistinguishable from the shopper
+        // abandoning the page. Logged at warning level so it stands out from the INFO traffic.
         if (PPCP_Paypal_Checkout_For_Woocommerce_3DS::REJECT === $decision) {
+            $this->ppcp_log('3DS decision for order #' . $woo_order_id . ' (PayPal order ' . $paypal_order_id . '): reject — capture blocked, shopper asked for another payment method.', 'warning');
             woo_paypal_gateway_send_error(array('message' => __('We cannot process your order with the payment information that you provided. Please use an alternate payment method.', 'woo-paypal-gateway')));
             return false;
         }
         if (PPCP_Paypal_Checkout_For_Woocommerce_3DS::RETRY === $decision) {
+            $this->ppcp_log('3DS decision for order #' . $woo_order_id . ' (PayPal order ' . $paypal_order_id . '): retry — capture blocked, shopper asked to try again.', 'warning');
             woo_paypal_gateway_send_error(array('message' => __('We could not confirm your card with your bank. Please try again or use a different card.', 'woo-paypal-gateway')));
             return false;
         }
+        // "Review" mode captures the payment as normal — the shopper is charged and their
+        // order is placed — and the order is held at on-hold afterwards for the merchant to
+        // look at. Nothing to block here, but worth a log line so the hold is explicable.
+        if (PPCP_Paypal_Checkout_For_Woocommerce_3DS::REVIEW === $decision) {
+            $this->ppcp_log('3DS decision for order #' . $woo_order_id . ' (PayPal order ' . $paypal_order_id . '): review — capture allowed, order will be held for merchant review.', 'warning');
+        }
+        return true;
+    }
+
+    /**
+     * Whether a WooCommerce order has used up its allowance of failed 3D Secure attempts.
+     *
+     * Tells the shopper the same thing the 3DS gate would have, so a refusal here is not a
+     * silently dead checkout button.
+     */
+    public function ppcp_3ds_attempts_exhausted($woo_order_id) {
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_3DS')) {
+            $threeds_file = WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-3ds.php';
+            if (file_exists($threeds_file)) {
+                include_once $threeds_file;
+            }
+        }
+        if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_3DS')) {
+            return false;
+        }
+        $order = wc_get_order($woo_order_id);
+        if (!$order instanceof WC_Order) {
+            return false;
+        }
+        if (!PPCP_Paypal_Checkout_For_Woocommerce_3DS::instance()->has_exhausted_attempts($order)) {
+            return false;
+        }
+        $this->ppcp_log('Order creation refused for order #' . $woo_order_id . ': the card issuer has rejected this order too many times.', 'warning');
+        woo_paypal_gateway_send_error(array('message' => __('We cannot process your order with the payment information that you provided. Please use an alternate payment method.', 'woo-paypal-gateway')));
         return true;
     }
 
@@ -3718,6 +3765,27 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
         delete_transient('wpg_ppcp_complete_lock_' . absint($order_id));
     }
 
+    /**
+     * Capture id from a webhook payload, for events whose resource is a capture.
+     *
+     * WooCommerce stores this as the order's transaction id, and both refunds
+     * (WPG_PayPal_Checkout_For_Woocommerce_Gateway::can_refund_order) and shipment tracking
+     * look it up later — an order completed without one can be neither refunded nor tracked.
+     *
+     * Only PAYMENT.CAPTURE.* events carry a capture id in resource.id. Order-level events put
+     * the PayPal order id in the same field, which is not a valid refund target.
+     *
+     * @param array $posted Decoded webhook payload.
+     * @return string Capture id, or an empty string when the event does not carry one.
+     */
+    private function ppcp_webhook_capture_id($posted) {
+        $event_type = isset($posted['event_type']) ? strtoupper($posted['event_type']) : '';
+        if (0 !== strpos($event_type, 'PAYMENT.CAPTURE.')) {
+            return '';
+        }
+        return isset($posted['resource']['id']) ? sanitize_text_field($posted['resource']['id']) : '';
+    }
+
     public function payment_status_completed($order, $posted) {
         if ($order->has_status(wc_get_is_paid_statuses())) {
             $this->ppcp_log('Aborting, Order #' . $order->get_id() . ' is already complete.');
@@ -3742,7 +3810,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             $resource_status = isset($posted['resource']['status']) ? strtoupper($posted['resource']['status']) : '';
             $this->ppcp_log('Webhook payment completion check for order #' . $order->get_id() . ': event=' . (isset($posted['event_type']) ? $posted['event_type'] : 'N/A') . ', resource_status=' . $resource_status);
             if ('COMPLETED' === $resource_status) {
-                $this->payment_complete($order);
+                $capture_id = $this->ppcp_webhook_capture_id($posted);
+                if ('' === $capture_id) {
+                    $this->ppcp_log('Webhook completion for order #' . $order->get_id() . ' carried no capture id; refunds and shipment tracking will not work on it until one is set.', 'warning');
+                }
+                $this->payment_complete($order, $capture_id);
             } else {
                 if ('PENDING' === $resource_status) {
                     if (!empty($posted['resource']['status_details']['reason'])) {
@@ -3800,7 +3872,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function payment_complete($order, $txn_id = '', $note = '') {
         if (!$order->has_status(array('processing', 'completed'))) {
-            $order->add_order_note($note);
+            if ('' !== $note) {
+                $order->add_order_note($note);
+            }
             $order->payment_complete($txn_id);
             // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API that existing sites and integrations already hook into; renaming them would break those customisations, and hooks belonging to other plugins are fired here as integration points and are not ours to rename.
             apply_filters('woocommerce_payment_successful_result', array('result' => 'success'), $order);
@@ -3821,6 +3895,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
     }
 
     public function payment_status_failed($order) {
+        // A capture that already succeeded must never be undone by a later failure event.
+        // PayPal queues and redelivers CAPTURE.DENIED / .EXPIRED / .VOIDED, so one can land
+        // after the order was paid — flipping a paid order to failed loses the sale in the
+        // merchant's reports and can trigger cancellation emails to a customer who was charged.
+        // The sibling handlers (payment_on_hold, payment_status_pending) already guard on this.
+        if ($order->has_status(array('processing', 'completed', 'refunded'))) {
+            $this->ppcp_log('Order #' . $order->get_id() . ' is already paid (status: ' . $order->get_status() . '); ignoring late failure webhook.', 'warning');
+            return;
+        }
         if (!$order->has_status(array('failed'))) {
             $order->update_status('failed');
         }

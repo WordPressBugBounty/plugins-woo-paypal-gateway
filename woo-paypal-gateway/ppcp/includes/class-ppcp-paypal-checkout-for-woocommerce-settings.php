@@ -2046,10 +2046,14 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __('Debug log', 'woo-paypal-gateway'),
                     'type' => 'checkbox',
                     'label' => __('Enable logging', 'woo-paypal-gateway'),
-                    'default' => 'yes',
+                    // Off for new installs. Logs record buyer names and addresses, which should
+                    // not be written to disk unless the merchant has opted in. Sites that already
+                    // saved this setting keep whatever they chose — a stored value wins over the
+                    // default, so upgrading does not silently turn logging off underneath anyone.
+                    'default' => 'no',
                     'description' => sprintf(
                             // translators: %s is the path to the WooCommerce PayPal debug log file.
-                            __('Log PayPal events, such as Webhook, Payment, Refund inside %s', 'woo-paypal-gateway'),
+                            __('Log PayPal events, such as Webhook, Payment, Refund inside %s. Logs can include customer names and addresses, so turn this on only while diagnosing a problem.', 'woo-paypal-gateway'),
                             '<code>' . WC_Log_Handler_File::get_log_file_path('wpg_paypal_checkout') . '</code>'
                     ),
                 ),
@@ -2068,13 +2072,13 @@ if (!class_exists('PPCP_Paypal_Checkout_For_Woocommerce_Settings')) {
                     'title' => __( 'Liability Shift Handling', 'woo-paypal-gateway' ),
                     'type' => 'select',
                     'class' => 'wc-enhanced-select',
-                    'description' => __( 'How to handle credit card payments based on their 3D Secure result. "Smart" (recommended) only stops payments where the cardholder failed or could not complete the bank authentication challenge, and lets the shopper retry — this blocks most stolen-card fraud without declining legitimate customers. "Accept" processes every payment (legacy behavior, least protection). "Review" processes all payments but records the 3DS result on the order for your own monitoring. "Reject" declines any payment that does not receive a successful liability shift (strictest, but will decline some legitimate cards that are not enrolled in 3D Secure).', 'woo-paypal-gateway' ),
+                    'description' => __( 'How to handle credit card payments based on their 3D Secure result. "Smart" (recommended) only stops payments where the cardholder failed or could not complete the bank authentication challenge, and lets the shopper retry — this blocks most stolen-card fraud without declining legitimate customers. It does still take payments from cards the bank could not authenticate at all, for example when the card is not enrolled in 3D Secure or the bank could not be reached; those orders are marked on the order screen, because a fraud chargeback on one of them is charged to your store rather than the card issuer. "Accept" processes every payment (legacy behavior, least protection). "Review" also takes every payment, but holds any order the bank did not authenticate at On hold so you can check it before fulfilling. "Reject" declines any payment that does not receive a successful liability shift (strictest, but will decline some legitimate cards that are not enrolled in 3D Secure).', 'woo-paypal-gateway' ),
                     'default' => 'smart',
                     'desc_tip' => true,
                     'options' => array(
                         'smart'  => __( 'Smart — Recommended: block only failed bank authentications, allow everything else', 'woo-paypal-gateway' ),
                         'accept' => __( 'Accept — Process all payments (legacy, least protection)', 'woo-paypal-gateway' ),
-                        'review' => __( 'Review — Process all payments but record the 3DS result for monitoring', 'woo-paypal-gateway' ),
+                        'review' => __( 'Review — Process all payments, hold unauthenticated ones at On hold for you to check', 'woo-paypal-gateway' ),
                         'reject' => __( 'Reject — Decline any payment without a successful liability shift (strictest)', 'woo-paypal-gateway' ),
                     ),
                 ),

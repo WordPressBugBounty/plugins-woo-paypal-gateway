@@ -92,6 +92,27 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow_API_Handler {
         }
     }
 
+    /**
+     * Mask the merchant's Payflow credentials and the buyer's card details before a
+     * request is written to the WooCommerce log. Debug logs are routinely shared with
+     * support, so the API password and cardholder data must never reach them.
+     *
+     * @param array $request Payflow NVP request parameters.
+     * @return array Copy of the request safe to log.
+     */
+    public function wpg_mask_request_param($request) {
+        if (!is_array($request)) {
+            return $request;
+        }
+        $masked = $request;
+        foreach (array('USER', 'PWD', 'VENDOR', 'PARTNER', 'ACCT', 'EXPDATE', 'CVV2') as $key) {
+            if (isset($masked[$key]) && '' !== $masked[$key]) {
+                $masked[$key] = '****';
+            }
+        }
+        return $masked;
+    }
+
     public function request_do_payment($order, $card) {
         try {
             $url = $this->gateway_settings->testmode ? $this->gateway_settings->testurl : $this->gateway_settings->liveurl;
@@ -100,10 +121,7 @@ class Woo_Paypal_Gateway_PayPal_Pro_Payflow_API_Handler {
             $post_data['EXPDATE'] = $card->exp_month . $card->exp_year;
             $post_data['CVV2'] = $card->cvc;
             if ($this->gateway_settings->debug) {
-                $log = $post_data;
-                $log['ACCT'] = '****';
-                $log['CVV2'] = '****';
-                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Do payment request ' . wc_print_r($log, true));
+                Woo_Paypal_Gateway_PayPal_Pro_Payflow::log('Do payment request ' . wc_print_r($this->wpg_mask_request_param($post_data), true));
             }
             $response = wp_remote_post($url, array(
                 'method' => 'POST',

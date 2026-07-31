@@ -235,6 +235,11 @@ class Woo_Paypal_Gateway {
                 // Enforce TLS 1.2 for PayPal API calls. The http_api_curl hook is the
                 // WordPress-sanctioned way to adjust the underlying cURL handle used by
                 // wp_remote_* requests, so curl_setopt() is appropriate here.
+                //
+                // Do not add CURLOPT_VERBOSE here, under a debug flag or otherwise:
+                // libcurl writes verbose output to the process' stderr, which prints the
+                // Authorization header (the merchant's client id/secret and bearer tokens)
+                // to the terminal under WP-CLI and to the server error log otherwise.
                 curl_setopt($handle, CURLOPT_SSLVERSION, 6); // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_setopt -- Setting transport options on the cURL handle provided by the http_api_curl hook.
             }
         } catch (Exception $ex) {

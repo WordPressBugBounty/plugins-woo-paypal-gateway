@@ -32,7 +32,7 @@ class Woo_Paypal_Gateway_Express_Checkout_Helper_NVP {
             add_action('woocommerce_before_cart_table', array($this, 'wpg_checkout_on_top_cart_page'));
             add_action('woocommerce_before_checkout_form', array($this, 'wpg_display_button_on_checkout_page'), 999);
             add_action('wp_enqueue_scripts', array($this, 'ec_enqueue_scripts_product_page'), 0);
-            add_action('woocommerce_cart_emptied', array($this, 'woo_paypal_gateway_maybe_clear_session_data'));
+            add_action('woocommerce_cart_emptied', array($this, 'wpg_maybe_clear_session_data'));
             add_action('woocommerce_available_payment_gateways', array($this, 'wpg_checkout_page_disable_gateways'));
             add_action('woocommerce_checkout_billing', array($this, 'wpg_express_checkout_auto_fillup_shipping_address'));
             add_action('wp_head', array($this, 'wpg_add_header_meta'), 0);

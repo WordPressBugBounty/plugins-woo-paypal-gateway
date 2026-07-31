@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 5.3
 Tested up to: 7.0.2
-Stable tag: 9.2.3
+Stable tag: 9.2.4
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,7 +100,24 @@ Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, y
 
 == Changelog ==
 
+= 9.2.4 - 2026-07-31 =
+ * Improved - Your customers now see straight away why a card was declined. On the block-based checkout the reason appears the moment the payment is refused, so a shopper can correct their details or reach for another card immediately. No confusion, no abandoned carts from a checkout that seemed to do nothing.
+ * Improved - Every order carries its complete 3D Secure history, not just the final attempt. Where a shopper's bank turned a payment down before a different card succeeded, the order shows how many attempts were blocked and exactly what each one returned — precisely the evidence you want when reviewing an order or answering a chargeback.
+ * Improved - 3D Secure order notes are written in plain English: whether the payment was allowed through, blocked with the shopper invited to try again, or blocked with the shopper asked for another payment method. No bank response codes to decode.
+ * Added - Chargeback liability at a glance. Orders paid with a card the bank did not authenticate are labelled on the order screen and in the order notes, because a fraud chargeback on one of those is charged to your store rather than to the card issuer. It is information, not an alarm — it applies to a large share of perfectly ordinary orders and does not by itself suggest fraud — with emphasis reserved for the one case that genuinely warrants a look.
+ * Improved - Card payments stopped by the 3D Secure check are recorded in the PayPal log together with the reason, so you always have a straight answer when a customer asks why their payment did not go through.
+ * Added - Card-testing awareness across your whole store. The plugin recognises card rejections arriving from the same internet address across every order and writes a clear warning to the PayPal log when an unusual number appear in a short window, surfacing a pattern no single order could reveal. Nothing is ever refused on this signal alone: offices, universities and mobile networks place many genuine shoppers behind one address, and your real customers always come first. The warning names the address and the orders, so the judgement stays yours. Tunable with the `wpg_ppcp_3ds_velocity_threshold` and `wpg_ppcp_3ds_velocity_window` filters.
+ * Added - A generous per-order attempt allowance. A single checkout that collects ten issuer rejections stops accepting further attempts, so one order cannot be hammered indefinitely. Set high on purpose: a shopper working out which of their cards their bank will accept should never run out of road first, and a card that authenticates is always honoured. Tunable with `wpg_ppcp_3ds_max_rejections`.
+ * Improved - The "Review" liability-handling mode gives you a genuine approval step: the payment is taken, the order waits at On hold, and the order screen explains the hold in full — that the customer has already been charged, that the order is waiting on your approval or refund, why it was held, and which setting to change if you would rather these orders complete on their own.
+ * Improved - Clearer wording throughout the Liability Shift Handling setting, including exactly what each mode does with payments the bank could not authenticate.
+ * Improved - Orders completed by a PayPal webhook now carry their transaction ID, so the Refund button is ready the moment you need it and shipment tracking flows straight through to PayPal. Orders completed before this update are unchanged and can be refunded from the PayPal dashboard.
+ * Improved - A paid order stays paid. PayPal re-sends declined, expired and voided notifications, and the plugin recognises a late notification of this kind and leaves a completed order exactly as it is — your reports stay accurate, and your customer never receives anything that contradicts their receipt.
+ * Improved - The order-received (thank you) page renders reliably for every shopper the moment payment completes, so customers always land on a proper confirmation of their purchase.
+ * Changed - Debug logging is now off by default on new installations, and the setting states plainly that logs can contain customer names and addresses — a privacy-first default for every new store. Stores that already use logging keep it exactly as it is.
+
 = 9.2.3 - 2026-07-30 =
+ * Fixed - Your PayPal API credentials are no longer written to the server output. The plugin previously switched on cURL's diagnostic mode for every PayPal API call, which printed the whole HTTP conversation — including the authorisation header carrying your live client ID and secret — to the server's error output, where it was visible in WP-CLI sessions and server logs.
+ * Fixed - Debug logging for the PayPal Pro (Payflow) gateway now masks the Payflow user, password, vendor and partner, along with the card number, expiry and security code, so a debug log shared with support never contains your gateway credentials or cardholder data. The other legacy gateways already masked these.
  * Fixed - Card payments on the block-based checkout now complete smoothly from start to finish. The shopper enters their card details, the 3-D Secure verification from their bank appears as expected, and the order is placed as soon as it is approved — all without leaving your checkout page.
  * Fixed - Advanced Credit/Debit Card payments always follow the card route, so the authentication the shopper's bank asks for is applied every time.
  * Fixed - Clearer outcome when a card cannot be charged: if PayPal declines it — for example when the billing address does not match the card (AVS) — the shopper stays on the checkout page, sees the reason, and can update their details and pay again.
