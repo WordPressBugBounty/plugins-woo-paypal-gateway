@@ -5,7 +5,7 @@
  * Plugin Name:       Payment Gateway for PayPal on WooCommerce
  * Plugin URI:        https://profiles.wordpress.org/easypayment
  * Description:       PayPal, Credit/Debit Cards, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Sofort, Bancontact & more - by an official PayPal Partner
- * Version:           9.2.4
+ * Version:           9.2.5
  * Author:            easypayment
  * Author URI:        https://profiles.wordpress.org/easypayment/
  * License:           GNU General Public License v3.0
@@ -25,7 +25,7 @@ if (!defined('WPINC')) {
 
 
 if (!defined('WPG_PLUGIN_VERSION')) {
-    define('WPG_PLUGIN_VERSION', '9.2.4');
+    define('WPG_PLUGIN_VERSION', '9.2.5');
 }
 if (!defined('WPG_PLUGIN_PATH')) {
     define('WPG_PLUGIN_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
@@ -137,6 +137,18 @@ add_action( 'woocommerce_blocks_loaded', function () {
     }
     if ( file_exists( $cc_block_file ) ) {
         require_once $cc_block_file;
+    }
+
+    // The page the block editor draws its button preview on. The editor canvas is a
+    // srcdoc iframe, where the PayPal SDK cannot bootstrap, so the buttons are drawn
+    // on a same-origin page of our own and embedded. Admin-only, and it renders
+    // nothing but buttons.
+    $editor_preview_file = WPG_PLUGIN_DIR . '/ppcp/checkout-block/ppcp-editor-preview.php';
+    if ( file_exists( $editor_preview_file ) ) {
+        require_once $editor_preview_file;
+        if ( class_exists( 'PPCP_Editor_Button_Preview' ) ) {
+            PPCP_Editor_Button_Preview::init();
+        }
     }
 
     // Store API cart-schema extension (fresh server-authoritative state for the

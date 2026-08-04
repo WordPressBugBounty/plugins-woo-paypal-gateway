@@ -70,10 +70,12 @@ class WPG_Locale_Compat {
 
 	public function init() {
 		add_filter( 'wpg_ppcp_sdk_locale', array( $this, 'get_paypal_locale' ) );
-		add_filter( 'wpg_ppcp_localize_script_data', array( $this, 'add_locale_data' ) );
 
 		if ( $this->is_wpml_active() ) {
-			add_action( 'wpml_register_string_packages', array( $this, 'register_wpml_strings' ) );
+			// WPML registration is performed BY firing wpml_register_single_string —
+			// WPML does not fire a 'wpml_register_string_packages' action to hook,
+			// so the old add_action() registration never ran.
+			add_action( 'init', array( $this, 'register_wpml_strings' ), 20 );
 		}
 
 		if ( $this->is_polylang_active() ) {
@@ -84,36 +86,50 @@ class WPG_Locale_Compat {
 	/**
 	 * Map WordPress locale to PayPal SDK locale.
 	 *
-	 * @param string $locale Current locale setting.
+	 * The incoming $locale is core's Locale_Handler::get_valid_locale(), which
+	 * is already validated against the full PayPal locale matrix. Discarding it
+	 * (as this callback previously did) regressed core: en_US stores fell
+	 * through the prefix loop to en_GB, and languages core supports but this
+	 * map does not (cs_CZ, el_GR, hu_HU, ...) were downgraded to en_US. Core's
+	 * value now wins whenever it is a validated non-fallback locale; the map
+	 * only fills in when core could not resolve the site language (e.g. nb_NO,
+	 * which core rejects but maps cleanly to PayPal's no_NO).
+	 *
+	 * @param string $locale Core-validated locale (falls back to en_US).
 	 * @return string PayPal-compatible locale.
 	 */
 	public function get_paypal_locale( $locale ) {
-		$wp_locale = determine_locale();
+		$has_handler = class_exists( 'PPCP_Paypal_Checkout_For_Woocommerce_Locale_Handler' );
+		$wp_locale   = determine_locale();
+		$lang        = substr( $wp_locale, 0, 2 );
 
-		if ( isset( $this->paypal_locale_map[ $wp_locale ] ) ) {
-			return $this->paypal_locale_map[ $wp_locale ];
+		if ( ! empty( $locale ) && $has_handler && PPCP_Paypal_Checkout_For_Woocommerce_Locale_Handler::is_supported( $locale ) ) {
+			// en_US is also core's could-not-resolve fallback: trust it only when
+			// the site language really is English, otherwise try the map below.
+			if ( 'en_US' !== $locale || 'en' === $lang ) {
+				return $locale;
+			}
 		}
 
-		$lang = substr( $wp_locale, 0, 2 );
+		if ( isset( $this->paypal_locale_map[ $wp_locale ] ) ) {
+			$mapped = $this->paypal_locale_map[ $wp_locale ];
+			if ( ! $has_handler || PPCP_Paypal_Checkout_For_Woocommerce_Locale_Handler::is_supported( $mapped ) ) {
+				return $mapped;
+			}
+		}
+
 		foreach ( $this->paypal_locale_map as $wp_key => $paypal_key ) {
-			if ( strpos( $wp_key, $lang ) === 0 ) {
+			// Match on the full language code only ('de' matches de_AT, not
+			// every key that merely starts with those letters).
+			if ( $wp_key === $lang || 0 === strpos( $wp_key, $lang . '_' ) ) {
 				return $paypal_key;
 			}
 		}
 
-		return 'en_US';
-	}
-
-	public function add_locale_data( $data ) {
-		$data['sdk_locale'] = apply_filters( 'wpg_ppcp_sdk_locale', 'en_US' );
-		return $data;
+		return ! empty( $locale ) ? $locale : 'en_US';
 	}
 
 	public function register_wpml_strings() {
-		if ( ! function_exists( 'icl_register_string' ) ) {
-			return;
-		}
-
 		$settings = get_option( 'woocommerce_wpg_paypal_checkout_settings', array() );
 
 		$translatable = array(
@@ -123,7 +139,9 @@ class WPG_Locale_Compat {
 
 		foreach ( $translatable as $name => $value ) {
 			if ( ! empty( $value ) ) {
-				icl_register_string( 'woo-paypal-gateway', 'gateway_' . $name, $value );
+				// The documented WPML String Translation API: registration happens
+				// by firing this action, not by hooking one.
+				do_action( 'wpml_register_single_string', 'woo-paypal-gateway', 'gateway_' . $name, $value );
 			}
 		}
 	}

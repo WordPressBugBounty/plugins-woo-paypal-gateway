@@ -74,6 +74,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         } else {
             $this->order_button_text = _x('Proceed to PayPal', 'Important', 'woo-paypal-gateway');
         }
+        // Same label filter the block checkout applies, so EU-compliance layers
+        // (e.g. Germanized's pay-now wording) reach classic checkout too.
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API following the plugin's established wpg_ppcp_* prefix.
+        $this->order_button_text = apply_filters('wpg_ppcp_checkout_button_label', $this->order_button_text);
         if (!has_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options'])) {
             add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         }
@@ -691,11 +695,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway extends WC_Payment_Gateway_CC
         $this->request = PPCP_Paypal_Checkout_For_Woocommerce_Request::instance();
         $is_success = false;
         $zero_total_order = wc_get_order($woo_order_id);
-        if ($zero_total_order instanceof WC_Order && (float) $zero_total_order->get_total() <= 0) {
-            // Zero-total signup (free-trial subscription or charge-upon-release
-            // pre-order): nothing must be charged now, but a payment method must
+        if ($zero_total_order instanceof WC_Order && ((float) $zero_total_order->get_total() <= 0 || woo_paypal_gateway_ppcp_order_requires_preorder_tokenization($zero_total_order))) {
+            // Zero-total signup (free-trial subscription) or charge-upon-release
+            // pre-order: nothing must be charged now, but a payment method must
             // be vaulted for the future charge. A chosen saved token completes
             // directly; otherwise the buyer approves a PayPal vault setup token.
+            // Charge-upon-release pre-orders carry their FULL total (WC
+            // Pre-Orders only reformats the displayed total), so they must be
+            // routed here explicitly and must never create a charging PayPal
+            // order.
             // phpcs:disable WordPress.Security.NonceVerification.Missing
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
             $posted_token = isset($_POST['wc-wpg_paypal_checkout-payment-token']) ? wc_clean(wp_unslash($_POST['wc-wpg_paypal_checkout-payment-token'])) : '';

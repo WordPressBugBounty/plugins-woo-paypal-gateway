@@ -123,10 +123,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Tracking {
             if ($existing === $tracking_number) {
                 return;
             }
-            $order->update_meta_data('_ppcp_tracking_info', $tracking_data);
-            $order->update_meta_data('_ppcp_tracking_number', $tracking_number);
-            $order->save();
-            $this->send_tracking_to_paypal($order->get_id(), $tracking_data);
+            // Persist the meta only after PayPal accepted the tracker. Saving it
+            // first meant the same-number dedupe above permanently swallowed every
+            // retry after a failed submission.
+            if ($this->send_tracking_to_paypal($order->get_id(), $tracking_data)) {
+                $order->update_meta_data('_ppcp_tracking_info', $tracking_data);
+                $order->update_meta_data('_ppcp_tracking_number', $tracking_number);
+                $order->save();
+            }
         } catch (Exception $ex) {
             
         }

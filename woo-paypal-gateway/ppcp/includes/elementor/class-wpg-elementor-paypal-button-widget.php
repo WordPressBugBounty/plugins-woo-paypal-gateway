@@ -178,6 +178,15 @@ class WPG_Elementor_PayPal_Button_Widget extends \Elementor\Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 
+		// On WooCommerce's own product and cart pages, render through the real
+		// button-manager flow — the same full express machinery (shipping
+		// selection via onShippingChange, server-side cart totals) the normal
+		// buttons use. The shortcode fallback below stays only for arbitrary
+		// placements (landing pages) where no WooCommerce context exists.
+		if ( $this->maybe_render_native( $settings ) ) {
+			return;
+		}
+
 		$height = isset( $settings['height']['size'] ) ? (int) $settings['height']['size'] : 48;
 
 		$shortcode_atts = array(
@@ -219,6 +228,47 @@ class WPG_Elementor_PayPal_Button_Widget extends \Elementor\Widget_Base {
 		}
 
 		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- shortcode output already escaped
+	}
+
+	/**
+	 * Use the button manager's native placements when the widget sits on the
+	 * matching WooCommerce page and doesn't target a different product.
+	 *
+	 * @param array $settings Widget settings.
+	 * @return bool True when the native flow rendered (or legitimately chose
+	 *              not to); false to fall back to the shortcode path.
+	 */
+	protected function maybe_render_native( $settings ) {
+		if ( class_exists( '\Elementor\Plugin' ) && \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+			return false;
+		}
+		if ( ! class_exists( 'PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager' ) ) {
+			return false;
+		}
+
+		$manager    = PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager::instance();
+		$product_id = ! empty( $settings['product_id'] ) ? (int) $settings['product_id'] : 0;
+
+		if ( function_exists( 'is_product' ) && is_product() && method_exists( $manager, 'display_paypal_button_product_page' ) ) {
+			// A widget pinned to a different product than the page's own must
+			// keep the shortcode path — the native flow renders the current one.
+			if ( $product_id && get_the_ID() && $product_id !== (int) get_the_ID() ) {
+				return false;
+			}
+			remove_action( 'woocommerce_after_add_to_cart_form', array( $manager, 'display_paypal_button_product_page' ), 1 );
+			$manager->display_paypal_button_product_page();
+			return true;
+		}
+
+		if ( function_exists( 'is_cart' ) && is_cart() && ! $product_id && method_exists( $manager, 'display_paypal_button_cart_page' ) ) {
+			// The cart placement is registered at the manager's dynamic
+			// cart_priority (11 or 30) — removing at the default 10 is a no-op.
+			remove_action( 'woocommerce_proceed_to_checkout', array( $manager, 'display_paypal_button_cart_page' ), isset( $manager->cart_priority ) ? (int) $manager->cart_priority : 10 );
+			$manager->display_paypal_button_cart_page();
+			return true;
+		}
+
+		return false;
 	}
 
 	protected function content_template() {

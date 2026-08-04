@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 5.3
 Tested up to: 7.0.2
-Stable tag: 9.2.4
+Stable tag: 9.2.5
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -99,6 +99,18 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.2.5 - 2026-08-04 =
+ * Added - Full support for WooCommerce Pre-Orders sold with "charge upon release". Your customer approves the purchase in PayPal at pre-order time and their payment method is securely saved rather than charged; the order is marked as pre-ordered, and WooCommerce Pre-Orders collects the money automatically on release day using the payment action you have configured. One approval from the shopper, one charge, exactly when you intend it — and pre-order carts are guided to the regular checkout so the saved-method flow is always the one used.
+ * Improved - Apple Pay and Google Pay totals on product pages now include the extra options a shopper selects with WooCommerce Product Add-Ons, Extra Product Options or Advanced Product Fields, and update live as those options change. The wallet sheet shows the shopper exactly the amount that will be charged, so the payment sheet and your store always agree.
+ * Improved - A polished CheckoutWC experience: exactly one set of PayPal buttons, rendered in CheckoutWC's own express and payment slots and honouring every express checkout setting you have chosen, including Google Pay, Apple Pay and Fastlane. CheckoutWC order bumps now report each refund's true outcome on the order — with PayPal's own reason recorded — so your books always match PayPal, and they reliably save a reusable payment method so the one-click charge after checkout goes through.
+ * Improved - Reliable FunnelKit one-click upsells for shoppers who pay with PayPal: upsell offers are recognised and presented whichever gateways you have enabled for upsells, and the integration connects correctly however early or late FunnelKit loads alongside this plugin.
+ * Improved - WooCommerce Germanized stores are fully catered for. The pay-now button wording configured in Germanized appears on the PayPal place-order buttons on both classic and block checkout, and express purchases always pass through the order review page, so Germanized's legal checkboxes are presented to and accepted by every customer.
+ * Improved - The PayPal buttons speak your customer's language. Your store's locale is now what determines the PayPal experience wherever PayPal supports it — including Czech, Greek, Hungarian, Indonesian and Slovak, and US English for US stores. WPML string registration uses WPML's official API, so your gateway title and description are ready to translate in the translation editor.
+ * Improved - Dependable shipment tracking through ShipStation: carriers such as Royal Mail and FedEx are submitted using the carrier codes PayPal expects, so tracking lands on the PayPal transaction and reaches your buyer. Any submission that does not go through the first time is retried automatically on the next notification.
+ * Improved - Mondial Relay stores enjoy a smoother checkout: the Point Relais requirement is applied to PayPal express purchases, while Mondial Relay's own validation takes care of the regular checkout form — so every valid order sails through.
+ * Improved - The Elementor "PayPal Button" widget on product and cart pages now uses the same full express flow as the plugin's own buttons, including shipping selection inside the PayPal window, and places a single set of buttons exactly where you position the widget.
+ * Improved - Design your block Cart and Checkout pages with the buttons in view. The editor now draws your real PayPal, Venmo, Pay Later, Google Pay and Apple Pay buttons exactly where your customers will see them — at the width, height, colour and shape you have chosen, following the funding methods you allow for that page, and laid out by the very same rules as your storefront, so what you arrange in the editor is what your shoppers get. Each placement shows only what that page will genuinely offer: Google Pay and Apple Pay appear where the browser can actually pay with them, exactly as at checkout. The buttons are inert while you work, so nothing in the editor can start a payment.
 
 = 9.2.4 - 2026-07-31 =
  * Improved - Your customers now see straight away why a card was declined. On the block-based checkout the reason appears the moment the payment is refused, so a shopper can correct their details or reach for another card immediately. No confusion, no abandoned carts from a checkout that seemed to do nothing.

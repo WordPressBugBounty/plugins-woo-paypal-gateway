@@ -1437,6 +1437,14 @@
                     .on('change.wpg_product_qty input.wpg_product_qty', 'input.qty', () => {
                         self.fetchProductTotal(getCurrentProductId(), getQty());
                     });
+
+                // Product-option compat layers (Add-ons / TM EPO / WAPF) fire this
+                // after updating their hidden cost fields; re-fetch so the wallet
+                // total reflects the newly selected options.
+                $(document.body).off('ppcp_checkout_updated.wpg_product_total')
+                    .on('ppcp_checkout_updated.wpg_product_total', () => {
+                        self.fetchProductTotal(getCurrentProductId(), getQty());
+                    });
             }
         }
 
@@ -1625,9 +1633,9 @@
                     this.merchantInfo = googlePayConfig.merchantInfo || {};
                     this.googlePayApiVersion = googlePayConfig.apiVersion || 2;
                     this.googlePayApiVersionMinor = googlePayConfig.apiVersionMinor || 0;
-                    // PayPal's reference integration feeds the account country from the
-                    // config response into transactionInfo.countryCode; the store base
-                    // country stays as fallback for SDK builds that omit it.
+                    // The Google Pay config response carries the PayPal account country;
+                    // feed it into transactionInfo.countryCode. The store base country
+                    // stays as fallback for SDK builds that omit it.
                     if (googlePayConfig.countryCode) {
                         this.googlePayMerchantCountry = googlePayConfig.countryCode;
                     }
@@ -2171,6 +2179,17 @@
                 security: this.ppcp_manager.ajax_nonce,
                 product_id: productId,
                 quantity: quantity
+            });
+
+            // Product-option plugins (Product Add-ons, TM Extra Product Options,
+            // Advanced Product Fields) maintain hidden cost fields on form.cart;
+            // the server-side wpg_ppcp_product_total filter reads them from this
+            // request, so the wallet-sheet total includes the option costs.
+            ['addon_costs', 'tm_epo_costs', 'wapf_costs'].forEach((field) => {
+                const input = document.querySelector(`form.cart input[name="${field}"]`);
+                if (input && input.value !== '') {
+                    data.append(field, input.value);
+                }
             });
 
             fetch(this.ppcp_manager.ajax_url, {

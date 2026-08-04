@@ -53,7 +53,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
             $this->supports[] = 'add_payment_method';
         }
         $this->dcc_applies = PPCP_Paypal_Checkout_For_Woocommerce_DCC_Validate::instance();
-        $this->order_button_text = __('Place order', 'woo-paypal-gateway');
+        // Same label filter the block checkout applies, so EU-compliance layers
+        // (e.g. Germanized's pay-now wording) reach classic checkout too.
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API following the plugin's established wpg_ppcp_* prefix.
+        $this->order_button_text = apply_filters('wpg_ppcp_checkout_button_label', __('Place order', 'woo-paypal-gateway'));
     }
 
     public function payment_fields() {
@@ -244,10 +247,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Gateway_CC extends PPCP_Paypal_Checko
         $is_success = false;
         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Read-only token handling, nonce verified elsewhere.
         $token = isset($_POST['wc-wpg_paypal_checkout_cc-payment-token']) ? sanitize_text_field(wp_unslash($_POST['wc-wpg_paypal_checkout_cc-payment-token'])) : '';
-        if ($order instanceof WC_Order && (float) $order->get_total() <= 0) {
-            // Zero-total signup (free trial / charge-upon-release pre-order):
+        if ($order instanceof WC_Order && ((float) $order->get_total() <= 0 || woo_paypal_gateway_ppcp_order_requires_preorder_tokenization($order))) {
+            // Zero-total signup (free trial) or charge-upon-release pre-order:
             // vault instead of charging. A chosen saved token completes the
             // order directly; otherwise the buyer approves a vault setup token.
+            // Charge-upon-release pre-orders carry their FULL total, so they
+            // are routed here explicitly instead of through the charging flow.
             if (!empty($token) && 'new' !== $token) {
                 $wc_token = WC_Payment_Tokens::get($token);
                 if ($wc_token && (int) $wc_token->get_user_id() === get_current_user_id()) {

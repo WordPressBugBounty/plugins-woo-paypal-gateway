@@ -41,10 +41,6 @@ class WPG_Checkout_Plugins_Converter extends WPG_Plugin_Converter {
 		return __( 'Checkout Plugins - PayPal for WooCommerce', 'woo-paypal-gateway' );
 	}
 
-	public function get_source_slug() {
-		return 'checkout-paypal-woo';
-	}
-
 	public function get_runtime_payment_token_key() {
 		return '_cppw_agreement_id';
 	}

@@ -224,6 +224,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             $this->enabled_pay_later_messaging = false;
         }
         $this->set_billing_address = 'yes' === $this->ppcp_get_settings('set_billing_address', 'yes');
+        // Raw setting only. The wpg_ppcp_skip_order_review filter is applied at
+        // the consumption site (the localized script data), NOT here: this runs
+        // in the constructor at plugins_loaded, before the compatibility layer
+        // registers its callbacks and before third-party state (e.g.
+        // Germanized's legal-checkbox registry, populated on init) exists.
         $this->skip_order_review = 'yes' === $this->ppcp_get_settings('skip_order_review', 'yes');
         
         $this->set_billing_address = is_user_logged_in() ? false : true;
@@ -635,7 +640,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'is_block_enable' => woo_paypal_gateway_ppcp_is_using_woocommerce_blocks() ? 'yes' : 'no',
                 'last_error' => woo_paypal_gateway_ppcp_pop_last_error(),
                 'notices_context' => ( is_checkout() ? 'wc/checkout' : ( is_cart() ? 'wc/cart' : 'wc/checkout' ) ),
-                'skip_order_review' => $this->skip_order_review ? 'yes' : 'no',
+                // Filterable so compatibility layers can force the order-review
+                // step — e.g. WooCommerce Germanized must show its legal
+                // checkboxes on the review page before an express purchase may
+                // complete. Applied here (enqueue time, after init) so compat
+                // callbacks and third-party state are guaranteed to exist.
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API following the plugin's established wpg_ppcp_* prefix.
+                'skip_order_review' => apply_filters('wpg_ppcp_skip_order_review', $this->skip_order_review) ? 'yes' : 'no',
                 'unknown_error' => __('An unknown error occurred with your payment. Please try again.', 'woo-paypal-gateway'),
                 'invalid_number' => __('Please enter a valid card number.', 'woo-paypal-gateway'),
                 'invalid_cvv' => __('Please enter a valid CVV.', 'woo-paypal-gateway'),
@@ -691,6 +702,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function display_paypal_button_product_page() {
+        // Compatibility layers can veto express buttons per context (e.g. WC
+        // Pre-Orders charge-upon-release carts must not start an immediate
+        // charge).
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API following the plugin's established wpg_ppcp_* prefix.
+        if (apply_filters('wpg_ppcp_hide_express_buttons', false, 'product')) {
+            return;
+        }
         if ($this->enabled === false) {
             return;
         }
@@ -720,6 +738,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function display_paypal_button_cart_page() {
+        // Compatibility layers can veto express buttons per context (e.g. WC
+        // Pre-Orders charge-upon-release carts must not start an immediate
+        // charge).
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API following the plugin's established wpg_ppcp_* prefix.
+        if (apply_filters('wpg_ppcp_hide_express_buttons', false, 'cart')) {
+            return;
+        }
         if ($this->enabled === false) {
             return;
         }
@@ -750,6 +775,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function display_paypal_button_mini_cart_page() {
+        // Compatibility layers can veto express buttons per context (e.g. WC
+        // Pre-Orders charge-upon-release carts must not start an immediate
+        // charge).
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API following the plugin's established wpg_ppcp_* prefix.
+        if (apply_filters('wpg_ppcp_hide_express_buttons', false, 'mini_cart')) {
+            return;
+        }
         if ($this->enabled === false) {
             return;
         }
@@ -778,6 +810,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function display_paypal_button_mini_cart_page_for_funnelkit_sliding_cart() {
+        // Compatibility layers can veto express buttons per context (e.g. WC
+        // Pre-Orders charge-upon-release carts must not start an immediate
+        // charge).
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API following the plugin's established wpg_ppcp_* prefix.
+        if (apply_filters('wpg_ppcp_hide_express_buttons', false, 'mini_cart')) {
+            return;
+        }
         if ($this->enabled === false) {
             return;
         }
@@ -908,6 +947,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     public function display_paypal_button_top_checkout_page() {
+        // Compatibility layers can veto express buttons per context (e.g. WC
+        // Pre-Orders charge-upon-release carts must not start an immediate
+        // charge).
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are public API following the plugin's established wpg_ppcp_* prefix.
+        if (apply_filters('wpg_ppcp_hide_express_buttons', false, 'express_checkout')) {
+            return;
+        }
         if ($this->enabled === false) {
             return;
         }
@@ -2491,10 +2537,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
     /**
      * Render the Fastlane button inside the Express Checkout fieldset, next to
-     * the other express buttons — matching the reference integration, which
-     * places its Fastlane button in the shared express section. The container
-     * starts hidden; the Fastlane JS controller reveals it once the SDK
-     * confirms the shopper's context is Fastlane-eligible.
+     * the other express buttons, so it sits in the shared express section
+     * shoppers already scan. The container starts hidden; the Fastlane JS
+     * controller reveals it once the SDK confirms the shopper's context is
+     * Fastlane-eligible.
      */
     public function display_fastlane_express_button_inline() {
         if (!$this->is_fastlane_express_active()) {
@@ -3213,12 +3259,21 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             }
             $payment_source_key = ($wpg_payment_method === 'alternative_pay') ? 'google_pay' : $wpg_payment_method;
             $order = wc_get_order($woo_order_id);
+            if (!$order instanceof WC_Order) {
+                return;
+            }
             $order->update_meta_data('_wpg_ppcp_used_payment_method', $payment_source_key);
             if (isset($api_response['payment_source'][$payment_source_key]['attributes']['vault']['customer']['id'])) {
                 $customer_id = $api_response['payment_source'][$payment_source_key]['attributes']['vault']['customer']['id'];
-                update_post_meta($woo_order_id, '_paypal_customer_id', $customer_id);
+                // HPOS-safe: write order meta through the order object, not update_post_meta().
+                // The plugin declares custom_order_tables compatibility, so when HPOS is the
+                // authoritative store an update_post_meta() write lands in wp_postmeta where the
+                // order object never reads it back. This handler loads its own order instance and
+                // is not saved by its caller, so persist the staged meta here.
+                $order->update_meta_data('_paypal_customer_id', $customer_id);
                 $this->payment_token->add_paypal_customer_id($customer_id, $this->sandbox);
             }
+            $order->save_meta_data();
             $this->payment_token->ppcp_wc_save_payment_token($woo_order_id, $api_response);
         } catch (Exception $ex) {
             

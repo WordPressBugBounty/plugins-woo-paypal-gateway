@@ -154,6 +154,54 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         return false;
     }
 
+    /**
+     * What the block editor needs to embed the button preview: the page that draws
+     * the buttons, and a starting height per placement. Empty outside the editor.
+     *
+     * The buttons cannot be drawn in the editor itself -- its canvas is a srcdoc
+     * iframe with no window.location.host, and the PayPal SDK refuses to bootstrap
+     * there -- so they are drawn on a same-origin page of our own and embedded.
+     * See PPCP_Editor_Button_Preview.
+     */
+    private function get_editor_preview_data() {
+        if ('' === $this->get_admin_block_editor_page() || !class_exists('PPCP_Editor_Button_Preview')) {
+            return array();
+        }
+        $url = PPCP_Editor_Button_Preview::get_frame_url();
+        if ('' === $url) {
+            return array();
+        }
+        return array(
+            'url' => $url,
+            'heights' => PPCP_Editor_Button_Preview::get_frame_heights(),
+        );
+    }
+
+    /**
+     * 'cart' or 'checkout' while the block editor is open on that page, '' otherwise.
+     *
+     * WooCommerce loads this payment method's script on the editor screen, but the
+     * conditional tags the front end relies on (is_cart(), is_checkout()) are all
+     * false in wp-admin, so without this the placement resolves to no page at all
+     * and the express method is never registered for the editor to draw.
+     */
+    private function get_admin_block_editor_page() {
+        if (!is_admin() || !function_exists('has_block')) {
+            return '';
+        }
+        global $post;
+        if (!$post instanceof WP_Post) {
+            return '';
+        }
+        if (has_block('woocommerce/cart', $post)) {
+            return 'cart';
+        }
+        if (has_block('woocommerce/checkout', $post)) {
+            return 'checkout';
+        }
+        return '';
+    }
+
     private function is_blocks_cart() {
         if ( class_exists( '\Automattic\WooCommerce\Blocks\Utils\BlocksWooUtils' ) ) {
             return \Automattic\WooCommerce\Blocks\Utils\BlocksWooUtils::is_cart_block();
@@ -193,7 +241,13 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
         $page = '';
         $is_pay_page = '';
         $this->button_class = $this->device_class . ' ' . 'responsive';
-        if (is_product()) {
+        $editor_page = $this->get_admin_block_editor_page();
+        if ('' !== $editor_page) {
+            $page = $editor_page;
+            $size_key = ('cart' === $editor_page) ? 'cart_button_size' : 'checkout_button_size';
+            $this->button_size = isset($this->settings[$size_key]) ? $this->settings[$size_key] : 'responsive';
+            $this->button_class = $this->device_class . ' ' . $this->button_size;
+        } else if (is_product()) {
             $page = 'product';
         } else if (is_cart() || $this->is_blocks_cart()) {
             $page = 'cart';
@@ -227,6 +281,7 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             'is_paylater_enable_incart_page' => $is_paylater_enable_incart_page,
             'settings' => $filtered_settings,
             'settins' => $filtered_settings, // backward compat: JS may read the typo'd key
+            'preview' => $this->get_editor_preview_data(),
             'page' => $page,
             'is_block_enable' => 'yes',
             'is_google_pay_enable_for_cart' => $this->is_google_pay_enable_for_page('cart') ? 'yes' : 'no',

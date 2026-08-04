@@ -635,7 +635,7 @@
             $form.hide().after(html);
             // Keep the "Save to account" checkbox visible: saving works with
             // Fastlane too — the single-use token is vaulted ON_SUCCESS for
-            // logged-in customers, same as the reference integration.
+            // logged-in customers.
             $('.wpg_ppcp_sanbdox_notice').hide();
             $('.payment_method_wpg_paypal_checkout_cc .woocommerce-SavedPaymentMethods').hide();
         },
@@ -921,10 +921,10 @@
             };
         },
 
-        // Post-authentication scroll, mirroring the reference integration:
-        // block checkout smooth-scrolls to the card gateway radio (100px
-        // offset); classic checkout animates to the Place order button with a
-        // 200px offset, which lands on the payment section directly above it.
+        // Post-authentication scroll: block checkout smooth-scrolls to the
+        // card gateway radio (100px offset); classic checkout animates to the
+        // Place order button with a 200px offset, which lands on the payment
+        // section directly above it.
         // Bring the payment section into view after Fastlane fills the card.
         //
         // On a fresh authentication the member address autofill fires a

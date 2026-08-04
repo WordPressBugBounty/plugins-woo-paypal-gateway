@@ -261,9 +261,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_ReCaptcha {
 	/**
 	 * Whether an empty/missing reCAPTCHA token should block the checkout.
 	 *
-	 * Defaults to true (fail closed, matching the reference implementation). Stores
-	 * can opt back into the legacy graceful-degradation behaviour by returning false
-	 * from the wpg_ppcp_recaptcha_block_on_missing_token filter.
+	 * Defaults to true (fail closed — a missing token counts as a failed check).
+	 * Stores can opt back into the legacy graceful-degradation behaviour by
+	 * returning false from the wpg_ppcp_recaptcha_block_on_missing_token filter.
 	 *
 	 * @return bool
 	 */

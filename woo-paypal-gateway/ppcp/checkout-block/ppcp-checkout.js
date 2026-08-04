@@ -80,10 +80,134 @@ var {addAction} = wp.hooks;
 
 
                 const l = Object(i.getSetting)("wpg_paypal_checkout_data", {});
-                const {useEffect} = wp.element;
+                const {useEffect, useRef, useState} = wp.element;
                 const ppcp_settings = l.settings || l.settins;
                 const device_class = l.is_mobile;
                 const button_class = l.button_class;
+
+                /**
+                 * Block editor preview.
+                 *
+                 * The components below render the empty containers that the PayPal JS SDK
+                 * fills on the front end. Nothing loads the SDK inside the block editor, so
+                 * those containers stay empty there and the placement looks like it is
+                 * missing.
+                 *
+                 * The SDK cannot be loaded in the editor either: its canvas is a srcdoc
+                 * iframe, window.location.host is empty in such a document, and the SDK
+                 * refuses to bootstrap without one ("Can not read window host"). So `edit`
+                 * embeds a small same-origin page of ours which draws the merchant's real
+                 * PayPal, Venmo, Pay Later, Google Pay and Apple Pay buttons in an ordinary
+                 * document, where the SDK works. See PPCP_Editor_Button_Preview.
+                 *
+                 * The frame is inert -- pointer-events: none, and its buttons have no
+                 * createOrder callback -- so a real button here is still only a picture.
+                 * It reports its height back, so the placement is sized to whatever PayPal
+                 * decided to draw; a placement whose buttons cannot be drawn stays empty.
+                 */
+                const preview_data = l.preview || {};
+
+                const previewPlacements = (context) => {
+                    const settings = ppcp_settings || {};
+                    if (context === "cart") {
+                        return {
+                            paypal: settings.show_on_cart === "yes",
+                            google: l.is_google_pay_enable_for_cart === "yes",
+                            apple: l.is_apple_pay_enable_for_cart === "yes"
+                        };
+                    }
+                    if (context === "express_checkout") {
+                        return {
+                            paypal: settings.enable_checkout_button_top === "yes",
+                            google: l.is_google_pay_enable_for_express_checkout === "yes",
+                            apple: l.is_apple_pay_enable_for_express_checkout === "yes"
+                        };
+                    }
+                    return {
+                        paypal: true,
+                        google: l.is_google_pay_enable_for_checkout === "yes",
+                        apple: l.is_apple_pay_enable_for_checkout === "yes"
+                    };
+                };
+
+                const WPGButtonPreview = (props) => {
+                    const context = props.context;
+                    const enabled = previewPlacements(context);
+                    const frameRef = useRef(null);
+                    const [height, setHeight] = useState(0);
+
+                    useEffect(() => {
+                        const reported = {};
+                        const onMessage = (event) => {
+                            const frame = frameRef.current;
+                            if (!frame || !event.data || event.data.type !== "wpg-ppcp-preview-height") {
+                                return;
+                            }
+                            if (event.source !== frame.contentWindow) {
+                                return;
+                            }
+                            const drawn = parseInt(event.data.height, 10);
+                            if (drawn > 0) {
+                                setHeight(drawn);
+                            }
+                            // A button the placement offers but the preview could not draw
+                            // says so once, so it never just looks like it went missing.
+                            const skipped = event.data.skipped || {};
+                            Object.keys(skipped).forEach((button) => {
+                                if (reported[button]) {
+                                    return;
+                                }
+                                reported[button] = true;
+                                if (window.console && window.console.warn) {
+                                    window.console.warn("[wpg-ppcp] " + context + " preview: " + button + " not drawn (" + skipped[button] + ")");
+                                }
+                            });
+                        };
+                        // The frame lives in the editor canvas, which is itself a frame, so
+                        // the message can arrive in either window depending on the editor.
+                        const windows = [window];
+                        const canvas = frameRef.current && frameRef.current.ownerDocument.defaultView;
+                        if (canvas && canvas !== window) {
+                            windows.push(canvas);
+                        }
+                        windows.forEach((w) => w.addEventListener("message", onMessage));
+                        return () => windows.forEach((w) => w.removeEventListener("message", onMessage));
+                    }, []);
+
+                    const buttons = [];
+                    if (enabled.paypal) {
+                        buttons.push("paypal");
+                    }
+                    if (enabled.google) {
+                        buttons.push("googlepay");
+                    }
+                    if (enabled.apple) {
+                        buttons.push("applepay");
+                    }
+                    if (!preview_data.url || buttons.length === 0) {
+                        return null;
+                    }
+                    const heights = preview_data.heights || {};
+                    const startingHeight = parseInt(heights[context], 10) > 0 ? parseInt(heights[context], 10) : 40;
+
+                    return createElement("iframe", {
+                        ref: frameRef,
+                        className: "wpg-ppcp-editor-preview " + context,
+                        title: Object(c.__)("PayPal button preview", "woo-paypal-gateway"),
+                        src: preview_data.url + "&context=" + encodeURIComponent(context) + "&buttons=" + encodeURIComponent(buttons.join(",")),
+                        scrolling: "no",
+                        style: {
+                            display: "block",
+                            width: "100%",
+                            height: (height || startingHeight) + "px",
+                            border: "0",
+                            overflow: "hidden",
+                            // A real button here is still only a picture: nothing in the
+                            // editor can be clicked through to PayPal.
+                            pointerEvents: "none"
+                        }
+                    });
+                };
 
                 const Content_PPCP_Smart_Button_Checkout_Top = (props) => {
                     const {billing, shippingData} = props;
@@ -241,12 +365,24 @@ var {addAction} = wp.hooks;
                             })
                             );
                 };
+                const Edit_PPCP_Smart_Button_Checkout_Top = () => createElement(WPGButtonPreview, {context: "express_checkout"});
+                const Edit_PPCP_Smart_Button_Cart_Bottom = () => createElement(WPGButtonPreview, {context: "cart"});
+                const EditPPCPCheckout = (props) => {
+                    // With "use place order" the front-end content is text the editor can
+                    // render as-is; otherwise it is the SDK button container, which needs
+                    // the static preview.
+                    if (l.use_place_order === true) {
+                        return createElement(ContentPPCPCheckout, props);
+                    }
+                    return createElement(WPGButtonPreview, {context: "checkout"});
+                };
+
                 const s = {
                     name: "wpg_paypal_checkout",
                     label: createElement("span", {style: {width: "100%"}}, l.title, createElement("img", {src: l.icons, style: {float: "right", marginLeft: "20px", display: "flex", justifyContent: "flex-end", paddingRight: "10px"}})),
                     placeOrderButtonLabel: Object(c.__)(l.placeOrderButtonLabel),
                     content: createElement(ContentPPCPCheckout, null),
-                    edit: createElement(ContentPPCPCheckout, null),
+                    edit: createElement(EditPPCPCheckout, null),
                     // The block method is only registered when the gateway is available
                     // server-side (is_active() -> gateway->is_available(): credentials set,
                     // enabled), so PayPal is genuinely usable whenever this runs. Keep the
@@ -282,7 +418,7 @@ var {addAction} = wp.hooks;
                         name: "wpg_paypal_checkout_top",
                         label: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                         content: createElement(Content_PPCP_Smart_Button_Checkout_Top, null),
-                        edit: createElement(Content_PPCP_Smart_Button_Checkout_Top, null),
+                        edit: createElement(Edit_PPCP_Smart_Button_Checkout_Top, null),
                         ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                         canMakePayment: () => true,
                         paymentMethodId: "wpg_paypal_checkout",
@@ -294,7 +430,7 @@ var {addAction} = wp.hooks;
                         name: "wpg_paypal_cart_bottom",
                         label: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                         content: createElement(Content_PPCP_Smart_Button_Cart_Bottom, null),
-                        edit: createElement(Content_PPCP_Smart_Button_Cart_Bottom, null),
+                        edit: createElement(Edit_PPCP_Smart_Button_Cart_Bottom, null),
                         ariaLabel: Object(u.decodeEntities)(l.title || Object(c.__)("Payment via PayPal", "woo-gutenberg-products-block")),
                         canMakePayment: () => true,
                         paymentMethodId: "wpg_paypal_checkout",

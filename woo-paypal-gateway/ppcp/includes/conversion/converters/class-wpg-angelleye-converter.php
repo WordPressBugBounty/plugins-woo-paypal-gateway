@@ -60,10 +60,6 @@ class WPG_AngellEYE_Converter extends WPG_Plugin_Converter {
 		return __( 'AngellEYE PayPal for WooCommerce', 'woo-paypal-gateway' );
 	}
 
-	public function get_source_slug() {
-		return 'angelleye-paypal-for-woocommerce';
-	}
-
 	public function is_source_installed() {
 		return defined( 'ANGELLEYE_PPCP_VERSION' )
 			|| class_exists( 'AngellEYE_Gateway_Paypal', false )

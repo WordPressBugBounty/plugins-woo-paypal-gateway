@@ -33,6 +33,28 @@ class WPG_CheckoutWC_Order_Bumps_Compat {
 		return self::$instance;
 	}
 
+	/**
+	 * CheckoutWC's one-click engine instantiates the registered gateway class
+	 * via $class::get_instance(). Provide it as an alias so the bump charge
+	 * does not fatal on an undefined method.
+	 *
+	 * @return self
+	 */
+	public static function get_instance() {
+		return self::instance();
+	}
+
+	/**
+	 * Whether refunds are processed through the PayPal API. Part of the
+	 * gateway surface CheckoutWC's one-click engine consumes (see the
+	 * reference AbstractPaymentGateway::is_api_refund()).
+	 *
+	 * @return bool
+	 */
+	public function is_api_refund() {
+		return true;
+	}
+
 	public function init() {
 		if ( ! $this->is_active() ) {
 			return;
@@ -86,7 +108,12 @@ class WPG_CheckoutWC_Order_Bumps_Compat {
 	 * @return bool
 	 */
 	private function has_post_purchase_bumps() {
-		if ( ! class_exists( '\Objectiv\Plugins\Checkout\Factories\BumpFactory', false ) ) {
+		// Autoload must stay enabled here: this runs inside the checkout request
+		// (wpg_ppcp_vault_required), where CheckoutWC may not have loaded
+		// BumpFactory yet. Suppressing autoload made this return false, so no
+		// vault token was stored and the later one-click bump charge had nothing
+		// to charge.
+		if ( ! class_exists( '\Objectiv\Plugins\Checkout\Factories\BumpFactory' ) ) {
 			return false;
 		}
 		try {
@@ -185,7 +212,20 @@ class WPG_CheckoutWC_Order_Bumps_Compat {
 		}
 		$amount = isset( $offer_data['refund_amount'] ) ? $offer_data['refund_amount'] : null;
 		$reason = __( 'CheckoutWC order bump refund', 'woo-paypal-gateway' );
-		return (bool) $request->ppcp_refund_order( $order->get_id(), $amount, $reason, $offer_data['transaction_id'] );
+		$result = $request->ppcp_refund_order( $order->get_id(), $amount, $reason, $offer_data['transaction_id'] );
+		// ppcp_refund_order() returns WP_Error on failure, and (bool) WP_Error
+		// is true — a plain cast reported failed refunds as successful. Only a
+		// strict true is a completed refund (same pattern as the FunnelKit
+		// bridge).
+		if ( is_wp_error( $result ) ) {
+			$order->add_order_note( sprintf(
+				/* translators: %s: error message */
+				__( 'CheckoutWC order bump refund failed: %s', 'woo-paypal-gateway' ),
+				$result->get_error_message()
+			) );
+			return false;
+		}
+		return true === $result;
 	}
 
 	/**

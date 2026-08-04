@@ -49,11 +49,20 @@ class WPG_Mondial_Relay_Compat {
 		if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 			return;
 		}
-		// Only guard our own PayPal flows. On a classic checkout submission the
-		// Mondial Relay plugin runs its own (authoritative) validation; a second,
-		// heuristic check here could wrongly block a valid order.
+		// Only guard the express (active PayPal session) flow, where the posted
+		// checkout data is synthesized from the PayPal session and the Mondial
+		// Relay plugin's own validation may have nothing to inspect. On a classic
+		// checkout submission the full form is posted and the Mondial Relay
+		// plugin runs its own (authoritative) validation; a second, heuristic
+		// check there could wrongly block a valid order because the detection
+		// keys below are best-effort.
+		if ( ! function_exists( 'woo_paypal_gateway_ppcp_has_active_session' ) || ! woo_paypal_gateway_ppcp_has_active_session() ) {
+			return;
+		}
 		$payment_method = isset( $data['payment_method'] ) ? $data['payment_method'] : '';
-		if ( ! in_array( $payment_method, array( 'wpg_paypal_checkout', 'wpg_paypal_checkout_cc' ), true ) ) {
+		// An active ppcp session with no explicit method in the synthesized data
+		// is still our flow — only bail when another gateway is named.
+		if ( '' !== $payment_method && ! in_array( $payment_method, array( 'wpg_paypal_checkout', 'wpg_paypal_checkout_cc' ), true ) ) {
 			return;
 		}
 		if ( ! WC()->cart->needs_shipping() ) {

@@ -5113,7 +5113,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     }
                     $currency_code = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['currency_code']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['currency_code'] : '';
                     $paypal_fee = isset($api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value']) ? $api_response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['paypal_fee']['value'] : '';
-                    if ($paypal_fee !== '' && floatval($paypal_fee) > 0) {
+                    // Offer charges (order bumps / upsells) are billed against the
+                    // already-paid parent order: overwriting its _paypal_fee with the
+                    // bump-only fee would corrupt the fee recorded for the original
+                    // capture, so only the primary charge may write fee meta here.
+                    if (!$is_offer_charge && $paypal_fee !== '' && floatval($paypal_fee) > 0) {
                         $order->update_meta_data('_paypal_fee', $paypal_fee);
                         $order->update_meta_data('_paypal_fee_currency_code', $currency_code);
                         $order->save_meta_data();
@@ -5668,12 +5672,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
             $approval_token_id = isset($_GET['approval_token_id']) ? wc_clean(wp_unslash($_GET['approval_token_id'])) : '';
             $order = $order_id ? wc_get_order($order_id) : null;
-            // This callback only vaults a payment method for a genuinely zero-total signup;
-            // it never captures money. Refuse to "complete" an order that actually needs
-            // payment (or is already paid), otherwise a paid order whose key the buyer holds
-            // could be marked complete here without any charge.
+            // This callback only vaults a payment method for a zero-total signup or a
+            // charge-upon-release pre-order; it never captures money. Refuse to
+            // "complete" any other order that actually needs payment (or is already
+            // paid), otherwise a paid order whose key the buyer holds could be marked
+            // complete here without any charge. Charge-upon-release pre-orders carry
+            // their full total but are only marked pre-ordered downstream (never
+            // paid), with the stored token charged by WC Pre-Orders at release.
             if (!$order instanceof WC_Order || !$order->key_is_valid($order_key) || empty($approval_token_id)
-                    || (float) $order->get_total() > 0 || $order->is_paid()) {
+                    || ((float) $order->get_total() > 0 && !woo_paypal_gateway_ppcp_order_requires_preorder_tokenization($order))
+                    || $order->is_paid()) {
                 wp_safe_redirect(wc_get_checkout_url());
                 exit();
             }
@@ -5932,7 +5940,12 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     continue;
                 }
                 foreach ($country_group['items'] as $carrier_code => $carrier_name) {
-                    if (strcasecmp($carrier_name, $input_carrier) === 0) {
+                    // Integrations like ShipStation send display names ("Royal Mail",
+                    // "FedEx"); PayPal only accepts the enum code, so a matched name
+                    // must be replaced with its code — leaving the display name in
+                    // place gets the whole tracker rejected as an invalid enum.
+                    if (strcasecmp($carrier_name, $input_carrier) === 0 || strcasecmp($carrier_code, $input_carrier) === 0) {
+                        $tracker['carrier'] = $carrier_code;
                         $carrier_found = true;
                         break 2;
                     }

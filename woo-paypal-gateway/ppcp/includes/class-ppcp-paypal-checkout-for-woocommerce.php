@@ -68,7 +68,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
             '/ppcp/includes/compatibility/class-wpg-mondial-relay-compat.php',
             '/ppcp/includes/compatibility/class-wpg-checkoutwc-order-bumps-compat.php',
             '/ppcp/includes/conversion/class-wpg-plugin-converter.php',
-            '/ppcp/includes/conversion/converters/class-wpg-pymntpl-converter.php',
+            '/ppcp/includes/conversion/converters/class-wpg-payment-plugins-converter.php',
             '/ppcp/includes/conversion/converters/class-wpg-wc-paypal-payments-converter.php',
             '/ppcp/includes/conversion/converters/class-wpg-angelleye-converter.php',
             '/ppcp/includes/conversion/converters/class-wpg-checkout-plugins-converter.php',

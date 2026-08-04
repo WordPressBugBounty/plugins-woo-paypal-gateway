@@ -89,6 +89,24 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
     }
 
     /**
+     * The upsell bridge files bail at include time when WFOCU_Gateway is not
+     * defined yet (they extend it). Our includes run at plugins_loaded:11; if
+     * FunnelKit defines WFOCU_Gateway later than that, the bridge classes would
+     * silently never exist and PPCP would vanish from upsell support. So
+     * re-require the files at the moment FunnelKit asks for its gateway list,
+     * when WFOCU_Gateway is guaranteed to be loaded.
+     *
+     * @return void
+     */
+    protected static function maybe_load_upsell_classes() {
+        if (class_exists('PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell', false) || !class_exists('WFOCU_Gateway')) {
+            return;
+        }
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-funnelkit-upsell.php';
+        require_once WPG_PLUGIN_DIR . '/ppcp/includes/class-ppcp-paypal-checkout-for-woocommerce-funnelkit-upsell-paypal.php';
+    }
+
+    /**
      * Register PPCP in FunnelKit supported-gateway list (associative format).
      *
      * @param mixed $gateways
@@ -98,6 +116,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
         if (!is_array($gateways)) {
             $gateways = [];
         }
+
+        self::maybe_load_upsell_classes();
 
         $gateways['wpg_paypal_checkout'] = 'PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell_PayPal';
         $gateways['wpg_paypal_checkout_cc'] = 'PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell';
@@ -191,6 +211,8 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Compat {
         if (!function_exists('WFOCU_Core') || !class_exists('WFOCU_Gateways')) {
             return;
         }
+
+        self::maybe_load_upsell_classes();
 
         $core = WFOCU_Core();
         if (isset($core->gateways) && is_object($core->gateways) && get_class($core->gateways) === 'WFOCU_Gateways') {

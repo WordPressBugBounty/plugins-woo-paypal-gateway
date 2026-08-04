@@ -35,7 +35,7 @@ class WPG_Conversion_Controller {
 
 	private function register_converters() {
 		$this->converters = array(
-			'pymntpl'          => new WPG_Pymntpl_Converter(),
+			'payment-plugins'  => new WPG_Payment_Plugins_Converter(),
 			'wc-paypal'        => new WPG_WC_PayPal_Payments_Converter(),
 			'angelleye'        => new WPG_AngellEYE_Converter(),
 			'checkout-plugins' => new WPG_Checkout_Plugins_Converter(),

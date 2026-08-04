@@ -67,10 +67,6 @@ class WPG_WC_PayPal_Payments_Converter extends WPG_Plugin_Converter {
 		return __( 'WooCommerce PayPal Payments (Official)', 'woo-paypal-gateway' );
 	}
 
-	public function get_source_slug() {
-		return 'woocommerce-paypal-payments';
-	}
-
 	public function is_source_installed() {
 		return defined( 'PAYPAL_API_URL' )
 			|| class_exists( 'WooCommerce\PayPalCommerce\PluginModule', false )

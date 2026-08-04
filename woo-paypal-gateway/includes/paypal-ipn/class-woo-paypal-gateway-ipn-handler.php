@@ -285,8 +285,21 @@ class Woo_Paypal_Gateway_IPN_Handler {
 
     public function payment_on_hold($order, $reason = '') {
         $order->update_status('on-hold', $reason);
-        $order->reduce_order_stock();
-        WC()->cart->empty_cart();
+        // Reduce stock through the modern, idempotent helper. WC_Order::reduce_order_stock()
+        // was deprecated in WooCommerce 3.0 and no longer exists on current WC_Order, so the
+        // old call could fatal on an eCheck/pending IPN — a server-to-server request where an
+        // uncaught error just makes PayPal retry the callback. wc_reduce_stock_levels() is what
+        // this plugin's other gateways already use, and it will not double-reduce because it is
+        // guarded by the order's stock-reduced flag (the on-hold transition may already have
+        // reduced stock via WooCommerce core).
+        if (function_exists('wc_reduce_stock_levels')) {
+            wc_reduce_stock_levels($order->get_id());
+        }
+        // IPN is a server-to-server callback with no shopper session; WC()->cart can be null in
+        // that context (as it can under WP-CLI or cron). Only empty a cart that actually exists.
+        if (WC()->cart) {
+            WC()->cart->empty_cart();
+        }
     }
 
     public function wpg_add_log($message, $level = 'info') {

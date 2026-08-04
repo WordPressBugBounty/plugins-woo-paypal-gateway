@@ -17,8 +17,6 @@ abstract class WPG_Plugin_Converter {
 
 	abstract public function get_source_name();
 
-	abstract public function get_source_slug();
-
 	public function is_source_installed() {
 		foreach ( $this->settings_option_keys as $key ) {
 			$option = get_option( $key, false );

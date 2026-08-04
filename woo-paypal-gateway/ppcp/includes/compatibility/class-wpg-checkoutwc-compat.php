@@ -8,10 +8,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CheckoutWC compatibility.
  *
- * Handles integration with CheckoutWC's multi-step checkout layout:
- * - Ensures PayPal buttons render in CheckoutWC's express payment section
- * - Re-initializes buttons after CheckoutWC's AJAX step navigation
- * - Prevents CSS conflicts with CheckoutWC's design framework
+ * CheckoutWC replaces the checkout template, so the plugin's button
+ * placements move into CheckoutWC's slots. Taking over a slot also disables
+ * the corresponding native placement — otherwise both render and the page
+ * ends up with duplicate button containers, of which only the first ever
+ * receives a button.
+ *
+ * Rendering is delegated to the button manager's own display methods so all
+ * gateway/express settings, session state, zero-total checks and the full
+ * express set (PayPal, Google Pay, Apple Pay, Fastlane) behave exactly as on
+ * a stock checkout.
  */
 class WPG_CheckoutWC_Compat {
 
@@ -31,20 +37,52 @@ class WPG_CheckoutWC_Compat {
 
 		add_action( 'cfw_payment_request_buttons', array( $this, 'render_express_buttons' ), 10 );
 		add_action( 'cfw_checkout_after_payment_methods', array( $this, 'render_checkout_buttons' ), 10 );
+		add_action( 'wp', array( $this, 'suppress_native_placements' ), 20 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_compat_styles' ), 20 );
 		add_filter( 'wpg_ppcp_button_selectors', array( $this, 'add_checkoutwc_selectors' ) );
 		add_action( 'wp_footer', array( $this, 'render_step_navigation_handler' ) );
 	}
 
 	private function is_checkoutwc_active() {
-		return function_exists( 'cfw_is_checkout' ) || class_exists( 'Objectiv\Plugins\Checkout\Main', false );
+		return defined( 'CFW_NAME' ) || function_exists( 'cfw_is_checkout' ) || class_exists( 'Objectiv\Plugins\Checkout\Main', false );
 	}
 
 	/**
-	 * Render express payment buttons in CheckoutWC's express payment section.
+	 * Whether the current request renders CheckoutWC's checkout template.
+	 *
+	 * @return bool
+	 */
+	private function is_cfw_checkout() {
+		return function_exists( 'cfw_is_checkout' ) && cfw_is_checkout();
+	}
+
+	/**
+	 * On CheckoutWC pages the compat renders into CheckoutWC's slots, so the
+	 * native WooCommerce-hook placements must not render a second copy of the
+	 * same containers (duplicate element ids leave one container permanently
+	 * empty). Reference behavior: taking over the slot disables the native
+	 * render.
+	 */
+	public function suppress_native_placements() {
+		if ( ! $this->is_cfw_checkout() ) {
+			return;
+		}
+		if ( ! class_exists( 'PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager' ) ) {
+			return;
+		}
+		$button_manager = PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager::instance();
+		remove_action( 'woocommerce_before_checkout_form', array( $button_manager, 'display_paypal_button_top_checkout_page' ), 10 );
+		remove_action( 'woocommerce_review_order_after_submit', array( $button_manager, 'display_paypal_button_checkout_page' ) );
+	}
+
+	/**
+	 * Render the express payment section in CheckoutWC's express slot.
+	 *
+	 * Delegates to the button manager so the express-enable settings, wallet
+	 * toggles, Fastlane, active-session and zero-total guards all apply.
 	 */
 	public function render_express_buttons() {
-		if ( ! function_exists( 'cfw_is_checkout' ) || ! cfw_is_checkout() ) {
+		if ( ! $this->is_cfw_checkout() ) {
 			return;
 		}
 
@@ -57,15 +95,8 @@ class WPG_CheckoutWC_Compat {
 			return;
 		}
 
-		$settings = get_option( 'woocommerce_wpg_paypal_checkout_settings', array() );
-		$enabled  = isset( $settings['enabled'] ) && 'yes' === $settings['enabled'];
-
-		if ( ! $enabled ) {
-			return;
-		}
-
-		echo '<div class="wpg-checkoutwc-express-buttons ppcp-button-container">';
-		echo '<div id="ppcp_checkout_top" class="checkout"></div>';
+		echo '<div class="wpg-checkoutwc-express-buttons">';
+		$button_manager->display_paypal_button_top_checkout_page();
 		echo '</div>';
 	}
 
@@ -73,7 +104,7 @@ class WPG_CheckoutWC_Compat {
 	 * Render checkout buttons after CheckoutWC's payment method list.
 	 */
 	public function render_checkout_buttons() {
-		if ( ! function_exists( 'cfw_is_checkout' ) || ! cfw_is_checkout() ) {
+		if ( ! $this->is_cfw_checkout() ) {
 			return;
 		}
 
@@ -96,8 +127,9 @@ class WPG_CheckoutWC_Compat {
 	 * @return array Modified selectors.
 	 */
 	public function add_checkoutwc_selectors( $selectors ) {
-		if ( function_exists( 'cfw_is_checkout' ) && cfw_is_checkout() ) {
+		if ( $this->is_cfw_checkout() ) {
 			$selectors['ppcp_checkout_top'] = '#ppcp_checkout_top';
+			$selectors['ppcp_checkout']     = '#ppcp_checkout';
 		}
 		return $selectors;
 	}
@@ -106,7 +138,7 @@ class WPG_CheckoutWC_Compat {
 	 * Enqueue minimal CSS to fix button sizing within CheckoutWC's layout.
 	 */
 	public function enqueue_compat_styles() {
-		if ( ! function_exists( 'cfw_is_checkout' ) || ! cfw_is_checkout() ) {
+		if ( ! $this->is_cfw_checkout() ) {
 			return;
 		}
 
@@ -122,7 +154,7 @@ class WPG_CheckoutWC_Compat {
 	 * Handle CheckoutWC's AJAX step navigation by re-triggering button render.
 	 */
 	public function render_step_navigation_handler() {
-		if ( ! function_exists( 'cfw_is_checkout' ) || ! cfw_is_checkout() ) {
+		if ( ! $this->is_cfw_checkout() ) {
 			return;
 		}
 		?>

@@ -1582,13 +1582,33 @@ if (!function_exists('woo_paypal_gateway_ppcp_complete_zero_total_order')) {
      * @param WC_Order $order    The order.
      * @param string   $token_id Vaulted PayPal payment token id.
      */
+    /**
+     * Whether the order is a WC Pre-Orders charge-upon-release order that must
+     * only be tokenized at checkout (no charge, no PayPal order) and charged
+     * later at release: the order contains a pre-order product AND WC
+     * Pre-Orders reports it requires payment tokenization.
+     *
+     * @param mixed $order Order (or anything else; non-orders return false).
+     * @return bool
+     */
+    function woo_paypal_gateway_ppcp_order_requires_preorder_tokenization($order) {
+        return $order instanceof WC_Order
+                && class_exists('WC_Pre_Orders_Order')
+                && WC_Pre_Orders_Order::order_contains_pre_order($order)
+                && WC_Pre_Orders_Order::order_requires_payment_tokenization($order);
+    }
+
     function woo_paypal_gateway_ppcp_complete_zero_total_order($order, $token_id = '') {
         if (!$order instanceof WC_Order) {
             return;
         }
         // Safety net: never complete an order that actually needs payment through the
-        // zero-total path, regardless of caller.
-        if ((float) $order->get_total() > 0 || $order->is_paid()) {
+        // zero-total path, regardless of caller. Charge-upon-release pre-orders are
+        // the one exception: they legitimately carry their full total but must only
+        // be tokenized now — they are marked pre-ordered below (never paid), and WC
+        // Pre-Orders charges the stored token at release.
+        $is_preorder_tokenization = woo_paypal_gateway_ppcp_order_requires_preorder_tokenization($order);
+        if (((float) $order->get_total() > 0 && !$is_preorder_tokenization) || $order->is_paid()) {
             return;
         }
         if (!empty($token_id)) {
@@ -1597,6 +1617,12 @@ if (!function_exists('woo_paypal_gateway_ppcp_complete_zero_total_order')) {
         }
         if (class_exists('WC_Pre_Orders_Order') && WC_Pre_Orders_Order::order_contains_pre_order($order) && WC_Pre_Orders_Order::order_will_be_charged_upon_release($order)) {
             WC_Pre_Orders_Order::mark_order_as_pre_ordered($order);
+            return;
+        }
+        // Belt: only a genuinely zero-total order may be completed as paid here.
+        // A full-total pre-order that somehow missed the branch above must not
+        // be flagged paid without any charge.
+        if ((float) $order->get_total() > 0) {
             return;
         }
         $order->payment_complete(!empty($token_id) ? $token_id : '');

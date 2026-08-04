@@ -45,17 +45,26 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell extends WFOCU_Gatewa
     }
 
     /**
-     * Singleton instance.
+     * Singleton instance, one per concrete class.
      *
-     * @return self
+     * FunnelKit instantiates each registered gateway via $class::get_instance().
+     * `new self()` here would always construct THIS class, so the PayPal
+     * subclass (which only overrides $key) would come back keyed as the card
+     * gateway and FunnelKit would check the wrong gateway id in is_enabled().
+     * So resolve per-class instances via static::class. The instances are
+     * keyed by class name because PHP 8.1+ shares a method-static variable
+     * between parent and child.
+     *
+     * @return static
      */
     public static function get_instance() {
-        static $instance = null;
-        if (null === $instance) {
-            $instance = new self();
+        static $instances = array();
+        $class = static::class;
+        if (!isset($instances[$class])) {
+            $instances[$class] = new static();
         }
 
-        return $instance;
+        return $instances[$class];
     }
 
     /**
@@ -189,8 +198,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_FunnelKit_Upsell extends WFOCU_Gatewa
      * Token-less offers: create a standalone PayPal order for the offer amount
      * and hand FunnelKit's frontend a redirect to the PayPal approval page.
      * The upsell package is stashed in the FunnelKit session so the return
-     * handler can resume the offer after approval. Mirrors the reference
-     * implementation's behavior.
+     * handler can resume the offer after approval.
      *
      * @param WC_Order $order Parent order.
      */

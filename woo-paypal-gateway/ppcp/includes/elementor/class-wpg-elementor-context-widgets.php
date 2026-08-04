@@ -1,10 +1,9 @@
 <?php
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Public class names using the plugin's established WPG_/PPCP_ prefixes; renaming shipped classes would break existing sites and integrations.
 /**
- * Context-specific Elementor widgets, modeled on the reference implementation:
- * cart payment buttons, product payment buttons, and a product Pay Later
- * message. Each renders the plugin's real frontend output so the live buttons
- * always match the gateway configuration.
+ * Context-specific Elementor widgets: cart payment buttons, product payment
+ * buttons, and a product Pay Later message. Each renders the plugin's real
+ * frontend output so the live buttons always match the gateway configuration.
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -61,8 +60,10 @@ class WPG_Elementor_Cart_Buttons_Widget extends WPG_Elementor_Abstract_Context_W
 		}
 		$manager = PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager::instance();
 		if ( method_exists( $manager, 'display_paypal_button_cart_page' ) ) {
-			// The default cart placement is suppressed so the widget placement wins.
-			remove_action( 'woocommerce_proceed_to_checkout', array( $manager, 'display_paypal_button_cart_page' ) );
+			// The default cart placement is suppressed so the widget placement
+			// wins. It is registered at the manager's dynamic cart_priority
+			// (11 or 30) — removing at the default 10 would be a no-op.
+			remove_action( 'woocommerce_proceed_to_checkout', array( $manager, 'display_paypal_button_cart_page' ), isset( $manager->cart_priority ) ? (int) $manager->cart_priority : 10 );
 			$manager->display_paypal_button_cart_page();
 		}
 	}
