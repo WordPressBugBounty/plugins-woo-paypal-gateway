@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 5.3
 Tested up to: 7.0.2
-Stable tag: 9.2.5
+Stable tag: 9.2.6
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -99,6 +99,14 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.2.6 - 2026-08-24 =
+ * Improved - Card payments sail through for shoppers who sign in or create an account part-way through checkout. The security credentials the checkout submits are renewed the moment the shopper signs in, so the card is processed first time, with no page refresh needed. Stores that ask shoppers to create an account at checkout, and shoppers who sign in before trying a card again, are both covered.
+ * Improved - Apple Pay and Google Pay stay just as smooth in that same moment. The shipping choices and totals shown inside the wallet sheet are fetched from your store as the shopper picks an address, and those requests now follow the shopper through signing in, so a wallet purchase carries on uninterrupted from the first tap to the finished order.
+ * Improved - A checkout page left open all day is ready whenever your shopper is. The credentials that authorise the payment are obtained at the moment the shopper pays rather than when the page was first opened, so an order placed from a long-open tab completes exactly like one placed a minute after arriving.
+
+= 9.2.5.2 - 2026-08-19 =
+ * Fixed - Apple Pay now works for stores whose name contains a symbol such as ™, ® or ©. Apple refuses to verify a merchant whose display name carries these characters, so the Apple Pay button failed the moment it was clicked — in live mode only, because the sandbox check is more lenient. Your store name is now passed to Apple with such symbols removed. Accented letters and non-Latin alphabets are untouched, so store names in every language are shown exactly as you wrote them.
 
 = 9.2.5 - 2026-08-04 =
  * Added - Full support for WooCommerce Pre-Orders sold with "charge upon release". Your customer approves the purchase in PayPal at pre-order time and their payment method is securely saved rather than charged; the order is marked as pre-ordered, and WooCommerce Pre-Orders collects the money automatically on release day using the payment action you have configured. One approval from the shopper, one charge, exactly when you intend it — and pre-order carts are guided to the regular checkout so the saved-method flow is always the one used.

@@ -63,7 +63,10 @@ final class PPCP_Checkout_Block extends AbstractPaymentMethodType {
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         }
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-        wp_register_script('wpg_paypal_checkout-blocks-integration', WPG_PLUGIN_ASSET_URL . 'ppcp/checkout-block/ppcp-checkout.js', array('jquery', 'react', 'wc-blocks-registry', 'wc-settings', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-element', 'wp-plugins'), WPG_PLUGIN_VERSION, true);
+        // As in ppcp-cc-block.php: declare every global the script reads. This one
+        // destructures wc.blocksCheckout and wp.hooks at the top level, and uses
+        // wp.data for the cart subscription and its checkout notices.
+        wp_register_script('wpg_paypal_checkout-blocks-integration', WPG_PLUGIN_ASSET_URL . 'ppcp/checkout-block/ppcp-checkout.js', array('jquery', 'react', 'wc-blocks-checkout', 'wc-blocks-registry', 'wc-settings', 'wp-data', 'wp-element', 'wp-hooks', 'wp-html-entities', 'wp-i18n', 'wp-polyfill', 'wp-plugins'), WPG_PLUGIN_VERSION, true);
         if (function_exists('wp_set_script_translations')) {
             wp_set_script_translations('wpg_paypal_checkout-blocks-integration', 'woo-paypal-gateway');
         }

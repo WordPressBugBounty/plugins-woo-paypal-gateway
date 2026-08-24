@@ -1171,6 +1171,53 @@ if (!function_exists('woo_paypal_gateway_is_fastlane_approved')) {
 }
 
 
+if (!function_exists('woo_paypal_gateway_ppcp_wallet_display_name')) {
+
+    /**
+     * The store name Apple Pay is given as its merchant display name.
+     *
+     * Apple Pay merchant validation refuses a display name carrying decorative symbols:
+     * a site titled "Acme(tm) Store" fails validation the moment the button is clicked,
+     * and because sandbox validation is more permissive the failure only shows up in
+     * production. Nothing in the checkout says why, so it reads as a broken wallet.
+     *
+     * Only symbol characters are removed -- the trademark, registered, copyright and
+     * service-mark signs, and emoji, which are Unicode's Symbol/other category. Letters
+     * keep their accents and non-Latin scripts are untouched, so a store called
+     * "Cafe Beaute" or one named in Japanese is passed through as the merchant wrote it.
+     * A title made up entirely of symbols would leave nothing to show, so the site's
+     * host name stands in rather than an empty sheet.
+     *
+     * @return string Display name safe to hand to Apple Pay.
+     */
+    function woo_paypal_gateway_ppcp_wallet_display_name() {
+        $name = wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
+        // Tabs and newlines are whitespace rather than noise, so they become spaces
+        // before the control characters are dropped -- otherwise "Acme<tab>Store" comes
+        // back as one word.
+        $clean = preg_replace('/\s+/u', ' ', $name);
+        // \p{C} drops what remains of the control characters (zero-width joiners and
+        // such), \p{So} the decorative symbols described above.
+        $clean = (null === $clean) ? null : preg_replace('/[\p{C}\p{So}]/u', '', $clean);
+        // Close up the gap a removed symbol leaves behind.
+        $clean = (null === $clean) ? null : preg_replace('/\s+/u', ' ', $clean);
+        // preg_replace answers null when the title is not valid UTF-8. Hand back what the
+        // merchant set rather than blanking their name over an encoding this function is
+        // in no position to interpret.
+        if (null === $clean) {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names follow the plugin's established wpg_ppcp_* prefix.
+            return apply_filters('wpg_ppcp_wallet_display_name', trim($name), $name);
+        }
+        $clean = trim($clean);
+        if ('' === $clean) {
+            $clean = (string) wp_parse_url(home_url(), PHP_URL_HOST);
+        }
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names follow the plugin's established wpg_ppcp_* prefix.
+        return apply_filters('wpg_ppcp_wallet_display_name', $clean, $name);
+    }
+
+}
+
 if (!function_exists('woo_paypal_gateway_manage_apple_domain_file')) {
 
     function woo_paypal_gateway_manage_apple_domain_file($isSandbox) {

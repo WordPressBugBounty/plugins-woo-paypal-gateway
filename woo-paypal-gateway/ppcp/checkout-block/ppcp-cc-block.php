@@ -60,7 +60,14 @@ final class PPCP_Checkout_CC_Block extends AbstractPaymentMethodType {
             wp_enqueue_script('ppcp-paypal-checkout-for-woocommerce-public');
         }
         wp_enqueue_style("ppcp-paypal-checkout-for-woocommerce-public");
-        wp_register_script('wpg_paypal_cc-blocks-integration', WPG_PLUGIN_ASSET_URL . 'ppcp/checkout-block/ppcp-cc.js', array('jquery', 'react', 'wc-blocks-registry', 'wc-settings', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-element', 'wp-plugins'), WPG_PLUGIN_VERSION, true);
+        // Every global ppcp-cc.js reads has to be declared here, or it only works
+        // while something else happens to have loaded that script first. It reads
+        // wc.blocksCheckout and wp.hooks at the top level (so an undeclared one
+        // throws before the payment method is ever registered), and reaches for
+        // wp.data and wc.wcBlocksData inside the Place order handler — where a
+        // missing global is swallowed by the surrounding try/catch and leaves the
+        // shopper with a button that does nothing at all.
+        wp_register_script('wpg_paypal_cc-blocks-integration', WPG_PLUGIN_ASSET_URL . 'ppcp/checkout-block/ppcp-cc.js', array('jquery', 'react', 'wc-blocks-checkout', 'wc-blocks-data-store', 'wc-blocks-registry', 'wc-settings', 'wp-data', 'wp-element', 'wp-hooks', 'wp-html-entities', 'wp-i18n', 'wp-polyfill', 'wp-plugins'), WPG_PLUGIN_VERSION, true);
         if (function_exists('wp_set_script_translations')) {
             wp_set_script_translations('wpg_paypal_cc-blocks-integration', 'woo-paypal-gateway');
         }

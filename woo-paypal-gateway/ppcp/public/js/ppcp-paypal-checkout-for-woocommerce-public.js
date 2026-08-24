@@ -1,4 +1,13 @@
 (function ($) {
+    /**
+     * The classic checkout nonce field, as it appears in a serialized form payload.
+     *
+     * Shared so the "does this submit carry one?" test and the replacement use exactly
+     * the same definition. Not a literal in a loop, so the lastIndex statefulness of a
+     * /g regex cannot bite here.
+     */
+    const CHECKOUT_NONCE_FIELD = /(^|&)woocommerce-process-checkout-nonce=[^&]*/;
+
     class PPCPManager {
         constructor(ppcp_manager) {
             // 9.0.66
@@ -782,10 +791,100 @@
             return 'checkout'; // fallback default
         }
 
+        /**
+         * Re-issue the nonces in ppcp_manager for the session as it stands right now.
+         *
+         * Everything localized into ppcp_manager was minted for whoever the shopper was
+         * when the page loaded. WooCommerce can log them in without a reload - ticking
+         * "create an account" and having the first attempt declined on another gateway
+         * is the usual way in - and from that moment the page-load nonces are rejected,
+         * so create_order fails inside WC_Checkout::process_checkout() with the generic
+         * "We were unable to process your order, please try again." however valid the
+         * card is, until the shopper reloads. Fetching a matching pair immediately
+         * before each submit keeps this flow honest the way the Store API's
+         * per-response nonce does for the rest of the block checkout.
+         *
+         * Concurrent callers share the one request, and a refresh that fails leaves the
+         * existing values in place, so this can only ever improve the odds.
+         *
+         * @param {string}  [data]   The serialized payload about to be submitted. Passing
+         *                           it lets a submit that carries no nonce skip the
+         *                           round-trip entirely. Omit to refresh unconditionally.
+         * @param {boolean} [append] Whether the caller will add a nonce to a payload that
+         *                           has none, as the block checkout does.
+         * @return {Promise<string>} the checkout nonce to submit with.
+         */
+        refreshCheckoutNonce(data, append = false) {
+            const current = () => this.ppcp_manager.woocommerce_process_checkout;
+            // Product, cart and mini-cart buttons post to create_order branches that never
+            // reach process_checkout(), so they submit no nonce and must not be made to
+            // wait on one. Only a payload that carries a nonce, or is about to be given
+            // one, has anything to gain here.
+            if (arguments.length && !append && !CHECKOUT_NONCE_FIELD.test(data)) {
+                return Promise.resolve(current());
+            }
+            if (!this.ppcp_manager.refresh_nonce_url) {
+                return Promise.resolve(current());
+            }
+            if (!this.checkoutNonceRequest) {
+                this.checkoutNonceRequest = fetch(this.ppcp_manager.refresh_nonce_url, {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    cache: 'no-store',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
+                })
+                    .then(res => res.json())
+                    .then(body => {
+                        const nonces = (body && body.success) ? body.data : null;
+                        if (nonces && nonces.woocommerce_process_checkout) {
+                            this.ppcp_manager.woocommerce_process_checkout = nonces.woocommerce_process_checkout;
+                        }
+                        // The wallet shipping/total endpoints verify this one and answer a
+                        // stale value with a 403, so it goes stale on the same login.
+                        if (nonces && nonces.ajax_nonce) {
+                            this.ppcp_manager.ajax_nonce = nonces.ajax_nonce;
+                        }
+                        return current();
+                    })
+                    .catch(() => current())
+                    .then((nonce) => {
+                        this.checkoutNonceRequest = null;
+                        return nonce;
+                    });
+            }
+            return this.checkoutNonceRequest;
+        }
+
+        /**
+         * Point an already-serialized checkout payload at `nonce`.
+         *
+         * The classic checkout form carries its own page-load
+         * woocommerce-process-checkout-nonce into serialize(), so replacing in place is
+         * what makes the refresh reach that flow too. `append` covers the block
+         * checkout, whose form has no such field for serialize() to pick up.
+         */
+        applyCheckoutNonce(data, nonce, append = false) {
+            if (typeof data !== 'string' || !nonce) {
+                return data;
+            }
+            const pair = 'woocommerce-process-checkout-nonce=' + encodeURIComponent(nonce);
+            if (CHECKOUT_NONCE_FIELD.test(data)) {
+                return data.replace(CHECKOUT_NONCE_FIELD, (_match, lead) => lead + pair);
+            }
+            if (!append) {
+                return data;
+            }
+            return data ? data + '&' + pair : pair;
+        }
+
         createOrder(selector) {
             this.showSpinner();
             $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
             let data;
+            // Only the block checkout needs the nonce appended; every other branch either
+            // serializes a form that already carries one or posts to a create_order
+            // branch that never reaches process_checkout().
+            let appendNonce = false;
             const isMiniCart = selector === '#ppcp_mini_cart' || selector === '#ppcp_mini_cart_block';
             if (isMiniCart) {
                 data = '';
@@ -799,7 +898,7 @@
                     const shippingAddress = this.getShippingAddress();
                     data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
                     data += '&shipping_address=' + encodeURIComponent(JSON.stringify(shippingAddress));
-                    data += `&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
+                    appendNonce = true;
                 }
             } else if (this.isProductPage()) {
                 $('<input>', {type: 'hidden', name: 'ppcp-add-to-cart', value: $("[name='add-to-cart']").val()}).appendTo('form.cart');
@@ -819,10 +918,16 @@
                 + 'from=' + from
                 + '&ppcp_used_payment_method=' + encodeURIComponent(fundingMethod);
 
-            return fetch(createOrderUrl, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: data
+            // Serialize first, then swap in a nonce minted for the session as it is now:
+            // the one from page load is rejected outright once the shopper has been
+            // logged in mid-checkout. Reading the form before the round-trip keeps the
+            // snapshot of the fields identical to what it has always been.
+            return this.refreshCheckoutNonce(data, appendNonce).then((nonce) => {
+                return fetch(createOrderUrl, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: this.applyCheckoutNonce(data, nonce, appendNonce)
+                });
             }).then(res => res.json()).then(data => {
                 this.hideSpinner();
                 if (data.success !== undefined) {
@@ -838,6 +943,7 @@
             this.showSpinner();
             $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
             let data = '';
+            let appendNonce = false;
             switch (this.pageContext) {
                 case 'checkout':
                     const selector = `[data-context="${this.pageContext}"]`;
@@ -865,7 +971,7 @@
                         }
                         data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
                         data += '&shipping_address=' + encodeURIComponent(JSON.stringify(shippingAddress));
-                        data += `&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
+                        appendNonce = true;
                     } else if ($('form.checkout').length) {
                         data = $('form.checkout').serialize();
                     } else if ($('form.woocommerce-cart-form').length) {
@@ -889,10 +995,14 @@
     createOrderUrl += (createOrderUrl.includes('?') ? '&' : '?')
         + 'from=' + encodeURIComponent(this.pageContext); 
 
-            return fetch(createOrderUrl, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: data
+            // See createOrder(): the page-load nonce is dead once the shopper has been
+            // logged in mid-checkout, so refresh it before this reaches process_checkout().
+            return this.refreshCheckoutNonce(data, appendNonce).then((nonce) => {
+                return fetch(createOrderUrl, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: this.applyCheckoutNonce(data, nonce, appendNonce)
+                });
             }).then(res => res.json()).then(data => {
                 this.hideSpinner();
                 if (data.success !== undefined && data.success === false) {
@@ -1167,7 +1277,6 @@
                 const shippingAddress = this.getShippingAddress();
                 data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
                 data += '&shipping_address=' + encodeURIComponent(JSON.stringify(shippingAddress));
-                data += `&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
                 // Vaulting has to be requested when the PayPal order is created, so the
                 // shopper's "Save payment information to my account" choice must ride along
                 // with this request. On the block checkout that checkbox is a React control
@@ -1181,11 +1290,21 @@
             } else {
                 data = $(checkoutSelector).closest('form').serialize();
             }
-            return fetch(this.ppcp_manager.create_order_url_for_cc, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: data
-            })
+            // This request runs process_checkout() server side, so it needs a nonce that
+            // matches the session as it is right now. The one localized at page load was
+            // minted for whoever the shopper was then, and WooCommerce logging them in
+            // part-way through checkout - creating their account during an attempt that
+            // another gateway declined, say - kills it for the rest of the page's life.
+            // Left stale, every card submit after that point came back as the generic
+            // "We were unable to process your order, please try again." with the card
+            // never reaching PayPal at all.
+            const isBlockCheckout = this.ppcp_manager.is_block_enable === 'yes';
+            return this.refreshCheckoutNonce(data, isBlockCheckout)
+                    .then(nonce => fetch(this.ppcp_manager.create_order_url_for_cc, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        body: this.applyCheckoutNonce(data, nonce, isBlockCheckout)
+                    }))
                     .then(res => res.json())
                     .then(data => {
                         if (!data || data.success === false) {
@@ -1890,7 +2009,6 @@
                             const shippingAddress = this.getShippingAddress();
                             data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
                             data += '&shipping_address=' + encodeURIComponent(JSON.stringify(shippingAddress));
-                            data += `&woocommerce-process-checkout-nonce=${this.ppcp_manager.woocommerce_process_checkout}`;
                         }
                         break;
                     case 'product':
@@ -1907,6 +2025,14 @@
                         data = $('form.woocommerce-cart-form').serialize();
                         break;
                 }
+                // First server call of a wallet purchase, so it is where the nonces get
+                // brought back in line with the session. The shipping and total endpoints
+                // the wallet sheet calls next verify ajax_nonce and answer a stale one
+                // with a 403, which reads to the shopper as a wallet that simply refuses
+                // to open.
+                const appendNonce = isBlockCheckout && this.pageContext === 'checkout';
+                const nonce = await this.refreshCheckoutNonce(data, appendNonce);
+                data = this.applyCheckoutNonce(data, nonce, appendNonce);
                 const transactionInfoUrl = `${this.ppcp_manager.get_transaction_info_url}&form=${encodeURIComponent(this.pageContext)}&used=google_pay`;
                 const response = await fetch(transactionInfoUrl, {
                     method: 'POST',

@@ -614,6 +614,11 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 'fastlane_use_different_card' => __('Enter card details manually', 'woo-paypal-gateway'),
                 'fastlane_card_error' => __('We could not use this card with Fastlane. Please try again or enter your card details manually.', 'woo-paypal-gateway'),
                 'woocommerce_process_checkout' => wp_create_nonce('woocommerce-process_checkout'),
+                // This nonce and ajax_nonce below are both minted for whoever the shopper
+                // is right now. If WooCommerce logs them in later in the same page load
+                // both go dead, so the frontend re-fetches a matching pair from here
+                // before it submits. See ppcp_send_refreshed_nonces().
+                'refresh_nonce_url' => add_query_arg(array('ppcp_action' => 'refresh_nonce', 'utm_nooverride' => '1'), WC()->api_request_url('PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager')),
                 'button_selector' => apply_filters( 'wpg_ppcp_button_selectors', $button_selector ),
                 'enabled_google_pay' => $this->should_enable_google_pay_for_page($page) ? 'yes' : 'no',
                 'enabled_apple_pay' => $this->should_enable_apple_pay_for_page($page) ? 'yes' : 'no',
@@ -630,7 +635,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 // Merchant country + store name for Apple Pay / Google Pay. Without these
                 // the JS fell back to 'US'/'Total', breaking wallets for non-US stores.
                 'country' => ( function_exists('WC') && WC()->countries ) ? WC()->countries->get_base_country() : 'US',
-                'store_label' => get_bloginfo('name'),
+                'store_label' => woo_paypal_gateway_ppcp_wallet_display_name(),
                 'cart_total' => WC()->cart ? WC()->cart->get_total('edit') : '0.00',
                 'is_product_page' => $is_product_page,
                 'needs_shipping' => $needs_shipping ? '1' : '0',
@@ -1196,6 +1201,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 case "display_order_page":
                     $this->ppcp_display_order_page();
                     break;
+                case "refresh_nonce":
+                    $this->ppcp_send_refreshed_nonces();
+                    exit();
                 case "ppcp_regular_capture":
                     $this->request->ppcp_regular_capture();
                     exit();
@@ -2797,6 +2805,39 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
 
     public function ppcp_handle_webhook_request() {
         return $this->request->ppcp_handle_webhook_request_handler();
+    }
+
+    /**
+     * Re-issue the frontend nonces for the session as it stands right now.
+     *
+     * A WordPress nonce is bound to the user the session had when it was minted, so
+     * every value localized into ppcp_manager belongs to whoever the shopper was on
+     * that page load. WooCommerce can change that without a reload: creating an
+     * account during checkout logs them in mid-request via
+     * wc_set_customer_auth_cookie(), which is easy to hit when an earlier attempt on
+     * another gateway is declined. From that moment the page-load nonces are dead,
+     * and because the card-fields flow posts woocommerce-process-checkout-nonce to
+     * create_order, WC_Checkout::process_checkout() rejects the guest-era value
+     * before the card is ever charged - so the shopper only ever sees the generic
+     * "We were unable to process your order, please try again.", however valid their
+     * card is, until they reload the page. The Store API avoids this by reissuing its
+     * nonce on every response; this endpoint gives the legacy AJAX flow the same
+     * escape hatch.
+     *
+     * Minting nonces for the caller's own session is exactly what the page load
+     * already did, so this hands back nothing the shopper was not already holding.
+     */
+    public function ppcp_send_refreshed_nonces() {
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+        // A cached response here would hand one shopper's nonces to the next visitor,
+        // and they would be wrong for everyone but the shopper they were minted for.
+        nocache_headers();
+        wp_send_json_success(array(
+            'woocommerce_process_checkout' => wp_create_nonce('woocommerce-process_checkout'),
+            'ajax_nonce' => wp_create_nonce('ppcp_ajax_nonce'),
+        ));
     }
 
     public function ppcp_cc_capture() {

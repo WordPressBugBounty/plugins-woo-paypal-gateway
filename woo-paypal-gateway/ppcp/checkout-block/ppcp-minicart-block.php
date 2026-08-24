@@ -30,7 +30,8 @@ class PPCP_MiniCart_Block implements IntegrationInterface {
 		wp_register_script(
 			'wpg-ppcp-minicart-block',
 			WPG_PLUGIN_ASSET_URL . 'ppcp/checkout-block/ppcp-minicart.js',
-			array( 'wp-element' ),
+			// wp-hooks: the script takes addAction from wp.hooks as it loads.
+			array( 'wp-element', 'wp-hooks' ),
 			WPG_PLUGIN_VERSION,
 			true
 		);
