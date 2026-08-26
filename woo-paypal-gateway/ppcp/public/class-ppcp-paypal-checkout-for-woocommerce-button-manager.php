@@ -1114,14 +1114,36 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                                     'wpg_ppcp_fastlane_token',
                                     'wpg_recaptcha_token',
                                     'woocommerce-process-checkout-nonce',
+                                    // "Create an account" from the block checkout. The frontend
+                                    // reads the Blocks data store and appends it (the React
+                                    // checkbox has no name for serialize() to see), and
+                                    // process_checkout() below only creates the account the
+                                    // shopper asked for if the field survives this rebuild.
+                                    'createaccount',
                                 ) as $preserved_key) {
                                     if (isset($_POST[$preserved_key]) && !isset($address[$preserved_key])) {
                                         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with wc_clean(), which WPCS does not recognise as a sanitizing function.
                                         $address[$preserved_key] = wc_clean(wp_unslash($_POST[$preserved_key]));
                                     }
                                 }
+                                // The "Create a password" that can accompany createaccount is
+                                // carried as-is: WC_Checkout::get_posted_data() unslashes a
+                                // password itself and never text-sanitizes it (it is hashed,
+                                // and stripping characters would silently store a password
+                                // other than the one the shopper typed), so it must re-enter
+                                // $_POST in the same still-slashed shape it arrived in.
+                                if (isset($_POST['account_password']) && !isset($address['account_password'])) {
+                                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Passed through untouched for WC_Checkout::get_posted_data(), which unslashes it and treats it as an opaque password.
+                                    $address['account_password'] = $_POST['account_password'];
+                                }
                                 $_POST = $address;
-                                woo_paypal_gateway_ppcp_set_session('wpg_ppcp_block_checkout_post', $address);
+                                // The session copy is persisted to the database and only read
+                                // back for order presentation, so the plaintext password must
+                                // not travel into it — it exists for process_checkout() in
+                                // this request alone.
+                                $session_checkout_post = $address;
+                                unset($session_checkout_post['account_password']);
+                                woo_paypal_gateway_ppcp_set_session('wpg_ppcp_block_checkout_post', $session_checkout_post);
                                 if (!empty($shipping_address)) {
                                     add_filter('woocommerce_checkout_fields', function ($fields) {
                                         $fields['billing']['billing_phone']['required'] = false; // Make phone field optional

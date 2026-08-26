@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 5.3
 Tested up to: 7.0.2
-Stable tag: 9.2.6
+Stable tag: 9.2.7
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -99,6 +99,11 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.2.7 - 2026-08-26 =
+ * Improved - Shoppers who tick "Create an account" on the block checkout now get their account whichever way they pay. The choice is read at the moment of purchase and travels with card payments, the PayPal buttons, Google Pay and Apple Pay alike, so the account is created and the order filed under it — exactly as on the classic checkout.
+ * Improved - Stores that invite shoppers to choose their own password at checkout are fully catered for: the password typed on the block checkout accompanies the account creation exactly as entered, character for character, and is handled with care — it is never stored in the checkout session.
+ * Improved - The choice is honoured precisely. A shopper who leaves the box unticked checks out as a guest, a signed-in customer is never asked twice, and the classic checkout continues to work exactly as it always has.
 
 = 9.2.6 - 2026-08-24 =
  * Improved - Card payments sail through for shoppers who sign in or create an account part-way through checkout. The security credentials the checkout submits are renewed the moment the shopper signs in, so the card is processed first time, with no page refresh needed. Stores that ask shoppers to create an account at checkout, and shoppers who sign in before trying a card again, are both covered.

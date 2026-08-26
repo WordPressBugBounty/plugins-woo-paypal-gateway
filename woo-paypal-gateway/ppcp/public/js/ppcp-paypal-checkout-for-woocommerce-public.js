@@ -877,6 +877,55 @@
             return data ? data + '&' + pair : pair;
         }
 
+        /**
+         * The block checkout's "Create an account" choice, as form fields to append.
+         *
+         * Blocks renders that checkbox itself as a React control with no name
+         * attribute — the same way as the save-card checkbox mirrored onto
+         * window.wpgPPCPShouldSaveCard — so the jQuery.serialize() of the checkout
+         * form can never carry it. The Store API, which normally acts on the choice,
+         * is bypassed by every payload this flow posts to the plugin's own
+         * create_order endpoint, where WC_Checkout::process_checkout() only creates
+         * an account when a createaccount field is posted. Left out, a shopper who
+         * ticked the box was silently checked out as a guest. Read the choice from
+         * the Blocks data store at submit time, when it is current.
+         *
+         * On stores that don't auto-generate passwords, Blocks renders a "Create a
+         * password" field the same nameless way, and process_checkout() refuses
+         * createaccount without account_password — so the password has to travel
+         * with the flag or the shopper would be blocked with a validation error
+         * their screen says they already satisfied.
+         *
+         * The classic checkout needs nothing here — it renders real named inputs
+         * that serialize() picks up — and a payload that already carries a
+         * createaccount field is left alone rather than second-guessed.
+         *
+         * @param {string} [data] The serialized payload the fields will be appended to.
+         * @return {string} '&'-prefixed fields to append, or '' when there is nothing to say.
+         */
+        blockCreateAccountFields(data) {
+            try {
+                if (typeof wp === 'undefined' || !wp.data?.select) {
+                    return '';
+                }
+                const checkout = wp.data.select('wc/store/checkout');
+                if (!checkout?.getShouldCreateAccount?.()) {
+                    return '';
+                }
+                if (/(^|&)createaccount=/.test(data || '')) {
+                    return '';
+                }
+                let fields = '&createaccount=1';
+                const password = checkout.getCustomerPassword?.();
+                if (password) {
+                    fields += '&account_password=' + encodeURIComponent(password);
+                }
+                return fields;
+            } catch (e) {
+                return '';
+            }
+        }
+
         createOrder(selector) {
             this.showSpinner();
             $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message, .is-error, .is-success').remove();
@@ -898,6 +947,7 @@
                     const shippingAddress = this.getShippingAddress();
                     data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
                     data += '&shipping_address=' + encodeURIComponent(JSON.stringify(shippingAddress));
+                    data += this.blockCreateAccountFields(data);
                     appendNonce = true;
                 }
             } else if (this.isProductPage()) {
@@ -971,6 +1021,7 @@
                         }
                         data += '&billing_address=' + encodeURIComponent(JSON.stringify(billingAddress));
                         data += '&shipping_address=' + encodeURIComponent(JSON.stringify(shippingAddress));
+                        data += this.blockCreateAccountFields(data);
                         appendNonce = true;
                     } else if ($('form.checkout').length) {
                         data = $('form.checkout').serialize();
@@ -1287,6 +1338,10 @@
                 if (window.wpgPPCPShouldSaveCard) {
                     data += '&wc-wpg_paypal_checkout_cc-new-payment-method=true';
                 }
+                // "Create an account" is the same kind of unnamed React control, so it
+                // needs carrying too — without it the card payment succeeded but the
+                // shopper who asked for an account was checked out as a guest.
+                data += this.blockCreateAccountFields(data);
             } else {
                 data = $(checkoutSelector).closest('form').serialize();
             }
