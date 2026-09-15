@@ -3256,8 +3256,9 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                     }
                 }
             }
-        } catch (Exception $ex) {
-            
+        } catch (\Throwable $ex) {
+            // Runs on wp_loaded: an Error here must be logged, never allowed to fatal the request.
+            $this->ppcp_log('Webhook registration exception: ' . $ex->getMessage());
         }
     }
 
@@ -4077,10 +4078,16 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
         // No logical context (non money-moving calls, e.g. webhook verification, order
         // creation, token listing): fall back to a unique, non-idempotent id.
+        //
+        // Deliberately NOT getmypid(): managed hosts such as Kinsta list it in
+        // disable_functions, where the call throws "Call to undefined function" and,
+        // because this runs on wp_loaded for webhook registration, took down every
+        // request on the site. wp_generate_uuid4() is always available and is more
+        // unique than a process id ever was across load-balanced servers.
         static $counter = 0;
         $counter++;
 
-        return substr( md5( $base ), 0, 12 ) . '-' . time() . '-' . getmypid() . '-' . $counter;
+        return substr( md5( $base ), 0, 12 ) . '-' . time() . '-' . wp_generate_uuid4() . '-' . $counter;
     }
 
     public function ppcp_get_phone_national_number($billing_phone, $billing_country = '') {

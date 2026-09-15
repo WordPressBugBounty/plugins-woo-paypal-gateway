@@ -2818,7 +2818,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
             if (woo_paypal_gateway_ppcp_is_local_server() === false && $this->enabled) {
                 $webhook_id = get_option($this->webhook_id, '');
                 if (empty($webhook_id)) {
-                    $this->request->ppcp_create_webhooks_request();
+                    // This runs on wp_loaded for every request. Nothing that goes wrong
+                    // while registering the webhook may escape here: an uncaught Error
+                    // would fatal the whole site, and skipping the transient below would
+                    // repeat the attempt (a 60s API call) on every page load.
+                    try {
+                        $this->request->ppcp_create_webhooks_request();
+                    } catch (\Throwable $ex) {
+                        if (is_object($this->request) && method_exists($this->request, 'ppcp_log')) {
+                            $this->request->ppcp_log('Webhook registration failed and will be retried in 24h: ' . $ex->getMessage());
+                        }
+                    }
                 }
                 set_transient('ppcp_is_webhook_process_started', 'done', 24 * HOUR_IN_SECONDS);
             }
