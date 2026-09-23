@@ -359,7 +359,7 @@ class Woo_Paypal_Gateway {
             $activation_time = time();
             update_option('wpg_activation_time', $activation_time);
         }
-        $hide_state = get_option('wpg_review_notice_hide_v2', ''); // '', 'later', 'never'
+        $hide_state = get_option('wpg_review_notice_hide_v3', ''); // '', 'later', 'never'
         $next_show_time = (int) get_option('wpg_next_show_time', time());
         $days_since_activation = ( time() - $activation_time ) / DAY_IN_SECONDS;
         if ('never' === $hide_state || $days_since_activation < 10 || time() < $next_show_time) {
@@ -432,9 +432,9 @@ class Woo_Paypal_Gateway {
         if ($action === 'later') {
             $next_show_time = time() + (86400 * 7);
             update_option('wpg_next_show_time', $next_show_time);
-            update_option('wpg_review_notice_hide_v2', 'later');
+            update_option('wpg_review_notice_hide_v3', 'later');
         } elseif ($action === 'never' || $action === 'reviewed') {
-            update_option('wpg_review_notice_hide_v2', 'never');
+            update_option('wpg_review_notice_hide_v3', 'never');
         } else {
             wp_send_json_error('Invalid action');
         }
