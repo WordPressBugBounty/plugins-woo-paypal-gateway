@@ -1,4 +1,32 @@
-(function ($) {
+(function (wpgPpcpBoot) {
+    /*
+     * This script is registered with a jquery dependency, so WordPress itself never
+     * executes it before jQuery. JS optimizers (the combine/defer/"delay JavaScript
+     * execution" features of WP Rocket, LiteSpeed, Autoptimize, SiteGround Optimizer
+     * and host-level minifiers) rewrite the script tags and can execute this file
+     * first; dereferencing jQuery at parse time then throws "jQuery is not defined"
+     * and the PayPal options never render. Boot immediately when jQuery is present,
+     * otherwise wait for it instead of throwing.
+     */
+    if (window.jQuery) {
+        wpgPpcpBoot(window.jQuery);
+        return;
+    }
+    var tries = 0;
+    var timer = window.setInterval(function () {
+        if (window.jQuery) {
+            window.clearInterval(timer);
+            wpgPpcpBoot(window.jQuery);
+            return;
+        }
+        if (++tries >= 400) {
+            window.clearInterval(timer);
+            if (window.console && window.console.warn) {
+                window.console.warn('Payment Gateway for PayPal: jQuery was still unavailable 20 seconds after this script executed, so the PayPal checkout was not initialised. A JavaScript optimizer is loading this script before jQuery; exclude jQuery and the woo-paypal-gateway scripts from its combine/defer/delay features.');
+            }
+        }
+    }, 50);
+})(function ($) {
     /**
      * The classic checkout nonce field, as it appears in a serialized form payload.
      *
@@ -114,28 +142,56 @@
             let customerData = {};
             let addressData = {};
 
-            if (!fields.addressLine1) {
+            // The ids above are the classic checkout's; Block Checkout renders
+            // none of them, and jQuery().val() on a missing element is undefined.
+            // The store fallback used to run only when the street was empty and
+            // then replaced every field wholesale, so a partially synced store
+            // (city/state typed for shipping rates, nothing else yet) produced
+            // an address with no name, no email and no street that was posted
+            // as if complete. Run the fallback whenever any core field is
+            // missing, and fill only the gaps — never erase what the DOM gave.
+            const coreFieldMissing = !fields.addressLine1 || !fields.firstName || !fields.lastName
+                    || (prefix === 'billing' && !fields.email);
+            if (coreFieldMissing) {
                 if (typeof wp !== 'undefined' && wp.data?.select) {
                     try {
-                        customerData = wp.data.select('wc/store/cart').getCustomerData();
+                        customerData = wp.data.select('wc/store/cart').getCustomerData() || {};
                     } catch (e) {
                         console.warn('Could not fetch customerData:', e);
                     }
                 }
-                const {billingAddress, shippingAddress} = customerData;
+                const billingAddress = customerData.billingAddress || {};
+                const shippingAddress = customerData.shippingAddress || {};
                 addressData = (prefix === 'billing') ? billingAddress : shippingAddress;
 
-                Object.assign(fields, {
-                    addressLine1: addressData.address_1,
-                    addressLine2: addressData.address_2,
-                    adminArea1: addressData.state,
-                    adminArea2: addressData.city,
-                    postalCode: addressData.postcode,
-                    countryCode: addressData.country,
-                    firstName: addressData.first_name,
-                    lastName: addressData.last_name,
-                    email: prefix === 'billing' ? billingAddress.email || shippingAddress.email : shippingAddress.email || billingAddress.email
-                });
+                fields.addressLine1 = fields.addressLine1 || addressData.address_1;
+                fields.addressLine2 = fields.addressLine2 || addressData.address_2;
+                fields.adminArea1 = fields.adminArea1 || addressData.state;
+                fields.adminArea2 = fields.adminArea2 || addressData.city;
+                fields.postalCode = fields.postalCode || addressData.postcode;
+                fields.countryCode = fields.countryCode || addressData.country;
+                fields.firstName = fields.firstName || addressData.first_name;
+                fields.lastName = fields.lastName || addressData.last_name;
+                fields.email = fields.email || (prefix === 'billing' ?
+                        billingAddress.email || shippingAddress.email :
+                        shippingAddress.email || billingAddress.email);
+                fields.phoneNumber = fields.phoneNumber || addressData.phone;
+
+                // Last resort: the Block Checkout's own field ids (hyphenated,
+                // and a bare #email for the contact field). The data store is
+                // debounced, so a shopper who types and immediately pays can
+                // beat the sync — the inputs still hold what they typed. The
+                // country/state comboboxes are left out on purpose: their
+                // visible value is a label, not the ISO code the server needs.
+                fields.firstName = fields.firstName || jQuery(`#${prefix}-first_name`).val();
+                fields.lastName = fields.lastName || jQuery(`#${prefix}-last_name`).val();
+                fields.addressLine1 = fields.addressLine1 || jQuery(`#${prefix}-address_1`).val();
+                fields.addressLine2 = fields.addressLine2 || jQuery(`#${prefix}-address_2`).val();
+                fields.adminArea2 = fields.adminArea2 || jQuery(`#${prefix}-city`).val();
+                fields.postalCode = fields.postalCode || jQuery(`#${prefix}-postcode`).val();
+                if (prefix === 'billing') {
+                    fields.email = fields.email || jQuery('#email').val();
+                }
             }
 
             // Start with the standard fields
@@ -181,7 +237,16 @@
             const otherPrefix = prefix === 'billing' ? 'shipping' : 'billing';
             const otherAddress = this.getAddress(otherPrefix);
             if (this.isValidAddress(otherPrefix, otherAddress)) {
-                return this.rekeyAddress(otherAddress, otherPrefix, prefix);
+                const rekeyed = this.rekeyAddress(otherAddress, otherPrefix, prefix);
+                // The shipping address never carries the contact email (and may
+                // lack the phone); keep whatever the primary lookup did find so
+                // falling back to the other address cannot drop them.
+                Object.keys(address || {}).forEach((key) => {
+                    if (address[key] && !rekeyed[key]) {
+                        rekeyed[key] = address[key];
+                    }
+                });
+                return rekeyed;
             }
             return address;
         }
@@ -213,7 +278,15 @@
         }
 
         isValidAddress(prefix, address) {
-            return address && address[`${prefix}_address_1`];
+            if (!address || !address[`${prefix}_address_1`]) {
+                return false;
+            }
+            // A single populated field used to make the whole object "valid",
+            // so an address with no name was posted as if complete and the
+            // order was saved with blank billing details. Postcode is not
+            // required here — several countries do not use one.
+            const required = ['first_name', 'last_name', 'city', 'country'];
+            return required.every((field) => address[`${prefix}_${field}`]);
         }
 
         // Convert a Google Pay / Apple Pay wallet address to WooCommerce form-field format.
@@ -2855,4 +2928,4 @@
         const ppcp_manager = window.ppcp_manager || {};
         window.ppcpManagerInstance = new PPCPManager(ppcp_manager);
     });
-})(jQuery);
+});

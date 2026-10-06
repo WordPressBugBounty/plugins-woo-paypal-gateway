@@ -1,3 +1,46 @@
+(function (wpgPpcpBootBlock) {
+    /*
+     * This script is registered with its wp-* and wc-* dependencies, so WordPress
+     * itself never executes it before them. JS optimizers (combine/defer/"delay
+     * JavaScript execution" features) rewrite the script tags and can execute this
+     * file first; dereferencing wp/wc at parse time then throws "wp is not defined"
+     * and the PayPal payment method never registers. Boot immediately when the
+     * dependencies are present, otherwise wait for them instead of throwing.
+     */
+    var booted = false;
+    function depsReady() {
+        return !!(window.wp && window.wp.element && window.wp.plugins && window.wp.hooks && window.wp.data && window.wp.htmlEntities && window.wp.i18n
+            && window.wc && window.wc.wcBlocksRegistry && window.wc.blocksCheckout && window.wc.wcSettings);
+    }
+    function bootIfReady() {
+        if (!booted && depsReady()) {
+            booted = true;
+            wpgPpcpBootBlock();
+        }
+        return booted;
+    }
+    if (bootIfReady()) {
+        return;
+    }
+    // Deferred core scripts finish executing just before DOMContentLoaded, and
+    // WooCommerce Blocks mounts the checkout from its own DOMContentLoaded
+    // handler, registered later than this one - so registering the payment
+    // method here is still in time for it to appear.
+    document.addEventListener('DOMContentLoaded', bootIfReady);
+    var tries = 0;
+    var timer = window.setInterval(function () {
+        if (bootIfReady()) {
+            window.clearInterval(timer);
+            return;
+        }
+        if (++tries >= 800) {
+            window.clearInterval(timer);
+            if (window.console && window.console.warn) {
+                window.console.warn('Payment Gateway for PayPal: the WordPress/WooCommerce Blocks scripts were still unavailable 20 seconds after this script executed, so the PayPal payment method was not registered. A JavaScript optimizer is loading this script before its dependencies; exclude the woo-paypal-gateway scripts from its combine/defer/delay features.');
+            }
+        }
+    }, 25);
+})(function () {
 var {createElement} = wp.element;
 var {registerPlugin} = wp.plugins;
 var {ExperimentalOrderMeta} = wc.blocksCheckout;
@@ -441,7 +484,16 @@ var {addAction} = wp.hooks;
             }
 ]);
 
-document.addEventListener("DOMContentLoaded", function () {
+// Fires immediately when the load guard booted this file after DOMContentLoaded
+// had already passed (a JS optimizer delayed the dependencies), so listeners
+// still get ppcp_block_ready.
+(function (fire) {
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", fire);
+    } else {
+        fire();
+    }
+})(function () {
     document.body.dispatchEvent(new CustomEvent("ppcp_block_ready", { bubbles: true }));
     if (typeof jQuery !== "undefined") {
         jQuery(document.body).trigger("ppcp_block_ready");
@@ -542,3 +594,4 @@ if (typeof jQuery !== "undefined") {
         } catch (e) {}
     });
 })();
+});

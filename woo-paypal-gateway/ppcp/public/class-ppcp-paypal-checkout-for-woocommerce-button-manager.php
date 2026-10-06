@@ -1136,6 +1136,18 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                                     // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Passed through untouched for WC_Checkout::get_posted_data(), which unslashes it and treats it as an opaque password.
                                     $address['account_password'] = $_POST['account_password'];
                                 }
+                                // The payload can arrive with blank name/email/street when it
+                                // was read before the Blocks data store caught up; refill from
+                                // the server-side customer record instead of letting '' erase
+                                // real data via process_checkout()'s update_session().
+                                $address = $this->wpg_ppcp_fill_blank_address_fields_from_customer($address);
+                                // An order with no billing email can never be fulfilled or
+                                // followed up. Refuse before the draft order is promoted and
+                                // before process_checkout() can blank the customer record.
+                                if (empty($address['billing_email'])) {
+                                    wp_send_json_error(array('messages' => array(__('Billing email address is a required field.', 'woo-paypal-gateway'))));
+                                    exit;
+                                }
                                 $_POST = $address;
                                 // The session copy is persisted to the database and only read
                                 // back for order presentation, so the plaintext password must
@@ -1381,6 +1393,10 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                                         $address[$preserved_key] = wc_clean(wp_unslash($_POST[$preserved_key]));
                                     }
                                 }
+                                // Same repair as the create_order rebuild: a payload read
+                                // before the Blocks data store caught up must not feed blank
+                                // required fields into the validation below.
+                                $address = $this->wpg_ppcp_fill_blank_address_fields_from_customer($address);
                                 $_POST = $address;
                                 if (!empty($shipping_address)) {
                                     add_filter('woocommerce_checkout_fields', function ($fields) {
@@ -2334,6 +2350,66 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         } catch ( Exception $ex ) {
 
         }
+    }
+
+    /**
+     * Refill blank fields in a block-checkout address payload from WC()->customer.
+     *
+     * The payload is built client-side out of React state, and a read that beats
+     * the wc/store/cart sync arrives with empty strings for fields the shopper
+     * did fill in. Rebuilding $_POST from it wholesale then hands those blanks to
+     * process_checkout(), whose update_session() persists them onto the customer
+     * before validation runs — and the Store API later syncs the blanked customer
+     * onto its draft order, saving an order with no name, email or street.
+     * WooCommerce keeps the authoritative copy of every Blocks field server-side
+     * on WC()->customer, so a blank in the payload never overwrites a value the
+     * store already has.
+     */
+    public function wpg_ppcp_fill_blank_address_fields_from_customer($address) {
+        try {
+            if (!is_array($address) || !function_exists('WC') || empty(WC()->customer)) {
+                return $address;
+            }
+            $customer = WC()->customer;
+            $field_getters = array(
+                'billing_first_name'  => 'get_billing_first_name',
+                'billing_last_name'   => 'get_billing_last_name',
+                'billing_company'     => 'get_billing_company',
+                'billing_address_1'   => 'get_billing_address_1',
+                'billing_address_2'   => 'get_billing_address_2',
+                'billing_city'        => 'get_billing_city',
+                'billing_state'       => 'get_billing_state',
+                'billing_postcode'    => 'get_billing_postcode',
+                'billing_country'     => 'get_billing_country',
+                'billing_email'       => 'get_billing_email',
+                'billing_phone'       => 'get_billing_phone',
+                'shipping_first_name' => 'get_shipping_first_name',
+                'shipping_last_name'  => 'get_shipping_last_name',
+                'shipping_company'    => 'get_shipping_company',
+                'shipping_address_1'  => 'get_shipping_address_1',
+                'shipping_address_2'  => 'get_shipping_address_2',
+                'shipping_city'       => 'get_shipping_city',
+                'shipping_state'      => 'get_shipping_state',
+                'shipping_postcode'   => 'get_shipping_postcode',
+                'shipping_country'    => 'get_shipping_country',
+                'shipping_phone'      => 'get_shipping_phone',
+            );
+            foreach ($field_getters as $field => $getter) {
+                if (isset($address[$field]) && '' !== $address[$field]) {
+                    continue;
+                }
+                if (!is_callable(array($customer, $getter))) {
+                    continue;
+                }
+                $value = $customer->{$getter}();
+                if (is_string($value) && '' !== $value) {
+                    $address[$field] = $value;
+                }
+            }
+        } catch (Exception $ex) {
+
+        }
+        return $address;
     }
 
     public function maybe_clear_session_data() {

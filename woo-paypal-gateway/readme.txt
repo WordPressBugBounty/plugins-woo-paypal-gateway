@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 5.3
 Tested up to: 7.1.2
-Stable tag: 9.2.9
+Stable tag: 9.3.1
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -99,6 +99,12 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.3.1 - 2026-10-06 =
+ * Fixed - Orders placed from the block checkout can no longer be saved with an empty billing name, email address or street. When the checkout form's details reached the server incomplete — typically when a shopper paid by card the instant they finished typing — the gaps are now filled in from the details WooCommerce already holds for the session, so what the shopper typed is never overwritten with blanks. As a final safeguard, a payment attempt with no email address at all is politely declined with a clear message instead of leaving behind an order whose customer cannot be contacted.
+
+= 9.3.0 - 2026-09-29 =
+ * Fixed - The PayPal options no longer vanish from checkout, express checkout and product pages on sites using JavaScript optimization plugins (WP Rocket, LiteSpeed Cache, Autoptimize, SiteGround Optimizer, W3 Total Cache, Perfmatters, Cloudflare Rocket Loader and similar). The plugin now tells these optimizers to leave its payment scripts alone automatically - no manual exclusion rules needed - and its scripts patiently wait for WordPress and jQuery instead of failing silently when an optimizer loads things in the wrong order. Sites without an optimizer are entirely unaffected.
 
 = 9.2.9 - 2026-09-23 =
  * Verified - Tested and fully compatible with WordPress 7.1.2.

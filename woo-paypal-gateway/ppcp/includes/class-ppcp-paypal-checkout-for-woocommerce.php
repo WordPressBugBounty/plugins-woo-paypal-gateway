@@ -67,6 +67,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
             '/ppcp/includes/compatibility/class-wpg-shipstation-compat.php',
             '/ppcp/includes/compatibility/class-wpg-mondial-relay-compat.php',
             '/ppcp/includes/compatibility/class-wpg-checkoutwc-order-bumps-compat.php',
+            '/ppcp/includes/compatibility/class-wpg-script-optimizer-compat.php',
             '/ppcp/includes/conversion/class-wpg-plugin-converter.php',
             '/ppcp/includes/conversion/converters/class-wpg-payment-plugins-converter.php',
             '/ppcp/includes/conversion/converters/class-wpg-wc-paypal-payments-converter.php',
@@ -117,6 +118,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce {
             'WPG_ShipStation_Compat',
             'WPG_Mondial_Relay_Compat',
             'WPG_CheckoutWC_Order_Bumps_Compat',
+            'WPG_Script_Optimizer_Compat',
             'WPG_Conversion_Controller',
         ) as $integration_class) {
             $this->ppcp_boot_optional_integration($integration_class);

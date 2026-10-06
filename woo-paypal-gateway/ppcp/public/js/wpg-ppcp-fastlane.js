@@ -17,7 +17,32 @@
  *    classic checkout, `paymentMethodData` on block checkout) and charged
  *    server-side in one Orders v2 call.
  */
-(function ($) {
+(function (wpgFastlaneBoot) {
+    /*
+     * Registered with a jquery dependency, but JS optimizers (combine/defer/delay
+     * features) can execute this file before jQuery has loaded. Boot immediately
+     * when jQuery is present, otherwise wait for it instead of throwing
+     * "jQuery is not defined".
+     */
+    if (window.jQuery) {
+        wpgFastlaneBoot(window.jQuery);
+        return;
+    }
+    var tries = 0;
+    var timer = window.setInterval(function () {
+        if (window.jQuery) {
+            window.clearInterval(timer);
+            wpgFastlaneBoot(window.jQuery);
+            return;
+        }
+        if (++tries >= 400) {
+            window.clearInterval(timer);
+            if (window.console && window.console.warn) {
+                window.console.warn('Payment Gateway for PayPal: jQuery was still unavailable 20 seconds after the Fastlane script executed, so Fastlane was not initialised. A JavaScript optimizer is loading this script before jQuery; exclude jQuery and the woo-paypal-gateway scripts from its combine/defer/delay features.');
+            }
+        }
+    }, 50);
+})(function ($) {
     'use strict';
 
     var GATEWAY_ID = 'wpg_paypal_checkout_cc';
@@ -1028,4 +1053,4 @@
         window.wpgPPCPFastlane.initialize();
     });
 
-})(jQuery);
+});
