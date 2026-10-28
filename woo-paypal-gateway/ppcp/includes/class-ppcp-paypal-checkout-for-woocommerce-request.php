@@ -1501,7 +1501,17 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             }
             $order = wc_get_order($woo_order_id);
             if ($need_to_update_order && is_object($order)) {
-                $this->ppcp_update_order($order);
+                // The PATCH re-binds the approved PayPal order (amount, invoice_id,
+                // custom_id) to THIS WooCommerce order. When it does not succeed the
+                // PayPal order may still carry another order's identity and total, so the
+                // capture below is only allowed if the reconciliation against PayPal's own
+                // record proves the order already identifies this WooCommerce order with
+                // the right amount and currency. A PATCH rejected for a reason that does
+                // not affect the payment (an address PayPal will not store, an order a
+                // timed-out first request already captured) therefore still completes.
+                if ($this->ppcp_update_order($order) !== true) {
+                    $this->ppcp_log('PayPal order update did not succeed for order #' . $woo_order_id . '. Capture continues only if PayPal already identifies this order with the right amount.', 'warning');
+                }
             } elseif (is_object($order)) {
                 $this->ppcp_repair_shipping_total_if_zero($order);
             }
@@ -1510,11 +1520,14 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             if (empty($paypal_order_id)) {
                 return false;
             }
-            // Direct-capture paths (public cc_capture / return capture) accept a
-            // browser-supplied PayPal order id against a session-stored WooCommerce
-            // order id and never patch the PayPal order to re-sync it, so the approved
-            // order must be reconciled with the target order before it is captured.
-            if (!$need_to_update_order && !$this->ppcp_confirm_paypal_order_for_woo_order($paypal_order_id, $woo_order_id)) {
+            // Every capture path reconciles the approved PayPal order with the target
+            // WooCommerce order first (custom_id binding, amount and currency). The
+            // direct-capture paths (public cc_capture / return capture) need it because
+            // they accept a browser-supplied PayPal order id and never re-sync it; the
+            // update-then-capture path needs it so a PATCH that PayPal accepted but did
+            // not apply as expected can never be followed by a capture that pays the
+            // wrong order.
+            if (!$this->ppcp_confirm_paypal_order_for_woo_order($paypal_order_id, $woo_order_id)) {
                 return false;
             }
             if (!$this->ppcp_validate_order_for_capture($paypal_order_id, $woo_order_id)) {
@@ -1624,6 +1637,20 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                         $payment_status = isset($api_response['purchase_units']['0']['payments']['captures']['0']['status']) ? $api_response['purchase_units']['0']['payments']['captures']['0']['status'] : '';
                         $this->ppcp_log('Capture payment_status for order #' . $woo_order_id . ': capture status=' . ($payment_status ? $payment_status : 'N/A') . ', transaction_id=' . ($transaction_id ? $transaction_id : 'N/A'));
                         if ($payment_status === 'COMPLETED') {
+                            $holder = $this->ppcp_get_other_order_holding_capture($transaction_id, $woo_order_id);
+                            if ($holder instanceof WC_Order) {
+                                // The same PayPal capture has already paid another WooCommerce
+                                // order (a webhook that resolved it there first). Money moved
+                                // exactly once, so this order must not become a second paid
+                                // order for it: park it for the merchant and say why, without
+                                // sending the shopper back to pay again.
+                                $this->ppcp_log(sprintf('Order #%d not marked paid: PayPal capture %s is already recorded on order #%d.', absint($woo_order_id), $transaction_id, $holder->get_id()), 'warning');
+                                $order->update_meta_data('_payment_status', $payment_status);
+                                $order->save_meta_data();
+                                // translators: 1: PayPal capture (transaction) ID, 2: WooCommerce order number.
+                                $order->update_status('on-hold', sprintf(__('PayPal capture %1$s is already recorded as the payment for order #%2$s. This order was not marked as paid to avoid counting one payment twice. Please review both orders.', 'woo-paypal-gateway'), $transaction_id, $holder->get_order_number()));
+                                return true;
+                            }
                             woo_paypal_gateway_set_order_payment_method_title_from_paypal_response($order, $api_response);
                             $order->payment_complete($transaction_id);
                             // translators: 1: Payment method title, 2: Payment status (e.g., Completed, Pending).
@@ -1901,10 +1928,22 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 }
             }
             if (is_object($order)) {
-                $this->ppcp_update_order($order);
+                // See ppcp_order_capture_request(): a failed PATCH is tolerated only when
+                // the reconciliation below proves PayPal's record already matches this order.
+                if ($this->ppcp_update_order($order) !== true) {
+                    $this->ppcp_log('PayPal order update did not succeed for order #' . $woo_order_id . '. Authorization continues only if PayPal already identifies this order with the right amount.', 'warning');
+                }
             }
             $session_order_data = $this->ppcp_get_order_session_data();
             $paypal_order_id = !empty($session_order_data['id']) ? $session_order_data['id'] : $this->ppcp_get_paypal_order_id_from_session();
+            if (empty($paypal_order_id)) {
+                return false;
+            }
+            // Reconcile after the PATCH as well (the $enforce_binding paths reconciled
+            // before it): binding, amount and currency must match the target order.
+            if (!$enforce_binding && !$this->ppcp_confirm_paypal_order_for_woo_order($paypal_order_id, $woo_order_id)) {
+                return false;
+            }
             if (!$this->ppcp_enforce_3ds_liability($woo_order_id, $paypal_order_id)) {
                 return false;
             }
@@ -2707,8 +2746,36 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
             $patch_request = array();
             $update_amount_request = array();
-            $reference_id = woo_paypal_gateway_ppcp_get_session('ppcp_reference_id');
             $order_id = $order->get_id();
+            $paypal_order_id = $this->ppcp_get_paypal_order_id_from_session();
+            if (empty($paypal_order_id)) {
+                $this->ppcp_log('Update order skipped: PayPal order ID is missing from session.');
+                if (function_exists('wc_add_notice')) {
+                    wc_add_notice(__('Unable to update order — PayPal session has expired. Please try again.', 'woo-paypal-gateway'), 'error');
+                }
+                return false;
+            }
+            // Every PATCH path below is addressed by the purchase unit's reference_id.
+            // The session copy can be lost (the WooCommerce session blob is rewritten
+            // whole by every concurrent checkout request) while the approved PayPal
+            // order id survives, and an empty reference_id produces paths like
+            // /purchase_units/@reference_id==''/amount that PayPal rejects with
+            // REFERENCE_ID_NOT_FOUND. The id never changes once the PayPal order is
+            // created, so it is read back from the order itself before giving up.
+            $reference_id = woo_paypal_gateway_ppcp_get_session('ppcp_reference_id');
+            if (empty($reference_id) || !is_string($reference_id)) {
+                $reference_id = $this->ppcp_lookup_reference_id($paypal_order_id);
+                if (!empty($reference_id)) {
+                    $this->ppcp_log('reference_id missing from session; recovered ' . $reference_id . ' from PayPal order ' . $paypal_order_id . '.');
+                    woo_paypal_gateway_ppcp_set_session('ppcp_reference_id', $reference_id);
+                }
+            }
+            if (empty($reference_id)) {
+                // No notice here: the caller reconciles against PayPal's record and raises
+                // the shopper-facing error only if the payment cannot safely proceed.
+                $this->ppcp_log('Update order aborted: no purchase unit reference_id available for PayPal order ' . $paypal_order_id . ' (order #' . $order_id . ').', 'warning');
+                return false;
+            }
             // Match decimal precision to the order currency actually sent to PayPal.
             $this->decimals = $this->ppcp_get_number_of_decimal_digits($order->get_currency());
             $cart = $this->ppcp_get_details_from_order($order_id);
@@ -2846,15 +2913,7 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
             // Convert the patch request array to JSON
             $patch_request_json = json_encode($patch_request);
 
-            // Retrieve the PayPal order ID and send the patch request to update the order
-            $paypal_order_id = $this->ppcp_get_paypal_order_id_from_session();
-            if (empty($paypal_order_id)) {
-                $this->ppcp_log('Update order skipped: PayPal order ID is missing from session.');
-                if (function_exists('wc_add_notice')) {
-                    wc_add_notice(__('Unable to update order — PayPal session has expired. Please try again.', 'woo-paypal-gateway'), 'error');
-                }
-                return false;
-            }
+            // Send the patch request to update the PayPal order (id resolved above).
             $this->ppcp_add_log_details('Update order');
             $this->ppcp_log('Endpoint: ' . $this->paypal_order_api . $paypal_order_id);
             $this->ppcp_log('Request: ' . wc_print_r($patch_request_json, true));
@@ -2890,16 +2949,79 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
                 return false;
             } else {
                 $api_response = json_decode(wp_remote_retrieve_body($response), true);
-                $this->ppcp_log('Response Code: ' . wp_remote_retrieve_response_code($response));
+                $response_code = (int) wp_remote_retrieve_response_code($response);
+                $this->ppcp_log('Response Code: ' . $response_code);
                 $this->ppcp_log('Response Message: ' . wp_remote_retrieve_response_message($response));
                 $this->ppcp_log('Response Body: ' . wc_print_r($this->ppcp_redact_sensitive_data($api_response), true));
+                // A PATCH that PayPal rejected (422 REFERENCE_ID_NOT_FOUND, 400, 401,
+                // 404 ...) leaves the PayPal order unchanged. Callers must not assume the
+                // order now carries this WooCommerce order's invoice_id/custom_id/amount.
+                if ($response_code < 200 || $response_code >= 300) {
+                    // No notice here either (see the reference_id branch above).
+                    $this->ppcp_log('Update order failed for order #' . $order_id . ': PayPal answered HTTP ' . $response_code . '.', 'warning');
+                    return false;
+                }
+                return true;
             }
         } catch (Exception $ex) {
             $this->ppcp_log('Exception: ' . $ex->getMessage());
             if (function_exists('wc_add_notice')) {
                 wc_add_notice(__('An error occurred while updating the order.', 'woo-paypal-gateway'), 'error');
             }
+            return false;
         }
+    }
+
+    /**
+     * Purchase unit reference_id of a PayPal order, read from PayPal.
+     *
+     * Used when the session copy written at order creation is gone. A snapshot already
+     * fetched in this request or cached in the session is good enough: the reference_id
+     * is fixed for the life of the PayPal order.
+     *
+     * @param string $paypal_order_id
+     * @return string '' when it cannot be determined.
+     */
+    private function ppcp_lookup_reference_id($paypal_order_id) {
+        if (empty($paypal_order_id)) {
+            return '';
+        }
+        $details = $this->ppcp_get_checkout_details($paypal_order_id);
+        if (is_object($details) && !empty($details->purchase_units[0]->reference_id)) {
+            return (string) $details->purchase_units[0]->reference_id;
+        }
+        return '';
+    }
+
+    /**
+     * Another WooCommerce order that already records this PayPal capture as its payment.
+     *
+     * One capture is one payment; it must never mark two orders paid. The lookup is by
+     * WooCommerce's own transaction id, which the capture flow and the webhook flow both
+     * set through payment_complete().
+     *
+     * @param string $capture_id   PayPal capture (transaction) id.
+     * @param int    $woo_order_id The order being completed, which is not a conflict.
+     * @return WC_Order|false
+     */
+    public function ppcp_get_other_order_holding_capture($capture_id, $woo_order_id) {
+        if (empty($capture_id) || !function_exists('wc_get_orders')) {
+            return false;
+        }
+        $orders = wc_get_orders(array(
+            'transaction_id' => $capture_id,
+            'limit'          => 5,
+            'return'         => 'objects',
+        ));
+        if (empty($orders) || !is_array($orders)) {
+            return false;
+        }
+        foreach ($orders as $candidate) {
+            if ($candidate instanceof WC_Order && $candidate->get_id() !== absint($woo_order_id)) {
+                return $candidate;
+            }
+        }
+        return false;
     }
 
     public function ppcp_show_details_authorized_payment($authorization_id) {
@@ -3873,6 +3995,19 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Request extends WC_Payment_Gateway {
 
     public function payment_complete($order, $txn_id = '', $note = '') {
         if (!$order->has_status(array('processing', 'completed'))) {
+            if ('' !== $txn_id) {
+                $holder = $this->ppcp_get_other_order_holding_capture($txn_id, $order->get_id());
+                if ($holder instanceof WC_Order) {
+                    // PayPal identified this order from the invoice_id/custom_id on the
+                    // PayPal order, but the capture itself has already paid another
+                    // WooCommerce order (the one checkout completed). Do not make this a
+                    // second paid order for the same money.
+                    $this->ppcp_log(sprintf('Webhook ignored for order #%d: PayPal capture %s is already recorded on order #%d.', $order->get_id(), $txn_id, $holder->get_id()), 'warning');
+                    // translators: 1: PayPal capture (transaction) ID, 2: WooCommerce order number.
+                    $order->add_order_note(sprintf(__('PayPal reported capture %1$s for this order, but that capture is already recorded as the payment for order #%2$s. This order was not marked as paid.', 'woo-paypal-gateway'), $txn_id, $holder->get_order_number()));
+                    return;
+                }
+            }
             if ('' !== $note) {
                 $order->add_order_note($note);
             }

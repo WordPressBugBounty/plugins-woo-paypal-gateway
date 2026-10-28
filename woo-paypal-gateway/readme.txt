@@ -2,8 +2,8 @@
 Contributors: easypayment  
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 5.3
-Tested up to: 7.1.2
-Stable tag: 9.3.1
+Tested up to: 7.1.3
+Stable tag: 9.3.2
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -99,6 +99,12 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.3.2 - 2026-10-28 =
+ * Fixed - A single PayPal payment can no longer be recorded as paid on two WooCommerce orders. When a checkout is submitted again and WooCommerce files it as a fresh order, the plugin updates the shopper's already-approved PayPal order to point at that fresh order before charging it. If PayPal rejected that update, the charge still went ahead: the new order was marked Processing by the checkout while the original order was marked Processing by PayPal's payment notification, for one payment. Every charge is now preceded by a check, against PayPal's own record, that the PayPal order identifies the order being paid and carries its exact amount and currency; if it does not, the payment is not taken and the shopper is asked to try again.
+ * Fixed - The cause of those rejected updates. The purchase reference the plugin keeps in the shopper's session could be lost mid-checkout, producing an update PayPal cannot apply. The reference is now read back from the PayPal order itself whenever the session no longer holds it, so the checkout completes normally.
+ * Improved - As a final safeguard, a PayPal capture that is already recorded as the payment for one order will never mark a second order as paid. At checkout such an order is placed on hold with a note naming the order that holds the payment, and a PayPal notification that points at a second order is recorded as a note on it and otherwise ignored.
+ * Verified - Tested and fully compatible with WordPress 7.1.3 and WooCommerce 11.2.1.
 
 = 9.3.1 - 2026-10-06 =
  * Fixed - Orders placed from the block checkout can no longer be saved with an empty billing name, email address or street. When the checkout form's details reached the server incomplete — typically when a shopper paid by card the instant they finished typing — the gaps are now filled in from the details WooCommerce already holds for the session, so what the shopper typed is never overwritten with blanks. As a final safeguard, a payment attempt with no email address at all is politely declined with a clear message instead of leaving behind an order whose customer cannot be contacted.
