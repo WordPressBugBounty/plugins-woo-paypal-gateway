@@ -2275,7 +2275,13 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
                 $error_messages = $errors->get_error_messages();
             }
             if (empty($error_messages)) {
-                $this->set_customer_data($_POST);
+                // $data is the posted data WooCommerce has just validated — the same
+                // array its own update_session() applied to the customer. Reading the
+                // raw request here instead re-derived the shipping address from the
+                // hidden shipping_* inputs the classic checkout always submits, even
+                // when "Ship to a different address" is unticked.
+                // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Fallback only; the checkout nonce is verified by WooCommerce before this hook fires.
+                $this->set_customer_data(is_array($data) && !empty($data) ? $data : wp_unslash($_POST));
             } else {
                 ob_start();
                 wp_send_json_error(array('messages' => $error_messages));
@@ -2287,66 +2293,70 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
     }
 
     
+    /**
+     * Apply the validated checkout address to WC()->customer.
+     *
+     * Mirrors WC_Checkout::set_customer_address_fields(): the shipping address is
+     * the posted shipping_* fields only when the shopper is really shipping to a
+     * different address, and the billing address otherwise.
+     *
+     * The classic checkout submits its shipping_* inputs on every request — they
+     * are merely hidden while "Ship to a different address" is unticked — and they
+     * still hold whatever the page was rendered with: a blank province for a guest
+     * with no default location, or a returning customer's old saved address.
+     * Treating any populated shipping_* input as a real shipping address therefore
+     * replaced the province WooCommerce had just validated with that stale or
+     * empty one, after validation and before the order was built. Any later
+     * recalculation then ran against the wrong destination: zone-restricted
+     * methods such as Local Pickup dropped out of the package, the tax for that
+     * province was no longer matched, and the order was saved — and charged —
+     * without them.
+     *
+     * A field the checkout did not post is left untouched instead of being
+     * blanked, so a store that removes address fields keeps what it already holds.
+     *
+     * @param array $data Posted checkout data as returned by WC_Checkout::get_posted_data().
+     */
     public function set_customer_data($data) {
         try {
             $customer = WC()->customer;
-            $billing_first_name = empty($data['billing_first_name']) ? '' : wc_clean($data['billing_first_name']);
-            $billing_last_name  = empty($data['billing_last_name']) ? '' : wc_clean($data['billing_last_name']);
-            $billing_country    = empty($data['billing_country']) ? '' : wc_clean($data['billing_country']);
-            $billing_address_1  = empty($data['billing_address_1']) ? '' : wc_clean($data['billing_address_1']);
-            $billing_address_2  = empty($data['billing_address_2']) ? '' : wc_clean($data['billing_address_2']);
-            $billing_city       = empty($data['billing_city']) ? '' : wc_clean($data['billing_city']);
-            $billing_state      = empty($data['billing_state']) ? '' : wc_clean($data['billing_state']);
-            $billing_postcode   = empty($data['billing_postcode']) ? '' : wc_clean($data['billing_postcode']);
-            $billing_phone      = empty($data['billing_phone']) ? '' : wc_clean($data['billing_phone']);
-            $billing_email      = empty($data['billing_email']) ? '' : wc_clean($data['billing_email']);
-            $has_valid_shipping = (
-                !empty($data['shipping_first_name']) ||
-                !empty($data['shipping_last_name']) ||
-                !empty($data['shipping_country']) ||
-                !empty($data['shipping_address_1']) ||
-                !empty($data['shipping_city']) ||
-                !empty($data['shipping_postcode'])
-            );
-            if ( isset($data['ship_to_different_address']) || $has_valid_shipping ) {
-                $shipping_first_name = empty($data['shipping_first_name']) ? '' : wc_clean($data['shipping_first_name']);
-                $shipping_last_name  = empty($data['shipping_last_name']) ? '' : wc_clean($data['shipping_last_name']);
-                $shipping_country    = empty($data['shipping_country']) ? '' : wc_clean($data['shipping_country']);
-                $shipping_address_1  = empty($data['shipping_address_1']) ? '' : wc_clean($data['shipping_address_1']);
-                $shipping_address_2  = empty($data['shipping_address_2']) ? '' : wc_clean($data['shipping_address_2']);
-                $shipping_city       = empty($data['shipping_city']) ? '' : wc_clean($data['shipping_city']);
-                $shipping_state      = empty($data['shipping_state']) ? '' : wc_clean($data['shipping_state']);
-                $shipping_postcode   = empty($data['shipping_postcode']) ? '' : wc_clean($data['shipping_postcode']);
-            } else {
-                $shipping_first_name = $billing_first_name;
-                $shipping_last_name  = $billing_last_name;
-                $shipping_country    = $billing_country;
-                $shipping_address_1  = $billing_address_1;
-                $shipping_address_2  = $billing_address_2;
-                $shipping_city       = $billing_city;
-                $shipping_state      = $billing_state;
-                $shipping_postcode   = $billing_postcode;
+            if (empty($customer) || !is_array($data)) {
+                return;
             }
-            $customer->set_shipping_country( $shipping_country );
-            $customer->set_shipping_address( $shipping_address_1 );
-            $customer->set_shipping_address_2( $shipping_address_2 );
-            $customer->set_shipping_city( $shipping_city );
-            $customer->set_shipping_state( $shipping_state );
-            $customer->set_shipping_postcode( $shipping_postcode );
-            $customer->set_shipping_first_name( $shipping_first_name );
-            $customer->set_shipping_last_name( $shipping_last_name );
-            $customer->set_billing_first_name( $billing_first_name );
-            $customer->set_billing_last_name( $billing_last_name );
-            $customer->set_billing_country( $billing_country );
-            $customer->set_billing_address_1( $billing_address_1 );
-            $customer->set_billing_address_2( $billing_address_2 );
-            $customer->set_billing_city( $billing_city );
-            $customer->set_billing_state( $billing_state );
-            $customer->set_billing_postcode( $billing_postcode );
-            $customer->set_billing_phone( $billing_phone );
-            $customer->set_billing_email( $billing_email );
-            $customer->save();
+            $ship_to_different_address = !empty($data['ship_to_different_address'])
+                && !(function_exists('wc_ship_to_billing_address_only') && wc_ship_to_billing_address_only());
+            $address_fields = array('first_name', 'last_name', 'company', 'email', 'phone', 'address_1', 'address_2', 'city', 'postcode', 'state', 'country');
+            foreach ($address_fields as $field) {
+                $billing_key    = 'billing_' . $field;
+                $shipping_key   = 'shipping_' . $field;
+                $billing_value  = null;
+                $shipping_value = null;
+                if (isset($data[$billing_key]) && is_scalar($data[$billing_key])) {
+                    $billing_value  = wc_clean((string) $data[$billing_key]);
+                    $shipping_value = $billing_value;
+                }
+                if ($ship_to_different_address && isset($data[$shipping_key]) && is_scalar($data[$shipping_key])) {
+                    $shipping_value = wc_clean((string) $data[$shipping_key]);
+                }
+                // Each setter is isolated: WooCommerce throws on a value it rejects
+                // (a malformed email, say), and one refused field must not stop the
+                // remaining ones — the province among them — from being applied.
+                try {
+                    if (null !== $billing_value && is_callable(array($customer, 'set_billing_' . $field))) {
+                        $customer->{'set_billing_' . $field}($billing_value);
+                    }
+                } catch (Exception $field_ex) {
 
+                }
+                try {
+                    if (null !== $shipping_value && is_callable(array($customer, 'set_shipping_' . $field))) {
+                        $customer->{'set_shipping_' . $field}($shipping_value);
+                    }
+                } catch (Exception $field_ex) {
+
+                }
+            }
+            $customer->save();
         } catch ( Exception $ex ) {
 
         }
@@ -3465,6 +3475,40 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         return $ppcp_currency;
     }
 
+    /**
+     * Resolve the state of a Google Pay / Apple Pay address to a WooCommerce state code.
+     *
+     * Leaves the address untouched when it carries no state or country, and keeps
+     * the wallet's own value when WooCommerce has no matching state for it.
+     *
+     * @param mixed  $address Decoded wallet address (expects 'state' and 'country' keys).
+     * @param string $section 'shipping' or 'billing'.
+     * @return mixed
+     */
+    private function wpg_ppcp_normalize_wallet_address_state( $address, $section ) {
+        try {
+            if ( ! is_array( $address ) ) {
+                return $address;
+            }
+            if ( isset( $address['country'] ) && is_string( $address['country'] ) ) {
+                $address['country'] = strtoupper( trim( $address['country'] ) );
+            }
+            if ( empty( $address['state'] ) || empty( $address['country'] ) || ! is_string( $address['state'] ) || ! is_string( $address['country'] ) ) {
+                return $address;
+            }
+            $normalized = $this->normalize_state_code( $address['country'], $address['state'] );
+            $validated  = $this->validate_checkout( $address['country'], $normalized, $section );
+            if ( false !== $validated && '' !== $validated && null !== $validated ) {
+                $address['state'] = $validated;
+            } elseif ( is_scalar( $normalized ) && '' !== (string) $normalized ) {
+                $address['state'] = $normalized;
+            }
+        } catch ( Exception $ex ) {
+
+        }
+        return $address;
+    }
+
     public function ppcp_get_updated_total() {
         if ( empty($_POST['security']) ) {
             wp_send_json_error(['message' => 'Invalid request.'], 403);
@@ -3501,6 +3545,15 @@ class PPCP_Paypal_Checkout_For_Woocommerce_Button_Manager {
         // Clear any previously stored session addresses so WC recalculates cleanly
         WC()->session->__unset( 'ppcp_billing_address' );
         WC()->session->__unset( 'ppcp_shipping_address' );
+
+        // The wallet reports the province/state however the device spells it — a
+        // code on some, the full name on others. WooCommerce matches shipping zones
+        // and tax rates on its own state code only, so a spelled-out name matched
+        // nothing and the sheet total lost the shipping method and tax for that
+        // shopper. Resolve it to the WooCommerce code exactly as the PayPal
+        // shipping-change handler already does.
+        $shipping_address = $this->wpg_ppcp_normalize_wallet_address_state( $shipping_address, 'shipping' );
+        $billing_address  = $this->wpg_ppcp_normalize_wallet_address_state( $billing_address, 'billing' );
 
         // ---- Apply SHIPPING address (if provided) ----
         if ( ! empty( $shipping_address ) ) {
