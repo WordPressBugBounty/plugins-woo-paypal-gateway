@@ -3,7 +3,7 @@ Contributors: easypayment
 Tags: PayPal, PayPal Checkout, Credit Cards, Venmo  
 Requires at least: 5.3
 Tested up to: 7.1.3
-Stable tag: 9.3.3
+Stable tag: 9.3.4
 Requires PHP: 7.4  
 License: GPLv3  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
@@ -99,6 +99,9 @@ Yes, the plugin is compatible with the WooCommerce Subscriptions plugin.
 Yes, to enable subscription payments with the "PayPal for WooCommerce" plugin, you can integrate it with WooCommerce Subscriptions or compatible third-party plugins.
 
 == Changelog ==
+
+= 9.3.4 - 2026-11-16 =
+ * Fixed - Checkout no longer fails with "We were unable to process your order, please try again." on stores using LiteSpeed Cache with ESI turned on. Just before an order is placed the plugin asks your site for a fresh security token, and on these stores the cache replaced that token with a placeholder. The plugin then sent the placeholder in place of the valid token already on the checkout form, so WooCommerce refused the order before PayPal was contacted and no payment could be taken - by PayPal, credit and debit cards, Google Pay or Apple Pay. A refreshed token is now used only when it is a genuine one; otherwise the checkout keeps the token it already has. Stores without this cache setting are unaffected.
 
 = 9.3.3 - 2026-11-11 =
  * Fixed - The shipping method and tax can no longer drop off an order placed from the classic checkout. For some shoppers - most often guests paying without "Ship to a different address" ticked, or returning customers with an older saved shipping address - the province or state WooCommerce had just validated was replaced, part-way through placing the order, by the one held in the checkout's hidden shipping fields, which is frequently blank. Location-based options such as Local Pickup and the tax for that province could then be left off, and the order was saved and charged for the lower amount. The shipping address is now taken from exactly what WooCommerce validated: the billing address unless the shopper really chose to ship elsewhere. This applies to every payment method on the checkout - PayPal, credit and debit cards, Google Pay and Apple Pay.

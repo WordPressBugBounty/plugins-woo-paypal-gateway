@@ -909,12 +909,19 @@
                     .then(res => res.json())
                     .then(body => {
                         const nonces = (body && body.success) ? body.data : null;
-                        if (nonces && nonces.woocommerce_process_checkout) {
+                        // Only a value shaped like a WordPress nonce may replace the one
+                        // the page already holds. A cache plugin can rewrite this response:
+                        // LiteSpeed Cache with ESI on swaps the checkout nonce for an ESI
+                        // block that came back as "-1" plus an HTML comment, and submitting
+                        // that in place of the form's own working nonce made every checkout
+                        // fail with "We were unable to process your order".
+                        const isNonce = (value) => typeof value === 'string' && /^[a-f0-9]{10}$/i.test(value);
+                        if (nonces && isNonce(nonces.woocommerce_process_checkout)) {
                             this.ppcp_manager.woocommerce_process_checkout = nonces.woocommerce_process_checkout;
                         }
                         // The wallet shipping/total endpoints verify this one and answer a
                         // stale value with a 403, so it goes stale on the same login.
-                        if (nonces && nonces.ajax_nonce) {
+                        if (nonces && isNonce(nonces.ajax_nonce)) {
                             this.ppcp_manager.ajax_nonce = nonces.ajax_nonce;
                         }
                         return current();
@@ -942,6 +949,11 @@
             }
             const pair = 'woocommerce-process-checkout-nonce=' + encodeURIComponent(nonce);
             if (CHECKOUT_NONCE_FIELD.test(data)) {
+                // A value that is not shaped like a WordPress nonce (a cache plugin's ESI
+                // placeholder, say) must never displace the one the form already carries.
+                if (typeof nonce !== 'string' || !/^[a-f0-9]{10}$/i.test(nonce)) {
+                    return data;
+                }
                 return data.replace(CHECKOUT_NONCE_FIELD, (_match, lead) => lead + pair);
             }
             if (!append) {
